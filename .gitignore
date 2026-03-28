@@ -1,0 +1,3 @@
+wordcloud_results/
+__pycache__/
+*.pyc
