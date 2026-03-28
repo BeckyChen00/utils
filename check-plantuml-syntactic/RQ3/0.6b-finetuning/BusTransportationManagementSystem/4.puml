@@ -1,0 +1,84 @@
+@startuml
+class User {
+  username: String
+}
+class Technician {
+  specialization: String
+  +getLicensePoints(): int
+}
+class MaintenanceOrder {
+  description: String
+  expectedCompletionDate: Date
+  +getDescription(): String
+}
+class Schedule {
+  scheduledDate: Date
+  status: String
+  +updateStatus(newStatus: String): void
+  +checkAvailability(): boolean
+}
+class WorkProcedure {
+  steps: String[]
+  +getStepCount(): int
+}
+class Equipment {
+  model: String
+  serialNumber: String
+  manufacturer: String
+  +getCapacity(): double
+}
+class SafetyLicense {
+  licenseCode: String
+  issuedDate: Date
+  +compileComplianceReport(): String
+}
+class Report {
+  generationDate: Date
+  findings: String
+  +generateReport(): String
+}
+class InspectionReport {
+  inspectionDate: Date
+  isPassed: boolean
+  inspectionNotes: String
+  +getSummary(): String
+}
+class ServiceInspection {
+  inspectionDate: Date
+  findings: String
+  isCalibrated: boolean
+}
+class MaintenanceRecord {
+  recordDate: Date
+  cost: double
+}
+class SpareParts {
+  partName: String
+  partNumber: String
+  isPresent: boolean
+  +checkAvailability(): boolean
+}
+class SparePartsCatalog {
+  +searchParts(partName: String): List<SpareParts>
+}
+class Notification {
+  content: String
+  notificationDate: Date
+  isRead: boolean
+}
+MaintenanceOrder --> "1" User : assignedUser
+MaintainenceOrder --> "1" Equipment : targetEquipment
+MaintenanceOrder --> "0..*" Schedule : pendingSchedules
+Schedule --> "1" Technician : assignedTechnician
+Schedule --> "1" SafetyLicense : requiredLicense
+Schedule --> "0..1" WorkProcedure : selectedProcedure
+MaintenanceRecord --> "1" Equipment : affectedEquipment
+Technician --> "1..*" SpareParts : receivingParts
+ServiceInspection --> "1" Equipment : inspectedEquipment
+ServiceInspection -- SparePartsCatalog
+SparePartsCatalog -- SafetyLicense
+SafetyLicense -- Notification
+WorkProcedure -- MaintenanceOrder
+MaintenanceOrder -- SpareParts
+SpareParts -- Technician
+@enduml

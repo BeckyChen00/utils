@@ -1,0 +1,93 @@
+@startuml
+enum EnvironmentalCondition {
+  Good
+  Moderate
+  Poor
+}
+enum EquipmentType {
+  Filter
+  Heater
+  Dehumidifier
+  WashingMachine
+  Refrigerator
+  Sink
+  WashingBottle
+}
+enum CleaningStatus {
+  Pending
+  InProgress
+  Completed
+  Cancelled
+  Failed
+}
+class FloorSurface {
+  surfaceType: String
+  currentCondition: EnvironmentalCondition
+  isRepairable: boolean
+  +getSurfaceType(): String
+  +updateCondition(newCondition: EnvironmentalCondition): void
+}
+class MaintenanceTask {
+  description: String
+  priorityLevel: int
+  scheduledDate: Date
+  +validate(): boolean
+  +updateStatus(newStatus: CleaningStatus): void
+}
+class CleaningSchedule {
+  scheduledDate: Date
+  plannedDuration: int
+  +confirmSchedule(): boolean
+}
+class MaintenancePlan {
+  planDate: Date
+  +generatePlan(): void
+}
+class RepairService {
+  serviceName: String
+  serviceDate: Date
+  +createRepair(record: MaintenanceTask): RepairRecord
+  +assessRepairStatus(record: RepairRecord): CleaningStatus
+}
+class RepairRecord {
+  repairDate: Date
+  isCompleted: boolean
+  +recordCompletion(): void
+}
+class RepairLog {
+  repairNotes: String
+  +recordNote(note: String): void
+}
+class ServiceRecord {
+  cost: double
+  serviceDate: Date
+  +calculateCost(): double
+}
+class CleaningMaterial {
+  materialType: String
+  quantity: int
+  +checkAvailability(): boolean
+}
+class InventoryMonitor {
+  +checkStock(level: int): int
+  +updateStock(material: CleaningMaterial, amount: int): void
+}
+class EquipmentConfig {
+  equipmentType: EquipmentType
+  workingCondition: EnvironmentalCondition
+  +getStatus(): EnvironmentalCondition
+}
+FloorSurface *-- "*" MaintenanceTask : maintenanceTasks
+FloorSurface *-- "*" RepairService : repairServices
+MaintenanceTask --> "1" CleaningSchedule : requiredSchedule
+MaintenanceTask --> "1" RepairRecord : generatedRecord
+CleaningSchedule --> "*" CleaningMaterial : usedMaterials
+CleaningSchedule --> "*" EquipmentConfig : requiredConfigurations
+MaintenancePlan --> "*" FloorSurface : focusesOnSurfaces
+RepairService --> "*" MaintenanceTask : handledTasks
+RepairService --> "*" RepairRecord : containsRecords
+RepairService --> "1" CleaningMaterial : requiresMaterial
+InventoryMonitor --> "*" CleaningMaterial : trackedMaterials
+RepairLog -- RepairRecord
+RepairRecord -- ServiceRecord
+@enduml

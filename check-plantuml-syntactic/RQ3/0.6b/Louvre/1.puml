@@ -1,0 +1,19 @@
+@startuml
+
+class diagram system-requirments
+
+role user in user
+role database in database
+role application in application
+
+component database {
+  component name database
+  role user in database
+}
+
+component application {
+  component name application
+  role user in application
+  role database in application
+}
+@enduml

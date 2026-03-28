@@ -1,0 +1,92 @@
+@startuml
+    classDiagram
+        [Root] SystemRequirement
+        [SystemRequirement] Root
+
+        SystemRequirement --> Root (requirement)
+        Root --> SystemRequirement (requirement)
+
+        [User] User
+        [User] User --> Root (user)
+
+        [DataModel] DataModel
+        [DataModel] DataModel --> SystemRequirement (data model)
+
+        [Service] Service
+        [Service] Service --> Root (service)
+
+        [Service] Service --> DataModel (service data model)
+
+        [BusinessProcess] BusinessProcess
+        [BusinessProcess] BusinessProcess --> Service (business process)
+
+        [PresentationLayer] PresentationLayer
+        [PresentationLayer] PresentationLayer --> Service (presentation layer service)
+
+        [UI] UI
+        [UI] UI --> PresentationLayer (UI layer)
+
+        [Database] Database
+        [Database] Database --> DataModel (database model)
+
+        [SecurityLayer] SecurityLayer
+        [SecurityLayer] SecurityLayer --> Database (security layer database)
+
+        [ApplicationLayer] ApplicationLayer
+        [ApplicationLayer] ApplicationLayer --> Service (application layer service)
+
+        [Deployment] Deployment
+        [Deployment] Deployment --> SystemRequirement (deployment requirement)
+
+        [Testing] Testing
+        [Testing] Testing --> BusinessProcess (testing business process)
+
+        [Configuration] Configuration
+        [Configuration] Configuration --> SystemRequirement (configuration requirement)
+
+        [Maintenance] Maintenance
+        [Maintenance] Maintenance --> BusinessProcess (maintenance business process)
+
+        [Support] Support
+        [Support] Support --> SystemRequirement (support requirement)
+
+        [Documentation] Documentation
+        [Documentation] Documentation --> SystemRequirement (documentation requirement)
+
+        [Administration] Administration
+        [Administration] Administration --> SystemRequirement (administration requirement)
+
+        [Integration] Integration
+        [Integration] Integration --> Service (integration service)
+
+        [API] API
+        [API] API --> Service (API service)
+
+        [TestSuite] TestSuite
+        [TestSuite] TestSuite --> Testing (test suite)
+
+        [CodeReview] CodeReview
+        [CodeReview] CodeReview --> BusinessProcess (code review process)
+
+        [ReleaseNote] ReleaseNote
+        [ReleaseNote] ReleaseNote --> SystemRequirement (release note requirement)
+
+        [DeploymentPlan] DeploymentPlan
+        [DeploymentPlan] DeploymentPlan --> Deployment (deployment plan)
+
+        [Performance] Performance
+        [Performance] Performance --> BusinessProcess (performance process)
+
+        [Monitoring] Monitoring
+        [Monitoring] Monitoring --> BusinessProcess (monitoring process)
+
+        [Reporting] Reporting
+        [Reporting] Reporting --> BusinessProcess (reporting process)
+
+        [AccessControl] AccessControl
+        [AccessControl] AccessControl --> SecurityLayer (access control layer)
+
+        [Logging] Logging
+        [Logging] Logging --> Database (logging layer)
+
+@enduml

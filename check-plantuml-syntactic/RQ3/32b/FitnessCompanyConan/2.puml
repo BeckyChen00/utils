@@ -1,0 +1,99 @@
+
+@startuml
+
+' Define classes and their attributes
+class Person {
+    +firstName: String
+    +lastName: String
+    +birthDate: Date
+}
+
+class Trainer {
+    +diploma: String
+}
+
+class Center {
+    +name: String
+    +address: String
+}
+
+class Room {
+    +roomNumber: Integer
+    +maxCapacity: Integer
+}
+
+class Session {
+    +date: Date
+    +startTime: Time
+}
+
+class GroupSession {
+    +sessionType: String
+}
+
+class IndividualSession {
+}
+
+class ParticipatesIn {
+}
+
+class Supervises {
+}
+
+class Prospect {
+}
+
+class Intern {
+}
+
+' Inheritance and associations
+Person <|-- Trainer
+Person <|-- Prospect
+Trainer <|-- Intern
+
+Center "1" *-- "many" Room : contains
+Room "1" *-- "many" Session : hosts
+Session "0..*" -- "1" GroupSession : is a
+Session "0..*" -- "1" IndividualSession : is a
+Session "1" -- "many" ParticipatesIn : has participants
+ParticipatesIn "1" -- "1" Person : participant
+Session "1" -- "0..1" Supervises : supervised by
+Supervises "1" -- "1" Trainer : supervisor
+
+' Constraints and notes
+note right of Room
+  Within a center, room numbers are unique.
+end note
+
+note right of Session
+  At a given start hour of a given day,
+  at most one session can occur in a room of a center.
+end note
+
+note right of Person
+  Unique key: firstName + lastName + birthDate
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Person`**: Base class for all people (members, trainers, prospects).
+- **`Trainer`**: A subclass of `Person`, with additional diploma attribute.
+- **`Prospect` & `Intern`**: Special cases of `Person` without session participation or supervision.
+- **`Center`**: Represents a fitness center with name and address.
+- **`Room`**: Contains information about capacity and is associated with a specific center.
+- **`Session`**: Abstract base class for both individual and group sessions.
+- **`GroupSession`**: Extends `Session` with a session type (e.g., aerobics).
+- **`IndividualSession`**: Extends `Session` for sessions without a trainer.
+- **Associations**:
+  - `ParticipatesIn`: Links a person to a session.
+  - `Supervises`: Links a trainer to a session.
+- **Constraints**:
+  - Sessions must be in unique rooms per center per time slot.
+  - Each group session must have exactly one trainer.
+
+---
+

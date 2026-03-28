@@ -1,0 +1,56 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement {
+        string name;
+        string description;
+    }
+
+    class Component {
+        string name;
+        string type;
+    }
+
+    class Module {
+        string name;
+        string component;
+        string version;
+    }
+
+    class Feature {
+        string name;
+        string description;
+    }
+
+    class Requirement {
+        string requirement;
+        string dependency;
+    }
+
+    class Dependency {
+        string source;
+        string target;
+    }
+
+    class Connection {
+        string from;
+        string to;
+        string type;
+    }
+
+    class Relationship {
+        string reference;
+        string relationshipType;
+    }
+
+    class Diagram {
+        Relationship relation;
+        Dependency dependency;
+        Connection connection;
+        Module module;
+        Feature feature;
+        Requirement requirement;
+        Component component;
+    }
+
+@enduml

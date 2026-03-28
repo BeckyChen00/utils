@@ -1,0 +1,48 @@
+
+@startuml
+
+' Define classes
+class Student {
+    +String studentID
+    +String name
+    +List<Course> registeredCourses
+}
+
+class TeachingAssistant {
+    +String taID
+    +String name
+    +List<Course> assignedCourses
+}
+
+class Course {
+    +String courseCode
+    +String title
+    +List<TeachingAssistant> tas
+    +List<Student> students
+}
+
+class Appointment {
+    +String appointmentID
+    +DateTime time
+    +Course course
+    +TeachingAssistant ta
+    +Student student
+}
+
+' Relationships
+Student "1" -- "0..*" Course : registers for
+Course "1" -- "0..*" TeachingAssistant : has
+Course "1" -- "0..*" Student : enrolled by
+TeachingAssistant "1" -- "0..*" Course : assigned to
+Appointment "1" -- "1" Student : requested by
+Appointment "1" -- "1" TeachingAssistant : provided by
+Appointment "1" -- "1" Course : related to
+
+@enduml
+
+### Explanation of Key Elements:
+- **Student**: Can register for multiple courses and can make appointments only with TAs of those courses.
+- **TeachingAssistant (TA)**: Assigned to one or more courses and can provide help only for those courses.
+- **Course**: Has a list of students and TAs. An appointment is always associated with one specific course.
+- **Appointment**: Links a student, a TA, and a course together for a scheduled meeting.
+

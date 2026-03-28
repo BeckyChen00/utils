@@ -1,0 +1,13 @@
+@startuml
+
+class systemRequirement {
+    class requirement { id, name, description }
+
+    class system {
+        id,
+        name,
+        requirements as requirement[]
+    }
+}
+
+@enduml

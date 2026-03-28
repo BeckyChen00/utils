@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedSchedule" eType="#//ProductionSchedule" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionSchedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedBatches" eType="#//ProductionBatch" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedShift" eType="#//ProductionShift" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceAllocation" eType="#//ResourceAllocation" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsibleInspector" eType="#//SafetyInspector"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adheredRegulation" eType="#//SafetyRegulation" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="producedBatch" eType="#//ProductionBatch" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredDocument" eType="#//DocumentDefinition" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedInspection" eType="#//SafetyInspection" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledWarnings" eType="#//SlipWarning" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedGenerator" eType="#//ProductionScheduleGenerator" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="createdJobs" eType="#//ProductionJob" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourcedSuppliers" eType="#//MaterialSupplier" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enforcedProtocols" eType="#//SecurityProtocol" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="producedBatches" eType="#//ProductionBatch" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedInspections" eType="#//SafetyInspection" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedOrders" eType="#//WorkOrder" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governedOwner" eType="#//Owner" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedMaker" eType="#//DocumentMaker" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedDefinition" eType="#//DocumentDefinition" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourcedProvider" eType="#//MaterialProvider" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governedRegulations" eType="#//SafetyRegulation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedInspections" eType="#//QualityInspection" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="responsibleInspectors" eType="#//SafetyInspector" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedStations" eType="#//WorkStar" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionBatch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedDocumentMaker" eType="#//DocumentMaker" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourcedMaterials" eType="#//MaterialSupplier" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedJobs" eType="#//ProductionJob" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionShift"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceAllocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyInspector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyRegulation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governedBatches" eType="#//ProductionBatch" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governedSchedules" eType="#//ProductionSchedule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentMaker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaterialSupplier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionJob">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedOnSchedule" eType="#//ProductionSchedule" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coordinator" eType="#//PrintController" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPrinter" eType="#//PrinterDevice" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceDocument" eType="#//DocumentDefinition" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adherenceCheck" eType="#//SafetyRegulation" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedWorkstation" eType="#//Workstation" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetItem" eType="#//WarehouseItem" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="costEstimator" eType="#//CostEstimator" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="detectedSlip" eType="#//SlipWarning" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedSlip" eType="#//SlipWarning" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="complianceStandard" eType="#//SafetyRegulation" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrintController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedOrders" eType="#//WorkOrder" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledDevices" eType="#//PrinterDevice" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedScheduler" eType="#//JobScheduler" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBatches" eType="#//ProductionBatch" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSupplier" eType="#//MaterialSupplier" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSchedules" eType="#//ProductionSchedule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedJobs" eType="#//PrintJob" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrinterDevice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedLines" eType="#//ProductLine" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentDefinition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Workstation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locatedWorkshop" eType="#//Workshop" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WarehouseItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CostEstimator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SlipWarning"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrintTimer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledPrinter" eType="#//PrinterFactory" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrinterFactory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrintJob">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedWorkOrder" eType="#//WorkOrder" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourcedSupplier" eType="#//MaterialSupplier" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedInspections" eType="#//QualityInspection" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPrinter" eType="#//PrinterDevice" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedTimer" eType="#//PrintTimer" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingBatch" eType="#//ProductionBatch" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedInspector" eType="#//SafetyInspector" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedSlips" eType="#//SlipWarning" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedSchedule" eType="#//ProductionSchedule" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedDocument" eType="#//DocumentDefinition" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingInspections" eType="#//QualityInspection" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedSchedules" eType="#//ProductionSchedule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedInspectors" eType="#//SafetyInspector" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedJobs" eType="#//ProductionJob" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedDocuments" eType="#//DocumentDefinition" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedInspections" eType="#//QualityInspection" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedStations" eType="#//WorkStar" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedStar" eType="#//WorkStar" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSchedules" eType="#//ProductionSchedule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrintShop">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSchedules" eType="#//ProductionSchedule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedWorkstation" eType="#//Workstation" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSupplier" eType="#//MaterialSupplier" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="handledJobs" eType="#//PrintJob" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedWorkOrders" eType="#//WorkOrder" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enforcedRegulations" eType="#//SafetyRegulation" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaterialProvider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="suppliedSuppliers" eType="#//List" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="List"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Workshop">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryController" eType="#//PrintController" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BatchInventory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackedBatch" eType="#//ProductionBatch" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedWorkOrders" eType="#//WorkOrder" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedSchedules" eType="#//ProductionSchedule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedInspectors" eType="#//SafetyInspector" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedPrinters" eType="#//PrinterDevice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyInspection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityInspection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionScheduleGenerator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JobScheduler"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrintSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceLog" eType="#//MaintenanceLog" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityProtocol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkStar"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductLine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Owner"/>
+</ecore:EPackage>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="history" eType="#//ConversationHistory" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConversationHistory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="messageHistory" eType="#//MessageEntry" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containerInstance" eType="#//PlatformInstance" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleAssignments" eType="#//RoleAssignment" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedRoles" eType="#//RoleAssignment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoleAssignment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProfile" eType="#//OrganizationProfile" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MessageEntry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceProfile" eType="#//OrganizationProfile" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrganizationProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PlatformInstance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedProfiles" eType="#//OrganizationProfile" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

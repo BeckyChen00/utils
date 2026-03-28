@@ -1,0 +1,22 @@
+@startuml
+
+class SystemRequirement {
+}
+
+class SystemRequirement {
+  name: String
+  description: String
+  requiredComponents: [Component1, Component2]
+}
+
+class Component1 {
+  name: String
+  description: String
+}
+
+class Component2 {
+  name: String
+  description: String
+}
+
+@enduml

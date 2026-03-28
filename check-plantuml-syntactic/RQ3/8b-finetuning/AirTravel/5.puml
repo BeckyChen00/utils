@@ -1,0 +1,79 @@
+@startuml
+enum SeatCategoryType {
+  FirstClass
+  BusinessClass
+  EconomyClass
+}
+enum RoleType {
+  Captain
+  CoPilot
+  ChiefSteward
+  Steward
+}
+class Airline {
+  name: String
+  +hireStaff(staff: FlightStaff): void
+  +registerAircraft(aircraft: Aircraft): void
+}
+class Flight {
+  flightNumber: String
+  departureTime: Date
+  arrivalTime: Date
+  +assignCrew(captain: Pilot, coPilot: Pilot, attendants: List<FlightStaff>): void
+  +scheduleFlight(departureAirport: Airport, destinationAirport: Airport): void
+}
+class Aircraft {
+  registrationNumber: String
+  aircraftType: String
+  yearOfManufacture: int
+  nextInspectionDate: Date
+  homeAirport: Airport
+  +registerAircraft(): void
+  +assignCrew(captain: Pilot, coPilot: Pilot, attendants: List<FlightStaff>): void
+}
+class Airport {
+  name: String
+  address: String
+  numberOfRunways: int
+}
+class FlightStaff {
+  name: String
+  dateOfEmployment: Date
+  role: RoleType
+  +assignToFlight(flight: Flight): void
+}
+class Passenger {
+  fullName: String
+  passportNumber: String
+  +bookFlight(flight: Flight, seatCategory: SeatCategory): Ticket
+}
+class Ticket {
+  ticketNumber: String
+  price: double
+  isUpgraded: boolean
+  seatCategory: SeatCategoryType
+  +validate(): boolean
+}
+class FlightSchedule {
+  dayOfWeek: String
+  +getCurrentSchedule(): List<Flight>
+}
+class Seat {
+  seatDesignation: String
+  category: SeatCategoryType
+  isAvailable: boolean
+}
+Airline *-- "*" Flight
+Flight *-- "*" Passenger
+Flight *-- "*" Ticket
+Flight --> "1" Aircraft : operatedBy
+Flight --> "1" Airport : origin
+Aircraft *-- "*" Seat
+FlightSchedule --> "*" Flight : plannedFlights
+FlightStaff --> "1" Airport : workLocation
+Passenger --> "1" Airport : homeAirport
+Passenger --> "*" Ticket : purchasedTickets
+Ticket --> "1" Flight : belongsTo
+Flight --> "*" FlightStaff : crewMembers
+Aircraft --> "1" Flight : currentAssignment
+@enduml

@@ -1,0 +1,129 @@
+
+---
+
+
+@startuml
+
+package "Alpha Insurance System" {
+    "Customer" as Customer
+    "Broker" as Broker
+    "InsurancePolicy" as InsurancePolicy
+    "Contract" as Contract
+    "Claim" as Claim
+    "ClaimCase" as ClaimCase
+    "Estimator" as Estimator
+    "Offer" as Offer
+    "Payment" as Payment
+    "Document" as Document
+}
+
+Customer --|> Broker : assignedTo
+Broker --|> InsurancePolicy : handles
+InsurancePolicy --|> Contract : associatedWith
+Customer --|> Contract : has
+Contract --|> Offer : generates
+Offer --|> Claim : can lead to
+Claim --|> ClaimCase : relatedTo
+ClaimCase --|> Estimator : assessedBy
+Estimator --|> ClaimCase : evaluates
+ClaimCase --|> Document : includes
+Document --|> Payment : usedFor
+Payment --|> ClaimCase : relatedTo
+
+note right of Customer
+  - customerID
+  - name
+  - contactInfo
+  - status
+end note
+
+note right of Broker
+  - brokerID
+  - name
+  - contactInfo
+  - department
+end note
+
+note right of InsurancePolicy
+  - policyID
+  - type
+  - description
+  - coverageDetails
+end note
+
+note right of Contract
+  - contractID
+  - startDate
+  - endDate
+  - paymentFrequency (monthly/yearly)
+  - status (active, expired, canceled)
+end note
+
+note right of Offer
+  - offerID
+  - date
+  - terms
+  - approvalStatus
+end note
+
+note right of Claim
+  - claimID
+  - dateSubmitted
+  - status (pending, under review, approved, rejected)
+  - compensationAmount
+end note
+
+note right of ClaimCase
+  - caseID
+  - description
+  - assessmentDate
+  - compensationDecision
+end note
+
+note right of Estimator
+  - estimatorID
+  - name
+  - expertiseArea
+  - contactInfo
+end note
+
+note right of Document
+  - documentID
+  - fileName
+  - uploadDate
+  - type (receipt, medical report, etc.)
+end note
+
+note right of Payment
+  - paymentID
+  - amount
+  - date
+  - method (bank transfer, direct deposit, etc.)
+  - status (completed, pending, failed)
+end note
+
+@enduml
+
+---
+
+### 📌 Explanation of Relationships:
+
+- **Customer** is assigned to a **Broker**.
+- A **Broker** manages one or more **InsurancePolicies**.
+- An **InsurancePolicy** may be associated with a **Contract**.
+- A **Customer** can have multiple **Contracts**.
+- A **Contract** may generate an **Offer**.
+- An **Offer** can lead to a **Claim** (if accepted).
+- A **Claim** may involve one or more **ClaimCases**.
+- Each **ClaimCase** is assessed by an **Estimator**.
+- A **ClaimCase** may include multiple **Documents**.
+- **Documents** are used for **Payments**.
+- A **Payment** is linked to a **ClaimCase**.
+
+---
+
+### 🧾 Notes:
+- The diagram is structured in a **package** to group all the classes logically.
+- If you need further refinements like associations with multiplicity or operations, let me know!
+
+Let me know if you'd like a version with UML notation or a sequence diagram too!

@@ -1,0 +1,81 @@
+
+@startuml
+
+class Hospital {
+  -id: int
+  -name: String
+  -allowedExaminationTypes: List<ExaminationType>
+}
+
+class Doctor {
+  -id: int
+  -name: String
+  -affiliatedHospital: Hospital
+}
+
+class Patient {
+  -id: int
+  -name: String
+  -currentProblem: Problem
+}
+
+class Problem {
+  -id: int
+  -description: String
+}
+
+class TreatmentPlan {
+  -id: int
+  -problemId: int
+  -advisedExaminations: List<ExaminationType>
+}
+
+class ActualTreatment {
+  -id: int
+  -patientId: int
+  -doctorId: int
+  -examinations: List<Examination>
+  -additionalActions: List<String>
+}
+
+class Examination {
+  -id: int
+  -type: ExaminationType
+  -hospital: Hospital
+  -patient: Patient
+  -date: Date
+}
+
+class ExaminationType {
+  -id: int
+  -name: String
+  -description: String
+}
+
+' Relationships
+Hospital "1" --> "0..*" ExaminationType : allows
+Doctor "1" --> "0..*" ActualTreatment : prescribes
+Patient "1" --> "1" Problem : has
+Problem "1" --> "1" TreatmentPlan : defines
+ActualTreatment "1" --> "0..*" Examination : includes
+ActualTreatment "1" --> "0..*" String : additional actions
+Examination "1" --> "1" ExaminationType : of type
+Examination "1" --> "1" Hospital : performed at
+Examination "1" --> "1" Patient : for
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Hospital**: Manages allowed examination types.
+- **Doctor**: Prescribes actual treatments based on treatment plans.
+- **Patient**: Has a current problem and undergoes examinations.
+- **Problem**: Defines the issue that leads to a treatment plan.
+- **TreatmentPlan**: Contains advised examination types per problem.
+- **ActualTreatment**: A real-world instance of a treatment, possibly differing from the plan.
+- **Examination**: An individual medical test with a type, date, and location.
+- **ExaminationType**: Represents the category or kind of examination.
+
+---
+

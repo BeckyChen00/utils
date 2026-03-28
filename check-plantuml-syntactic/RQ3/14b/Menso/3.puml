@@ -1,0 +1,127 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class "Trajectory" {
+  -id: int
+  -name: String
+  -status: String (e.g., approved, pending, suspended, cancelled)
+  -approvalHistory: List<ApprovalRequest>
+  +submitForApproval()
+  +updateStatus(status: String)
+}
+
+class "ApprovalRequest" {
+  -id: int
+  -trajectoryId: int
+  -requestDate: Date
+  -decision: String (approved, rejected, revised)
+  -decisionDate: Date
+  -notes: String
+}
+
+class "Line" {
+  -id: int
+  -lineNumber: String
+  -category: String
+  -trajectories: List<Trajectory>
+  +getCategory(): String
+}
+
+class "Bus" {
+  -id: int
+  -licensePlate: String
+  -lineId: int
+  -assignedTrajectories: List<Trajectory>
+  +assignToTrajectory(trajectory: Trajectory)
+  +removeFromTrajectory(trajectory: Trajectory)
+}
+
+class "MENSOCard" {
+  -cardId: String
+  -userId: int
+  -registeredLines: List<Line>
+  +registerTrip(line: Line, date: Date, time: Time)
+}
+
+class "User" {
+  -id: int
+  -name: String
+  -homeAddress: String
+  -officeAddress: String
+  -workingHours: String
+  -mensocardId: String
+  +subscribeToMENSO()
+  +getInvoice(month: int, year: int): Invoice
+}
+
+class "Trip" {
+  -id: int
+  -userId: int
+  -lineId: int
+  -date: Date
+  -time: Time
+  -fare: float
+}
+
+class "Invoice" {
+  -id: int
+  -userId: int
+  -month: int
+  -year: int
+  -totalAmount: float
+  -discountPercentage: float
+  -finalAmount: float
+  +calculateDiscount()
+  +generateInvoice()
+}
+
+class "Payment" {
+  -id: int
+  -invoiceId: int
+  -paymentDate: Date
+  -amountPaid: float
+  -paymentMethod: String
+  +recordPayment()
+}
+
+class "Category" {
+  -id: int
+  -name: String
+  -baseFareRate: float
+}
+
+' Relationships
+
+Trajectory "1" --> "0..*" ApprovalRequest : has
+Line "1" --> "0..*" Trajectory : includes
+Bus "1" --> "0..*" Trajectory : assigned to
+User "1" --> "0..1" MENSOCard : owns
+MENSOCard "1" --> "0..*" Trip : records
+User "1" --> "0..*" Trip : takes
+Line "1" --> "1" Category : belongs to
+Trip "1" --> "1" Line : belongs to
+Trip "1" --> "1" User : taken by
+Invoice "1" --> "1" User : belongs to
+Invoice "1" --> "0..*" Trip : contains
+Payment "1" --> "1" Invoice : pays
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Trajectory**: Represents a route that may be submitted for approval multiple times.
+- **ApprovalRequest**: Captures each submission of a trajectory for approval.
+- **Line**: Groups overlapping trajectories and has a category for pricing purposes.
+- **Bus**: Assigned to one or more trajectories once approved.
+- **MENSOCard**: Used to register trips and link them to a user.
+- **User**: Holds personal data and uses the MENSO card; can receive invoices.
+- **Trip**: Records a specific journey with time, date, and line details.
+- **Invoice**: Generated monthly based on trips and applies discounts if applicable.
+- **Payment**: Records when and how a user pays an invoice.
+- **Category**: Defines the base fare rate used to calculate trip prices.
+
+---
+
+Let me know if you want this exported as an image or need further refinements!

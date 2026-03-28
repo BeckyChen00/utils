@@ -1,0 +1,86 @@
+
+@startuml
+class EBike {
+    -frame: Frame
+    -driveSystem: DriveSystem
+    -controller: Controller
+    -battery: Battery (optional)
+}
+
+class Frame {
+    -material: String = "steel"
+    +insertWheel(wheel: Wheel): void
+}
+
+class Wheel {
+    -diameter: Double
+    -tireType: String
+}
+
+class DriveSystem {
+    -motor: Motor
+    +powerOn(): void
+    +powerOff(): void
+}
+
+class Motor {
+    -powerOutput: Double
+    -type: String
+}
+
+class Battery {
+    -energyStored: Double (unit: Wh)
+    +charge(): void
+    +discharge(): void
+}
+
+abstract class Controller {
+    -state: State (On, Off, Charging)
+    +setState(state: State): void
+    +controlBattery(battery: Battery): void
+    +commandDriveSystem(driveSystem: DriveSystem): void
+}
+
+enum State {
+    On
+    Off
+    Charging
+}
+
+class BasicController <|-- Controller
+
+class AdvancedController <|-- Controller {
+    +estimateNextInspectionDate(): Date
+}
+
+EBike "1" *-- "1" Frame
+EBike "1" *-- "1" DriveSystem
+EBike "1" *-- "1" Controller
+EBike "0..1" *-- "1" Battery
+
+Frame "1" *-- "2" Wheel
+DriveSystem "1" *-- "1" Motor
+Controller "1" *-- "0..1" Battery
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **EBike** is the main class and contains:
+  - A **Frame** (composed of steel),
+  - A **DriveSystem** (with a **Motor**),
+  - A **Controller**, and optionally a **Battery**.
+
+- **Frame** has two **Wheels** inserted into it.
+
+- **Battery** stores energy in **Watt-hours (Wh)** and supports charge/discharge methods.
+
+- **Controller** is an abstract class with three states (`On`, `Off`, `Charging`) and controls both the battery and drive system.
+
+- There are two types of controllers:
+  - **BasicController** (inherits from Controller),
+  - **AdvancedController** (also inherits from Controller) which adds a method to estimate the next inspection date.
+
+---
+

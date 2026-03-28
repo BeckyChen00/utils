@@ -1,0 +1,80 @@
+@startuml
+enum BehaviorType {
+  Continuous
+  Discontinuous
+  Random
+  Stable
+}
+enum EnvironmentCondition {
+  Stable
+  Uncertain
+}
+enum ObservationState {
+  Incomplete
+  InProgress
+  Completed
+  Invalid
+  OnHold
+}
+class Agent {
+  name: String
+  behaviorType: BehaviorType
+  +performObservation(): ObservationState
+  +reinforcementLearningStep(): double
+}
+class Observation {
+  currentState: ObservationState
+  timestamp: long
+  condition: EnvironmentCondition
+  +getModelPrediction(): Envelope
+}
+class StateVector {
+  currentState: ObservationState
+  +transformToNextState(): ObservationState
+  +getTransitionProbability(): double
+}
+class Envelope {
+  condition: EnvironmentCondition
+  meanValue: double
+  volatilityLevel: double
+  +computeNextState(transitionRate: double, noiseLevel: double): ObservationState
+  +getStochasticProcess(): double[]
+}
+class Policy {
+  behaviorType: BehaviorType
+  +evaluate(state: StateVector): double
+  +updatePolicy(): void
+}
+class RewardStructure {
+  isTimeInvariant: boolean
+  +structureReward(state: StateVector): double
+  +resetReward(): void
+}
+class TrainingSession {
+  startTime: long
+  endTime: long
+  +addAgent(agent: Agent): void
+  +addObservation(agent: Agent, state: Observation): Observation
+  +generatePolicy(agent: Agent): Policy
+  +calculateRewards(agent: Agent): double[]
+  +finalizeSession(): void
+}
+class ExperimentConfig {
+  maxDuration: long
+  patienceTolerance: double
+  thresholdValue: double
+  isEpisodic: boolean
+  +configureParams(policy: Policy, reward: RewardStructure): void
+  +executeSession(): TrainingSession
+}
+Agent *-- "0..*" Observation : observingHistory
+Agent --> "1" Envelope : currentStateEnvelope
+Agent --> "0..1" Policy : learnedPolicy
+TrainingSession *-- "1..*" Observation : generatedObservations
+TrainingSession --> "1..*" Agent : watchedAgents
+TrainingSession --> "0..1" RewardStructure : usedRewards
+ExperimentConfig --> "1" RewardStructure : definedRewards
+ExperimentConfig --> "1" Policy : optimizedPolicy
+ExperimentConfig --> "1" TrainingSession : scheduledSession
+Agent --> "1" StateVector : currentStateVector
+@enduml

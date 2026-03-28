@@ -1,0 +1,60 @@
+@startuml
+class Reservation {
+  reservationCode: String
+  checkInDate: Date
+  isConfirmed: boolean
+  +confirmReservation()
+  +cancelReservation()
+}
+class Guest {
+  guestName: String
+  contactNumber: String
+  +addReservation(reservation: Reservation)
+}
+class Room {
+  roomNumber: int
+  roomType: String
+  roomStatus: String
+}
+class RoomType {
+  typeCode: String
+  description: String
+  basePrice: double
+  maxCapacity: int
+  +getMinimumPrice(moistureLevel: double, temperatureLevel: double): double
+}
+class BookingAgent {
+  agentName: String
+  companyName: String
+  +processCheckIn(checkInDate: Date, guest: Guest)
+  +processCheckOut(reservation: Reservation)
+  +assignTask(reservation: Reservation, task: ReservationTask)
+}
+class Property {
+  propertyCode: String
+  propertyType: String
+  address: String
+  +getAvailableRooms(): List<Room>
+}
+class BookingAgentAccount {
+  accountType: String
+  +verifyIdentity(verificationCode: String): boolean
+}
+class ReservationTask {
+  requiredBookingType: String
+  +updateStatus(isCompleted: boolean)
+}
+class GuestProfile {
+  profileName: String
+  phoneNumber: String
+  +updateProfile(newPhone: String)
+}
+BookingAgent --|> GuestProfile
+BookingAgentAccount --|> GuestProfile
+Reservation -- GuestProfile
+Guest -- Property
+Property -- RoomType
+Reservation -- Room
+Reservation -- ReservationTask
+ReservationTask -- BookingAgent
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+class Sensor {
+  vendorId: int
+  description: String
+  unitType: String
+  minRange: double
+  maxRange: double
+  +captureValue(): double
+  +validateValue(value: double): boolean
+  +assignToRoom(room: Room): void
+}
+class Apartment {
+  address: String
+  +getRooms(): List<Room>
+  +getSensors(): List<Sensor>
+}
+class Room {
+  description: String
+  +getSensors(): List<Sensor>
+}
+class SensorValue {
+  timestamp: Date
+  value: double
+  +getValue(): double
+  +getTimestamp(): Date
+}
+class Inhabitant {
+  username: String
+  password: String
+  isAdmin: boolean
+  +login(): boolean
+  +configureSensor(sensor: Sensor, room: Room): void
+}
+class SystemController {
+  +getApartment(apartmentId: int): Apartment
+  +authenticateUser(username: String, password: String): boolean
+  +monitorThresholds(): boolean
+}
+class AlertMessage {
+  timestamp: Date
+  severity: String
+  messageContent: String
+  +sendTo(emailAddress: String): void
+}
+class EMonitorSystem {
+  +checkThresholds(apartment: Apartment): List<AlertMessage>
+  +sendAlerts(messages: List<AlertMessage>): void
+}
+Apartment *-- "*" Room : containedRooms
+Apartment *-- "*" Sensor : installedSensors
+Sensor *-- "*" SensorValue : recordedReadings
+Inhabitant --> "0..1" Apartment : managedApartment
+SystemController --> "1" Apartment : controlledApartment
+SystemController --> "1" EMonitorSystem : linkedMonitor
+EMonitorSystem --> "*" AlertMessage : generatedAlerts
+AlertMessage --> "1" Sensor : triggeredBySensor
+@enduml

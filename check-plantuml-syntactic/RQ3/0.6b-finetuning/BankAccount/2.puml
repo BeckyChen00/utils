@@ -1,0 +1,78 @@
+@startuml
+enum RiskSeverityLevel {
+  Critical
+  High
+  Medium
+  Low
+  Negligible
+  Unknown
+  Minor
+}
+enum ComplicationCategory {
+  Absent
+  Present
+  Confirmed
+  Consensus
+}
+enum ClassificationStage {
+  Generated
+  Building
+  Validated
+  Approved
+  Archived
+}
+class PersonProfile {
+  contactInfo: String
+  +updateContactInfo(newInfo: String): void
+  +getProfileSummary(): String
+}
+class Patient {
+  name: String
+  medicalHistory: String
+  +recordDiagnosis(diagnosis: DiagnosticDiagnosis): void
+  +updateMedicationList(compound: MedicationCompound): void
+}
+class Diagnosis {
+  diagnosisDate: Date
+  severityLevel: RiskSeverityLevel
+  possibleComplications: ComplicationCategory[]
+  isConfirmed: boolean
+  +assessRiskLevel(): RiskSeverityLevel
+  +generateSummaryReport(): String
+}
+class TreatmentPlan {
+  description: String
+  followUpDays: int
+  isConsensus: boolean
+  +getPlanDescription(): String
+  +addComplication(complication: ComplicationCategory): void
+}
+class MedicalDoc {
+  documentTitle: String
+  uploadDate: Date
+  isVerified: boolean
+  +validateDocument(): boolean
+  +getDocumentSummary(): String
+}
+class MedicineCompounds {
+  compoundName: String
+  dosingInstructions: String
+  isAllergyAlert: boolean
+  +getActiveIngredients(): String
+}
+class TreatmentMeme {
+  memeText: String
+  isAnimated: boolean
+  +getImageUrl(): String
+}
+Patient *-- "1" PersonProfile : primaryProfile
+Patient *-- "0..*" Diagnosis : medicalHistory
+Patient *-- "0..*" TreatmentPlan : treatmentPlans
+Patient *-- "0..*" MedicationCompound : medicationList
+Patient *-- "1..*" MedicalDoc : medicalDocuments
+Patient --> "0..*" DiagnosticDiagnosis : listedDiagnoses
+Diagnosis *-- "1..*" ComplicationCategory : possibleComplications
+Diagnosis --> "0..*" MedicineCompounds : involvedMedicaments
+TreatmentPlan *-- "1..*" MedicineCompounds : requiredMedications
+TreatmentPlan --> "0..1" TreatmentMeme : associatedMeme
+@enduml

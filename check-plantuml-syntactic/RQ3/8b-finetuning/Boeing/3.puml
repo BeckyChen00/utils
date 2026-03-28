@@ -1,0 +1,38 @@
+@startuml
+class Contract {
+  contractNumber: String
+  contractDate: Date
+  status: String
+  +addAcquisition(acquisition: Acquisition): void
+  +findActiveAcquisitions(): List<Acquisition>
+}
+class Acquisition {
+  acquisitionId: String
+  acquisitionPrice: double
+  customizations: List<CustomizationOption>
+  deliveryDate: Date
+  isConfirmed: boolean
+  +validateConfiguration(): boolean
+  +calculateTotalPrice(): double
+}
+class CustomizationOption {
+  optionName: String
+  description: String
+  costMultiplier: double
+  isMandatory: boolean
+}
+class AirlineCompany {
+  companyName: String
+  isActive: boolean
+  +isParentOf(relatedCompany: AirlineCompany): boolean
+}
+class Salesperson {
+  name: String
+  employeeId: String
+  +manageContract(contract: Contract): void
+}
+Contract *-- "0..*" Acquisition : acquisitions
+Acquisition *-- "1..*" CustomizationOption : customizations
+Contract --> "1" Salesperson : assignedSalesperson
+AirlineCompany --> "0..*" Acquisition : acquisitions
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+enum StageLevel {
+  Stage1
+  Stage2
+  Stage3
+}
+enum PriorityLevel {
+  Low
+  High
+}
+class Patient {
+  name: String
+  age: int
+}
+class Diagnosis {
+  symptomDescription: String
+  confidenceScore: double
+}
+class Illness {
+  illnessName: String
+  priorityLevel: PriorityLevel
+  +updatePriority(newPriority: PriorityLevel): void
+}
+class Treatment {
+  treatmentName: String
+  isAvailable: boolean
+  +startApplication(): void
+  +upgradeStage(): void
+  +downgradeStage(): void
+}
+class Doctor {
+  doctorName: String
+  specialization: String
+  +makeDiagnosis(symptoms: String): Diagnosis
+  +approveDiagnosis(diagnosis: Diagnosis): boolean
+}
+Patient *-- "0..*" Diagnosis : diagnosisRecords
+Diagnosis --> "0..*" Treatment : applicableTreatments
+Patient --> "0..*" Treatment : activeTreatments
+Illness --> "0..*" Diagnosis : associatedDiagnoses
+Illness --> "0..*" Treatment : recommendedTreatments
+Doctor --> "0..*" Diagnosis : madeDiagnoses
+Doctor --> "0..*" Diagnosis : approvedDiagnoses
+@enduml

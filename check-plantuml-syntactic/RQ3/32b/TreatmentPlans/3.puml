@@ -1,0 +1,119 @@
+
+@startuml
+
+' Define classes and their attributes and associations
+
+class Hospital {
+    +String name
+    +String location
+}
+
+class ExaminationType {
+    +String typeCode
+    +String typeName
+}
+
+class Permission {
+    +Hospital hospital
+    +ExaminationType examinationType
+    +Date grantedDate
+}
+
+class TreatmentPlan {
+    +String problemCode
+    +String description
+}
+
+class AdvisedExamination {
+    +TreatmentPlan treatmentPlan
+    +ExaminationType examinationType
+    +int priority
+}
+
+class Doctor {
+    +String id
+    +String name
+    +Hospital hospital
+}
+
+class Patient {
+    +String id
+    +String name
+    +Date birthDate
+}
+
+class Diagnosis {
+    +Patient patient
+    +Doctor doctor
+    +Date date
+    +String problemCode
+}
+
+class ActualTreatment {
+    +Diagnosis diagnosis
+    +TreatmentPlan treatmentPlan
+    +Date startDate
+    +Date endDate
+}
+
+class MedicalAction {
+    +ActualTreatment actualTreatment
+    +String actionDescription
+    +Date performedDate
+    +boolean isAdvised
+}
+
+class ScheduledExamination {
+    +ActualTreatment actualTreatment
+    +ExaminationType examinationType
+    +Hospital hospital
+    +Date scheduledDate
+    +boolean isPerformed
+}
+
+' Associations
+
+Hospital "1" -- "0..*" Permission : has permission for
+Hospital "1" -- "0..*" Doctor : employs
+Hospital "1" -- "0..*" ScheduledExamination : provides
+
+Doctor "1" -- "0..*" Diagnosis : makes
+Doctor "1" -- "1" Hospital : affiliated with
+
+Patient "1" -- "1" Diagnosis : has
+Patient "1" -- "1" ActualTreatment : receives
+
+Diagnosis "1" -- "1" ActualTreatment : triggers
+Diagnosis "1" -- "1" TreatmentPlan : based on
+
+TreatmentPlan "1" -- "1..*" AdvisedExamination : includes
+TreatmentPlan "1" -- "0..*" ActualTreatment : used in
+
+ActualTreatment "1" -- "0..*" MedicalAction : contains
+ActualTreatment "1" -- "0..*" ScheduledExamination : schedules
+
+ExaminationType "1" -- "0..*" Permission : allowed in
+ExaminationType "1" -- "0..*" AdvisedExamination : advised in
+ExaminationType "1" -- "0..*" ScheduledExamination : requested for
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Hospital**: A medical institution that can employ doctors and apply for permissions.
+- **ExaminationType**: Represents types of medical exams (e.g., NMR scan, echography).
+- **Permission**: Links hospitals to the examination types they are allowed to perform.
+- **TreatmentPlan**: For each type of problem, a standard set of advised examinations is defined.
+- **AdvisedExamination**: A specific exam included in a treatment plan.
+- **Doctor**: Affiliated with a hospital and prescribes treatments/diagnoses.
+- **Patient**: The individual receiving care.
+- **Diagnosis**: Made by a doctor for a patient; leads to an actual treatment.
+- **ActualTreatment**: May include both advised and non-advised actions.
+- **MedicalAction**: Can be either an advised or freely chosen action.
+- **ScheduledExamination**: Represents an exam ordered by the doctor, possibly at another hospital if not available locally.
+
+---
+
+Let me know if you'd like this rendered as an image or exported into other formats!

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="producedFilms" eType="#//Film" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="castMembers" eType="#//Actor" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="directedFilms" eType="#//Film" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="writtenScreenplays" eType="#//Screenplay" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Film">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="category" eType="#//FilmGenre" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessions" eType="#//ScreeningSession" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Technicians" eSuperTypes="#//Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Actor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Screenplay">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceFilm" eType="#//Film" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedOn" eType="#//Novel" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roleDescriptions" eType="#//Actor" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FilmGenre"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScreeningSession"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Novel"/>
+</ecore:EPackage>

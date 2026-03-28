@@ -1,0 +1,37 @@
+@startuml
+enum ProjectPhase {
+  Planning
+  Execution
+  Closing
+}
+enum EvaluationStatus {
+  PendingReview
+  Passed
+  Failed
+}
+class ScrumBoard {
+  currentPhase: ProjectPhase
+  +showBoard(): void
+  +addTask(task: Task): void
+  +getActiveTasks(): Task[]
+}
+class Task {
+  description: String
+  priorityLevel: int
+  +getStatus(): EvaluationStatus
+}
+class Project {
+  projectTitle: String
+  status: ProjectPhase
+  +addTask(task: Task): void
+  +closeProject(): void
+}
+class TeamMember {
+  name: String
+  skillLevel: int
+  +assignToTask(task: Task): void
+}
+Project *-- "0..*" Task : tasks
+Project --> "0..*" TeamMember : members
+Task --> "0..*" TeamMember : assignedMembers
+@enduml

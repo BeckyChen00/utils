@@ -1,0 +1,95 @@
+@startuml
+enum RequestType {
+  APP_BASED
+  HAND_WAVING
+}
+enum ServiceType {
+  RIDE_HAILING
+  RIDE_SHARING
+}
+enum LicenseStatus {
+  AVAILABLE
+  OCCUPIED
+  MAINTENANCE
+  ON_BREAK
+  UNREGISTERED
+}
+class TaxiCar {
+  carPlateNumber: String
+  available: boolean
+  +getCurrentLocation(): String
+  +isAvailable(): boolean
+}
+class SelfDrivingCar {
+  systemHealth: String
+  +performSelfMaintenance(): boolean
+  +updateSystemStatus(status: String): void
+}
+class Ride {
+  pickUpTime: Date
+  dropOffTime: Date
+  totalDistance: Double
+  rideDurationMinutes: Integer
+  passengerCount: Integer
+  fee: Double
+  isCompleted: boolean
+  +calculateFee(): Double
+  +getDuration(): Integer
+  +markAsCompleted(): void
+}
+class RideHailingRequest {
+  requestType: RequestType
+  leadCustomerName: String
+  leadCustomerPhone: String
+  +estimateWaitTime(): Integer
+  +processRequest(targetCar: TaxiCar): void
+}
+class RideSharingRequest {
+  negotiationStatus: String
+  groupSize: Integer
+  +negotiateFee(): Double
+  +addPassenger(name: String): void
+}
+class UsageHistory {
+  requestType: RequestType
+  totalRideCount: Integer
+  +addUsage(ride: Ride): void
+  +getTotalRideCount(): Integer
+}
+class Customer {
+  customerName: String
+  phoneNumber: String
+  hasActiveAccount: Boolean
+  +updateProfile(name: String, phone: String): void
+  +bookRide(type: ServiceType, request: RideHailingRequest): void
+}
+class CarOwner {
+  ownerName: String
+  registrationStatus: LicenseStatus
+  +registerCar(car: TaxiCar): void
+  +revokeAccess(car: TaxiCar): void
+}
+class AccidentRecord {
+  accidentDate: Date
+  location: String
+  damageAmount: Double
+  isVerified: Boolean
+  +reportAccident(car: TaxiCar, details: String): void
+  +verifyDetails(): Boolean
+}
+class AccessibilityProfile {
+  isWheelchairAccessible: Boolean
+  requiresAssistance: Boolean
+  +updateProfile(isAccessible: Boolean): void
+}
+SelfDrivingCar --|> TaxiCar
+RideHailingRequest *-- "0..1" Ride : generatedRide
+RideSharingRequest *-- "1..*" Ride : scheduledRides
+Ride --> "1" TaxiCar : assignedCar
+Ride --> "1..*" Customer : passengers
+Customer *-- "0..*" UsageHistory : usageHistory
+Customer --> "1" AccessibilityProfile : accessibilityProfile
+CarOwner --> "1..*" TaxiCar : registeredCars
+TaxiCar *-- "0..1" AccidentRecord : accidentRecord
+RideHailingRequest --> "0..1" CarOwner : requestedByOwner
+@enduml

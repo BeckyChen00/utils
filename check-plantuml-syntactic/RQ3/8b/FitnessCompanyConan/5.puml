@@ -1,0 +1,67 @@
+
+@startuml
+
+class Center {
+  -name: String
+  -address: String
+  -rooms: Set<Room>
+}
+
+class Room {
+  -number: int
+  -maxCapacity: int
+  -center: Center
+}
+
+class Person {
+  -firstName: String
+  -lastName: String
+  -birthDate: Date
+}
+
+class Trainer extends Person {
+  -diploma: String
+}
+
+class Session {
+  -date: Date
+  -startTime: Time
+  -room: Room
+  -type: String (optional)
+}
+
+class Participant {
+  -person: Person
+  -session: Session
+}
+
+class SupervisedSession {
+  -trainer: Trainer
+  -session: Session
+}
+
+Center "1" -- "0..*" Room : has
+Room "1" -- "1" Center : belongs to
+Person "1" -- "0..*" Participant : participates in
+Participant "1" -- "1" Session : is part of
+Trainer "1" -- "0..*" SupervisedSession : supervises
+SupervisedSession "1" -- "1" Session : supervises
+Session "1" -- "0..1" Trainer : supervised by (optional)
+Session "1" -- "0..*" Participant : has participants
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **`Center`**: Represents a fitness center with a unique name, address, and multiple rooms.
+- **`Room`**: Each room has a number and max capacity and is located in one center.
+- **`Person`**: A generic class representing individuals (members or prospects). It stores first name, last name, and birth date.
+- **`Trainer`**: A subclass of `Person`. Trainers have an additional field for their diploma.
+- **`Session`**: Represents a session (individual or group) with date, start time, and room. Group sessions also have a type.
+- **`Participant`**: A relationship between a person and a session, indicating participation.
+- **`SupervisedSession`**: A relationship between a trainer and a session, indicating supervision (only for group sessions).
+
+---
+

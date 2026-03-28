@@ -1,0 +1,120 @@
+
+---
+
+
+@startuml
+
+' Actors
+actor "Visitor" as Visitor
+actor "User" as User
+actor "Administrator" as Admin
+
+' Use Cases
+[Register] as UC_Register
+[Confirm Email] as UC_ConfirmEmail
+[Create Building] as UC_CreateBuilding
+[Manage Entries] as UC_ManageEntries
+[Comment] as UC_Comment
+[Search Buildings] as UC_SearchBuildings
+[Release Entry] as UC_ReleaseEntry
+[Delete Comment] as UC_DeleteComment
+[Set Up User] as UC_SetUpUser
+[Activate User] as UC_ActivateUser
+
+' Classes
+class WebPortal {
+    - versionNumber: String
+    - url: String
+    - buildings: Set<Building>
+}
+
+class Building {
+    - id: String
+    - name: String
+    - energyClass: String (A/B/C/D)
+    - address: String
+    - constructionYear: Integer
+    - owner: User
+    - images: List<Image>
+    - profilePhoto: Image
+    - additionalEntries: List<AdditionalEntry>
+}
+
+class Image {
+    - fileName: String
+}
+
+class AdditionalEntry {
+    - name: String
+    - content: Union<String, Float>
+    - unit: String
+    - isPublic: Boolean
+}
+
+class User {
+    - username: String
+    - email: String
+    - password: String
+    - activated: Boolean
+    - buildings: Set<Building>
+}
+
+class Administrator extends User {
+    - idCardNumber: String
+}
+
+' Relationships between classes
+WebPortal "1" -- "many" Building : has
+Building "1" -- "1" User : owned by
+User "1" -- "many" Building : manages
+Building "1" -- "many" Image : has
+Building "1" -- "many" AdditionalEntry : has
+
+' Use Cases and Actors
+Visitor --> UC_SearchBuildings
+Visitor --> UC_Register
+Visitor --> UC_ConfirmEmail
+User --> UC_CreateBuilding
+User --> UC_ManageEntries
+User --> UC_Comment
+User --> UC_ReleaseEntry
+Admin --> UC_SetUpUser
+Admin --> UC_ActivateUser
+Admin --> UC_DeleteComment
+
+' Generalization
+Administrator --|> User
+
+@enduml
+
+---
+
+### 📌 **Explanation of Key Elements**
+
+- **Actors**: `Visitor`, `User`, and `Administrator` represent different types of users interacting with the system.
+- **Use Cases**:
+  - `UC_Register`: For new users to register.
+  - `UC_ConfirmEmail`: Verification step during registration.
+  - `UC_CreateBuilding`: Users can create new buildings.
+  - `UC_ManageEntries`: Users can add or modify entries for their buildings.
+  - `UC_Comment`: Users can comment on other users' buildings.
+  - `UC_SearchBuildings`: All visitors can search for buildings using full-text search.
+  - `UC_ReleaseEntry`: Users can make an entry public.
+  - `UC_DeleteComment`: Admins can delete comments.
+  - `UC_SetUpUser`: Admins set up user accounts.
+  - `UC_ActivateUser`: Admins activate user accounts after verification.
+
+- **Generalization**: `Administrator` is a specialized type of `User`.
+
+- **Relationships**:
+  - A `WebPortal` contains multiple `Buildings`.
+  - A `Building` belongs to one `User`.
+  - A `User` can manage multiple `Buildings`.
+  - A `Building` can have multiple `Images` and `AdditionalEntries`.
+
+---
+
+### 🧾 **Notes**
+- The model is designed to be extensible and supports the described functionality of the web portal.
+
+Let me know if you'd like a version with more detailed attributes, methods, or sequence diagrams!

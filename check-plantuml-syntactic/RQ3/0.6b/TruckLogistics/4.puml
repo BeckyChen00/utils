@@ -1,0 +1,12 @@
+@startuml
+
+class Diagram {System Requirement}
+
+# The System Requirement class diagram
+Diagram --> SystemRequirement
+SystemRequirement --> Component1
+Component1 --> Module1
+Module1 --> Operation1
+Operation1 --> Result1
+
+@enduml

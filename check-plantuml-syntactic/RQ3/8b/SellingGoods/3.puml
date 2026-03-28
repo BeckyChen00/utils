@@ -1,0 +1,90 @@
+
+---
+
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class Customer {
+    +String id
+    +String name
+    +String address
+    +String vatNumber
+}
+
+class Product {
+    +String id
+    +String name
+    +Double price
+    +Integer stockQuantity
+}
+
+class Order {
+    +String id
+    +Date orderDate
+    +Customer customer
+    +List<OrderLine> orderLines
+    +Date paymentDate
+    +Date shipmentDate
+}
+
+class OrderLine {
+    +String id
+    +Product product
+    +Integer quantityOrdered
+    +Integer quantityShipped
+}
+
+' Associations
+Customer "1" -- "0..*" Order : places
+Order "1" -- "0..*" OrderLine : contains
+Product "1" -- "0..*" OrderLine : is in
+
+@enduml
+
+---
+
+### 📌 **Explanation of Elements**
+
+#### 1. **Customer**
+- Attributes:
+  - `id`: Unique identifier.
+  - `name`: Name of the customer.
+  - `address`: Delivery address.
+  - `vatNumber`: VAT number for tax purposes.
+
+#### 2. **Product**
+- Attributes:
+  - `id`: Unique product ID.
+  - `name`: Product name.
+  - `price`: Price per unit.
+  - `stockQuantity`: Current stock level.
+
+#### 3. **Order**
+- Attributes:
+  - `id`: Unique order ID.
+  - `orderDate`: Date when the order was placed.
+  - `customer`: Reference to the customer who placed the order.
+  - `orderLines`: List of order lines (each representing an item in the order).
+  - `paymentDate`: Date when the full payment was received.
+  - `shipmentDate`: Date when the order was fully shipped.
+
+#### 4. **OrderLine**
+- Attributes:
+  - `id`: Unique line ID.
+  - `product`: Reference to the product being ordered.
+  - `quantityOrdered`: Quantity requested by the customer.
+  - `quantityShipped`: Quantity actually shipped (used for tracking partial shipments).
+
+---
+
+### 🔁 **Notes for Future Steps**
+
+This diagram is based on **STEP 1** only. As you move through **STEP 2**, **STEP 3**, and **STEP 4**, you will need to:
+
+- Introduce new classes like `Delivery`, `Invoice`, `Warehouse`, etc.
+- Add more attributes to existing classes (e.g., `DeliveryStatus`, `PaymentMethod`).
+- Include state machines (FSMs) to model order states (e.g., "Pending", "Paid", "Shipped").
+- Use associations, inheritance, and constraints to represent complex business rules.
+
+Would you like me to generate the updated class diagram for **STEP 2** or later steps as well?

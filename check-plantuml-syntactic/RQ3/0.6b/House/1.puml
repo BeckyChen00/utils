@@ -1,0 +1,19 @@
+@startuml
+
+class Diagram {
+  class "System Requirements" {
+    member {
+      class "System Requirement" {
+        label "Requirement 1"
+        sublabel "This system should support..."
+        sublabel "User authentication with..."
+        sublabel "Secure data storage..."
+        sublabel "Responsive UI design..."
+        sublabel "Compatibility with all devices..."
+        sublabel "Multi-language support..."
+      }
+    }
+  }
+
+}
+@enduml

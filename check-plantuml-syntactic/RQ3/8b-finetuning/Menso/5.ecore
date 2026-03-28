@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedTrajectories" eType="#//Trajectory" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trajectory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="routeStops" eType="#//StationStop" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StationStop"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusLine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedBuses" eType="#//Bus" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePlan" eType="#//PaymentPlan" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentPlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomerProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedTickets" eType="#//SeasonTicket" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryCard" eType="#//Card" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedInvoices" eType="#//Invoice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SeasonTicket">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subscribedPlan" eType="#//PaymentPlan" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Card"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Trip">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="followedLine" eType="#//BusLine" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedCard" eType="#//Card" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originStation" eType="#//StationStop" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,28 @@
+@startuml
+
+classDiagram
+    SystemRequirement --> Requirement1 {
+        Description: A system requirement for the application.
+    }
+
+    Requirement1 --> Constraint1 {
+        Constraint1 is a constraint that must be satisfied by the application.
+    }
+
+    Constraint1 --> ValidationRule1 {
+        ValidationRule1 ensures that the data meets specific requirements.
+    }
+
+    ValidationRule1 --> Result {
+        The result of the validation process is stored in the database.
+    }
+
+    Result --> DataStorage {
+        Data is stored in the DataStorage component.
+    }
+
+    DataStorage --> Application {
+        The application processes the data and performs its tasks.
+    }
+
+@enduml

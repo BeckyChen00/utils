@@ -1,0 +1,66 @@
+
+---
+
+
+@startuml
+
+abstract class ResearchGroup {
+  +String id
+  +String name
+  +List<Researcher> researchers
+}
+
+class Department {
+  +String id
+  +String name
+}
+
+class Researcher {
+  +String id
+  +String name
+  +String email
+  +ResearchGroup currentGroup
+  +List<WorkPackage> assignedWPs
+}
+
+class WorkPackage {
+  +String id
+  +String title
+  +String description
+  +ResearchGroup leaderGroup
+  +List<Researcher> teamMembers
+}
+
+class Project {
+  +String id
+  +String title
+  +String description
+  +List<WorkPackage> workPackages
+}
+
+ResearchGroup "1" -- "0..*" Researcher : belongsTo
+Department "1" -- "0..*" ResearchGroup : contains
+Researcher "1" -- "1" Project : assignedTo
+Project "1" -- "0..*" WorkPackage : consistsOf
+WorkPackage "1" -- "0..*" Researcher : hasTeamMember
+WorkPackage "1" -- "1" ResearchGroup : ledBy
+
+@enduml
+
+---
+
+### 📌 Explanation of Relationships:
+
+- **`ResearchGroup`** is an abstract class that represents a group of researchers. It has a one-to-many relationship with `Researcher`.
+- **`Department`** contains multiple `ResearchGroup`s.
+- **`Researcher`** can be part of only one `ResearchGroup`, and may be assigned to multiple `WorkPackage`s.
+- **`Project`** consists of multiple `WorkPackage`s.
+- Each **`WorkPackage`** has exactly one **`ResearchGroup`** as its leader and can have multiple **`Researcher`** members.
+- A **`Researcher`** can be assigned to any **`WorkPackage`**, regardless of which group leads it.
+- When a **`Researcher`** changes groups or a **`WorkPackage`** leadership changes, the assignments are updated to reflect accurate service delivery tracking.
+
+---
+
+
+
+Let me know if you'd like a UML diagram exported as an image or want to add more details!

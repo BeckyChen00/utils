@@ -1,0 +1,83 @@
+@startuml
+enum ComparisonResult {
+  Lower
+  Equal
+  Higher
+}
+enum SuitType {
+  Spades
+  Hearts
+  Diamonds
+  Clubs
+}
+enum SoloType {
+  TrumpSolo
+  JackSolo
+  QueenSolo
+}
+enum RoundStatus {
+  Ongoing
+  Completed
+  Canceled
+}
+enum GameMode {
+  Standard
+  QuickPlay
+  Tournament
+}
+class GameSession {
+  gameMode: GameMode
+  isPracticeMode: boolean
+  currentRoundStatus: RoundStatus
+  +start(): void
+  +endSession(): void
+}
+class Player {
+  playerName: String
+  isComputerOpponent: boolean
+  +playCard(card: Card): void
+  +getHandScore(): int
+}
+class Card {
+  cardValue: int
+  cardSuit: SuitType
+  cardHeight: int
+  +compareTo(other: Card): ComparisonResult
+}
+class Deck {
+  cardCount: int
+  +shuffle(): void
+  +dealCards(players: Player[]): void
+  +getRemainingCards(): List<Card>
+}
+class ScoringTable {
+  roundNumber: int
+  +recordScore(player: Player, points: int): void
+  +calculateRoundResult(): void
+  +getTotalPoints(): int
+}
+class Round {
+  roundStatus: RoundStatus
+  isJackRound: boolean
+  isSoloRound: boolean
+  soloType: SoloType
+  required SoloCount: int
+  +addPlayer(player: Player): void
+  +getWinningPlayer(): Player
+  +validateRules(): boolean
+}
+class Match {
+  matchName: String
+  isOfficialMatch: boolean
+  +registerPlayer(player: Player): void
+  +getMatchResults(): List<ScoringTable>
+}
+GameSession *-- "1" Deck : currentDeck
+GameSession *-- "1" ScoringTable : scoringTable
+GameSession *-- "*" Player : players
+GameSession *-- "1" Match : match
+Match *-- "*" Round : rounds
+Round *-- "*" Player : participants
+Round --> "0..1" Card : winningCard
+Player *-- "*" Card : hand
+@enduml

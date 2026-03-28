@@ -1,0 +1,122 @@
+
+@startuml
+skinparam linetype zigzag
+
+class Customer {
+  -id: int
+  -name: String
+  -contactInfo: String
+  -broker: Broker
+  -policies: Set<Policy>
+  -claims: Set<Claim>
+}
+
+class Broker {
+  -id: int
+  -name: String
+  -contactInfo: String
+  -customers: Set<Customer>
+  -policies: Set<Policy>
+}
+
+class Policy {
+  -id: int
+  -type: String
+  -premium: double
+  -duration: String
+  -status: String
+  -customer: Customer
+  -contract: Contract
+}
+
+class Contract {
+  -id: int
+  -dateSigned: Date
+  -terms: String
+  -policy: Policy
+  -customer: Customer
+  -invoices: Set<Invoice>
+}
+
+class Invoice {
+  -id: int
+  -amount: double
+  -dueDate: Date
+  -paymentStatus: String
+  -contract: Contract
+}
+
+class Claim {
+  -id: int
+  -dateSubmitted: Date
+  -description: String
+  -status: String
+  -customer: Customer
+  -cases: Set<ClaimCase>
+  -compensation: Compensation
+}
+
+class ClaimCase {
+  -id: int
+  -type: String
+  -description: String
+  -status: String
+  -claim: Claim
+  -estimators: Set<Estimator>
+  -reports: Set<EstimatorReport>
+}
+
+class Estimator {
+  -id: int
+  -name: String
+  -expertiseArea: String
+  -reports: Set<EstimatorReport>
+}
+
+class EstimatorReport {
+  -id: int
+  -dateSubmitted: Date
+  -findings: String
+  -approvalStatus: String
+  -claimCase: ClaimCase
+  -estimator: Estimator
+}
+
+class Compensation {
+  -id: int
+  -amount: double
+  -datePaid: Date
+  -claim: Claim
+  -eligibleCosts: Map<String, Double>
+}
+
+Customer "1" -- "1" Broker : assigned to
+Broker "1" -- "0..*" Customer : manages
+Customer "1" -- "0..*" Policy : has
+Broker "1" -- "0..*" Policy : handles
+Policy "1" -- "1" Contract : associated with
+Contract "1" -- "0..*" Invoice : generates
+Customer "1" -- "0..*" Claim : files
+Claim "1" -- "1" Compensation : results in
+Claim "1" -- "0..*" ClaimCase : contains
+ClaimCase "1" -- "0..*" Estimator : involves
+Estimator "1" -- "0..*" EstimatorReport : submits
+ClaimCase "1" -- "0..*" EstimatorReport : receives
+@enduml
+
+---
+
+### ✅ Summary of Key Entities:
+- **Customer**: Has a broker, can have multiple policies and claims.
+- **Broker**: Manages customers and policies.
+- **Policy**: Associated with a customer and a contract.
+- **Contract**: Signed by customer and broker, includes invoices.
+- **Invoice**: Generated from the contract.
+- **Claim**: Filed by a customer, may have multiple claim cases.
+- **ClaimCase**: A sub-case of a claim handled by estimators.
+- **Estimator**: Handles claim cases and provides reports.
+- **EstimatorReport**: Evaluates a claim case.
+- **Compensation**: Paid to customer after claim approval.
+
+---
+

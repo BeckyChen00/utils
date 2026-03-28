@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="revenueReport" eType="#//RevenueReport" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RevenueReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedRules" eType="#//TaxAdjustmentRule" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedBrackets" eType="#//TaxBracket" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reportTarget" eType="#//Contract" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaxAdjustmentRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedToBrackets" eType="#//TaxBracket" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="categorizedTax" eType="#//TaxCategory" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedRules" eType="#//TaxCalculationRule" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaxCalculationRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedLevel" eType="#//RevenueLevel" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicableBrackets" eType="#//TaxBracket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaxBracket">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="designatedRules" eType="#//TaxAdjustmentRule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedRules" eType="#//TaxCalculationRule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RevenueReportGenerator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filteredBrackets" eType="#//TaxBracket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaxCategory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RevenueLevel"/>
+</ecore:EPackage>

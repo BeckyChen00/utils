@@ -1,0 +1,84 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor lightblue
+skinparam classAttributeIconSize 0
+
+class User {
+  - username: String
+  - password: String
+  + login(mode: String): boolean
+}
+
+class Player {
+  - username: String
+  - password: String
+  + play(game: Game): void
+  + saveGame(game: Game): void
+  + resumeGame(game: Game): void
+}
+
+class Admin {
+  - username: String
+  - password: String
+  + createGame(name: String): Game
+  + designGame(game: Game): void
+}
+
+class Game {
+  - name: String
+  - hallOfFame: List<Score>
+  - minSpeed: int
+  - speedIncreaseFactor: int
+  - maxPaddleLength: int
+  - minPaddleLength: int
+  - levels: List<Level>
+  + isPublished(): boolean
+  + publish(): void
+}
+
+class Level {
+  - levelNumber: int
+  - blockArrangement: Map<String, Block>
+  - isRandom: boolean
+  - numBlocks: int
+  + start(): void
+}
+
+class Block {
+  - color: String
+  - points: int
+  - position: Position
+}
+
+class Position {
+  - x: int
+  - y: int
+}
+
+class Score {
+  - player: Player
+  - score: int
+  - level: int
+}
+
+User <|-- Player
+User <|-- Admin
+Player --> Game
+Admin --> Game
+Game --> Level
+Level --> Block
+Block --> Position
+Game --> Score
+
+@enduml
+
+### Explanation of Key Relationships:
+- **User** is a base class for both **Player** and **Admin**, with shared attributes (`username`, `password`) and behavior (`login`).
+- A **Player** can **play**, **save**, and **resume** a game.
+- An **Admin** can **create** and **design** a game.
+- A **Game** has multiple **Levels** and maintains a **hall of fame** (a list of **Scores**).
+- Each **Level** contains a set of **Blocks** arranged in a **Position**.
+- **Block** has a **color**, **points**, and a **position** on the grid.
+- A **Score** represents a player's performance in a level of a game, including the player, score, and level number.
+

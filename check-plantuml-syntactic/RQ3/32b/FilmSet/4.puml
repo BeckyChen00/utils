@@ -1,0 +1,102 @@
+
+@startuml
+
+' Define classes
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+abstract class CreativeEmployee {
+  - hasOscar: Boolean
+}
+
+class Director extends CreativeEmployee {
+  - assistantName: String
+}
+
+class Actor extends CreativeEmployee {
+  - education: String
+}
+
+class Technician extends Employee {
+  - fieldOfActivity: String
+}
+
+class FilmSet {
+  - location: String
+}
+
+class Film {
+  - title: String
+  - yearOfRelease: Integer
+  - genre: Genre (enum)
+}
+
+enum Genre {
+  Thriller
+  Action
+  Horror
+  Comedy
+}
+
+class Screenwriter {
+  - name: String
+  - mostSuccessfulFilm: String
+}
+
+class Screenplay {
+  - title: String
+  - version: Integer
+  - date: Date
+  - numberOfScenes: Integer
+  - plot: String
+  - sourceType: SourceType (enum)
+}
+
+enum SourceType {
+  Novel
+  Concept
+}
+
+class Novel {
+  - title: String
+  - author: String
+}
+
+' Relationships
+Employee <|-- CreativeEmployee
+CreativeEmployee <|-- Director
+CreativeEmployee <|-- Actor
+Employee <|-- Technician
+
+FilmSet "0..*" -- "1" Film : used in
+Film "0..*" -- "1" FilmSet : shot at
+
+Screenwriter "1" -- "0..*" Screenplay : writes
+Screenplay "1" -- "1" Film : written for
+Screenplay "0..1" -- "1" Novel : based on
+
+Film "1" -- "0..*" Actor : features
+Film "1" -- "1" Director : directed by
+Film "1" -- "1" Screenplay : based on
+Film "1" -- "0..*" Technician : uses
+
+Actor "1" -- "1" Screenplay : reads
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Employee** is the base class with all staff members.
+- **CreativeEmployee** is an abstract class extended by **Director** and **Actor**, both of which can have an Oscar.
+- **Technician** is another type of employee with a specific activity field.
+- **FilmSet** has a one-to-many relationship with **Film**.
+- **Film** belongs to a **Genre** (enumerated).
+- **Screenwriter** writes multiple **Screenplays**, each for exactly one **Film**.
+- **Screenplay** may be based on a **Novel** or a **Concept**.
+- **Actors** read the screenplay for the film they are acting in.
+- **Directors** implement the screenplay.
+

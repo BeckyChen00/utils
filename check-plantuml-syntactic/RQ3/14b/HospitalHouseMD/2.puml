@@ -1,0 +1,99 @@
+
+@startuml
+
+class Patient {
+  -id: int
+  -name: String
+  -consentGiven: boolean
+  +giveConsent(): void
+  +retractConsent(): void
+}
+
+class Doctor {
+  -id: int
+  -name: String
+  +makeDiagnosis(patient: Patient): Diagnosis
+  +approveDiagnosis(diagnosis: Diagnosis): boolean
+}
+
+class HeadDoctor {
+  -id: int
+  -name: String
+  +approveDiagnosis(diagnosis: Diagnosis): boolean
+}
+
+class Diagnosis {
+  -id: int
+  -doctorId: int
+  -patientId: int
+  -illness: Illness
+  -stage: TreatmentStage
+  +submitForApproval(): void
+}
+
+class Illness {
+  -id: int
+  -name: String
+  -priorityScore: PriorityScore
+  +updatePriorityScore(newScore: PriorityScore): void
+}
+
+enum TreatmentStage {
+  STAGE_1
+  STAGE_2
+  STAGE_3
+}
+
+enum PriorityScore {
+  HIGH
+  LOW
+}
+
+class Treatment {
+  -id: int
+  -diagnosisId: int
+  -stage: TreatmentStage
+  -description: String
+  +upgradeStage(): void
+  +downgradeStage(): void
+}
+
+class Nurse {
+  -id: int
+  -name: String
+  +monitorPatient(patient: Patient): void
+}
+
+class FollowUp {
+  -id: int
+  -patientId: int
+  -frequency: String
+  -required: boolean
+  +updateFollowUpRequirement(required: boolean): void
+}
+
+' Associations
+Patient "1" --> "0..*" Doctor : treatedBy
+Doctor "1" --> "0..*" Diagnosis : madeDiagnosis
+HeadDoctor "1" --> "0..*" Diagnosis : approvedDiagnosis
+Diagnosis "1" --> "1" Illness : relatedTo
+Illness "1" --> "0..*" Treatment : hasTreatments
+Treatment "1" --> "1" Diagnosis : belongsTo
+Diagnosis "1" --> "1" TreatmentStage : currentStage
+Diagnosis "1" --> "1" FollowUp : requiresFollowUp
+Nurse "1" --> "0..*" Patient : monitors
+Illness "1" --> "1" PriorityScore : hasPriority
+Patient "1" --> "0..1" FollowUp : hasFollowUp
+@enduml
+
+---
+
+### 📌 Notes:
+- **`TreatmentStage` and `PriorityScore`** are modeled as enums.
+- **`Doctor` and `HeadDoctor`** both have an `approveDiagnosis()` method, but only `HeadDoctor` can officially approve a diagnosis before treatment can proceed.
+- **`Patient`** can give or retract consent, which affects whether treatments can be upgraded without further consent.
+- **`Illness`** has a priority score that determines if all its treatments are automatically moved to stage 3.
+- **`Treatment`** can be upgraded or downgraded by doctors depending on rules.
+- **`FollowUp`** is used to track how often a patient should be checked, especially when in stage 3.
+
+Let me know if you'd like a UML image generated from this or need additional refinements!

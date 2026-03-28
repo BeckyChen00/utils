@@ -1,0 +1,74 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class School {
+    - name: String
+    + getPrincipal(): Teacher
+}
+
+class Teacher {
+    - firstName: String
+    - lastName: String
+    - email: String
+    + teachAtSchools(): List<School>
+}
+
+class Student {
+    - firstName: String
+    - lastName: String
+    + getSchool(): School
+    + getClassGroup(): ClassGroup
+}
+
+class Principal {
+    - hours: int
+    + assignToSchool(school: School): void
+}
+
+class Room {
+    - name: String
+}
+
+class Classroom extends Room {
+    - capacity: int
+}
+
+class GymRoom extends Room {
+    - sizeInSquareMeters: int
+}
+
+class ClassGroup {
+    - name: String
+    + getStudents(): List<Student>
+    + getClassroom(): Classroom
+}
+
+' Relationships
+
+Teacher "1" -- "0..3" {School} : teaches at
+Teacher "0..*" -- "1" {Principal} : can be principal of
+Student "1" -- "1" {School} : attends
+Student "1" -- "1" {ClassGroup} : belongs to
+ClassGroup "1" -- "1" {Classroom} : assigned to
+Classroom "1" -- "1" {Room} : is a
+GymRoom "1" -- "1" {Room} : is a
+
+' Composition relationships
+School "1" -- "1" {Principal} : has
+School "1" -- "*" {Room} : contains
+School "1" -- "1" {ClassGroup} : has
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **School**: Has a name, a list of teachers it employs (up to 3), and one principal.
+- **Teacher**: Has personal info and can be a principal for only one school.
+- **Student**: Attends exactly one school and is in exactly one class group.
+- **Principal**: An association class that links `Teacher` to `School`, with the number of teaching hours.
+- **Room**: Abstract base class. Specializations include `Classroom` and `GymRoom`.
+- **ClassGroup**: A group of students (10–31) and is assigned to one classroom.
+

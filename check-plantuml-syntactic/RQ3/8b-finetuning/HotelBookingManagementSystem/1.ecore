@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pastBookings" eType="#//plantuml"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookedAtHotel" eType="#//Hotel" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="confirmationRecord" eType="#//BookingConfirmation" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Traveler">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madePreliminaryBookings" eType="#//PreliminaryBooking" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madePayments" eType="#//Payment" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="savedPreferences" eType="#//Preference" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreliminaryBooking">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingOffer" eType="#//Offer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initiatedBy" eType="#//Traveler" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sharedWithCompetitors" eType="#//HotelChain" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedTraveller" eType="#//Traveler" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Preference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Hotel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongsTo" eType="#//HotelChain" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offeredRoomTypes" eType="#//RoomType" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="handledBookings" eType="#//Booking" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HotelChain"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RoomType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Offer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetTraveller" eType="#//Traveler" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BookingConfirmation"/>
+</ecore:EPackage>

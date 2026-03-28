@@ -1,0 +1,71 @@
+
+---
+
+
+@startuml
+
+' Define the classes
+class GameArea {
+    name: String
+}
+
+class GameElement {
+    x: long
+    y: long
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+    lives: int
+    +kill()
+}
+
+class Boss {
+}
+
+' Associations
+GameArea "1" -- "1..*" GameElement : contains
+GameArea "1" -- "1" Opponent : hasBoss
+
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+
+Opponent <|-- Boss
+
+Shape "0..*" -- "0..*" Shape : connectsTo
+
+@enduml
+
+---
+
+### 📘 Explanation of the Diagram:
+
+- **`GameArea`**:
+  - Has a `name` (String).
+  - Contains **at least one** `GameElement`.
+  - Has exactly **one** `Opponent` as the boss.
+
+- **`GameElement`**:
+  - Base class for all elements.
+  - Has `x` (protected long) and `y` (private long) to define position.
+  - Subclassed by `Shape`, `Object`, and `Opponent`.
+
+- **`Shape`**:
+  - Can connect to any number of other shapes via the `connectsTo` association.
+
+- **`Object`**:
+  - A placeholder for non-living, static game elements.
+
+- **`Opponent`**:
+  - Has `lives` (protected int) and can be killed.
+  - One specific opponent is the **Boss**, which is a subclass.
+
+---
+
+Let me know if you'd like this exported as an image or need further refinements!

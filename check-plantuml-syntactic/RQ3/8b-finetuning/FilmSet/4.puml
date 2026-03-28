@@ -1,0 +1,70 @@
+@startuml
+enum GenreType {
+  Thriller
+  Action
+  Horror
+  Comedy
+}
+enum AwardCategory {
+  BestActor
+  BestDirector
+  BestScreenplay
+  BestVisualEffects
+  BestSound
+  BestEditing
+}
+class Person {
+  name: String
+  socialSecurityNumber: String
+  hasOscar: boolean
+  +fullName(): String
+}
+class Employee {
+  +getJobTitle(): String
+}
+class CreativeEmployee {
+  +hasWonAward(category: AwardCategory): boolean
+}
+class Actor {
+  educationCompleted: String
+}
+class Director {
+  assistantName: String
+  +getAssistantName(): String
+}
+class Technician {
+  fieldOfActivity: String
+}
+class Film {
+  title: String
+  releaseYear: int
+  genre: GenreType
+}
+class Screenplay {
+  title: String
+  version: String
+  creationDate: Date
+  numberOfScenes: int
+  plotDescription: String
+  isBasedOnNovel: boolean
+  +getCitation(): String
+}
+class Novel {
+  title: String
+  authorName: String
+}
+class FilmSet {
+  location: String
+}
+Person *-- "0..*" Employee : roles
+Employee *-- "0..1" CreativeEmployee : creativeRoles
+CreativeEmployee --> "0..*" Film : directedFilms
+CreativeEmployee --> "0..*" Screenplay : authoredScreenplays
+Actor *-- "0..1" Novel : writtenNovel
+Film *-- "0..1" Screenplay : sourceScreenplay
+Screenplay --> "0..1" Novel : basedOnNovel
+Film *-- "0..*" Actor : castMembers
+Film --> "1" FilmSet : productionSet
+Actor --> "0..1" Screenplay : preparedForRole
+Director --> "1" FilmSet : managedSet
+@enduml

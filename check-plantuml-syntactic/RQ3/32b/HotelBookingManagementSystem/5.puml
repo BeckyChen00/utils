@@ -1,0 +1,148 @@
+
+---
+
+
+@startuml
+
+' Entities and Classes
+class Traveller {
+  +String name
+  +BillingInformation billingInfo
+  +TravelPreferences preferences
+  +ReliabilityRating reliabilityRating
+}
+
+class BillingInformation {
+  +String company
+  +String address
+}
+
+class TravelPreferences {
+  +boolean breakfastIncluded
+  +boolean freeWifi
+  +boolean frontDesk247
+}
+
+class ReliabilityRating {
+  +double score
+}
+
+class Hotel {
+  +String name
+  +Address address
+  +int rating
+  +HotelChain? chain
+  +List<RoomAvailability> roomAvailabilities
+}
+
+class Address {
+  +String city
+  +String street
+  +String postalCode
+}
+
+class HotelChain {
+  +String name
+}
+
+class RoomType {
+  +String type (e.g., single, double)
+  +int maxOccupancy
+}
+
+class RoomAvailability {
+  +Date startDate
+  +Date endDate
+  +int availableRooms
+  +RoomType roomType
+  +Hotel hotel
+}
+
+class Booking {
+  +UUID bookingId
+  +Date arrival
+  +Date departure
+  +int numberOfRooms
+  +RoomType roomType
+  +Hotel hotel
+  +double pricePerNight
+  +PaymentMethod paymentMethod
+  +CancellationPolicy cancellationPolicy
+  +BookingStatus status
+  +Date confirmationDeadline
+  +Date createdAt
+}
+
+class PreliminaryBooking extends Booking {}
+
+class CompletedBooking extends Booking {}
+
+class SpecialOffer {
+  +Hotel hotel
+  +double pricePerNight
+  +Set<TravelPreference> matchedPreferences
+  +Date submissionTime
+}
+
+class PaymentMethod {
+  +CreditCard creditCard
+  +PaymentType type (pre-paid / paid at hotel)
+}
+
+class CreditCard {
+  +String number
+  +String expiration
+  +String cvv
+}
+
+class CancellationPolicy {
+  +Date deadline
+  +Penalty penalty
+}
+
+class Penalty {
+  +int nightsCharged
+}
+
+class BookingStatus {
+  +enum { Pending, Confirmed, Cancelled, Expired }
+}
+
+' Relationships
+Traveller "1" -- "many" Booking : has
+Traveller --> TravelPreferences : has optional
+Traveller --> BillingInformation : has
+Traveller --> ReliabilityRating : has
+
+Hotel "1" -- "many" RoomAvailability : has
+Hotel "0..*" -- "1" HotelChain : belongs to
+
+RoomAvailability "1" -- "1" RoomType : of type
+RoomAvailability "1" -- "1" Hotel : for hotel
+
+PreliminaryBooking --> SpecialOffer : triggers
+SpecialOffer --> Hotel : from
+SpecialOffer --> TravelPreferences : matches
+
+Booking --> PaymentMethod : uses
+Booking --> CancellationPolicy : has
+Booking --> BookingStatus : is in state
+
+Hotel --> Booking : confirms or rejects
+Hotel --> RoomType : offers
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **Inheritance**: `PreliminaryBooking` and `CompletedBooking` inherit from the base `Booking` class.
+- **Enumerations**: `BookingStatus` is modeled as an enum class.
+- **Optional fields** are indicated with `?` or described as "optional".
+- **Relationships** between classes (e.g., one-to-many, many-to-one) are captured clearly.
+
+---
+
+### 🛠️ How to Use:
+
+Let me know if you'd like a version that includes **use cases**, **sequence diagrams**, or **state diagrams** too!

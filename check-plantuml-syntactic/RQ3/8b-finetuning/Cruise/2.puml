@@ -1,0 +1,56 @@
+@startuml
+class Cruise {
+  cruiseNumber: int
+  cruiseName: String
+  startDate: Date
+  endDate: Date
+  destinationArea: String
+  +getDuration(): int
+}
+class CruiseProvider {
+  providerName: String
+  providerLocation: String
+}
+class Ship {
+  shipName: String
+  totalDecks: int
+  shipLength: double
+  maxPassengers: int
+  +isAvailable(): boolean
+}
+class TravelAgency {
+  agencyName: String
+  address: String
+  +bookCruise(cruise: Cruise, guest: Guest): Booking
+}
+class Guest {
+  guestName: String
+  isVip: boolean
+  socialSecurityNumber: String
+  +hasTicketFor(cruise: Cruise): boolean
+}
+class Booking {
+  bookingNumber: String
+  bookingDate: Date
+  totalAmount: double
+}
+class Ticket {
+  ticketNumber: String
+  ticketPrice: double
+  issueDate: Date
+  +isValid(): boolean
+}
+class Show {
+  showTitle: String
+  durationMinutes: int
+  showCapacity: int
+}
+Cruise *-- "1" Ship : assignedShip
+Ship --> "1" CruiseProvider : ownedByProvider
+TravelAgency --> "*" Booking : manages
+Booking *-- "*" Ticket : containsTickets
+Ticket *-- "1" Cruise : coversCruise
+Booking --> "*" Guest : includesGuests
+Guest *-- "*" Ticket : holdsTickets
+Cruise *-- "*" Show : scheduledShows
+@enduml

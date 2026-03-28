@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="SeatCategory">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="categoryDesignation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasEntertainmentProgram" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfSeats" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Airline">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlightAttendant">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateOfEmployment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isChiefSteward" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pilot">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateOfEmployment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="license" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Airport">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfRunways" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Integer" eType="#//yearOfManufacture"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="yearOfManufacture"/>
+  <eClassifiers xsi:type="ecore:EClass" name="nextInspectionDate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//flightNumber"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="flightNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="passportNumber">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//ticketNumber"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ticketNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="price">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Integer" eType="#//numberOfSeats" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="numberOfSeats"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Aircraft"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PassengerAircraft" eSuperTypes="#//Aircraft"/>
+</ecore:EPackage>

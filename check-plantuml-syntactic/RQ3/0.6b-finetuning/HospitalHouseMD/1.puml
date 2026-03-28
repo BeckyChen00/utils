@@ -1,0 +1,136 @@
+@startuml
+enum JobStatus {
+  Pending
+  Running
+  Completed
+  Failed
+  Cancelled
+}
+enum taskPriority {
+  Low
+  Medium
+  High
+}
+enum JobType {
+  MailingCampaign
+  EmailCampaign
+  SpreadsheetCleanup
+  FileCleanup
+  SystemUpgrade
+  ReportGeneration
+}
+class EmailCampaign {
+  subject: String
+  bodyText: String
+  recipientList: String
+  priority: taskPriority
+  status: JobStatus
+  +scheduleTiming(timeSlot: String): boolean
+  +postMail(job: Job): boolean
+  +cancel(): boolean
+  +generateReport(): String
+  +notifyUsers(): boolean
+}
+class MailingList {
+  listName: String
+  maxSize: int
+  +addRecipient(userId: String): boolean
+  +removeRecipient(userId: String): boolean
+  +getSyncStatus(): String
+}
+class JobTask {
+  description: String
+  priority: taskPriority
+  status: JobStatus
+  scheduledTime: String
+  +start(): boolean
+  +complete(): boolean
+  +cancel(): boolean
+}
+class NetworkJob {
+  networkStatus: String
+  isSecure: boolean
+  isLogged: boolean
+  +assembleNetwork(sockets: int, ports: int): boolean
+  +lock(): boolean
+  +unlock(): boolean
+  +calculateLoad(): int
+}
+class FirewallRule {
+  ruleDescription: String
+  action: String
+  +verifyAccess(packet: byte[]): boolean
+  +getPattern(): String
+}
+class ScriptEngine {
+  isBackwardsCompatible: boolean
+  +executeScript(script: String, context: Map<String, Object>): String
+}
+class TaskManager {
+  +startNewJob(type: JobType, target: Object): JobTask
+  +getQueuedTasks(): List<JobTask>
+  +archiveJob(job: JobTask): boolean
+  +assignPriority(task: JobTask, priority: taskPriority): boolean
+  +generateSummary(): String
+}
+class Subjob {
+  jobType: JobType
+  isParallelized: boolean
+  numberOfWorkers: int
+  duration: Duration
+  +execute(): boolean
+  +acknowledge(): boolean
+}
+class AsyncScheduler {
+  +scheduleJob(job: JobTask): boolean
+  +pauseJob(job: JobTask): boolean
+  +resumeJob(job: JobTask): boolean
+  +notifyJobs(): boolean
+}
+class OnetimeJob {
+  executionMode: String
+  +run(): boolean
+  +getExecutionStep(): String
+}
+class RecoveryPlan {
+  planName: String
+  description: String
+  +validate(): boolean
+  +execute(): boolean
+}
+class RuntimeEnvironment {
+  version: String
+  systemType: String
+  +extendRuntime(): boolean
+  +startSession(): boolean
+}
+class Application {
+  appName: String
+  version: String
+  +startSession(): boolean
+  +shutdown(): boolean
+}
+EmailCampaign "1" --> "1" MailingList : targetList
+EmailCampaign "1" *-- "0..*" JobTask : containedTasks
+TaskManager "1" *-- "*" JobTask : managedTasks
+TaskManager "1" --> "1" AsyncScheduler : systemScheduler
+TaskManager "1" --> "*" Task : scheduledTasks
+AsyncScheduler "1" --> "*" JobTask : queuedTasks
+JobTask "1" *-- "*" Subjob : constituentSubjobs
+JobTask "1" --> "*" NetworkJob : initiatedNetworks
+NetworkJob "1" --> "*" FirewallRule : appliedRules
+NetworkJob "1" --> "*" ScriptEngine : utilizedEngine
+NetworkJob "1" --> "*" Application : targetApps
+TaskManager "1" --> "*" RecoveryPlan : activePlans
+TaskManager "1" --> "*" OnetimeJob : queuedOnetimes
+OnetimeJob "1" --> "1" Application : targetApplication
+EmailCampaign "1" *-- "*" OnetimeJob : triggeredJobs
+EmailCampaign "1" *-- "*" RecoveryPlan : activeRecoveryPlans
+EmailCampaign "1" --> "*" NetworkJob : executedNetworks
+EmailCampaign "1" --> "*" ScriptEngine : utilizedEngine
+EmailCampaign "1" --> "*" MailingList : associatedLists
+EmailCampaign "1" --> "1" TaskManager : coordinator
+EmailCampaign "1" *-- "*" JobTask : containerTasks
+EmailCampaign "1" -- Application
+EmailCampaign -- Subjob
+@enduml

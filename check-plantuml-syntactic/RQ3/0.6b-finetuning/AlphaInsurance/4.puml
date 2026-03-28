@@ -1,0 +1,81 @@
+@startuml
+enum CardType {
+  CommercialCard
+  StudentCard
+  LifeCard
+  PremiumCard
+}
+enum CardStatus {
+  Valid
+  Expired
+  LatePay
+  Overdue
+}
+class Customer {
+  +name: String
+  +licenseNumber: String
+  +dateOfBirth: Date
+  +isVerified: boolean
+  +isPrimaryConsumer: boolean
+  +getAge(): int
+}
+class Invoices {
+  +invoiceNumber: String
+  +issueDate: Date
+  +amount: double
+  +invoiceStatus: String
+  +generateReceipt(): String
+  +updateStatus(newStatus: String): void
+  +validate(): boolean
+}
+class CreditCard {
+  +cardNumber: String
+  +currency: String
+  +cardIssueDate: Date
+  +cardStatus: CardStatus
+  +isExpedited: boolean
+  +renewCard(newAccountHolderName: String): void
+  +getBalance(): double
+  +getBalanceStatus(): String
+}
+class Transaction {
+  +amount: double
+  +transactionDate: Date
+  +isSuccessful: boolean
+  +process(): void
+}
+class BankAccount {
+  +accountNumber: String
+  +interestRate: double
+  +currentBalance: double
+  +transferAmount(amount: double): void
+}
+class PaymentProcessing {
+  +transactionId: String
+  +amount: double
+  +transactionDate: Date
+  +isRefund: boolean
+  +submit(): void
+}
+class ReconciliationReport {
+  +reconciliationDate: Date
+  +errorCount: int
+  +totalAmount: double
+  +reconciliationSummary: String
+  +generateSummary(reportFormat: String): void
+}
+CreditCard --|> BankAccount
+Customer *-- "0..*" Invoices : ownedInvoices
+Customer *-- "0..*" BankAccount : ownedAccounts
+Customer *-- "0..*" CreditCard : ownedCards
+Invoices *-- "1" Customer : owner
+Invoices *-- "0..*" Transaction : transactions
+CreditCard *-- "0..*" Transaction : transactions
+ReconciliationReport *-- "1" Customer : reportedBy
+ReconciliationReport --> "1" CreditCard : analyzedCard
+ReconciliationReport --> "1" BankAccount : sourceAccount
+ReconciliationReport --> "1" Invoices : generatedBy
+ReconciliationReport --> "1" BankAccount : targetAccount
+PaymentProcessing --> "1" Invoices : processedInvoice
+Customer --> "0..*" PaymentProcessing : initiatedPayments
+@enduml

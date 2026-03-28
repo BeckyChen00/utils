@@ -1,0 +1,73 @@
+@startuml
+enum VehicleType {
+  RefrigeratedTruck
+  SmallVan
+  LoadingPlatform
+  BoxTruck
+  Trailer
+  UtilityVehicle
+}
+enum OrderStatus {
+  Pending
+  InProgress
+  Completed
+  Cancelled
+}
+class Driver {
+  driverName: String
+  socialSecurityNumber: String
+  +updateContactInfo(newAddress: String): Void
+}
+class Employee {
+  username: String
+  password: String
+  employeeRole: String
+  +login(): Boolean
+}
+class Planner {
+  +assignOrder(order: Order, vehicle: Vehicle): Void
+  +createSchedule(): Schedule
+}
+class Vehicle {
+  licensePlateNumber: String
+  currentMileage: Integer
+  type: VehicleType
+  +registerVehicle(): Void
+  +updateMileage(newMileage: Integer): Void
+}
+class Schedule {
+  date: Date
+  +addAppointment(timeSlot: Date): Void
+  +getTotalAppointments(): Integer
+}
+class Order {
+  orderStatus: OrderStatus
+  customerName: String
+  pickupAddress: String
+  deliveryAddress: String
+  packageSize: Double
+  orderComment: String
+  startTime: DateTime
+  endTime: DateTime
+  +calculateDuration(): Integer
+  +calculateCost(): Integer
+}
+class RepairRecord {
+  repairShopName: String
+  repairShopAddress: String
+  technicianName: String
+  repairDuration: Integer
+  repairCost: Decimal
+  +recordRepair(): Void
+}
+Planner --|> Employee
+Driver --|> Employee
+Vehicle --|> Employee
+Order "1" *-- "0..*" RepairRecord : repairHistory
+Order "0..*" --> "1" Planner : assignedPlanner
+Order "0..*" --> "1" Driver : assignedDriver
+Order "1" --> "1" Vehicle : assignedVehicle
+Order "1" --> "1" Customer : client
+Order "1" --> "0..*" RepairRecord : relatedRepairs
+Planner "1" *-- "0..1" Schedule : workSchedule
+@enduml

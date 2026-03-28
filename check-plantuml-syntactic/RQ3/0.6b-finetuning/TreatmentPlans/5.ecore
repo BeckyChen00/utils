@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//AuditReport" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessionLog" eType="#//AccessLog" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeModule" eType="#//AuditModule" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AccessLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedRules" eType="#//AuditRule" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceGrants" eType="#//AccessGrant" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="emittedLogs" eType="#//AccessLog" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="checkedDocuments" eType="#//IdentityDocument" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedCheckers" eType="#//PolicyChecker" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PolicyChecker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Auditor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedUsers" eType="#//SystemUser" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditRecords" eType="#//AuditRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemUser"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AccessGrant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IdentityDocument"/>
+</ecore:EPackage>

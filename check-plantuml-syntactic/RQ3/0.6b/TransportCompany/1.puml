@@ -1,0 +1,30 @@
+@startuml
+    class Diagram {System Requirement}
+    
+    class SystemRequirement {
+        name: "System Requirement"
+        
+        subcomponent {
+            component1 {
+                id: "Component 1"
+                name: "User Interface"
+                
+                component2 {
+                    id: "Component 2"
+                    name: "Database Connection"
+                }
+            }
+        }
+    }
+
+    class Component1 {
+        id: "Component 1"
+        name: "User Interface"
+    }
+
+    class Component2 {
+        id: "Component 2"
+        name: "Database Connection"
+    }
+
+@enduml

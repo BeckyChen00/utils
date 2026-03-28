@@ -1,0 +1,119 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Doctor {
+  +numericPractitionerNumber: String
+  +signature: Image
+  +fullName: String
+  +address: String
+  +phoneNumber: String
+  +prescribeTest(requisition: Requisition): void
+}
+
+class Patient {
+  +healthNumber: String
+  +firstName: String
+  +lastName: String
+  +dateOfBirth: Date
+  +address: String
+  +phoneNumber: String
+  +bookAppointment(requisition: Requisition): Appointment
+  +viewResults(test: Test): void
+}
+
+class Lab {
+  +registrationNumber: String
+  +address: String
+  +businessHours: TimeRange
+  +openEveryDay: Boolean
+  +offerAllTests: Boolean
+  +scheduleAppointment(appointment: Appointment): void
+}
+
+class Requisition {
+  +validFrom: Date
+  +tests: List<Test>
+  +repeated: Boolean
+  +repeatInterval: RepeatInterval
+  +repeatCount: Integer
+  +doctor: Doctor
+  +patient: Patient
+  +createAppointment(): Appointment
+}
+
+class Test {
+  +testName: String
+  +duration: Duration
+  +isWalkInOnly: Boolean
+  +requiresAppointment: Boolean
+  +belongsToGroup(group: TestGroup): Boolean
+}
+
+class TestGroup {
+  +groupName: String
+  +tests: List<Test>
+}
+
+class Appointment {
+  +confirmationNumber: String
+  +date: Date
+  +startTime: Time
+  +endTime: Time
+  +lab: Lab
+  +requisition: Requisition
+  +changeAppointment(newTime: Time): void
+  +cancelAppointment(): void
+}
+
+class Result {
+  +test: Test
+  +report: String
+  +status: Status
+}
+
+enum Status {
+  NEGATIVE, POSITIVE
+}
+
+enum RepeatInterval {
+  WEEKLY, MONTHLY, HALF_YEARLY, YEARLY
+}
+
+enum DurationType {
+  SINGLE, MULTIPLE
+}
+
+class TimeRange {
+  +startTime: Time
+  +endTime: Time
+}
+
+class Date {}
+
+class Time {}
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- The `Doctor` can prescribe tests to other doctors but not themselves.
+- A `Requisition` must include only tests from the same group (e.g., blood tests or ultrasounds).
+- Tests can be **walk-in** or **require an appointment**.
+- `Appointment` has a confirmation number, time, and lab information.
+- Results are stored with a `Report` and `Status`.
+- `RepeatInterval` defines how often repeated tests occur.
+- `Duration` is used to determine how long a test takes at the lab.
+
+---
+
+### 💡 How to Use:
+1. Save this code in a `.puml` file (e.g., `LabTracker.puml`).
+3. You will get a visual class diagram that represents the system architecture.
+
+Let me know if you'd like the diagram exported as SVG, PNG, or another format!

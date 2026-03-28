@@ -1,0 +1,143 @@
+@startuml
+enum ArticleCategory {
+  babyClothing
+  womenWinterBoots
+  fridge
+  microwave
+  vacuumCleaner
+  washingMachine
+  sofa
+  chair
+  bedFrame
+  lamp
+}
+enum ServiceType {
+  pickup
+  delivery
+  both
+  none
+}
+class Resident {
+  name: String
+  address: String
+  phoneNumber: String
+  emailAddress: String
+  +requestPickup(description: String, items: Collection<Item>): PickupRequest
+}
+class Item {
+  description: String
+  weight: double
+  dimensions: String
+  isFragile: boolean
+  +getTotalVolume(): double
+}
+class InventoryUnit {
+  isActive: boolean
+  status: String
+  +activate(): void
+  +deactivate(): void
+}
+class PickupRequest {
+  scheduledDate: Date
+  requestedTime: String
+  +generateSchedule(): RoutePlan
+}
+class RoutePlan {
+  isOptimized: boolean
+  startTime: Date
+  endTime: Date
+  +addStop(address: String, item: Item): void
+}
+class Vehicle {
+  capacity: double
+  type: String
+  +isAvailable(): boolean
+}
+class StorageBin {
+  capacity: double
+  currentOccupancy: double
+  +canFit(item: Item): boolean
+}
+class DistributionCenter {
+  name: String
+  location: String
+  +processItems(items: Collection<Item>): void
+  +callClient(client: Resident, items: Collection<Item>): void
+}
+class VolunteerDriver {
+  name: String
+  isAvailable: boolean
+  preferredDays: String[]
+  +updateAvailability(type: ServiceType): void
+}
+class UserAccount {
+  username: String
+  +login(): boolean
+  +logout(): void
+}
+class PickupSchedule {
+  dayOfWeek: int
+  startTime: String
+  endTime: String
+  +getAssignedVehicles(): Collection<Vehicle>
+}
+class ScheduledPickup {
+  scheduledDate: Date
+  vehicleId: String
+  driverId: String
+  +confirmCompletion(): void
+}
+class TransportBatch {
+  generatedTime: Date
+  +addItem(item: Item): void
+  +calculateWeight(): double
+}
+class QualityCheck {
+  isApproved: boolean
+  notes: String
+  checkerName: String
+  +executeCheck(item: Item): boolean
+  +approve(): void
+}
+class RFIDTag {
+  tagIdentifier: String
+  status: String
+  +writeData(category: ArticleCategory): void
+  +readData(): String
+}
+class NotificationMessage {
+  recipient: String
+  content: String
+  sentTime: Date
+  +send(): void
+}
+class SystemManager {
+  +assignDriver(route: RoutePlan, driver: VolunteerDriver): void
+  +generateDailyReport(): String
+  +manageResident(resident: Resident): void
+}
+Resident *-- "0..*" Item : ownedItems
+Resident *-- "0..*" PickupRequest : requests
+PickupRequest --> "1" PickupSchedule : assignedSchedule
+PickupRequest --> "0..1" RoutePlan : generatedRoute
+PickupRequest --> "1" UserAccount : requesterAccount
+Vehicle --> "0..1" PickupSchedule : assignedSchedule
+StatisticalReport *-- "0..*" PickupRequest : analyzedRequests
+SystemManager --> "0..*" Resident : managedResidents
+SystemManager --> "0..*" Vehicle : managedVehicles
+SystemManager --> "0..*" PickupRequest : processedRequests
+TransportBatch *-- "1..*" Item : containedItems
+TransportBatch --> "1" QualityCheck : qualityCheck
+TransportBatch --> "1" DistributionCenter : destinationCenter
+DistributionCenter --> "0..*" VolunteerDriver : assignedDrivers
+DistributionCenter --> "1..*" Item : processedItems
+ScheduledPickup *-- "1" TransportBatch : transportedBatch
+ScheduledPickup --> "1" Vehicle : usedVehicle
+ScheduledPickup --> "1" QualityCheck : finalQualityCheck
+PickupRequest --> "1" NotificationMessage : confirmationMessage
+VolunteerDriver --> "0..*" UserAccount : linkedAccounts
+UserAccount --> "0..*" DistributionCenter : affiliatedCenters
+InventoryUnit --> "1" ArticleCategory : assignedCategory
+InventoryUnit *-- "1" RFIDTag : embeddedTag
+Item --> "1" InventoryUnit : storedUnit
+@enduml

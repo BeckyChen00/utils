@@ -1,0 +1,91 @@
+
+@startuml
+
+' STEP 1: Initial System Requirements
+class Customer {
+    - name: String
+    - address: String
+    - vatNumber: String
+}
+
+class Product {
+    - id: String
+    - name: String
+    - stockLevel: Integer
+}
+
+class Order {
+    - id: String
+    - customer: Customer
+    - datePlaced: Date
+    - totalAmount: Double
+    - isPaid: Boolean
+    - isShipped: Boolean
+}
+
+class OrderLine {
+    - id: String
+    - product: Product
+    - quantity: Integer
+    - pricePerUnit: Double
+    - order: Order
+}
+
+Customer "1" --> "*" Order
+Order "1" --> "*" OrderLine
+OrderLine "1" --> "1" Product
+
+' STEP 2: Partial Shipments
+class Shipment {
+    - id: String
+    - status: String
+    - dateShipped: Date
+    - deliveryAddress: String
+}
+
+OrderLine "1" --> "*" Shipment
+Shipment "1" --> "*" OrderLine
+
+' STEP 3: Multiple Addresses and Invoices
+class Invoice {
+    - id: String
+    - order: Order
+    - dateIssued: Date
+    - amountDue: Double
+    - isPaid: Boolean
+}
+
+class Customer {
+    + headOfficeAddress: String
+    + deliveryAddresses: List<String>
+}
+
+Order "1" --> "1" Invoice
+
+' STEP 4: Grouped Shipments and Delivery Status Tracking
+class Delivery {
+    - id: String
+    - shipment: Shipment
+    - status: String
+    - datePacked: Date
+    - dateShipped: Date
+    - dateReceived: Date
+    - trackingNumber: String
+}
+
+Shipment "1" --> "1" Delivery
+
+@enduml
+
+---
+
+### 📌 Notes on the Diagram:
+
+- **Customer** now has `headOfficeAddress` and `deliveryAddresses`, reflecting the need to support multiple delivery locations.
+- **Order** is linked to an **Invoice**, which can be paid either at the time of placing the order or after delivery.
+- **OrderLine** is no longer directly tied to **Shipment**; instead, **Shipment** is grouped with multiple **OrderLines** and associated with a **Delivery** object.
+- **Delivery** tracks the lifecycle of a shipment (packed, shipped, received) and includes tracking information for quality control and analysis.
+
+---
+
+Would you like this as a UML diagram image or further refinements (e.g., associations, multiplicity, constraints)?

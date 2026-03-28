@@ -1,0 +1,129 @@
+
+---
+
+
+@startuml
+
+' Classes
+class WebPortal {
+  - version: String
+  - url: String
+}
+
+class Building {
+  - id: String
+  - name: String
+  - energyClass: String (A, B, C, D)
+  - address: String
+  - yearOfConstruction: Integer
+  - owner: User
+  - additionalEntries: List<Entry>
+  - images: List<Image>
+  - profilePhoto: Image
+}
+
+class User {
+  - username: String
+  - email: String
+  - password: String
+  - activated: Boolean
+}
+
+class Entry {
+  - name: String
+  - isPublic: Boolean
+  + getType(): String
+}
+
+class TextEntry <|-- Entry {
+  - content: String
+}
+
+class NumericEntry <|-- Entry {
+  - value: Float
+  - unit: String
+}
+
+class Image {
+  - filename: String
+}
+
+class Administrator <|-- User {
+  - idCardNumber: String
+}
+
+class Comment {
+  - content: String
+  - author: User
+  - building: Building
+}
+
+' Relationships
+WebPortal "1" --> "*" Building
+Building "1" --> "*" Entry
+Building "1" --> "*" Image
+User "1" --> "*" Building
+User "1" --> "*" Comment
+Administrator "1" --> "*" User
+
+' Use Cases
+actor Visitor
+actor User
+actor Administrator
+
+usecase "Register" as UC1
+usecase "Activate Account" as UC2
+usecase "Login" as UC3
+usecase "Create Building" as UC4
+usecase "Manage Building Entries" as UC5
+usecase "Add Additional Entry" as UC6
+usecase "Comment on Building" as UC7
+usecase "Search Buildings" as UC8
+usecase "Delete Comment" as UC9
+usecase "Setup User" as UC10
+
+Visitor --> UC1 : Register
+Visitor --> UC8 : Search Buildings
+UC1 --> UC2 : Email confirmation
+UC2 --> UC3 : Automatically login after activation
+User --> UC3 : Login
+User --> UC4 : Create Building
+User --> UC5 : Manage Building Entries
+User --> UC6 : Add Additional Entry
+User --> UC7 : Comment on Building
+Administrator --> UC10 : Setup User
+Administrator --> UC9 : Delete Comment
+
+' Generalization
+User <|-- Administrator
+
+@enduml
+
+---
+
+### ✅ **Explanation of Key Elements**
+
+- **Classes & Attributes**:
+  - `Building` contains all the core data like ID, name, energy class, etc.
+  - `Entry` is an abstract class with two concrete subclasses: `TextEntry` and `NumericEntry`.
+  - `User` is extended by `Administrator` with an extra attribute (`idCardNumber`).
+  - `Image` is used for storing file names; one image per building is marked as the profile photo.
+
+- **Use Cases**:
+  - **UC1 (Register)**: Visitors register with a username, email, and password.
+  - **UC2 (Activate Account)**: System sends a confirmation link; upon clicking, the user becomes active.
+  - **UC3 (Login)**: Only activated users can log in.
+  - **UC4 (Create Building)**: Users create new buildings and assign them to themselves.
+  - **UC5 (Manage Building Entries)**: Owners can edit/delete entries they added.
+  - **UC6 (Add Additional Entry)**: Users add either text or numeric data to their buildings.
+  - **UC7 (Comment on Building)**: Any logged-in user can comment on other users’ buildings.
+  - **UC8 (Search Buildings)**: All visitors can perform full-text searches.
+  - **UC9 (Delete Comment)**: Administrators delete inappropriate comments.
+  - **UC10 (Setup User)**: Admins manually activate registered users before they receive an activation email.
+
+- **Generalization**:
+  - `Administrator` inherits from `User`.
+
+---
+
+Let me know if you'd like a PNG export of this diagram or need to expand it further!

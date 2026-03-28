@@ -1,0 +1,90 @@
+
+@startuml
+' Aircraft Management System
+
+class Aircraft {
+  +name: String
+  +type: String
+  +yearOfManufacture: Integer
+  +nextInspectionDate: Date
+}
+
+class Flight {
+  +flightNumber: String
+  +date: Date
+}
+
+class Passenger {
+  +name: String
+  +passportNumber: String
+}
+
+class Ticket {
+  +ticketNumber: String
+  +price: Double
+  +upgradeDesired: Boolean
+}
+
+class PassengerAircraft {
+  +numberOfSeats: Integer
+}
+
+class SeatCategory {
+  +designation: String
+  +hasEntertainment: Boolean
+  +numberOfSeats: Integer
+}
+
+class Airline {
+  +name: String
+}
+
+class FlightAttendant {
+  +name: String
+  +dateOfEmployment: Date
+  +isChiefSteward: Boolean
+}
+
+class Pilot {
+  +name: String
+  +dateOfEmployment: Date
+  +license: String
+}
+
+class Airport {
+  +name: String
+  +address: String
+  +numberOfRunways: Integer
+}
+
+' Relationships
+
+Aircraft "1" -- "0..*" Flight : has
+Flight "1" -- "0..*" Passenger : includes
+Passenger "1" -- "1" Ticket : has
+Ticket "1" -- "1" SeatCategory : belongsTo
+
+Aircraft "1" -- "1" PassengerAircraft : is a
+PassengerAircraft "1" -- "0..*" SeatCategory : has
+
+Aircraft "1" -- "1" Airline : belongsTo
+Airline "1" -- "0..*" FlightAttendant : employs
+Airline "1" -- "0..*" Pilot : employs
+
+Flight "1" -- "0..*" FlightAttendant : has
+Flight "1" -- "1" Pilot : hasCaptain
+Flight "1" -- "0..2" Pilot : hasCoPilot
+
+Aircraft "1" -- "0..1" Airport : hasHomeAirport
+Flight "1" -- "1" Airport : hasDepartureAirport
+Flight "1" -- "1" Airport : hasDestinationAirport
+
+@enduml
+
+### Explanation of Key Relationships:
+- `Aircraft` can be a `PassengerAircraft`, which is an inheritance relationship.
+- Each `Flight` is associated with multiple `Passengers` and `Tickets`.
+- Each `Ticket` belongs to one `SeatCategory`, and each `SeatCategory` is part of a `PassengerAircraft`.
+- An `Aircraft` is part of an `Airline`, which employs both `FlightAttendants` and `Pilots`.
+- A `Flight` is managed by one `Pilot` (as captain) and optionally up to two `Pilots` (as co-pilots), and involves several `FlightAttendants`.
+

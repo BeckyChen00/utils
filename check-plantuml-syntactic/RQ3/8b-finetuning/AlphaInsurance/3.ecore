@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filedClaims" eType="#//InsuranceClaim" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InsuranceClaim">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedCases" eType="#//ClaimCase" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredPayments" eType="#//CompensationPayment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimCase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//EstimatorReport" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedAuditor" eType="#//ClaimAuditor" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalDecision" eType="#//ApprovalDecision" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EstimatorReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachedDocuments" eType="#//ClaimDocument" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimDocument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InsurancePolicy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedInvoices" eType="#//Invoice" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="insuredCustomer" eType="#//Customer" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pricingCalculator" eType="#//PremiumCalculator" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingPayments" eType="#//CompensationPayment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Broker">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedCustomers" eType="#//Customer" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimAuditor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PremiumCalculator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompensationPayment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApprovalDecision">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredPayment" eType="#//CompensationPayment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatisticsAggregate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="aggregatedClaims" eType="#//InsuranceClaim" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

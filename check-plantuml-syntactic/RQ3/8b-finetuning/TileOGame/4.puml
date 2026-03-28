@@ -1,0 +1,57 @@
+@startuml
+class GameDesigner {
+  +designGame(name: String, numRows: int, numCols: int, hiddenTileIndex: int, startingPositions: List<Point>): BoardGame
+}
+class BoardGame {
+  name: String
+  numRows: int
+  numCols: int
+  hiddenTileLocation: Point
+  +getTileAt(row: int, col: int): Tile
+  +getActionTiles(): List<Tile>
+}
+class Tile {
+  row: int
+  col: int
+  color: String
+  isVisited: boolean
+  +isNeighbor(tile: Tile): boolean
+  +connectTo(side: Direction, tile: Tile): void
+  +turnIntoAction(): void
+}
+class TileConnection {
+  targetTile: Tile
+  direction: Direction
+  +isValid(): boolean
+}
+enum Direction {
+  Right
+  Left
+  Up
+  Down
+}
+class PlayingPiece {
+  color: String
+  position: Point
+  +moveTo(row: int, col: int): void
+  +checkWin(): boolean
+}
+class Player {
+  playerName: String
+  +takeTurn(): void
+}
+class Die {
+  +roll(): int
+}
+class ActionCardDeck {
+  deck: List<String>
+  +drawCard(): String
+}
+GameDesigner --> "1" BoardGame : designedGame
+BoardGame *-- "1..*" Tile : tiles
+Tile *-- "0..*" TileConnection : outgoingConnections
+Player *-- "1" PlayingPiece : controlledPiece
+Player *-- "1" Die : personalDie
+BoardGame --> "1" ActionCardDeck : actionCardDeck
+Player --> "1" BoardGame : activeGame
+@enduml

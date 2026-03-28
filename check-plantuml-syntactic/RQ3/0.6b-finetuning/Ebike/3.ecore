@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Company">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="companyProducts" eType="#//Product" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hadLocations" eType="#//WarehouseLocation" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Product"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderLines" eType="#//OrderLine" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedInvoice" eType="#//Invoice" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentMethod" eType="#//PaymentMethod" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedAtWarehouse" eType="#//Warehouse" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedProduct" eType="#//Product" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedByCustomer" eType="#//Customer" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderLine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Warehouse">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedItems" eType="#//InventoryItem" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WarehouseLocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InventoryItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InventoriesItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedProduct" eType="#//Product" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer"/>
+</ecore:EPackage>

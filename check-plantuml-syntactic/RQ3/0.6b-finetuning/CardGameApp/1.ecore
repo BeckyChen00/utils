@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedCourts" eType="#//Court" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Court">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedShifts" eType="#//Shift" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HumanReferee">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supervisedTeams" eType="#//Team" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Team">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consistingOf" eType="#//TeamMember" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participatedIn" eType="#//Match" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Shift"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TeamMember">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rosterMembers" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Player"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Match">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedGames" eType="#//Game" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involvedTeams" eType="#//Team" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedResult" eType="#//MatchResult" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Game">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scoredPlayers" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MatchResult">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scoredPlayers" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="DriveSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="motor" eType="#//Motor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Motor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Battery">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="storedEnergy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Controller">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="controlBattery"/>
+    <eOperations xsi:type="ecore:EOperation" name="commandDriveSystem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicController" eSuperTypes="#//Controller"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AdvancedController" eSuperTypes="#//Controller">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nextInspectionDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eOperations xsi:type="ecore:EOperation" name="estimateNextInspectionDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Frame" eType="#//frame" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="frame"/>
+  <eClassifiers xsi:type="ecore:EClass" name="driveSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Controller" eType="#//controller"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="controller"/>
+  <eClassifiers xsi:type="ecore:EClass" name="battery">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String_=_&quot;steel&quot;" eType="#//material"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="material"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EBike"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Frame"/>
+</ecore:EPackage>

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSlots" eType="#//RestaurantSlot" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RestaurantSlot">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offeredServices" eType="#//Service" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedNotifications" eType="#//Notification" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryService" eType="#//Service" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Restaurant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deliveredNotifications" eType="#//Notification" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedPayments" eType="#//Payment" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedOrders" eType="#//Order" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="restaurantEmployees" eType="#//Person" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Order"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Person"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedOrders" eType="#//Order" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customer" eType="#//Person" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSlots" eType="#//RestaurantSlot" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serviceStaff" eType="#//Person" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

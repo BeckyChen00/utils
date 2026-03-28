@@ -1,0 +1,86 @@
+
+@startuml
+' Class Diagram for Hospital Examination and Treatment System
+
+class Hospital {
+  -id: int
+  -name: String
+  -allowedExaminationTypes: List<ExaminationType>
+}
+
+class Doctor {
+  -id: int
+  -name: String
+  -affiliatedHospital: Hospital
+}
+
+class Patient {
+  -id: int
+  -name: String
+  -currentProblem: Problem
+}
+
+class Problem {
+  -id: int
+  -description: String
+}
+
+class ExaminationType {
+  -id: int
+  -typeName: String
+}
+
+class TreatmentPlan {
+  -id: int
+  -problem: Problem
+  -advisedExaminations: List<ExaminationType>
+}
+
+class ActualTreatment {
+  -id: int
+  -patient: Patient
+  -doctor: Doctor
+  -treatmentPlan: TreatmentPlan
+  -examinations: List<Examination>
+  -additionalActions: List<String>
+}
+
+class Examination {
+  -id: int
+  -type: ExaminationType
+  -hospital: Hospital
+  -patient: Patient
+}
+
+' Relationships
+
+Hospital "1" --> "0..*" ExaminationType : allows
+Doctor "1" --> "0..*" Patient : treats
+Patient "1" --> "1" Problem : has
+Problem "1" --> "1" TreatmentPlan : defines
+Doctor "1" --> "1" ActualTreatment : creates
+ActualTreatment "1" --> "1" TreatmentPlan : basedOn
+ActualTreatment "1" --> "0..*" Examination : includes
+ActualTreatment "1" --> "0..*" String : additionalActions
+Examination "1" --> "1" ExaminationType : ofType
+Examination "1" --> "1" Hospital : performedAt
+Examination "1" --> "1" Patient : on
+
+@enduml
+
+### Explanation of Key Elements:
+
+- **Hospital**: Manages allowed examination types.
+- **Doctor**: Affiliated with one hospital, treats patients, and creates actual treatments.
+- **Patient**: Has a problem and may be treated by multiple doctors across different hospitals.
+- **Problem**: A condition or issue that a patient has.
+- **ExaminationType**: Different types of medical exams (e.g., NMR, echography).
+- **TreatmentPlan**: Defined per problem; lists advised examination types.
+- **ActualTreatment**: A specific treatment applied to a patient, possibly deviating from the plan.
+- **Examination**: An instance of an exam performed on a patient at a specific hospital.
+
+This diagram models the relationships between entities and enforces constraints like:
+- A hospital can only allow certain examination types.
+- Examinations must be of one type.
+- Treatments can include both planned and ad-hoc actions.
+- Doctors can refer patients to other hospitals if needed.

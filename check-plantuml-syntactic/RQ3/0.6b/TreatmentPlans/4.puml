@@ -1,0 +1,12 @@
+@startuml
+
+class Diagram {SystemRequirement}
+    [Diagram]
+    # System Requirement
+    # Output
+    class SystemRequirement {
+        String name;
+        String description;
+    }
+
+@enduml

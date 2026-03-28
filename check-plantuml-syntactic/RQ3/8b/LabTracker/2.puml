@@ -1,0 +1,114 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Doctor {
+  - practitionerNumber: String
+  - fullName: String
+  - address: String
+  - phoneNumber: String
+  - signature: Image
+  + createRequisition()
+}
+
+class Patient {
+  - healthNumber: String
+  - firstName: String
+  - lastName: String
+  - dateOfBirth: Date
+  - address: String
+  - phoneNumber: String
+  + bookAppointment()
+  + viewResults()
+}
+
+class Test {
+  - testName: String
+  - testGroup: String
+  - duration: Integer
+  - isWalkInOnly: Boolean
+  - requiresAppointment: Boolean
+  + getDuration()
+}
+
+class TestGroup {
+  - groupName: String
+  + addTest(test: Test)
+}
+
+class Requisition {
+  - requisitionId: String
+  - validFrom: Date
+  - testGroup: TestGroup
+  - tests: List<Test>
+  - repetitionCount: Integer
+  - repetitionInterval: String
+  - doctor: Doctor
+  - patient: Patient
+  + generateReport()
+  + viewResults()
+}
+
+class Appointment {
+  - appointmentId: String
+  - confirmationNumber: String
+  - date: Date
+  - startTime: Time
+  - endTime: Time
+  - lab: Lab
+  - requisition: Requisition
+  + confirmAppointment()
+  + cancelAppointment()
+  + changeAppointment()
+}
+
+class Lab {
+  - labId: String
+  - name: String
+  - address: String
+  - businessHours: String
+  - registrationNumber: String
+  + scheduleAppointment()
+  + getBusinessHours()
+}
+
+' Relationships
+Doctor "1" -- "1" Requisition : creates
+Patient "1" -- "1" Requisition : belongs to
+Requisition "1" -- "1" TestGroup : belongs to
+TestGroup "1" -- "*" Test : contains
+Requisition "1" -- "*" Test : includes
+Requisition "1" -- "0..1" Appointment : has
+Appointment "1" -- "1" Lab : at
+Appointment "1" -- "1" Requisition : for
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements
+
+- **Doctor**: Manages test requisitions, provides personal details, and signs with a digital signature.
+- **Patient**: Can book appointments, view results, and has personal information.
+- **Test**: Represents individual tests, grouped into categories, with specific durations and availability rules.
+- **TestGroup**: Groups related tests (e.g., blood tests, ultrasounds).
+- **Requisition**: A collection of tests from a doctor for a patient, possibly repeated, with a group and repetition pattern.
+- **Appointment**: Scheduling for tests that require an appointment; can be canceled or changed.
+- **Lab**: Provides location, hours, and handles scheduling.
+
+---
+
+### 📌 Notes
+
+- All labs are open every day of the year and offer all tests.
+- Some tests are walk-in only (e.g., blood tests), while others require appointments (e.g., X-rays).
+- Requisitions may include multiple tests from the same group.
+- Repetition patterns apply to all tests in a requisition.
+- Patients and doctors can view test results and reports.
+
+---
+
+Let me know if you'd like this diagram rendered as an image or exported to another format!

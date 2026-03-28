@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="audioInterface" eType="#//DigitalAudioInterface" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DigitalAudioInterface"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VocalInstrument">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedSignal" eType="#//NeuralSignal" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NeuralSignal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Navigator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gestureController" eType="#//GestureController" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sleepMachine" eType="#//WakeupMachine" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfaceConfiguration" eType="#//MultimodalInterface" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trajectoryController" eType="#//PerformanceController" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentSignal" eType="#//NeuralSignal" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alertHandler" eType="#//AlertSystem" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeTrajectory" eType="#//NavigationTrajectory" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditorySensor" eType="#//SoundSensor" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analysisUnit" eType="#//Analyzer" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logFile" eType="#//DataLog" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedNode" eType="#//NetworkNode" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controller" eType="#//PerformanceController" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="healthReport" eType="#//HealthReport" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="segmentationTask" eType="#//SegmentationTask" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="settings" eType="#//SystemSettings" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analysisEngine" eType="#//AnalysisEngine" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logEntries" eType="#//DataLog" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterStore" eType="#//ParameterStore" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calibrationSession" eType="#//CalibrationSession" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostNode" eType="#//NetworkNode" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GestureController"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WakeupMachine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MultimodalInterface"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PerformanceController"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertSystem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NavigationTrajectory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SoundSensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Analyzer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NetworkNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logEntries" eType="#//DataLog" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HealthReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SegmentationTask"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemSettings"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalysisEngine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterStore"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CalibrationSession"/>
+</ecore:EPackage>

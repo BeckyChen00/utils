@@ -1,0 +1,71 @@
+
+---
+
+
+@startuml
+
+' Define classes and their attributes
+
+class Location {
+    +id: int
+    +name: String
+    +description: String
+}
+
+class Exhibition {
+    +id: int
+    +title: String
+    +startDate: Date
+    +endDate: Date
+}
+
+class Employee {
+    +id: int
+    +name: String
+    +role: String
+}
+
+class ExhibitionItem {
+    +id: int
+    +description: String
+    +criteria: String
+}
+
+class Piece {
+    +id: int
+    +title: String
+    +artist: String
+    +period: String
+}
+
+class Collector {
+    +id: int
+    +name: String
+    +contactInfo: String
+}
+
+' Relationships
+
+Location "1" -- "0..*" Exhibition : contains
+Exhibition "1" -- "1" Employee : has coordinator
+Exhibition "1" -- "1..*" ExhibitionItem : includes
+ExhibitionItem "1" -- "1..*" Piece : has candidate pieces
+Piece "1" -- "1" Collector : owned by
+Employee "1" -- "0..*" Employee : coaches > (coach)
+Employee "1" -- "0..1" Employee : is coached by < (junior)
+
+@enduml
+
+---
+
+### 🧾 Explanation of Classes and Relationships:
+
+- **`Location`**: A physical area within the museum that can host one or more exhibitions.
+- **`Exhibition`**: An event hosted in a specific location, with a start and end date. Each exhibition has exactly one **coordinator** (`Employee`) and consists of multiple **ExhibitionItems**.
+- **`Employee`**: Represents museum staff. Some are **coaches** to other employees, forming a mentoring relationship.
+- **`ExhibitionItem`**: A desired item for an exhibition (e.g., "a sunflower painting"). Each item may have several **candidate Pieces**.
+- **`Piece`**: A specific artwork or object that is being considered for inclusion in an exhibition. Owned by a **Collector**.
+- **`Collector`**: An individual or institution that owns art pieces available for possible loan.
+
+---
+

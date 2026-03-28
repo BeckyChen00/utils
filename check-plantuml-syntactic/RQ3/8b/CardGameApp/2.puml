@@ -1,0 +1,77 @@
+
+@startuml
+
+' Define the classes and their attributes
+class Player {
+  +id: String
+  +name: String
+}
+
+class Deck {
+  +id: String
+  +cards: List<Card>
+  +maxCards: int = 48
+}
+
+class Card {
+  +id: String
+  +suit: Suit
+  +rank: Rank
+  +compareHeight(other: Card): ComparisonResult
+}
+
+enum Suit {
+  DIAMONDS, HEARTS, SPADES, CLUBS
+}
+
+enum Rank {
+  ACE, TWO, THREE, ..., KING
+}
+
+enum ComparisonResult {
+  LOWER, EQUAL, HIGHER
+}
+
+class Round {
+  +id: String
+  +winningPlayers: List<Player>
+  +points: int
+  +isJackRound: boolean
+  +isSoloRound: boolean
+}
+
+class SoloRound extends Round {
+  +soloType: SoloType
+  +soloPlayer: Player
+}
+
+enum SoloType {
+  TRUMP_SOLO, JACK_SOLO, QUEEN_SOLO
+}
+
+class MandatorySoloRound extends SoloRound {
+  +isMandatory: boolean
+}
+
+' Associations
+Player "1" -- "many" Round : plays
+Deck "1" -- "1" Game : contains
+Card "1" -- "many" Deck : in
+Card "1" -- "many" Round : playedIn
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **Player**: Represents a player in the game with an ID and name.
+- **Deck**: Contains up to 48 cards. Each deck has a unique ID.
+- **Card**: Has a suit (from the `Suit` enum), rank (from the `Rank` enum), and a method to compare heights (`compareHeight`).
+- **Suit** and **Rank**: Enums representing the possible suits and ranks of the cards.
+- **ComparisonResult**: Enum for the result of comparing two cards (lower, equal, higher).
+- **Round**: Represents a round in the game. It can have winning players, points, and flags for whether it is a jack or solo round.
+- **SoloRound**: A type of round that has a solo type and a solo player.
+- **MandatorySoloRound**: A special case of a solo round where the solo is mandatory.
+
+Let me know if you'd like this rendered as an image or want to add more features!

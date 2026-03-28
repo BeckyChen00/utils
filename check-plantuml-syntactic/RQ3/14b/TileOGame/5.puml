@@ -1,0 +1,140 @@
+
+@startuml
+' Tile-O Application Class Diagram
+
+class GameDesigner {
+  -name: String
+  -gamesDesigned: List<Game>
+  +designGame(): Game
+  +defineBoardLayout(): void
+  +placeTiles(): void
+  +connectTiles(): void
+  +setHiddenTile(tile: Tile): void
+  +setPlayerStartPositions(positions: Map<Player, Position>): void
+  +addActionTiles(tiles: List<Tile>): void
+  +defineActionDeck(): ActionDeck
+}
+
+class Player {
+  -name: String
+  -color: Color
+  -playingPiece: PlayingPiece
+  -currentPosition: Position
+  +takeTurn(): void
+  +rollDie(): int
+  +moveTo(tile: Tile): void
+  +applyActionCard(action: ActionCard): void
+}
+
+class Game {
+  -board: Board
+  -players: List<Player>
+  -hiddenTile: Tile
+  -actionDeck: ActionDeck
+  -currentPlayerIndex: int
+  -isGameOver: boolean
+  +startGame(): void
+  +endGame(): void
+  +switchTurn(): void
+  +checkWinCondition(player: Player): boolean
+}
+
+class Board {
+  -tiles: List<Tile>
+  -connectionPieces: List<ConnectionPiece>
+  -spareConnectionPieces: List<ConnectionPiece>
+  +getTileAt(position: Position): Tile
+  +getConnectionsForTile(tile: Tile): List<Connection>
+  +addConnectionPiece(piece: ConnectionPiece): void
+  +removeConnectionPiece(piece: ConnectionPiece): void
+}
+
+class Tile {
+  -position: Position
+  -color: Color
+  -isVisited: boolean
+  -isActionTile: boolean
+  -actionDuration: int
+  -actionType: ActionType
+  +visit(): void
+  +isHidden(): boolean
+  +isActionTileActive(): boolean
+}
+
+class PlayingPiece {
+  -player: Player
+  -color: Color
+  -position: Position
+  +moveTo(position: Position): void
+}
+
+class Position {
+  -row: int
+  -col: int
+  +equals(other: Position): boolean
+}
+
+class Connection {
+  -fromTile: Tile
+  -toTile: Tile
+  -direction: Direction
+}
+
+class ConnectionPiece {
+  -id: int
+  -direction: Direction
+  +connectTiles(from: Tile, to: Tile): void
+}
+
+class ActionDeck {
+  -cards: List<ActionCard>
+  +drawCard(): ActionCard
+  +shuffleDeck(): void
+}
+
+enum ActionType {
+  EXTRA_TURN,
+  CONNECT_TILES,
+  REMOVE_CONNECTION,
+  MOVE_TO_TILE,
+  LOSE_TURN
+}
+
+enum Direction {
+  LEFT,
+  RIGHT,
+  UP,
+  DOWN
+}
+
+enum Color {
+  RED,
+  BLUE,
+  GREEN,
+  YELLOW
+}
+
+' Associations
+GameDesigner --> Game : designs
+Game "1" --> "0..*" Player : contains
+Game --> Board : uses
+Board --> Tile : contains
+Tile --> Connection : connects
+Board --> ConnectionPiece : manages
+Board --> SpareConnectionPieces : manages
+Game --> ActionDeck : uses
+Player --> PlayingPiece : owns
+Tile --> ActionDeck : references (via action card)
+Player --> ActionCard : draws and applies
+@enduml
+
+---
+
+### Notes:
+- The `Game` class is the central orchestrator of the game flow.
+- A `Player` moves using a `PlayingPiece`, which has a color and position.
+- `Tile` can be an **action tile**, and when landed on, triggers an `ActionCard`.
+- `ConnectionPiece` allows tiles to be connected, and connections are managed by the `Board`.
+- The `ActionDeck` holds predefined `ActionCard` types chosen from the five defined options.
+
+Let me know if you want this exported as a PNG or need more details!

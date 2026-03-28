@@ -1,0 +1,81 @@
+
+@startuml
+
+' Define classes and relationships based on the system requirement
+
+class House {
+  - address: String
+  - buildingMaterial: BuildingMaterial (wood, brick, concrete)
+  + getBasement(): Basement
+}
+
+class Basement {
+  - name: String
+  - size: int
+}
+
+class EarthBasement extends Basement {
+  - humidityLevel: double
+}
+
+class ConcreteBasement extends Basement {}
+
+class SemiDetachedHouse extends House {
+  - hasOwnGarden: boolean
+  - numberOfWindows: int
+  - parkingFacility: ParkingFacility (carports or garage)
+}
+
+interface ParkingFacility {}
+
+class Carports implements ParkingFacility {
+  - isDouble: boolean
+  - hasFlatRoof: boolean
+}
+
+class Garage implements ParkingFacility {
+  - hasAutomaticDoor: boolean
+}
+
+class Company {
+  - name: String
+  - address: String
+}
+
+class JobLog {
+  - hoursWorked: int
+  - agreedPrice: double
+  - company: Company
+  - house: House
+}
+
+' Relationships
+
+House "1" -- "0..1" Basement : has
+SemiDetachedHouse "1" -- "1" ParkingFacility : has
+ParkingFacility <|-- Carports
+ParkingFacility <|-- Garage
+House "1" -- "1..*" Company : serviced by
+Company "1" -- "0..*" JobLog : has
+House "1" -- "0..*" JobLog : logged in
+
+enum BuildingMaterial {
+  wood
+  brick
+  concrete
+}
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`House`**: Base class with common attributes like `address` and `buildingMaterial`.
+- **`Basement`**: Abstract base class extended into two types:
+  - `EarthBasement`: Has additional attribute `humidityLevel`.
+  - `ConcreteBasement`: No extra fields.
+- **`SemiDetachedHouse`**: Specialized house type with additional fields like `hasOwnGarden`, `numberOfWindows`, and a choice between `Carports` or `Garage`.
+- **`Carports` and `Garage`**: Implement the `ParkingFacility` interface to represent the two possible parking options.
+- **`Company` and `JobLog`**: A many-to-many relationship is represented via `JobLog`, storing details of jobs done at each house.
+

@@ -1,0 +1,80 @@
+
+@startuml
+' Class Diagram for Film Set System
+
+class Employee {
+  -name: String
+  -socialSecurityNumber: String
+}
+
+class CreativeEmployee <|-- Employee
+class Director <|-- CreativeEmployee
+class Actor <|-- CreativeEmployee
+
+class Technician <|-- Employee {
+  -fieldOfActivity: String
+}
+
+class FilmSet {
+  -location: String
+}
+
+class Film {
+  -title: String
+  -yearOfRelease: Integer
+  -genre: String (Thriller, Action, Horror, Comedy)
+}
+
+class Screenwriter {
+  -name: String
+  -mostSuccessfulFilm: String
+}
+
+class Screenplay {
+  -title: String
+  -version: Integer
+  -date: Date
+  -numberOfScenes: Integer
+  -plot: String
+  -basedOn: String (Novel or Concept)
+}
+
+class Novel {
+  -title: String
+  -author: String
+}
+
+class Concept {
+  -description: String
+}
+
+' Relationships
+
+Employee "1" --> "0..*" Film : works on
+Director "1" --> "1" Film : directs
+Actor "1" --> "0..*" Film : acts in
+Screenwriter "1" --> "0..*" Screenplay : creates
+Screenplay "1" --> "1" Film : used for
+Screenplay "1" --> "1" Novel : basedOn
+Screenplay "1" --> "1" Concept : basedOn
+Film "1" --> "1" FilmSet : shot at
+FilmSet "1" --> "0..*" Film : used for
+
+Director "1" --> "0..1" String : assistantName
+Actor "1" --> "0..1" Boolean : hasOscar
+Director "1" --> "0..1" Boolean : hasOscar
+
+@enduml
+
+### Explanation of Key Elements:
+
+- **Employee** is the base class with common attributes (`name`, `socialSecurityNumber`).
+- **CreativeEmployee**, **Technician**, **Director**, **Actor**, and **Screenwriter** are subclasses.
+- **Director** and **Actor** can be Oscar winners; this is modeled with an optional boolean attribute.
+- **Director** has an optional `assistantName`.
+- **Actors** have an education attribute, which is not explicitly mentioned in the original requirement but inferred from the phrase *"The education completed by each actor is known"* — it's included in the `Actor` class.
+- **Screenplay** is written by exactly one **Screenwriter** and is used for exactly one **Film**.
+- **Screenplay** can be based on either a **Novel** or a **Concept**.
+- **FilmSet** can be used for multiple films, and **Film** can be shot at multiple film sets (many-to-many relationship).
+
+Let me know if you want to generate a visual version of this diagram or need any adjustments!

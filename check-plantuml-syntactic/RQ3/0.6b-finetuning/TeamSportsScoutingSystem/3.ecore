@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" eType="#//studentProfile" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="studentProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="group" eType="#//academicGroup" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attendanceHistory" eType="#//attendanceRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicationHistory" eType="#//applicationStatus" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="department" eType="#//department" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="administrativeRecord" eType="#//administrativeRecord" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicationStatus" eType="#//applicationStatus" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="academicGroup"/>
+  <eClassifiers xsi:type="ecore:EClass" name="attendanceRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="applicationStatus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="department">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="departmentalSchedules" eType="#//courseSchedule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="administrativeRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="courseSchedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedTiming" eType="#//attendanceRecord" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="courseOffer" eType="#//courseOffer" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessmentTimeline" eType="#//assessmentCalendar" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trainingProgram" eType="#//trainingProgram" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subject" eType="#//subject" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="department" eType="#//department" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="courseOffer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="department" eType="#//department" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedAgents" eType="#//recruitmentAgent" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="assessmentCalendar"/>
+  <eClassifiers xsi:type="ecore:EClass" name="trainingProgram"/>
+  <eClassifiers xsi:type="ecore:EClass" name="subject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="recruitmentManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedStudents" eType="#//studentProfile" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedGroups" eType="#//academicGroup" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedOffers" eType="#//courseOffer" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="recruitmentAgent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="assessmentMetrics"/>
+</ecore:EPackage>

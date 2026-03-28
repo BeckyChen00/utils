@@ -1,0 +1,77 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class University {
+  -faculties: List<Faculty>
+  -totalEmployees: int
+}
+
+class Faculty {
+  -name: String
+  -institutes: List<Institute>
+  -dean: Dean
+}
+
+class Institute {
+  -name: String
+  -address: String
+}
+
+class Dean {
+  -socialSecurityNumber: String
+  -name: String
+  -email: String
+}
+
+class Employee {
+  -socialSecurityNumber: String
+  -name: String
+  -email: String
+}
+
+class ResearchAssistant <|-- Employee {
+  -researchField: String
+  -projects: List<Project>
+}
+
+class Project {
+  -name: String
+  -startDate: Date
+  -endDate: Date
+  -hours: int
+}
+
+class Lecturer <|-- ResearchAssistant {
+  -coursesTaught: List<Course>
+}
+
+class Course {
+  -courseID: String
+  -name: String
+  -weeklyDuration: int
+}
+
+class AdministrativeStaff <|-- Employee {
+  // No specific attributes mentioned
+}
+
+University "1" *-- "0..*" Faculty
+Faculty "1" *-- "0..*" Institute
+Faculty "1" -- "1" Dean
+Employee "1" *-- "0..*" ResearchAssistant
+Employee "1" *-- "0..*" AdministrativeStaff
+ResearchAssistant "1" *-- "0..*" Project
+ResearchAssistant "1" *-- "0..*" Lecturer
+Lecturer "1" *-- "0..*" Course
+@enduml
+
+### Explanation of Relationships:
+- `University` contains multiple `Faculty` instances.
+- Each `Faculty` has a name and contains multiple `Institute`s.
+- Each `Faculty` has one `Dean`, who is an `Employee`.
+- `Employee` is a base class for both `ResearchAssistant` and `AdministrativeStaff`.
+- `ResearchAssistant` can be assigned to multiple `Project`s, and may also teach `Course`s (as a `Lecturer`).
+- `Course` has a unique ID, name, and weekly duration.
+
+Let me know if you'd like this in a different format or need additional details.

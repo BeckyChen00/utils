@@ -1,0 +1,85 @@
+@startuml
+class Doctor {
+  practitionerNumber: int
+  fullName: String
+  address: String
+  phoneNumber: String
+  +verifyIdentity(): boolean
+  +prescribeTests(group: TestGroup, patient: Patient): Requisition
+}
+class Patient {
+  healthNumber: String
+  firstName: String
+  lastName: String
+  dateOfBirth: Date
+  address: String
+  phoneNumber: String
+  +getContactInfo(): String
+}
+class TestGroup {
+  groupName: String
+  allowedTestTypes: String[]
+  +isCompatibleWith(testType: String): boolean
+}
+class Requisition {
+  issueDate: Date
+  validityDays: int
+  signedAt: Date
+  +calculateValidityEnd(): Date
+  +addItem(test: Test): void
+  +getTotalDuration(): int
+}
+class Test {
+  name: String
+  durationMinutes: int
+  isAppointmentRequired: boolean
+  isWalkInOnly: boolean
+  requiresSampleDropOff: boolean
+  isRepetitive: boolean
+  repetitionInterval: String
+  repetitionCount: int
+  +getEstimatedDuration(): int
+  +getRequiredAppointmentType(): AppointmentType
+}
+class Appointment {
+  scheduledTime: Date
+  endTime: Date
+  reservationStatus: String
+  confirmationNumber: String
+  changeFee: double
+  +confirmAppointment(): boolean
+  +cancelAppointment(): boolean
+  +updateDetails(newTime: Date): boolean
+  +getDuration(): int
+}
+class Lab {
+  name: String
+  address: String
+  businessHours: String
+  +getAvailableSlots(date: Date): Schedule
+  +getFeeFor(test: Test): double
+}
+class Schedule {
+  day: Date
+  timeSlots: String[]
+}
+class TestResult {
+  collectionDate: Date
+  resultValue: String
+  unit: String
+  status: String
+  +recordResult(value: String): void
+  +generateReport(): String
+}
+Doctor "1" --> "0..*" Requisition : authoredRequisitions
+Patient "1" --> "0..*" Requisition : requisitions 'opposite: targetPatient
+Requisition "1" *-- "1..*" Test : includedTests
+Requisition "0..*" --> "0..1" Appointment : scheduledAppointment
+Lab "1" --> "0..*" Appointment : hostAppointments
+Appointment "0..1" --> "1" Lab : assignedLab
+Test "0..*" --> "1" TestGroup : belongsToGroup
+Test "0..*" --> "1" Lab : offeredByLab
+TestResult "1" --> "1" Test : recordedForTest
+Doctor "1" --> "0..*" Patient : treatedPatients
+Patient "1" --> "0..*" Lab : visitedLabs
+@enduml

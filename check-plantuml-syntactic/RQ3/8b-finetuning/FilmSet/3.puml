@@ -1,0 +1,37 @@
+@startuml
+enum FilmGenre {
+  Thriller
+  Action
+  Horror
+  Comedy
+}
+enum OscarCategory {
+  BestActor
+  BestDirector
+  BestScreenplay
+}
+class Employee {
+  name: String
+  socialSecurityNumber: String
+  hasOscar: boolean
+  +getFullName(): String
+}
+class CreativeEmployee {
+  isOscarWinner: boolean
+  +getAwardCategory(): OscarCategory
+}
+class Technicians {
+  fieldOfActivity: String
+}
+CreativeEmployee --|> Employee
+Employee "1" *-- "0..*" Film : producedFilms
+Technicians --|> Employee
+Employee "1" *-- "0..*" Actor : castMembers
+Employee "1" --> "0..*" Film : directedFilms
+Employee "1" --> "0..*" Screenplay : writtenScreenplays 'opposite: author
+Film "1" *-- "1" FilmGenre : category
+Film "1" *-- "1..*" ScreeningSession : sessions
+Screenplay "1" --> "1" Film : sourceFilm
+Screenplay "1" --> "1" Novel : basedOn
+Screenplay "1" --> "0..*" Actor : roleDescriptions
+@enduml

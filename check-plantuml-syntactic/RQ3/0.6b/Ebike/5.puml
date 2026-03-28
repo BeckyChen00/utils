@@ -1,0 +1,14 @@
+@startuml
+    classDiagram
+        [System Requirements] SystemRequirements
+            [User] User
+            [Data] Data
+            [Database] Database
+
+        user --> database
+        database --> systemRequirements
+        systemRequirements --> data
+        data --> user
+
+        database also has relations to other classes
+@enduml

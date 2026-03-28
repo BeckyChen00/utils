@@ -1,0 +1,177 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Resident {
+  +name: String
+  +streetAddress: String
+  +phoneNumber: String
+  +email: String (optional)
+  +descriptionOfItems: String
+  +schedulePickup(date: Date, time: Time)
+}
+
+class Item {
+  +itemID: String
+  +description: String
+  +dimensions: Dimensions
+  +weight: Weight
+  +category: Category
+}
+
+class PickupRequest {
+  +requestID: String
+  +resident: Resident
+  +date: Date
+  +time: Time
+  +status: Status
+}
+
+class VolunteerDriver {
+  +driverID: String
+  +name: String
+  +phoneNumber: String
+  +availableDays: List<Date>
+}
+
+class PickupVehicle {
+  +vehicleID: String
+  +capacity: Capacity
+  +storageSpace: Storage
+  +currentRoute: Route
+}
+
+class Route {
+  +routeID: String
+  +vehicle: PickupVehicle
+  +pickupRequests: List<PickupRequest>
+  +startDate: Date
+  +endDate: Date
+}
+
+class DistributionCenter {
+  +centerID: String
+  +location: Address
+  +employees: List<Employee>
+  +processItems(items: List<Item>)
+}
+
+class Employee {
+  +employeeID: String
+  +name: String
+  +position: Position
+}
+
+class RFIDTag {
+  +tagID: String
+  +item: Item
+  +lastScannedDate: Date
+}
+
+class FoodBank {
+  +bankID: String
+  +location: Address
+  +receiveNonPerishables(items: List<Item>)
+}
+
+class Client {
+  +clientID: String
+  +name: String
+  +address: Address
+  +preferredCategories: List<Category>
+  +needsDelivery: Boolean
+}
+
+class DeliveryRequest {
+  +deliveryID: String
+  +client: Client
+  +item: Item
+  +scheduledTime: Time
+  +status: Status
+}
+
+class Category {
+  +categoryID: String
+  +name: String
+}
+
+class Status {
+  +statusID: String
+  +name: String
+}
+
+class Dimensions {
+  +length: Double
+  +width: Double
+  +height: Double
+}
+
+class Weight {
+  +grams: Double
+}
+
+class Capacity {
+  +maxWeight: Double
+  +maxVolume: Double
+}
+
+class Storage {
+  +maxDimensions: Dimensions
+  +maxWeight: Double
+}
+
+class Address {
+  +street: String
+  +city: String
+  +state: String
+  +zipCode: String
+}
+
+' Relationships
+Resident --> PickupRequest
+PickupRequest --> Item
+VolunteerDriver --> PickupVehicle
+PickupVehicle --> Route
+Route --> PickupRequest
+DistributionCenter --> Item
+DistributionCenter --> Employee
+Employee --> RFIDTag
+Item --> RFIDTag
+FoodBank --> Item
+Client --> DeliveryRequest
+DeliveryRequest --> Item
+PickupRequest --> DeliveryRequest
+Category --> Item
+Status --> PickupRequest
+Status --> DeliveryRequest
+PickupRequest --> Status
+DeliveryRequest --> Status
+Item --> Dimensions
+Item --> Weight
+PickupVehicle --> Capacity
+PickupVehicle --> Storage
+Route --> Status
+PickupRequest --> Status
+DeliveryRequest --> Status
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **`Status`** is a generic class used to represent the current state of a pickup or delivery request.
+- **`Dimensions`**, **`Weight`**, **`Capacity`**, and **`Storage`** are helper classes to represent physical and capacity constraints.
+- **`Category`** is a standard list of 134 categories used to classify items.
+- The system includes **multi-city support**, so some classes like `DistributionCenter`, `VolunteerDriver`, and `Employee` may vary by location, but the core logic remains consistent across locations.
+- **`RFIDTag`** is used to tag reusable items at the distribution center.
+- **`FoodBank`** handles non-perishable food items directly without further H2S involvement.
+
+---
+
+### 💡 How to Use:
+
+Let me know if you'd like the diagram in a different format (e.g., PNG, SVG) or need a simplified version!

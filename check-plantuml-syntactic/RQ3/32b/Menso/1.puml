@@ -1,0 +1,127 @@
+
+@startuml
+
+' Define classes with basic attributes and associations
+
+class Bus {
+    +String licensePlate
+    +int capacity
+    +assignToTrajectory(Trajectory)
+    +removeFromTrajectory()
+}
+
+class Line {
+    +int lineNumber
+    +List<Trajectory> trajectories
+    +addTrajectory(Trajectory)
+    +removeTrajectory(Trajectory)
+}
+
+class Trajectory {
+    +String name
+    +List<Stop> stops
+    +Status status // Active / Suspended / Cancelled
+    +Date approvalDate
+    +submitForApproval(Authority)
+    +updateStatus(Status)
+}
+
+class ApprovalRequest {
+    +Date requestDate
+    +ApprovalStatus status // Pending / Approved / Rejected / Revised
+    +TownAuthority authority
+    +Trajectory trajectory
+}
+
+class TownAuthority {
+    +String name
+    +approveTrajectory(ApprovalRequest)
+    +rejectTrajectory(ApprovalRequest)
+    +requestRevisions(ApprovalRequest)
+}
+
+class Stop {
+    +String name
+    +Location location
+}
+
+class MENSO {
+    +Customer customer
+    +Category category
+    +List<Trip> trips
+    +generateInvoice(Date month)
+    +applyDiscount(float percentage)
+}
+
+class Customer {
+    +String name
+    +String homeAddress
+    +String officeAddress
+    +WorkingHours workingHours
+    +hasMENSO(MENSO)
+}
+
+class WorkingHours {
+    +DayOfWeek day
+    +Time startTime
+    +Time endTime
+}
+
+class Trip {
+    +DateTime timestamp
+    +Line line
+    +recordTrip(MENSOCard card)
+}
+
+class MENSOCard {
+    +String cardNumber
+    +Customer customer
+    +isValid(): boolean
+}
+
+class Invoice {
+    +Date dueDate
+    +float amount
+    +Customer customer
+    +isPaid: boolean
+    +sendInvoice()
+    +markAsPaid()
+}
+
+class Category {
+    +String categoryName
+    +float basePrice
+}
+
+' Relationships
+
+Bus "1" -- "many" Line : assigned to
+Line "1" -- "many" Trajectory : includes
+Trajectory "1" -- "1" ApprovalRequest : submitted for
+ApprovalRequest "1" -- "1" TownAuthority : requested from
+ApprovalRequest "1" -- "1" Trajectory : relates to
+
+Customer "1" -- "1" MENSO : has
+MENSO "1" -- "many" Trip : contains
+Trip "1" -- "1" Line : taken on
+Trip "1" -- "1" MENSOCard : used with
+MENSOCard "1" -- "1" Customer : belongs to
+MENSO "1" -- "1" Category : belongs to
+Line "1" -- "1" Category : categorized as
+
+Customer "1" -- "many" Invoice : receives
+Invoice "1" -- "1" MENSO : generated from
+
+@enduml
+
+---
+
+### ✅ Notes:
+- The `Trajectory` class reflects the lifecycle of being approved, suspended, or cancelled.
+- `Line` groups multiple `Trajectory` instances, which can vary (e.g., late-night variants).
+- `MENSO` ties together the user data, trip recording, invoicing, and discounts.
+- Invoicing logic allows for asynchronous payments (`Invoice` not dependent on prior payment).
+- Personal data like `homeAddress`, `officeAddress`, and `workingHours` are used for behavioral analysis.
+
+---
+

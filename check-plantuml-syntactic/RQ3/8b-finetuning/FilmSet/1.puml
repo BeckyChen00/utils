@@ -1,0 +1,84 @@
+@startuml
+enum FilmGenre {
+  Thriller
+  Action
+  Horror
+  Comedy
+  Drama
+  SciFi
+}
+enum EducationLevel {
+  HighSchool
+  Bachelor
+  Master
+  PhD
+}
+enum OscarCategory {
+  BestPicture
+  BestDirection
+  BestActor
+}
+class Person {
+  name: String
+  socialSecurityNumber: String
+  hasOscar: boolean
+  +getFullInformation(): String
+  +hasWonAwards(count: int): boolean
+}
+class CreativeEmployee {
+  +isOscarWinner(): boolean
+}
+class Actor {
+  educationLevel: EducationLevel
+  +performRole(roleName: String): void
+}
+class Director {
+  assistantName: String
+  +directFilm(film: Film): void
+}
+class Technician {
+  fieldOfActivity: String
+}
+class Film {
+  title: String
+  releaseYear: int
+  genre: FilmGenre
+  +getDetails(): String
+}
+class FilmSet {
+  location: String
+  +scheduleShot(film: Film): void
+}
+class Screenplay {
+  title: String
+  version: int
+  creationDate: Date
+  sceneCount: int
+  plotSummary: String
+  +extractSceneList(): List<Film>
+}
+class Novel {
+  title: String
+  authorName: String
+}
+class Screenwriter {
+  name: String
+  mostSuccessfulFilm: Film
+  +writeScreenplay(title: String): Screenplay
+  +citeNovel(novel: Novel): void
+}
+Actor --|> Person
+Director --|> Person
+Technician --|> Person
+FilmSet "1" *-- "*" Film : hostedFilms
+Film "1" *-- "*" Screenplay : basedOnScript
+Screenplay "1" *-- "*" Novel : inspiredBy
+Screenwriter "1" --> "*" Screenplay : authoredScripts
+CreativeEmployee "1" --> "*" Film : directedFilms
+CreativeEmployee "1" --> "*" Screenplay : writtenScripts
+Actor "1" --> "*" Film : performedIn
+Film "1" --> "1" Screenplay : adaptedFrom
+Film "1" --> "1" Director : directedBy
+Director "1" --> "*" Film : directedFilms
+Screenwriter "1" --> "*" Film : writtenFor
+@enduml

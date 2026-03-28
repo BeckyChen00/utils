@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledCruises" eType="#//Cruise" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cruise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedShip" eType="#//CruiseShip" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedItinerary" eType="#//CruiseItinerary" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onboardShows" eType="#//Show" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredGuests" eType="#//Guest" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedTickets" eType="#//Ticket" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="crewMembers" eType="#//StaffMember" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CruiseAgency">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedGuests" eType="#//Guest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employedStaff" eType="#//StaffMember" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Guest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="purchasedTickets" eType="#//Ticket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CruiseProvider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatedCruises" eType="#//Cruise" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintainedShips" eType="#//CruiseShip" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hiredStaff" eType="#//StaffMember" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CruiseShip"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StaffMember"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CruiseItinerary"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Show"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongsToCruise" eType="#//Cruise" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

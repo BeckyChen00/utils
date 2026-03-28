@@ -1,0 +1,81 @@
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class Sensor {
+    +vendorId: String
+    +description: String
+    +unit: String (CELSIUS, WATT)
+    +room: Room
+    +threshold: Double
+    +email: String
+    +getValues(): List<Value>
+    +getLastValue(): Value
+    +setThreshold(Double threshold)
+    +setDescription(String description)
+    +setRoom(Room room)
+}
+
+class Value {
+    +timestamp: DateTime
+    +value: Double
+}
+
+class Room {
+    +description: String
+    +sensors: List<Sensor>
+}
+
+class Apartment {
+    +address: String
+    +rooms: List<Room>
+    +inhabitants: List<Inhabitant>
+    +login(username: String, password: String): Boolean
+    +querySensorValues(Sensor sensor): List<Value>
+    +setEmail(String email)
+    +getSensor(String sensorId): Sensor
+}
+
+class Inhabitant {
+    +username: String
+    +password: String
+    +isAdmin: Boolean
+    +login(username: String, password: String): Boolean
+    +configureSensor(Sensor sensor)
+}
+
+class EMonitor {
+    +checkThresholds()
+    +sendAlertMessage(String message, String email)
+}
+
+' Associations
+Sensor --> Room
+Sensor --> Value
+Value --> Sensor
+Room --> Apartment
+Apartment --> Inhabitant
+Inhabitant --> Sensor
+EMonitor --> Sensor
+EMonitor --> Apartment
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Sensor**: Represents each sensor with attributes like `vendorId`, `description`, and `unit`. It can have a `threshold` and an `email` for alerts. It stores `Values`.
+- **Value**: Represents a measured value with a timestamp and numeric value.
+- **Room**: A room in the apartment, which contains multiple sensors.
+- **Apartment**: Contains rooms and inhabitants. Inhabitants can log in and query sensor data.
+- **Inhabitant**: Can be regular or admin. Admins can configure sensors.
+- **EMonitor**: An external system that checks thresholds and sends alerts.
+
+---
+
+### 📌 Notes:
+- Relationships are modeled as associations (e.g., `Sensor --> Room`).
+- The diagram includes basic operations (`+`) to indicate public methods.
+
+Let me know if you'd like to add more details like inheritance, interfaces, or other relationships!

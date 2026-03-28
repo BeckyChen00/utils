@@ -1,0 +1,21 @@
+@startuml
+    class Diagram {
+        class SystemRequirement {
+            string name
+            string description
+        }
+    }
+
+        class Element {
+            string label
+            string type
+        }
+    }
+
+    class DiagramElement {
+        element SystemRequirement
+    }
+
+    # System Requirement
+    systemRequirement = new SystemRequirement("System Requirement", "This is a system requirement for the application.")
+@enduml

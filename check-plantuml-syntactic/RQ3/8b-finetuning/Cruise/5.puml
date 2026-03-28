@@ -1,0 +1,46 @@
+@startuml
+class CruiseAgency {
+  name: String
+  address: String
+}
+class Cruise {
+  cruiseNumber: int
+  name: String
+  startDate: Date
+  endDate: Date
+  +book(cruise: Cruise, numberOfGuests: int, isVIP: boolean, destinationArea: DestinationArea): Booking
+}
+class Ship {
+  name: String
+  decks: int
+  length: int
+  maxPassengers: int
+}
+class Guest {
+  name: String
+  ssn: String
+  isVip: boolean
+}
+class Booking {
+  bookingNumber: String
+  bookingDate: Date
+  confirmedStatus: boolean
+}
+class Ticket {
+  ticketNumber: String
+  isConfirmed: boolean
+}
+class DestinationArea {
+  areaName: String
+  seaName: String
+}
+CruiseAgency "1" *-- "0..*" Cruise : managedCruises
+Guest "1" --> "0..*" Cruise : participatedCruises
+Cruise --> "1" Ship : assignedShip
+Cruise --> "1" DestinationArea : destinationArea
+Cruise --> "0..*" Booking : managedBookings
+Booking --> "1" Guest : bookedGuest
+Booking *-- "0..*" Ticket : includedTickets
+Ticket --> "1" Cruise : associatedCruise
+Cruise --> "0..*" Guest : onboardGuests
+@enduml

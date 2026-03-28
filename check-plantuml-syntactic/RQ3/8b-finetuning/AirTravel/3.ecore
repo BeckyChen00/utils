@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="baseAircraft" eType="#//Aircraft" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Aircraft">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatedFlights" eType="#//Flight" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PassengerAircraft">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="categoryDefinitions" eType="#//SeatCategory" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SeatCategory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Flight">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedAircraft" eType="#//PassengerAircraft" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedCrew" eType="#//FlightAttendant" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPilots" eType="#//Pilot" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookedPassengers" eType="#//Passenger" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="departureAirport" eType="#//Airport" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destinationAirport" eType="#//Airport" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Airline">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatedFlights" eType="#//Flight" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedAircraft" eType="#//PassengerAircraft" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employedPilots" eType="#//Pilot" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employedCrew" eType="#//FlightAttendant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pilot"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FlightAttendant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Passenger">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedTickets" eType="#//Ticket" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedFlight" eType="#//Flight" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Airport"/>
+</ecore:EPackage>

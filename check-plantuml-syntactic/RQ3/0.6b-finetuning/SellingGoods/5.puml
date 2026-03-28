@@ -1,0 +1,67 @@
+@startuml
+enum ContactStatus {
+  Active
+  Suspended
+  Rejected
+  PendingRenewal
+}
+enum EventType {
+  Emergency
+  SocialMediaPost
+  PublicEvent
+  BusinessConcert
+}
+class ResidentProfile {
+  name: String
+  isVerified: boolean
+  emailAddress: String
+  +verifyIdentity(): boolean
+  +updateProfile(newName: String, newEmail: String): void
+  +isAccessible(): boolean
+}
+class Contact {
+  status: ContactStatus
+  phoneNumber: String
+  email: String
+  +updateStatus(newStatus: ContactStatus): void
+}
+class NotificationService {
+  +sendNotification(userId: String, message: String): boolean
+}
+class SocialMediaPlatform {
+  platformName: String
+  supportedEvents: EventType[]
+  +registerApp(appId: String, appId: String): boolean
+  +publishEvent(event: Event): void
+}
+class UserAccount {
+  username: String
+  emailAddress: String
+  reputationScore: int
+  +login(): boolean
+  +updateReputation(score: int): void
+}
+class Event {
+  eventName: String
+  eventDate: Date
+  eventType: EventType
+  isAvailable: boolean
+  +bookEvent(date: Date): boolean
+  +cancelEvent(): void
+}
+class ReminderCampaign {
+  frequency: int
+  messageTemplate: String
+  startDate: Date
+  endDate: Date
+  +scheduleReminder(event: Event): boolean
+  +cancelCampaign(): void
+}
+ResidentProfile *-- "0..*" Contact : contacts
+ResidentProfile --> "1" UserAccount : registeredAccount
+>Contact *-- "0..*" NotificationService : notifications
+SocialMediaPlatform --> "0..*" Event : hostedEvents
+SocialMediaPlatform --> "0..*" UserAccount : registeredUsers
+UserAccount --> "0..*" Event : participatingEvents
+UserAccount --> "0..*" ReminderCampaign : likedCampaigns
+@enduml

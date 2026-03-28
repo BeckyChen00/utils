@@ -1,0 +1,85 @@
+
+@startuml
+
+' Define classes
+class Student {
+  - name: String
+  - email: String
+  + makeTutoringRequest(tutor: Tutor, subject: String, level: String, targetDateTime: DateTime): Request
+  + scheduleFollowUpSession(session: Session): void
+}
+
+class Tutor {
+  - name: String
+  - email: String
+  - bankAccount: String
+  + offerTutoring(subject: String, expertiseLevel: String, hourlyRate: Double): void
+  + setWeeklyAvailability(availability: Map<DayOfWeek, List<TimeSlot>>): void
+  + confirmTutoringRequest(request: Request): void
+  + suggestAlternativeSession(request: Request, newDateTime: DateTime): void
+  + receivePayment(payment: Payment): void
+}
+
+class Request {
+  - student: Student
+  - tutor: Tutor
+  - subject: String
+  - level: String
+  - targetDateTime: DateTime
+  - status: String
+  + confirm(): void
+  + reject(): void
+}
+
+class Session {
+  - request: Request
+  - dateTime: DateTime
+  - confirmed: Boolean
+  + scheduleFollowUp(): void
+  + markAsCompleted(): void
+}
+
+class Payment {
+  - amount: Double
+  - method: String (creditCard, wireTransfer)
+  - session: Session
+  - paidBy: Student
+  - paymentStatus: String (pending, completed)
+  + processPayment(): void
+}
+
+class Availability {
+  - dayOfWeek: DayOfWeek
+  - timeSlots: List<TimeSlot>
+}
+
+class TimeSlot {
+  - startTime: DateTime
+  - endTime: DateTime
+}
+
+class TutorOfTheMonthAward {
+  - tutor: Tutor
+  - subject: String
+  - month: Date
+  - awardType: String
+}
+
+' Define associations
+Student "1" -- "0..*" Request : makes
+Tutor "1" -- "0..*" Request : receives
+Request "1" -- "1" Session : leadsTo
+Session "1" -- "1" Payment : has
+Tutor "1" -- "0..*" Session : conducts
+Tutor "1" -- "0..*" TutorOfTheMonthAward : wins
+
+@enduml
+
+### Explanation of Key Relationships:
+- **Student** can make multiple **Requests**, each associated with one **Tutor**.
+- Each **Request** leads to a **Session** after confirmation.
+- A **Session** is associated with a **Payment** made by the **Student**.
+- A **Tutor** can conduct multiple **Sessions**.
+- A **Tutor** may receive a **TutorOfTheMonthAward** in a specific subject and month.
+
+This diagram provides a clear representation of the entities and interactions within the Online Tutoring System. Let me know if you want this exported as an image or need further refinements!

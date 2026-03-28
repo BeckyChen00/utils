@@ -1,0 +1,82 @@
+@startuml
+enum CrustType {
+  ClassicItalien
+  DeepDishCrust
+  CheeseCrust
+}
+enum OrderStatus {
+  Pending
+  Preparing
+  OnTheWay
+  Delivered
+  Cancelled
+}
+enum DayOfWeek {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
+}
+class User {
+  username: String
+  emailAddress: String
+  name: String
+  address: String
+  birthday: Date
+  +getAccountAge(): int
+  +login(): boolean
+}
+class BusinessOwner {
+  +inviteToNetwork(linkedinUrl: String): void
+}
+class PizzaRestaurant {
+  zipCode: String
+  phone: String
+  website: String
+  openingHours: String
+  +isAvailableAt(time: Time): boolean
+}
+class Pizza {
+  name: String
+  price: double
+  crustType: CrustType
+  description: String
+  +getVariationKey(): String
+}
+class Order {
+  id: String
+  placedAt: Date
+  requestedPickupTime: Date
+  deliveryInstructions: String
+  recipientName: String
+  isEntertainmentOrder: boolean
+  requestedEntertainmentType: String
+  requestedDurationMinutes: int
+  status: OrderStatus
+  +calculateTotal(): double
+  +estimateDeliveryWindow(): TimeWindow
+}
+class DeliveryAssignment {
+  assignedAt: Date
+  estimatedArrival: Date
+  distance: double
+  isResolved: boolean
+  +assignTo(restaurant: PizzaRestaurant): void
+  +resolve(): void
+}
+class Entertainer {
+  stageName: String
+  bio: String
+  pricePer30Minutes: double
+  +scheduleShift(restaurant: PizzaRestaurant, day: DayOfWeek): void
+}
+BusinessOwner --|> User
+PizzaRestaurant *-- "*" Pizza : menuItems
+User --> "*" Order : placedOrders
+Order *-- "1" DeliveryAssignment : deliveryDetails
+Entertainer --> "*" PizzaRestaurant : contractedRestaurants
+DeliveryAssignment --> "1" PizzaRestaurant : targetRestaurant
+@enduml

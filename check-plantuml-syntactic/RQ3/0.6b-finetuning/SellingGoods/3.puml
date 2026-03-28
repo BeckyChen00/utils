@@ -1,0 +1,91 @@
+@startuml
+abstract class Command {
+  +execute(): void
+}
+class SearchCommand {
+  +queryString: String
+}
+class Filter {
+  isActive: boolean
+  +checkStatus(): boolean
+}
+class FilterComponent {
+  isResolved: boolean
+  +resolve(): void
+  +resolveRecursive(): void
+}
+class ControlComponent {
+  isActive: boolean
+  +toggleState(): void
+  +getState(): boolean
+}
+class UserSession {
+  sessionToken: String
+  +getToken(): String
+}
+class BroadcasterManager {
+  maxConcurrent: int
+  +registerUser(user: UserSession): void
+  +addController(controller: ControlComponent): void
+  +updateSystemSnapshot(): void
+  +broadcastCommand(command: SearchCommand): void
+}
+class User {
+  username: String
+  +createSession(): UserSession
+}
+class Viewer {
+  +addCommand(command: SearchCommand): void
+}
+class Streamer {
+  streamUrl: String
+  +streamContent(keyframe: int): void
+}
+class Arena {
+  arenaName: String
+  +getLiveStreamSource(): Streamer
+  +getLiveStreamSpeed(): double
+}
+class SpectatorChannel {
+  channelName: String
+  +joinStreamStream(source: Arena): void
+}
+class NetworkManager {
+  +connect(broadcaster: ControlComponent, target: Arena): void
+  +disconnect(broadcaster: ControlComponent): void
+}
+class ConnectionStatus {
+  isConnected: boolean
+  connectionError: boolean
+  +getStatusMessage(): String
+}
+class Platform {
+  platformType: String
+  +isAccessible(): boolean
+}
+class ComplianceReport {
+  +generateReport(): void
+}
+class AlertSystem {
+  +triggerAlert(message: String): void
+}
+class CommunicationChannel {
+  channelName: String
+  +sendMessage(recipient: UserSession, message: String): void
+}
+SearchCommand -- ControllerComponent
+SearchCommand -- Filter
+Filter -- FilterComponent
+ControlComponent -- Viewer
+BroadcasterManager *-- ConnectionStatus : networkStatus
+BroadcasterManager *-- Platform : activePlatform
+BroadcasterManager *-- UserSession : userSessions
+BroadcasterManager --> UserSession : registeredUsers
+BroadcasterManager --> ControlComponent : managedComponents
+BroadcasterManager --> Viewer : connectedViewers
+SpectatorChannel -- Arena
+NetworkManager -- Arena
+BroadcasterManager -- Arena
+BroadcasterManager -- CommunicationChannel
+AlertSystem -- Platform
+@enduml

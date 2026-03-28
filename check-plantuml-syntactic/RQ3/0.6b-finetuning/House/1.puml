@@ -1,0 +1,65 @@
+@startuml
+enum FlightStatus {
+  Scheduled
+  InProgress
+  Delayed
+  Cancelled
+  CancelledReasoned
+  CancelledReasonNotObserved
+  Rescheduled
+}
+enum TerminalMode {
+  Arrival
+  Departure
+  Catering
+  GrateBoard
+  FoodWindow
+  ServiceCenter
+  Informing
+}
+enum ServiceType {
+  Catering
+  Grating
+  Bagging
+  Cleaning
+  CheckIn
+  FareGate
+}
+class Flight {
+  scheduledTime: Date
+  status: FlightStatus
+  isRescheduleRequired: boolean
+  +updateStatus(newStatus: FlightStatus): void
+  +requestReservation(fareCode: String): Reservation
+}
+class Terminal {
+  terminalName: String
+  mode: TerminalMode
+  +generateBreakdown(): BreakdownData
+  +scheduleService(type: ServiceType, frequency: int): BreakdownData
+}
+class BreakdownData {
+  dataDate: Date
+  totalTreatments: int
+  elapsedTimeMinutes: long
+  +summarizeWaste(): String
+}
+class Passenger {
+  passengerName: String
+  contactDetails: String
+  +registerForFlight(flight: Flight): void
+  +getTravelHistory(): String
+}
+class Reservation {
+  fareCode: String
+  isConfirmed: boolean
+  bookingDate: Date
+  +confirmBooking(): void
+  +cancelReservation(): void
+}
+Terminal --|> FlightTerminal
+Flight --|> TransportationMode
+Flight --|> Traveler
+Reservation --|> Passenger
+BreakdownData --|> Flight
+@enduml

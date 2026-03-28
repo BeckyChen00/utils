@@ -1,0 +1,90 @@
+
+@startuml
+' Define classes
+
+class User {
+  -id: int
+  -name: String
+  -birthday: Date
+  -address: String
+}
+
+class BusinessOwner {
+  -linkedInAccount: String
+}
+
+class PizzaRestaurant {
+  -zipCode: String
+  -address: String
+  -phoneNumber: String
+  -website: String
+  -openingHours: String
+}
+
+class Pizza {
+  -name: String
+  -crustStructure: String
+  -price: double
+  -restaurantId: int
+}
+
+class HungryCustomer {
+  -deliveryAddress: String
+}
+
+class Order {
+  -orderId: int
+  -datePlaced: DateTime
+  -latestDeliveryTime: DateTime
+  -numberOfPeople: int
+  -restaurantId: int
+}
+
+class EntertainmentOrder extends Order {
+  -entertainmentType: String
+  -duration: int ' in minutes
+}
+
+class Entertainer {
+  -stageName: String
+  -bio: String
+  -pricePer30Minutes: double
+}
+
+class RestaurantEntertainerAvailability {
+  -dayOfWeek: String
+  -entertainerId: int
+  -restaurantId: int
+}
+
+' Define associations and inheritance
+
+User <|-- BusinessOwner
+User <|-- HungryCustomer
+User <|-- Entertainer
+
+BusinessOwner "1" --> "0..*" PizzaRestaurant
+PizzaRestaurant "1" --> "0..*" Pizza
+Pizza "1" --> "0..*" Order
+
+HungryCustomer "1" --> "0..*" Order
+Order "1" --> "0..*" Pizza
+
+Order <|-- EntertainmentOrder
+
+Entertainer "1" --> "0..*" RestaurantEntertainerAvailability
+RestaurantEntertainerAvailability "1" --> "1" PizzaRestaurant
+RestaurantEntertainerAvailability "1" --> "1" Entertainer
+
+@enduml
+
+### Explanation of Key Elements:
+
+- **User** is the base class for all user types (BusinessOwner, HungryCustomer, Entertainer).
+- **BusinessOwner** has a LinkedIn account and owns one or more **PizzaRestaurants**.
+- **PizzaRestaurant** contains information like address, phone number, etc., and offers **Pizzas**.
+- **Pizza** is unique per restaurant even if the name and price are the same.
+- **HungryCustomer** can place **Orders**, which may be regular or **EntertainmentOrders**.
+- **EntertainmentOrder** extends **Order** and adds fields for entertainment type and duration.
+- **Entertainer** has availability for specific **PizzaRestaurants** on certain days of the week.
+

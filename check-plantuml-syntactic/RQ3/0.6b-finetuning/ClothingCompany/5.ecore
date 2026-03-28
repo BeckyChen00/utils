@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CircuitNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedNodes" eType="#//plantuml"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedPin" eType="#//Pin" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuredProfile" eType="#//SignalProfile" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formedConnections" eType="#//Connection" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPin" eType="#//Pin" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetDriver" eType="#//Driver"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePins" eType="#//Pin" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedConfiguration" eType="#//PinConfiguration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servingDriver" eType="#//Driver" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="chargingBattery" eType="#//BatteryModule" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SignalProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PinConfiguration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Driver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachedModule" eType="#//DriverModule"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BatteryModule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DriverModule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CircuitDesign">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manufacturedBy" eType="#//Manufacturer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testSessions" eType="#//TestSession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Manufacturer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TestSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//DiagnosticReport" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedBoard" eType="#//SystemBoard" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedGenerator" eType="#//SignalGenerator" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="utilizedBattery" eType="#//BatteryModule" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagnosticReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedResults" eType="#//TestResult" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestResult">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affectedNode" eType="#//CircuitNode" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemBoard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compatibleManufacturers" eType="#//Manufacturer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SignalGenerator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DeviceModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedPins" eType="#//Pin" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

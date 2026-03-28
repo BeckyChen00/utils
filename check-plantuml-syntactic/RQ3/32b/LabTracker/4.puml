@@ -1,0 +1,118 @@
+
+---
+
+
+@startuml
+
+' Define Classes
+class Doctor {
+    +String fullName
+    +String address
+    +String phoneNumber
+    +int practitionerNumber
+    +Image signature
+}
+
+class Patient {
+    +String firstName
+    +String lastName
+    +Date dateOfBirth
+    +String address
+    +String phoneNumber
+    +String healthNumber
+}
+
+class Lab {
+    +String name
+    +String address
+    +String registrationNumber
+    +Time startTime
+    +Time endTime
+    +float cancellationFee
+}
+
+class Test {
+    +String testName
+    +Duration duration
+    +TestGroup testGroup
+    +boolean requiresAppointment
+    +boolean allowsMultiple
+}
+
+class Requisition {
+    +Date validFrom
+    +Doctor doctor
+    +Patient patient
+    +List<Test> tests
+    +Repetition repetition
+}
+
+class Appointment {
+    +String confirmationNumber
+    +Date appointmentDate
+    +Time startTime
+    +Time endTime
+    +Lab lab
+    +Requisition requisition
+}
+
+class Repetition {
+    +int numberOfRepetitions
+    +Interval interval
+}
+
+enum Interval {
+    Weekly,
+    Monthly,
+    EveryHalfYear,
+    Yearly
+}
+
+enum TestGroup {
+    BloodTest,
+    Ultrasound,
+    XRay,
+    UrineSample,
+    StoolSample
+}
+
+' Relationships
+Doctor "1" -- "0..*" Requisition : creates
+Patient "1" -- "0..*" Requisition : is_patient_of
+Patient "1" -- "0..*" Appointment : makes_appointment
+Requisition "1" -- "1" Repetition : has_repetition
+Requisition "1" -- "1..*" Test : includes_tests
+Test "1" -- "1" TestGroup : belongs_to_group
+Lab "1" -- "0..*" Appointment : provides_appointment_at
+Appointment "1" -- "1" Requisition : for_requisition
+
+' Constraints
+note right of Requisition
+  - A requisition can only include tests from the same group.
+  - A doctor cannot be both prescriber and patient in the same requisition.
+end note
+
+note right of Appointment
+  - Only one appointment can be made at a time for repeated tests.
+  - Cancellation within 24 hours incurs a fee.
+end note
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **Doctor**: Represents medical professionals who issue test requisitions. They must provide identification (practitioner number and digital signature).
+- **Patient**: Individuals receiving tests. Must have a unique health number and personal details.
+- **Lab**: A facility offering tests with specific business hours and fees.
+- **Test**: A type of examination or test. Each test has a defined duration and may require an appointment.
+- **Requisition**: A document issued by a doctor for one or more tests (of the same group). It also includes repetition rules.
+- **Appointment**: A scheduled visit to a lab for a test. Patients can make/cancel appointments.
+- **Repetition**: Defines how often a test should be repeated.
+- **Enums**:
+  - `Interval`: How frequently a test is repeated.
+  - `TestGroup`: Used to categorize tests so they can be grouped on a single requisition.
+
+---
+

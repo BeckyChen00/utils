@@ -1,0 +1,61 @@
+
+@startuml
+' Gas Station Management System
+
+class GasStation {
+  -id: String
+  -address: String
+  -fuelPumps: List<FuelPump>
+  +addFuelPump(pump: FuelPump): void
+  +getFuelPumpById(id: Integer): FuelPump
+}
+
+class FuelPump {
+  -id: Integer
+  -isSelfService: Boolean
+  -fuels: List<Fuel>
+  +addFuel(fuel: Fuel): void
+  +getFuels(): List<Fuel>
+}
+
+class Fuel {
+  -name: String
+  -octaneRating: Integer
+}
+
+class DailyPrice {
+  -date: Date
+  -fuel: Fuel
+  -gasStation: GasStation
+  -pricePerLiter: Double
+}
+
+class FuelPurchase {
+  -id: String
+  -fuelPump: FuelPump
+  -dailyPrice: DailyPrice
+  -litersDispensed: Double
+}
+
+' Associations
+
+GasStation "1" *-- "0..12" FuelPump : has
+FuelPump "1" *-- "0..*" Fuel : offers
+GasStation "1" *-- "0..*" DailyPrice : archives
+FuelPurchase "1" --> "1" FuelPump : at
+FuelPurchase "1" --> "1" DailyPrice : for
+FuelPurchase "1" --> "1" Fuel : of
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **GasStation**: Has a unique ID, an address, and a list of fuel pumps.
+- **FuelPump**: Identified by an ID, whether it is self-service, and the list of fuels it offers.
+- **Fuel**: Identified by name and octane rating.
+- **DailyPrice**: Identified by date, fuel, and gas station. Stores price per liter.
+- **FuelPurchase**: Identified by an ID, stores which fuel pump, daily price, and how many liters were dispensed.
+
+---
+

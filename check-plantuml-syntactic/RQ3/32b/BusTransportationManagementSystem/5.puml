@@ -1,0 +1,78 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Driver {
+    - driverID: int (unique)
+    - name: String
+    - isOnSickLeave: boolean
+}
+
+class Bus {
+    - licensePlate: String (max 10 chars)
+    - isInRepairShop: boolean
+}
+
+class Route {
+    - routeNumber: int (up to 9999)
+}
+
+class Assignment {
+    - date: Date
+    - bus: Bus
+    - route: Route
+}
+
+class Shift {
+    - shiftType: String (Morning/Afternoon/Night)
+    - date: Date
+    - driver: Driver
+    - bus: Bus
+    - route: Route
+}
+
+class Overview {
+    - routeNumber: int
+    - licensePlate: String
+    - shiftDetails: List<Shift>
+    - driverIDsAndNames: List<String>
+}
+
+' Relationships
+
+Driver "1" -- "many" Shift : assigned to
+Bus "1" -- "many" Shift : assigned to
+Route "1" -- "many" Shift : associated with
+
+Driver "1" -- "many" Assignment : can be in
+Bus "1" -- "many" Assignment : can be in
+Route "1" -- "many" Assignment : can be assigned to
+
+Assignment "1" -- "1" Shift : contains
+
+Overview "1" -- "many" Shift : includes
+Overview "1" -- "many" Driver : includes
+Overview "1" -- "1" Route : per route
+Overview "1" -- "1" Assignment : based on
+
+@enduml
+
+---
+
+### Explanation of Classes and Relationships:
+
+- **Driver**: Represents a bus driver with an auto-assigned unique ID, name, and sick leave status.
+- **Bus**: Identified by its license plate and has a repair status.
+- **Route**: Identified by a unique route number (≤ 9999).
+- **Assignment**: Links a bus to a route on a specific day. A route can have multiple buses on the same day.
+- **Shift**: Contains information about a driver's assignment to a specific bus and route for a particular shift (morning, afternoon, night) on a given day.
+- **Overview**: Aggregates data for a given day showing which buses are assigned to which routes, along with driver details and shifts.
+
+---
+
+### Notes:
+- Each `Bus` can serve at most one `Route` per day but may serve different routes on different days.
+- There is no restriction on how many shifts a driver can have per day.
+- `Overview` is used to display the status of assignments and shifts for a given day, highlighting if a driver or bus is unavailable due to sick leave or repair.
+

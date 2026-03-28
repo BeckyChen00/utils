@@ -1,0 +1,52 @@
+@startuml
+class AlertRule {
+  priorityLevel: int
+  conditionExpression: String
+  ruleType: String
+  +evaluate(): boolean
+}
+class SensorReading {
+  timestamp: Date
+  value: int
+  unit: String
+  +isValid(): boolean
+}
+class AlarmTrigger {
+  locationCode: String
+  triggerType: String
+  +isActive(): boolean
+}
+class AlertMessage {
+  messageContent: String
+  severityLevel: String
+  sentTime: Date
+  +formatFormattedMessage(): String
+}
+class NotificationChannel {
+  channelType: String
+  currentStatus: String
+  +sendNotification(message: AlertMessage): boolean
+  +acknowledge(): void
+}
+class SystemLog {
+  timestamp: Date
+  message: String
+  +generateLogRecord(content: String): void
+}
+class AlertEngine {
+  activeRules: AlertRule[]
+  +configureRule(rule: AlertRule): void
+  +processSensor(sensor: SensorReading): AlertRule[]
+  +triggerAlert(channel: NotificationChannel): AlertMessage[]
+  +generateSystemLog(message: String): SystemLog
+}
+AlertEngine *-- "*" AlertTarget : managedTargets
+AlertEngine *-- "*" AlertRule : activeRules
+AlertEngine *-- "*" SensorReading : sourceReadings
+AlertEngine *-- "*" NotificationChannel : targetedChannels
+AlertEngine --> "*" AlertMessage : generatedAlerts
+AlertEngine --> "*" SystemLog : recordedLogs
+AlertRule --> "1" AlertTarget : actionTarget
+AlertMessage --> "1" SensorReading : sourceReading
+AlarmTrigger -- NotificationChannel
+@enduml

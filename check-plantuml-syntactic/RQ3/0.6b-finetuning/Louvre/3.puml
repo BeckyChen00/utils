@@ -1,0 +1,22 @@
+@startuml
+enum CirculationLevel {
+  Low
+  Medium
+  High
+  Threshold
+}
+class CircularTechnique {
+  isPublished: boolean
+  globalRecognition: boolean
+  samplingRate: double
+  +validate(): boolean
+  +calculateItsValency(): double
+  +evaluateAdaptability(targetCirculation: CirculationLevel): double
+}
+class RenegadeAccount {
+  reputationScore: double
+  +calculateScore(): double
+  +updateScore(newScore: double): void
+}
+CircularTechnique --|> RenegadeAccount
+@enduml

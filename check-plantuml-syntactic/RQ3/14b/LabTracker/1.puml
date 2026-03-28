@@ -1,0 +1,99 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Doctor {
+  +String practitionerNumber
+  +String fullName
+  +String address
+  +String phoneNumber
+  +Image digitalSignature
+  +Date validityDate
+  +List<Test> prescribedTests
+  +String repetitionCount
+  +RepetitionInterval repetitionInterval
+}
+
+class Patient {
+  +String healthNumber
+  +String firstName
+  +String lastName
+  +Date dateOfBirth
+  +String address
+  +String phoneNumber
+  +List<Requisition> requisitions
+  +List<Appointment> appointments
+}
+
+class Requisition {
+  +String id
+  +Doctor doctor
+  +Patient patient
+  +List<Test> tests
+  +Date validityDate
+  +Integer repetitionCount
+  +RepetitionInterval repetitionInterval
+}
+
+class Test {
+  +String name
+  +String testGroup
+  +Duration duration
+  +Boolean requiresAppointment
+  +Boolean isWalkInOnly
+  +Boolean requiresSampleDropOff
+}
+
+class Appointment {
+  +String confirmationNumber
+  +Date appointmentDate
+  +Time startTime
+  +Time endTime
+  +Lab lab
+  +Requisition requisition
+  +Double fee
+}
+
+class Lab {
+  +String name
+  +String address
+  +String registrationNumber
+  +Time businessStartHour
+  +Time businessEndHour
+  +List<Test> availableTests
+  +Double cancellationFee
+}
+
+enum RepetitionInterval {
+  WEEKLY, MONTHLY, EVERY_HALF_YEAR, YEARLY
+}
+
+Doctor "1" -- "0..*" Requisition : prescribes
+Patient "1" -- "0..*" Requisition : submits
+Requisition "1" -- "1" Doctor : belongsTo
+Requisition "1" -- "1" Patient : belongsTo
+Requisition "1" -- "1.." Test : includes
+Test "1" -- "0..*" Requisition : partOf
+Requisition "1" -- "0..1" Appointment : has
+Appointment "1" -- "1" Lab : at
+Appointment "1" -- "1" Requisition : for
+Lab "1" -- "0..*" Test : offers
+Test "1" -- "0..*" Lab : offeredAt
+@enduml
+
+---
+
+### ✅ Explanation of Key Classes and Relationships:
+
+- **Doctor**: Has personal info, signature, and can prescribe tests to patients (but not themselves).
+- **Patient**: Has personal info and manages their own requisitions and appointments.
+- **Requisition**: Contains tests from the same group, patient and doctor info, and repetition rules.
+- **Test**: Defined by lab, with attributes like duration, whether it needs an appointment, or sample drop-off.
+- **Appointment**: A scheduled time for a test, tied to a specific lab and requisition. Includes fees and cancellation policy.
+- **Lab**: Manages its own schedule, available tests, and fees.
+
+- **Enums**: `RepetitionInterval` defines how often tests are repeated.
+
+---
+
+Let me know if you'd like to generate this as a PNG image or expand it with additional details (e.g., inheritance, interfaces, etc.).

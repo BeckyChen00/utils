@@ -1,0 +1,41 @@
+@startuml
+class GasStation {
+  id: String
+  address: String
+  maxPumps: int
+  +getTotalCapacity(): int
+}
+class FuelPump {
+  pumpNumber: int
+  isSelfService: boolean
+  supportedFuels: String[]
+  +calculateTotalSales(): double
+  +isOperational(): boolean
+}
+class FuelType {
+  fuelName: String
+  octaneRating: double
+  +getFuelDescription(): String
+}
+class FuelPrice {
+  date: Date
+  fuel: FuelType
+  pricePerLiter: double
+  +applyDiscount(rate: double): double
+}
+class FuelPurchase {
+  transactionId: String
+  pump: FuelPump
+  fuel: FuelType
+  litersDispensed: double
+  purchaseDate: Date
+  +getTotalCost(): double
+  +recordPayment(amount: double): void
+}
+GasStation *-- "*" FuelPump : pumps
+FuelPump --> "1" FuelType : primaryFuel
+GasStation --> "*" FuelPrice : historicalPrices
+FuelPurchase --> "1" FuelPrice : appliedPrice
+FuelPurchase --> "1" FuelPump : dispensingPump
+FuelPurchase --> "1" FuelType : purchasedFuel
+@enduml

@@ -1,0 +1,58 @@
+@startuml
+enum OrderStatus {
+  Pending
+  Shipped
+}
+enum TaxCategory {
+  Exempt
+  Standard
+  Reduced
+}
+class Customer {
+  customerName: String
+  customerAddress: String
+  phoneNumber: String
+  emailAddress: String
+  countriesSelling: String[]
+  +placeOrder(representative: Representative, product: Product, quantity: int, deliveryDate: Date): Order
+  +findRepresentative(country: String): Representative
+}
+class Product {
+  productName: String
+  productDescription: String
+  netPrice: double
+  manufacturingCountry: String
+  supportedCountries: String[]
+  +getGrossPrice(vatRate: TaxCategory): double
+  +isValidInCountry(country: String): boolean
+}
+class Representative {
+  representativeName: String
+  representativePhone: String
+  representativeEmail: String
+  socialSecurityNumber: String
+  assignedCountries: String[]
+  +placeOrderForCustomer(customer: Customer, product: Product, quantity: int, deliveryDate: Date): Order
+}
+class Order {
+  orderDate: Date
+  deliveryDate: Date
+  quantityOrdered: int
+  status: OrderStatus
+  +calculateTotalGross(): double
+  +updateStatus(newStatus: OrderStatus): void
+}
+class TaxRate {
+  country: String
+  taxCategory: TaxCategory
+  vatPercentage: double
+  +getEffectiveRate(): double
+  +isExempt(): boolean
+}
+Customer "1" --> "*" Order : placedOrders
+Customer "*" --> "*" Representative : assignedRepresentatives 'opposite: managedCustomers
+Order "*" --> "1" Product : orderedProduct
+Order "*" --> "1" Representative : placedBy
+Product "*" --> "1" TaxRate : calculatedAgainst
+Representative "1" --> "1" TaxRate : appliedTaxRate 'opposite: assignedRepresentatives
+@enduml

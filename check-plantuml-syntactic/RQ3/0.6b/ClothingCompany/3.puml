@@ -1,0 +1,41 @@
+@startuml
+
+class diagram: System Requirement
+
+participant user1, user2, user3
+participant system1, system2, system3
+
+class System {
+    class component1 { name: "User Input" }
+    class component2 { name: "Data Storage" }
+    class component3 { name: "System Logic" }
+}
+
+class User {
+    member variable user1, user2, user3
+}
+
+class DataStorage {
+    member variable storage1, storage2, storage3
+}
+
+class SystemLogic {
+    member variable logic1, logic2, logic3
+}
+
+# Connect components to participants
+user1 --> component1
+user1 --> component2
+user1 --> component3
+user2 --> component1
+user2 --> component2
+user2 --> component3
+user3 --> component1
+user3 --> component2
+user3 --> component3
+
+System --> component1
+System --> component2
+System --> component3
+
+@enduml

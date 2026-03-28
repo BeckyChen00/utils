@@ -1,0 +1,55 @@
+@startuml
+enum AccountType {
+  CURRENT_ACCOUNT
+  SAVINGS_ACCOUNT
+}
+enum AccountStatus {
+  ACTIVE
+  SUSPENDED
+  CLOSED
+}
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+  PAYMENT
+  INTEREST_PAYMENT
+  FEE
+}
+class Customer {
+  firstName: String
+  lastName: String
+  +registerAccount(type: AccountType): Account
+  +viewAccountDetails(account: Account): void
+}
+class Branch {
+  branchCode: String
+  branchName: String
+  location: String
+  +getBranchInfo(): String
+}
+class Account {
+  accountNumber: int
+  currentBalance: double
+  status: AccountStatus
+  accountType: AccountType
+  overdraftLimit: double
+  +makeTransaction(type: TransactionType, amount: double): Transaction
+  +getBalance(): double
+  +isActive(): boolean
+}
+class Transaction {
+  transactionDate: Date
+  amount: double
+  type: TransactionType
+  description: String
+  isSuccessful: boolean
+  +formatReceipt(): String
+  +verifyAmount(): boolean
+}
+Bank *-- "1..*" Customer : customers
+Bank *-- "1..*" Branch : branches
+Customer --> "1..5" Account : accounts
+Account --> "1" Branch : branchLocation
+Account *-- "0..*" Transaction : transactions
+@enduml

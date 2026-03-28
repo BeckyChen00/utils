@@ -1,0 +1,26 @@
+@startuml
+class diagram -- System Requirement
+
+    class "System Requirements" {
+        subelement "Functional Requirements" {
+            subelement "1. Must implement a user authentication system" {
+                text "User Authentication System"
+            }
+        }
+
+        subelement "Non-Functional Requirements" {
+            subelement "2. Ensure the application is secure and complies with local laws" {
+                text "Security Compliance"
+            }
+        }
+    }
+
+    class "Application" {
+        subelement "Main Features" {
+            subelement "3. Provide user-friendly interface" {
+                text "User Interface"
+            }
+        }
+    }
+
+@enduml

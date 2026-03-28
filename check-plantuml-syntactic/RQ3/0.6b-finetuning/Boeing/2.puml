@@ -1,0 +1,55 @@
+@startuml
+enum DocumentSegmentType {
+  Header
+  Content
+  Footer
+  PageBreak
+  HeaderData
+  FooterData
+  SpecialFormat
+}
+enum PageFormat {
+  Letterhead
+  A4
+  SquareSheet
+  PrintBook
+  Draft
+}
+enum DocumentStatus {
+  Draft
+  Printed
+  Completed
+  Cancelled
+  Archive
+}
+class DocumentLibrary {
+  name: String
+  +addItem(document: DocumentItem): void
+  +getItems(): List<DocumentItem>
+}
+class DocumentItem {
+  title: String
+  creationDate: Date
+  status: DocumentStatus
+  +validate(): boolean
+  +print(): void
+  +cancel(): void
+}
+class DocumentTemplate {
+  templateName: String
+  format: PageFormat
+  isReducible: boolean
+  +getSegmentCount(): int
+  +isValid(): boolean
+}
+class DocumentSegment {
+  type: DocumentSegmentType
+  content: String
+  isFormatted: boolean
+  priorityLevel: int
+  +getFormattedContent(): String
+}
+DocumentLibrary *-- "0..*" DocumentItem : items
+DocumentItem *-- "1" DocumentTemplate : template
+DocumentTemplate *-- "1..*" DocumentSegment : segments
+@enduml

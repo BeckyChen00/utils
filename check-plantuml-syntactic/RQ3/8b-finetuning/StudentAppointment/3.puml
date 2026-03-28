@@ -1,0 +1,33 @@
+@startuml
+class Student {
+  name: String
+  isEnrolled: boolean
+  +registerFor(course: Course): void
+  +requestAppointment(course: Course, assistant: TeachingAssistant): Appointment
+}
+class Course {
+  courseCode: String
+  courseName: String
+  +getTeachingAssistant(): TeachingAssistant
+}
+class TeachingAssistant {
+  employeeId: String
+  name: String
+  specialization: String
+  +isAvailable(date: Date, duration: int): boolean
+  +acceptRequest(appointment: Appointment): boolean
+}
+class Appointment {
+  appointmentDate: Date
+  durationMinutes: int
+  status: String
+  +confirm(): void
+  +cancel(): void
+  +getDetails(): String
+}
+Student *-- "0..*" Appointment : studentAppointments
+Appointment --> "1" Course : targetCourse
+Appointment --> "1" TeachingAssistant : assignedAssistant
+Course --> "1" TeachingAssistant : assignedAssistant
+Student --> "0..*" Course : enrolledCourses
+@enduml

@@ -1,0 +1,81 @@
+
+@startuml
+
+' Define classes and their attributes/relationships
+
+class University {
+}
+
+class Faculty {
+    - name: String
+}
+
+class Institute {
+    - name: String
+    - address: String
+}
+
+class Employee {
+    - socialSecurityNumber: String
+    - name: String
+    - email: String
+}
+
+class ResearchStaff {
+    - fieldOfResearch: String
+}
+
+class AdministrativeStaff {
+}
+
+class ResearchAssistant {
+}
+
+class Lecturer {
+}
+
+class Project {
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - hoursInvolved: int
+}
+
+class Course {
+    - id: String (unique)
+    - name: String
+    - weeklyDuration: int
+}
+
+' Inheritance relationships
+Employee <|-- ResearchStaff
+Employee <|-- AdministrativeStaff
+ResearchStaff <|-- ResearchAssistant
+ResearchAssistant <|-- Lecturer
+
+' Association relationships
+University "1" --> "0..*" Faculty : contains
+Faculty "1" --> "0..*" Institute : contains
+Faculty "1" --> "1" Dean : has
+Employee "1" --> "0..*" ResearchAssistant : isOfType
+Institute "1" --> "0..*" ResearchAssistant : assigns
+ResearchAssistant "0..*" --> "0..*" Project : participatesIn
+Lecturer "0..*" --> "0..*" Course : teaches
+
+note right of ResearchAssistant
+  Can be assigned to multiple institutes.
+  May participate in projects.
+  May also teach courses as a Lecturer.
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **University**, **Faculty**, and **Institute**: Hierarchical structure with `University` containing `Faculties`, and each `Faculty` containing `Institutes`.
+- **Dean** is an **Employee** who leads a **Faculty**.
+- **Employee** is the base class for **Research Staff** and **Administrative Staff**.
+- **Research Assistant** is a type of **Research Staff** who can be assigned to **Institutes**, involved in **Projects**, and may become **Lecturers** if they teach **Courses**.
+- **Course** has a unique ID, name, and duration.
+

@@ -1,0 +1,66 @@
+@startuml
+enum OrderState {
+  Pending
+  Processing
+  Completed
+  Cancelled
+}
+class Order {
+  customerName: String
+  orderDate: Date
+  shippingAddress: String
+  totalAmount: double
+  +calculateTotal(): double
+  +updateStatus(newStatus: OrderState): void
+}
+class OrderItem {
+  itemName: String
+  quantity: int
+  unitPrice: double
+  +calculateSubtotal(): double
+  +updateQuantity(amount: int): void
+}
+class PaymentTransaction {
+  amount: double
+  status: String
+  date: Date
+  +processPayment(): boolean
+  +refund(): boolean
+}
+class Warehouse {
+  warehouseName: String
+  location: String
+  +listItems(): List<String>
+  +reserveSpace(item: OrderItem): boolean
+}
+class InventoryItem {
+  itemName: String
+  stockLevel: int
+  reorderLevel: int
+  +checkAvailability(): boolean
+  +restock(amount: int): void
+}
+class WharfRoom {
+  roomNumber: String
+  capacityMax: int
+  +getOccupancyRate(): double
+  +assignStaff(staff: StaffMember): boolean
+  +removeItem(item: InventoryItem): void
+}
+class StaffMember {
+  employeeId: String
+  name: String
+  role: String
+  +updateProfile(): void
+  +assignRoom(room: WharfRoom): void
+}
+Order *-- "0..*" OrderItem : orderItems
+Order --> "1" StaffMember : assignedStaff 'opposite: fulfilledOrders
+Order --> "1" Warehouse : deliveredTo 'opposite: shipments
+Order *-- "1..*" PaymentTransaction : relatedPayments
+Order *-- "1..*" InventoryItem : ingredients
+InventoryItem --> "0..*" Warehouse : storedIn
+Warehouse --> "1" WharfRoom : locatedIn
+WharfRoom *-- "0..*" InventoryItem : storedItems
+WharfRoom --> "1" StaffMember : managementStaff
+@enduml

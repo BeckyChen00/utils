@@ -1,0 +1,104 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Employee {
+  +String name
+  +String socialSecurityNumber
+}
+
+abstract class CreativeEmployee {
+  +boolean hasOscar
+}
+
+class Director extends CreativeEmployee {
+  +String assistantName
+}
+
+class Actor extends CreativeEmployee {
+  +List<String> education
+}
+
+class Technician extends Employee {
+  +String fieldOfActivity
+}
+
+class FilmSet {
+  +String location
+  +List<Film> films
+}
+
+class Film {
+  +String title
+  +int yearOfRelease
+  +Genre genre
+  +Screenplay screenplay
+  +Director director
+  +List<Actor> actors
+  +FilmSet filmSet
+}
+
+enum Genre {
+  Thriller
+  Action
+  Horror
+  Comedy
+}
+
+class Screenwriter {
+  +String name
+  +String mostSuccessfulFilm
+  +List<Screenplay> screenplays
+}
+
+class Screenplay {
+  +String title
+  +int version
+  +Date date
+  +int numberOfScenes
+  +String plot
+  +BasedOn basedOn
+  +Film film
+  +Screenwriter screenwriter
+}
+
+enum BasedOn {
+  Novel
+  Concept
+}
+
+class Novel {
+  +String title
+  +String author
+}
+
+' Relationships
+
+' Inheritance
+CreativeEmployee <|-- Director
+CreativeEmployee <|-- Actor
+Employee <|-- CreativeEmployee
+Employee <|-- Technician
+
+' Associations
+Film "1" -- "1" Screenplay : uses
+Film "1" -- "1..*" FilmSet : shot at
+Film "1" -- "1" Director : directed by
+Film "1" -- "0..*" Actor : cast with
+Screenplay "1" -- "1" Screenwriter : written by
+Screenplay "1" -- "1" BasedOn : is based on
+BasedOn "Concept" --> "" : (no further details)
+BasedOn "Novel" --> "1" Novel : based on
+
+@enduml
+
+---
+
+### Notes:
+- The `Employee` class is the base for all roles.
+- `CreativeEmployee` is an abstract class that includes both `Director` and `Actor`, each with specific attributes like `assistantName` and `education`.
+- A `Film` can be shot at multiple `FilmSets`, and a `FilmSet` can host multiple films.
+- A `Screenplay` is written by one `Screenwriter` and used for exactly one `Film`.
+- A `Screenplay` can be based on either a `Novel` or a `Concept`.
+

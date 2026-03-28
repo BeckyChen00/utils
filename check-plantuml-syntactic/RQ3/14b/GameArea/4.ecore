@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="**" eType="#//PlantUML" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlantUML"/>
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getGameElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GameElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//getGameElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameArea">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//GamePiece" lowerBound="1" upperBound="2" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boss" eType="#//Opponent" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GamePiece"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Shape" eSuperTypes="#//GameElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedTo" eType="#//Shape" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Object" eSuperTypes="#//GameElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Opponent" eSuperTypes="#//GameElement"/>
+</ecore:EPackage>

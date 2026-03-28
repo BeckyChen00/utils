@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetList" eType="#//MailingList" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MailingList"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EmailCampaign">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedTasks" eType="#//JobTask" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredJobs" eType="#//OnetimeJob" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeRecoveryPlans" eType="#//RecoveryPlan" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedNetworks" eType="#//NetworkJob" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="utilizedEngine" eType="#//ScriptEngine" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedLists" eType="#//MailingList" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coordinator" eType="#//TaskManager" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containerTasks" eType="#//JobTask" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JobTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constituentSubjobs" eType="#//Subjob" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initiatedNetworks" eType="#//NetworkJob" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedTasks" eType="#//JobTask" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemScheduler" eType="#//AsyncScheduler" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledTasks" eType="#//Task" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePlans" eType="#//RecoveryPlan" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="queuedOnetimes" eType="#//OnetimeJob" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AsyncScheduler">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="queuedTasks" eType="#//JobTask" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Subjob"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NetworkJob">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedRules" eType="#//FirewallRule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="utilizedEngine" eType="#//ScriptEngine" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetApps" eType="#//Application" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FirewallRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScriptEngine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Application"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RecoveryPlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OnetimeJob">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetApplication" eType="#//Application" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

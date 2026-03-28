@@ -1,0 +1,95 @@
+
+@startuml
+
+' Define classes based on the requirement
+
+class Location {
+  +String name
+  +int capacity
+  +List<Exhibition> exhibitions
+}
+
+class Exhibition {
+  +String title
+  +Date startDate
+  +Date endDate
+  +Location location
+  +Employee coordinator
+  +List<ExhibitionItem> items
+}
+
+class Employee {
+  +String name
+  +String role
+  +Employee coach
+  +List<Exhibition> exhibitionsCoordinated
+  +List<Employee> juniorEmployees
+}
+
+class ExhibitionItem {
+  +String description
+  +String category
+  +List<Piece> requestedPieces
+  +Exhibition exhibition
+}
+
+class Piece {
+  +String title
+  +Artist artist
+  +Collector collector
+  +ExhibitionItem item
+}
+
+class Artist {
+  +String name
+  +Date birthDate
+  +Date deathDate
+}
+
+class Collector {
+  +String name
+  +String contactInfo
+  +List<Piece> ownedPieces
+}
+
+' Relationships
+
+' A Location has multiple Exhibitions
+Location "1" -- "*" Exhibition : contains
+
+' An Exhibition is coordinated by one Employee
+Exhibition "1" -- "1" Employee : coordinated by
+
+' An Exhibition consists of multiple ExhibitionItems
+Exhibition "1" -- "*" ExhibitionItem : includes
+
+' An ExhibitionItem may have multiple Pieces
+ExhibitionItem "1" -- "*" Piece : requests
+
+' A Piece belongs to one Artist and one Collector
+Piece "1" -- "1" Artist : created by
+Piece "1" -- "1" Collector : owned by
+
+' An Employee may have a Coach (Senior Employee)
+Employee "1" -- "0..1" Employee : coached by
+Employee "1" -- "*" Employee : coaches
+
+' A Collector owns multiple Pieces
+Collector "1" -- "*" Piece : owns
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **`Location`**: Represents a part of the museum that can host exhibitions.
+- **`Exhibition`**: A specific event planned in a `Location`, managed by an `Employee`.
+- **`ExhibitionItem`**: A specific item or theme within an exhibition, e.g., "A sunflower painting".
+- **`Piece`**: A physical artwork (e.g., Van Gogh's *Sunflowers*), sourced from a `Collector`.
+- **`Artist`**: The creator of the piece.
+- **`Collector`**: Owns one or more pieces and can be contacted for loaning them.
+- **`Employee`**: Museum staff who coordinate exhibitions and may have coaching relationships.
+
+---
+

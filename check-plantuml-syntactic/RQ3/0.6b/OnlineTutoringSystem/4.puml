@@ -1,0 +1,28 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement { 
+        class name: SystemRequirement
+        class description: System Requirement
+    }
+}
+
+class DiagramComponent {
+    class name: Component1
+    class description: Component 1
+}
+class DiagramElement {
+    class name: Element1
+    class description: Element 1
+}
+class DiagramRelationship {
+    class name: Relationship1
+    class description: Relationship between elements
+}
+
+Diagram -> SystemRequirement
+SystemRequirement --> DiagramComponent
+DiagramComponent --> DiagramElement
+DiagramElement --> DiagramRelationship
+
+@enduml

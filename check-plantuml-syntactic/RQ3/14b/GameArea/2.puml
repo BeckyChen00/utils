@@ -1,0 +1,86 @@
+
+---
+
+
+@startuml
+class GameArea {
+  -name: String
+}
+
+class GameElement {
+  x: long
+  y: long
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+  lives: int
+}
+
+GameArea "1" *-- "1..2" GamePiece : contains
+GameArea "1" --> "1" Opponent : boss
+
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+
+Shape "1" *-- "0..*" Shape : connectedTo
+@enduml
+
+---
+
+### ✅ **Textual Representation (DEX Syntax)**
+
+classes:
+
+  GameArea {
+    name: String
+  }
+
+  GameElement {
+    x: long
+    y: long
+  }
+
+  Shape {
+  }
+
+  Object {
+  }
+
+  Opponent {
+    lives: int
+  }
+
+  GamePiece {
+  }
+
+relationships:
+
+  GameArea --(contains)--> GamePiece [multiplicity: 1..2]
+  GameArea --(boss)--> Opponent [multiplicity: 1]
+
+  GameElement <|-- Shape
+  GameElement <|-- Object
+  GameElement <|-- Opponent
+
+  Shape --(connectedTo)--> Shape [multiplicity: 0..*]
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **Role Names**: `contains`, `boss`, `connectedTo`
+- **Associations**: 
+  - `GameArea` contains `GamePiece` (1 to 1..2)
+  - `GameArea` has a `boss` which is an `Opponent` (1 to 1)
+  - `Shape` can be connected to any number of other `Shape` objects
+- **Inheritance**: 
+  - `Shape`, `Object`, and `Opponent` inherit from `GameElement`
+
+Let me know if you'd like to include additional attributes or methods!

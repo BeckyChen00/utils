@@ -1,0 +1,102 @@
+
+@startuml
+
+' Define the main classes
+class SmartHome {
+    - id: String
+    - address: String
+    + activateDevice(device: Device): void
+    + deactivateDevice(device: Device): void
+}
+
+class Room {
+    - name: String
+    - smartHome: SmartHome
+    + addDevice(device: Device): void
+}
+
+abstract class Device {
+    - id: String
+    - room: Room
+    - status: Boolean
+}
+
+class Sensor extends Device {
+    + getReading(): SensorReading
+}
+
+class Actuator extends Device {
+    + sendCommand(command: ControlCommand): ControlCommand
+}
+
+class SensorReading {
+    - timestamp: DateTime
+    - value: Number
+    - sensor: Sensor
+}
+
+class ControlCommand {
+    - timestamp: DateTime
+    - commandType: String
+    - status: String ("requested", "completed", "failed")
+    - actuator: Actuator
+}
+
+class ActivityLog {
+    + logSensorReading(reading: SensorReading): void
+    + logControlCommand(command: ControlCommand): void
+}
+
+class User {
+    - username: String
+    - role: String ("owner", "guest")
+    + createRule(rule: AutomationRule): void
+    + editRule(rule: AutomationRule): void
+}
+
+class AutomationRule {
+    - id: String
+    - owner: User
+    - precondition: String
+    - action: List<ControlCommand>
+    - isActive: Boolean
+    - dependencies: List<AutomationRule>
+    - conflictsWith: List<AutomationRule>
+    + trigger(timestamp: DateTime): void
+}
+
+class Alert {
+    - rule: AutomationRule
+    - timestamp: DateTime
+    - message: String
+}
+
+' Relationships
+SmartHome "1" -- "0..*" Room : contains
+Room "1" -- "0..*" Device : contains
+Device <|-- Sensor
+Device <|-- Actuator
+Sensor "1" -- "0..*" SensorReading : generates
+Actuator "1" -- "0..*" ControlCommand : receives
+ActivityLog "1" -- "0..*" SensorReading : logs
+ActivityLog "1" -- "0..*" ControlCommand : logs
+User "1" -- "0..*" AutomationRule : creates/edits
+AutomationRule "0..*" -- "0..*" AutomationRule : depends on/conflicts with
+AutomationRule "1" -- "1" Alert : triggers
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- The `SmartHome` class manages rooms and devices.
+- `Sensor` and `Actuator` are specialized types of `Device`.
+- All sensor readings and control commands are logged in an `ActivityLog`.
+- `AutomationRule` allows users to define conditions and actions based on sensors and actuators.
+- Rules can depend on or conflict with other rules.
+- Only the **owner** user can manage automation rules (create, edit, activate, deactivate).
+- When a rule is triggered, it results in an `Alert`.
+
+---
+

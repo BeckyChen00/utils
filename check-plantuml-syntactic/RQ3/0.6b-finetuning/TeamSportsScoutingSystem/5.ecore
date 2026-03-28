@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="profile" eType="#//SocialMediaProfile" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SocialMediaProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="messageHistory" eType="#//MessageHistory" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pendingRequests" eType="#//FriendRequest" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notifications" eType="#//Notification" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MessageHistory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FriendRequest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Conversation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="history" eType="#//MessageHistory" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pendingRequests" eType="#//FriendRequest" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Group">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" eType="#//UserAccount" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notifications" eType="#//Notification" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="devices" eType="#//Device" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Device"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalyticsReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="charts" eType="#//Device" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

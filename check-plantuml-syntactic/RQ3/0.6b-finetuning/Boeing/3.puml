@@ -1,0 +1,44 @@
+@startuml
+enum ValidityStatus {
+  Verified
+  Pending
+  Rejected
+}
+enum PassageType {
+  Aec
+  DeepSea
+  Surface
+}
+enum FrigateCategory {
+ Cargo
+  Personnel
+  Marine
+  Special
+}
+class Frigate {
+  isActive: boolean
+  category: FrigateCategory
+  currentPassageType: PassageType
+  isHeavyLift: boolean
+  validStatus: ValidityStatus
+  +calculateFuelConsumption(weight: double, isPassenger: boolean): double
+  +getPassageSummary(): String
+}
+class VoyagePath {
+  pilotName: String
+  destinationPort: String
+  currentStage: String
+  +getEstimatedFuelConsumption(): double
+}
+class FuelRunway {
+  runwayCode: String
+  isStaged: boolean
+}
+class PassengerGroup {
+  totalSeats: int
+  +getGroupSize(): int
+}
+Frigate *-- "0..*" VoyagePath : voyagePaths
+VoyagePath *-- "0..*" FuelRunway : fuelRunways
+VoyagePath --> "1" PassengerGroup : groupedPassengers
+@enduml

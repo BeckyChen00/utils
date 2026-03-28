@@ -1,0 +1,138 @@
+@startuml
+enum RoadSegmentType {
+  Smooth:
+  Rough:
+  Narrow:
+  Contaminated:
+}
+enum TrafficLightPhase {
+  Neutral:
+  Red:
+  Green:
+  Yellow:
+}
+class LaneSegment {
+  segmentType: RoadSegmentType
+  totalCapacity: int
+  +getOccupancyRate(): double
+  +calculateThroughput(): int
+}
+class TrafficLight {
+  currentPhase: TrafficLightPhase
+  +triggerLight(phase: TrafficLightPhase): void
+  +getCurrentPhase(): TrafficLightPhase
+}
+class ParkingZone {
+  zoneName: String
+  maxOccupancy: int
+  +getAvailableSpace(length: int, width: int): int
+  +isOccupied(): boolean
+}
+class SensorReading {
+  timestamp: Date
+  signalStrength: int
+  +getSignalQuality(): String
+}
+class RoutePlan {
+  plannedRoute: String
+  +calculateEstimatedDuration(): double
+  +addStop(segment: LaneSegment, frequency: int): void
+  +getTotalDistance(): int
+}
+class RouteOptimizer {
+  algorithmType: String
+  +optimizeRoute(origin: ParkingZone, target: ParkingZone): RoutePlan
+  +generateRouteJson(): String
+}
+class TrafficController {
+  controlMode: String
+  +updateLightState(priority: int): TrafficLight
+  +checkZoneStatus(zone: ParkingZone): boolean
+  +forwardVehicle(vehicleId: String): void
+}
+class Vehicle {
+  licensePlate: String
+  vehicleType: String
+  -hasAutomaticBraking: boolean
+  -receiveSensorReading(reading: SensorReading): SensorReading
+  +updateStatus(roadStatus: int): void
+  +navigate(toLane: LaneSegment): void
+}
+class FleetManager {
+  fleetName: String
+  +assignVehicleToNode(node: TrafficNode, vehicle: Vehicle): void
+  +getNextVehicleLevel(): int
+  +getTotalVehicleCount(): int
+}
+class TrafficNode {
+  nodeIdentifier: String
+  locationCoordinates: String
+  +getIntersectionIndex(): int
+}
+class RoadSegment {
+  segmentName: String
+  lengthMeters: int
+  +getSegmentIndex(): int
+}
+class ScenarioSolver {
+  situationDetails: String
+  +solveScenario(road: RoadSegment, vehicle: Vehicle): boolean
+  +getOptimalPlan(): RoutePlan
+}
+class DataAnalyzer {
+  +analyzeTraffic(road: RoadSegment, date: Date): String
+  +generateReport(): String
+}
+class SimulationEngine {
+  +startSimulation(road: RoadSegment, vehicle: Vehicle): TrafficNode
+  +runSimulation(stepCount: int, startTime: Date): TrafficNode
+  +getSimulationStatus(): String
+}
+class MonitoringStation {
+  stationLabel: String
+  +collectSensorData(): SensorReading
+  +detectFloodRisk(): boolean
+  +processReading(reading: SensorReading): SensorReading
+}
+class IncidentReport {
+  incidentCode: String
+  severityLevel: int
+  description: String
+  +getSeverityLevel(): int
+  +generateSummary(): String
+}
+class AlertSystem {
+  alertThreshold: double
+  +triggerAlert(severity: int, message: String): void
+  +acknowledgeAlert(): void
+}
+class AdvisoryMessage {
+  messageContent: String
+  timestamp: Date
+  +formatMessage(): String
+}
+class NotificationManager {
+  +sendNotification(message: AdvisoryMessage, route: RoutePlan): void
+  +forwardNotice(destination: String): void
+}
+TrafficController *-- "1" TrafficLight : managedLight
+TrafficController *-- "1" FleetManager : controlledFleet
+Vehicle *-- "1" LaneSegment : currentLane
+Vehicle --> "1" RoutePlan : activeRoute 'opposite: targetVehicle
+Vehicle --> "0..*" RoadSegment : occupiedSegments
+Vehicle --> "0..*" SensorReading : receivesReadings
+Vehicle --> "1" ScenarioSolver : usedScenario
+Vehicle --> "0..*" Vehicle : ownsMultiple
+Vehicle --> "1" FleetManager : managedFleet
+Vehicle --> "1" MonitoringStation : monitoredAt
+Vehicle --> "1" AlertSystem : alertsTo
+Vehicle --> "1" NotificationManager : notifiesOf
+MonitoringStation --> "1" RoadSegment : recordedOn
+MonitoringStation *-- "1" AlertSystem : monitoringEngine
+MonitoringStation *-- "0..*" IncidentReport : generatedReports
+ScenarioSolver *-- "1" SimulationEngine : simulatedEngine
+Vehicle --> "1" RoutePlan : plannedRoute
+Vehicle --> "0..*" IncidentReport : reportedIncidents
+MonitoringStation --> "1" ScenarioSolver : activeSolver
+MonitoringStation --> "1" Vehicle : monitoredVehicle
+@enduml

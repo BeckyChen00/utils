@@ -1,0 +1,21 @@
+@startuml
+    class Diagram {
+        class User { name, email }
+        class Role { name, description }
+        class Permission { name, description }
+        class Resource { name, description, id }
+        class AccessControl {
+            role: [Role]
+            permission: [Permission]
+            resource: [Resource]
+            user: [User]
+        }
+
+        link accessControl.role to Role.name
+        link accessControl.permission to Permission.name
+        link accessControl.resource to Resource.name
+        link accessControl.user to User.name
+    }
+
+    # End of diagram
+@enduml

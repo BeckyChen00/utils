@@ -1,0 +1,78 @@
+
+@startuml
+
+' Define classes and their attributes/operations
+
+class EBike {
+  +Frame frame
+  +DriveSystem driveSystem
+  +Controller controller
+  +Battery battery (optional)
+}
+
+class Frame {
+  -String material = "steel"
+}
+
+class DriveSystem {
+  +Motor motor
+}
+
+class Motor {
+}
+
+class Battery {
+  -double energyStoredWh: double // Energy in Watt-hours
+}
+
+class Controller {
+  -State state: State // On, Off, Charging
+  +controlBattery(Battery): void
+  +commandDriveSystem(DriveSystem): void
+}
+
+abstract class State {
+}
+
+class On <<State>> {
+}
+
+class Off <<State>> {
+}
+
+class Charging <<State>> {
+}
+
+class BasicController extends Controller {
+}
+
+class AdvancedController extends Controller {
+  +estimateNextInspectionDate(): Date
+}
+
+' Relationships
+
+EBike *-- Frame
+EBike *-- DriveSystem
+EBike *-- Controller
+EBike o-- Battery : 0..1
+
+DriveSystem *-- Motor
+
+Controller --> State : has
+Controller ..> Battery : controls
+Controller ..> DriveSystem : commands
+
+BasicController <|-- Controller
+AdvancedController <|-- Controller
+
+@enduml
+
+### Explanation of Key Elements:
+- **EBike**: Composed of a `Frame`, `DriveSystem`, and `Controller`. It can optionally have a `Battery`.
+- **Frame**: Made from steel by default.
+- **DriveSystem**: Contains a `Motor`.
+- **Battery**: Stores energy in watt-hours (Wh).
+- **Controller**: Abstract base class with two variants (`BasicController` and `AdvancedController`). The advanced one includes an inspection date estimation method.
+- **State**: An abstract class with three concrete states: `On`, `Off`, and `Charging`.
+

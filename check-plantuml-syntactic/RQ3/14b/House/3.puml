@@ -1,0 +1,77 @@
+
+@startuml
+' Define classes and their attributes
+
+class House {
+  -address: String
+  -buildingMaterial: String (wood, brick, concrete)
+  -hasBasement: Boolean
+  -basement: Basement
+}
+
+class Basement {
+  -name: String
+  -size: Double
+}
+
+class EarthBasement <|-- Basement {
+  -humidityLevel: Double
+}
+
+class ConcreteBasement <|-- Basement
+
+class SemiDetachedHouse <|-- House {
+  -hasGarden: Boolean
+  -numWindows: Integer
+  -parking: Parking
+}
+
+class Parking {
+  -type: String (carport or garage)
+}
+
+class Carport <|-- Parking {
+  -isDouble: Boolean
+  -hasFlatRoof: Boolean
+}
+
+class Garage <|-- Parking {
+  -hasAutomaticDoor: Boolean
+}
+
+class Company {
+  -name: String
+  -address: String
+}
+
+class JobLog {
+  -company: Company
+  -hours: Integer
+  -agreedPrice: Double
+}
+
+' Define associations
+
+House "1" *-- "0..*" Company : serviced by
+House "1" *-- "0..1" Basement : has
+SemiDetachedHouse "1" -- "1" Parking : has
+Company "1" *-- "0..*" JobLog : performs job in
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **House** is the base class that stores general information about a house.
+- **Basement** is a class with two subclasses:
+  - **EarthBasement** adds a `humidityLevel` attribute.
+  - **ConcreteBasement** is a placeholder for future expansion.
+- **SemiDetachedHouse** is a subclass of **House** and adds garden, window count, and parking info.
+- **Parking** is an abstract class with two subclasses:
+  - **Carport**, which includes whether it’s double and has a flat roof.
+  - **Garage**, which includes whether it has an automatic door.
+- **Company** stores name and address.
+- **JobLog** records the details of jobs done by companies in houses.
+
+---
+

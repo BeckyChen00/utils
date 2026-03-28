@@ -1,0 +1,137 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor #f0f0f0
+skinparam classAttributeIconSize 0
+
+' Entities
+class Resident {
+    +name: String
+    +streetAddress: String
+    +phoneNumber: String
+    +emailAddress: String (optional)
+    +descriptionOfItems: String
+    +schedulePickup(date: Date, time: Time)
+}
+
+class PickupRequest {
+    +id: int
+    +resident: Resident
+    +date: Date
+    +time: Time
+    +itemsDescription: String
+    +status: Status
+}
+
+enum Status {
+    PENDING,
+    CONFIRMED,
+    COMPLETED,
+    CANCELLED
+}
+
+class VolunteerDriver {
+    +name: String
+    +phoneNumber: String
+    +availableDays: List<Date>
+    +assignRoute(route: PickupRoute)
+}
+
+class PickupVehicle {
+    +id: int
+    +capacity: int (storage space in cubic meters)
+    +dimensions: Dimensions
+    +weightCapacity: int (kg)
+    +currentRoute: PickupRoute
+}
+
+class PickupRoute {
+    +id: int
+    +vehicle: PickupVehicle
+    +pickupRequests: List<PickupRequest>
+    +startDate: Date
+    +endDate: Date
+    +calculateOptimalRoute()
+}
+
+class DistributionCenter {
+    +processReceivedItems(items: List<Item>)
+    +assignCategory(item: Item, category: Category)
+    +tagItemWithRFID(item: Item)
+    +notifyClient(client: Client, items: List<Item>)
+    +arrangeDelivery(item: Item, client: Client)
+}
+
+class FoodBank {
+    +receiveNonPerishableFoods(foods: List<FoodItem>)
+}
+
+class Item {
+    +id: int
+    +description: String
+    +category: Category
+    +rfidTag: RFID
+    +condition: Condition
+}
+
+enum Category {
+    BABY_CLOTHING, WOMEN_WINTER_BOOTS, FRIDGE, MICROWAVE, ...
+}
+
+enum Condition {
+    GOOD, FAIR, POOR
+}
+
+class RFID {
+    +id: String
+}
+
+class FoodItem {
+    +id: int
+    +type: String (e.g., canned food, dried goods)
+    +quantity: int
+}
+
+class Client {
+    +name: String
+    +streetAddress: String
+    +phoneNumber: String
+    +emailAddress: String (optional)
+    +requestedCategories: List<Category>
+}
+
+class PickupService {
+    +schedulePickup(resident: Resident, date: Date, time: Time)
+    +generatePickupRoute(vehicles: List<PickupVehicle>)
+    +assignPickupRequestsToVehicles(routes: List<PickupRoute>)
+}
+
+' Relationships
+Resident --> PickupRequest
+VolunteerDriver --> PickupRoute
+PickupVehicle --> PickupRoute
+PickupRequest --> PickupRoute
+DistributionCenter --> Item
+DistributionCenter --> Client
+FoodBank --> FoodItem
+Client --> FoodItem
+PickupService --> PickupRequest
+PickupService --> PickupRoute
+
+@enduml
+
+---
+
+### ✅ Notes:
+- The **`Status`**, **`Category`**, and **`Condition`** enums represent possible values for various attributes.
+- **PickupService** manages the scheduling of pickups and route generation.
+- **DistributionCenter** handles item processing, categorization, and delivery arrangements.
+- **FoodBank** is only involved with non-perishable food items.
+- **Client** is a specific type of user who receives items from H2S and may request delivery.
+
+---
+
+### 📌 How to Use:
+2. Render it to generate the UML diagram.
+
+Let me know if you'd like this diagram rendered as an image or need a version tailored for a specific tool!

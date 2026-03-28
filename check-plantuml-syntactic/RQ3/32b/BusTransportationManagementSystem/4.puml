@@ -1,0 +1,81 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Driver {
+    - driverID: int (auto-generated)
+    - name: String
+    - isOnSickLeave: boolean
+}
+
+class Bus {
+    - licensePlate: String (max 10 chars)
+    - isInRepairShop: boolean
+}
+
+class Route {
+    - routeNumber: int (max 9999)
+}
+
+class Assignment {
+    - date: Date
+    - bus: Bus
+    - route: Route
+}
+
+class Shift {
+    - shiftType: String (Morning, Afternoon, Night)
+    - startTime: Time
+    - endTime: Time
+}
+
+class DriverShiftAssignment {
+    - date: Date
+    - driver: Driver
+    - shift: Shift
+    - bus: Bus
+    - route: Route
+}
+
+class Overview {
+    - date: Date
+    - route: Route
+    - busesAssigned: List<Bus>
+    - shifts: List<Shift>
+    - driversAssigned: List<Driver>
+}
+
+' Relationships
+
+Driver "1" -- "many" DriverShiftAssignment : assigned to
+Bus "1" -- "many" Assignment : assigned to
+Bus "1" -- "many" DriverShiftAssignment : served in
+Route "1" -- "many" Assignment : has
+Route "1" -- "many" Shift : has
+Shift "1" -- "many" DriverShiftAssignment : covered by
+DriverShiftAssignment "1" -- "1" Shift : uses
+DriverShiftAssignment "1" -- "1" Driver : assigned
+DriverShiftAssignment "1" -- "1" Bus : on
+DriverShiftAssignment "1" -- "1" Route : for
+Overview "1" -- "many" Route : includes
+Overview "1" -- "many" Bus : shows
+Overview "1" -- "many" Driver : shows
+Overview "1" -- "many" Shift : includes
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Driver**: Identified by a unique ID and name. Can be marked as on sick leave.
+- **Bus**: Identified by a license plate (up to 10 characters). Can be marked as in repair.
+- **Route**: Identified by a number (max 9999).
+- **Assignment**: Links a **Bus** to a **Route** for a specific **Date**.
+- **Shift**: Represents morning, afternoon, or night shifts with start/end times.
+- **DriverShiftAssignment**: Associates a **Driver**, **Shift**, **Bus**, and **Route** for a particular **Date**.
+- **Overview**: Provides a summary view for a given day, showing all relevant data including status flags.
+
+---
+

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredProfile" eType="#//ContactProfile" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContactProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Registration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loyaltyPointsBalance" eType="#//LoyaltyPointBalance" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contactProfile" eType="#//ContactProfile" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LoyaltyPointBalance"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Member">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contactProfiles" eType="#//ContactProfile" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedRules" eType="#//DiscountRule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiscountRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sentTo" eType="#//Member" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recipientProfile" eType="#//ContactProfile" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

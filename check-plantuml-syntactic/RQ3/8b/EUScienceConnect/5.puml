@@ -1,0 +1,90 @@
+
+@startuml
+
+' Define the classes
+class Person {
+  +personID: String
+  +phone: String
+  +keywords: List<String>
+  +institutionCode: String
+}
+
+class Institution {
+  +institutionCode: String
+  +name: String
+}
+
+class Article {
+  +doi: String
+  +title: String
+  +authors: List<Person>
+  +authorPositions: List<Integer>
+  +type: String (PeerReviewed / TechnicalReport)
+}
+
+class PeerReviewedArticle extends Article {
+  +citationCount: Integer
+  +reviewers: List<Person>
+}
+
+class TechnicalReport extends Article {
+  +publisher: String
+}
+
+class Publisher {
+  +name: String
+  +journals: List<Journal>
+}
+
+class Journal {
+  +name: String
+  +impactFactor: Double
+  +publisher: Publisher
+}
+
+' Relationships
+
+' A person belongs to an institution
+Person "1" --o "0..1" Institution : belongsTo
+
+' A person can be an author of an article
+Person "1" --o "0..*" Article : authoredBy
+
+' A person can be a reviewer of a peer-reviewed article
+Person "1" --o "0..*" PeerReviewedArticle : reviewedBy
+
+' An article has authors and their positions
+Article "1" --o "0..*" Person : author (with multiplicity)
+
+' A peer-reviewed article has reviewers
+PeerReviewedArticle "1" --o "0..*" Person : reviewer
+
+' An article can be a technical report, which is published by an institution
+TechnicalReport "1" --o "0..1" Institution : publishedBy
+
+' A technical report is associated with a publisher
+TechnicalReport "1" --o "0..1" Publisher : publishedBy
+
+' A publisher has journals
+Publisher "1" --o "0..*" Journal : hasJournals
+
+' A journal is published by a publisher
+Journal "1" --o "1" Publisher : publishedBy
+
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+
+- **Person** is associated with an **Institution**.
+- **Person** can be an **Author** of an **Article**.
+- **Person** can be a **Reviewer** of a **PeerReviewedArticle**.
+- **Article** has a list of **Authors** and their **author positions**.
+- **PeerReviewedArticle** has **Reviewers**.
+- **TechnicalReport** is published by an **Institution**.
+- **TechnicalReport** is also associated with a **Publisher**.
+- **Publisher** publishes **Journals**, each with a **name** and **impact factor**.
+- **Journal** is published by a **Publisher**.
+- **PeerReviewedArticle** is only published in **Journals**.
+

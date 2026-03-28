@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//SocialMediaPost"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SocialMediaPost"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Message" eSuperTypes="#//SocialMediaPost"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="profilePlaylists" eType="#//SocialMediaPost" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engagementHistory" eType="#//EngagementData" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EngagementData"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalyticsReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedData" eType="#//EngagementData" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedBy" eType="#//UserAccount" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

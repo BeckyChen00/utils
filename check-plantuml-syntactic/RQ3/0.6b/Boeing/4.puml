@@ -1,0 +1,14 @@
+@startuml
+    class diagram SystemRequirement {
+        component system requirement {
+            component name: SystemRequirement
+
+            member {
+                component name: system
+                component name: requirement
+            }
+        }
+    }
+
+    # Add more components as needed
+@enduml

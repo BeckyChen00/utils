@@ -1,0 +1,144 @@
+
+@startuml
+skinparam linetype=orthogonal
+
+class SmartHome {
+  -physicalAddress: String
+  -rooms: List<Room>
+  -infrastructureMap: Map<DeviceId, Device>
+  +addRoom(room: Room)
+  +removeRoom(room: Room)
+  +updateInfrastructureMap(deviceId: DeviceId, device: Device)
+}
+
+class Room {
+  -name: String
+  -sensors: List<Sensor>
+  -actuators: List<Actuator>
+  +addSensor(sensor: Sensor)
+  +removeSensor(sensor: Sensor)
+  +addActuator(actuator: Actuator)
+  +removeActuator(actuator: Actuator)
+}
+
+abstract class Device {
+  -deviceId: String
+  -isActive: Boolean
+  +activate()
+  +deactivate()
+}
+
+class Sensor extends Device {
+  -lastReading: SensorReading
+  +provideReading(): SensorReading
+}
+
+class Actuator extends Device {
+  -lastCommandStatus: CommandStatus
+  +sendCommand(command: ControlCommand): CommandStatus
+}
+
+class SensorReading {
+  -value: Double
+  -timestamp: DateTime
+  -sensorId: String
+}
+
+class ControlCommand {
+  -commandType: CommandType
+  -timestamp: DateTime
+  -status: CommandStatus
+  -actuatorId: String
+}
+
+enum CommandType {
+  lockDoor,
+  turnOnHeating,
+  turnOffHeating,
+  openWindow,
+  closeWindow
+}
+
+enum CommandStatus {
+  requested,
+  completed,
+  failed,
+  pending
+}
+
+class ActivityLog {
+  -entries: List<LogEntry>
+  +recordReading(reading: SensorReading)
+  +recordCommand(command: ControlCommand)
+}
+
+class LogEntry {
+  -timestamp: DateTime
+  -content: String
+}
+
+class AutomationRule {
+  -precondition: String
+  -action: List<ControlCommand>
+  -isActive: Boolean
+  -ruleId: String
+  -timestampOfTrigger: DateTime
+  +trigger()
+  +evaluatePrecondition(): Boolean
+  +executeAction()
+}
+
+class RuleHierarchy {
+  -rules: List<AutomationRule>
+  -dependencies: Map<RuleId, List<RuleId>>
+  -conflicts: Map<RuleId, List<RuleId>>
+  +addRule(rule: AutomationRule)
+  +addDependency(fromRule: RuleId, toRule: RuleId)
+  +addConflict(rule1: RuleId, rule2: RuleId)
+}
+
+class User {
+  -userId: String
+  -username: String
+  -email: String
+  +createRule(rule: AutomationRule)
+  +editRule(rule: AutomationRule)
+  +activateRule(rule: AutomationRule)
+  +deactivateRule(rule: AutomationRule)
+}
+
+class Owner extends User {
+  +manageRules(rules: List<AutomationRule>)
+}
+
+SmartHome "1" --> "0..*" Room
+Room "1" --> "0..*" Sensor
+Room "1" --> "0..*" Actuator
+Sensor "1" --> "1" SensorReading
+Actuator "1" --> "1" ControlCommand
+SmartHome "1" --> "1" ActivityLog
+ActivityLog "1" --> "0..*" LogEntry
+User "1" --> "0..*" AutomationRule
+Owner "1" --> "0..*" AutomationRule
+AutomationRule "1" --> "0..*" ControlCommand
+AutomationRule "1" --> "1" RuleHierarchy
+@enduml
+
+---
+
+### Explanation of Key Components:
+
+- **`SmartHome`**: Represents a physical home with rooms, devices, and logs.
+- **`Room`**: Contains sensors and actuators.
+- **`Device`**: Abstract base class for both `Sensor` and `Actuator`.
+- **`Sensor`**: Provides periodic readings.
+- **`Actuator`**: Receives commands and returns statuses.
+- **`SensorReading` / `ControlCommand`**: Data classes to record activity.
+- **`ActivityLog`**: Maintains logs of all sensor readings and control commands.
+- **`AutomationRule`**: Defines conditions and actions for automation.
+- **`RuleHierarchy`**: Manages dependencies and conflicts between rules.
+- **`User` / `Owner`**: Users can create and manage rules; owners have full management rights.
+
+---
+
+Let me know if you'd like this rendered as an image or want to add more details!

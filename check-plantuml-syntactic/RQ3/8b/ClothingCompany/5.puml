@@ -1,0 +1,62 @@
+
+@startuml
+
+' Define classes
+class Customer {
+  - name: String
+  - address: String
+  - telephoneNumber: String
+  - emailAddress: String
+  - countriesReselling: List<String>
+}
+
+class Product {
+  - uniqueName: String
+  - description: String
+  - netPrice: Double
+  - manufacturer: String
+  - countryOfOrigin: String
+}
+
+class Country {
+  - name: String
+  - vatRate: Double
+  - currency: String
+  - conversionRateToEuro: Double
+}
+
+class Representative {
+  - firstName: String
+  - lastName: String
+  - socialSecurityNumber: String
+  - telephoneNumber: String
+  - emailAddress: String
+  - responsibleCountry: String
+}
+
+class Order {
+  - orderId: String
+  - product: Product
+  - orderQuantity: Integer
+  - orderDate: Date
+  - deliveryDate: Date
+  - representative: Representative
+}
+
+' Define associations
+Customer "1" -- "0..*" Country : resells in
+Product "1" -- "0..*" Country : originates from
+Representative "1" -- "1" Country : responsible for
+Representative "1" -- "0..*" Order : places
+Order "1" -- "1" Product : refers to
+Order "1" -- "1" Representative : placed by
+
+@enduml
+
+### Explanation of Relationships:
+- **Customer** can resell products in multiple **Countries**.
+- A **Product** originates from a specific **Country**.
+- Each **Representative** is responsible for exactly one **Country**.
+- A **Representative** can place multiple **Orders**.
+- Each **Order** is associated with one **Product** and one **Representative**.
+

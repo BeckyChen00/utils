@@ -1,0 +1,293 @@
+@startuml
+enum MaterialType {
+  Paper
+  Cardboard
+  Plastic
+  Metal
+  Glass
+  Rubber
+  Composite
+  Synthetic
+  Hazardous
+}
+enum OrthographicView {
+  SideView
+  FrontView
+  TopView
+}
+class WarehouseItem {
+  itemName: String
+  materialType: MaterialType
+  stockQuantity: int
+  +getQuantity(): int
+  +updateStock(amount: int): void
+}
+class DocumentDefinition {
+  versionNumber: int
+  documentType: String
+  creationDate: Date
+  +validate(): boolean
+}
+class PrintJob {
+  printOrderNumber: String
+  printDate: Date
+  targetView: OrthographicView
+  +estimateProcessingTime(): int
+  +execute(): int
+}
+class ProductionSchedule {
+  startDate: Date
+  targetProductionVolume: int
+  +getNextAvailableSlot(): Date
+  +generateBatchCount(): int
+}
+class QualityInspection {
+  inspectionDate: Date
+  inspectorName: String
+  isPassed: boolean
+  notes: String
+  +recordResult(isPassed: boolean, remarks: String): void
+  +generateReport(): String
+}
+class MaterialSupplier {
+  supplierName: String
+  contactEmails: String
+  +supplyMaterial(item: WarehouseItem, quantity: int): void
+}
+class WarehouseZone {
+  zoneName: String
+  totalCapacity: int
+  +allocateSpace(quantity: int): boolean
+}
+class ProductionBatch {
+  batchIdentifier: String
+  creationDate: Date
+  +calculateTotalDuration(): int
+  +logInspection(inspection: QualityInspection): void
+}
+class PrintController {
+  isOnline: boolean
+  +configureCircuit(status: boolean): void
+  +monitorPrintQueue(): void
+  +generateJobReport(): String
+}
+class PrinterDevice {
+  isOperational: boolean
+  +startOperation(): void
+  +stopOperation(): void
+  +getRepairLog(): String
+}
+class InventoryManager {
+  accuracyThreshold: int
+  +countAlerts(): int
+  +fetchAvailableStock(zone: WarehouseZone): int
+  +notifySupplier(order: ProductionSchedule): void
+}
+class PrinterUnit {
+  currentLoad: int
+  +powerOn(): void
+  +powerOff(): void
+  +getPerformanceStatus(): String
+}
+class CalibrationService {
+  +checkCalibration(device: PrinterDevice): boolean
+  +resetDevice(): void
+}
+class ProductionShift {
+  shiftDurationMinutes: int
+  shiftStartDate: Date
+  shiftEndDate: Date
+  +assignBatch(batch: ProductionBatch): void
+  +getCurrentJobCount(): int
+}
+class BatchInventory {
+  batchCount: int
+  +validateBatch(): boolean
+}
+class AlertNotification {
+  notificationSeverity: int
+  messageContent: String
+  +sendNotification(recipientList: String[]): void
+}
+class WorkOrder {
+  orderNumber: String
+  description: String
+  priority: int
+  +updatePriority(newPriority: int): void
+  +startProduction(): ProductionSchedule
+}
+class SafetyInspector {
+  +verifyRoute(route: String): boolean
+  +calculateRiskScore(route: String, duration: int): int
+}
+class ResourceAllocation {
+  resourceType: String
+  +allocateSlot(shift: ProductionShift, slot: int): void
+  +allocateSpace(zone: WarehouseZone, quantity: int): boolean
+}
+class ProductionScheduleGenerator {
+  +generateNextSchedule(): ProductionSchedule
+  +scheduleBatch(batch: ProductionBatch): void
+}
+class JobScheduler {
+  +triggerJob(job: PrintJob): void
+  +scheduleBatch(batch: ProductionBatch): void
+  +getActiveJobs(): List<PrintJob>
+}
+class MaterialProvider {
+  +supplyMaterial(item: WarehouseItem, quantity: int): boolean
+  +getSupplierList(): List<MaterialSupplier>
+}
+class DocumentMaker {
+  printResolution: int
+  +renderDocument(content: String, format: String): String
+  +createView(documentDefinition: DocumentDefinition): OrthographicView
+}
+class MaintenanceLog {
+  logDate: Date
+  technicianName: String
+  issueDescription: String
+  resolutionSteps: String
+  +archiveLog(): void
+}
+class SafetyRegulation {
+  regulationCode: String
+  description: String
+  +checkCompliance(batch: ProductionBatch): boolean
+}
+class CostEstimator {
+  unitPrice: double
+  +getEstimatedCost(batch: ProductionBatch, material: WarehouseItem): double
+  +calculateTotalBatchSize(): int
+}
+class Workstation {
+  workstationName: String
+  +startStation(batch: ProductionBatch): void
+  +stopStation(): void
+}
+class PrintShop {
+  shopName: String
+  +getShopName(): String
+  +getShopCapacity(): int
+}
+class PrinterFactory {
+}
+class PrintTimer {
+  +startTimer(): void
+  +stopTimer(): int
+  +getCurrentTime(): Date
+}
+class SlipWarning {
+  slipType: String
+  severityLevel: int
+  description: String
+  +notifyDispatch(dispatcher: String): void
+}
+WorkOrder --> "1" ProductionSchedule : generatedSchedule
+ProductionSchedule *-- "0..*" ProductionBatch : containedBatches
+ProductionSchedule *-- "1" ProductionShift : assignedShift
+ProductionSchedule --> "1" ResourceAllocation : resourceAllocation
+ProductionSchedule --> "0..1" SafetyInspector : responsibleInspector
+ProductionSchedule --> "1" SafetyRegulation : adheredRegulation
+ProductionSchedule *-- "1" ProductionBatch : producedBatch
+ProductionBatch --> "1" DocumentMaker : relatedDocumentMaker
+ProductionBatch *-- "1..*" MaterialSupplier : sourcedMaterials
+ProductionBatch *-- "1..*" ProductionJob : executedJobs
+ProductionJob --> "1" ProductionSchedule : basedOnSchedule
+ProductionJob --> "1" PrintController : coordinator
+ProductionJob --> "1" PrinterDevice : assignedPrinter
+ProductionJob --> "1" DocumentDefinition : sourceDocument
+ProductionJob --> "1" SafetyRegulation : adherenceCheck
+ProductionJob --> "1" Workstation : assignedWorkstation
+ProductionJob --> "1" WarehouseItem : targetItem
+ProductionJob *-- "0..1" CostEstimator : costEstimator
+ProductionJob --> "1" SlipWarning : detectedSlip
+ProductionJob *-- "1" SlipWarning : generatedSlip
+PrintTimer --> "1" PrinterFactory : controlledPrinter
+PrintJob --> "1" WorkOrder : generatedWorkOrder
+WorkOrder --> "0..1" ProductionBatch : resultingBatch
+WorkOrder --> "1" SafetyInspector : assignedInspector
+WorkOrder --> "0..*" SlipWarning : generatedSlips
+WorkOrder --> "1" ProductionSchedule : basedSchedule
+PrintShop --> "0..*" ProductionSchedule : managedSchedules
+MaterialProvider --> "0..*" List<MaterialSupplier> : suppliedSuppliers
+Workstation --> "1" Workshop : locatedWorkshop
+PrintShop --> "1" Workstation : managedWorkstation
+Workshop --> "1" PrintController : primaryController
+BatchInventory --> "1" ProductionBatch : trackedBatch
+SafetyRegulation --> "0..*" ProductionBatch : governedBatches
+WorkOrder --> "1" ProductionBatch : resultingBatch
+ProductionJob --> "1" SafetyRegulation : complianceStandard
+WorkStation --> "0..*" WorkOrder : processedWorkOrders
+WorkOrder --> "1" DocumentDefinition : generatedDocument
+ProductionSchedule --> "1" DocumentDefinition : requiredDocument
+ProductionSchedule --> "1" SafetyInspection : conductedInspection
+WorkOrder --> "0..*" QualityInspection : resultingInspections
+PrintShop --> "1" MaterialSupplier : managedSupplier
+ProductionBatch --> "0..*" MaterialSupplier : sourcedMaterials
+PrintShop --> "0..*" PrintJob : handledJobs
+PrintJob --> "1" MaterialSupplier : sourcedSupplier
+PrintJob --> "0..*" QualityInspection : conductedInspections
+PrintJob --> "1" PrinterDevice : assignedPrinter
+PrintJob --> "1" PrintTimer : usedTimer
+WorkStation --> "0..*" ProductionSchedule : ownedSchedules
+WorkStation --> "0..*" WorkOrder : processedWorkOrders
+WorkStation --> "0..*" SafetyInspector : assignedInspectors
+WorkOrder --> "0..*" SlipWarning : generatedSlips
+PrintShop --> "0..*" WorkOrder : processedWorkOrders
+PrintShop --> "0..*" ProductionSchedule : managedSchedules
+ProductionSchedule *-- "0..*" SlipWarning : scheduledWarnings
+ProductionSchedule *-- "1" ProductionScheduleGenerator : generatedGenerator
+PrintController --> "0..*" WorkOrder : managedOrders
+PrintController *-- "0..*" PrinterDevice : controlledDevices
+PrintController --> "1" JobScheduler : managedScheduler
+PrintController --> "0..*" ProductionBatch : managedBatches
+PrintController --> "1" MaterialSupplier : managedSupplier
+PrintSystem --> "1" MaintenanceLog : maintenanceLog
+SafetyRegulation --> "0..*" ProductionSchedule : governedSchedules
+PrintShop --> "0..*" SafetyRegulation : enforcedRegulations
+WorkOrder --> "0..*" ProductionSchedule : associatedSchedules
+WorkOrder --> "0..*" SafetyInspector : assignedInspectors
+WorkOrder --> "0..*" SlipWarning : generatedSlips
+WorkOrder --> "0..*" ProductionJob : relatedJobs
+WorkOrder --> "0..*" DocumentDefinition : generatedDocuments
+WorkOrder --> "0..*" QualityInspection : conductedInspections
+WorkOrder --> "0..*" SlipWarning : generatedSlips
+ProductionSchedule --> "0..*" ProductionJob : createdJobs
+ProductionSchedule --> "0..*" MaterialSupplier : sourcedSuppliers
+ProductionSchedule --> "0..*" SlipWarning : scheduledWarnings
+ProductionSchedule --> "0..*" SecurityProtocol : enforcedProtocols
+ProductionSchedule --> "0..*" ProductionBatch : producedBatches
+ProductionSchedule --> "0..*" SafetyInspection : conductedInspections
+ProductionSchedule --> "0..*" WorkOrder : managedOrders
+WorkOrder --> "0..*" WorkStar : managedStations
+WorkOrder --> "0..*" QualityInspection : resultingInspections
+PrinterDevice --> "0..*" ProductLine : supportedLines
+PrintJob --> "1" PrinterDevice : assignedPrinter
+ProductionSchedule --> "1" Owner : governedOwner
+ProductionSchedule --> "1" DocumentMaker : relatedMaker
+ProductionSchedule --> "1" DocumentDefinition : referencedDefinition
+WorkStation --> "0..*" PrinterDevice : connectedPrinters
+WorkStation --> "0..*" SafetyInspector : assignedInspectors
+WorkOrder --> "1" WorkStar : assignedStar
+WorkOrder --> "0..*" SlipWarning : generatedSlips
+WorkOrder --> "0..*" QualityInspection : resultingInspections
+WorkOrder --> "0..*" ProductionSchedule : managedSchedules
+ProductionSchedule --> "1" MaterialProvider : sourcedProvider
+ProductionSchedule --> "0..*" SafetyRegulation : governedRegulations
+ProductionSchedule --> "0..*" ProductionBatch : producedBatches
+ProductionSchedule --> "0..*" ProductionJob : createdJobs
+PrintController --> "0..*" ProductionSchedule : managedSchedules
+PrintController --> "0..*" PrintJob : managedJobs
+ProductionSchedule --> "0..*" SlipWarning : scheduledWarnings
+ProductionSchedule --> "0..*" QualityInspection : conductedInspections
+WorkOrder --> "0..*" SafetyInspector : assignedInspectors
+WorkOrder --> "0..*" SlipWarning : generatedSlips
+WorkOrder --> "0..*" ProductionJob : relatedJobs
+WorkOrder --> "0..*" DocumentDefinition : generatedDocuments
+ProductionSchedule --> "0..*" SafetyRegulation : governedRegulations
+ProductionSchedule --> "0..*" ProductionBatch : producedBatches
+ProductionSchedule --> "0..*" MaterialSupplier : sourcedSuppliers
+ProductionSchedule --> "0..*" SafetyInspector : responsibleInspectors
+ProductionSchedule --> "0..*" WorkStar : managedStations
+@enduml

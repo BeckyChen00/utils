@@ -1,0 +1,58 @@
+@startuml
+class diagram
+
+    class SystemRequirement {
+        id "System Requirement"
+        name "System Requirement"
+        description "The requirements for the system to be implemented."
+    }
+
+    class System {
+        id "System"
+        name "System"
+        description "The system that will be implemented."
+    }
+
+    class Component {
+        id "Component"
+        name "Component"
+        description "A part of the system."
+    }
+
+    class Requirement {
+        id "Requirement"
+        name "Requirement"
+        description "A requirement specified by the system."
+    }
+
+    class Dependency {
+        id "Dependency"
+        name "Dependency"
+        description "A dependency between components in the system."
+    }
+
+    class Connection {
+        id "Connection"
+        name "Connection"
+        description "A connection between a component and a dependency."
+    }
+
+    class Relationship {
+        id "Relationship"
+        name "Relationship"
+        description "A relationship between a component and a dependency."
+    }
+
+    class RequirementRelation {
+        id "RequirementRelation"
+        name "RequirementRelation"
+        description "A relation between a requirement and a dependency."
+    }
+
+    class SystemRequirementRelation {
+        id "SystemRequirementRelation"
+        name "SystemRequirementRelation"
+        description "A relation between a system requirement and its dependencies."
+    }
+
+@enduml

@@ -1,0 +1,116 @@
+@startuml
+enum Status {
+  Completed
+  InProgress
+  Failed
+  Suspended
+}
+enum RuleCategory {
+  Physical
+  Social
+  Environmental
+  Technological
+  Cultural
+}
+enum SeverityLevel {
+  Low
+  Medium
+  Critical
+}
+class ResidentialCommunity {
+  communityName: String
+  address: String
+  +getMembers(): List<Person>
+  +getNeighborhoodStructure(): NeighborhoodStructure
+}
+class Person {
+  name: String
+  contactInfo: String
+  isVerified: boolean
+  +verifyIdentity(): boolean
+  +getLicenseHistory(): LicenseHistory
+}
+class NeighborhoodStructure {
+  buildingCount: int
+  totalFloorArea: double
+  buildingType: String
+  +computeTotalArea(): double
+}
+class NeighborhoodUnit {
+  unitNumber: int
+  floorSpace: double
+  isEnclosed: boolean
+  isStable: boolean
+  +checkSafetyCompliance(): boolean
+}
+class SafetyRule {
+  ruleCategory: RuleCategory
+  description: String
+  thresholdLevel: SeverityLevel
+  +isViolated(currentSeverity: SeverityLevel): boolean
+}
+class Alert {
+  alertTimestamp: Date
+  severity: SeverityLevel
+  message: String
+  +generateReport(): String
+}
+class IncidentLog {
+  incidentDate: Date
+  description: String
+  isResolved: boolean
+  +logIncident(reason: String, note: String): void
+  +resolveIncident(): void
+}
+class MaintenanceTask {
+  taskDescription: String
+  dueDate: Date
+  status: Status
+  +assignTechnician(techId: String): void
+  +completeTask(): void
+}
+class AuditReport {
+  generationDate: Date
+  overallStatus: Status
+  +exportReport(): String
+  +generateSummary(): String
+}
+class PolicyIssue {
+  issueSummary: String
+  creationDate: Date
+  resolutionStatus: Status
+  +resolveIssue(): void
+}
+class AccessLog {
+  accessTime: Date
+  createAction: String
+  actorType: String
+  accessNotes: String
+  +recordAction(action: String): void
+}
+class LicenseHistory {
+  licenseNumber: String
+  issueDate: Date
+  expiryDate: Date
+  isValid: boolean
+  +updateLicense(newNumber: String): void
+  +checkExpiry(): boolean
+}
+ResidentialCommunity *-- "1..*" NeighborhoodStructure : structures
+ResidentialCommunity *-- "0..*" Person : residents
+ResidentialCommunity *-- "1..*" NeighborhoodUnit : units
+ResidentialCommunity *-- "1..*" LicenseHistory : licenses
+NeighborhoodStructure *-- "1..*" NeighborhoodUnit : units
+NeighborhoodUnit --> "0..*" Alert : generatedAlerts
+NeighborhoodUnit --> "0..*" IncidentLog : incidentLogs
+NeighborhoodUnit *-- "0..*" MaintenanceTask : maintenanceTasks
+NeighborhoodUnit *-- "0..1" PolicyIssue : policyResolution
+NeighborhoodUnit *-- "0..*" AccessLog : accessLogs
+IncidentLog --> "1" Person : affectedPerson
+IncidentLog --> "1" SafetyRule : triggeredRule
+IncidentLog --> "1" LicenseHistory : baseLicense
+IncidentLog --> "0..1" PolicyIssue : resolvedIssue
+AuditReport *-- "1..*" PolicyIssue : resolvedIssues
+AuditReport *-- "1..*" Alert : reportedAlerts
+IncidentLog --> "0..*" Person : involvedPowers
+@enduml

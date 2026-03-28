@@ -1,0 +1,76 @@
+@startuml
+enum RiskLevel {
+  Low
+  Medium
+  High
+}
+enum VaultType {
+  Physical
+  Blockchain
+  Hybrid
+}
+enum ComplianceStatus {
+  Satisfied
+  Violated
+}
+class FinancialAccount {
+  balance: double
+  accountNumber: String
+  +deposit(amount: double): void
+  +withdraw(amount: double): void
+  +getBalance(): double
+}
+class TransactionRecord {
+  timestamp: Date
+  amount: double
+  description: String
+  status: String
+  +process(): void
+}
+class AuditLog {
+  timestamp: Date
+  actionDescription: String
+  accuracyStatus: ComplianceStatus
+  +verify(): void
+}
+class RiskProfile {
+  riskLevel: RiskLevel
+  riskFactor: String
+  riskCategory: String
+  +evaluate(): void
+}
+class ComplianceChecker {
+  +validatePolicy(policy: String): boolean
+  +detectViolations(record: TransactionRecord, target: FinancialAccount): ViolationEvent
+  +generateReport(): ComplianceReport
+}
+class ViolationEvent {
+  severityLevel: RiskLevel
+  detectedAt: Date
+  status: String
+  +escalate(): void
+}
+class ComplianceReport {
+  generatedAt: Date
+  summary: String
+  +formatContent(): String
+}
+class RegulatoryRegulator {
+  jurisdiction: String
+  +issueCertificate(account: FinancialAccount, status: ComplianceStatus): String
+  +administerPolicy(policy: String): void
+}
+FinancialAccount *-- "0..*" TransactionRecord : transactionHistory
+FinancialAccount *-- "0..*" AuditLog : auditRecords
+FinancialAccount *-- "0..*" RiskProfile : riskProfiles
+ComplianceChecker --> "1" RegulatoryRegulator : governedBy
+ComplianceChecker --> "0..*" FinancialAccount : governedAccounts
+ComplianceChecker --> "1" RegulatoryRegulator : appliedTo
+ComplianceChecker --> "1" ComplianceReport : generatedReport
+RiskProfile --> "0..*" ViolationEvent : triggeredViolations
+ComplianceChecker --> "0..*" TransactionRecord : monitoredRecords
+AuditLog --> "0..*" TransactionRecord : auditedRecords
+ViolationEvent --> "1" FinancialAccount : implicatedAccount
+Regulator --> "1" FinancialAccount : regulatedAccount
+FinancialAccount --> "0..*" TransactionRecord : transactionHistory
+@enduml

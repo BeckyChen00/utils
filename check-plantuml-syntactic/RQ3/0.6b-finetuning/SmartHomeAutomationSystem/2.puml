@@ -1,0 +1,51 @@
+@startuml
+class SupportRequest {
+  description: String
+  isUrgent: boolean
+  +validateRequest(): boolean
+}
+class WorkSession {
+  startTime: Date
+  endTime: Date
+  status: String
+  +getDurationMinutes(): int
+}
+class AttendanceLog {
+  attendanceDate: Date
+  status: String
+  +recordAttendance(isPresent: boolean): void
+}
+class User {
+  userName: String
+  teamName: String
+  +verifyAccess(): boolean
+}
+class Room {
+  roomCode: String
+  capacity: int
+  +calculateLoad(): int
+}
+class Scheduler {
+  +scheduleWorkSession(team: Team, session: WorkSession): void
+  +generateNextSession(): WorkSession
+}
+class Team {
+  teamCode: String
+  name: String
+  +assignUser(member: User): void
+}
+class NotificationTemplate {
+  messageTemplate: String
+  subject: String
+}
+SupportRequest "1" *-- "1..*" AttendanceLog : attendanceLogs
+Team "1" *-- "1..*" User : members
+SupportRequest "1" --> "1" User : creator
+SupportRequest "1" --> "1" Team : assignedTeam
+Team "1" --> "1..*" Room : managedRooms
+WorkSession "1" --> "1" Room : sessionRoom
+Team "1" --> "1..*" Scheduler : installedSchedulers
+Scheduler "1" --> "1..*" SupportRequest : handledRequests
+Detector "1" --> "1..*" User : monitoringUsers
+SupportRequest "1" --> "1" NotificationTemplate : sentTemplate
+@enduml

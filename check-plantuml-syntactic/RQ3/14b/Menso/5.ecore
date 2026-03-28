@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="ApprovalRequest">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trajectory" eType="#//Trajectory"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="submittedDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="approvalDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="approvalResult" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="revisions" eType="#//Revision" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Revision" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Revision">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="approvalRequest" eType="#//ApprovalRequest"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MENSOUser">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="homeAddress" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="officeAddress" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingHours" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cards" eType="#//MENSOCard" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owns" eType="#//MENSOCard" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receives" eType="#//Invoice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MENSOCard">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trips" eType="#//Trip" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="records" eType="#//Trip" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trip">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="line" eType="#//Line"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" eType="#//MENSOUser"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paymentMethod" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//Line" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeBy" eType="#//MENSOUser" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="month" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="year" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="discountPercentage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongsTo" eType="#//MENSOUser" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//trajectories"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="lineNumber">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//capacity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="capacity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="status">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//category"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//approvalStatus"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="category"/>
+  <eClassifiers xsi:type="ecore:EClass" name="trajectories"/>
+  <eClassifiers xsi:type="ecore:EClass" name="approvalStatus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startDate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Date" eType="#//endDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="endDate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="suspended">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Boolean" eType="#//cancelled" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="cancelled"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Trajectory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requires" eType="#//ApprovalRequest" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Line">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includes" eType="#//Trajectory" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bus">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongsTo" eType="#//Line" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

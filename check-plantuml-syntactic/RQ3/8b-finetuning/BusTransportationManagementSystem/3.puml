@@ -1,0 +1,42 @@
+@startuml
+class BusRoute {
+  routeNumber: int
+  isClosedForMaintenance: boolean
+  +getAvailableShifts(): List<Shift>
+}
+class Bus {
+  licensePlate: String
+  isUnderRepair: boolean
+  +isAvailable(): boolean
+}
+class BusDriver {
+  employeeId: String
+  driverName: String
+  isOnSickLeave: boolean
+  +isEligibleToDrive(): boolean
+}
+class Shift {
+  shiftType: String
+  startTimeMinutes: int
+  +isUnderway(): boolean
+}
+class Schedule {
+  scheduledDate: Date
+  +assignDriver(driver: BusDriver, shift: Shift): void
+  +assignBus(bus: Bus, route: BusRoute): void
+  +getOverview(): Map<BusRoute, List<AssignedVehicle>>
+}
+class ScheduleEntry {
+  shiftType: String
+  assignedDriverId: String
+  assignedBusLicensePlate: String
+  assignedRouteNumber: int
+}
+BusRoute *-- "1" Shift : defaultShift
+BusRoute *-- "*" ScheduleEntry : plannedSchedule
+BusRoute --> "1" Bus : defaultBus
+Bus --> "*" Schedule : assignments
+BusDriver --> "*" Schedule : assignments
+ScheduleEntry --> "1" BusDriver : assignedDriver
+ScheduleEntry --> "1" Bus : assignedBus
+@enduml

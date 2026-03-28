@@ -1,0 +1,92 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Player {
+  -id: int
+  -name: String
+  -position: String
+}
+
+class DesignatedPlayerProfile {
+  -id: int
+  -position: String
+  -playerAttributes: map<String, String>
+}
+
+class LongListEntry {
+  -id: int
+  -player: Player
+  -profileMatch: DesignatedPlayerProfile
+}
+
+class ScoutingAssignment {
+  -id: int
+  -player: Player
+  -assignedTo: Scout
+  -deadline: Date
+}
+
+class ScoutingReport {
+  -id: int
+  -player: Player
+  -pros: List<String>
+  -cons: List<String>
+  -recommendation: String
+}
+
+class ShortListEntry {
+  -id: int
+  -player: Player
+  -designatedProfile: DesignatedPlayerProfile
+}
+
+class ClubEmployee {
+  +name: String
+  +role: String
+}
+
+class HeadCoach extends ClubEmployee {}
+
+class Director extends ClubEmployee {}
+
+class HeadScout extends ClubEmployee {}
+
+class Scout extends ClubEmployee {}
+
+class PlayerAttribute {
+  -name: String
+  -value: String
+}
+
+' Associations and relationships
+
+HeadCoach --> "creates" DesignatedPlayerProfile
+DesignatedPlayerProfile --> "matches" LongListEntry
+Player --> "listed in" LongListEntry
+LongListEntry --> "evaluated by" HeadScout
+HeadScout --> "assigns" ScoutingAssignment
+Scout --> "receives" ScoutingAssignment
+ScoutingAssignment --> "generates" ScoutingReport
+ScoutingReport --> "about" Player
+Player --> "in shortlist as" ShortListEntry
+DesignatedPlayerProfile --> "linked to" ShortListEntry
+ShortListEntry --> "reviewed by" HeadCoach
+ShortListEntry --> "reviewed by" HeadScout
+Director --> "makes offer for" Player
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Player**: Represents any potential player being scouted.
+- **DesignatedPlayerProfile**: Created by the head coach to define what kind of players to look for (e.g., position, attributes).
+- **LongListEntry**: A list of players that match the target profile.
+- **ScoutingAssignment**: Task given to a scout to investigate a specific player.
+- **ScoutingReport**: The output of a scouting assignment, including evaluation and recommendation.
+- **ShortListEntry**: Players who have been reviewed and are being considered more seriously.
+- **ClubEmployee**, **HeadCoach**, **HeadScout**, **Director**, **Scout**: Roles involved in the system with inheritance.
+

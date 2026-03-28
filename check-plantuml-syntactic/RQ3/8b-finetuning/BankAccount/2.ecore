@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//Account"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Account"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SavingsAccount" eSuperTypes="#//Account"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Bank">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBranches" eType="#//Branch" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Branch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accounts" eType="#//Account" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredCustomers" eType="#//Customer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedAccounts" eType="#//Account" lowerBound="1" upperBound="5" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

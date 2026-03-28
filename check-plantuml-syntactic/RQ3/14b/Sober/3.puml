@@ -1,0 +1,96 @@
+
+@startuml
+
+' Define classes
+class Customer {
+  +String name
+  +String contactInfo
+  +int numberOfRideShares
+}
+
+class CarOwner {
+  +String name
+  +String contactInfo
+  +Car car
+}
+
+class Car {
+  +String licensePlate
+  +String model
+  +boolean isAvailable
+  +List<RideHail> rideHails
+  +List<RideShare> rideShares
+  +List<Accident> accidents
+}
+
+class RideHail {
+  +DateTime pickupTime
+  +DateTime dropoffTime
+  +Location pickupLocation
+  +Location dropoffLocation
+  +int duration
+  +double distance
+  +int passengers
+  +double fee
+  +RequestType requestType
+  +Customer leadCustomer
+}
+
+class RideShare {
+  +DateTime pickupTime
+  +DateTime dropoffTime
+  +Location pickupLocation
+  +Location dropoffLocation
+  +int duration
+  +double distance
+  +List<Customer> customers
+  +double negotiatedFee
+}
+
+class Accident {
+  +DateTime date
+  +Location location
+  +double damageAmount
+}
+
+class RequestType {
+  +String type (APP, HAND_WAVE)
+}
+
+class Location {
+  +String address
+  +double latitude
+  +double longitude
+}
+
+' Define relationships
+Customer "1" -- "0..*" RideHail : participates in
+Customer "1" -- "0..*" RideShare : participates in
+CarOwner "1" -- "1" Car : owns
+Car "1" -- "0..*" RideHail : provides
+Car "1" -- "0..*" RideShare : provides
+Car "1" -- "0..*" Accident : has
+RideHail "1" -- "1" RequestType : via
+RideShare "1" -- "1" RequestType : via
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+- **Customer**: Represents users of Sober services. Tracks their participation in both ride-hailing and ride-sharing.
+- **CarOwner**: Users who register their own cars with Sober.
+- **Car**: Self-driving or user-provided vehicle. Tracks all associated rides and accidents.
+- **RideHail**: A single on-demand ride. Captures time, location, cost, and customer details.
+- **RideShare**: A planned, shared ride with multiple passengers. Captures negotiated fees and participant names.
+- **Accident**: Stores accident details per car.
+- **RequestType**: Enum-like class to differentiate between app-based and hand-wave requests.
+- **Location**: Abstracts geographic data used by both RideHail and RideShare.
+
+---
+
+### 📌 Notes:
+- The `Customer` class can be extended further if roles like *Driver* or *Passenger* are needed.
+- The `Car` class could also have more technical attributes like battery level, software version, etc., depending on future requirements.
+
+Let me know if you want to extend this with more functionality or UML stereotypes!

@@ -1,0 +1,160 @@
+
+- Entities: `Customer`, `Product`, `Order`, `OrderLine`, `Stock`, `Shipment`, `Delivery`, `Invoice`
+- Relationships between these classes
+- Attributes for each class
+- Constraints (e.g., payment must be made before shipping)
+- FSM-like behavior modeled through associations and states
+
+---
+
+
+@startuml
+
+' Set skin parameters
+skinparam class {
+    BackgroundColor<<Entity>> LightBlue
+    BorderColor<<Entity>> Black
+}
+
+package "Inventory Management System" {
+    class Customer <<Entity>> {
+        - id: int
+        - name: String
+        - vatNumber: String
+        - headOfficeAddress: Address
+        + register()
+    }
+
+    class Address <<Entity>> {
+        - id: int
+        - street: String
+        - city: String
+        - postalCode: String
+        - country: String
+    }
+
+    class Product <<Entity>> {
+        - id: int
+        - name: String
+        - description: String
+        - price: float
+        + checkAvailability()
+    }
+
+    class Stock <<Entity>> {
+        - productId: int
+        - quantityAvailable: int
+        + updateQuantity(delta: int)
+    }
+
+    class Order <<Entity>> {
+        - id: int
+        - customerId: int
+        - orderDate: Date
+        - paymentStatus: PaymentStatus (Unpaid, Paid)
+        - shipmentStatus: ShipmentStatus (Pending, PartiallyShipped, FullyShipped)
+        + placeOrder()
+        + markAsPaid()
+        + markAsFullyShipped()
+        + markAsPartiallyShipped()
+    }
+
+    class OrderLine <<Entity>> {
+        - id: int
+        - orderId: int
+        - productId: int
+        - quantityOrdered: int
+        - quantityShipped: int
+        - status: LineStatus (NotShipped, PartlyShipped, FullyShipped)
+        + ship(quantity: int)
+    }
+
+    class Shipment <<Entity>> {
+        - id: int
+        - shipmentDate: Date
+        - deliveryId: int
+        + pack()
+        + ship()
+    }
+
+    class Delivery <<Entity>> {
+        - id: int
+        - deliveryDate: Date
+        - deliveryAddress: Address
+        - deliveryService: String
+        - status: DeliveryStatus (Packed, Shipped, Delivered, Damaged, Lost)
+        + track()
+    }
+
+    class Invoice <<Entity>> {
+        - id: int
+        - orderId: int
+        - invoiceDate: Date
+        - amount: float
+        - paymentMethod: PaymentMethod (Prepaid, Postpaid)
+        - paid: boolean
+        + generate()
+        + send()
+        + markAsPaid()
+    }
+}
+
+' Associations
+Customer "1" -- "0..*" Order : places
+Customer "1" -- "1" Address : hasHeadOffice
+Customer "1" -- "0..*" Address : hasWarehouse
+
+Order "1" -- "1" Invoice : generates
+Order "1" -- "0..*" OrderLine : contains
+Order "1" -- "0..*" Shipment : groupedIn
+
+OrderLine "1" -- "1" Product : forProduct
+OrderLine "1" -- "0..1" Shipment : shippedIn
+
+Shipment "1" -- "1" Delivery : uses
+Shipment "1" -- "0..*" OrderLine : ships
+
+Delivery "1" -- "1" Address : deliveredTo
+
+Stock "1" -- "1" Product : tracks
+
+' Note for constraints
+note right of Order
+    An order must be fully paid before it can be shipped.
+    Orders can be partially or fully shipped.
+end note
+
+note right of OrderLine
+    Each order line can be in state:
+    NotShipped, PartlyShipped, FullyShipped
+    Based on available stock and shipment grouping.
+end note
+
+note right of Shipment
+    A shipment may include multiple order lines.
+    It is packed and then shipped.
+    Status tracking is essential due to delivery issues.
+end note
+
+note right of Delivery
+    Trackable by customer.
+    Possible statuses: Packed, Shipped, Delivered, Damaged, Lost.
+end note
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **Customer**: Has a VAT number and address. Now supports multiple addresses (head office and warehouse).
+- **Order**: Can be **partially or fully shipped**. Must be **fully paid** before shipping.
+- **OrderLine**: Tracks what product was ordered and how much has been shipped.
+- **Shipment**: Groups multiple order lines for delivery. This replaces per-line shipping management.
+- **Delivery**: Tracks the physical movement of a shipment, including status updates.
+- **Invoice**: Sent after placing an order, with options for prepayment or postpayment.
+- **Stock**: Manually updated at the end of each day.
+
+---
+
+Let me know if you'd like this extended to support **events**, **state machines**, or **database schema** as well!

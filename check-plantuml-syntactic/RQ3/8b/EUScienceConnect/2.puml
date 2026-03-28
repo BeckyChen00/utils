@@ -1,0 +1,73 @@
+
+@startuml
+
+' Define classes and their attributes
+class Person {
+  +personID: String
+  +phone: String
+  +keywords: List<String>
+  +institutionCode: String
+}
+
+class Institution {
+  +institutionCode: String
+  +name: String
+  +address: String
+}
+
+class Article {
+  +doi: String
+  +title: String
+  +authors: List<Person>
+  +authorPositions: List<Integer>
+  +type: String
+}
+
+class PeerReviewedArticle extends Article {
+  +citationCount: Integer
+  +reviewers: List<Person>
+}
+
+class TechnicalReport extends Article {
+  +publisher: Institution
+}
+
+class Publisher {
+  +name: String
+  +journals: List<Journal>
+}
+
+class Journal {
+  +name: String
+  +impactFactor: Double
+  +publisher: Publisher
+}
+
+' Associations
+Person --|> Institution : worksFor
+Article --|> Person : authoredBy
+Article --|> Person : reviewedBy
+PeerReviewedArticle --|> Article
+TechnicalReport --|> Article
+Article --|> Publisher : publishedIn (for PeerReviewedArticle)
+Publisher --|> Journal
+Institution --|> Journal : publishes (for TechnicalReport)
+
+@enduml
+
+---
+
+### ✅ Explanation of Relationships:
+
+- **`Person`** is associated with an **`Institution`** (works for).
+- A **`Person`** can be both an **author** and a **reviewer** of articles.
+- An **`Article`** has multiple **authors**, each with an **author position**.
+- **`Article`** is extended into two types:
+  - **`PeerReviewedArticle`** includes **citation count** and **reviewers**.
+  - **`TechnicalReport`** is always published by a single **`Institution`**.
+- **`Publisher`** publishes **`Journals`**, which have an **impact factor**.
+- Only **`PeerReviewedArticle`** can be published in a **`Journal`**.
+- **`Journal`** is associated with a **`Publisher`**.
+
+---
+

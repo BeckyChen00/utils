@@ -1,0 +1,79 @@
+
+@startuml
+
+class House {
+  - address: String
+  - buildingMaterial: String
+  - hasBasement: Boolean
+  - basement: Basement
+}
+
+class Basement {
+  - type: String
+  - name: String
+  - size: String
+  - humidityLevel: Integer (only for EarthBasement)
+}
+
+abstract class EarthBasement {
+  - humidityLevel: Integer
+}
+
+abstract class ConcreteBasement {
+}
+
+class EarthBasementImpl implements EarthBasement {
+}
+
+class ConcreteBasementImpl implements ConcreteBasement {
+}
+
+class SemiDetachedHouse extends House {
+  - hasOwnGarden: Boolean
+  - numberOfWindows: Integer
+  - hasCarportsOrGarage: Boolean
+  - carports: Carport
+  - garage: Garage
+}
+
+class Carport {
+  - isDoubleCarport: Boolean
+  - hasFlatRoof: Boolean
+}
+
+class Garage {
+  - hasAutomaticDoor: Boolean
+}
+
+class Company {
+  - name: String
+  - address: String
+}
+
+class JobLog {
+  - house: House
+  - company: Company
+  - hours: Integer
+  - price: Double
+}
+
+House --|> Basement : has
+Basement <|-- EarthBasementImpl
+Basement <|-- ConcreteBasementImpl
+SemiDetachedHouse --|> House
+House -- Company : serviced by
+House -- JobLog : has job log
+Company -- JobLog : performs job
+JobLog -- House
+JobLog -- Company
+
+@enduml
+
+### Explanation:
+- `House` is the base class with common attributes.
+- `Basement` is an abstract class with subtypes `EarthBasement` and `ConcreteBasement`.
+- `SemiDetachedHouse` is a subclass of `House` with additional properties.
+- `Carport` and `Garage` are used to represent different types of parking facilities.
+- `Company` represents the service companies.
+- `JobLog` records jobs performed by companies on houses.
+

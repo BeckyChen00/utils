@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedRooms" eType="#//Room" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Apartment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="installedSensors" eType="#//Sensor" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedReadings" eType="#//SensorValue" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorValue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Inhabitant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedApartment" eType="#//Apartment"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledApartment" eType="#//Apartment" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedMonitor" eType="#//EMonitorSystem" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EMonitorSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedAlerts" eType="#//AlertMessage" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertMessage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredBySensor" eType="#//Sensor" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

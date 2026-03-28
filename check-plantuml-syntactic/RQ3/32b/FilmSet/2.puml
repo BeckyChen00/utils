@@ -1,0 +1,106 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Employee {
+  +String name
+  +String socialSecurityNumber
+}
+
+class CreativeEmployee <<abstract>> {
+}
+CreativeEmployee <|-- Director
+CreativeEmployee <|-- Actor
+
+class Director {
+  +String assistantName
+  +boolean hasOscar
+}
+
+class Actor {
+  +String education
+  +boolean hasOscar
+}
+
+class Technician {
+  +String fieldOfActivity
+}
+
+class FilmSet {
+  +String location
+}
+
+class Film {
+  +String title
+  +int releaseYear
+  +Genre genre
+}
+
+enum Genre {
+  THRILLER
+  ACTION
+  HORROR
+  COMEDY
+}
+
+class Screenwriter {
+  +String name
+  +String mostSuccessfulFilm
+}
+
+class Screenplay {
+  +String title
+  +int version
+  +Date date
+  +int numberOfScenes
+  +String plot
+  +SourceType sourceType
+}
+
+enum SourceType {
+  NOVEL
+  CONCEPT
+}
+
+class Novel {
+  +String title
+  +String author
+}
+
+' Relationships
+
+Employee <|-- CreativeEmployee
+Employee <|-- Technician
+
+FilmSet "0..*" --> "0..*" Film : used for
+Film "1" --> "1" Genre
+Film "1" --> "1" Screenplay : based on
+Screenplay "1" --> "1" Film : written for
+Screenplay "1" --> "1" SourceType
+Screenplay "1" --> "1" Novel : if based on novel (optional)
+
+Screenwriter "1" --> "0..*" Screenplay : creates
+Screenwriter "1" --> "1" Screenplay : owns
+
+Film "1" --> "0..*" Actor : includes
+Film "1" --> "1" Director : directed by
+Film "1" --> "0..*" Technician : employs
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Employee**: Base class with `name` and `socialSecurityNumber`.
+- **CreativeEmployee**: Abstract class that includes **Director** and **Actor**, both can have an Oscar.
+- **Technician**: A non-creative employee with a specific field of activity.
+- **FilmSet**: Has a location and can be used for multiple films.
+- **Film**: Has a title, release year, and genre. It uses one or more film sets.
+- **Screenwriter**: Creates screenplays and has a most successful film.
+- **Screenplay**: Written for exactly one film and has a source type (novel or concept).
+- **Novel**: Only appears if the screenplay is based on a novel.
+
+---
+

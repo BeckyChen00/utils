@@ -1,0 +1,88 @@
+@startuml
+enum PaymentStatus {
+  Pending
+  Paid
+  Refunded
+}
+class Cruise {
+  cruiseNumber: String
+  cruiseName: String
+  startDate: Date
+  endDate: Date
+  destinationAreaName: String
+  seaName: String
+  +addShow(show: Show): void
+  +getShows(): List<Show>
+  +getTickets(): List<Ticket>
+}
+class Ship {
+  shipName: String
+  numberOfDecks: int
+  lengthInMeters: double
+  passengerCapacity: int
+}
+class Employee {
+  fullName: String
+  ssn: String
+  role: String
+}
+class Guest {
+  fullName: String
+  isVip: boolean
+  +getRatings(): List<GuestRating>
+}
+class CruiseItinerary {
+  sequence: int
+  portName: String
+  arrivalTime: Date
+  departureTime: Date
+}
+class Show {
+  showTitle: String
+  durationMinutes: int
+  +assignHost(employee: Employee): void
+}
+class Ticket {
+  ticketNumber: String
+  purchaseDate: Date
+  status: PaymentStatus
+  +validate(): boolean
+}
+class Booking {
+  bookingNumber: String
+  bookingDate: Date
+  +createTicket(guest: Guest, cruise: Cruise, seatNumber: int): Ticket
+}
+class TravelAgency {
+  agencyName: String
+  address: String
+  +makeBooking(guest: Guest, cruise: Cruise): Booking
+}
+class GuestRating {
+  score: int
+  comment: String
+  ratingDate: Date
+}
+class ItineraryPoint {
+  portName: String
+  arrivalTime: Date
+  departureTime: Date
+}
+class Payment {
+  amount: double
+  paymentDate: Date
+  method: String
+  status: PaymentStatus
+}
+Cruise *-- "1" Ship : ship
+Cruise *-- "*" CruiseItinerary : itineraries
+Cruise *-- "*" Show : shows
+Cruise *-- "*" Ticket : tickets
+Booking --> "1" Cruise : cruise
+Booking --> "*" Guest : guests
+Booking --> "*" Payment : payments
+Guest *-- "*" Ticket : tickets
+Guest *-- "*" GuestRating : ratings
+CruiseItinerary --> "1" Ship : vessel
+Booking --> "1" TravelAgency : travelAgency
+@enduml

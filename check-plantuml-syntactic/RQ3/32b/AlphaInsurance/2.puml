@@ -1,0 +1,125 @@
+
+@startuml
+
+' Define classes
+class Customer {
+    +String id
+    +String name
+    +String contactInfo
+    +assignBroker()
+}
+
+class Broker {
+    +String id
+    +String name
+    +assessProfile()
+    +sendFileToHeadOffice()
+}
+
+class InsurancePolicy {
+    +String policyId
+    +String type
+    +double premium
+    +generateOffer()
+}
+
+class Contract {
+    +String contractId
+    +Customer customer
+    +InsurancePolicy policy
+    +Date startDate
+    +Date endDate
+    +signContract()
+}
+
+class Invoice {
+    +String invoiceId
+    +Contract contract
+    +double amount
+    +Date dueDate
+    +generateInvoice()
+}
+
+class Claim {
+    +String claimId
+    +Customer customer
+    +InsurancePolicy policy
+    +Date dateFiled
+    +openCase()
+}
+
+class ClaimCase {
+    +String caseId
+    +Claim claim
+    +String type
+    +submitDocuments()
+}
+
+class Estimator {
+    +String id
+    +String name
+    +String expertiseArea
+    +assessCase()
+}
+
+class Report {
+    +String reportId
+    +Estimator estimator
+    +ClaimCase case
+    +Date dateSubmitted
+    +String findings
+    +storeReport()
+}
+
+class CompensationDecision {
+    +String decisionId
+    +ClaimCase case
+    +double approvedAmount
+    +Date paymentDate
+    +registerCompensation()
+}
+
+class Payment {
+    +String paymentId
+    +CompensationDecision decision
+    +Customer customer
+    +executePayment()
+}
+
+' Associations and relationships
+Customer "1" -- "0..*" Contract : has
+Customer "1" -- "1" Broker : assigned to
+Customer "1" -- "0..*" Claim : files
+
+Broker "1" -- "0..*" Contract : creates
+Broker "1" -- "0..*" InsurancePolicy : recommends
+
+InsurancePolicy "1" -- "0..*" Contract : included in
+InsurancePolicy "1" -- "0..*" Claim : covered by
+
+Contract "1" -- "1" Invoice : generates
+
+Claim "1" -- "1..*" ClaimCase : has
+ClaimCase "1" -- "1..*" Report : assessed by
+Report "1" -- "1" Estimator : submitted by
+
+ClaimCase "1" -- "0..1" CompensationDecision : leads to
+CompensationDecision "1" -- "1" Payment : executed as
+
+@enduml
+
+---
+
+### Explanation of Key Classes:
+- **Customer**: Represents the insured person or entity.
+- **Broker**: Assigned to help customers with policies and contracts.
+- **InsurancePolicy**: Different types of insurance products offered.
+- **Contract**: Legal agreement between customer and Alpha Insurance.
+- **Invoice**: Billing information based on the contract.
+- **Claim**: Request for compensation after an event.
+- **ClaimCase**: A specific claim sub-case (e.g., physical vs. material damage).
+- **Estimator**: Expert who assesses claim cases.
+- **Report**: Documentation from estimators about a claim case.
+- **CompensationDecision**: Final approval and amount of compensation.
+- **Payment**: Actual transfer of funds to the customer.
+

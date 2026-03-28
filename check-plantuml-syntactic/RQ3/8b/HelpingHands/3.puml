@@ -1,0 +1,63 @@
+
+@startuml
+
+package "H2S System" {
+    [Resident] as Resident
+    [Item] as Item
+    [PickupRequest] as PickupRequest
+    [VolunteerDriver] as VolunteerDriver
+    [Vehicle] as Vehicle
+    [PickupRoute] as PickupRoute
+    [DistributionCenter] as DistributionCenter
+    [Employee] as Employee
+    [Client] as Client
+    [FoodBank] as FoodBank
+    [Category] as Category
+    [RFIDTag] as RFIDTag
+}
+
+[Resident] -- [PickupRequest] : creates
+[PickupRequest] --> [Item] : contains
+[PickupRequest] --> [Vehicle] : assigned to
+[PickupRequest] --> [VolunteerDriver] : assigned to
+[VolunteerDriver] -- [Vehicle] : drives
+[Vehicle] -- [PickupRoute] : follows
+[PickupRoute] --> [PickupRequest] : includes
+[PickupRequest] --> [DistributionCenter] : delivered to
+[Item] -- [Category] : belongs to
+[Item] -- [RFIDTag] : tagged with
+[DistributionCenter] -- [Employee] : employs
+[Employee] -- [Item] : inspects and tags
+[Employee] -- [Client] : contacts
+[Client] -- [DistributionCenter] : receives from
+[DistributionCenter] -- [FoodBank] : delivers non-perishables to
+[FoodBank] -- [Item] : receives
+[Client] -- [PickupRequest] : associated with
+
+@enduml
+
+---
+
+### ✅ Explanation of Classes and Relationships:
+
+- **Resident**: The person who schedules a pickup.
+- **PickupRequest**: A request for pickup containing items, address, and time.
+- **Item**: An item being picked up (could be second-hand articles or food).
+- **VolunteerDriver**: A volunteer who drives the vehicle.
+- **Vehicle**: A pickup truck used for collecting items.
+- **PickupRoute**: A route planned for a vehicle on a specific day.
+- **DistributionCenter**: Where collected items are received and processed.
+- **Employee**: H2S employee handling items and client communication.
+- **Client**: A person receiving items from H2S.
+- **FoodBank**: Receives non-perishable food items directly.
+- **Category**: A predefined category for classifying items.
+- **RFIDTag**: Tagged to items that are usable.
+
+---
+
+### 📌 Notes:
+- **Aggregation/Composition**: Relationships like `PickupRequest` has `Item`, `VolunteerDriver` drives `Vehicle`, etc., are modeled as associations.
+- **Inheritance**: Not explicitly needed here, but could be added if more complex categorization is required.
+- **Multiplicity**: You can add multiplicities (e.g., `1..*`) if you want to model them explicitly.
+
+Let me know if you'd like this rendered as an image or need it in a different format!

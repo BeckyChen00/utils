@@ -1,0 +1,92 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class User {
+    +String id: unique ID
+    +String name
+    +String email
+    +Date dob
+}
+
+class Account {
+    +String accountNumber: auto-generated
+    +createPage()
+}
+
+class PersonalAccount {
+    +sendFriendRequest()
+    +receiveFriendRequest()
+}
+
+class BusinessAccount {
+    +String companyName
+    +double monthlyFee
+}
+
+class Page {
+    +String pageName
+    +int visits
+    +grantPrivilege()
+}
+
+class AdvertisementPage {
+    +double bounceRate
+    +double clickThroughRate
+    +double conversionRate
+}
+
+class FriendRequest {
+    +User sender
+    +User receiver
+    +status: "pending"/"accepted"/"rejected"
+}
+
+class Privilege {
+    +Account grantee
+    +Page page
+    +privilegeType: "write", "edit", etc.
+}
+
+' Relationships
+
+User "1" -- "0..*" Account : owns
+Account "1" -- "0..*" Page : administers
+Page "1" -- "0..*" AdvertisementPage : extends
+Account "1" -- "0..*" Privilege : grants
+Privilege "1" -- "1" Page : applies to
+PersonalAccount "0..1" -- "0..1" FriendRequest : sends/receives
+BusinessAccount "1" -- "1" Account : is a type of
+PersonalAccount "1" -- "1" Account : is a type of
+
+' Inheritance
+Account <|-- PersonalAccount
+Account <|-- BusinessAccount
+Page <|-- AdvertisementPage
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **User**: Central entity with personal info. One user can have only one account.
+- **Account**: Base class for both `PersonalAccount` and `BusinessAccount`. Each has a unique account number.
+- **PersonalAccount**:
+  - Can send/receive friend requests.
+  - Cannot be business or vice versa due to ToS.
+- **BusinessAccount**:
+  - Requires company name and charges a monthly fee.
+  - Can create advertisement pages.
+- **Page**:
+  - Administered by one account.
+  - Has a name and visit count.
+- **AdvertisementPage**:
+  - A specialized page for business use, tracks metrics like bounce rate, CTR, and conversion rate.
+- **FriendRequest**:
+  - Only between personal accounts.
+- **Privilege**:
+  - Allows granting access (e.g., write/edit) to other users' pages.
+
+---
+

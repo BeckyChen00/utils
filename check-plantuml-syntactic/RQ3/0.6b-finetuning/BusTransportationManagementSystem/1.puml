@@ -1,0 +1,65 @@
+@startuml
+enum MaterialType {
+  Glass
+  Wood
+  Metal
+}
+enum ServiceState {
+  Pending
+  Confirmed
+  Completed
+  Cancelled
+}
+enum PaymentStatus {
+  Unpaid
+  Paid
+}
+class UserAccount {
+  +login(): boolean
+}
+class Customer {
+  +register(): void
+  +updateProfile(): void
+}
+class Order {
+  +placeOrder(): void
+}
+class ServiceRequest {
+  +submitRequest(): void
+  +getStatus(): ServiceState
+}
+class ServiceItem {
+  +addMaterial(type: MaterialType, quantity: int): void
+  +getDetails(): String
+}
+class Invoice {
+  +issueInvoice(customer: Customer, item: ServiceItem): boolean
+  +generateBalance(): double
+}
+class Payment {
+  +processPayment(amount: double, status: PaymentStatus): boolean
+  +refund(): boolean
+}
+class Appointment {
+  +bookAppointment(date: Date, time: Time): void
+  +cancelAppointment(): void
+}
+class RefundRequest {
+  +submitRefund(reason: String): void
+}
+class ServicePlan {
+  +getPlanTier(notes: String): int
+}
+Customer "1" *-- "0..*" Invoice : generatedInvoices
+Customer "1" --> "0..*" RefundRequest : initiatedRefunds
+Customer "1" *-- "0..*" Appointment : bookedAppointments
+Customer "1" *-- "0..*" ServicePlan : purchasedPlans
+Order "1" *-- "1..*" ServiceItem : orderedItems
+Order "1" --> "1" Payment : associatedPayment
+Appointment "1" --> "1" ServiceItem : coveredItem
+Payment "1" --> "1" Invoice : linkedInvoice
+Invoice "1" --> "1" Customer : billedTo
+ServiceRequest "1" --> "0..*" ServicePlan : applicablePlans
+ServicePlan "0..*" --> "1" ServiceItem : coveredItem
+ServiceRequest "1" --> "0..*" Payment : paidWith
+@enduml

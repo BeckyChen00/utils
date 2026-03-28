@@ -1,0 +1,153 @@
+
+@startuml
+
+' Classes related to Game Design
+class Game {
+    - name: String
+    - board: Board
+    - hiddenTile: Tile
+    - playersStartingPositions: Map<PlayerColor, Tile>
+    - actionTiles: List<Tile>
+    + addTile(tile: Tile): void
+    + connectTiles(tile1: Tile, tile2: Tile, direction: Direction): void
+    + setActionTile(tile: Tile, turnsAsRegular: int): void
+}
+
+class Board {
+    - tiles: List<Tile>
+    - connections: Map<Tile, Map<Direction, Tile>>
+    + addTile(tile: Tile): void
+    + connectTiles(tile1: Tile, tile2: Tile, direction: Direction): void
+}
+
+enum Direction {
+    UP
+    DOWN
+    LEFT
+    RIGHT
+}
+
+class Tile {
+    - id: int
+    - visited: boolean
+    - color: Color
+    - isActionTile: boolean
+    - turnsAsRegular: int
+    + markVisited(): void
+    + changeToBlack(): void
+    + resetColor(): void
+}
+
+enum Color {
+    WHITE
+    BLACK
+}
+
+' Classes related to Gameplay
+class GameSession {
+    - currentGame: Game
+    - currentPlayerIndex: int
+    - players: List<Player>
+    - actionCardDeck: ActionCardDeck
+    - spareConnectionPieces: List<ConnectionPiece>
+    - activeGame: boolean
+    + startGame(players: List<Player>): void
+    + nextTurn(): void
+    + rollDie(player: Player): int
+    + movePlayer(player: Player, steps: int): void
+    + handleActionTile(player: Player, tile: Tile): void
+    + checkWinCondition(player: Player): boolean
+}
+
+class Player {
+    - color: PlayerColor
+    - position: Tile
+    - hasExtraTurn: boolean
+    - skipNextTurn: boolean
+    + move(steps: int): void
+    + takeAction(actionCard: ActionCard): void
+}
+
+enum PlayerColor {
+    RED
+    GREEN
+    BLUE
+    YELLOW
+}
+
+class ActionCardDeck {
+    - cards: List<ActionCard>
+    + drawCard(): ActionCard
+    + shuffle(): void
+}
+
+abstract class ActionCard {
+    + execute(player: Player, gameSession: GameSession): void
+}
+
+class RollDieExtraTurn extends ActionCard {
+    + execute(player: Player, gameSession: GameSession): void
+}
+
+class ConnectTilesAction extends ActionCard {
+    + execute(player: Player, gameSession: GameSession): void
+}
+
+class RemoveConnectionAction extends ActionCard {
+    + execute(player: Player, gameSession: GameSession): void
+}
+
+class MoveArbitraryTileAction extends ActionCard {
+    + execute(player: Player, gameSession: GameSession): void
+}
+
+class LoseNextTurnAction extends ActionCard {
+    + execute(player: Player, gameSession: GameSession): void
+}
+
+class ConnectionPiece {
+    - fromTile: Tile
+    - toTile: Tile
+    - direction: Direction
+    + connect(from: Tile, to: Tile, direction: Direction): void
+}
+
+' Relationships
+Game "1" -- "1" Board : contains
+Game "1" -- "0..*" Tile : contains
+Board "1" -- "0..*" Tile : contains
+Game "1" -- "1" ActionCardDeck : uses
+Game "1" -- "0..*" ConnectionPiece : uses
+
+GameSession "1" -- "1" Game : plays
+GameSession "1" -- "1" ActionCardDeck : uses
+GameSession "1" -- "0..*" ConnectionPiece : manages
+GameSession "1" -- "0..*" Player : manages
+GameSession "1" -- "0..*" Tile : tracks
+
+Player "1" -- "1" Tile : located at
+Player "1" -- "1" PlayerColor : has color
+
+ActionCardDeck "1" -- "32" ActionCard : contains
+ActionCard "1" --> "1" ActionCardDeck : belongs to
+
+ActionCardDeck "1" --up--> "5" ActionCard : includes
+
+' Inheritance for ActionCards
+ActionCard <|-- RollDieExtraTurn
+ActionCard <|-- ConnectTilesAction
+ActionCard <|-- RemoveConnectionAction
+ActionCard <|-- MoveArbitraryTileAction
+ActionCard <|-- LoseNextTurnAction
+
+@enduml
+
+---
+
+### Notes:
+- The `Game` class represents the overall definition created by the designer.
+- The `GameSession` manages the actual runtime state during a game play session.
+- `ActionCard` is abstract with concrete implementations for each type of card.
+- `Player`, `Tile`, and `Board` have direct interactions during gameplay.
+- The enum types help enforce constraints like directions and colors.
+

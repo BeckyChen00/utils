@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="TeachingAssistant">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="taID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coursesTaught" eType="#//Course" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teaches" eType="#//Course" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Course">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="courseID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Appointment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="appointmentID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="student" eType="#//Student"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teachingAssistant" eType="#//TeachingAssistant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="course" eType="#//Course"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involves" eType="#//Student" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involves" eType="#//TeachingAssistant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relates_to" eType="#//Course" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//studentID" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="studentID"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Course&gt;" eType="#//coursesRegistered"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="coursesRegistered"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Student">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registered_for" eType="#//Course" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

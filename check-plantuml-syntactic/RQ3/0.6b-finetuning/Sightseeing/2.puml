@@ -1,0 +1,51 @@
+@startuml
+enum ProcessingStatus {
+  Pending
+  Completed
+  Failed
+}
+enum ProtocolType {
+  SFTP
+  FTPS
+  HTTPS
+  SCP
+  ARUN
+}
+class FileProcessor {
+  +processFile(inputPath: String, target outputPath: String): void
+}
+class EncryptionSession {
+  cipherType: ProtocolType
+  algorithm: String
+  +registerSecureSession(target: EncryptionSession): void
+  +evaluateSecurityScore(): int
+}
+class KeyPairGenerator {
+  +generateKeyPair(aesMaxBytes: int): void
+}
+class SecurityPolicy {
+  maxConfidentialityLevel: int
+  +validateCredentials(credentials: String): boolean
+}
+class EncryptionVault {
+  +storeData(data: String, encryptionContext: String): void
+}
+class MonitoringAgent {
+  +monitorStorage(location: String): void
+}
+class AuditLog {
+  +recordTransaction(source: String, details: String): void
+}
+class ComplianceReport {
+  +generateReport(startDate: Date, endDate: Date): String
+}
+EncryptionVault *-- "1" KeyPairGenerator : keyGenerator
+EncryptionVault *-- "1" SecurityPolicy : appliedPolicy
+EncryptionVault --> "1" EncryptionSession : activeSession
+EncryptionVault --> "*" EncryptionVault : managedVaults
+EncryptionSession --> "1" MonitoringAgent : monitoringAgent
+EncryptionSession --> "1" ComplianceReport : generatedReport
+EncryptionVault --> "*" EncryptionSession : containedSessions
+EncryptionVault --> "*" AuditLog : auditHistory
+AuditLog --> "*" FileProcessor : auditedProcessors
+@enduml

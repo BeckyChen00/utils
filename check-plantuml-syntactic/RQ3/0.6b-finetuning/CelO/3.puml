@@ -1,0 +1,70 @@
+@startuml
+enum DataStatus {
+  Pending
+  Raw
+  Preprocessing
+  Aggregated
+  Validated
+  Archived
+}
+enum TimeWindow {
+  24H
+  7Days
+  30Days
+}
+enum EventCategory {
+  WeatherAlert
+  FloodWarning
+  PowerOutage
+  Etcetera
+}
+enum SensorType {
+  WindChillSensor
+  WindSpeedSensor
+  HumiditySensor
+  RainfallSensor
+}
+class SensorNode {
+  sensorType: SensorType
+  locationCoordinates: String
+  supportedEventCategories: EventCategory[]
+  isActive: boolean
+}
+class DataCollectionStation {
+  stationName: String
+  creationTime: Date
+}
+class DataStream {
+  streamName: String
+  timestampStart: Date
+  timestampEnd: Date
+  samplingRate: double
+  status: DataStatus
+}
+class DataQuery {
+  queryDate: Date
+  queryType: EventCategory
+  +execute(limit: int): String
+  +validateRange(start: Date, end: Date): boolean
+}
+class EventLog {
+  timestamp: Date
+  eventType: EventCategory
+  description: String
+  severityLevel: int
+  +getSummary(): String
+}
+class DataSnapshot {
+  captureTime: Date
+  status: DataStatus
+  +generateSnapshot(): void
+  +applyFilter(condition: String): void
+}
+DataStream *-- "1" DataSnapshot : snapshotData
+DataStream --> "1" DataCollectionStation : sourceStation
+DataCollectionStation --> "0..*" SensorNode : deployedNodes
+DataCollectionStation --> "0..*" DataStream : publishedDataStreams 'opposite: sourceStation
+DataStream *-- "0..*" EventLog : recordedLogs
+EventLog --> "1" TimeWindow : timeWindow
+DataQuery --> "1" DataStream : targetStream
+@enduml

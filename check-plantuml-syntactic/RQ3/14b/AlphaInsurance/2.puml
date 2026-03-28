@@ -1,0 +1,111 @@
+
+@startuml
+skinparam linetype=cloud
+
+class Customer {
+  - id: int
+  - name: String
+  - contactInfo: String
+  - brokerId: int
+}
+
+class Broker {
+  - id: int
+  - name: String
+  - contactInfo: String
+  - assignedCustomers: List<Customer>
+}
+
+class InsurancePolicy {
+  - id: int
+  - type: String
+  - price: double
+  - duration: String (monthly/yearly)
+}
+
+class Contract {
+  - id: int
+  - customerId: int
+  - policyId: int
+  - status: String (pending/approved/signed)
+  - startDate: Date
+  - endDate: Date
+  - premiumAmount: double
+  - paymentFrequency: String (monthly/yearly)
+}
+
+class Claim {
+  - id: int
+  - customerId: int
+  - contractId: int
+  - claimDate: Date
+  - description: String
+  - status: String (open/pending/approved/rejected)
+  - totalCompensation: double
+}
+
+class Estimator {
+  - id: int
+  - name: String
+  - specialty: String
+  - reports: List<Report>
+}
+
+class Report {
+  - id: int
+  - estimatorId: int
+  - claimId: int
+  - content: String
+  - assessment: String (approved/rejected/partial)
+  - date: Date
+}
+
+class CompensationDecision {
+  - id: int
+  - claimId: int
+  - amount: double
+  - eligibleCosts: String
+  - date: Date
+}
+
+class Invoice {
+  - id: int
+  - contractId: int
+  - amount: double
+  - dueDate: Date
+  - paid: boolean
+}
+
+' Relationships
+Customer "1" -- "0..*" Contract : has
+Broker "1" -- "0..*" Customer : manages
+Contract "1" -- "1" InsurancePolicy : covers
+Claim "1" -- "1" Contract : relates to
+Claim "1" -- "0..*" Report : involves
+Report "1" -- "1" Estimator : submitted by
+Claim "1" -- "1" CompensationDecision : leads to
+Contract "1" -- "1..*" Invoice : generates
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **Customer**: A person who signs insurance contracts with Alpha Insurance.
+- **Broker**: Assigned to each customer for initial handling and follow-up.
+- **InsurancePolicy**: Different types of policies available (e.g., car, health).
+- **Contract**: Signed between the customer and the company after an offer is accepted.
+- **Claim**: Raised when an insured event occurs.
+- **Estimator**: Reviews claims and provides reports.
+- **Report**: Contains assessment details from estimators.
+- **CompensationDecision**: Final decision made after report evaluation.
+- **Invoice**: Generated based on the contract's payment frequency.
+
+---
+
+### ✅ Notes:
+- All relationships are modeled using UML associations.
+- Multiplicities are added where appropriate.
+- The `Report` is stored in the database for at least one year after compensation is paid (this can be enforced via business rules or database constraints not shown here).
+
+Let me know if you'd like to add more details or generate a PNG image from this!

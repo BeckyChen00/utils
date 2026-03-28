@@ -1,0 +1,26 @@
+@startuml
+
+class systemRequirement { name: System Requirement }
+
+class component { name: Component, type: software }
+class module { name: Module, type: software }
+
+class requirement {
+    name: Requirement,
+    type: systemRequirement,
+    relatedComponent: component,
+    requiredModule: module
+}
+
+class system {
+    name: System,
+    requirements: [requirement]
+}
+
+class software {
+    name: Software,
+    modules: [module],
+    components: [component]
+}
+
+@enduml

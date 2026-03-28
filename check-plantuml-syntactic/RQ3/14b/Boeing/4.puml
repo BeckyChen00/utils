@@ -1,0 +1,72 @@
+
+@startuml
+' Class Diagram for Boeing Aircraft Sales System
+
+class Contract {
+  -contractId: String
+  -startDate: Date
+  -endDate: Date
+  -globalTerms: String
+  +addAcquisition(acquisition: Acquisition): void
+  +removeAcquisition(acquisition: Acquisition): void
+}
+
+class Acquisition {
+  -acquisitionId: String
+  -model: String
+  -price: Double
+  -deliveryDate: Date
+  -options: List<String>
+  -customizations: List<String>
+  +getContract(): Contract
+}
+
+class Airline {
+  -airlineId: String
+  -name: String
+  -type: String (e.g., main, low-cost)
+  +hasDaughter(airline: Airline): Boolean
+  +getMother(): Airline
+}
+
+class Salesperson {
+  -salespersonId: String
+  -name: String
+  -email: String
+  +manageContract(contract: Contract): void
+}
+
+class Employee {
+  -employeeId: String
+  -name: String
+  -position: String
+  +assignToContract(contract: Contract): void
+}
+
+' Relationships
+
+Contract "1" --> "0..*" Acquisition : contains
+Contract "1" --> "1" Salesperson : managedBy
+Salesperson "1" --> "0..*" Contract : manages
+Employee "1" --> "0..*" Contract : assignedTo
+Airline "1" --> "0..1" Airline : mother
+Airline "1" --> "0..*" Airline : daughterOf
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Contract`**: Represents a sales agreement with an airline. It has global terms and contains multiple `Acquisition`s.
+- **`Acquisition`**: Represents a specific airplane purchase under a contract. Each acquisition includes model, price, delivery date, etc.
+- **`Airline`**: Represents an airline company. Airlines can be related via mother-daughter relationships.
+- **`Salesperson`**: Manages contracts. One salesperson can manage multiple contracts.
+- **`Employee`**: A general class representing any Boeing employee. They can be assigned to manage contracts.
+- **Relationships**:
+  - A `Contract` has multiple `Acquisition`s.
+  - A `Contract` is managed by exactly one `Salesperson`.
+  - A `Salesperson` can manage multiple `Contract`s.
+  - An `Employee` can be assigned to multiple `Contract`s.
+  - An `Airline` can have a `mother` and zero or more `daughter` airlines.
+
+Let me know if you'd like to extend this with methods, inheritance, or additional constraints!

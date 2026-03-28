@@ -1,0 +1,73 @@
+
+@startuml
+' Bus Transportation Management System (BTMS) Class Diagram
+
+class Driver {
+  -driverID: String
+  -name: String
+  -isOnSickLeave: Boolean
+}
+
+class Bus {
+  -licensePlate: String
+  -isInRepairShop: Boolean
+}
+
+class Route {
+  -routeNumber: Integer
+}
+
+class Assignment {
+  -date: Date
+  -shiftType: String ' "morning", "afternoon", "night"
+  -bus: Bus
+  -driver: Driver
+  -route: Route
+}
+
+class Schedule {
+  -date: Date
+  -assignments: List<Assignment>
+}
+
+class RouteAssignment {
+  -date: Date
+  -route: Route
+  -buses: List<Bus>
+}
+
+class BTMS {
+  +addDriver(driver: Driver)
+  +deleteDriver(driverID: String)
+  +addBus(bus: Bus)
+  +deleteBus(licensePlate: String)
+  +assignBusToRoute(route: Route, bus: Bus, date: Date)
+  +assignDriverToShift(shift: Assignment)
+  +generateOverview(date: Date): Map<Route, RouteAssignment>
+}
+
+Driver --> Assignment
+Bus --> Assignment
+Route --> Assignment
+Assignment --> Schedule
+Route --> RouteAssignment
+Bus --> RouteAssignment
+Schedule "1" *-- "0..*" Assignment : contains
+RouteAssignment "1" *-- "0..*" Bus : assigned buses
+@enduml
+
+---
+
+### 🔍 Explanation of Key Classes and Relationships:
+
+- **`Driver`**: Stores the driver's unique ID, name, and whether they are on sick leave.
+- **`Bus`**: Stores the license plate and whether it is in repair.
+- **`Route`**: Identified by a route number (up to 9999).
+- **`Assignment`**: Represents an assignment of a **driver**, **bus**, and **route** to a **shift** on a specific **date**. A driver can be assigned to multiple shifts per day.
+- **`Schedule`**: Holds all assignments for a given date.
+- **`RouteAssignment`**: For a specific date, holds the list of buses assigned to each route.
+- **`BTMS`**: The main system class with operations like adding/deleting drivers and buses, assigning them to routes and shifts, and generating overviews.
+
+---
+
+Let me know if you'd like this rendered as an image or extended further!

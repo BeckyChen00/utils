@@ -1,0 +1,328 @@
+@startuml
+class Game {
+  title: String
+  releaseDate: Date
+  description: String
+}
+class Season {
+  seasonNumber: int
+  startTime: Date
+  endTime: Date
+  +getEpisodeCount(): int
+  +getParentSeason(): Season
+}
+class Episode {
+  episodeNumber: int
+  isFinished: boolean
+  +getSummary(): String
+  +updateStatus(newStatus: boolean): void
+}
+class SeasonEpisode {
+  seasonIndex: int
+  episodeIndex: int
+  durationMinutes: int
+  internetStatus: boolean
+  +isOverdue(): boolean
+  +getFormattedDuration(): String
+}
+class User {
+  name: String
+  age: int
+  isPremiumSubscriber: boolean
+  +updateProfile(newData: Map): void
+}
+class Audition {
+  auditionDate: Date
+  targetSkillArea: String
+  +submitAudiogram(data: Map): void
+  +getAuditionSummary(): String
+  +isValid(): boolean
+}
+class PerformanceRecord {
+  recordingDate: Date
+  audioQuality: String
+  +verifyIntegrity(): boolean
+  +exportMetadata(): Map
+}
+class ProductionSchedule {
+  scheduleName: String
+  totalDuration: int
+  +addTask(task: Subtask): void
+  +generateTimeline(): String
+  +isValid(): boolean
+}
+class Subtask {
+  description: String
+  priorityLevel: int
+  estimatedDuration: int
+  +assignToTask(task: PerformanceRecord): void
+}
+class Budget {
+  budgetAmount: double
+  currencyCode: String
+  +addExpense(amount: double, category: String): void
+  +deductExpense(amount: double): void
+  +getCurrentBalance(): double
+}
+class Project {
+  projectName: String
+  +createTeamMember(details: String): User
+  +addMember(member: User): void
+}
+class CostCenter {
+  centerName: String
+  +allocateBudget(amount: double, codeType: String): void
+  +receivePayment(amount: double): void
+}
+class ProductionUnit {
+  unitCode: String
+  unitName: String
+  +getUnitStatus(): String
+}
+class Contract {
+  contractDate: Date
+  durationMonths: int
+  +isActive(): boolean
+}
+classcontractTerm {
+  contractNumber: String
+  startDate: Date
+  endDate: Date
+  termsDescription: String
+  +isActive(): boolean
+}
+class Payment {
+  paymentDate: Date
+  amount: double
+  currency: String
+  +calculateTotal(): double
+  +confirmPayment(): boolean
+  +processReceipt(): Receipt
+}
+class Receipt {
+  issueDate: Date
+  totalPrice: double
+  +generateReceipt(): String
+}
+class Event {
+  eventName: String
+  location: String
+  startTime: Date
+  endTime: Date
+  +registerAt(date: Date): void
+}
+class Audience {
+  audienceName: String
+  ageGroup: String
+  +registerAudience(): void
+}
+class Traveler {
+  travelerName: String
+  travelDate: Date
+  +bookTrip(): void
+}
+class ConnectionEvent {
+  eventDate: Date
+  startTime: Date
+  endTime: Date
+  +schedulingMeeting(): Meeting
+  +finalizeEvent(date: Date): void
+}
+class Meeting {
+  meetingDate: Date
+  scheduledTime: Time
+  +schedule(startDate: Date, duration: int): void
+  +confirmBooking(): void
+}
+class Team {
+  teamName: String
+  +addMember(member: User): void
+  +getTeamMembers(): List<User>
+}
+class ProjectTeam {
+  projectCode: String
+  +defineRoles(member: User): void
+  +assignmember(member: User): void
+}
+class AudioRecord {
+  recordingTimestamp: Date
+  audioData: String
+  +compress(): String
+}
+class Rating {
+  score: double
+  comment: String
+  +isVerified(): boolean
+}
+class Certification {
+  certificationCode: String
+  issueDate: Date
+  +validateCertificate(): boolean
+  +revoke(): void
+}
+class Exhibition {
+  eventDate: Date
+  theme: String
+  +registerAudience(audience: Audience): void
+}
+class Ticket {
+  ticketNumber: String
+  issueDate: Date
+  isAvailable: boolean
+  +reserve(): void
+  +cancel(): boolean
+}
+class Reservation {
+  bookingDate: Date
+  isConfirmed: boolean
+  +confirm(): void
+  +cancel(): void
+}
+class BookingSystem {
+  systemName: String
+  +calculateTotalCost(reservation: Reservation): double
+  +processTicket(ticket: Ticket, user: User): void
+  +viewCustomerList(): List<User>
+}
+class Theater {
+  theaterCode: String
+  capacitySeats: int
+  +showEvent(event: Event): void
+}
+class Portal {
+  portalName: String
+  +loginUser(user: User): String
+  +getPortalInfo(): Map
+  +exportData(): String
+}
+class StationaryDevice {
+  deviceType: String
+  +updateStatus(status: String): void
+}
+class Logistics {
+  transporterName: String
+  +scheduleDelivery(salesOrder: SaleOrder, destination: String): Delivery
+  +verifyDelivery(delivery: Delivery): boolean
+  +trackLocation(delivery: Delivery): String
+}
+class SalesOrder {
+  orderDate: Date
+  totalAmount: double
+  +calculateTotal(): double
+  +schedulePayment(): Payment
+}
+class PaymentProcessor {
+  +processTransaction(amount: double, transactionId: String): String
+  +verifySecurity(): boolean
+}
+class Auditlog {
+  timestamp: Date
+  actionDescription: String
+  +logEvent(action: String, user: User): void
+}
+class EventSchedule {
+  scheduleName: String
+  +addEvent(event: Event): void
+  +getScheduledEvents(): List<Event>
+}
+class InsuranceAgent {
+  agentName: String
+  +getCoverageDetails(): String
+}
+class ScheduleMaterial {
+  materialType: String
+  +assignDuration(duration: int): void
+}
+class Venue {
+  venueName: String
+  capacity: int
+  +getAvailableSeats(): int
+}
+class PriceProtocol {
+  protocolCode: String
+  baseRate: double
+  +calculatePrice(quantity: int): double
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  totalAmount: double
+  +generatePdf(): File
+}
+class PaymentTransaction {
+  transactionDate: Date
+  amount: double
+  +executePayment(): String
+}
+class UserPreferences {
+  languageCode: String
+  region: String
+  +updatePreference(setting: String, value: String): void
+}
+class Reply {
+  responseContent: String
+  replyDate: Date
+  +formatReply(): String
+}
+class Review {
+  reviewContent: String
+  reviewRating: double
+  +isAnonymous(): boolean
+}
+class ContactPerson {
+  contactEmail: String
+  contactPhone: String
+  +updateContactInfo(email: String, phone: String): void
+}
+class Website {
+  websiteUrl: String
+  +renderPage(pageName: String): String
+}
+class Receptionist {
+  employeeNumber: String
+  +acceptPayment(transaction: PaymentTransaction): boolean
+  +processQueue(): List<User>
+}
+class Notification {
+  messageContent: String
+  sendAt: Date
+  +sendTo(user: User): boolean
+}
+class NewsFeed {
+  +postUpdate(): void
+  +readHistory(): List<User>
+}
+class ScheduleManager {
+  +manageSeasons(season: Season): void
+  +scheduleEvent(event: Event, location: String): void
+  +generateSchedule(dateRange: DateRange): String
+}
+class ScheduleDateRange {
+  startDate: Date
+  endDate: Date
+  +isValid(): boolean
+}
+class InvoiceGenerator {
+  +generateInvoice(items: List<Ticket>): Invoice
+  +printInvoice(): String
+}
+class BugReport {
+  reportTitle: String
+  description: String
+  +submitBug(): void
+}
+class MaintenanceLog {
+  logDate: Date
+  description: String
+  +recordMaintenance(dev: StationaryDevice): void
+}
+class AuditRecorder {
+  +logEvent(event: Event, user: User): Auditlog
+  +generateAuditReport(): String
+}
+class Analytics {
+  +generateReport(season: Season): String
+  +analyzePerformance(season: Season): Map
+}
+TicketFormat
+@enduml

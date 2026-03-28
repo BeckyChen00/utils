@@ -1,0 +1,97 @@
+@startuml
+enum ServiceType {
+  RideHailing
+  RideSharing
+  Maintenance
+}
+enum DriverStatus {
+  Available
+  Busy
+  Offline
+}
+class Customer {
+  name: String
+  contactInfo: String
+}
+class Vehicle {
+  licensePlate: String
+  model: String
+  year: int
+  isSelfDriving: boolean
+  currentStatus: DriverStatus
+  +register(): void
+  +getVehicleDetails(): Vehicle
+}
+class RideService {
+  serviceType: ServiceType
+  pickupTime: Date
+  dropoffTime: Date
+  pickupLocation: String
+  dropoffLocation: String
+  passengerCount: int
+  totalDistance: double
+  totalDuration: int
+  fee: double
+  +calculateFee(): double
+  +getSummary(): String
+}
+class TripLog {
+  driverStatus: DriverStatus
+  eventType: ServiceType
+  timestamp: Date
+  details: String
+  +recordEvent(event: String): void
+}
+class CarOwner {
+  ownerName: String
+  contactInfo: String
+  +registerCar(vehicle: Vehicle): void
+}
+class Driver {
+  name: String
+  licenseNumber: String
+  status: DriverStatus
+  +updateAvailability(status: DriverStatus): void
+}
+class CustomerOrder {
+  pickupLocation: String
+  dropoffLocation: String
+  passengerCount: int
+  requestedType: ServiceType
+  +accept(): boolean
+  +cancel(): void
+}
+class Reservation {
+  bookingTime: Date
+  estimatedDuration: int
+  status: DriverStatus
+  +confirmPickup(): void
+  +completeTrip(): void
+}
+class FareCalculator {
+  baseRate: double
+  hourlyRate: double
+  distanceRate: double
+  +calculateFare(distance: double, duration: int): double
+  +applyDiscount(isSharing: boolean): double
+}
+class SafetyLog {
+  accidentDate: Date
+  location: String
+  damageAmount: double
+  description: String
+  +recordAccident(details: String): void
+}
+CarOwner --> "1" Vehicle : registeredVehicle
+Vehicle *-- "0..1" Driver : assignedDriver
+Vehicle *-- "0..*" TripLog : tripLogs
+TripLog --> "0..1" RideService : generatedVia
+RideService --> "0..1" CustomerOrder : fulfilledBy
+RideService --> "1" Customer : primaryCustomer
+ReservedTrip --> "1" CustomerOrder : createdFrom
+TripLog --> "0..1" SafetyLog : incidentCause
+SafetyLog --> "1" Vehicle : affectedVehicle
+CustomerOrder --> "0..*" Customer : invitedPassengers
+Driver --> "0..*" CarOwner : affiliatedOwners
+CustomerOrder --> "1" ReserveTrip : generatedReservation
+@enduml

@@ -1,0 +1,141 @@
+
+@startuml
+
+' Define classes and their relationships
+class Customer {
+    +String name
+    +String contactInfo
+    +int customerID
+    +Date registrationDate
+    +boolean isSuspended
+    +Card[] cards
+    +calculateDiscount(): double
+    +checkPaymentStatus(): boolean
+    +suspendCustomer(): void
+    +unblockCustomer(): void
+}
+
+class Card {
+    +String cardNumber
+    +double balance
+    +Customer owner
+    +Date expirationDate
+    +isBlocked: boolean
+    +refuelTurns: List<RefuelTurn>
+    +chargeAmount(amount: double): void
+    +applyDiscount(): double
+}
+
+class RefuelTurn {
+    +Date refuelDate
+    +double amountInLiters
+    +double totalPrice
+    +Pump pumpUsed
+    +Customer customer
+    +Card usedCard
+    +Invoice associatedInvoice
+    +generateInvoiceEntry(): InvoiceItem
+}
+
+class Invoice {
+    +int invoiceNumber
+    +Date issueDate
+    +Date dueDate
+    +List<InvoiceItem> items
+    +double totalAmount
+    +Customer customer
+    +Payment payment
+    +sendInvoice(): void
+    +resendInvoice(): void
+    +markAsPaid(): void
+}
+
+class InvoiceItem {
+    +RefuelTurn refuelTurn
+    +double amountAfterDiscount
+    +Invoice parentInvoice
+}
+
+class Payment {
+    +Date paymentDate
+    +double amount
+    +Invoice relatedInvoice
+    +PaymentMethod method
+    +processPayment(): boolean
+}
+
+class PaymentMethod {
+    <<enumeration>>
+    CASH
+    CREDIT_CARD
+    FUEL_CARD
+}
+
+class GasStation {
+    +String stationID
+    +String location
+    +List<Pump> pumps
+    +generateDailyReport(): DailyReport
+    +refillPump(pump: Pump, quantity: double): void
+    +blockPump(pump: Pump): void
+    +unblockPump(pump: Pump): void
+}
+
+class Pump {
+    +int pumpID
+    +GasType gasType
+    +double currentLevel
+    +double reorderLevel
+    +double criticalLevel
+    +GasStation station
+    +List<RefuelTurn> refuelTurns
+    +isBlocked: boolean
+    +refillNeeded: boolean
+    +checkReorder(): boolean
+    +checkCriticalLevel(): boolean
+    +blockForCleaning(duration: int): void
+}
+
+class GasType {
+    +String type
+    +double pricePerLiter
+    +density: double
+}
+
+class DailyReport {
+    +Date reportDate
+    +List<Pump> pumpsToRefill
+    +Map<Pump, Double> levelsAndOrders
+    +generate(): String
+}
+
+' Relationships
+Customer "1" -- "0..*" Card : owns
+Card "1" -- "0..*" RefuelTurn : has
+RefuelTurn "1" -- "1" InvoiceItem : generates
+Invoice "1" -- "0..*" InvoiceItem : contains
+Invoice "1" -- "0..1" Payment : receives
+Customer "1" -- "0..*" Invoice : gets
+GasStation "1" -- "1..*" Pump : has
+Pump "1" -- "1" GasType : uses
+Pump "1" -- "0..*" RefuelTurn : has
+GasStation "1" -- "1" DailyReport : generates
+Pump "1" -- "1" GasStation : belongs to
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Customer**: Central entity. Can have multiple fuel cards.
+- **Card**: Used for delayed billing (fuel card) or immediate payment (credit card).
+- **RefuelTurn**: Represents a single refueling event at a specific pump with a customer.
+- **Invoice**: Generated monthly for fuel card users. May be resent if not paid.
+- **Payment**: Tracks how invoices are settled (cash, credit card, fuel card).
+- **Pump & GasStation**: Core operational units. Pumps track fuel level, blockage status, etc.
+- **GasType**: Different types of fuel with different prices and properties.
+- **DailyReport**: Helps in managing pump reordering and maintenance.
+
+---
+

@@ -1,0 +1,85 @@
+
+@startuml
+skinparam classAttributeIconName 0
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class Planner extends Employee {
+  - username: String
+  - password: String
+}
+
+class AdministrativeStaff extends Employee {
+  - fieldOfActivity: String
+  - username: String
+  - password: String
+}
+
+class Driver extends Employee {
+  - assignedOrders: List<Order>
+}
+
+class Customer {
+  - name: String
+  - billingAddress: String
+}
+
+class PartnerCompany {
+  - name: String
+  - address: String
+}
+
+class Vehicle {
+  - licensePlateNumber: String
+  - mileage: Integer
+  - type: String
+}
+
+class Repair {
+  - repairShopName: String
+  - repairShopAddress: String
+  - employeeWhoTookVehicle: Employee
+  - duration: Integer
+  - cost: Double
+}
+
+class Order {
+  - pickupAddress: String
+  - deliveryAddress: String
+  - comment: String
+  - startDate: DateTime
+  - endDate: DateTime
+  - customer: Customer
+  - partnerCompany: PartnerCompany
+  - planner: Planner
+  - driver: Driver
+  - vehicle: Vehicle
+}
+
+Employee "1" -- "0..*" Planner
+Employee "1" -- "0..*" AdministrativeStaff
+Employee "1" -- "0..*" Driver
+
+Customer "1" -- "0..*" Order
+PartnerCompany "1" -- "0..*" Order
+
+Vehicle "1" -- "0..*" Repair
+Driver "1" -- "0..*" Order
+Planner "1" -- "0..*" Order
+Order "1" -- "1" Vehicle
+Order "1" -- "1" Customer
+Order "1" -- "1" Planner
+Order "1" -- "1" Driver
+@enduml
+
+### Explanation of Key Relationships:
+
+- **Employee** is a base class with subtypes **Planner**, **AdministrativeStaff**, and **Driver**.
+- Each **Order** is assigned to one **Driver**, one **Vehicle**, and one **Planner**.
+- An **Order** belongs to a **Customer** or a **PartnerCompany**.
+- A **Vehicle** may have multiple **Repairs** associated with it.
+- Each **Repair** is linked to an **Employee** who took the vehicle for repairs.
+

@@ -1,0 +1,160 @@
+
+---
+
+
+@startuml
+' Define package if needed
+package "Energy Building Portal System" {
+  
+  ' Actors
+  [User] as user
+  [Administrator] as admin
+  [Visitor] as visitor
+  
+  ' Use Cases
+  [Register User] as uc1
+  [Login] as uc2
+  [Create Building] as uc3
+  [Add Entry to Building] as uc4
+  [Comment on Building] as uc5
+  [Search Buildings] as uc6
+  [Release Entry Publicly] as uc7
+  [Delete Comment] as uc8
+  [Manage User Accounts] as uc9
+  [View Public Building Info] as uc10
+
+  ' Associations between actors and use cases
+  user --> uc1
+  user --> uc2
+  user --> uc3
+  user --> uc4
+  user --> uc5
+  user --> uc7
+  visitor --> uc6
+  visitor --> uc10
+  admin --> uc2
+  admin --> uc8
+  admin --> uc9
+
+  ' Generalization: Administrator is-a User
+  user <|-- admin
+
+  ' Classes
+  class WebPortal {
+    - version: String
+    - url: String
+    + getBuildings(): List<Building>
+  }
+
+  class User {
+    - username: String
+    - email: String
+    - password: String
+    - activated: Boolean
+    + register(): void
+    + login(): Boolean
+  }
+
+  class Administrator {
+    - idCardNumber: String
+    + deleteUser(user: User): void
+    + deleteComment(comment: Comment): void
+  }
+
+  class Building {
+    - id: String
+    - name: String
+    - energyClass: Char (A/B/C/D)
+    - address: String
+    - yearOfConstruction: Integer
+    - owner: User
+    - profileImage: Image
+    + addEntry(entry: Entry): void
+    + addComment(comment: Comment): void
+  }
+
+  class Entry {
+    - name: String
+    - public: Boolean
+    * type-specific subclasses below
+  }
+
+  class TextualEntry {
+    - content: String
+  }
+
+  class NumericalEntry {
+    - value: Double
+    - unit: String
+  }
+
+  class Image {
+    - fileName: String
+  }
+
+  class Comment {
+    - content: String
+    - author: User
+    - building: Building
+  }
+
+  class FullTextSearch {
+    - query: String
+    + search(query: String): List<Building>
+  }
+
+  ' Inheritance for Entry types
+  Entry <|-- TextualEntry
+  Entry <|-- NumericalEntry
+
+  ' Relationships
+  User "1" -- "0..*" Building : owns
+  Building "1" -- "0..*" Entry : contains
+  Building "1" -- "0..*" Comment : has
+  User "1" -- "0..*" Comment : author
+  WebPortal "1" -- "0..*" User : users
+  WebPortal "1" -- "0..*" Building : buildings
+  WebPortal "1" -- "1" FullTextSearch : provides
+  Building "1" -- "1" Image : profilePhoto
+}
+
+@enduml
+
+---
+
+### 🧩 Explanation of Key Elements:
+
+#### **Actors & Use Cases**
+- **User**: Registers, logs in, creates buildings, adds entries/comments.
+- **Visitor**: Can search and view public building info.
+- **Administrator**: Manages users and deletes comments.
+
+#### **Generalization**
+- `Administrator` inherits from `User`.
+
+#### **Classes and Relationships**
+- `Entry` is abstract with two concrete types: `TextualEntry` and `NumericalEntry`.
+- A `Building` has an `owner`, multiple `Entry`s, and a `profileImage`.
+- `FullTextSearch` supports searching across all `Building`s via any actor.
+
+---
+
+### 📌 10 Meaningful Use Cases Assigned
+
+| Actor       | Use Case                         |
+|-------------|----------------------------------|
+| User        | Register User                    |
+| User        | Login                            |
+| User        | Create Building                  |
+| User        | Add Entry to Building            |
+| User        | Comment on Building              |
+| User        | Release Entry Publicly           |
+| Visitor     | Search Buildings                 |
+| Visitor     | View Public Building Info        |
+| Administrator | Delete Comment               |
+| Administrator | Manage User Accounts         |
+
+---
+
+
+Let me know if you'd like a **sequence diagram** or **activity diagram** for specific use cases too!

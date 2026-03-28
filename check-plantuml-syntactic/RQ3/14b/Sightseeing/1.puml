@@ -1,0 +1,46 @@
+
+@startuml
+class City {
+  -name: String
+  -inhabitants: Integer
+}
+
+class Attraction {
+  -name: String
+  -address: String
+}
+
+class GuidedTour {
+  -duration: Integer
+  -maxVisitors: Integer = 20
+  -discountAmount: Double
+}
+
+class Person {
+  -name: String
+}
+
+class Visitor extends Person {
+}
+
+class Guide extends Person {
+}
+
+City "1" *-- "many" Attraction : has
+Attraction "1" *-- "many" GuidedTour : offers
+GuidedTour "1" *-- "many" Visitor : includes
+GuidedTour "1" -- "1" Guide : requires
+@enduml
+
+### Explanation:
+- **City** has a name and number of inhabitants.
+- **Attraction** has a name and an address.
+- **GuidedTour** has duration, maximum visitors (fixed at 20), and discount amount for some visitors.
+- **Person** is a base class with a name.
+- **Visitor** and **Guide** are subtypes of `Person`.
+- A **City** can have many **Attractions**.
+- An **Attraction** can offer multiple **GuidedTours**.
+- A **GuidedTour** includes multiple **Visitors** (up to 20).
+- Each **GuidedTour** is led by one **Guide**.
+
+Let me know if you'd like to add attributes or associations that aren't explicitly mentioned but are implied.

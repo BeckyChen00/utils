@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedRequests" eType="#//PickupRequest" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestItems" eType="#//Article" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedVehicle" eType="#//Vehicle" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedDriver" eType="#//VolunteerDriver" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resident">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="personalClient" eType="#//Client" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Client"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionCenter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedArticles" eType="#//Article" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedFoodBank" eType="#//FoodBank" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivesArticles" eType="#//Article" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Article"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FoodBank"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VolunteerDriver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Apple">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfilledOrders" eType="#//Order" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedItem" eType="#//Article" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recipientClient" eType="#//Client" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SampleH2S">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedClients" eType="#//Client" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

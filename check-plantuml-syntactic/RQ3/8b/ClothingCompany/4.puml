@@ -1,0 +1,72 @@
+
+@startuml
+
+' Define the classes
+class Customer {
+  +name: String
+  +address: String
+  +telephoneNumber: String
+  +emailAddress: String
+  +countries: List<String>
+}
+
+class Product {
+  +name: String
+  +description: String
+  +netPrice: Double
+  +manufacturer: String
+  +country: String
+}
+
+class Country {
+  +name: String
+  +vatRate: Double
+  +currency: String
+  +conversionRateToEuro: Double
+}
+
+class Representative {
+  +firstName: String
+  +lastName: String
+  +socialSecurityNumber: String
+  +telephoneNumber: String
+  +emailAddress: String
+  +country: String
+}
+
+class Order {
+  +orderId: String
+  +product: Product
+  +quantity: Integer
+  +orderDate: Date
+  +deliveryDate: Date
+  +representative: Representative
+}
+
+' Relationships
+
+Customer "1" -- "many" Order : places
+Order "1" -- "1" Representative : placedBy
+Product "1" -- "1" Order : includes
+Product "1" -- "1" Country : belongsTo
+Representative "1" -- "1" Country : responsibleFor
+Customer "1" -- "1" Country : operatesIn
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **Customer**: Stores customer information, including countries they operate in.
+- **Product**: Contains details about each product (name, description, price, manufacturer, country).
+- **Country**: Holds VAT rate, currency, and conversion rate to euro for tax calculations.
+- **Representative**: Represents a person responsible for a specific country, with contact details.
+- **Order**: Captures an order from a customer, referencing the product, quantity, date, and representative.
+
+### Relationships:
+- A **Customer** can place multiple **Orders**.
+- An **Order** is placed by one **Representative**.
+- An **Order** includes exactly one **Product**.
+- A **Product** belongs to one **Country**.
+- A **Representative** is responsible for exactly one **Country**.
+- A **Customer** operates in one or more **Countries**.
+

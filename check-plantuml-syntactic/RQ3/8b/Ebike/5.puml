@@ -1,0 +1,78 @@
+
+@startuml
+
+class Frame {
+  - material: String
+  + insertWheel(wheel: Wheel): void
+}
+
+class Wheel {
+  + rotate(): void
+}
+
+class DriveSystem {
+  - motor: Motor
+  + getMotor(): Motor
+}
+
+class Motor {
+  + spin(): void
+}
+
+class Controller {
+  - state: State
+  + setState(state: State): void
+  + getState(): State
+  + controlBattery(battery: Battery): void
+  + commandDriveSystem(driveSystem: DriveSystem): void
+}
+
+enum State {
+  On, Off, Charging
+}
+
+class Battery {
+  - storedEnergy: double (Wh)
+  + getStoredEnergy(): double
+  + setStoredEnergy(energy: double): void
+}
+
+class EBike {
+  - frame: Frame
+  - driveSystem: DriveSystem
+  - controller: Controller
+  - battery: Battery (optional)
+  + connectBattery(battery: Battery): void
+  + disconnectBattery(): void
+}
+
+class BasicController {
+  -- extends Controller
+}
+
+class AdvancedController {
+  -- extends Controller
+  + estimateNextInspectionDate(): Date
+}
+
+BasicController --> Controller
+AdvancedController --> Controller
+
+Frame "1" -- "2" Wheel : contains
+DriveSystem "1" -- "1" Motor : has
+EBike "1" -- "1" Frame : has
+EBike "1" -- "1" DriveSystem : has
+EBike "1" -- "1" Controller : has
+EBike "1" -- "0..1" Battery : has (optional)
+AdvancedController --> Controller : extends
+
+@enduml
+
+### Explanation:
+- **Frame** contains **Wheels**.
+- **DriveSystem** has a **Motor**.
+- **Controller** can be in one of three states (`On`, `Off`, `Charging`) and controls the **Battery** and **DriveSystem**.
+- The **Battery** stores energy in **Watt-hours**.
+- The **EBike** includes a **Frame**, **DriveSystem**, **Controller**, and optionally a **Battery**.
+- There are two types of **Controller**: **BasicController** and **AdvancedController**, with the latter being able to estimate the next inspection date.
+

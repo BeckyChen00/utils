@@ -1,0 +1,109 @@
+
+@startuml
+
+' Classes
+class User {
+  -username: String
+  -password: String
+  +login(mode: String): void
+}
+
+class Admin {
+  +createGame(name: String): Game
+  +defineBlocks(blocks: List<Block>): void
+  +defineLevels(levels: List<Level>): void
+  +publishGame(game: Game): void
+}
+
+class Player {
+  +playGame(game: Game): void
+  +pauseGame(): void
+  +resumeGame(): void
+}
+
+class Game {
+  -name: String
+  -hallOfFame: HallOfFame
+  -blocks: List<Block>
+  -levels: List<Level>
+  -minSpeed: Integer
+  -speedIncreaseFactor: Double
+  -maxPaddleLength: Integer
+  -minPaddleLength: Integer
+  +addPlayer(player: Player): void
+  +startGame(): void
+  +endGame(): void
+}
+
+class Block {
+  -color: String
+  -points: Integer
+}
+
+class Level {
+  -levelNumber: Integer
+  -isRandom: Boolean
+  -blockArrangement: List<GridPosition>
+  -startingBlockCount: Integer
+}
+
+class GridPosition {
+  -row: Integer
+  -column: Integer
+}
+
+class HallOfFame {
+  -highScores: Map<Player, Integer>
+  +addScore(player: Player, score: Integer): void
+  +getHighScore(player: Player): Integer
+}
+
+class GameSession {
+  -player: Player
+  -currentLevel: Level
+  -lives: Integer
+  -score: Integer
+  +startLevel(): void
+  +endLevel(): void
+  +loseLife(): void
+  +checkGameOver(): Boolean
+}
+
+' Relationships
+
+User "1" -- "0..1" Admin : "may be"
+User "1" -- "1" Player : "always is"
+
+Admin "1" --> "1" Game : "creates and manages"
+Player "1" --> "1" GameSession : "has active session for"
+
+Game "1" --> "1" HallOfFame : "has"
+Game "1" --> "*" Block : "contains"
+Game "1" --> "*" Level : "contains"
+
+Level "1" --> "*" GridPosition : "contains"
+Level "1" --> "*" Block : "uses blocks from game's block set"
+
+GameSession "1" --> "1" Level : "currently playing"
+GameSession "1" --> "1" Player : "belongs to"
+GameSession "1" --> "1" Game : "part of"
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+- **User** is the base class; it can be both a **Player** and an **Admin**, but not both in the same game.
+- **Admin** creates and publishes **Game(s)**, defines **Blocks** and **Levels**.
+- **Player** plays a **Game**, which is stored in a **GameSession**.
+- **Game** contains:
+  - A unique name.
+  - A **HallOfFame** for tracking high scores.
+  - A list of **Blocks** (each with color and points).
+  - A list of **Levels** (each with layout and settings).
+- **Level** may be random or fixed and uses **GridPosition** to define where each **Block** starts.
+- **GameSession** tracks the player’s progress during a game, including lives, current level, and score.
+- **HallOfFame** stores high scores for players in each game.
+
+---
+

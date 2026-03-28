@@ -1,0 +1,54 @@
+@startuml
+enum ErrorCategory {
+  SystemError
+  NetworkFailure
+  DataCorruption
+  PermissionViolation
+}
+enum TemplateType {
+  Section
+  Dashboard
+  Page
+}
+enum PageStatus {
+  Draft
+  Published
+}
+class DocumentTemplate {
+  name: String
+  defaultLanguage: String
+  templateType: TemplateType
+  versionNumber: int
+  +cloneCopy(): DocumentTemplate
+  +validateStructure(): boolean
+}
+class PageTemplate {
+  pageCount: int
+  selectedLayout: String
+  +generateLayout(): String
+}
+class DisplayPage {
+  currentPageNumber: int
+  currentStatus: PageStatus
+  +moveToNextPage(): void
+}
+class TemplateEngine {
+  engineVersion: String
+  +computeLayout(configuration: Map): String
+}
+class ErrorReport {
+  description: String
+  errorCategory: ErrorCategory
+  severityLevel: int
+  +formatReport(): String
+}
+class ConfigData {
+  configFilePath: String
+  +loadConfiguration(): ConfigData
+}
+DocumentTemplate *-- "1" PageTemplate : defaultTemplate
+DisplayPage *-- "1" PageTemplate : appliedTemplate
+DisplayPage --> "1" TemplateEngine : engine : activeEngine
+TemplateEngine --> "1" ConfigData : configuration : settings
+DisplayPage *-- "0..*" ErrorReport : errorLogs
+@enduml

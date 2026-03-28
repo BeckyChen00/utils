@@ -1,0 +1,40 @@
+@startuml
+
+class Diagram {Diagram} extends SystemRequirement {SystemRequirement}
+
+# System Requirement
+SystemRequirement has members {
+    Name: "Database",
+    Description: "Stores and manages user data"
+}
+
+# Database class diagram
+class Database {
+    # Database properties
+    String name;
+    String description;
+    String size;
+    String type;
+
+    # Database methods
+    void create() {
+        # Implementation
+    }
+
+    void delete() {
+        # Implementation
+    }
+}
+
+# User class diagram
+class User {
+    String name;
+    String email;
+    String password;
+    String role;
+}
+
+# Relationship between classes
+Database has relationship to User via join;
+
+@enduml

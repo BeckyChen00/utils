@@ -1,0 +1,61 @@
+@startuml
+enum DriverStatus {
+  Active
+  Sick
+  OnLeave
+  Overtime
+}
+enum BusStatus {
+  InService
+  InRepair
+  OnLoan
+}
+enum RouteType {
+  Local
+  Express
+  NightLine
+}
+class CityBusSystem {
+  +totalRoutesCount: int
+  +totalDriversCount: int
+  +generateDailyReport(date: Date): String
+}
+class BusRoute {
+  routeNumber: int
+  routeType: RouteType
+  +assignBus(bus: Bus, shift: ShiftTimeSlot): void
+  +getActiveBuses(): List<Bus>
+}
+class Bus {
+  licensePlate: String
+  status: BusStatus
+  +markForMaintenance(): void
+  +returnToService(): void
+}
+class Driver {
+  fullName: String
+  status: DriverStatus
+  +assignShift(shift: ShiftTimeSlot): void
+  +markSick(): void
+  +markAvailable(): void
+}
+class ShiftTimeSlot {
+  shiftType: String
+  startTime: Time
+  endTime: Time
+  +isOverlapping(otherSlot: ShiftTimeSlot): boolean
+}
+class DailySchedule {
+  date: Date
+  +getAssignedDrivers(route: BusRoute): List<Driver>
+  +getActiveBuses(route: BusRoute): List<Bus>
+}
+CityBusSystem *-- "0..*" BusRoute : managedRoutes
+CityBusSystem *-- "0..*" Driver : registeredDrivers
+CityBusSystem *-- "0..*" Bus : registeredBuses
+CityBusSystem *-- "0..*" DailySchedule : generatedSchedules
+BusRoute *-- "1" ShiftTimeSlot : defaultShiftTime
+BusRoute --> "0..*" Bus : assignedBuses
+Driver --> "0..*" DailySchedule : scheduledShifts
+Bus --> "0..*" DailySchedule : scheduledRides
+@enduml

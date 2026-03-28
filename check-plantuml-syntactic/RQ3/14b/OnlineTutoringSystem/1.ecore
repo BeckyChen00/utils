@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Student">
+    <eOperations xsi:type="ecore:EOperation" name="requestTutoring">
+      <eParameters xsi:type="ecore:EParameter" name="subject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters xsi:type="ecore:EParameter" name="level" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters xsi:type="ecore:EParameter" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eParameters xsi:type="ecore:EParameter" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="scheduleFollowUp"/>
+    <eOperations xsi:type="ecore:EOperation" name="payForSession">
+      <eParameters xsi:type="ecore:EParameter" name="paymentMethod" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tutor">
+    <eOperations xsi:type="ecore:EOperation" name="offerTutoring">
+      <eParameters xsi:type="ecore:EParameter" name="subject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters xsi:type="ecore:EParameter" name="expertiseLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters xsi:type="ecore:EParameter" name="hourlyRate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="setWeeklyAvailability">
+      <eParameters xsi:type="ecore:EParameter" name="availability" eType="#//Map_Day_List"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="confirmSession">
+      <eParameters xsi:type="ecore:EParameter" name="session" eType="#//Session"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="suggestAlternativeSlot">
+      <eParameters xsi:type="ecore:EParameter" name="session" eType="#//Session"/>
+      <eParameters xsi:type="ecore:EParameter" name="newSlot" eType="#//TimeSlot"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StudentUser">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" eType="#//User"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tutorRequests" eType="#//Request" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessions" eType="#//Session" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="makes" eType="#//Request" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attends" eType="#//Session" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TutorUser">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" eType="#//User"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bankAccount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subjectsOffered" eType="#//Map_String_SubjectOffer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessions" eType="#//Session" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receives" eType="#//Request" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offers" eType="#//SubjectOffer" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conducts" eType="#//Session" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Request">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="student" eType="#//StudentUser"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tutor" eType="#//TutorUser"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="requestedDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="requestedTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//RequestStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leadsTo" eType="#//Session" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Session">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tutor" eType="#//TutorUser"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="student" eType="#//StudentUser"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="level" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paymentStatus" eType="#//PaymentStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cancellationReason" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubjectOffer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expertiseLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hourlyRate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeSlot">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="day" eType="#//Day"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Award">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tutor" eType="#//TutorUser"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="month" eType="#//Month"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="awardType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="awardedTo" eType="#//TutorUser" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RequestStatus">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="PENDING"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="CONFIRMED" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="CANCELLED" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PaymentStatus">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="UNPAID"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="PAID" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="PARTIALLY_PAID" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Day">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="MONDAY"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="TUESDAY" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="WEDNESDAY" value="2"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="THURSDAY" value="3"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="FRIDAY" value="4"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="SATURDAY" value="5"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="SUNDAY" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Month">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="JANUARY"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="FEBRUARY" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="MARCH" value="2"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="APRIL" value="3"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="MAY" value="4"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="JUNE" value="5"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="JULY" value="6"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="AUGUST" value="7"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="SEPTEMBER" value="8"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="OCTOBER" value="9"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="NOVEMBER" value="10"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="DECEMBER" value="11"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//email"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="email"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_Day_List"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is" eType="#//StudentUser" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is" eType="#//TutorUser" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_String_SubjectOffer"/>
+</ecore:EPackage>

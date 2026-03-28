@@ -1,0 +1,97 @@
+@startuml
+enum AlertSeverity {
+  low
+  medium
+  high
+  critical
+}
+enum RouteMode {
+  gasTruck
+  electricVehicle
+  pedestrian
+  alternativeMode
+}
+class Route {
+  routeCode: String
+  estimatedDistance: double
+  routeMode: RouteMode
+  +getRouteDescription(): String
+  +calculateAveSpeed(): double
+  +validateRoute(): boolean
+}
+class Alert {
+  locationCode: String
+  severity: AlertSeverity
+  estimatedDuration: double
+  +isEnabled(): boolean
+  +isCalibrated(): boolean
+}
+class TransitAgency {
+  agencyName: String
+  isActive: boolean
+  +getAgencyName(): String
+}
+class Passenger {
+  passengerName: String
+  isEmergencyMode: boolean
+  +submitAlert(locationCode: String): Alert
+  +getCargoWeight(): int
+}
+class RouteOptimizer {
+  +optimizeRoutes(startPoint: String, endPoint: String, mode: RouteMode, maxDistance: double): List<Route>
+  +findRouteCandidates(startPoint: String, endPoint: String, mode: RouteMode): List<Route>
+}
+class Schedule {
+  scheduledDate: Date
+  departureTime: Time
+  arrivalTime: Time
+  +isBlocked(): boolean
+  +getStatus(): String
+}
+class NotificationManager {
+  frequencyInterval: int
+  +sendNotification(message: String, route: Route): boolean
+  +queueMessage(alert: Alert): boolean
+  +getActiveAlerts(): List<Alert>
+}
+class MaintenanceScheduler {
+  +assignMaintenance(route: Route, technician: Technician, date: Date): boolean
+  +checkVehicleAvailability(vehicle: Vehicle): boolean
+}
+class VehicleInventory {
+  vehicleType: String
+  currentStatus: String
+  +processMaintenanceEvent(maintanec: Technician): boolean
+  +getAvailableParts(): List<String>
+}
+class TechnicalSupportTeam {
+  +approveMaintenance(route: Route, technician: Technician, status: String): boolean
+  +resolveIssue(alert: Alert): boolean
+}
+class SystemAdministrator {
+  +configureSystem(minimizeTraffic: boolean): boolean
+  +generateScheduleReport(start: Date, end: Date): String
+  +monitorAlerts(): List<Alert>
+}
+class AlertLog {
+  creationTimestamp: Date
+  severity: AlertSeverity
+  description: String
+  verified: boolean
+  +recordEvent(): boolean
+  +calculateSeverityScore(): AlertSeverity
+}
+Passenger --> "0..*" Alert : submittedAlerts
+Alert --> "1" Route : targetedRoute
+Route --> "1" TransitAgency : operatedByAgency
+RouteOptimizer --> "1" TransitAgency : managedAgency
+Schedule --> "1" Route : assignedRoute
+Passenger --> "0..*" Schedule : bookedSchedules
+Passenger --> "0..*" Alert : submittedAlerts
+RouteOptimizer -- NotificationManager
+VehicleInventory -- MaintenanceScheduler
+TechnicalSupportTeam -- NotificationManager
+SystemAdministrator -- NotificationManager
+VehicleInventory -- MaintenanceScheduler
+MaintenanceScheduler -- AlertLog
+@enduml

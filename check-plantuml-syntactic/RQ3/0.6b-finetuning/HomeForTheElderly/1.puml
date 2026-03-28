@@ -1,0 +1,38 @@
+@startuml
+enum TestStatus {
+  Pending
+  Completed
+  Cancelled
+}
+enum CalibrationState {
+  Idle
+  CalibrationStart
+  Calibrating
+  Validated
+  Invalid
+  Maintenance
+}
+class SensorUnit {
+  isCalibrated: boolean
+  isActive: boolean
+  lastCalibrationDate: Date
+  +getStatus(): CalibrationState
+  +calibrate(targetState: CalibrationState, durationMinutes: int): void
+}
+class DiagnosticReport {
+  generationDate: Date
+  summary: String
+  +generateReport(): void
+  +getDetailedAnalysis(): String
+}
+class TestRecord {
+  testDate: Date
+  recordedValue: double
+  status: TestStatus
+  +isValid(): boolean
+  +performTest(stepName: String): boolean
+}
+SensorUnit *-- "0..*" TestRecord : testHistory
+SensorUnit --> "1" DiagnosticReport : latestReport
+TestRecord --> "1" DiagnosticReport : sourceReport
+@enduml

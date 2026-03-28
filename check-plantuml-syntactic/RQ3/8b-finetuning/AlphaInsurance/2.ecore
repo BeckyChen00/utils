@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managingCustomer" eType="#//Customer" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="insuredPersons" eType="#//InsuredPerson" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="policies" eType="#//Policy" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filedClaims" eType="#//Claim" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InsuredPerson"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Policy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedOn" eType="#//InsuranceProduct" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeContracts" eType="#//Contract" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InsuranceProduct"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Contract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="premiums" eType="#//Premium" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Premium"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Claim">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="details" eType="#//DamageEvent" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainCase" eType="#//ClaimCase" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DamageEvent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimCase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reports" eType="#//ClaimCaseReport" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimCaseReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="result" eType="#//Assessment" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assessment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performedBy" eType="#//Estimator" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Estimator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentTransaction"/>
+</ecore:EPackage>

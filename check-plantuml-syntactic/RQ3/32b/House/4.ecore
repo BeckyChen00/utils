@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="SemiDetachedHouse" eSuperTypes="#//House">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasGarden" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfWindows" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="garageOrCarport" eType="#//GarageOrCarport"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has&gt;" eType="#//Carport"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has&gt;" eType="#//Garage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GarageOrCarport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Carport" eSuperTypes="#//GarageOrCarport">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDouble" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasFlatRoof" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Garage" eSuperTypes="#//GarageOrCarport">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasAutomaticDoor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Company">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="services&gt;" eType="#//JobLog" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JobLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="company" eType="#//Company"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="house" eType="#//House"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hoursWorked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="agreedPrice" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here"/>
+  <eClassifiers xsi:type="ecore:EClass" name="House">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has&gt;" eType="#//ConcreteBasement" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_job_log_for&gt;" eType="#//JobLog" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConcreteBasement"/>
+</ecore:EPackage>

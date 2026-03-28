@@ -1,0 +1,59 @@
+@startuml
+enum RiskLevel {
+  Low
+  Medium
+  High
+  Critical
+  Unknown
+}
+enum IncidentSeverity {
+  Negligible
+  Minor
+  Major
+  Catastrophic
+  Escalated
+  Critical
+  Triggered
+  Pending
+}
+class CommunicationIncident {
+  incidentTitle: String
+  detectedAt: Date
+  severity: IncidentSeverity
+  sourceLocation: String
+  +computeTotalDuration(): int
+  +analyzeSeverity(): IncidentSeverity
+}
+class Alert {
+  messageContent: String
+  isAcknowledged: boolean
+  receivedTime: Date
+  +acknowledge(): void
+}
+class RiskMitigationStrategy {
+  strategyName: String
+  riskFactorDescription: String
+  mitigationRecommendation: String
+  +executeMitigation(): void
+}
+class CommunicationAssessment {
+  assessmentTitle: String
+  assessmentDate: Date
+  riskLevel: RiskLevel
+  +generateSummary(): String
+}
+class IncidentReporter {
+  reporterName: String
+  contactInfo: String
+  +reportIncident(title: String, description: String): CommunicationIncident
+}
+class AlertGenerator {
+  +generateAlert(message: String, isAcknowledged: boolean): Alert
+}
+CommunicationIncident *-- "*" Alert : containedAlerts
+CommunicationIncident --> "1" RiskMitigationStrategy : usedStrategy
+CommunicationIncident --> "1" CommunicationAssessment : resultingAssessment
+CommunicationIncident --> "*" IncidentReporter : reportedBy
+AlertGenerator --> "*" Alert : generatedAlerts
+AlertGenerator --> "*" RiskMitigationStrategy : activeStrategies
+@enduml

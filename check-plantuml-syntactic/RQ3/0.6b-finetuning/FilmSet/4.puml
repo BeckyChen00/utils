@@ -1,0 +1,63 @@
+@startuml
+class MarketDashboard {
+  +renderReport(): String
+  +analyzeSegmentation(criteria: String): String
+  +generateForecast(): String
+}
+class MarketSegment {
+  segmentType: String
+  targetCustomer: String
+  +getCoverage(): String
+  +determineDensity(): double
+}
+class SensorData {
+  timestamp: Date
+  value: double
+  unit: String
+}
+class DataStream {
+  streamName: String
+  +fetchRecords(start: Date, end: Date): List<SensorData>
+}
+class RiskIndicator {
+  indicatorCode: String
+  currentValue: double
+  +calculateProbability(): double
+}
+class IndicatorSeries {
+  seriesName: String
+  startTime: Date
+  endTime: Date
+  +getAverage(): double
+}
+class AlertRule {
+  ruleDescription: String
+  thresholdMinimum: double
+  thresholdMaximum: double
+  +evaluate(currentValue: double): boolean
+  +isActive(): boolean
+}
+class DashboardAlert {
+  message: String
+  severity: String
+  +display(): void
+  +close(): void
+}
+class HistoricalDataStore {
+  storageLocation: String
+  +retrieve(series: IndicatorSeries): List<SensorData>
+}
+class AlertSystem {
+  systemName: String
+  +processRule(rule: AlertRule): List<DashboardAlert>
+  +triggerAlert(alert: DashboardAlert): void
+}
+MarketDashboard *-- "1" HistoricalDataStore : storedData
+MarketDashboard *-- "1" DataStream : currentStream
+DashboardAlert --> "1" MarketDashboard : sourceDashboard
+MarketDashboard --> "*" AlertRule : activeRules
+AlertSystem --> "*" AlertRule : activeRules
+AlertSystem --> "*" DashboardAlert : generatedAlerts
+AlertSystem --> "*" MarketSegment : monitoredSegments
+AlertSystem -- SensorData
+@enduml

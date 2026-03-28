@@ -1,0 +1,89 @@
+@startuml
+
+' Define classes
+class Game {
+  -board: Board
+  -players: List<Player>
+  -currentPlayerIndex: int
+  -actionDeck: Deck<ActionCard>
+  -hiddenTile: Tile
+  +startGame()
+  +nextTurn()
+  +checkWin()
+}
+
+class Board {
+  -tiles: List<Tile>
+  -connectionPieces: List<ConnectionPiece>
+  +addTile(tile: Tile)
+  +connectTiles(tile1: Tile, tile2: Tile)
+  +removeConnectionPiece(connectionPiece: ConnectionPiece)
+  +getTileAt(x: int, y: int): Tile
+}
+
+class Tile {
+  -x: int
+  -y: int
+  -isVisited: boolean
+  -isActionTile: boolean
+  -actionDuration: int
+  +markAsVisited()
+  +isHidden(): boolean
+  +isActionTile(): boolean
+}
+
+class Player {
+  -color: Color
+  -position: Tile
+  -canPlayNextTurn: boolean
+  +rollDie(): int
+  +move(dieResult: int)
+  +takeActionCard(actionCard: ActionCard)
+}
+
+class ConnectionPiece {
+  -fromTile: Tile
+  -toTile: Tile
+  -isConnected: boolean
+}
+
+class ActionCard {
+  -type: ActionType
+  -effect: String
+  +applyEffect(player: Player, board: Board)
+}
+
+enum ActionType {
+  EXTRA_TURN,
+  CONNECT_TILES,
+  REMOVE_CONNECTION,
+  MOVE_TO_TILE,
+  LOSE_TURN
+}
+
+' Associations
+Game --> Board
+Game --> Player
+Game --> ActionCard
+Game --> Tile
+Game --> ConnectionPiece
+
+Player --> Tile
+Player --> ActionCard
+
+Board --> Tile
+Board --> ConnectionPiece
+
+Tile --> ConnectionPiece
+
+@enduml
+
+### Explanation of the Diagram:
+- **Game**: The main class that manages the game state, players, board, action cards, and the hidden tile.
+- **Board**: Manages the layout of tiles and connection pieces.
+- **Tile**: Represents each individual tile on the board. It can be visited, may be an action tile, and has coordinates.
+- **Player**: Each player has a color, position, and whether they can play their next turn.
+- **ConnectionPiece**: Represents how two tiles are connected (top, bottom, left, right).
+- **ActionCard**: Defines different types of actions that can be taken when landing on an action tile.
+- **Enums**: `ActionType` defines the five predefined choices for action cards.
+

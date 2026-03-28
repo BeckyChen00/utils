@@ -1,0 +1,68 @@
+
+@startuml
+' Class Diagram for Order Management System
+
+class Location {
+  -address: String
+}
+
+class Driver {
+  -firstName: String
+  -lastName: String
+}
+
+class Vehicle {
+  -vehicleNumber: String
+}
+
+class Truck extends Vehicle {
+  -weight: Double
+}
+
+class Car extends Vehicle {
+  -seats: Integer
+}
+
+class Van extends Vehicle {
+  -capacity: Integer
+}
+
+class Order {
+  -origin: Location
+  -destination: Location
+  -date: Date
+  -driver: Driver
+}
+
+class DriverVehicleAssignment {
+  -driver: Driver
+  -vehicle: Vehicle
+}
+
+' Relationships
+Location "1" *-- "0..*" Driver : contains
+Driver "1" *-- "0..1" Order : assignedTo
+Order "1" -- "1" Driver : executedBy
+Driver "1" *-- "0..*" DriverVehicleAssignment : drives
+Vehicle "1" *-- "0..1" DriverVehicleAssignment : drivenBy
+DriverVehicleAssignment "1" -- "1" Vehicle : vehicle
+DriverVehicleAssignment "1" -- "1" Driver : driver
+
+' Inheritance
+Vehicle <|-- Truck
+Vehicle <|-- Car
+Vehicle <|-- Van
+@enduml
+
+### Explanation of the Diagram:
+
+- **Location** contains **Drivers** and has an address.
+- **Driver** has a first and last name and can be assigned to **one Order** at a time.
+- **Vehicle** is a base class with a `vehicleNumber`, and it is extended by:
+  - **Truck**, which has a `weight`
+  - **Car**, which has a `seats` count
+  - **Van**, which has a `capacity` (could be volume or number of items)
+- **Order** has an origin and destination (both **Location** objects), a date, and one assigned **Driver**.
+- A **DriverVehicleAssignment** class is used to associate a **Driver** with a **Vehicle**, as each vehicle may be driven by up to one driver.
+
+This design ensures proper modeling of relationships, constraints, and inheritance as per the system requirements.

@@ -1,0 +1,161 @@
+
+---
+
+
+@startuml
+
+' Define Classes
+class WebPortal {
+  +String versionNumber
+  +URL url
+}
+
+class Building {
+  +String id
+  +String name
+  +EnergyClass energyClass
+  +String address
+  +int yearOfConstruction
+  +User owner
+  +List<Image> images
+  +Image profilePhoto
+}
+
+class User {
+  +String username
+  +String email
+  +String password
+  +boolean isActive
+  +WebPortal webPortal
+}
+
+class Administrator << stereotype "Administrator" >> extends User {
+  +String idCardNumber
+}
+
+class Entry {
+  +String name
+  +User owner
+  +Building building
+  +boolean isPublic
+}
+
+class TextualEntry extends Entry {
+  +String content
+}
+
+class NumericEntry extends Entry {
+  +float value
+  +String unit
+}
+
+class Image {
+  +String fileName
+  +Building building
+}
+
+class Comment {
+  +String content
+  +User author
+  +Building building
+  +Date timestamp
+}
+
+class EnergyClass {
+  +String level (A, B, C, D)
+}
+
+' Relationships
+User "1" -- "0..*" Building : owns
+User "1" -- "0..*" Entry : creates
+Building "1" -- "0..*" Entry : has
+Building "1" -- "0..*" Comment : has
+User "1" -- "0..*" Comment : posts
+WebPortal "1" -- "0..*" Building : provides catalog of
+WebPortal "1" -- "0..*" User : has registered users
+Administrator "1" -- "1" WebPortal : administers
+Building "1" -- "0..*" Image : contains
+Building "1" -- "1" Image : has profile photo
+Entry "1" -- "1" TextualEntry | NumericEntry : is either
+User "1" -- "0..*" Administrator : may be an administrator
+
+' Generalization
+User <|-- Administrator
+Entry <|-- TextualEntry
+Entry <|-- NumericEntry
+
+@enduml
+
+---
+
+### 🧩 **Use Case Diagram with Actors (Text-based Summary)**
+
+Although you asked for a **class diagram**, here are **10 meaningful use cases** mapped to actors, as per your request:
+
+#### 🔐 **Actors:**
+- `Visitor`
+- `RegisteredUser`
+- `Administrator`
+
+#### 📝 **Use Cases:**
+1. **Search Buildings** – *Actor: Visitor / RegisteredUser*
+2. **Register Account** – *Actor: Visitor*
+3. **Activate Account** – *Actor: System (Automated)*
+4. **Login** – *Actor: RegisteredUser*
+5. **Create Building** – *Actor: RegisteredUser*
+6. **Add Entry to Building** – *Actor: RegisteredUser*
+7. **Comment on Building** – *Actor: RegisteredUser*
+8. **Release Entry Publicly** – *Actor: RegisteredUser*
+9. **Setup User Account** – *Actor: Administrator*
+10. **Delete Comment** – *Actor: Administrator*
+
+---
+
+### 🔄 **Generalization Example (Use Case Inheritance):**
+- `Search Buildings` can be generalized into:
+  - `Search by Full Text`
+  - `Search by Energy Class`
+  - `Search by Location`
+
+This shows how more specific search criteria inherit from the main "Search" use case.
+
+---
+
+
+If you want a **use case diagram** as well, here's the code for it:
+
+@startuml
+
+actor Visitor
+actor "RegisteredUser" as RU
+actor "Administrator" as Admin
+
+package "Web Portal System" {
+  usecase "Search Buildings" as UC1
+  usecase "Register Account" as UC2
+  usecase "Activate Account" as UC3
+  usecase "Login" as UC4
+  usecase "Create Building" as UC5
+  usecase "Add Entry to Building" as UC6
+  usecase "Comment on Building" as UC7
+  usecase "Release Entry Publicly" as UC8
+  usecase "Setup User Account" as UC9
+  usecase "Delete Comment" as UC10
+}
+
+Visitor --> UC1
+Visitor --> UC2
+UC2 --> UC3
+RU --> UC4
+RU --> UC5
+RU --> UC6
+RU --> UC7
+RU --> UC8
+Admin --> UC9
+Admin --> UC10
+
+@enduml
+
+---
+
+Let me know if you'd like this rendered as an image or exported to PNG/SVG using online tools!

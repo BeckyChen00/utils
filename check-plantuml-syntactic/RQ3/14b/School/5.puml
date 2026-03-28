@@ -1,0 +1,85 @@
+
+@startuml
+' Define classes and their attributes
+
+class School {
+  -name: String
+}
+
+class Teacher {
+  -firstName: String
+  -lastName: String
+  -email: String
+}
+
+class Student {
+  -firstName: String
+  -lastName: String
+}
+
+class Principal {
+  -firstName: String
+  -lastName: String
+  -email: String
+}
+
+class Room {
+  -name: String
+}
+
+class Classroom extends Room {
+  -capacity: Integer
+}
+
+class Gym extends Room {
+  -size: Integer
+}
+
+class ClassGroup {
+  -name: String
+}
+
+' Define associations and multiplicities
+
+School "1" *-- "0..*" Teacher : employs
+School "1" *-- "1" Principal : hasPrincipal
+Teacher "0..3" *-- "1" School : teachesAt
+Teacher "0..1" *-- "1" School : isPrincipalOf
+
+School "1" *-- "0..*" Room : hasRoom
+
+Student "1" *-- "1" School : attends
+Student "1" *-- "1" ClassGroup : belongsTo
+ClassGroup "1" *-- "1" Classroom : assignedTo
+ClassGroup "1" *-- "10..31" Student : contains
+
+' Inheritance
+Teacher <|-- Principal
+Room <|-- Classroom
+Room <|-- Gym
+
+@enduml
+
+### Explanation of Key Relationships:
+
+- **School**:
+  - Has many `Teachers` (via employment).
+  - Has exactly one `Principal`, who must be a `Teacher`.
+  - Has many `Rooms`.
+
+- **Teacher**:
+  - Can teach at up to three `Schools`.
+  - Can be the principal of only one `School`.
+
+- **Student**:
+  - Attends exactly one `School`.
+  - Belongs to exactly one `ClassGroup`.
+
+- **ClassGroup**:
+  - Contains between 10 and 31 `Students`.
+  - Assigned to exactly one `Classroom`.
+
+- **Room**:
+  - Base class for both `Classroom` and `Gym`.
+  - `Classroom` has a `capacity`, `Gym` has a `size`.
+

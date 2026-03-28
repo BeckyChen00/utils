@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedAgents" eType="#//Agent" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Agent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PreservationProject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedAgents" eType="#//Agent" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredResources" eType="#//ResourceRequirement" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedTasks" eType="#//MaintenanceTask" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceRequirement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetAgent" eType="#//Agent" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationRun">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedProject" eType="#//PreservationProject" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//MonitoringReport" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringReport"/>
+</ecore:EPackage>

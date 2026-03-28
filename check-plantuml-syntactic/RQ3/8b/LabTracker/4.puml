@@ -1,0 +1,128 @@
+
+---
+
+
+@startuml
+
+' Define classes with attributes and methods
+class Doctor {
+    +numericPractitionerNumber: String
+    +signature: Image
+    +fullName: String
+    +address: String
+    +phoneNumber: String
+    +requisitions: List<Requisition>
+}
+
+class Patient {
+    +healthNumber: String
+    +firstName: String
+    +lastName: String
+    +dateOfBirth: Date
+    +address: String
+    +phoneNumber: String
+    +appointments: List<Appointment>
+    +requisitions: List<Requisition>
+}
+
+class Requisition {
+    +validFrom: Date
+    +tests: List<Test>
+    +repetitionPattern: RepetitionPattern
+    +repetitionCount: Integer
+    +interval: Interval
+    +doctor: Doctor
+    +patient: Patient
+}
+
+class Test {
+    +testName: String
+    +duration: Duration
+    +isWalkInOnly: Boolean
+    +requiresAppointment: Boolean
+    +belongsToGroup: String
+    +requisitions: List<Requisition>
+}
+
+class Appointment {
+    +confirmationNumber: String
+    +date: Date
+    +startTime: Time
+    +endTime: Time
+    +lab: Lab
+    +requisition: Requisition
+    +patient: Patient
+}
+
+class Lab {
+    +registrationNumber: String
+    +name: String
+    +address: String
+    +businessHours: BusinessHours
+    +appointments: List<Appointment>
+    +tests: List<Test>
+}
+
+class RepetitionPattern {
+    +patternType: String
+}
+
+class Interval {
+    +intervalType: String
+}
+
+class Duration {
+    +durationValue: Integer
+    +unit: String
+}
+
+class BusinessHours {
+    +openEveryDay: Boolean
+    +dailyStartTime: Time
+    +dailyEndTime: Time
+}
+
+class Result {
+    +test: Test
+    +report: String
+    +status: String
+    +doctor: Doctor
+    +patient: Patient
+}
+
+' Relationships
+Doctor --> Requisition
+Patient --> Requisition
+Patient --> Appointment
+Doctor --> Appointment
+Requisition --> Test
+Test --> Requisition
+Requisition --> RepetitionPattern
+Requisition --> Interval
+Appointment --> Lab
+Appointment --> Requisition
+Appointment --> Patient
+Lab --> Appointment
+Lab --> Test
+Test --> Duration
+Test --> BusinessHours
+Doctor --> Doctor "0..1" "can prescribe to self"
+Doctor --> Doctor "0..*" "can prescribe to others"
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **Association**: Arrows show one-way associations between classes.
+- **Multiplicity**: Some multiplicity notations are implied (e.g., `Doctor --> Doctor "0..1"` means a doctor can prescribe to themselves or others).
+- **Aggregation/Composition**: Not explicitly shown but can be inferred from relationships (e.g., `Requisition` has a list of `Test`s).
+- **Attributes**:
+  - Primitive types like `String`, `Date`, `Time`, `Integer`, etc., are used where appropriate.
+  - Complex types like `Duration`, `BusinessHours`, and `RepetitionPattern` are represented as separate classes if needed for modeling.
+
+---
+
+### 🔍 How to Use
+
+Let me know if you'd like to add more details or customize the diagram further!

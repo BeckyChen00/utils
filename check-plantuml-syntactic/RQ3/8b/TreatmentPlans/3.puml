@@ -1,0 +1,93 @@
+
+- `Hospital`
+- `Doctor`
+- `Patient`
+- `ExaminationType`
+- `TreatmentPlan`
+- `ActualTreatment`
+- `Examination`
+
+---
+
+
+@startuml
+
+' Define classes
+class Hospital {
+  - name: String
+  - permittedExaminationTypes: Set<ExaminationType>
+  + applyPermission(examinationType: ExaminationType): boolean
+}
+
+class Doctor {
+  - name: String
+  - hospital: Hospital
+  + prescribe(patient: Patient, problem: String): ActualTreatment
+}
+
+class Patient {
+  - name: String
+  - problem: String
+  + receiveTreatment(treatment: ActualTreatment)
+}
+
+class ExaminationType {
+  - name: String
+  + isPermittedBy(hospital: Hospital): boolean
+}
+
+class TreatmentPlan {
+  - name: String
+  - problem: String
+  - recommendedExaminations: Set<ExaminationType>
+  + getRecommendedExaminations(): Set<ExaminationType>
+}
+
+class ActualTreatment {
+  - patient: Patient
+  - doctor: Doctor
+  - treatmentPlan: TreatmentPlan
+  - examinationsPerformed: Set<Examination>
+  - additionalActions: Set<String>
+  + addExamination(examination: Examination)
+  + addAction(action: String)
+}
+
+class Examination {
+  - type: ExaminationType
+  - hospital: Hospital
+  - performedAt: Hospital
+  + isPermittedBy(hospital: Hospital): boolean
+}
+
+' Relationships
+Hospital "1" -- "0..*" ExaminationType : permits
+Doctor "1" -- "1" Hospital : belongsTo
+Doctor "1" -- "1" Patient : treats
+Patient "1" -- "1" ActualTreatment : has
+ActualTreatment "1" -- "0..*" Examination : includes
+TreatmentPlan "1" -- "1" ActualTreatment : basedOn
+TreatmentPlan "1" -- "0..*" ExaminationType : recommends
+Examination "1" -- "1" ExaminationType : isOfType
+Examination "1" -- "1" Hospital : performedAt
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Relationships:
+
+- **Hospital** has a set of **permitted examination types**, which determines what exams can be performed.
+- A **Doctor** belongs to a **Hospital** and prescribes an **ActualTreatment** for a **Patient**.
+- An **ActualTreatment** is based on a **TreatmentPlan**, which defines the recommended **Examinations**.
+- Each **Examination** has a **type** (from `ExaminationType`) and is performed at a **Hospital**.
+- A **Patient** receives an **ActualTreatment**.
+- **Examinations** may be done at the same or different **Hospital**, depending on permissions.
+
+---
+
+### 📝 Notes:
+- The diagram allows for flexibility in how treatments are executed while ensuring compliance with hospital permissions.
+- It supports tracking deviations from standard treatment plans and monitoring examination usage across hospitals.
+
+Let me know if you'd like to generate this as an image or need further refinements!

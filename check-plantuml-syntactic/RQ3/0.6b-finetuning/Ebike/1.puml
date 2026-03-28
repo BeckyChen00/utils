@@ -1,0 +1,110 @@
+@startuml
+enum DeviceStatus {
+  Online
+  Offline
+  Maintenance
+  Error
+  Calibrating
+}
+enum SensorType {
+  Temperature
+  Pressure
+  CurrentPower
+  Voltage
+  Frequency
+  ModulationStrength
+  ModulationPhase
+  DwellTime
+}
+class TimeSeriesData {
+  timestamps: Date[]
+  values: double[]
+}
+class ResampleProcessor {
+  sampleRateHz: int
+  windowSizeMs: int
+  +processData(samples: double[]): double[]
+}
+class SignalAnalyzer {
+  channelCount: int
+  +analyzeSignal(data: double[]): double[]
+}
+class PedalController {
+  isAutoShifting: boolean
+  +triggerFeedback(): boolean
+  +calculateDwellTime(data: double[]): int
+}
+class CycleScheduler {
+  cycleDurationSec: int
+  +assignCycle(timer: boolean): int
+  +getNextAvailableCycle(): int
+}
+class SamplingDevice {
+  samplingRate: int
+  deviceStatus: DeviceStatus
+  +startSampling(): boolean
+  +stopSampling(): boolean
+}
+class HardwareModule {
+  hardwareId: String
+  +executeCommand(command: String): boolean
+}
+class AnalogSensor {
+  sensorType: SensorType
+  calibrationOffset: double
+  +readSignal(): double
+  +calibrate(): boolean
+}
+class DigitalSignalAnalyzer {
+  speed: int
+  +processRawData(rawData: double[]): double[]
+  +extractFrequency(data: double[]): double
+}
+class SignalClassifier {
+  thresholdLevel: int
+  +classifySignal(data: double[]): String
+  +computeConfidence(data: double[]): double
+}
+class SynchronizationEngine {
+  jitterThreshold: int
+  +alignCycle(cycle: CycleScheduler): int
+  +createSyncSession(): String
+}
+class PowerMeter {
+  voltageLevel: double
+  currentLevel: double
+  +generateReport(): String
+}
+class CalibrationLog {
+  calibrationDate: Date
+  calibrationValue: double
+  +recordValue(value: double, note: String): void
+}
+class MonitoringStation {
+  networkStatus: boolean
+  +getStationStatus(): String
+  +triggerAlert(message: String): boolean
+  +sendLog(data: CalibrationLog): boolean
+}
+class FeedbackChannel {
+  isFeedbackActive: boolean
+  +sendFeedback(message: String): boolean
+  +processFeedback(): double
+}
+PedalController --|> FeedbackChannel
+SignalAnalyzer --|> DigitalSignalAnalyzer
+ResampleProcessor --|> SamplingDevice
+PedalController --> "*" AnalogSensor : connectedSensors
+PedalController --> "*" FeedbackChannel : connectedChannels
+PedalController --> "1" PowerMeter : poweredByMeter
+SignalAnalyzer --> "*" PedalController : monitoredControllers
+SignalAnalyzer --> "*" AnalogSensor : analyzedSensors
+CycleScheduler --> "*" FeedbackChannel : managedChannels
+SynchronizationEngine --> "*" CycleScheduler : managedSchedulers
+PowerMeter --> "*" FeedbackChannel : poweredChannels
+PowerMeter --> "*" CalibrationLog : calibratedLogs
+MonitoringStation --|> PedalController
+MonitoringStation --|> FeedbackChannel
+PedalController --|> SamplingDevice
+PedalController --|> PowerMeter
+@enduml

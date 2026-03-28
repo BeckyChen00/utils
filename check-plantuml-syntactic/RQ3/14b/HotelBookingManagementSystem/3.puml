@@ -1,0 +1,133 @@
+
+@startuml
+' Class Diagram for HBMS
+
+class Traveller {
+  +id: String
+  +name: String
+  +billingInfo: BillingInfo
+  +travelPreferences: List<TravelPreference>
+  +reliabilityRating: Double
+  +bookings: List<Booking>
+}
+
+class BillingInfo {
+  +companyName: String
+  +address: String
+  +creditCardDetails: CreditCardDetails
+}
+
+class CreditCardDetails {
+  +cardNumber: String
+  +expiryDate: Date
+  +cvv: String
+}
+
+class TravelPreference {
+  +preferenceType: String
+  +value: String
+}
+
+class Booking {
+  +bookingId: String
+  +traveller: Traveller
+  +hotel: Hotel
+  +startDate: Date
+  +endDate: Date
+  +numRooms: Integer
+  +roomType: String
+  +pricePerNight: Double
+  +totalPrice: Double
+  +paymentMethod: PaymentMethod
+  +confirmationStatus: ConfirmationStatus
+  +cancellationDeadline: Date
+  +isConfirmed: Boolean
+  +isPrepaid: Boolean
+}
+
+enum PaymentMethod {
+  PREPAID
+  PAID_AT_HOTEL
+}
+
+enum ConfirmationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+class PreliminaryBooking extends Booking {
+  +deadline: Date
+}
+
+class FinalizedBooking extends Booking {
+  +confirmationSent: Boolean
+}
+
+class Hotel {
+  +hotelId: String
+  +name: String
+  +address: String
+  +city: String
+  +chain: HotelChain
+  +rating: Integer
+  +rooms: List<Room>
+  +offers: List<Offer>
+}
+
+class HotelChain {
+  +chainId: String
+  +name: String
+}
+
+class Room {
+  +roomId: String
+  +type: String
+  +availability: Boolean
+  +maxOccupancy: Integer
+}
+
+class Offer {
+  +offerId: String
+  +hotel: Hotel
+  +pricePerNight: Double
+  +startDate: Date
+  +endDate: Date
+  +specialFeatures: List<String>
+}
+
+class HBMS {
+  +searchAccommodation(city: String, arrival: Date, departure: Date, numRooms: Integer, roomType: String, minRating: Integer, budget: Double, preferences: List<TravelPreference>): List<Offer>
+  +createPreliminaryBooking(traveller: Traveller, offer: Offer): PreliminaryBooking
+  +finalizeBooking(booking: Booking, creditCard: CreditCardDetails): FinalizedBooking
+  +sendOffersToCompetitors(booking: PreliminaryBooking): void
+  +cancelBooking(booking: Booking): void
+  +reimbursePrepaidBooking(booking: Booking): void
+  +calculateReliabilityRating(traveller: Traveller): Double
+}
+
+' Relationships
+Traveller "1" --> "0..*" Booking
+Booking "1" --> "1" Traveller
+Booking "1" --> "1" Hotel
+Hotel "1" --> "0..*" Room
+Hotel "1" --> "0..*" Offer
+Hotel "1" --> "0..1" HotelChain
+HBMS "1" --> "0..*" PreliminaryBooking
+HBMS "1" --> "0..*" FinalizedBooking
+HBMS "1" --> "0..*" Booking
+HBMS "1" --> "0..*" Offer
+HBMS "1" --> "0..*" Traveller
+
+@enduml
+
+---
+
+### 📌 Notes:
+- `PreliminaryBooking` and `FinalizedBooking` are subclasses of `Booking`.
+- `HBMS` is a central class that manages all operations.
+- The `Traveller` has a reliability rating calculated by HBMS based on past bookings.
+- Each `Hotel` can be part of a `HotelChain`.
+- `HBMS` communicates with `Hotel`s to confirm or cancel bookings.
+- The `CreditCardDetails` are used only at final booking time, as per the requirement.
+

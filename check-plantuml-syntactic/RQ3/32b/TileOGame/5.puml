@@ -1,0 +1,130 @@
+
+---
+
+
+@startuml
+
+' Entities and Classes
+class Game {
+    +startGame()
+    +endGame()
+    -currentPlayer: Player
+    -gameBoard: GameBoard
+    -actionCardDeck: ActionCardDeck
+    -isGameOver: boolean
+}
+
+class GameBoard {
+    +getTile(x, y): Tile
+    +getConnectedTiles(tile): List<Tile>
+    -tiles: Map<Position, Tile>
+    -connections: Map<Tile, Map<Direction, Tile>>
+    -hiddenTile: Tile
+    -playerStartPositions: Map<PlayerColor, Position>
+    -actionTiles: Set<Tile>
+}
+
+class Tile {
+    +isVisited(): boolean
+    +visit()
+    +isActionTile(): boolean
+    +activateActionTile()
+    -visited: boolean
+    -color: Color
+    -position: Position
+    -isHidden: boolean
+    -isAction: boolean
+}
+
+class Position {
+    -x: int
+    -y: int
+}
+
+enum Direction {
+    TOP, BOTTOM, LEFT, RIGHT
+}
+
+class Player {
+    +rollDie(): int
+    +moveToTile(tile: Tile)
+    +drawAndUseActionCard()
+    +skipNextTurn()
+    -color: PlayerColor
+    -currentTile: Tile
+    -hasExtraTurn: boolean
+    -nextTurnSkipped: boolean
+}
+
+enum PlayerColor {
+    RED, GREEN, BLUE, YELLOW
+}
+
+class ActionCardDeck {
+    +drawCard(): ActionCard
+    -cards: List<ActionCard>
+}
+
+abstract class ActionCard {
+    +execute(player: Player, game: Game)
+}
+
+class ExtraTurnCard {
+    +execute(player: Player, game: Game)
+}
+
+class ConnectTilesCard {
+    +execute(player: Player, game: Game)
+}
+
+class RemoveConnectionCard {
+    +execute(player: Player, game: Game)
+}
+
+class MoveAnywhereCard {
+    +execute(player: Player, game: Game)
+}
+
+class SkipNextTurnCard {
+    +execute(player: Player, game: Game)
+}
+
+class ConnectionPiece {
+    +connect(tile1: Tile, tile2: Tile, direction: Direction)
+}
+
+' Relationships
+Game "1" -- "1" GameBoard : has
+Game "1" -- "1" ActionCardDeck : uses
+GameBoard "1" -- "*" Tile : contains
+GameBoard "1" -- "*" ConnectionPiece : uses
+Game "1" --> "2..4" Player : manages
+Player "1" -- "1" Tile : is on
+Player "1" -- "0..1" ActionCard : holds
+ActionCardDeck "1" -- "*" ActionCard : contains
+ActionCard <|-- ExtraTurnCard
+ActionCard <|-- ConnectTilesCard
+ActionCard <|-- RemoveConnectionCard
+ActionCard <|-- MoveAnywhereCard
+ActionCard <|-- SkipNextTurnCard
+
+Tile "1" -- "0..*" ConnectionPiece : connected with
+Tile "1" -- "0..1" ActionCard : associated with
+
+@enduml
+
+---
+
+### 🧩 Explanation of Key Elements:
+
+- **Game**: Manages the game state, player turns, and determines when the game ends.
+- **GameBoard**: Holds all tiles, their connections, and special positions (like hidden tile, action tiles).
+- **Tile**: Represents a position on the board; can be visited, have actions, or be the hidden goal.
+- **Player**: Each player has a color, moves on the board, and interacts with the game using die rolls and action cards.
+- **ActionCard**: Abstract base class for all types of action cards that modify game behavior.
+- **ConnectionPiece**: Used to connect tiles during setup and gameplay.
+
+---
+
+
+Let me know if you'd like a version with **component diagrams**, **sequence diagrams**, or **ERD** too!

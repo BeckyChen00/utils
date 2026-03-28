@@ -1,0 +1,82 @@
+
+- `Hospital` – manages permissions for examination types.
+- `ExaminationType` – defines the different types of examinations.
+- `TreatmentPlan` – associates with a problem and lists advised examination types.
+- `Doctor` – affiliated with a hospital and prescribes treatments.
+- `Patient` – visits a hospital and receives treatment.
+- `Treatment` – represents an actual treatment applied to a patient.
+- `Examination` – specific instance of an examination type performed.
+
+---
+
+
+@startuml
+skinparam classAttributeStyle rectangle
+
+class Hospital {
+  +String name
+  +Set<ExaminationType> allowedExaminations
+  +applyPermission(ExaminationType)
+}
+
+class ExaminationType {
+  +String typeName
+  +Set<TreatmentPlan> relatedTreatmentPlans
+}
+
+class TreatmentPlan {
+  +String problem
+  +Set<ExaminationType> advisedExaminations
+}
+
+class Doctor {
+  +String name
+  +Hospital hospital
+  +prescribeTreatment(Patient, Problem) : Treatment
+}
+
+class Patient {
+  +String name
+  +Hospital currentHospital
+  +Treatment receivedTreatment
+}
+
+class Treatment {
+  +Patient patient
+  +Set<ExaminationType> advisedExaminations
+  +Set<MedicalAction> medicalActions
+}
+
+class MedicalAction {
+  +String description
+}
+
+class Examination {
+  +ExaminationType type
+  +Hospital performedAt
+  +Patient patient
+}
+
+' Association between classes
+Hospital "1" -- "0..*" ExaminationType : allows
+ExaminationType "1" -- "0..*" TreatmentPlan : relates to
+TreatmentPlan "1" -- "1" Doctor : used by
+Doctor "1" -- "1" Hospital : belongs to
+Doctor "1" -- "1" Patient : treats
+Patient "1" -- "1" Treatment : has
+Treatment "1" -- "0..*" Examination : includes
+Treatment "1" -- "0..*" MedicalAction : includes
+Examination "1" -- "1" Hospital : performed at
+Examination "1" -- "1" Patient : belongs to
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The diagram uses aggregation (`"1" -- "0..*"`) where appropriate (e.g., `Hospital` allows multiple `ExaminationType`s).
+- Relationships such as `Doctor` prescribing `Treatment` are modeled as associations.
+- `Examination` may be performed at a different `Hospital` than where the `Doctor` is affiliated.
+- `Treatment` can include both advised `ExaminationType`s and additional `MedicalAction`s.
+
+Let me know if you'd like this rendered or converted into a visual image!

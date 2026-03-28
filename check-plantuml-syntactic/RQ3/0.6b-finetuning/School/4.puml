@@ -1,0 +1,106 @@
+@startuml
+class ReportGenerator {
+  +generateReport(reportTitle: String, includeDataDownload: boolean): GenerateReport
+  +exportDataToFile(formatType: String, filename: String): String
+}
+class GenerateReport {
+  generateDate: Date
+  +executeReport(): boolean
+  +confirmExecution(): boolean
+}
+class DataFeature {
+  featureName: String
+  dimensionCount: int
+  +isValid(): boolean
+}
+class DataSet {
+  datasetName: String
+  maxGridColumnCount: int
+  +validateStructure(): boolean
+  +getFeatureCount(): int
+}
+class TableSchema {
+  tableName: String
+  referenceColumns: String[]
+  +getColumns(): String[]
+}
+class ExportTask {
+  targetFormat: String
+  +generateContent(): String
+  +finalizeExport(): boolean
+}
+class AnalysisSession {
+  sessionTitle: String
+  +startSession(): void
+  +endSession(): boolean
+  +computeMetrics(dataSet: DataSet, featureSetName: String): double
+}
+class LogEvent {
+  timestamp: Date
+  severity: int
+  message: String
+  +logMessage(message: String): void
+}
+class StatisticalMetric {
+  metricName: String
+  value: double
+  isSkewed: boolean
+  +formatValue(): String
+}
+class VisualizationTool {
+  toolVersion: String
+  +createChart(data: double[]): String
+  +renderChart(): String
+}
+class ReportGeneratorConfiguration {
+  configurationName: String
+  maxIterations: int
+  +configureTool(tool: VisualizationTool): void
+}
+class DataSetLoader {
+  +loadDataSet(filePath: String): DataSet
+  +loadFromUrl(url: String): DataSet
+}
+class DataQuery {
+  queryString: String
+  +executeQuery(): double
+}
+class QueryRunner {
+  +executeQuery(query: DataQuery): double
+}
+class DataResource {
+  resourceUrl: String
+}
+class AnalysisPipeline {
+  pipelineName: String
+  +runPipeline(dataSources: List<DataResource>): List<StatisticalMetric>
+  +optimizePipeline(nIterations: int): boolean
+}
+class Insight {
+  insightText: String
+  +determineStrength(): double
+}
+GenerateReport *-- "1" DataFeature : sourceFeature
+GenerateReport *-- "1" GenerateReport : report
+GenerateReport *-- "1" ReportGeneratorConfiguration : configuration
+GenerateReport *-- "1" AnalysisSession : executedSession
+GenerateReport *-- "*" DataFeature : sourceFeatures
+AnalysisSession *-- "*" StatisticalMetric : reportedMetrics
+AnalysisSession *-- "1" TableSchema : schemaDefinition
+AnalysisSession *-- "*" Insight : generatedInsights
+AnalysisSession *-- "*" ExportTask : generatedExports
+AnalysisSession *-- "*" LogEvent : recordedEvents
+AnalysisSession *-- "1" AnalysisPipeline : activePipeline
+DataQuery *-- "1" DataResource : sourceResource
+DataQuery *-- "*" StatisticalMetric : derivedMetrics
+DataQuery *-- "*" Insight : derivedInsights
+DataQuery *-- "1" TableSchema : querySchema
+DataQuery *-- "*" VisualizationTool : supportedTools
+DataResource --> "*" Insight : hostedInsights
+DataResource --> "*" StatisticalMetric : hostedMetrics
+AnalysisPipeline --> "*" DataResource : consumedResources
+DataQuery --> "1" DataResource : sourcedResource
+DataQuery --> "1" TableSchema : queriedSchema
+DataQuery --> "1" TableSchema : queriedSchema
+AnalysisPipeline --> "*" DataFeature : processedFeatures
+@enduml

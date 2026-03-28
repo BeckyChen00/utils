@@ -1,0 +1,60 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class GasStation {
+    - id: String (unique)
+    - address: String
+    + getNumberOfPumps(): int
+}
+
+class FuelPump {
+    - number: int
+    - isSelfService: boolean
+    + getPumpNumber(): int
+    + isPumpSelfService(): boolean
+}
+
+class Fuel {
+    - name: String (unique)
+    - octaneRating: double
+    + getFuelName(): String
+    + getOctaneRating(): double
+}
+
+class DailyPrice {
+    - date: Date
+    - pricePerLiter: double
+    + getPrice(): double
+    + getDate(): Date
+}
+
+class FuelPurchase {
+    - id: String (unique)
+    - litersDispensed: double
+    + getTotalCost(): double
+}
+
+' Relationships
+
+GasStation "1" *-- "0..12" FuelPump : has
+FuelPump "1" --> "1..*" Fuel : offers
+FuelPump "1" --> "1" FuelPurchase : used for
+FuelPurchase "1" --> "1" DailyPrice : priced at
+DailyPrice "1" --> "1" Fuel : applies to
+DailyPrice "1" --> "1" GasStation : belongs to
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **GasStation**: Each gas station has a unique ID and address, and can have up to 12 fuel pumps.
+- **FuelPump**: Identified by a number; indicates whether it's self-service or not. A pump can offer multiple fuels.
+- **Fuel**: Identified by name and octane rating.
+- **DailyPrice**: Records the price per liter of a specific fuel at a specific gas station on a given date.
+- **FuelPurchase**: Represents a purchase made using a specific fuel pump, with reference to the daily price and quantity in liters.
+
+Let me know if you'd like to generate an image from this code or convert it into a PNG/SVG!

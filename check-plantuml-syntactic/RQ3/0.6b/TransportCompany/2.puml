@@ -1,0 +1,9 @@
+@startuml
+class Diagram {SystemRequirement}
+role DiagramMember in SystemRequirement as Member
+
+DiagramMember << Name >> (string)
+DiagramMember << Version >> (integer)
+DiagramMember << Description >> (string)
+
+@enduml

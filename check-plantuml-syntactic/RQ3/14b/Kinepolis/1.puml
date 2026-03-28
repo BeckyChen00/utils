@@ -1,0 +1,135 @@
+
+@startuml
+
+' Classes
+class Cinema {
+  -id: int
+  -name: String
+  -location: String
+  -theatres: Set<Theatre>
+}
+
+class Theatre {
+  -id: int
+  -name: String
+  -capacity: int
+  -seats: Set<Seat>
+  -shows: Set<Show>
+}
+
+class Show {
+  -id: int
+  -movie: Movie
+  -startTime: DateTime
+  -endTime: DateTime
+  -theatre: Theatre
+  -copies: Set<MovieCopy>
+  -reservations: Set<Reservation>
+  -status: Status (Published, Cancelled)
+}
+
+class Movie {
+  -id: int
+  -title: String
+  -duration: int
+  -copies: Set<MovieCopy>
+}
+
+class MovieCopy {
+  -id: int
+  -location: Cinema
+  -status: Status (Available, InUse, Moved)
+}
+
+class Seat {
+  -id: int
+  -number: int
+  -row: int
+  -theatre: Theatre
+  -reserved: boolean
+}
+
+class Reservation {
+  -id: int
+  -customer: Customer
+  -show: Show
+  -seat: Seat
+  -bookingTime: DateTime
+  -paymentStatus: PaymentStatus (Pending, Completed)
+  -cancellationTime: DateTime
+}
+
+class Customer {
+  -id: int
+  -name: String
+  -email: String
+  -creditCard: CreditCard
+  -reservations: Set<Reservation>
+}
+
+class CreditCard {
+  -id: int
+  -cardNumber: String
+  -holderName: String
+  -expirationDate: Date
+  -cvv: String
+}
+
+class Offer {
+  -id: int
+  -fromShow: Show
+  -toShow: Show
+  -customer: Customer
+  -createdAt: DateTime
+  -expiresAt: DateTime
+  -status: Status (Pending, Accepted, Expired, Declined)
+}
+
+class Ticket {
+  -id: int
+  -show: Show
+  -seat: Seat
+  -type: Type (Online, Entrance)
+  -customer: Customer (optional)
+  -price: double
+  -issuedAt: DateTime
+}
+
+class System {
+  +publishProgram(week: Week): void
+  +cancelShow(show: Show): void
+  +offerAlternativeSeat(reservation: Reservation): Offer
+  +generateFreeTicket(customer: Customer, show: Show): Ticket
+}
+
+' Relationships
+Cinema "1" --> "0..*" Theatre
+Theatre "1" --> "0..*" Show
+Show "1" --> "1" Movie
+Movie "1" --> "0..*" MovieCopy
+MovieCopy "1" --> "1" Cinema
+Theatre "1" --> "0..*" Seat
+Seat "1" --> "0..1" Reservation
+Reservation "1" --> "1" Customer
+Reservation "1" --> "1" Show
+Reservation "1" --> "1" Seat
+Customer "1" --> "0..*" Reservation
+Customer "1" --> "0..*" Ticket
+Ticket "1" --> "1" Show
+Ticket "1" --> "1" Seat
+Ticket "1" --> "0..1" Customer
+Show "1" --> "0..*" Offer
+Offer "1" --> "1" Customer
+Offer "1" --> "1" Show (fromShow)
+Offer "1" --> "1" Show (toShow)
+
+@enduml
+
+---
+
+### 📌 Notes:
+- `Status` is a conceptual enum used in multiple places (e.g., for `Show`, `MovieCopy`, `Offer`) and could be modeled as a separate class or just referenced directly.
+- The `System` class is an abstract representation of the functionality provided by the application.
+- The diagram reflects the core entities and their interactions without going into too much detail about methods unless they are explicitly mentioned in the requirement.
+
+Would you like this diagram exported to an image file or refined further?

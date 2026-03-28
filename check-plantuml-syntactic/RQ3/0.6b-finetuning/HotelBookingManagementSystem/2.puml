@@ -1,0 +1,135 @@
+@startuml
+class AuditoryAdapter {
+  isAdjustmentEnabled: boolean
+  +getEmotionIntensity(): double
+}
+class ArticularJoint {
+  isCalibrated: boolean
+  currentPositionX: double
+  currentPositionY: double
+  currentPositionZ: double
+}
+class FeedbackBridge {
+  bufferSize: int
+  +calculateLatency(delayTime: double): double
+  +sendFeedback(): void
+}
+class DigitalAudioInterface {
+  channelCount: int
+  calibrationStatus: boolean
+  +convertRawData(bytes: byte[]): byte[]
+  +applyAdjustment(effect: String): void
+}
+class ACADBridge {
+  +generateSignal(): byte[]
+}
+class SoundSensor {
+  samplingRate: int
+  +readInput(): double[]
+}
+class MultimodalInterface {
+  modeType: String
+  +transmitSignal(data: byte[]): void
+}
+class VocalInstrument {
+  instrumentName: String
+  isSynchronized: boolean
+  +playNote(note: double, velocity: double): void
+  +toggleSynthesis(enabled: boolean): void
+}
+class NeuralSignal {
+  timestamp: Date
+  intensity: double
+  timestampOffset: double
+  +isValid(): boolean
+}
+class Navigator {
+  isAnimating: boolean
+  velocityX: double
+  velocityY: double
+  velocityZ: double
+  +updateVelocities(deltaX: double, deltaY: double, deltaZ: double): void
+  +handleInput(input: String): void
+}
+class GestureController {
+  +processGesture(action: String): boolean
+  +isValidGesture(input: String): boolean
+}
+class PerformanceController {
+  +calculateTrajectory(positions: int[]): double[]
+  +configurePath(path: double[]): void
+}
+class AnalysisEngine {
+  +analyzeFrame(sessionId: String): double[]
+  +extractFeatures(buffer: byte[]): double[]
+}
+class SegmentationTask {
+  startTime: Date
+  endTime: Date
+  +executeSegmentation(data: byte[], step: int): int
+  +getDuration(): double
+}
+class CalibrationSession {
+  sessionName: String
+  startDate: Date
+  endDate: Date
+  +validateSession(): boolean
+  +logResult(interfaces: double[]): void
+}
+class HealthReport {
+  reportDate: Date
+  overallStatus: String
+  +finalizeReport(): void
+  +generateSummary(): String
+}
+class DataLog {
+  lastDataTime: Date
+  +recordData(data: double[]): void
+  +getRecentDataCount(): int
+}
+class NetworkNode {
+  ipAddress: String
+  isOnline: boolean
+  +broadcastMessage(message: String): void
+  +syncWith(client: NetworkNode): boolean
+}
+class AlertSystem {
+  +triggerAlert(message: String): void
+  +acknowledgeAlert(alertId: String): void
+}
+class ParameterStore {
+  storeName: String
+  currentVersion: int
+  +saveConfiguration(config: double[]): void
+  +getSettings(): Map<String, double>
+}
+class SystemSettings {
+  debugMode: boolean
+  saveConfigFile: boolean
+  +applySetting(config: Map<String, double>): void
+}
+VocalInstrument *-- "1" DigitalAudioInterface : audioInterface
+VocalInstrument *-- "1" NeuralSignal : generatedSignal
+Navigator *-- "1" GestureController : gestureController
+Navigator *-- "1" WakeupMachine : sleepMachine
+Navigator --> "1" MultimodalInterface : interfaceConfiguration
+Navigator --> "1" PerformanceController : trajectoryController
+Navigator --> "1" NeuralSignal : currentSignal
+Navigator --> "1" AlertSystem : alertHandler
+Navigator *-- "1" NavigationTrajectory : activeTrajectory
+Navigator *-- "1" SoundSensor : auditorySensor
+Navigator *-- "1" Analyzer : analysisUnit
+Navigator *-- "1" DataLog : logFile
+Navigator *-- "1" NetworkNode : connectedNode
+Navigator *-- "1" PerformanceController : controller
+Navigator --> "1" HealthReport : healthReport
+Navigator --> "1" SegmentationTask : segmentationTask
+Navigator --> "1" SystemSettings : settings
+Navigator --> "1" AnalysisEngine : analysisEngine
+Navigator --> "1" DataLog : logEntries
+Navigator --> "1" ParameterStore : parameterStore
+Navigator --> "1" CalibrationSession : calibrationSession
+NetworkNode --> "1" DataLog : logEntries
+Navigator --> "1" AlertSystem : alertHandler
+Navigator *-- "1" NetworkNode : hostNode
+@enduml

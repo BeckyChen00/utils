@@ -1,0 +1,93 @@
+
+---
+
+
+@startuml
+
+' Main Classes
+class Museum {
+  - name: String
+}
+
+class Location {
+  - id: int
+  - name: String
+  - description: String
+  - museum: Museum
+}
+
+class Exhibition {
+  - id: int
+  - name: String
+  - startDate: Date
+  - endDate: Date
+  - location: Location
+  - coordinator: Employee
+}
+
+class ExhibitionItem {
+  - id: int
+  - name: String
+  - exhibition: Exhibition
+}
+
+class Piece {
+  - id: int
+  - name: String
+  - artist: String
+  - year: int
+}
+
+class Collector {
+  - id: int
+  - name: String
+  - contactInfo: String
+}
+
+class Request {
+  - id: int
+  - status: String
+  - exhibitionItem: ExhibitionItem
+  - piece: Piece
+  - collector: Collector
+}
+
+class Employee {
+  - id: int
+  - name: String
+  - role: String
+  - coach: Employee
+  - mentees: List<Employee>
+}
+
+' Relationships
+Museum "1" -- "many" Location : contains
+Location "1" -- "many" Exhibition : has
+Exhibition "1" -- "many" ExhibitionItem : has
+ExhibitionItem "1" -- "many" Request : requires
+Request "1" -- "1" Piece : requests
+Request "1" -- "1" Collector : from
+Employee "1" -- "many" Employee : coach <-> mentee
+Employee "1" -- "many" Exhibition : coordinates
+
+@enduml
+
+---
+
+### 📌 Explanation of the Model:
+
+- **Museum**: Represents the Louvre Museum as a whole.
+- **Location**: A section within the museum (e.g., a floor or wing).
+- **Exhibition**: An event that takes place in a location, with a start and end date.
+- **ExhibitionItem**: A specific item required for an exhibition (e.g., a painting).
+- **Piece**: A physical artwork or item that can be used in an exhibition.
+- **Collector**: A person or entity that owns a piece.
+- **Request**: A request made to borrow a piece from a collector for an exhibition item.
+- **Employee**: A museum staff member, who may have a coaching relationship with another employee.
+- **Coach Relationship**: A one-to-many relationship where a senior employee coaches junior employees.
+
+---
+
+### 🔍 How to Use:
+
+Let me know if you'd like to add more details or expand the model further!

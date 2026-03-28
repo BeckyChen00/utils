@@ -1,0 +1,30 @@
+@startuml
+    class Diagram {
+        class SystemRequirement { 
+            name: "System Requirement" 
+            description: "This is the system requirement for the application."
+        }
+        class Requirements {
+            class1: "Required Features"
+            class2: "Additional Requirements"
+        }
+
+        class Application {
+            class1: "Application Name"
+            class2: "Features Implemented"
+        }
+
+        class Dependency {
+            class1: "Dependency A"
+            class2: "Dependency B"
+        }
+
+        class Test {
+            class1: "Test Case 1"
+            class2: "Test Case 2"
+        }
+
+        link SystemRequirement --> Dependencies
+        link Dependencies --> Application
+        link Application --> Test
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+class Diagram {System Requirement}
+
+# System Requirement
+
+component Component {
+  name: "Component"
+  has: [name, description]
+}
+component Subsystem {
+  name: "Subsystem"
+  has: [name, description]
+}
+component Service {
+  name: "Service"
+  has: [name, description]
+}
+component DataModel {
+  name: "Data Model"
+  has: [name, description]
+}
+component User {
+  name: "User"
+  has: [name, description]
+}
+component BusinessRule {
+  name: "Business Rule"
+  has: [name, description]
+}
+
+# Relationships
+Component --> Subsystem
+Subsystem --> Service
+Service --> DataModel
+DataModel --> User
+User --> BusinessRule
+
+@enduml

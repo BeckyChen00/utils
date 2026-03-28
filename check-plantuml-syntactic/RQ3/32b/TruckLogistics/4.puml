@@ -1,0 +1,81 @@
+
+
+@startuml
+
+' Define classes
+class Location {
+    - address: String
+}
+
+class Driver {
+    - firstName: String
+    - lastName: String
+}
+
+class Vehicle {
+    - vehicleNumber: String
+}
+
+class Truck {
+    - weight: Double
+}
+
+class Car {
+    - numberOfSeats: Integer
+}
+
+class Van {}
+
+class Order {
+    - origin: Location
+    - destination: Location
+    - executionDate: Date
+}
+
+' Inheritance for Vehicles
+Vehicle <|-- Truck
+Vehicle <|-- Car
+Vehicle <|-- Van
+
+' Relationships
+
+' A Location has many Drivers
+Location "1" --> "*" Driver : contains
+
+' A Location has many Vehicles
+Location "1" --> "*" Vehicle : contains
+
+' A Driver can drive at most one Vehicle
+Driver "1" --> "0..1" Vehicle : drives
+
+' A Vehicle is driven by at most one Driver
+Vehicle "0..1" --> "1" Driver : driven by
+
+' An Order has one or more Drivers assigned
+Order "1" --> "*" Driver : has driver
+
+' A Driver can be assigned to at most one Order at a time
+Driver "0..1" --> "1" Order : assigned to
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **Inheritance**:  
+  `Truck`, `Car`, and `Van` inherit from `Vehicle`.
+
+- **Containment/Aggregation**:  
+  - Each `Location` contains multiple `Drivers` and `Vehicles`.
+
+- **Driving Relationship**:  
+  - A `Driver` can drive only one `Vehicle` at a time (0..1).
+  - A `Vehicle` is driven by at most one `Driver`.
+
+- **Order Assignment**:  
+  - An `Order` must have at least one `Driver`.
+  - A `Driver` can be assigned to at most one `Order` at any given time.
+
+---
+

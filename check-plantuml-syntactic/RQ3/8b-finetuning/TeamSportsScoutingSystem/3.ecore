@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scouting_assignments" eType="#//ScoutingAssignment" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingAssignment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PlayerProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scouting_reports" eType="#//ScoutingReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingDirector">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managed_assignments" eType="#//ScoutingAssignment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target_players" eType="#//PlayerProfile" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managed_squads" eType="#//SquadMember" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SquadMember"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StaffMember">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_assignments" eType="#//ScoutingAssignment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authored_reports" eType="#//ScoutingReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingCoach">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_assignments" eType="#//ScoutingAssignment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authored_reports" eType="#//ScoutingReport" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managed_squads" eType="#//SquadMember" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

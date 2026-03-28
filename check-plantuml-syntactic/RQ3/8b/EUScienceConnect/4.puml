@@ -1,0 +1,73 @@
+
+@startuml
+
+' Define classes and their attributes
+class Person {
+  +personID: String
+  +phone: String
+  +keywords: List<String>
+  +institutionCode: String
+}
+
+class Institution {
+  +institutionCode: String
+  +name: String
+  +address: String
+}
+
+class Article {
+  +doi: String
+  +title: String
+  +authors: List<Person>
+  +authorPositions: List<Integer>
+  +type: String (PeerReviewed / TechnicalReport)
+}
+
+class PeerReviewedArticle extends Article {
+  +citationCount: Integer
+  +reviewers: List<Person>
+}
+
+class TechnicalReport extends Article {
+  +publisher: Institution
+}
+
+class Publisher {
+  +name: String
+  +journals: List<Journal>
+}
+
+class Journal {
+  +name: String
+  +publisher: Publisher
+  +impactFactor: Double
+}
+
+' Relationships
+Person "1" -- "1" Institution : worksFor
+Person "1" -- "1" Article : isAuthorOf
+Person "1" -- "1" Article : isReviewerOf
+Institution "1" -- "1" TechnicalReport : publishes
+Publisher "1" -- "1" Journal : has
+Journal "1" -- "1" PeerReviewedArticle : contains
+
+@enduml
+
+---
+
+### ✅ Explanation of the Diagram
+
+- **Person**: Represents a researcher. Has a unique `personID`, phone number, keywords, and is affiliated with an institution.
+- **Institution**: A research institution identified by a code and name. It can have multiple researchers.
+- **Article**: Base class for all scientific articles. Contains title, authors, author positions, and type.
+- **PeerReviewedArticle**: Extends `Article` and includes citation count and reviewers.
+- **TechnicalReport**: Extends `Article` and is published by a single institution.
+- **Publisher**: Identifies a publishing company and maintains a list of journals.
+- **Journal**: A publication outlet managed by a publisher, with a name and impact factor.
+- **Relationships**:
+  - A person can be an **author** or **reviewer** of an article.
+  - A technical report is **published by** an institution.
+  - A journal is **managed by** a publisher.
+  - Only **peer-reviewed articles** are published in **journals**.
+
+Let me know if you'd like this rendered as an image or further customized!

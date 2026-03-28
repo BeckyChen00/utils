@@ -1,0 +1,66 @@
+@startuml
+class VehicleType {
+  typeName: String
+}
+class Vehicle {
+  licensePlate: String
+  mileage: int
+  currentFuelLevel: double
+  +calculateUsageCost(): double
+}
+class Driver {
+  name: String
+  socialSecurityNumber: String
+  certifications: String[]
+}
+class Employee {
+  name: String
+  username: String
+  password: String
+  role: String
+}
+class Customer {
+  name: String
+  billingAddress: String
+}
+class Order {
+  requestedWeight: int
+  pickupAddress: String
+  dropOffAddress: String
+  status: String
+  +updateStatus(newStatus: String): void
+  +assignVehicle(vehicle: Vehicle): void
+}
+class TransportTask {
+  startTime: Date
+  endTime: Date
+  totalDistance: int
+  isCompleted: boolean
+  comment: String
+}
+class MaintenanceRecord {
+  repairShopName: String
+  repairShopAddress: String
+  repairDurationMinutes: int
+  repairCost: double
+  description: String
+  +calculateTotalCost(): double
+  +generateRepairReport(): String
+}
+class DispatchPlanner {
+  isOnDuty: boolean
+  +assignOrder(order: Order, driver: Driver, vehicle: Vehicle): void
+  +optimizeRoute(): void
+}
+Driver --|> Employee
+Employee --|> Customer
+Order --> "1" Customer : requestedBy
+Order *-- "0..1" TransportTask : executionTask
+Order --> "0..1" Vehicle : assignedVehicle
+TransportTask --> "1" Driver : assignedDriver
+TransportTask --> "1..*" Vehicle : utilizedVehicles
+Order --> "0..1" DispatchPlanner : createdBy
+Vehicle --> "1" VehicleType : category
+MaintenanceRecord --> "1" Vehicle : servicedVehicle
+MaintenanceRecord --> "1" Driver : performedBy
+@enduml

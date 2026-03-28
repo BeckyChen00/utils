@@ -1,0 +1,24 @@
+@startuml
+    class Diagram {
+        "System Requirement"
+    }
+    
+    class SystemRequirement {
+        "System Requirement" requires {
+            "Input" --> "ProcessingStep1",
+            "Output" --> "Output1"
+        }
+    }
+
+    class ProcessingStep1 {
+        "Processing Step 1"
+        "Input" --> "SystemRequirement"
+        "Output" --> "Output1"
+    }
+
+    class Output1 {
+        "Output 1"
+        "Input" --> "ProcessingStep1"
+    }
+
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+class Diagram {
+    class SystemRequirement {
+        component name: SystemRequirement;
+        component description: <System Requirement>;
+        component required: true;
+    }
+}
+@enduml

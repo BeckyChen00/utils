@@ -1,0 +1,8 @@
+@startuml
+
+class system-requirments {system requirement}
+
+class requirements {
+  [system requirement]
+}
+@enduml

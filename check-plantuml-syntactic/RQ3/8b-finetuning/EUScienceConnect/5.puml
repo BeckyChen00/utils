@@ -1,0 +1,77 @@
+@startuml
+enum ArticleType {
+  peerReviewed
+  technicalReport
+}
+enum ReviewStatus {
+  pending
+  approved
+  rejected
+  underRevision
+  published
+  archived
+}
+enum PublisherRole {
+  primaryPublisher
+  secondaryPublisher
+  unknown
+}
+class Researcher {
+  personId: String
+  fullName: String
+  phoneNumbers: String[]
+  researchKeywords: String[]
+  currentInstitutionCode: String
+  +updateContactInfo(phoneNumbers: String[]): void
+  +getResearchProfile(): String
+}
+class Institution {
+  institutionCode: String
+  name: String
+  +getInstitutionCode(): String
+  +getAffiliates(): Researcher[]
+}
+class Article {
+  doi: String
+  title: String
+  authors: String[]
+  authorPositions: Integer[]
+  isPublished: Boolean
+  type: ArticleType
+  citationCount: Integer
+  +addKeyword(keyword: String): void
+  +assignAuthor(author: Researcher, position: Integer): void
+  +getReviewStatus(): ReviewStatus
+}
+class Publisher {
+  name: String
+  +publishJournal(journal: Journal): void
+}
+class Journal {
+  name: String
+  impactFactor: Double
+  subscriptionFee: Double
+  +addIssue(issueNumber: Integer): void
+}
+class Issue {
+  issueNumber: Integer
+  publicationDate: Date
+  +addArticle(article: Article): void
+}
+class Review {
+  status: ReviewStatus
+  comments: String
+  submittedDate: Date
+  +submitComment(comment: String): void
+  +approve(): void
+  +reject(reason: String): void
+}
+Researcher "1" *-- "0..*" Article : authoredArticles
+Researcher "1" *-- "0..*" Review : reviewAssignments
+Researcher "1" --> "1" Institution : affiliatedInstitution
+Article "1" *-- "0..1" Review : reviewReported
+Article "1" --> "1" Publisher : publishedBy
+Journal "1" *-- "0..*" Issue : containedIssues
+Journal "1" --> "1" Publisher : publishedBy
+Issue "1" *-- "0..*" Article : containedArticles
+@enduml

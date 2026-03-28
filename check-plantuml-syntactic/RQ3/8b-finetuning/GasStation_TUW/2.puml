@@ -1,0 +1,54 @@
+@startuml
+enum PumpType {
+  SelfService
+  AttendantService
+}
+enum FuelCategory {
+  Regular
+  MidGrade
+  Premium
+  DieselStandard
+  DieselPremium
+  Lpg
+}
+class GasStation {
+  +stationId: String
+  +address: String
+  +getAvailablePumps(): List<FuelPump>
+}
+class FuelPump {
+  -pumpId: int
+  -isSelfService: boolean
+  -supportedFuels: List<String>
+  +dispenseFuel(fuel: Fuel, price: DailyPrice, quantity: double): FuelPurchase
+}
+class Fuel {
+  -fuelName: String
+  -octaneRating: double
+  -category: FuelCategory
+}
+class FuelPurchase {
+  -purchaseId: String
+  -purchaseDate: Date
+  -quantityLiters: double
+  -totalCost: double
+  +getFuelType(): Fuel
+}
+class DailyPrice {
+  -pricePerLiter: double
+  -priceDate: Date
+  +isActive(priceDate: Date): boolean
+}
+class SaleRecord {
+  -transactionDate: Date
+  -amount: double
+  +validate(): boolean
+}
+GasStation *-- "1..*" FuelPump : ownedPumps
+FuelPump --> "1" Fuel : dispensedFuel
+FuelPump --> "0..*" DailyPrice : pricingHistory
+FuelPurchase --> "1" FuelPump : sourcePump
+FuelPurchase --> "1" DailyPrice : appliedPrice
+FuelPurchase --> "1" Fuel : purchasedFuel
+SaleRecord --> "1" FuelPurchase : recordedPurchase
+@enduml

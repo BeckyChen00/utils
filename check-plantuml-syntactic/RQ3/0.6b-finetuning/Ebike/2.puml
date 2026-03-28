@@ -1,0 +1,94 @@
+@startuml
+enum ProtocolFormat {
+  HTTP
+  FTP
+  SMTP
+  DNS
+  MQTT
+}
+enum ProtocolState {
+  ACTIVE
+  INACTIVE
+}
+enum SecurityLevel {
+  PROTECTED
+  UNSECURED
+}
+enum NodeStatus {
+  OFFLINE
+  ONLINE
+  WARNING
+  CRITICAL
+  ERROR
+}
+class NetworkNode {
+  address: String
+  status: NodeStatus
+  priorityLevel: int
+  +getStatus(): String
+  +updateStatus(newStatus: NodeStatus): void
+}
+class RoutingPath {
+  isOptimized: boolean
+  +calculateDistance(source: NetworkNode, target: NetworkNode): int
+  +getOptimalPath(): RoutingPath
+}
+class TrafficManager {
+  currentSecurityLevel: SecurityLevel
+  +authorizeConnection(node: NetworkNode, source: String, target: String): boolean
+  +fireAlarm(alertType: String): void
+  +isActive(): boolean
+}
+class ConnectionSession {
+  isEstablished: boolean
+  protocol: ProtocolFormat
+  state: ProtocolState
+  +establish(): void
+  +close(): boolean
+  +encrypt(data: String): String
+}
+class TrafficAnalyzer {
+  +collectTraffic(node: NetworkNode): List<String>
+  +analyzeSparsity(): boolean
+}
+class TrafficEvent {
+  timestamp: Date
+  isEmergency: boolean
+  severityLevel: int
+  +recordEvent(message: String): void
+  +getSummary(): String
+}
+class SecurityPolicy {
+  maxConnections: int
+  allowedProtocols: List<ProtocolFormat>
+  +validateConfiguration(node: NetworkNode): boolean
+}
+class NetworkInterface {
+  deviceId: String
+  +getDeviceId(): String
+  +getStatus(): String
+}
+class NetworkZone {
+  zoneName: String
+  +addNode(node: NetworkNode): void
+  +removeNode(node: NetworkNode): void
+  +getNodes(): List<NetworkNode>
+}
+NetworkZone *-- "*" NetworkNode : containedNodes
+NetworkZone *-- "1" NetworkInterface : hostInterface
+TrafficManager *-- "1" TrafficAnalyzer : analyzer
+TrafficAnalyzer --> "*" NetworkNode : analyzedNodes
+TrafficAnalyzer --> "*" TrafficEvent : recordedEvents
+TrafficManager --> "*" NetworkNode : managedNodes
+TrafficManager --> "*" SecurityPolicy : enforcedPolicies
+TrafficManager --> "*" NetworkNode : monitoredNodes
+TrafficManager --> "*" NetworkNode : connectedNodes
+NetworkNode --> "*" RoutingPath : associatedPaths
+NetworkNode --> "*" NetworkInterface : hostInterfaces
+NetworkNode --> "*" TransportProtocol : supportedProtocols
+TrafficAnalyzer --> "*" NetworkNode : analyzedSources
+TrafficManager --> "1" NetworkZone : monitoredZone
+TrafficManager --> "*" ConnectionSession : managedSessions
+TrafficManager --> "*" ConnectionSession : activeSessions
+NetworkNode --> "*" TrafficEvent : recordedEvents
+@enduml

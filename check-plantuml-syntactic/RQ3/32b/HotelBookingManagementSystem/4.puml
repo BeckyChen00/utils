@@ -1,0 +1,173 @@
+
+---
+
+
+@startuml
+' Define packages if needed
+package HBMS {
+
+  ' Entities
+
+  class Traveller {
+    - id: String
+    - name: String
+    - billingInfo: BillingInfo
+    - travelPreferences: List<TravelPreference>
+    - reliabilityRating: Double
+    + register(): void
+    + searchAccommodation(): List<Offer>
+    + createPreliminaryBooking(): PreliminaryBooking
+    + finalizeBooking(): Booking
+    + viewPastBookings(): List<Booking>
+  }
+
+  class BillingInfo {
+    - companyName: String
+    - companyAddress: String
+    - creditCardInfo: CreditCardInfo
+  }
+
+  class TravelPreference {
+    - preferenceType: String
+    - value: String
+  }
+
+  class CreditCardInfo {
+    - cardNumber: String
+    - expirationDate: Date
+    - cvv: String
+  }
+
+  class Hotel {
+    - id: String
+    - name: String
+    - address: String
+    - city: City
+    - hotelChain: HotelChain
+    - rating: Integer
+    + announceRooms(availablePeriod: Period): void
+    + provideSpecialOffer(preliminaryBooking: PreliminaryBooking): SpecialOffer
+    + confirmBooking(booking: Booking): void
+    + cancelBooking(booking: Booking): void
+  }
+
+  class HotelChain {
+    - name: String
+    - hotels: List<Hotel>
+  }
+
+  class RoomType {
+    - type: String
+    - description: String
+    - pricePerNight: Double
+    - capacity: Integer
+  }
+
+  class Offer {
+    - id: String
+    - hotel: Hotel
+    - roomType: RoomType
+    - period: Period
+    - totalPrice: Double
+    + matchesPreferences(traveler: Traveller): Boolean
+  }
+
+  class Period {
+    - arrivalDate: Date
+    - departureDate: Date
+    - nights: Integer
+  }
+
+  class PreliminaryBooking {
+    - id: String
+    - offer: Offer
+    - traveller: Traveller
+    - deadline: Date
+    + sendToCompetitors(): void
+  }
+
+  class SpecialOffer {
+    - id: String
+    - preliminaryBooking: PreliminaryBooking
+    - hotel: Hotel
+    - price: Double
+    - additionalBenefits: List<String>
+  }
+
+  class Booking {
+    - id: String
+    - offer: Offer
+    - traveller: Traveller
+    - hotel: Hotel
+    - paymentType: PaymentType
+    - confirmationStatus: ConfirmationStatus
+    - cancellationDeadline: Date
+    - reliabilityImpact: Double
+    + confirm(): void
+    + cancel(date: Date): void
+  }
+
+  enum PaymentType {
+    PRE_PAID,
+    PAID_AT_HOTEL
+  }
+
+  enum ConfirmationStatus {
+    PENDING,
+    CONFIRMED,
+    CANCELLED,
+    REJECTED
+  }
+
+  class City {
+    - name: String
+    - country: String
+  }
+
+  ' Relationships
+
+  Traveller "1" -- "0..*" BillingInfo : has
+  Traveller "1" -- "0..*" TravelPreference : has
+  Traveller "1" -- "0..*" Booking : has
+  Traveller "1" -- "0..*" PreliminaryBooking : has
+
+  Hotel "1" -- "1" City : located in
+  Hotel "1" -- "0..1" HotelChain : belongs to
+  Hotel "1" -- "0..*" RoomType : offers
+  Hotel "1" -- "0..*" Offer : provides
+  Hotel "1" -- "0..*" SpecialOffer : provides
+  Hotel "1" -- "0..*" Booking : confirms/cancels
+
+  Offer "1" -- "1" Period : covers
+  Offer "1" -- "1" RoomType : includes
+  Offer "1" -- "1" Hotel : from
+
+  PreliminaryBooking "1" -- "1" Offer : based on
+  PreliminaryBooking "1" -- "0..*" SpecialOffer : receives
+
+  SpecialOffer "1" -- "1" PreliminaryBooking : responds to
+  SpecialOffer "1" -- "1" Hotel : from
+
+  Booking "1" -- "1" Offer : finalized from
+  Booking "1" -- "1" PaymentType : uses
+  Booking "1" -- "1" ConfirmationStatus : has status
+}
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **Entities**: The main entities are `Traveller`, `Hotel`, `RoomType`, `Offer`, `Booking`, `PreliminaryBooking`, `SpecialOffer`, etc.
+- **Relationships**: Each class is connected via meaningful associations (e.g., a `Traveller` can have multiple `Bookings`).
+- **Enums**: `PaymentType` and `ConfirmationStatus` are defined as enums to represent fixed states.
+- **Multiplicity**: Defined using UML-style notation like `"1"` or `"0..*"` to express cardinality.
+
+---
+
+### ✅ How to Use:
+1. Copy the above code into a `.puml` file.
+3. Generate the diagram.
+
+Let me know if you'd like a version that includes **sequence diagrams**, **state diagrams**, or **component diagrams** for this system!

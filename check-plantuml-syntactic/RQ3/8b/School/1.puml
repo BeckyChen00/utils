@@ -1,0 +1,75 @@
+
+@startuml
+
+class School {
+  -name: String
+  -principal: Teacher
+  -rooms: List<Room>
+  +hasPrincipal(principal: Teacher): void
+  +addRoom(room: Room): void
+}
+
+class Teacher {
+  -firstName: String
+  -lastName: String
+  -email: String
+  -schools: List<School>
+  -teachingHours: Map<School, Integer>
+  +teachAt(school: School, hours: Integer): void
+  +isPrincipalOf(school: School): Boolean
+}
+
+class Student {
+  -firstName: String
+  -lastName: String
+  -school: School
+  -classGroup: ClassGroup
+  +enrollIn(school: School, classGroup: ClassGroup): void
+}
+
+class ClassGroup {
+  -name: String
+  -students: List<Student>
+  -classroom: Classroom
+  +assignTo(classroom: Classroom): void
+}
+
+class Classroom {
+  -name: String
+  -capacity: Integer
+  -classGroup: ClassGroup
+  +assignClassGroup(group: ClassGroup): void
+}
+
+class Room {
+  -name: String
+  -size: Integer
+  -type: String
+}
+
+' Association between School and Teacher
+School "1" -- "0..3" Teacher : teachesAt
+Teacher "1" -- "1" School : principalOf
+
+' Association between School and Student
+School "1" -- "many" Student : hasStudents
+
+' Association between Student and ClassGroup
+Student "1" -- "1" ClassGroup : belongsTo
+
+' Association between ClassGroup and Classroom
+ClassGroup "1" -- "1" Classroom : assignedTo
+
+' Generalization of Room types
+Room <|-- Classroom
+Room <|-- Gym
+
+@enduml
+
+### Notes:
+- **`School`** has a principal (a `Teacher`) and multiple rooms.
+- **`Teacher`** can teach at up to three schools and may be the principal of one school.
+- **`Student`** is enrolled in exactly one school and one class group.
+- **`ClassGroup`** is assigned to exactly one classroom, and vice versa.
+- **`Room`** is an abstract class with two concrete subclasses: **`Classroom`** and **`Gym`**.
+

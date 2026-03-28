@@ -1,0 +1,49 @@
+
+@startuml
+class City {
+  -name: String
+  -inhabitants: Integer
+}
+
+class Attraction {
+  -name: String
+  -address: String
+}
+
+class GuidedTour {
+  -duration: Integer
+  -maxVisitors: Integer = 20
+  -discountAmount: Double
+}
+
+class Visitor {
+  -name: String
+}
+
+class Guide {
+  -name: String
+}
+
+City "1" *-- "0..*" Attraction : has
+
+Attraction "1" *-- "0..*" GuidedTour : offers
+
+GuidedTour "1" --> "1" Guide : requires
+
+GuidedTour "1" --> "0..*" Visitor : includes
+
+Visitor "0..*" --> "0..*" GuidedTour : participates in (with discount)
+@enduml
+
+### Explanation of the Diagram:
+- **`City`** has a name and a number of inhabitants.
+- **`Attraction`** has a name and an address.
+- **`GuidedTour`** has a duration, maximum of 20 visitors, and a discount amount for certain visitors.
+- **`Visitor`** and **`Guide`** are both people with names.
+- A city can have multiple attractions.
+- An attraction can offer multiple guided tours.
+- Each guided tour is led by one guide.
+- A guided tour can include multiple visitors.
+- Visitors may be granted discounts for specific guided tours.
+
+Let me know if you want to add more details like associations with multiplicities or methods!

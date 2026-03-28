@@ -1,0 +1,62 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class GasStation {
+  - id: String
+  - address: String
+  + getFuelPumps(): List<FuelPump>
+  + getDailyPrices(date: Date): List<DailyPrice>
+}
+
+class FuelPump {
+  - number: Integer
+  - isSelfService: Boolean
+  - fuels: List<Fuel>
+  + getFuels(): List<Fuel>
+}
+
+class Fuel {
+  - name: String
+  - octaneRating: Double
+}
+
+class DailyPrice {
+  - date: Date
+  - pricePerLiter: Double
+  + getFuel(): Fuel
+  + getGasStation(): GasStation
+}
+
+class FuelPurchase {
+  - id: String
+  - litersDispensed: Double
+  + getFuelPump(): FuelPump
+  + getDailyPrice(): DailyPrice
+  + getFuel(): Fuel
+}
+
+' Define relationships
+
+GasStation "1" *-- "0..12" FuelPump : has
+FuelPump "1" *-- "1..*" Fuel : offers
+GasStation "1" *-- "many" DailyPrice : archives
+FuelPurchase "1" -- "1" FuelPump : uses
+FuelPurchase "1" -- "1" DailyPrice : at price
+FuelPurchase "1" -- "1" Fuel : purchases
+
+@enduml
+
+---
+
+### Explanation of the Diagram
+
+- **`GasStation`**: Represents a single location with a unique ID and address. It can have up to 12 `FuelPump`s.
+- **`FuelPump`**: Identified by a number and whether it's self-service. Each pump offers one or more `Fuel`s.
+- **`Fuel`**: Identified by name and octane rating.
+- **`DailyPrice`**: Records the price per liter for a specific fuel at a specific gas station on a given date.
+- **`FuelPurchase`**: Captures a transaction, including the amount of fuel dispensed, which pump was used, and the price at the time.
+
+The multiplicity constraints are included (e.g., a gas station can have 0–12 fuel pumps), and associations reflect how objects interact (e.g., a purchase uses a fuel pump and applies a daily price).
+

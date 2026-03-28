@@ -1,0 +1,64 @@
+@startuml
+enum TileColor {
+  White
+  Black
+}
+enum ActionChoice {
+  ExtraTurn
+  ConnectTiles
+  RemoveConnection
+  MoveAnywhere
+  LoseNextTurn
+}
+enum GameStatus {
+  Active
+  Completed
+  Paused
+}
+class GameBoard {
+  status: GameStatus
+  currentStepCount: int
+  +initializeGame(): void
+  +calculateScore(): int
+  +isGameOver(): boolean
+}
+class Tile {
+  color: TileColor
+  isActionTile: boolean
+  actionChoice: ActionChoice
+  +isVisited(): boolean
+  +markVisited(): void
+}
+class Player {
+  name: String
+  color: TileColor
+  +takeTurn(): void
+  +getPieces(): List<PlayingPiece>
+}
+class PlayingPiece {
+  position: Tile
+}
+class Dice {
+  dieValue: int
+  +roll(): int
+}
+class ConnectionPiece {
+  +isUsed(): boolean
+}
+class ActionCard {
+  choice: ActionChoice
+  duration: int
+}
+class ActionDeck {
+  cards: List<ActionCard>
+  +drawCard(): ActionCard
+}
+GameBoard "1" *-- "*" Tile : tiles
+GameBoard "1" *-- "1" ActionDeck : gameDeck
+GameBoard "1" *-- "1" Dice : gameDice
+GameBoard "1" --> "*" Player : players
+Player "1" --> "*" PlayingPiece : pieces
+GameBoard "1" --> "1" Tile : hiddenTile
+Player "1" --> "*" Tile : visitedTiles
+Tile "1" *-- "0..4" ConnectionPiece : adjacents
+@enduml

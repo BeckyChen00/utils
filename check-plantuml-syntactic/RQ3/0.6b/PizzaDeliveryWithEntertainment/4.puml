@@ -1,0 +1,12 @@
+@startuml
+
+class SystemRequirement { id, name, description }
+
+  class Diagram {
+    class Component1 { id, name }
+    class Component2 { id, name }
+    class Relationship { fromComponent1, toComponent2 }
+  }
+}
+
+@enduml

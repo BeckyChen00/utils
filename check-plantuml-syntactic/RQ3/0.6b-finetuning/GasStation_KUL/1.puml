@@ -1,0 +1,105 @@
+@startuml
+class TeachingModule {
+  isCompleted: boolean
+  +renewProgress(): void
+  +getLearningOutcome(): String
+}
+class StudentProfile {
+  +updateStatus(): void
+  +getCurrentModule(): TeachingModule
+}
+class CourseSession {
+  sessionDate: Date
+  lectureDuration: int
+  topicSummary: String
+  +recordObservation(): String
+}
+class AssessmentReport {
+  +generateSummary(): String
+  +evaluatePerformance(): Score
+}
+class AssignmentTemplate {
+  +getTemplateDescription(): String
+}
+class ExamSchedule {
+  +registerExam(): void
+  +addStudentRecord(student: StudentProfile): void
+}
+class ExamResult {
+  passGrade: int
+  scoreValue: double
+  isPassed: boolean
+  +getGradeLevel(): String
+}
+class TeachingRecord {
+  lectureNotes: String
+  +recordNote(note: String): void
+}
+class VideoRecord {
+  videoUrl: String
+  durationSeconds: int
+  +playVideo(): void
+}
+class QuizResult {
+  passScore: int
+  isPassed: boolean
+  questionId: String
+  +markAsPassed(): void
+}
+class TestPaper {
+  paperName: String
+  +getPaperFormat(): String
+}
+class TestQuestionBank {
+  +exportQuestionList(): List<TestQuestion>
+}
+class QuizBatch {
+  +createBatch(): void
+}
+class Credential {
+  +issueToken(tokenType: String): String
+}
+class GradeBook {
+  +generateStatistics(): String
+}
+class GradingSystem {
+  +assignGrade(score: double, student: StudentProfile): void
+}
+class AttendanceLog {
+  logDate: Date
+  attendanceStatus: String
+  +recordAttendance(): void
+}
+class ScheduleRequest {
+  requestDate: Date
+  +validateRequest(): boolean
+}
+class Regulation {
+  regulationCode: String
+  description: String
+  +checkRequirement(score: double): boolean
+}
+TeachingModule *-- "1..*" StudentProfile : assignedProfiles
+StudentProfile *-- "1" AttendanceLog : attendanceHistory
+StudentProfile *-- "1" CourseSession : currentSession
+StudentProfile *-- "1" TeachingRecord : teachingRecord
+StudentProfile *-- "1" ExamSchedule : scheduledExams
+StudentProfile *-- "1" AssignmentTemplate : assignedTemplate
+StudentProfile *-- "0..*" GradingSystem : gradedBySystem
+StudentProfile *-- "0..*" ExamResult : examResults
+StudentProfile *-- "0..*" QuizResult : quizResults
+QuizResult --> "1" AssignmentTemplate : sourceTemplate
+QuizBatch *-- "1..*" TestQuestionBank : questionBank
+TestPaper *-- "1..*" TestQuestion : containedQuestions
+ExamSchedule --> "1..*" Regulation : applicableRegulations
+ExamSchedule *-- "1" CourseSession : associatedSession
+TeachingRecord *-- "0..*" VideoRecord : recordedVideos
+TeachingRecord *-- "0..*" QuizResult : quizResults
+QuizzesResult --> "1" Credential : registeredCredential
+TeachingModule *-- "1" Credential : assignedCredential
+GradingSystem --> "1..*" StudentProfile : gradedStudents
+GradingSystem --> "1" Regulation : referencedRegulation
+TeachingModule --> "1" Regulation : basedOnRegulation
+AttendanceLog --> "1" StudentProfile : loggedStudent
+@endumuml
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+enum TicketStatus {
+  Placed
+  Confirmed
+  Booking
+  Paid
+  Cancelled
+}
+class Member {
+  name: String
+  email: String
+  +register(): boolean
+  +updateProfile(): void
+}
+class Reservation {
+  bookingDate: Date
+  durationDays: int
+  +confirmBooking(): void
+  +cancelBooking(): void
+  +getTotalCost(): double
+}
+class Ticket {
+  seatNumber: String
+  status: TicketStatus
+  +bookSeat(): boolean
+  +cancelSeat(): void
+}
+class Coach {
+  name: String
+  licenseNumber: String
+  +acceptReservation(reservation: Reservation): boolean
+  +scheduleSession(sessionDate: Date): void
+}
+class UserAccount {
+  isActive: boolean
+  +login(credentials: String): boolean
+  +resetPassword(): void
+}
+Member "1" *-- "1..*" Reservation : reservations
+Reservation "0..*" --> "1" Coach : assignedCoach
+Reservation "0..*" --> "0..*" Ticket : bookedTickets
+Ticket "*" --> "1" Member : holder
+Coach "0..*" --> "1..*" UserAccount : supervisor
+@enduml

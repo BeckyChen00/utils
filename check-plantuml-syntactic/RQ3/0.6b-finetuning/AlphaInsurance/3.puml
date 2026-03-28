@@ -1,0 +1,92 @@
+@startuml
+enum Role {
+  Standard
+  Premium
+  Enterprise
+  Gold
+  Platinum
+}
+enum MembershipStatus {
+  FreeTrial
+  Active
+  Expired
+  Paid
+}
+class Member {
+  emailAddress: String
+  membershipStatusFlag: boolean
+  +subscribeExam(offer: ExamOffer): void
+  +viewExamDetails(offer: ExamOffer): String
+  +getPointsCount(): int
+}
+class ExamOffer {
+  isActive: boolean
+  currencyCode: String
+  +calculateDiscount(price: double): double
+  +validateTerms(): boolean
+}
+class Exam {
+  examTitle: String
+  examCode: String
+  examDuration: int
+  +isAvailable(): boolean
+}
+class ExamSchedule {
+  scheduledDate: Date
+  timeSlot: String
+  +isActive(): boolean
+}
+class ExamResource {
+  resourceType: String
+  downloadUrl: String
+  +downloadFile(): String
+}
+class ExamSolution {
+  solutionType: String
+  totalTime: double
+  passingScore: int
+  +isVerified(): boolean
+}
+class ExamReview {
+  reviewerName: String
+  reviewDate: Date
+  isApproved: boolean
+  comment: String
+  +addComment(content: String): void
+  +approve(): boolean
+}
+class Course {
+  courseName: String
+  courseDifficulty: int
+  +calculateCreditPoints(): int
+}
+class CourseSession {
+  sessionDate: Date
+  sessionDuration: int
+  +getSessionDuration(): int
+}
+class Reviewer {
+  reviewerName: String
+  specialization: String
+  +processReview(session: CourseSession): ExamReview
+}
+class Reminder {
+  reminderMessage: String
+  sendDate: Date
+  +send(): void
+}
+Member *-- "0..*" CourseSession : courseSessions
+ExamOffer *-- "0..*" ExamSchedule : schedules
+ExamOffer --> "1" Exam : offeredExam
+ExamOffer --> "1" CourseSession : examSession
+ExamOffer --> "*" ExamResource : requiredResources
+ExamOffer *-- "0..*" ExamSolution : availableSolutions
+Member --> "1" ExamOffer : subscribedOffer
+Member --> "0..1" ExamReview : latestReview
+ExamOffer --> "0..1" Reminder : generatedReminder
+CourseSession --> "1" Course : coveredCourse
+Reviewer --> "*" ExamReview : conductedReviews
+CourseSession --> "1" Exam : sessionExam
+Member --> "0..*" Reminder : setUpReminders
+Member --> "0..*" ExamOffer : supportedOffers
+@enduml

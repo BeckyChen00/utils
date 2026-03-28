@@ -1,0 +1,152 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement {
+        name: "System Requirement"
+    }
+
+    class Requirement {
+        name: "Requirement"
+    }
+
+    class Component {
+        name: "Component"
+    }
+
+    class Service {
+        name: "Service"
+    }
+
+    class Module {
+        name: "Module"
+    }
+
+    class BusinessRule {
+        name: "Business Rule"
+    }
+
+    class DataFlow {
+        name: "Data Flow"
+    }
+
+    class Resource {
+        name: "Resource"
+    }
+
+    class Dependency {
+        name: "Dependency"
+    }
+
+    class Process {
+        name: "Process"
+    }
+
+    class Agent {
+        name: "Agent"
+    }
+
+    class Task {
+        name: "Task"
+    }
+
+    class Connection {
+        name: "Connection"
+    }
+
+    class Communication {
+        name: "Communication"
+    }
+
+    class Activity {
+        name: "Activity"
+    }
+
+    class Event {
+        name: "Event"
+    }
+
+    class State {
+        name: "State"
+    }
+
+    class Transaction {
+        name: "Transaction"
+    }
+
+    class Repository {
+        name: "Repository"
+    }
+
+    class User {
+        name: "User"
+    }
+
+    class Role {
+        name: "Role"
+    }
+
+    class AccessControl {
+        name: "Access Control"
+    }
+
+    class SecurityPolicy {
+        name: "Security Policy"
+    }
+
+    class AuditTrail {
+        name: "Audit Trail"
+    }
+
+    class Logging {
+        name: "Logging"
+    }
+
+    class Reporting {
+        name: "Reporting"
+    }
+
+    class Dashboard {
+        name: "Dashboard"
+    }
+
+    class UI {
+        name: "UI"
+    }
+
+    class API {
+        name: "API"
+    }
+
+    class Database {
+        name: "Database"
+    }
+
+    class Network {
+        name: "Network"
+    }
+
+    class Storage {
+        name: "Storage"
+    }
+
+    class Queue {
+        name: "Queue"
+    }
+
+    class Scheduler {
+        name: "Scheduler"
+    }
+
+    class TaskQueue {
+        name: "Task Queue"
+    }
+
+    class Worker {
+        name: "Worker"
+    }
+
+    class ServiceContainer {
+        name: "Service Container"
+    }
+
+@enduml

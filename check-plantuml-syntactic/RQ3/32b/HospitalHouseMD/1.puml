@@ -1,0 +1,90 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Patient {
+    - id: String
+    - name: String
+    - consentGiven: boolean
+}
+
+class Doctor {
+    - id: String
+    - name: String
+    - isHeadDoctor: boolean
+}
+
+class Illness {
+    - id: String
+    - name: String
+    - priorityScore: PriorityScore (High/Low)
+}
+
+class Diagnosis {
+    - id: String
+    - description: String
+    - approved: boolean
+    + approve(diagnosis: Diagnosis): void
+}
+
+class Treatment {
+    - id: String
+    - stage: TreatmentStage (1/2/3)
+    - appliedTo: Patient
+    - illness: Illness
+    + upgradeStage(): void
+    + downgradeStage(): void
+}
+
+class ConsentForm {
+    - id: String
+    - patient: Patient
+    - signedAt: DateTime
+}
+
+enum PriorityScore {
+    High
+    Low
+}
+
+enum TreatmentStage {
+    Stage1
+    Stage2
+    Stage3
+}
+
+' Relationships
+
+Patient "1" -- "0..*" ConsentForm : signs
+Patient "1" -- "0..*" Treatment : receives
+Patient "1" -- "1..*" Doctor : assigned to
+
+Doctor "1" -- "0..*" Diagnosis : makes
+Doctor "1" -- "0..*" Treatment : applies
+Doctor "1" -- "0..*" Doctor : head doctor approves diagnosis of
+
+Diagnosis "1" -- "1" Illness : for
+Treatment "1" -- "1" Diagnosis : based on
+Treatment "1" -- "1" Illness : for
+
+Illness "1" -- "0..*" Treatment : has
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Patient**: Has a treatment, can give or revoke consent.
+- **Doctor**: Can assign treatments, make diagnoses. Head doctors can approve other doctors' diagnoses.
+- **Diagnosis**: Must be approved before treatment can proceed.
+- **Treatment**: Has a stage (1–3). Upgrades/downgrades are possible depending on consent and illness priority.
+- **ConsentForm**: Signed by a patient to allow higher-stage treatments.
+- **Illness**: Has a priority score that affects treatment stages.
+- **Enums**:
+  - `PriorityScore`: Indicates urgency of an illness.
+  - `TreatmentStage`: The level of intensity in treatment.
+
+---
+

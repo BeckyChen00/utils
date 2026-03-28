@@ -1,0 +1,52 @@
+
+@startuml
+
+' Define classes and their relationships
+class Student {
+    +String name
+    +String studentId
+    +List<Course> registeredCourses
+    +makeAppointment(Course, TeachingAssistant, DateTime): Appointment
+}
+
+class TeachingAssistant {
+    +String name
+    +String taId
+    +List<Course> assignedCourses
+    +scheduleAppointment(Student, Course, DateTime): Appointment
+}
+
+class Course {
+    +String courseCode
+    +String title
+    +List<Student> enrolledStudents
+    +List<TeachingAssistant> tas
+}
+
+class Appointment {
+    +DateTime time
+    +Student student
+    +TeachingAssistant ta
+    +Course course
+}
+
+' Relationships
+Student "1" -- "0..*" Course : is registered for
+Course "1" -- "0..*" TeachingAssistant : has TA(s)
+TeachingAssistant "1" -- "0..*" Course : teaches
+Student "1" -- "0..*" Appointment : participates in
+TeachingAssistant "1" -- "0..*" Appointment : schedules with
+Appointment "1" -- "1" Course : related to
+Appointment "1" -- "1" TeachingAssistant : with
+Appointment "1" -- "1" Student : by
+
+@enduml
+
+---
+
+### Explanation of Key Points:
+- **Student** can only make appointments if they are **registered for a course**.
+- **TeachingAssistant** can only schedule appointments for **courses they are assigned to**.
+- An **Appointment** is always tied to one **Student**, one **TeachingAssistant**, and one **Course**.
+- Relationships ensure **validity constraints** (e.g., a student cannot book an appointment for a course they are not registered in).
+

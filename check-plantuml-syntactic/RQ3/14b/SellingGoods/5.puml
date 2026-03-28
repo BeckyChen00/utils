@@ -1,0 +1,125 @@
+
+- Classes: `Customer`, `Product`, `Order`, `OrderLine`, `Stock`, `Delivery`, `Invoice`
+- Relationships: associations, aggregations, and compositions
+- Attributes and methods where necessary
+- Constraints and notes based on system behavior
+
+---
+
+@startuml
+skinparam classAttributeIconName true
+
+class Customer {
+  -id: int
+  -name: String
+  -address: String
+  -vatNumber: String
+  +register(): void
+}
+
+class Product {
+  -id: int
+  -name: String
+  -description: String
+  -stockLevel: int
+  +updateStock(newLevel: int): void
+}
+
+class Order {
+  -id: int
+  -customer: Customer
+  -orderLines: List<OrderLine>
+  -isPaid: boolean
+  -isFullyShipped: boolean
+  -invoice: Invoice
+  +placeOrder(): void
+  +markAsPaid(): void
+  +markAsFullyShipped(): void
+}
+
+class OrderLine {
+  -id: int
+  -product: Product
+  -quantity: int
+  -isShipped: boolean
+  +ship(): void
+}
+
+class Stock {
+  -products: Map<Product, Integer>
+  +adjustStock(product: Product, quantity: int): void
+}
+
+class Delivery {
+  -id: int
+  -orderLines: List<OrderLine>
+  -status: String (Packed | Shipped | Received | Damaged)
+  -deliveryAddress: String
+  +pack(): void
+  +ship(): void
+  +receive(): void
+}
+
+class Invoice {
+  -id: int
+  -order: Order
+  -amount: double
+  -dueDate: Date
+  -paymentStatus: String (Unpaid | Paid)
+  +generate(): void
+  +markAsPaid(): void
+}
+
+note right of Customer
+  VAT number is required for tax purposes.
+end note
+
+note right of Order
+  An order can be paid before or after delivery.
+  It must be fully paid before being marked as shipped.
+end note
+
+note right of OrderLine
+  Each line is tracked individually for shipment status.
+end note
+
+note right of Delivery
+  A delivery may contain multiple order lines.
+  Status transitions are tracked: Packed -> Shipped -> Received or Damaged.
+end note
+
+note right of Stock
+  Adjusted manually at end of each working day.
+end note
+
+note right of Invoice
+  Customers can choose to pay upon placing the order or after delivery.
+end note
+
+Customer "1" *-- "0..*" Order : places
+Order "1" *-- "0..*" OrderLine : contains
+OrderLine "1" --> "1" Product : refers to
+Order "1" --> "0..1" Invoice : has
+OrderLine "1" --> "0..1" Delivery : belongs to
+Delivery "1" --> "1" Customer : delivered to
+Stock "1" --> "0..*" Product : tracks
+
+@enduml
+
+---
+
+### Summary of Key Elements:
+
+| Class        | Purpose                                                                 |
+|--------------|-------------------------------------------------------------------------|
+| `Customer`   | Represents a customer with address, VAT number, and orders             |
+| `Product`    | Tracks product details and current stock level                         |
+| `Order`      | Manages an order with payment and shipping status                      |
+| `OrderLine`  | Represents individual items in an order with shipment tracking         |
+| `Stock`      | Keeps track of available stock per product                             |
+| `Delivery`   | Tracks the state of shipments (packed, shipped, received, damaged)     |
+| `Invoice`    | Manages invoicing with payment options and status                      |
+
+This diagram evolves across all steps, including handling partial deliveries, multi-address support, invoice generation, and detailed delivery tracking.
+
+Let me know if you'd like a version with UML state diagrams or sequence diagrams for specific use cases!

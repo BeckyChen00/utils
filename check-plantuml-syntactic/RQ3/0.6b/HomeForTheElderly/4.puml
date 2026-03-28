@@ -1,0 +1,24 @@
+@startuml
+    classDiagram
+        user --> systemRequirement
+
+        systemRequirement --> {
+            component: systemRequirement,
+            type: systemRequirement,
+            owner: user
+        }
+
+        systemRequirement --> {
+            component: systemRequirement,
+            type: systemRequirement,
+            owner: systemRequirement
+        }
+
+        systemRequirement --> {
+            component: systemRequirement,
+            type: systemRequirement,
+            owner: user
+        }
+
+        user --> systemRequirement
+@enduml

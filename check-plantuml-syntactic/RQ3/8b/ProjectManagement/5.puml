@@ -1,0 +1,59 @@
+
+@startuml
+
+class ResearchGroup {
+  - id: int
+  - name: string
+  - department: string
+  + assignResearcher(researcher: Researcher)
+  + reassignLeader(wp: WorkPackage, newLeader: Researcher)
+}
+
+class Project {
+  - id: int
+  - name: string
+  - startDate: date
+  - endDate: date
+  + addWorkPackage(wp: WorkPackage)
+}
+
+class WorkPackage {
+  - id: int
+  - name: string
+  - description: string
+  - leader: ResearchGroup
+  + assignResearcher(researcher: Researcher)
+  + reassignLeader(newLeader: ResearchGroup)
+}
+
+class Researcher {
+  - id: int
+  - name: string
+  - email: string
+  - currentResearchGroup: ResearchGroup
+  + assignToWP(wp: WorkPackage)
+  + changeResearchGroup(newGroup: ResearchGroup)
+}
+
+' Relationships
+ResearchGroup "1" -- "0..*" Researcher : belongsTo
+Project "1" -- "1.." WorkPackage : contains
+WorkPackage "1" -- "0..*" Researcher : hasTeamMembers
+Researcher "1" -- "1" ResearchGroup : belongsTo (inverse)
+WorkPackage "1" -- "1" ResearchGroup : ledBy
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **ResearchGroup**: Represents a group within a department. Each researcher is assigned to exactly one research group.
+- **Project**: A collection of work packages.
+- **WorkPackage**: A unit of work under a project. It has a leader (a research group), and multiple researchers can be assigned to it.
+- **Researcher**: A person who belongs to a research group and can be assigned to one or more work packages.
+- **Relationships**:
+  - A `ResearchGroup` can have many `Researchers`.
+  - A `Project` has many `WorkPackages`.
+  - A `WorkPackage` has a `ResearchGroup` as its leader and can have many `Researchers` assigned to it.
+  - A `Researcher` can be assigned to multiple `WorkPackages`, regardless of which group leads them.
+  - When a `Researcher` changes groups or a `WorkPackage` leader changes, the assignment records are updated accordingly.
+

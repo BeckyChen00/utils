@@ -1,0 +1,21 @@
+@startuml
+
+class SystemRequirement {
+  # This class represents the system requirements for a project.
+  # It contains attributes that describe the necessary conditions.
+  attribute name "System Requirements"
+  attribute description "The set of requirements for the project."
+}
+
+class Project {
+  # This class represents the project itself.
+  # It includes attributes that define the project's structure and functionality.
+  attribute project_name "My Project"
+  attribute project_description "This is a sample project with system requirements."
+  attribute project_requirements "System Requirements"
+
+  # Relationships to other classes if applicable
+  relationship to SystemRequirement on project_requirements
+}
+
+@enduml

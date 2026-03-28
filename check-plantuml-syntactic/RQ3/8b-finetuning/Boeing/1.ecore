@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeEmployees" eType="#//SalesPerson" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SalesPerson"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomerAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedContracts" eType="#//SalesContract" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SalesContract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="acquisitions" eType="#//AircraftAcquisition" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSalesperson" eType="#//SalesPerson" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="negotiatingParty" eType="#//AirlineCompany" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AircraftAcquisition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sellerCompany" eType="#//AirlineCompany" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AirlineCompany"/>
+</ecore:EPackage>

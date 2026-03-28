@@ -1,0 +1,73 @@
+@startuml
+enum SessionType {
+  Aerobics
+  Bodystyling
+  Yoga
+  Cardio
+  StrengthTraining
+  Pilates
+  SpaTreatment
+}
+enum MembershipStatus {
+  Active
+  Expired
+  Suspended
+  Pending
+  Banned
+  Guest
+  Cancelled
+}
+enum UserRole {
+  Member
+  Intern
+}
+class Person {
+  firstName: String
+  familyName: String
+  birthDate: Date
+  membershipStatus: MembershipStatus
+  +updateProfile(newFirstName: String, newFamilyName: String): void
+}
+class Trainer {
+  hasDiploma: Boolean
+  +superviseSession(session: GroupSession): void
+}
+class FitnessCenter {
+  centerName: String
+  address: String
+  +getAvailableRooms(date: Date): List<Room>
+}
+class Room {
+  roomNumber: int
+  maxCapacity: int
+  +isAvailable(date: Date, hour: int): Boolean
+}
+class Session {
+  sessionType: SessionType
+  startTime: Date
+  durationMinutes: int
+  +calculateEndTime(): Date
+  +getSessionDetails(): String
+}
+class GroupSession {
+  maxParticipants: int
+  +addParticipant(participant: Person): Boolean
+  +removeParticipant(participant: Person): Boolean
+}
+class IndividualSession {
+  +recordAttendance(participant: Person): void
+}
+class SessionRegistration {
+  registrationDate: Date
+  confirmed: Boolean
+  +confirmRegistration(): void
+  +cancelRegistration(): void
+}
+Person --> "0..*" SessionRegistration : registrations
+Person -- FitnessCenter
+GroupSession -- IndividualSession
+GroupSession -- Trainer
+GroupSession -- Room
+IndividualSession -- Room
+Room -- FitnessCenter
+@enduml

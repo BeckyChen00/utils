@@ -1,0 +1,13 @@
+@startuml
+
+class SystemRequirement {
+    class component name "System Requirement" 
+}
+
+    component constraint1 type "requirement" 
+    component constraint2 type "requirement" 
+    component constraint3 type "requirement" 
+    component constraint4 type "requirement" 
+}
+
+@enduml

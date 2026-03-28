@@ -1,0 +1,131 @@
+
+---
+
+
+@startuml
+
+' Define actors
+actor "Visitor" as Visitor
+actor "Registered User" as RegisteredUser
+actor "Administrator" as Admin
+actor "System" as System
+
+' Generalization of actors
+RegisteredUser <|-- Visitor
+Admin <|-- RegisteredUser
+
+' Use Cases
+usecase "Register Account" as UC_Register
+usecase "Login" as UC_Login
+usecase "Create Building" as UC_CreateBuilding
+usecase "Add Entry to Building" as UC_AddEntry
+usecase "Release Entry Publicly" as UC_ReleaseEntry
+usecase "Search Buildings" as UC_Search
+usecase "Comment on Building" as UC_Comment
+usecase "Delete Comment" as UC_DeleteComment
+usecase "Manage Users" as UC_ManageUsers
+usecase "Setup User Account" as UC_SetupUserAccount
+
+' Relationships between actors and use cases
+RegisteredUser --> UC_Register
+RegisteredUser --> UC_Login
+RegisteredUser --> UC_CreateBuilding
+RegisteredUser --> UC_AddEntry
+RegisteredUser --> UC_ReleaseEntry
+RegisteredUser --> UC_Comment
+Visitor --> UC_Search
+Admin --> UC_DeleteComment
+Admin --> UC_ManageUsers
+System --> UC_SetupUserAccount
+
+' Class diagram
+
+class WebPortal {
+  - version: String
+  - url: String
+}
+
+class Building {
+  - id: String
+  - name: String
+  - energyClass: String
+  - address: String
+  - yearOfConstruction: int
+  + setOwner(User)
+}
+
+class User {
+  - username: String
+  - email: String
+  - password: String
+  - activated: boolean
+  + activate()
+}
+
+class Administrator extends User {
+  - idCardNumber: String
+}
+
+class Entry {
+  - name: String
+  # isPublic: boolean
+}
+
+class TextualEntry extends Entry {
+  - content: String
+}
+
+class NumericEntry extends Entry {
+  - value: float
+  - unit: String
+}
+
+class Image {
+  - filename: String
+  - isProfilePhoto: boolean
+}
+
+class Comment {
+  - text: String
+  - timestamp: DateTime
+}
+
+' Associations
+WebPortal "1" --> "many" User : hosts
+WebPortal "1" --> "many" Building : provides
+Building "1" --> "many" Entry : contains
+Building "1" --> "many" Image : has
+Building "1" --> "1" User : owner
+User "1" --> "many" Building : owns
+User "1" --> "many" Comment : writes
+Entry "1" --> "1" User : createdBy
+Comment "1" --> "1" Building : belongsTo
+Comment "1" --> "1" User : writtenBy
+
+@enduml
+
+---
+
+### 📌 Explanation
+
+- **Actors**:
+  - `Visitor`: Can search buildings.
+  - `Registered User`: Can register, login, create buildings, add entries, release entries publicly, comment.
+  - `Administrator`: Special user who can manage users and delete comments.
+  - `System`: Handles automatic setup and confirmation processes.
+
+- **Use Cases**:
+  - Includes 10 key use cases covering registration, searching, commenting, building management, entry management, and admin functions.
+
+- **Generalization**:
+  - `RegisteredUser` inherits from `Visitor`.
+  - `Admin` inherits from `RegisteredUser`.
+
+- **Classes & Relationships**:
+  - `WebPortal` holds users and buildings.
+  - Each `Building` has an owner and multiple entries and images.
+  - `Entry` is abstract and has two subtypes: `TextualEntry` and `NumericEntry`.
+  - `Comment` is linked to both `User` and `Building`.
+
+---
+

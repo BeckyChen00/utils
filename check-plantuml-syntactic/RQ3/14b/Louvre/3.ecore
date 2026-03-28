@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Employee">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="role" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coach" eType="#//Employee"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExhibitionItem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pieces" eType="#//Piece" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Piece">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="artist" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collector" eType="#//Collector"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Collector">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pieces" eType="#//Piece" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//locations"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="locations"/>
+  <eClassifiers xsi:type="ecore:EClass" name="exhibitions"/>
+  <eClassifiers xsi:type="ecore:EClass" name="title">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//exhibitions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="startDate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Date" eType="#//endDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="endDate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="coordinator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;ExhibitionItem&gt;" eType="#//items" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="items"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Museum"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Location"/>
+</ecore:EPackage>

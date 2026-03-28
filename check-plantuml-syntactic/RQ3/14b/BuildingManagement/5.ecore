@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Entry"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TextualEntry"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NumericEntry"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Image"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Comment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Administrator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FullTextSearch"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here"/>
+  <eClassifiers xsi:type="ecore:EClass" name="The"/>
+</ecore:EPackage>

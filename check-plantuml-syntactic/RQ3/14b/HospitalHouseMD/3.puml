@@ -1,0 +1,93 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class Patient {
+  -id: int
+  -name: String
+  -consentGiven: boolean
+}
+
+class Doctor {
+  -id: int
+  -name: String
+  -specialization: String
+}
+
+class HeadDoctor {
+  -id: int
+  -name: String
+}
+
+class Diagnosis {
+  -id: int
+  -description: String
+  -doctorId: int
+  -approvedByHeadDoctor: boolean
+}
+
+class Illness {
+  -id: int
+  -name: String
+  -priorityScore: String (high | low)
+}
+
+class Treatment {
+  -id: int
+  -stage: int (1 | 2 | 3)
+  -diagnosisId: int
+  -patientId: int
+}
+
+class ConsentForm {
+  -id: int
+  -patientId: int
+  -signedAt: Date
+}
+
+class Nurse {
+  -id: int
+  -name: String
+}
+
+class FollowUp {
+  -id: int
+  -patientId: int
+  -nurseId: int
+  -date: Date
+  -notes: String
+}
+
+' Relationships
+
+Patient "1" -- "0..*" Doctor : treated by
+Doctor "1" -- "0..*" Diagnosis : makes diagnosis
+HeadDoctor "1" -- "0..*" Diagnosis : approves diagnosis
+Diagnosis "1" -- "0..*" Treatment : has treatment
+Illness "1" -- "0..*" Diagnosis : related to
+Illness "1" -- "0..*" Treatment : related to
+
+Treatment "1" -- "0..1" ConsentForm : requires consent
+Patient "1" -- "0..*" ConsentForm : gives consent
+
+Treatment "1" -- "0..*" FollowUp : requires follow-up
+Nurse "1" -- "0..*" FollowUp : provides follow-up
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Patient**: Has one or more doctors, may give consent to upgrade treatments.
+- **Doctor**: Makes diagnoses and applies treatments.
+- **HeadDoctor**: Approves diagnoses before treatment can proceed.
+- **Diagnosis**: Must be approved by the head doctor. Each diagnosis is linked to an illness and possibly multiple treatments.
+- **Illness**: Has a priority score (high/low), which affects the stage of treatments.
+- **Treatment**: Can be in stages 1, 2, or 3. Stage upgrades require patient consent (except when illness has high priority).
+- **ConsentForm**: Indicates that a patient has given consent to move to higher treatment stages.
+- **FollowUp**: Nurses perform follow-ups more frequently for patients in stage 3.
+- **Nurse**: Performs follow-ups on patients.
+
+---
+

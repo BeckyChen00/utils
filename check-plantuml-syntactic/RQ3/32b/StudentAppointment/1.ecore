@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registers_for" eType="#//Course" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Course">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//TeachingAssistant" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enrolled_by" eType="#//Student" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TeachingAssistant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_to" eType="#//Course" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Student"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Appointment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requested_by" eType="#//Student" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="provided_by" eType="#//TeachingAssistant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="related_to" eType="#//Course" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,43 @@
+@startuml
+enum AppointmentStatus {
+  Scheduled
+  Completed
+  Cancelled
+  NoShow
+}
+class Student {
+  studentName: String
+  +requestAppointment(course: Course, assistant: TeachingAssistant, timeSlot: TimeSlot): Appointment
+  +getRegistrationStatus(course: Course): boolean
+}
+class TeachingAssistant {
+  assistantName: String
+  specialization: String
+  +acceptAppointment(appointment: Appointment): boolean
+  +rejectAppointment(appointment: Appointment, reason: String): void
+  +hasCapacity(timeSlot: TimeSlot): boolean
+}
+class Course {
+  courseCode: String
+  courseTitle: String
+  +addTeachingAssistant(assistant: TeachingAssistant): void
+}
+class Appointment {
+  scheduledTime: Date
+  duration: int
+  status: AppointmentStatus
+  +confirmAttendance(): void
+  +cancel(): void
+}
+class TimeSlot {
+  startTime: Date
+  endTime: Date
+  dayOfWeek: String
+  +isAvailable(): boolean
+}
+Student "1" --> "1..*" Course : registeredCourses
+Course "1" *-- "1..*" TeachingAssistant : teachingStaff
+TeachingAssistant "1" *-- "0..*" Appointment : managedAppointments
+Appointment "1" *-- "1" TimeSlot : scheduledSlot
+Appointment "1" --> "1" Course : targetCourse
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+class BusRoute {
+  routeNumber: int
+  capacityLimit: int
+  +getNextAvailableDate(): Date
+}
+class Bus {
+  licensePlate: String
+  +isAvailableForAssignment(): boolean
+  +isUnderRepair(): boolean
+}
+class BusDriver {
+  driverName: String
+  currentlySickLeave: boolean
+  +updateAvailabilityStatus(isAvailable: boolean): void
+}
+class ShiftAssignment {
+  scheduleDate: Date
+  startTime: Time
+  endTime: Time
+  +isShiftConflicting(other: ShiftAssignment): boolean
+  +getDurationMinutes(): int
+}
+BusRoute *-- "0..*" Bus : assignedBuses
+BusRoute *-- "0..*" ShiftAssignment : scheduledShifts
+BusDriver --> "0..*" ShiftAssignment : staffedShifts
+ShiftAssignment --> "1" Bus : assignedBus
+ShiftAssignment --> "1" BusDriver : assignedDriver
+@enduml

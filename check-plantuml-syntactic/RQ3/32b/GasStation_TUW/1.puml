@@ -1,0 +1,57 @@
+
+@startuml
+
+' Define classes
+class GasStation {
+    - id: int
+    - address: String
+}
+
+class FuelPump {
+    - number: int
+    - isSelfService: boolean
+}
+
+class Fuel {
+    - name: String
+    - octaneRating: float
+}
+
+class DailyPrice {
+    - date: Date
+    - pricePerLiter: float
+}
+
+class FuelPurchase {
+    - id: int
+    - litersDispensed: float
+}
+
+' Associations
+
+GasStation "1" *-- "0..12" FuelPump : has
+FuelPump "1" *-- "1.." Fuel : offers
+GasStation "1" *-- "many" DailyPrice : archives
+DailyPrice "1" -- "1" Fuel : for
+DailyPrice "1" -- "1" GasStation : at
+FuelPurchase "1" -- "1" FuelPump : at
+FuelPurchase "1" -- "1" Fuel : of
+FuelPurchase "1" -- "1" DailyPrice : with price
+
+@enduml
+
+### Explanation of Key Elements:
+
+- **GasStation**: Each gas station has a unique ID and an address. It can have up to 12 fuel pumps.
+- **FuelPump**: Identified by a number and whether it's self-service. Each pump offers one or more fuels.
+- **Fuel**: Identified by name and octane rating.
+- **DailyPrice**: A daily record of fuel prices per liter at a specific gas station for a specific fuel.
+- **FuelPurchase**: Represents a fuel transaction including the pump used, fuel type, daily price, and quantity in liters.
+
+### Relationships:
+- A `GasStation` can have multiple `FuelPumps` (max 12).
+- A `FuelPump` offers one or more `Fuels`.
+- A `GasStation` archives many `DailyPrices`.
+- A `DailyPrice` belongs to one `Fuel` and one `GasStation`.
+- A `FuelPurchase` is made at a `FuelPump`, for a `Fuel`, and with a `DailyPrice`.
+

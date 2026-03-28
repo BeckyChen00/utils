@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pumps" eType="#//Pump" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pump">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refuelTurns" eType="#//RefuelTurn" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alerts" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GasStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dailyReports" eType="#//DailyReport" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DailyReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RefuelTurn">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invoices" eType="#//Invoice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cards" eType="#//RefuelCard" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invoices" eType="#//Invoice" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alerts" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RefuelCard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="turns" eType="#//RefuelTurn" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="payments" eType="#//Payment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+</ecore:EPackage>

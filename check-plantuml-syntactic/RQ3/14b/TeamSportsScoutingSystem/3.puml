@@ -1,0 +1,104 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Employee {
+  -id: int
+  -name: String
+  -role: String
+}
+
+class HeadCoach <<interface>> {
+  +identifyPlayerProfile(): PlayerProfile
+  +reviewScoutingReports(): List<ScoutingReport>
+  +approveShortList(): List<Player>
+}
+
+class Director <<interface>> {
+  +makeOfficialOffer(): Offer
+}
+
+class Scout <<interface>> {
+  +submitScoutingReport(): ScoutingReport
+  +assignScoutingTask(): ScoutingAssignment
+}
+
+class Player {
+  -id: int
+  -name: String
+  -position: String
+  -attributes: Map<String, Integer>
+}
+
+class PlayerProfile {
+  -targetPosition: String
+  -requiredAttributes: Map<String, Integer>
+}
+
+class ScoutingAssignment {
+  -id: int
+  -player: Player
+  -scout: Scout
+  -status: String
+}
+
+class ScoutingReport {
+  -id: int
+  -player: Player
+  -pros: List<String>
+  -cons: List<String>
+  -recommendation: String
+}
+
+class LongList {
+  -players: List<Player>
+}
+
+class ShortList {
+  -players: List<Player>
+}
+
+class Offer {
+  -id: int
+  -player: Player
+  -amount: Double
+  -status: String
+}
+
+Employee "1" -- "0..*" Scout : "is a"
+Employee "1" -- "0..*" HeadCoach : "is a"
+Employee "1" -- "0..*" Director : "is a"
+
+HeadCoach --> PlayerProfile : identifies
+HeadCoach --> ScoutingReport : reviews
+HeadCoach --> ShortList : approves
+
+Director --> Offer : makes
+
+Scout --> ScoutingAssignment : assigns
+Scout --> ScoutingReport : submits
+
+LongList --> Player : contains
+ShortList --> Player : contains
+
+ScoutingAssignment --> Player : targets
+ScoutingAssignment --> Scout : assignedTo
+ScoutingAssignment --> ScoutingReport : resultsIn
+
+Player --> PlayerProfile : matches
+@enduml
+
+### Explanation of Classes:
+
+- **Employee**: Base class representing all club employees (head coach, director, scouts).
+- **HeadCoach**: Interface defining responsibilities like identifying player profiles and reviewing reports.
+- **Director**: Interface responsible for making official offers.
+- **Scout**: Interface defining scouting tasks and report submission.
+- **Player**: Represents a potential signing with position and attributes.
+- **PlayerProfile**: Defines the target profile (e.g., position, required attributes).
+- **ScoutingAssignment**: A task assigned to a scout to investigate a specific player.
+- **ScoutingReport**: Contains pros, cons, and recommendation about a player.
+- **LongList**: List of players matching a target profile.
+- **ShortList**: Players selected after evaluation for further scouting.
+- **Offer**: Official offer made by the director to sign a player.
+

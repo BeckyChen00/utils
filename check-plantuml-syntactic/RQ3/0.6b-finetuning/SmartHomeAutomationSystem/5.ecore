@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedClaims" eType="#//ClaimSituation" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimSituation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="policyCode" eType="#//TaxCode" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachedFiles" eType="#//ClaimFile" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Department">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBy" eType="#//TaxAuthority" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaxAuthority"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TaxCode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicablePolicy" eType="#//InsurancePolicy" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimFile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InsuredTax">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taxingAuthority" eType="#//TaxAuthority" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InsurancePolicy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimProcessor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedClaims" eType="#//ClaimSituation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedCodes" eType="#//TaxCode" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviewedPolicy" eType="#//InsurancePolicy" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

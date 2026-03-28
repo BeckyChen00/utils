@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lineItems" eType="#//OrderLine" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderLine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderItem" eType="#//OrderItem" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedOrder" eType="#//ProductOrder" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredTechnologies" eType="#//Technologies" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomerOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submission" eType="#//OrderSubmittal" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderSubmittal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedLine" eType="#//OrderLine" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredTechnologies" eType="#//Technologies" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="product" eType="#//InventoryItem" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductOrder"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InventoryItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Technologies"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InboundReceipt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedLines" eType="#//OrderLine" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedTechnologies" eType="#//Technologies" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SyncService"/>
+</ecore:EPackage>

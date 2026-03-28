@@ -1,0 +1,125 @@
+
+@startuml
+
+' Classes involved in the system
+class Resident {
+  - name: String
+  - streetAddress: String
+  - phoneNumber: String
+  - email: String (optional)
+  - itemsDescription: String
+  + schedulePickup(): void
+}
+
+class PickupRequest {
+  - requestId: String
+  - pickupTime: DateTime
+  - status: String (e.g., scheduled, completed)
+  + submitRequest(resident: Resident): void
+  + updateStatus(status: String): void
+}
+
+class PickupVehicle {
+  - vehicleId: String
+  - storageCapacity: Integer
+  - dimensions: String
+  - weightLimit: Integer
+  + assignRoute(route: Route): void
+  + collectItems(pickupRequests: List<PickupRequest>): void
+}
+
+class Route {
+  - routeId: String
+  - startTime: DateTime
+  - endTime: DateTime
+  - pickupLocations: List<String>
+  + calculateRoute(vehicle: PickupVehicle, requests: List<PickupRequest>): void
+}
+
+class VolunteerDriver {
+  - driverId: String
+  - name: String
+  - phoneNumber: String
+  - availableDays: List<DayOfWeek>
+  + submitAvailability(days: List<DayOfWeek>): void
+  + completeRoute(route: Route): void
+}
+
+class DistributionCenter {
+  - centerId: String
+  - address: String
+  + receiveArticles(pickupVehicle: PickupVehicle): void
+  + tagWithRFID(article: Article): void
+  + categorizeArticle(article: Article, category: String): void
+}
+
+class Article {
+  - articleId: String
+  - description: String
+  - category: String
+  - rfidTag: String
+  + updateDescription(description: String): void
+}
+
+class Employee {
+  - employeeId: String
+  - name: String
+  - role: String
+  + examineQuality(article: Article): Boolean
+  + assignCategory(article: Article, category: String): void
+}
+
+class FoodBank {
+  - foodBankId: String
+  - address: String
+  + receiveNonPerishables(pickupVehicle: PickupVehicle): void
+}
+
+class Client {
+  - clientId: String
+  - name: String
+  - address: String
+  - preferredCategories: List<String>
+  + requestArticles(categories: List<String>): void
+}
+
+class DeliveryService {
+  - deliveryId: String
+  - deliveryTime: DateTime
+  + arrangeDelivery(article: Article, client: Client): void
+  + deliverArticle(article: Article, client: Client): void
+}
+
+' Relationships
+Resident "1" -- "0..*" PickupRequest : submits
+PickupRequest "1" -- "1" Route : assignedTo
+Route "1" -- "1" PickupVehicle : assignedTo
+PickupVehicle "1" -- "1" VolunteerDriver : drivenBy
+PickupVehicle "1" -- "1" DistributionCenter : deliversTo
+DistributionCenter "1" -- "0..*" Article : receives
+Article "1" -- "1" Employee : examinedBy
+Employee "1" -- "0..*" Article : categorizes
+Employee "1" -- "1" DistributionCenter : worksAt
+Client "1" -- "0..*" Article : receives
+Client "1" -- "1" DeliveryService : uses
+DeliveryService "1" -- "1" VolunteerDriver : operatedBy
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Resident**: A user who schedules a pickup.
+- **PickupRequest**: Represents a specific pickup order.
+- **PickupVehicle & VolunteerDriver**: Used to perform pickups.
+- **Route**: A sequence of pickups scheduled for a day.
+- **DistributionCenter & Employee**: Handle receiving, inspecting, and categorizing articles.
+- **Article**: Items collected during pickup.
+- **FoodBank**: Handles non-perishable foods directly.
+- **Client**: Receives second-hand items via distribution or delivery.
+- **DeliveryService**: Manages delivery of items to clients who can't visit the center.
+
+---
+
+Let me know if you'd like to generate a UML image from this or add more details!

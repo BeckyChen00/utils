@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rooms" eType="#//Room" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensors" eType="#//Sensor" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedApartment" eType="#//Apartment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Apartment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledApartment" eType="#//Apartment" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSensors" eType="#//Sensor" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adminAccount" eType="#//UserAccount" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnergyMonitor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredApartment" eType="#//Apartment" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

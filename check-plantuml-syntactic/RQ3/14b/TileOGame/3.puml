@@ -1,0 +1,131 @@
+
+@startuml
+skinparam linetype ortho
+
+class Game {
+  -currentPlayer: Player
+  -gameBoard: GameBoard
+  -actionDeck: ActionDeck
+  -hiddenTile: Tile
+  -players: List<Player>
+  -isGameOver: boolean
+}
+
+class GameBoard {
+  -tiles: List<Tile>
+  -connectionPieces: List<ConnectionPiece>
+  -startingPositions: Map<Player, Tile>
+  -actionTiles: List<Tile>
+}
+
+class Tile {
+  -id: int
+  -color: Color
+  -isVisited: boolean
+  -isActionTile: boolean
+  -actionDuration: int
+  -connections: List<Connection>
+}
+
+class Connection {
+  -fromTile: Tile
+  -toTile: Tile
+  -direction: Direction
+}
+
+enum Direction {
+  LEFT, RIGHT, TOP, BOTTOM
+}
+
+class Player {
+  -name: String
+  -color: Color
+  -position: Tile
+  -hasExtraTurn: boolean
+}
+
+class ActionCard {
+  -type: ActionType
+}
+
+enum ActionType {
+  EXTRA_TURN, CONNECT_TILES, REMOVE_CONNECTION, MOVE_ARBITRARY, LOSE_TURN
+}
+
+class ActionDeck {
+  -cards: List<ActionCard>
+  -drawPile: List<ActionCard>
+  -discardPile: List<ActionCard>
+}
+
+class ConnectionPiece {
+  -id: int
+  -used: boolean
+}
+
+class Die {
+  -faces: int
+  -roll(): int
+}
+
+class GameDesigner {
+  -createGame(game: Game)
+  -setupBoard(gameBoard: GameBoard)
+  -defineHiddenTile(tile: Tile)
+  -defineStartingPositions(players: List<Player>)
+  -defineActionTiles(tiles: List<Tile>)
+  -defineActionDeck(actionDeck: ActionDeck)
+}
+
+class GameController {
+  -startGame(game: Game)
+  -takeTurn(player: Player)
+  -processActionCard(player: Player, card: ActionCard)
+  -checkWinCondition(player: Player, tile: Tile)
+  -updateTileStatus(tile: Tile)
+}
+
+' Associations
+Game "1" *-- "1" GameBoard : contains
+Game "1" *-- "1" ActionDeck : uses
+Game "1" *-- "*" Player : has
+Game "1" --> "1" GameController : controlled by
+
+GameBoard "1" *-- "*" Tile : contains
+GameBoard "1" *-- "*" ConnectionPiece : contains
+GameBoard "1" *-- "*" Connection : contains
+
+Tile "1" *-- "0..1" Connection : connected to
+Tile "1" *-- "0..1" Connection : connected from
+
+Player "1" --> "1" Tile : current position
+Player "1" --> "1" Game : participates in
+
+ActionDeck "1" *-- "*" ActionCard : contains
+ActionDeck "1" --> "1" GameController : managed by
+
+GameController "1" --> "1" Die : uses
+GameController "1" --> "1" Game : controls
+
+GameDesigner "1" --> "1" Game : designs
+GameDesigner "1" --> "1" GameBoard : configures
+GameDesigner "1" --> "1" ActionDeck : defines
+@enduml
+
+---
+
+### Explanation of Key Classes and Relationships:
+
+- **`Game`**: Central entity that holds all game state (players, board, action deck, etc.).
+- **`GameBoard`**: Contains tiles, connections, and starting positions.
+- **`Tile`**: Represents each square on the board; can be visited or an action tile.
+- **`Connection`**: Links two tiles in one direction.
+- **`Player`**: Has a color and position on the board.
+- **`ActionCard`**: Defines the effect when landed on an action tile.
+- **`ActionDeck`**: Manages the draw and discard piles of action cards.
+- **`ConnectionPiece`**: Physical or virtual piece connecting two tiles.
+- **`Die`**: Simple class to roll dice values.
+- **`GameDesigner`**: Configures the game setup before players start.
+- **`GameController`**: Handles the flow of the game during play.
+
+Let me know if you'd like this rendered as an image or expanded with more details!

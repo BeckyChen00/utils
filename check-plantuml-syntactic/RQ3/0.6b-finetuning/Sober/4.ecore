@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedUnits" eType="#//RecoveryUnit" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RecoveryUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statusMonitor" eType="#//Contactor" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="installedElements" eType="#//FiltrationElement" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contactor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FiltrationElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DeionizationSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedInstructions" eType="#//CleaningInstruction" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceHistory" eType="#//MaintenanceRecord" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeMaintenance" eType="#//SystemMaintenance" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoringSensors" eType="#//SensorArray" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="detectionSystem" eType="#//LeakDetector" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="chemicalSource" eType="#//ChemicalGenerator" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="temperatureReadings" eType="#//Temperatures" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeCycle" eType="#//ProcessingCycle" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sampleTests" eType="#//BacteriologicalTest" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeChemicals" eType="#//ChemicalSelector" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processUnits" eType="#//ProcessGenerator" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="flowRates" eType="#//FlowRate" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="safetyConsequences" eType="#//SafetyCheckList" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collectedSamples" eType="#//WaterSample" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="chemicalComposition" eType="#//MaterialChemistry" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cycleLogs" eType="#//CycleLog" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="errorLogs" eType="#//ErrorLog" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedAlerts" eType="#//AlarmAlert" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testedSamples" eType="#//AlkalinityTest" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CleaningInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemMaintenance"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorArray"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LeakDetector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ChemicalGenerator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Temperatures"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessingCycle"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BacteriologicalTest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ChemicalSelector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessGenerator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FlowRate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyCheckList"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WaterSample">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pHTest" eType="#//pHMeter" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedChemicals" eType="#//ChemicalGenerator" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="levelMeasurement" eType="#//WaterLevelSensor" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="pHMeter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WaterLevelSensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedLocations" eType="#//Location" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Location"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WaterSensor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="flowRateLimits" eType="#//FlowRate" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredSensors" eType="#//WaterSensor" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="centralController" eType="#//ControlPanel" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="detectionSystem" eType="#//LeakDetector" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testResults" eType="#//BacteriologicalTest" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testedSamples" eType="#//AlkalinityTest" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlPanel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlkalinityTest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaterialChemistry"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CycleLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ErrorLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlarmAlert"/>
+</ecore:EPackage>

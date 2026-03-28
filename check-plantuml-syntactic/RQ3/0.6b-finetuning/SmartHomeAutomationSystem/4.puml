@@ -1,0 +1,63 @@
+@startuml
+enum MaterialType {
+  CarbonConfined
+  SiliconDiamond
+  Graphite
+}
+enum OperationMode {
+  Trial
+  InternalCheck
+}
+class IndustrialMaterial {
+  materialName: String
+  requiredComposition: String
+  type: MaterialType
+}
+class Researcher {
+  +reviewResults(result: BenchmarkResult): void
+}
+class TestBatch {
+  productionDate: Date
+  requiredQuantity: int
+  +validateBatch(): boolean
+}
+class ProcessingUnit {
+  capacity: int
+  currentLoad: int
+  +identifyParameter(): String
+  +executeStep(mode: OperationMode, targetTemperature: double): boolean
+}
+class TemperatureSensor {
+  resolution: int
+  +getCurrentReading(): double
+  +getStatus(): String
+}
+class DataLog {
+  logDate: Date
+  +exportLog(): String
+}
+class BenchmarkResult {
+  startTime: Date
+  endTime: Date
+  +getMetricValue(metricName: String): double
+}
+class ProductionRun {
+  runDate: Date
+  +initiateRun(sourceBatch: TestBatch): void
+  +terminateRun(): void
+}
+class RouteOptimizer {
+  algorithmType: String
+  +calculateRoute(startPoint: TestBatch, endPoint: TestBatch): String
+}
+IndustrialMaterial --|> TestBatch
+TestBatch *-- "0..*" ProcessingUnit : containedUnits
+ProcessingUnit *-- "1" TemperatureSensor : associatedSensor
+ProcessingUnit --> "0..1" RouteOptimizer : planningEngine
+TestBatch --> "1" IndustrialMaterial : definingMaterial
+TestBatch --> "0..*" DataLog : generatedLogs
+BenchmarkResult *-- "1" TestBatch : sourceBatch
+BenchmarkResult --> "1" IndustrialMaterial : benchmarkedMaterial
+BenchmarkResult --> "1" Researcher : conductedBy
+ProductionRun --> "1..*" TestBatch : processedBatches
+@enduml

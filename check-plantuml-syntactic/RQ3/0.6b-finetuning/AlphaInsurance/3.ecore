@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="courseSessions" eType="#//CourseSession" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CourseSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coveredCourse" eType="#//Course" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessionExam" eType="#//Exam" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExamOffer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="schedules" eType="#//ExamSchedule" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offeredExam" eType="#//Exam" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="examSession" eType="#//CourseSession" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredResources" eType="#//ExamResource" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="availableSolutions" eType="#//ExamSolution" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReminder" eType="#//Reminder"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExamSchedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Exam"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExamResource"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExamSolution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Member">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subscribedOffer" eType="#//ExamOffer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="latestReview" eType="#//ExamReview"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="setUpReminders" eType="#//Reminder" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedOffers" eType="#//ExamOffer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExamReview"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Reminder"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Course"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Reviewer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedReviews" eType="#//ExamReview" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

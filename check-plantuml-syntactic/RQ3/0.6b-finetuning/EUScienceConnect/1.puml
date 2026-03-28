@@ -1,0 +1,130 @@
+@startuml
+enum JobState {
+  Pending
+  Running
+  Completed
+  Failed
+}
+enum TaskPriority {
+  Low
+  Medium
+  High
+}
+enum WorkflowTier {
+  Tier1
+  Tier2
+  Tier3
+  Tier4
+}
+class ProductionBatch {
+  batchCode: String
+  creationDate: Date
+}
+class ProductionPlan {
+  planName: String
+}
+class Job {
+  currentState: JobState
+  priority: TaskPriority
+  estimatedDuration: int
+  +getStatus(): JobState
+  +execute(): void
+}
+class Task {
+  description: String
+  complexity: String
+  +execute(): void
+}
+class ProcessStep {
+  stepName: String
+  isOptimized: boolean
+  +executeStep(): void
+}
+class WorkOrder {
+  orderCode: String
+  targetDate: Date
+}
+class Equipment {
+  model: String
+  capacity: int
+}
+class Machine {
+  powerLevel: int
+  isOperational: boolean
+  +calibrate(): boolean
+}
+class WorkflowSchedule {
+  scheduleDescription: String
+  startTime: Date
+  endTime: Date
+  +getNextStep(): ProcessStep
+  +getNextStepTime(): Date
+}
+class SafetyProtocol {
+  protocolName: String
+  complianceStatus: boolean
+}
+class Inventory {
+  stockLevel: int
+  location: String
+}
+class Material {
+  materialCode: String
+  quantity: int
+  unitOfMeasure: String
+}
+class QualityControl {
+  inspectionStatus: boolean
+  +validateQuality(): boolean
+}
+class MaintenanceLog {
+  technicianName: String
+  date: Date
+  description: String
+  requiredParts: String[]
+}
+class DocumentTemplate {
+  documentType: String
+  +applyTemplate(data: Map<String, Object>): String
+}
+class ReportGenerator {
+  +generateReport(includeChart: boolean): String
+}
+class Report {
+  reportTitle: String
+  generationDate: Date
+  +exportToPdf(): boolean
+}
+class AuditLog {
+  logDate: Date
+  actionDescription: String
+  +recordAction(actionId: String, detail: String): void
+}
+class Laboratory {
+  labName: String
+  specialization: String
+}
+class ScheduleParser {
+  +parse(scheduleString: String): WorkflowSchedule
+}
+ProductionPlan *-- "1..*" ProductionBatch : containedBatches
+ProductionBatch *-- "1" ProductionPlan : activePlan
+Job *-- "1" Task : assignedTask
+Job *-- "1" WorkOrder : attachedWorkOrder
+WorkOrder --> "1..*" QualityControl : inspectedBy
+WorkOrder --> "1" ProductionBatch : managedBatch
+WorkOrder --> "1" SafetyProtocol : requiredProtocol
+WorkOrder --> "1" Equipment : requiredEquipment
+WorkOrder --> "0..1" MaintenanceLog : maintenanceNotes
+WorkOrder --> "1" DocumentTemplate : documentTemplate
+WorkOrder --> "1" Report : finalReport
+Equipment -- SafetyProtocol
+Equipment -- Inventory
+ProductionPlan -- Inventory
+QualityControl -- Inventory
+WorkOrder -- ReportGenerator
+WorkOrder -- Report
+WorkOrder -- AuditLog
+ScheduleParser -- WorkflowSchedule
+WorkOrder -- Equipment
+@enduml

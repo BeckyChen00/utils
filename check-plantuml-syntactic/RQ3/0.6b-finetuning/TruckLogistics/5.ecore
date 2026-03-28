@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultTemplate" eType="#//PageTemplate" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PageTemplate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DisplayPage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedTemplate" eType="#//PageTemplate" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engine_:_activeEngine" eType="#//TemplateEngine" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="errorLogs" eType="#//ErrorReport" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TemplateEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuration_:_settings" eType="#//ConfigData" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfigData"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ErrorReport"/>
+</ecore:EPackage>

@@ -1,0 +1,76 @@
+
+@startuml
+
+' Define the base classes
+abstract class Game {
+  +id: String
+  +players: List<Player>
+  +deck: Deck
+  +scoringTable: ScoringTable
+}
+
+class Player {
+  +id: String
+  +name: String
+}
+
+class Deck {
+  +id: String
+  +cards: List<Card>
+  +getCardHeight(card1: Card, card2: Card): ComparisonResult
+}
+
+enum ComparisonResult {
+  LOWER, EQUAL, HIGHER
+}
+
+class Card {
+  +id: String
+  +suit: Suit
+  +rank: Integer
+}
+
+enum Suit {
+  DIAMONDS, HEARTS, SPADES, CLUBS
+}
+
+class ScoringTable {
+  +id: String
+  +rounds: List<Round>
+}
+
+class Round {
+  +id: String
+  +winningPlayers: List<Player>
+  +points: Integer
+  +isJackRound: Boolean
+  +isSoloRound: Boolean
+  +isMandatorySoloRound: Boolean
+  +soloType: SoloType
+  +soloPlayer: Player
+}
+
+enum SoloType {
+  TRUMP_SOLO, JACK_SOLO, QUEEN_SOLO
+}
+
+' Relationships
+Game "1" -- "4" Player
+Game "1" -- "1" Deck
+Game "1" -- "1" ScoringTable
+ScoringTable "1" -- "0..*" Round
+Round "1" -- "0..*" Player : winningPlayers
+Round "1" -- "1" Player : soloPlayer
+
+@enduml
+
+### Explanation:
+- **`Game`**: Represents a game with players, a deck, and a scoring table.
+- **`Player`**: Represents a player in the game.
+- **`Deck`**: Contains a list of cards and provides comparison logic.
+- **`Card`**: Has a suit and rank; suits are defined in an enum.
+- **`ScoringTable`**: Stores all rounds with their scores.
+- **`Round`**: Represents a round in the game, which can be a jack round, a solo round, or both.
+- **`SoloType`**: Defines the types of solo rounds (trump, jack, queen).
+- **`ComparisonResult`**: An enum representing the result of comparing two cards.
+

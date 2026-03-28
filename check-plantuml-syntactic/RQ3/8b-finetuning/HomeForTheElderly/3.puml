@@ -1,0 +1,101 @@
+@startuml
+class Department {
+  name: String
+  +getRooms(): List<Room>
+}
+class Room {
+  roomNumber: String
+  isAvailable: boolean
+  +assignBed(bed: Bed): void
+  +releaseBed(bed: Bed): void
+}
+class Bed {
+  bedNumber: int
+  category: StayType
+  isOccupied: boolean
+  +getStatus(): String
+}
+class Inhabitant {
+  fullName: String
+  dateOfBirth: Date
+  contactInfo: String
+  +register(): void
+  +acceptProposal(proposal: Proposal): void
+  +declineProposal(proposal: Proposal): void
+}
+class StayProposal {
+  proposalDate: Date
+  isAccepted: boolean
+  isRejected: boolean
+  +validate(): boolean
+  +inactivate(): void
+}
+class Assessment {
+  assessmentDate: Date
+  needsAssistance: boolean
+  requiredStayType: StayType
+  +reAssess(newData: Map<String, Object>): void
+}
+class RegistrationRecord {
+  registrationDate: Date
+  isValid: boolean
+  +updateData(newData: Map<String, Object>): void
+}
+class Invoice {
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  remainingAmount: double
+  status: String
+  +calculateTotal(): double
+  +processPayment(amount: double): void
+  +issueCreditNote(amount: double): CreditNote
+}
+class CreditNote {
+  issueDate: Date
+  amount: double
+  reason: String
+  +getRefundDetails(): String
+}
+enum StayType {
+  RestHome
+  RestNursingHome
+  ServiceFlat
+}
+enum PaymentStatus {
+  Pending
+  Paid
+  Overpaid
+}
+class WaitingList {
+  +addRecord(record: RegistrationRecord): void
+  +removeRecord(record: RegistrationRecord): void
+  +getTopRecord(): RegistrationRecord
+}
+class WaitingListEntry {
+  priorityDate: Date
+  requestedStayType: StayType
+}
+class ServiceAgreement {
+  startDate: Date
+  endDate: Date
+  +calculateDuration(): int
+}
+Department *-- "*" Room : rooms
+Room *-- "*" Bed : beds
+Bed --> "0..1" Inhabitant : currentOccupant
+Inhabitant *-- "1" RegistrationRecord : registrationRecord
+Inhabitant *-- "1" Assessment : assessment
+WaitingList *-- "*" WaitingListEntry : entries
+WaitingListEntry --> "1" RegistrationRecord : record
+RegistrationRecord --> "1" Inhabitant : inhabitant
+RegistrationRecord --> "1" Assessment : assessment
+Assessment --> "0..1" ServiceAgreement : resultingAgreement
+ServiceAgreement --> "*" Bed : assignedBeds
+ServiceAgreement --> "*" Invoice : generatedInvoices
+Invoice --> "1" Inhabitant : debtor
+Invoice --> "0..1" CreditNote : creditNote
+Proposal --> "1" Inhabitant : targetInhabitant
+Proposal --> "1" WaitingListEntry : relatedEntry
+Proposal --> "1" Assessment : baseAssessment
+@enduml

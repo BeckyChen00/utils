@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeSegments" eType="#//TravelSegment" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TravelSegment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrafficMonitor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePlan" eType="#//RoutePlan" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedRecords" eType="#//TrafficRecord" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuredEngine" eType="#//SimulationEngine" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedNodes" eType="#//SensorNode" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoutePlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedSegments" eType="#//TravelSegment" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrafficRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationEngine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteOptimizer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedPlan" eType="#//RoutePlan" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedEngine" eType="#//SimulationEngine" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

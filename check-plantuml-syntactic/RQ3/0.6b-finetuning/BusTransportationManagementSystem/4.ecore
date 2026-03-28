@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedUser" eType="#//User" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintainenceOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetEquipment" eType="#//Equipment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Equipment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pendingSchedules" eType="#//Schedule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTechnician" eType="#//Technician" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredLicense" eType="#//SafetyLicense" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectedProcedure" eType="#//WorkProcedure"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Technician">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivingParts" eType="#//SpareParts" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyLicense"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkProcedure"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affectedEquipment" eType="#//Equipment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpareParts"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceInspection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inspectedEquipment" eType="#//Equipment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SparePartsCatalog"/>
+</ecore:EPackage>

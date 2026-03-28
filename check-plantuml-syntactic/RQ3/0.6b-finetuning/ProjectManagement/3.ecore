@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicationHistory" eType="#//LoanApplication" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LoanApplication">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicantProfile" eType="#//CreditProfile" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="riskAssessment" eType="#//RiskAssessment" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="proposedPlan" eType="#//RiskMitigationPlan"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProduct" eType="#//FinancialProduct" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreditProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskAssessment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskMitigationPlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FinancialProduct"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceAudit"/>
+</ecore:EPackage>

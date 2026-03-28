@@ -1,0 +1,40 @@
+
+@startuml
+class Customer {
+  -firstName: String
+  -lastName: String
+  -accounts: List<Account>
+}
+
+class Branch {
+  -name: String
+  -address: String
+}
+
+class Account {
+  -accountNumber: int
+  -balance: double
+  -owner: Customer
+}
+
+class CurrentAccount {
+  -overdraftLimit: double
+}
+
+class SavingsAccount {
+  // No additional attributes specific to savings accounts
+}
+
+Customer "1" *-- "1..5" Account : owns
+Account <|-- CurrentAccount
+Account <|-- SavingsAccount
+@enduml
+
+### Explanation:
+- `Customer` has a list of `Account`s (between 1 and 5).
+- Each `Account` belongs to one `Customer`.
+- There are two types of `Account`: `CurrentAccount` and `SavingsAccount`.
+- `CurrentAccount` has an additional attribute: `overdraftLimit`.
+- `Branch` is included in the diagram, though it's not directly related to the other classes. You can connect it if needed.
+
+Let me know if you want to include more relationships or refine this further!

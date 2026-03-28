@@ -1,0 +1,101 @@
+
+@startuml
+
+' Define classes and their attributes
+class Provider {
+    - name: String
+    - location: String
+}
+
+class Cruise {
+    - cruiseNumber: String
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - destinationArea: DestinationArea
+    - ship: Ship
+}
+
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+}
+
+class Guest {
+    - name: String
+    - isVIP: Boolean
+}
+
+class DestinationArea {
+    - name: String
+    - seaName: String
+}
+
+class Ship {
+    - name: String
+    - numberOfDecks: Integer
+    - length: Double
+    - numberOfPassengers: Integer
+}
+
+class Booking {
+    - bookingNumber: String
+    - bookingDate: Date
+    - travelAgency: TravelAgency
+    - cruise: Cruise
+}
+
+class TravelAgency {
+    - name: String
+    - address: String
+}
+
+class Show {
+    - title: String
+    - duration: Integer
+}
+
+class Ticket {
+    - ticketNumber: String
+    - cruise: Cruise
+    - guest: Guest
+}
+
+' Relationships
+
+' Provider -> Cruise (1..*)
+Provider "1" --o"{0..*} Cruise : provides
+
+' Cruise -> Employee (1..*)
+Cruise "1" --o"{0..*} Employee : employs
+
+' Cruise -> Guest (1..*)
+Cruise "1" --o"{0..*} Guest : has guests
+
+' Cruise -> Show (1..*)
+Cruise "1" --o"{0..*} Show : offers
+
+' Cruise -> Ticket (1..*)
+Cruise "1" --o"{0..*} Ticket : has tickets
+
+' Guest -> Ticket (0..*)
+Guest "1" --o"{0..*} Ticket : owns
+
+' Ship -> Cruise (0..*)
+Ship "1" --o"{0..*} Cruise : used by
+
+' Booking -> Cruise (1..*)
+Booking "1" --o"{0..*} Cruise : booked for
+
+' Booking -> TravelAgency (1..*)
+Booking "1" --o"{0..*} TravelAgency : made by
+
+' Cruise -> DestinationArea (1..*)
+Cruise "1" --o"{1} DestinationArea : has destination
+
+@enduml
+
+### Notes:
+- The cardinality in the associations reflects the business rules described.
+- `Date` is assumed to be a built-in type, but you could replace it with a `java.util.Date` or similar if needed.
+- This diagram models the core entities and relationships as per your system requirement. If you need more detail (e.g., associations between Guest and Show, or between Employee and Cruise), let me know!

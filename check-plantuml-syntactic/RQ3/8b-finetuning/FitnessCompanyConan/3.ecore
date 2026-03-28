@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="location" eType="#//Address" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Address"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Center">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rooms" eType="#//Room" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledSessions" eType="#//Session" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Session"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participationRecords" eType="#//Participant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Participant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Trainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supervisionRecords" eType="#//Participant" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//RoutePlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RoutePlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TransitStation" eSuperTypes="#//RoutePlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Driver" eSuperTypes="#//Passenger">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedOrders" eType="#//DispatchOrder" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Passenger"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DriverProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedVehicle" eType="#//VehicleUnit" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VehicleUnit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DispatchOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetedSegment" eType="#//TrainSegment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrainSegment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PassengerBoarding">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPassenger" eType="#//Passenger" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedTicket" eType="#//Ticket" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket"/>
+</ecore:EPackage>

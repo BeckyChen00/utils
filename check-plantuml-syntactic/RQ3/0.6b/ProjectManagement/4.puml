@@ -1,0 +1,61 @@
+@startuml
+
+class diagram: System Requirement
+
+participant A <System Requirement> with name "A" and description "This is a participant in the system requirement"
+
+participant B <System Requirement> with name "B" and description "This is a participant in the system requirement"
+
+participant C <System Requirement> with name "C" and description "This is a participant in the system requirement"
+
+package: System Requirements
+  package member1
+    class: Member1
+      member11
+      member12
+  package member2
+    class: Member2
+      member21
+      member22
+  package member3
+    class: Member3
+      member31
+      member32
+  package member4
+    class: Member4
+      member41
+      member42
+  package member5
+    class: Member5
+      member51
+      member52
+  package member6
+    class: Member6
+      member61
+      member62
+  package member7
+    class: Member7
+      member71
+      member72
+  package member8
+    class: Member8
+      member81
+      member82
+  package member9
+    class: Member9
+      member91
+      member92
+  package member10
+    class: Member10
+      member101
+      member102
+  package member11
+    class: Member11
+      member111
+      member112
+  package member12
+    class: Member12
+      member121
+      member122
+
+@enduml

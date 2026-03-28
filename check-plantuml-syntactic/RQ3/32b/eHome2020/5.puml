@@ -1,0 +1,111 @@
+
+---
+
+
+@startuml
+
+' Define classes and their relationships
+
+class Sensor {
+    +String vendorId
+    +String description
+    +String unit
+    +Room room
+    +getMeasurements(): List<Measurement>
+    +getLastValue(): Measurement
+}
+
+abstract class AbstractSensor {
+    +String vendorId
+    +String description
+    +String unit
+    +Room room
+    +getMeasurements(): List<Measurement>
+    +getLastValue(): Measurement
+}
+
+class TemperatureSensor extends AbstractSensor {
+    +float minValue
+    +float maxValue
+}
+
+class PowerSensor extends AbstractSensor {
+    +float totalConsumption
+}
+
+class Measurement {
+    +Timestamp timestamp
+    +float value
+}
+
+class Room {
+    +String description
+    +List<Sensor> sensors
+}
+
+class Apartment {
+    +Address address
+    +List<Room> rooms
+    +List<Inhabitant> inhabitants
+    +String email
+}
+
+class Inhabitant {
+    +String username
+    +String password
+    +boolean isAdmin
+    +getSensors(): List<Sensor>
+    +setThreshold(Sensor, float): void
+}
+
+class SensorController {
+    +registerSensor(Sensor): void
+    +login(username: String, password: String): boolean
+    +getApartmentInfo(): Apartment
+    +storeMeasurement(sensor: Sensor, measurement: Measurement): void
+}
+
+class EMonitor {
+    +checkThresholds(): void
+    +sendAlert(email: String, message: String): void
+}
+
+class Address {
+    +String street
+    +int houseNumber
+    +String city
+    +String postalCode
+}
+
+' Relationships
+
+Apartment "1" *-- "many" Room : contains
+Room "1" *-- "many" Sensor : contains
+Apartment "1" *-- "many" Inhabitant : has
+SensorController "1" -- "1" Apartment : manages
+SensorController "1" -- "many" Sensor : monitors
+EMonitor "1" -- "1" SensorController : interacts with
+Inhabitant "1" -- "many" Sensor : can configure
+Inhabitant "1" -- "1" Apartment : belongs to
+Sensor "1" -- "1" Room : assigned to
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **Sensor**: Base class for all sensor types.
+- **AbstractSensor**: Used to avoid duplication in behavior between `TemperatureSensor` and `PowerSensor`.
+- **TemperatureSensor / PowerSensor**: Specific implementations with unique properties.
+- **Measurement**: Stores a timestamped reading from a sensor.
+- **Room**: Contains sensors and has a descriptive name.
+- **Apartment**: Has an address and multiple rooms; may have alert emails.
+- **Inhabitant**: User of the system with login credentials and possibly admin rights.
+- **SensorController**: Central system for managing sensors, users, and data.
+- **EMonitor**: External system that checks thresholds and sends alerts.
+- **Address**: Simple class to store apartment location details.
+
+---
+
+Let me know if you want to add more constraints (e.g., interfaces, associations with external APIs), or if you need this diagram as a rendered image!

@@ -1,0 +1,184 @@
+
+---
+
+
+@startuml
+skinparam monochrome true
+skinparam noteAlign center
+
+class Person {
+  +id: String
+  +name: String
+  +dateOfBirth: Date
+  +registrationDate: Date
+  +waitingListPosition: Integer
+  +isOnWaitingList: Boolean
+  +assessedNeeds: NeedsAssessment
+}
+
+class NeedsAssessment {
+  +id: String
+  +needsForActivities: List<ActivityNeed>
+  +recommendedStayType: StayType
+}
+
+class ActivityNeed {
+  +activity: String
+  +levelOfNeed: Level
+}
+
+enum Level {
+  LOW, MEDIUM, HIGH
+}
+
+enum StayType {
+  RH, RNH, SF
+}
+
+class Department {
+  +id: String
+  +name: String
+  +rooms: List<Room>
+}
+
+class Room {
+  +id: String
+  +department: Department
+  +beds: List<Bed>
+}
+
+class Bed {
+  +id: String
+  +room: Room
+  +category: BedCategory
+  +isOccupied: Boolean
+  +occupant: Inhabitant (0..1)
+}
+
+class BedCategory {
+  +id: String
+  +name: String
+  +pricePerDay: Double
+}
+
+class Inhabitant {
+  +id: String
+  +person: Person
+  +currentStays: List<Stay>
+  +pastStays: List<Stay>
+}
+
+class Stay {
+  +id: String
+  +inhabitant: Inhabitant
+  +startDate: Date
+  +endDate: Date
+  +stayType: StayType
+  +bed: Bed
+  +isSuspended: Boolean
+  +invoice: Invoice
+}
+
+class WaitingList {
+  +id: String
+  +stays: List<Stay>
+  +proposals: List<Proposal>
+}
+
+class Proposal {
+  +id: String
+  +stayType: StayType
+  +proposedDate: Date
+  +recipient: Person
+  +status: ProposalStatus
+}
+
+enum ProposalStatus {
+  PENDING, ACCEPTED, REJECTED, INVALIDATED
+}
+
+class Invoice {
+  +id: String
+  +stay: Stay
+  +startDate: Date
+  +endDate: Date
+  +totalAmount: Double
+  +outstandingAmount: Double
+  +paymentHistory: List<Payment>
+  +isPaid: Boolean
+}
+
+class Payment {
+  +id: String
+  +invoice: Invoice
+  +amount: Double
+  +paymentDate: Date
+  +type: PaymentType
+}
+
+enum PaymentType {
+  CASH, TRANSFER, CREDIT
+}
+
+' Relationships
+
+' Person -> NeedsAssessment
+Person --> "1" NeedsAssessment : has
+' NeedsAssessment -> ActivityNeed
+NeedsAssessment --> "1" ActivityNeed : contains
+' Person -> WaitingList
+Person --> "1" WaitingList : is on
+' WaitingList -> Proposal
+WaitingList --> "1" Proposal : has
+' Proposal -> Person
+Proposal --> "1" Person : for
+' Person -> Inhabitant
+Person --> "1" Inhabitant : is
+' Inhabitant -> Stay
+Inhabitant --> "1" Stay : has
+' Inhabitant -> PastStays
+Inhabitant --> "1" Stay : had
+' Stay -> Bed
+Stay --> "1" Bed : uses
+' Bed -> BedCategory
+Bed --> "1" BedCategory : belongs to
+' BedCategory -> Price
+' Stay -> Invoice
+Stay --> "1" Invoice : generates
+' Invoice -> Payment
+Invoice --> "1" Payment : has
+' Payment -> Invoice
+Payment --> "1" Invoice : for
+' Department -> Room
+Department --> "1" Room : contains
+' Room -> Bed
+Room --> "1" Bed : contains
+' Department -> Room
+Department --> "1" Room : contains
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Classes and Relationships:
+
+- **Person**: Represents an individual who wants or is living in the home.
+- **NeedsAssessment**: Captures the person’s needs and recommends a stay type.
+- **StayType**: An enum representing the types of stays (RH, RNH, SF).
+- **Department**, **Room**, **Bed**: Represent the physical structure of the home.
+- **Inhabitant**: A registered person currently or previously staying at the home.
+- **Stay**: Represents a period during which an inhabitant resides in a specific bed category.
+- **WaitingList**: Manages people waiting for a specific stay type.
+- **Proposal**: A request made to an inhabitant to accept a bed in a certain category.
+- **Invoice**: Represents billing for a stay, with associated payments.
+- **Payment**: Tracks the amount paid for an invoice.
+
+---
+
+### 📌 Notes:
+- The `Inhabitant` can have multiple `Stay`s, including suspended ones.
+- Each `Stay` may generate one `Invoice`.
+- Payments are tracked as events and affect the status of invoices.
+- `Proposal` status affects how the system handles the waiting list and assignment of beds.
+
+Let me know if you'd like this rendered as an image or exported to another format!

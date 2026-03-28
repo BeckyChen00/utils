@@ -1,0 +1,77 @@
+
+@startuml
+
+' Define classes and their attributes
+class Provider {
+  - name: String
+  - location: String
+}
+
+class Cruise {
+  - cruiseNumber: String
+  - name: String
+  - startDate: Date
+  - endDate: Date
+  - destinationArea: String
+  - seaName: String
+  - ship: Ship
+}
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class Guest {
+  - name: String
+  - isVIP: Boolean
+}
+
+class Ship {
+  - name: String
+  - numberOfDecks: Integer
+  - length: Double
+  - numberOfPassengers: Integer
+}
+
+class Booking {
+  - bookingNumber: String
+  - bookingDate: Date
+  - travelAgency: TravelAgency
+}
+
+class TravelAgency {
+  - name: String
+  - address: String
+}
+
+class Show {
+  - title: String
+  - duration: Integer
+}
+
+class Ticket {
+  - ticketNumber: String
+  - cruise: Cruise
+  - guest: Guest
+}
+
+' Associations
+Provider "1" -- "many" Cruise : provides
+Cruise "1" -- "1" Ship : uses
+Cruise "1" -- "many" Employee : has
+Cruise "1" -- "many" Guest : has
+Guest "1" -- "many" Ticket : has
+Cruise "1" -- "many" Show : offers
+Booking "1" -- "1" Cruise : books
+Booking "1" -- "1" TravelAgency : made by
+Ticket "1" -- "1" Cruise : belongs to
+Ticket "1" -- "1" Guest : belongs to
+
+@enduml
+
+### Notes:
+- This diagram represents all the entities, their attributes, and relationships as described in the system requirement.
+- Relationships such as one-to-many or many-to-one are shown using appropriate notations (e.g., `1` to `many`, etc.).
+
+Let me know if you'd like a version with more detailed multiplicities or additional constraints!

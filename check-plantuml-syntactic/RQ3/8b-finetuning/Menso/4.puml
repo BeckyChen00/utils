@@ -1,0 +1,87 @@
+@startuml
+enum SubscriptionStatus {
+  Active
+  Suspended
+  Cancelled
+}
+enum ApprovalStatus {
+  Pending
+  Approved
+  Rejected
+}
+enum PaymentType {
+  CardSwipe
+  Cash
+  PhoneApp
+  MonthlyInvoice
+}
+enum DayOfWeek {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
+}
+class BusLine {
+  lineNumber: String
+  categoryType: String
+  +calculatePrice(): double
+}
+class Trajectory {
+  routeDescription: String
+  approvalStatus: ApprovalStatus
+  isOperational: boolean
+  +requestApproval(): void
+  +suspend(): void
+}
+class BusSchedule {
+  timestamp: Date
+  frequency: int
+  +getNextDeparture(): Date
+}
+class BusStop {
+  stopName: String
+  locationCode: String
+}
+class UserCard {
+  cardNumber: String
+  isActivated: boolean
+  lastVerificationDate: Date
+  +verify(): boolean
+  +activate(): void
+}
+class CustomerProfile {
+  fullName: String
+  homeAddress: String
+  officeAddress: String
+  workingHours: String
+  subscribedStatus: SubscriptionStatus
+  +getMonthlyTrips(): List<TripRecord>
+  +requestInvoiceGeneration(): Invoice
+}
+class TripRecord {
+  recordingTime: Date
+  lineCategory: String
+  paymentType: PaymentType
+  +getDuration(): int
+  +isValid(): boolean
+}
+class Invoice {
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  processedStatus: boolean
+  +calculateDiscount(): double
+  +processPayment(): boolean
+  +getFormattedStatement(): String
+}
+CustomerProfile *-- "0..*" UserCard : issuedCards
+CustomerProfile --> "0..*" Invoice : receivedInvoices
+Invoice *-- "1..*" TripRecord : lineItems
+TripRecord --> "1" BusLine : traversedLine
+TripRecord --> "1" BusSchedule : associatedSchedule
+BusLine *-- "0..*" BusStop : coveredStops
+BusLine --> "1..*" Trajectory : definesTrajectories
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+    class Diagram {
+        "System Requirement"
+    }
+    
+    # Define the system requirement as a class
+    class SystemRequirement {
+        "System Requirement Description"
+        [description]
+    }
+    
+    # Define the entities related to this system requirement
+    entity Entity1 {
+        "Entity 1 Description"
+    }
+    
+    entity Entity2 {
+        "Entity 2 Description"
+    }
+    
+    # Define relationships between the entities
+    relationship Entity1 - Entity2 {
+        "Relationship: Entity 1 is associated with Entity 2"
+    }
+@enduml

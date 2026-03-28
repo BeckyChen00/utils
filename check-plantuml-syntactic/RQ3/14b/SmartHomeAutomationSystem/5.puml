@@ -1,0 +1,151 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class SmartHome {
+  -physicalAddress: String
+  -rooms: List<Room>
+  -infrastructureMap: Map<String, Device>
+  +addRoom(room: Room): void
+  +removeRoom(room: Room): void
+  +updateInfrastructureMap(deviceId: String, status: Boolean): void
+}
+
+class Room {
+  -name: String
+  -sensors: List<Sensor>
+  -actuators: List<Actuator>
+  +addSensor(sensor: Sensor): void
+  +removeSensor(sensor: Sensor): void
+  +addActuator(actuator: Actuator): void
+  +removeActuator(actuator: Actuator): void
+}
+
+class Device {
+  -deviceId: String
+  -status: Boolean
+  +activate(): void
+  +deactivate(): void
+}
+
+class Sensor <|-- Device
+class Actuator <|-- Device
+
+class Sensor {
+  -lastReading: Reading
+  +read(): Reading
+}
+
+class Actuator {
+  -lastCommandStatus: CommandStatus
+  +sendCommand(command: Command): CommandStatus
+}
+
+class Reading {
+  -value: Double
+  -timestamp: DateTime
+  -sensor: Sensor
+}
+
+class Command {
+  -commandType: String
+  -timestamp: DateTime
+  -status: CommandStatus
+  -actuator: Actuator
+}
+
+enum CommandStatus {
+  REQUESTED
+  COMPLETED
+  FAILED
+}
+
+class ActivityLog {
+  -entries: List<Entry>
+  +logReading(reading: Reading): void
+  +logCommand(command: Command): void
+}
+
+class Entry {
+  -timestamp: DateTime
+  -content: String
+}
+
+class AutomationRule {
+  -id: String
+  -precondition: String
+  -action: List<Command>
+  -isActive: Boolean
+  -isDeactivated: Boolean
+  -timestampOfLastTrigger: DateTime
+  +createRule(precondition: String, action: List<Command>): void
+  +editRule(newPrecondition: String, newAction: List<Command>): void
+  +activateRule(): void
+  +deactivateRule(): void
+  +trigger(commands: List<Command>): void
+}
+
+class RuleHierarchy {
+  -rules: List<AutomationRule>
+  -dependencies: Map<AutomationRule, List<AutomationRule>>
+  -conflicts: Map<AutomationRule, List<AutomationRule>>
+  +addRule(rule: AutomationRule): void
+  +addDependency(from: AutomationRule, to: AutomationRule): void
+  +addConflict(rule1: AutomationRule, rule2: AutomationRule): void
+}
+
+class Owner {
+  -username: String
+  -password: String
+  -ownedRules: List<AutomationRule>
+  +createRule(precondition: String, action: List<Command>): AutomationRule
+  +editRule(rule: AutomationRule, newPrecondition: String, newAction: List<Command>): void
+  +manageRuleHierarchy(hierarchy: RuleHierarchy): void
+}
+
+class SHAS {
+  -smartHomes: List<SmartHome>
+  -activityLogs: List<ActivityLog>
+  -rules: List<AutomationRule>
+  -ruleHierarchies: List<RuleHierarchy>
+  -owners: List<Owner>
+  +initializeSystem(): void
+  +processSensorReading(reading: Reading): void
+  +processCommand(command: Command): void
+  +applyRules(smartHome: SmartHome): void
+}
+
+SmartHome "1" *-- "0..*" Room
+Room "1" *-- "0..*" Sensor
+Room "1" *-- "0..*" Actuator
+Sensor "1" --> "1" Reading
+Actuator "1" --> "1" Command
+SmartHome "1" *-- "0..*" ActivityLog
+ActivityLog "1" *-- "0..*" Entry
+SHAS "1" *-- "0..*" SmartHome
+SHAS "1" *-- "0..*" ActivityLog
+SHAS "1" *-- "0..*" AutomationRule
+SHAS "1" *-- "0..*" RuleHierarchy
+SHAS "1" *-- "0..*" Owner
+Owner "1" *-- "0..*" AutomationRule
+AutomationRule "1" *-- "0..*" RuleHierarchy
+@enduml
+
+---
+
+### 📌 Explanation of Key Components:
+
+- **`SmartHome`**: Represents a smart home with rooms, sensors, actuators, and activity logs.
+- **`Room`**: Contains sensors and actuators.
+- **`Device`**: Base class for `Sensor` and `Actuator`, each has a unique ID and status.
+- **`Reading`**: Captures sensor data with timestamp.
+- **`Command`**: Represents control commands sent to actuators with a status and timestamp.
+- **`ActivityLog`**: Stores all sensor readings and commands for audit purposes.
+- **`AutomationRule`**: Has a precondition (a logical expression), an action (sequence of commands), and can be activated/deactivated.
+- **`RuleHierarchy`**: Manages dependencies and conflicts between rules.
+- **`Owner`**: User who manages automation rules and hierarchies.
+- **`SHAS`**: Main system that coordinates everything.
+
+---
+
+Let me know if you'd like this exported as a `.puml` file or rendered into an image!

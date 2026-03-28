@@ -1,0 +1,134 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class User {
+  - username: String (unique)
+  - password: String
+}
+
+class Admin {
+  + createGame(): Game
+  + defineBlocks(): Block[]
+  + defineLevels(): Level[]
+}
+
+class Player {
+  + playGame(): void
+  + resumeGame(): void
+  + pauseGame(): void
+}
+
+class Game {
+  - name: String (unique)
+  - hallOfFame: HallOfFame
+  - blocks: Block[]
+  - levels: Level[]
+  - minSpeed: int
+  - speedIncreaseFactor: float
+  - maxLength: int
+  - minLength: int
+  - admin: Admin
+}
+
+class HallOfFame {
+  - scores: List<Score>
+  + addScore(score: Score): void
+}
+
+class Score {
+  - player: Player
+  - game: Game
+  - totalPoints: int
+  - timestamp: DateTime
+}
+
+class Block {
+  - color: Color
+  - points: int (1-1000)
+}
+
+class Level {
+  - levelNumber: int (1-99)
+  - blockArrangement: GridPosition[]
+  - isRandom: boolean
+  - startingBlocksCount: int
+}
+
+class GridPosition {
+  - x: int
+  - y: int
+  - block: Block
+}
+
+class Ball {
+  - position: Point
+  - direction: Direction
+  - speed: int
+}
+
+class Paddle {
+  - position: Point
+  - length: int
+}
+
+class PlayArea {
+  - ball: Ball
+  - paddle: Paddle
+  - blocks: Block[]
+}
+
+enum Color {
+  Red, Green, Blue, Yellow, Orange, Purple
+}
+
+enum Direction {
+  Up, Down, Left, Right
+}
+
+' Relationships
+
+User <|-- Admin
+User <|-- Player
+
+Admin "1" *-- "1" Game : manages
+Player "n" *-- "n" Game : plays
+
+Game "1" --> "1" HallOfFame : has
+Game "1" --> "*" Block : defines
+Game "1" --> "*" Level : defines
+
+Level "1" --> "*" GridPosition : contains
+GridPosition "1" --> "1" Block : holds
+
+Player "1" --> "*" Score : owns
+Game "1" --> "*" Score : tracked in
+
+PlayArea "1" --> "1" Ball : contains
+PlayArea "1" --> "1" Paddle : contains
+PlayArea "1" --> "*" Block : displays
+
+' Constraints
+note right of Game
+  Only one admin per game.
+  A user may be admin or player, but not both for same game.
+end note
+
+note right of Player
+  Can play multiple games.
+  Cannot play two games at once.
+end note
+
+@enduml
+
+---
+
+### Notes:
+- The `User` class is abstract with two specializations: `Admin` and `Player`.
+- Each `Game` has a unique name and an associated `HallOfFame`.
+- An `Admin` can only create one `Game`, and a `Player` can play multiple games.
+- The `Level` class supports both static and random block arrangements via `isRandom`.
+- The `PlayArea` class encapsulates the dynamic state during gameplay (ball, paddle, and blocks).
+- Multiplicities are included to reflect business rules.
+

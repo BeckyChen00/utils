@@ -1,0 +1,88 @@
+
+@startuml
+skinparam classAttributeIconName false
+
+class Aircraft {
+  -name: String
+  -type: String
+  -yearOfManufacture: Integer
+  -nextInspectionDate: Date
+}
+
+class Flight {
+  -flightNumber: String
+  -date: Date
+}
+
+class Passenger {
+  -name: String
+  -passportNumber: String
+}
+
+class Ticket {
+  -ticketNumber: String
+  -price: Double
+  -upgradeDesired: Boolean
+}
+
+class PassengerAircraft {
+  -numberOfSeats: Integer
+}
+
+class SeatCategory {
+  -categoryDesignation: String
+  -hasEntertainmentProgram: Boolean
+  -numberOfSeats: Integer
+}
+
+class Airline {
+  -name: String
+}
+
+class FlightAttendant {
+  -name: String
+  -dateOfEmployment: Date
+  -isChiefSteward: Boolean
+}
+
+class Pilot {
+  -name: String
+  -dateOfEmployment: Date
+  -license: String
+}
+
+class Airport {
+  -name: String
+  -address: String
+  -numberOfRunways: Integer
+}
+
+Aircraft <|-- PassengerAircraft
+PassengerAircraft "1" *-- "0..*" SeatCategory
+FlightAttendant "1" *-- "0..*" Flight
+Pilot "1" *-- "0..*" Flight
+Aircraft "1" *-- "0..*" Flight
+Flight "1" *-- "0..*" Passenger
+Flight "1" *-- "1" Pilot
+Flight "1" *-- "1..2" Pilot
+Flight "1" *-- "0..*" FlightAttendant
+Passenger "1" *-- "1" Ticket
+Ticket "1" *-- "1" SeatCategory
+Aircraft "1" *-- "0..1" Airport
+Flight "1" *-- "1" Airport : departureAirport
+Flight "1" *-- "1" Airport : destinationAirport
+Aircraft "1" *-- "1" Airline
+FlightAttendant "1" *-- "1" Airline
+Pilot "1" *-- "1" Airline
+@enduml
+
+---
+
+### 📌 Notes:
+- `Aircraft` is a general class, and `PassengerAircraft` inherits from it.
+- A `PassengerAircraft` has multiple `SeatCategory` instances.
+- Each `Flight` can have multiple `Passenger`s and one or more `Pilot`s (one captain, up to two co-pilots).
+- Each `Passenger` has exactly one `Ticket`, which belongs to a specific `SeatCategory`.
+- An `Aircraft` may be assigned to one `Airline`, and vice versa.
+- `FlightAttendant`s and `Pilots` are employed by an `Airline`.
+

@@ -1,0 +1,94 @@
+
+@startuml
+' Class Diagram for Aircraft Management System
+
+class Aircraft {
+  +name: String
+  +type: String
+  +yearOfManufacture: Integer
+  +nextInspectionDate: Date
+}
+
+class Flight {
+  +flightNumber: String
+  +date: Date
+  +departureAirport: Airport
+  +destinationAirport: Airport
+}
+
+class Passenger {
+  +name: String
+  +passportNumber: String
+}
+
+class Ticket {
+  +ticketNumber: String
+  +price: Double
+  +upgradeDesired: Boolean
+  +seatCategory: SeatCategory
+}
+
+class PassengerAircraft extends Aircraft {
+  +numberOfSeats: Integer
+}
+
+class SeatCategory {
+  +designation: String
+  +hasEntertainment: Boolean
+  +numberOfSeats: Integer
+}
+
+class Airline {
+  +name: String
+  +aircrafts: Set<Aircraft>
+  +flightAttendants: Set<FlightAttendant>
+  +pilots: Set<Pilot>
+}
+
+class FlightAttendant {
+  +name: String
+  +dateOfEmployment: Date
+  +isChiefSteward: Boolean
+}
+
+class Pilot {
+  +name: String
+  +dateOfEmployment: Date
+  +license: String
+}
+
+class Airport {
+  +name: String
+  +address: String
+  +numberOfRunways: Integer
+}
+
+' Associations
+
+Aircraft "1" -- "0..*" Flight : hasFlights
+Flight "1" -- "0..*" Passenger : hasPassengers
+Passenger "1" -- "1" Ticket : hasTicket
+Flight "1" -- "0..*" FlightAttendant : hasCrew
+Flight "1" -- "1" Pilot : hasCaptain
+Flight "1" -- "0..2" Pilot : hasCoPilots
+PassengerAircraft "1" -- "1" SeatCategory : hasSeatCategory
+Ticket "1" -- "1" SeatCategory : belongsTo
+Aircraft "1" -- "0..1" Airport : hasHomeAirport
+Flight "1" -- "1" Airport : departsFrom
+Flight "1" -- "1" Airport : arrivesAt
+Airline "1" -- "0..*" Aircraft : owns
+Airline "1" -- "0..*" FlightAttendant : employs
+Airline "1" -- "0..*" Pilot : employs
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Relationships:
+- `Aircraft` can be of type `PassengerAircraft`, which adds the `numberOfSeats` attribute.
+- Each `Flight` is associated with a departure and destination `Airport`.
+- A `Passenger` has one `Ticket`, which belongs to a specific `SeatCategory`.
+- `SeatCategory` is used by `PassengerAircraft`.
+- `Flight` has crew members (`FlightAttendant`) and pilots (`Pilot`), with a captain and possibly co-pilots.
+- An `Airline` owns several `Aircraft`, employs `FlightAttendant`s and `Pilot`s.
+

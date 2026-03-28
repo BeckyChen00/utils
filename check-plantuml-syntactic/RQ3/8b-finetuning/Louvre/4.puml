@@ -1,0 +1,74 @@
+@startuml
+enum ExhibitionStatus {
+  Draft
+  Underway
+  Approved
+  Completed
+  Cancelled
+}
+enum ItemAvailability {
+  Available
+  Unavailable
+  Reserved
+  PendingRestoration
+}
+class MuseumLocation {
+  locationName: String
+  capacity: int
+  +assignRoom(room: Room): void
+}
+class Room {
+  roomName: String
+  capacity: int
+  +displayExhibition(exhibition: Exhibition): void
+}
+class ExhibitionPlan {
+  exhibitionName: String
+  plannedStartDate: Date
+  plannedEndDate: Date
+  currentStatus: ExhibitionStatus
+  +updateStatus(newStatus: ExhibitionStatus): void
+  +addExhibitionItem(item: ExhibitionItem): void
+}
+class ExhibitionItem {
+  itemName: String
+  requestedQuantity: int
+  requiredAvailability: ItemAvailability
+  +allocatePiece(pieceId: String): void
+}
+class MuseumItem {
+  itemTitle: String
+  acquisitionYear: int
+  currentAvailability: ItemAvailability
+  +isCompatibleWith(target: MuseumItem): boolean
+}
+class Collector {
+  collectorName: String
+  contactInfo: String
+  +supplyItem(item: MuseumItem): void
+}
+class Employee {
+  employeeName: String
+  role: String
+  +acceptMentorship(mentee: Employee): void
+  +assignToExhibition(exhibition: ExhibitionPlan): void
+}
+class FundingGrant {
+  grantTitle: String
+  grantAmount: double
+  expirationDate: Date
+  +validate(): boolean
+}
+class ExhibitionCoordinator {
+  +startPlanning(exhibitionName: String): ExhibitionPlan
+  +approvePlan(plan: ExhibitionPlan): boolean
+  +manageExhibition(plan: ExhibitionPlan): void
+}
+MuseumLocation *-- "0..*" Room : containedRooms
+ExhibitionPlan *-- "0..*" ExhibitionItem : items
+ExhibitionItem --> "0..1" MuseumItem : allocatedPiece
+MuseumItem --> "1" Collector : owner
+ExhibitionPlan --> "1" Employee : coordinator
+Employee --> "0..1" Employee : coach
+ExhibitionPlan --> "0..*" FundingGrant : supportingGrants
+@enduml

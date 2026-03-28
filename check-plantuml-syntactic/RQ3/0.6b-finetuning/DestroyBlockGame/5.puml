@@ -1,0 +1,175 @@
+@startuml
+enum TransactionStatus {
+  Pending
+  Completed
+  Failed
+  Cancelled
+}
+enum AppointmentState {
+  Scheduled
+  Completed
+  Late
+  Absent
+}
+class Student {
+  name: String
+  email: String
+  enrollmentYear: int
+  +getFullname(): String
+  +validateEmail(email: String): boolean
+}
+class Department {
+  name: String
+  code: String
+  +getName(): String
+  +getCode(): String
+}
+class Course {
+  name: String
+  semester: String
+  creditHours: int
+  maxCapacity: int
+  +getName(): String
+  +getCreditHours(): int
+  +getMaxCapacity(): int
+}
+class CourseOffer {
+  courseCode: String
+  description: String
+  prerequisites: String
+  +getDescription(): String
+  +getPrerequisites(): String
+}
+class Schedule {
+  timeSlots: String[]
+  +getAvailableSlots(): int
+  +isAvailable(time: String): boolean
+}
+class ScheduleEntry {
+  slotTime: String
+  durationMinutes: int
+  status: AppointmentState
+  +getDuration(): int
+  +updateStatus(newState: AppointmentState): void
+}
+class Enrollment {
+  enrollmentCode: String
+  isPremium: boolean
+  startYear: int
+  endYear: int
+  +generateCode(): String
+  +updateStatus(year: int): void
+}
+class Attendance {
+  examDate: Date
+  grade: double
+  isProhibited: boolean
+  ticketNumber: String
+  +calculateGrade(): double
+  +checkProhibition(): boolean
+}
+class AttendanceRecord {
+  recordDate: Date
+  attendanceDate: Date
+  isConfirmed: boolean
+  +recordAttendance(examDate: Date, grade: double): void
+  +confirmAttendance(): void
+}
+class Record {
+  recordDate: Date
+  state: TransactionStatus
+  errorDescription: String
+  +getStatus(): TransactionStatus
+  +addError(error: String): void
+}
+class Transaction {
+  timestamp: Date
+  status: TransactionStatus
+  amount: double
+  +updateStatus(newStatus: TransactionStatus): void
+  +finalize(): void
+}
+class TransactionRecord {
+  recordName: String
+  transactionType: double
+  +generateSummary(): String
+}
+class Payment {
+  amount: double
+  paymentDate: Date
+  transactionId: String
+  +processPayment(): boolean
+  +validateAmount(): boolean
+}
+class Fee {
+  feeAmount: double
+  description: String
+  currency: String
+  +calculateTotal(): double
+}
+class FeeList {
+  listCode: String
+  itemName: String
+  totalFee: double
+  +getFeeItems(): String[]
+}
+class FeeSchedule {
+  scheduleName: String
+  effectiveDate: Date
+  +getScheduleName(): String
+  +getEffectiveDate(): Date
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  dueDate: Date
+  isPaid: boolean
+  +issueInvoice(): void
+  +markAsPaid(): void
+  +generatePaymentRequest(): Payment
+}
+class InvoiceLine {
+  lineCode: String
+  productName: String
+  price: double
+  quantity: int
+  unitPrice: double
+  +getLineCode(): String
+  +calculateTotal(): double
+}
+class PaymentProcessor {
+  processorName: String
+  +processInvoice(invoice: Invoice): Payment
+  +validatePayment(amount: double): boolean
+}
+class Wallet {
+  balance: double
+  accountNumber: String
+  +addCash(amount: double): void
+  +withdrawCash(amount: double): boolean
+  +checkBalance(): double
+}
+Student *-- "1" Enrollment : enrollment
+Student *-- "1" AttendanceRecord : attendanceRecord
+Enrollment *-- "1" CourseOffer : courseOffer
+Enrollment *-- "1" Schedule : schedule
+Enrollment *-- "1" Fee : fee
+Enrollment --> "1" FeeList : fees
+Student --> "1" AttendanceRecord : attendanceRecord
+Student --> "1" FeeList : fees
+FeeList *-- "1" FeeSchedule : feeSchedule
+FeeSchedule --> "1" Fee : fee
+FeeSchedule --> "1" Payment : payment
+Student --> "1" TransactionRecord : transactionRecord
+TransactionRecord --> "1" Transaction : transaction
+TransactionRecord --> "1" FeeSchedule : feeSchedule
+TransactionRecord --> "1" Payment : payment
+Payment --> "1" Wallet : wallet
+Expense --> "1" Record : expenseRecord
+FeeList --> "*" Record : feeList
+Student --> "*" CourseOffer : offeredCourses
+Enrollment --> "*" Fee : fees
+Invoice --> "1" FeeList : feeList
+PaymentProcessor --> "1" FeeSchedule : feeSchedule
+Invoice --> "*" Expense : associatedExpenses
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+class Diagram {
+  class SystemRequirement { 
+    [System Requirement] as req
+  }
+
+  class Element {
+    [Element Name] as name
+  }
+}
+@enduml

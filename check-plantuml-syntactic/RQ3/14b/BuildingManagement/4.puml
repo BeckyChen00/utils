@@ -1,0 +1,136 @@
+
+---
+
+
+@startuml
+'---------------------
+' Classes
+'---------------------
+
+class WebPortal {
+  - version: String
+  - url: String
+}
+
+class Building {
+  - id: String
+  - name: String
+  - energyClass: String (A, B, C, D)
+  - address: String
+  - yearOfConstruction: Integer
+  - owner: User
+  - additionalEntries: List<Entry>
+  - images: List<Image>
+  - profilePhoto: Image
+}
+
+class User {
+  - username: String
+  - email: String
+  - password: String
+  - activated: Boolean
+}
+
+class Administrator extends User {
+  - idCardNumber: String
+}
+
+class Entry {
+  - name: String
+  - content: String
+  - isPublic: Boolean
+}
+
+class TextEntry extends Entry {
+  - type: "Text"
+}
+
+class NumericEntry extends Entry {
+  - value: Float
+  - unit: String
+  - type: "Numeric"
+}
+
+class Image {
+  - filename: String
+}
+
+class Comment {
+  - content: String
+  - author: User
+  - building: Building
+}
+
+'---------------------
+' Relationships
+'---------------------
+
+WebPortal "1" --> "*" Building : contains
+Building "1" --> "*" Entry : has
+Building "1" --> "*" Image : has
+User "1" --> "*" Building : owns
+User "1" --> "*" Comment : writes
+Administrator "1" --> "*" User : manages
+Building "1" --> "*" Comment : has
+
+'---------------------
+' Use Cases & Actors
+'---------------------
+
+actor Visitor
+actor User
+actor Administrator
+
+usecase "Register as User" as UC1
+usecase "Activate Account via Email" as UC2
+usecase "Login" as UC3
+usecase "Create Building" as UC4
+usecase "Manage Entries for Building" as UC5
+usecase "Add Additional Entry" as UC6
+usecase "Comment on Building" as UC7
+usecase "Search Buildings" as UC8
+usecase "Delete Comment" as UC9
+usecase "Set Up User Accounts" as UC10
+
+Visitor --> UC1 : Register
+UC1 --> UC2 : Confirmation required
+UC2 --> UC3 : After activation
+User --> UC3 : Login
+User --> UC4 : Create Building
+User --> UC5 : Manage Entries
+User --> UC6 : Add Entry
+User --> UC7 : Comment
+Visitor --> UC8 : Search
+Administrator --> UC9 : Delete Comment
+Administrator --> UC10 : Set Up Users
+
+' Generalizations
+UC1 <|-- UC2
+UC3 <|-- UC4
+UC3 <|-- UC5
+UC3 <|-- UC6
+UC3 <|-- UC7
+UC3 <|-- UC8
+UC3 <|-- UC9
+UC3 <|-- UC10
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements
+
+- **Classes**: Defined with attributes like `Building`, `User`, `Entry`, etc.
+- **Inheritance**: `TextEntry` and `NumericEntry` inherit from `Entry`.
+- **Relationships**:
+  - A `WebPortal` contains multiple `Building`s.
+  - Each `Building` belongs to one `User` and has multiple `Entry`s and `Image`s.
+  - `User` can create and manage `Comment`s.
+  - `Administrator` inherits from `User` and has an `idCardNumber`.
+- **Use Cases**:
+  - Generalized around the main actions users can perform.
+  - Includes user registration, login, commenting, searching, and administrative tasks.
+  - `UC1` (`Register as User`) leads to `UC2` (`Activate Account via Email`) which is required before logging in.
+
+---
+
+Would you like this rendered into an image or further refined with multiplicities or more detailed associations?

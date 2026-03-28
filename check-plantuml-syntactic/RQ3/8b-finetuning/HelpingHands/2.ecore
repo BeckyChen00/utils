@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="staff" eType="#//H2SEmployee" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="H2SEmployee">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintainedItems" eType="#//SecondHandItem" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedFoods" eType="#//NonPerishableFoodItem" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionCenter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedFoodBank" eType="#//FoodBank" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FoodBank"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requester" eType="#//Resident" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedVehicle" eType="#//PickupVehicle" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collectedItem" eType="#//SecondHandItem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resident"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupSchedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedRoute" eType="#//PickupRoute" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledRequests" eType="#//PickupRequest" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupRoute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedVehicles" eType="#//PickupVehicle" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupVehicle"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SecondHandItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupDriver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSchedule" eType="#//PickupSchedule" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NonPerishableFoodItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recipient" eType="#//FoodBank" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

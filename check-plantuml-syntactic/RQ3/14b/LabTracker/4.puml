@@ -1,0 +1,108 @@
+
+@startuml
+' LabTracker Class Diagram
+
+class Doctor {
+  - practitionerNumber: String
+  - fullName: String
+  - address: String
+  - phoneNumber: String
+  - signature: Image
+}
+
+class Patient {
+  - healthNumber: String
+  - firstName: String
+  - lastName: String
+  - dateOfBirth: Date
+  - address: String
+  - phoneNumber: String
+}
+
+class Requisition {
+  - validityDate: Date
+  - repetitionCount: Integer
+  - repetitionInterval: IntervalType
+  - tests: List<Test>
+  - doctor: Doctor
+  - patient: Patient
+}
+
+enum IntervalType {
+  WEEKLY, MONTHLY, HALF_YEARLY, YEARLY
+}
+
+class Test {
+  - testName: String
+  - duration: Integer
+  - testGroup: TestGroup
+  - isWalkIn: Boolean
+  - requiresAppointment: Boolean
+  - requiresSampleDropOff: Boolean
+}
+
+class TestGroup {
+  - groupName: String
+  - tests: List<Test>
+}
+
+class Appointment {
+  - confirmationNumber: String
+  - appointmentDate: Date
+  - startTime: Time
+  - endTime: Time
+  - labName: String
+  - labRegistrationNumber: String
+  - requisition: Requisition
+  - fee: Double
+}
+
+class Lab {
+  - address: String
+  - businessHoursStart: Time
+  - businessHoursEnd: Time
+  - registrationNumber: String
+  - feeStructure: Map<String, Double>
+}
+
+class TestResult {
+  - resultStatus: ResultStatus
+  - report: String
+  - test: Test
+  - patient: Patient
+}
+
+enum ResultStatus {
+  POSITIVE, NEGATIVE, INCONCLUSIVE, PENDING
+}
+
+' Relationships
+
+Doctor "1" --> "1" Requisition : creates
+Patient "1" --> "1" Requisition : submits
+Requisition "1" --> "*" Test : contains
+Test "1" --> "1" TestGroup : belongs to
+Requisition "1" --> "1" Appointment : schedules (optional)
+Appointment "1" --> "1" Lab : at
+Test "1" --> "1" TestResult : has
+TestResult "1" --> "1" Patient : for
+TestResult "1" --> "1" Doctor : viewable by
+TestResult "1" --> "1" Patient : viewable by
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Doctor**: Holds all personal info and digital signature.
+- **Patient**: Contains personal and health-related details.
+- **Requisition**: Central entity linking doctor, patient, and tests. It includes repetition logic and constraints.
+- **Test**: Each test belongs to a group, has a duration, and has specific scheduling rules.
+- **TestGroup**: Groups tests that can be combined in one requisition.
+- **Appointment**: Created from a requisition; has time, lab info, and fees.
+- **Lab**: Has business hours and fee structure.
+- **TestResult**: Stores results and reports for each test.
+- **ResultStatus**: Enum to define the possible result types.
+
+---
+

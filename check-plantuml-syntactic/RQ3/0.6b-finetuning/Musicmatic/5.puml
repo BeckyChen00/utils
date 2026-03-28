@@ -1,0 +1,76 @@
+@startuml
+class User {
+  name: String
+  email: String
+  +createProfile(): void
+  +updatePreferences(): void
+}
+class Member {
+  membershipLevel: String
+  subscriptionStatus: String
+  +getPreferredThemes(): List<String>
+  +getPaymentHistory(): List<Payment>
+}
+class AnonymousUser {
+  accountStatus: String
+  +getUsageMetrics(): Map<String, long>
+}
+class Payment {
+  amount: int
+  timestamp: Date
+  status: String
+  +validate(): boolean
+  +refund(): boolean
+}
+class SocialMediaFeed {
+  feedTimestamp: Date
+  contentFormat: String
+  +validateContent(): boolean
+}
+class GamingSession {
+  startTime: Date
+  duration: int
+  isActive: boolean
+  +start(): void
+  +pause(): void
+  +end(): void
+}
+class Message {
+  content: String
+  timestamp: Date
+  isAnonymous: boolean
+  +sendMessage(): void
+}
+class Challenge {
+  title: String
+  description: String
+  isRevealed: boolean
+  +start(): void
+  +complete(): void
+}
+class Notification {
+  message: String
+  priority: String
+  timestamp: Date
+  +markAsRead(): void
+}
+class GamingRanking {
+  timestamp: Date
+  score: int
+  +updateScore(user: Member, score: int): void
+  +getTopTen(): List<Member>
+  +generateSummary(): String
+}
+Member --|> User
+AnonymousUser --|> User
+User "1" *-- "0..*" Member : affiliations
+User "1" --> "0..1" GamingRanking : activeRanking
+GamingRanking "1" *-- "0..*" GamingSession : sessions
+GamingSession "1" *-- "0..*" Message : messages
+GamingSession "1" *-- "0..*" Challenge : challenges
+User "1" --> "0..*" Notification : notifications
+GamingSession "1" *-- "0..*" Message : messages
+User "0..*" --> "0..*" Payment : payments
+User "0..*" --> "0..*" Notification : notifications
+AnonymousUser "0..*" --> "0..*" Notification : notifications
+@enduml

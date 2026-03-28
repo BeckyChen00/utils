@@ -1,0 +1,56 @@
+@startuml
+
+class Diagram { SystemRequirement }
+
+class SystemRequirement {
+  name: "System Requirement"
+  description: "System requirement for the application"
+}
+
+class Component {
+  name: "Component1"
+  description: "A component that provides functionality"
+}
+
+class Service {
+  name: "Service1"
+  description: "A service that handles business logic"
+}
+
+class BusinessRule {
+  name: "BusinessRule1"
+  description: "A rule that governs business operations"
+}
+
+class DataStore {
+  name: "DataStore1"
+  description: "A data storage system"
+}
+
+class User {
+  name: "User1"
+  description: "A user accessing the application"
+}
+
+class Connection {
+  name: "Connection1"
+  description: "A connection between components"
+}
+
+class Dependency {
+  name: "Dependency1"
+  description: "A dependency required for a component"
+}
+
+class DependencyGraph {
+  node { SystemRequirement }
+  node { Component }
+  node { Service }
+  node { BusinessRule }
+  node { DataStore }
+  node { User }
+  node { Connection }
+  node { Dependency }
+}
+
+@enduml

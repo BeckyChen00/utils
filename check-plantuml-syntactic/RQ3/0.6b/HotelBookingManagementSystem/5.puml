@@ -1,0 +1,84 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement {
+        component name: "System Requirement";
+        member : [description]
+    }
+
+    class SystemComponent {
+        component name: "System Component";
+        member : [description]
+    }
+
+    class ComponentInstance {
+        component name: "Component Instance";
+        member : [description]
+    }
+
+    class DataModel {
+        component name: "Data Model";
+        member : [description]
+    }
+
+    class Database {
+        component name: "Database";
+        member : [description]
+    }
+
+    class Configuration {
+        component name: "Configuration";
+        member : [description]
+    }
+
+    class Module {
+        component name: "Module";
+        member : [description]
+    }
+
+    class Dependency {
+        component name: "Dependency";
+        member : [description]
+    }
+
+    class Relationship {
+        component name: "Relationship";
+        member : [description]
+    }
+
+    class Connection {
+        component name: "Connection";
+        member : [description]
+    }
+
+    class Schema {
+        component name: "Schema";
+        member : [description]
+    }
+
+    class Table {
+        component name: "Table";
+        member : [description]
+    }
+
+    class Column {
+        component name: "Column";
+        member : [description]
+    }
+
+    class Row {
+        component name: "Row";
+        member : [description]
+    }
+
+    class Query {
+        component name: "Query";
+        member : [description]
+    }
+
+    class Execution {
+        component name: "Execution";
+        member : [description]
+    }
+
+@enduml

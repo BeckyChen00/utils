@@ -1,0 +1,67 @@
+@startuml
+class Customer {
+  - String firstName
+  - String lastName
+  - Account[] accounts
+  + getFirstName(): String
+  + getLastName(): String
+  + addAccount(Account account): void
+}
+
+class Branch {
+  - int branchID
+  - String branchName
+  - Bank bank
+  + getBranchID(): int
+  + getBranchName(): String
+  + setBank(Bank bank): void
+}
+
+class Bank {
+  - int bankID
+  - String bankName
+  - Branch[] branches
+  + getBankID(): int
+  + getBankName(): String
+  + addBranch(Branch branch): void
+}
+
+class Account {
+  - int accountNumber
+  - double balance
+  - Customer owner
+  + getAccountNumber(): int
+  + getBalance(): double
+  + setBalance(double balance): void
+  + deposit(double amount): void
+  + withdraw(double amount): void
+}
+
+class CurrentAccount {
+  - double overdraftLimit
+  -- Account
+  + getOverdraftLimit(): double
+  + setOverdraftLimit(double overdraftLimit): void
+}
+
+class SavingsAccount {
+  -- Account
+}
+
+Customer "1" -- "*" Account : has
+Account "1" -- "1" Customer : owned by
+Bank "1" -- "*" Branch : has
+Branch "1" -- "1" Bank : belongs to
+Account -- CurrentAccount : is a
+Account -- SavingsAccount : is a
+@enduml
+
+### Explanation:
+- **Customer** class stores the customer's first and last name, and maintains a list of their accounts.
+- **Branch** represents a branch of the bank and is associated with one bank.
+- **Bank** holds multiple branches and has unique identification and a name.
+- **Account** is an abstract base class for all types of accounts. It contains the account number, balance, and a reference to the owner (customer).
+- **CurrentAccount** extends **Account** and adds an overdraft limit.
+- **SavingsAccount** extends **Account** and has no additional properties.
+- Relationships are defined using association lines, including multiplicity and navigation.
+

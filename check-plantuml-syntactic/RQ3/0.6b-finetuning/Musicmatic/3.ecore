@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alarmController" eType="#//AlarmSystem" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlarmSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="detectedAlarms" eType="#//AlarmSeverity" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//AlertReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemParameters" eType="#//SystemConfig" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredDevices" eType="#//SmartDevice" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capturedData" eType="#//DataStream" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemConfig">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loggedServiceRecords" eType="#//ServiceRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SmartDevice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceHistory" eType="#//ServiceRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityDevice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deviceSettings" eType="#//SystemConfig" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlarmSeverity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataStream"/>
+</ecore:EPackage>

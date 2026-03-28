@@ -1,0 +1,132 @@
+
+@startuml
+
+' Define classes
+class User {
+    - username: String (unique)
+    - password: String
+}
+
+class Player {
+    + playGame(game: Game): void
+    + pauseGame(): void
+    + resumeGame(): void
+}
+
+class Admin {
+    + createGame(): Game
+    + designGame(game: Game): void
+    + publishGame(game: Game): void
+}
+
+class Game {
+    - name: String (unique)
+    - admin: Admin
+    - hallOfFame: HallOfFame
+    - blocks: List<Block>
+    - levels: List<Level>
+    - minSpeed: int
+    - speedIncreaseFactor: float
+    - maxLength: int
+    - minLength: int
+}
+
+class HallOfFame {
+    - scores: Map<Player, int>
+}
+
+class Block {
+    - color: Color
+    - points: int (1-1000)
+}
+
+class Level {
+    - number: int (1-99)
+    - gridLayout: GridLayout
+    - isRandom: boolean
+    - initialBlocksCount: int
+}
+
+class GridLayout {
+    - grid: 2DArray<BlockPosition>
+}
+
+class BlockPosition {
+    - x: int
+    - y: int
+    - block: Block
+}
+
+class Paddle {
+    - length: int
+    - position: int
+}
+
+class Ball {
+    - position: Point
+    - direction: Direction
+    - speed: int
+}
+
+class GameSession {
+    - player: Player
+    - game: Game
+    - currentLevel: Level
+    - lives: int = 3
+    - score: int
+    - isPaused: boolean
+    + startGame(): void
+    + endGame(): void
+    + nextLevel(): void
+    + loseLife(): void
+    + updateScore(points: int): void
+}
+
+class Point {
+    - x: int
+    - y: int
+}
+
+class Direction {
+    - dx: int
+    - dy: int
+}
+
+class Color {
+    - name: String
+}
+
+' Relationships
+User <|-- Player
+User <|-- Admin
+Admin "1" --> "1" Game : designs
+Game "1" --> "1" HallOfFame
+Game "1" --> "n" Block : contains
+Game "1" --> "n" Level : has
+Player "n" --> "n" Game : plays
+GameSession "1" --> "1" Player
+GameSession "1" --> "1" Game
+GameSession "1" --> "1" Level : currentLevel
+Game "1" --> "1" Admin : admin
+Level "1" --> "1" GridLayout
+GridLayout "1" --> "n" BlockPosition
+BlockPosition "1" --> "1" Block
+GameSession "1" --> "1" Paddle
+GameSession "1" --> "1" Ball
+Ball "1" --> "1" Direction
+Ball "1" --> "1" Point : position
+Paddle "1" --> "1" Point : position
+
+@enduml
+
+---
+
+### Notes:
+
+- The `User` class serves as a base class for both `Player` and `Admin`.
+- Each `Game` is associated with one `Admin`, but a user can be an admin in one game and a player in another.
+- A `Game` has multiple `Level`s, each with its own `GridLayout`.
+- `BlockPosition` represents the position of a block within the grid.
+- `GameSession` tracks the state of a player’s current or paused game session.
+- The `HallOfFame` maintains the top scores for each `Player` in a given `Game`.
+

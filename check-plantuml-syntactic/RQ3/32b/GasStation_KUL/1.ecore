@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Reservoir"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String_" eType="#//status"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="status"/>
+  <eClassifiers xsi:type="ecore:EClass" name="registrationDate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//number"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="number"/>
+  <eClassifiers xsi:type="ecore:EClass" name="balance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//customerId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="customerId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getMonthlyInvoice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="invoiceId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//getMonthlyInvoice"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//turnId"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="dateIssued">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="double" eType="#//totalAmount"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="totalAmount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="paid">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//customerId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="calculateDiscount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="paymentId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//calculateDiscount"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="amount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String_" eType="#//method" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="method"/>
+  <eClassifiers xsi:type="ecore:EClass" name="turnId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startTime">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DateTime" eType="#//endTime"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="endTime"/>
+  <eClassifiers xsi:type="ecore:EClass" name="quantity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="double" eType="#//pricePerUnit" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="pricePerUnit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="totalPrice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String_" eType="#//paymentMethod" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="paymentMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="pumpId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int?" eType="#//customerId"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//getTotalPrice"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="getTotalPrice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="g"/>
+</ecore:EPackage>

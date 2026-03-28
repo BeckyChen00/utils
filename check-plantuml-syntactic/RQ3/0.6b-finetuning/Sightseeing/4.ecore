@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeContext" eType="#//SimulationContext" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationContext">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loggingLog" eType="#//SimulationLog" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeAgents" eType="#//Agent" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storageState" eType="#//StateVector" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logEntries" eType="#//SimulationLog" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedGenerators" eType="#//TrajectoryGenerator" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simulatedAgents" eType="#//Agent" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="environmentSources" eType="#//EnvironmentProvider" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedStrategies" eType="#//ControlStrategy" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="availableStrategies" eType="#//ControlStrategy" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrajectoryGenerator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetState" eType="#//StateVector" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Agent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentBehavior" eType="#//AgentBehavior" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultBehavior" eType="#//AgentBehavior" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnvironmentProvider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loadedEnvironment" eType="#//SpatialEnvironment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateVector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Environment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="spatialLayout" eType="#//SpatialEnvironment" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedAgents" eType="#//Agent" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpatialEnvironment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AgentBehavior"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="behaviorType" eType="#//AgentBehavior" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NavigationModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedAgents" eType="#//Agent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstraintValidator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredAgents" eType="#//Agent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExperimentConfig">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledAgents" eType="#//Agent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataExporter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exportedContexts" eType="#//SimulationContext" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

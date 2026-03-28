@@ -1,0 +1,17 @@
+@startuml
+
+class diagram UserSystemRequirement
+
+UserSystemRequirement has class Users, class Requirements, class Relationships
+
+Users is a class with attributes: name, email, phone
+
+Requirements is a class with attributes: id, title, description, date
+
+Relationships is a class with attributes: user_id, requirement_id
+
+UserSystemRequirement has relation Users to Users via identifier "user"
+UserSystemRequirement has relation Requirements to Requirements via identifier "requirement"
+UserSystemRequirement has relation Relationships to Relationships via identifier "relationship"
+
+@enduml

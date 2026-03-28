@@ -1,0 +1,43 @@
+@startuml
+enum MaterialType {
+  wood
+  brick
+  concrete
+}
+enum FloorType {
+  earth
+  concrete
+}
+enum CarportType {
+  single
+  double
+}
+class House {
+  address: String
+  floorType: FloorType
+  hasBasement: boolean
+  basementName: String
+  basementSize: int
+  material: MaterialType
+  +calculateBasementDimensions(): void
+  +getDescription(): String
+}
+class SemiDetachedHouse {
+  hasGarden: boolean
+  numberOfWindows: int
+  +getDescription(): String
+}
+class Company {
+  companyName: String
+  companyAddress: String
+  +getCompanyInfo(): String
+}
+class JobLog {
+  hoursSpent: int
+  price: double
+  +calculateCost(rate: double): double
+}
+House *-- "0..*" JobLog : serviceLogs
+House --> "1..*" Company : servicingCompanies
+SemiDetachedHouse --|> House
+@enduml

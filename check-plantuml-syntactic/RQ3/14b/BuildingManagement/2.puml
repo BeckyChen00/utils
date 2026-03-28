@@ -1,0 +1,109 @@
+
+---
+
+
+@startuml
+' Classes
+class WebPortal {
+  - version: String
+  - url: String
+}
+
+class Building {
+  - id: String
+  - name: String
+  - energyClass: String
+  - address: String
+  - yearOfConstruction: Integer
+  - owner: User
+  - entries: List<Entry>
+  - images: List<Image>
+  - profilePhoto: Image
+}
+
+class Entry {
+  - name: String
+  - isPublic: Boolean
+  + addEntry(): void
+  + updateEntry(): void
+}
+
+class TextualEntry {
+  - content: String
+}
+
+class NumericEntry {
+  - value: Float
+  - unit: String
+}
+
+class Image {
+  - fileName: String
+}
+
+class User {
+  - username: String
+  - email: String
+  - password: String
+  + register(): void
+  + login(): void
+  + createBuilding(): void
+  + manageEntries(): void
+  + commentOnBuilding(): void
+}
+
+class Administrator extends User {
+  - idCardNumber: String
+  + setupUserAccount(): void
+  + deleteComment(): void
+}
+
+class Visitor {
+  + searchBuildings(): void
+}
+
+' Associations
+WebPortal "1" --> "0..*" Building
+Building "1" --> "0..*" Entry
+Building "1" --> "0..*" Image
+Building "1" --> "1" Image : profilePhoto
+Entry "1" --> "1" TextualEntry
+Entry "1" --> "1" NumericEntry
+User "1" --> "0..*" Building
+User "1" --> "0..*" Comment
+
+@enduml
+
+---
+
+### 📌 **Use Cases & Actors Mapping**
+
+| Use Case                     | Actor        |
+|-----------------------------|--------------|
+| Register as a user          | Visitor      |
+| Log in                      | User         |
+| Create a building           | User         |
+| Add an entry to a building  | User         |
+| Manage entries              | User         |
+| Comment on a building       | User         |
+| Delete a comment            | Administrator|
+| Search for buildings        | Visitor      |
+| Setup user account          | Administrator|
+
+---
+
+### 🧩 **Generalization Relationships**
+
+- `Administrator` is a special kind of `User`.
+- `TextualEntry` and `NumericEntry` are both types of `Entry`.
+
+---
+
+### ✅ Notes:
+
+- The `Entry` class is abstract, with two concrete subclasses (`TextualEntry`, `NumericEntry`) representing different types of data.
+- `Image` is used for storing building images, and one image is designated as the profile photo.
+- The `User` class has multiple responsibilities, including managing buildings and commenting.
+- Administrators inherit from `User` but have additional capabilities like setting up users and deleting comments.
+
+Let me know if you'd like a **visual rendering** or want to export this to a `.puml` file or PNG image!

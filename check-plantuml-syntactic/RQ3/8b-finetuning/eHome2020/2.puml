@@ -1,0 +1,51 @@
+@startuml
+class SensorController {
+  +getApartment(apartmentId: String): Apartment
+  +updateSensorSettings(sensorId: String, roomCode: String, description: String): boolean
+}
+class Apartment {
+  address: String
+  +getRoom(roomCode: String): Room
+  +getOccupants(): List<String>
+}
+class Room {
+  description: String
+  +getSensor(sensorId: String): Sensor
+}
+class Sensor {
+  vendorId: String
+  description: String
+  unit: String
+  minValidValue: float
+  maxValidValue: float
+  +getLatestValue(): Value
+  +getValueHistory(start: Date, end: Date): List<Value>
+}
+class Value {
+  timestamp: Date
+  numericValue: float
+}
+class User {
+  username: String
+  password: String
+  isAdmin: boolean
+  +login(): boolean
+  +configureSensor(sensorId: String, settings: Map): boolean
+}
+class Alert {
+  message: String
+  timestamp: Date
+  isResolved: boolean
+}
+class EMonitor {
+  +checkThresholds(): List<Alert>
+  +sendAlerts(alerts: List<Alert>): boolean
+}
+Apartment *-- "1..*" Room : rooms
+Room *-- "0..*" Sensor : sensors
+Sensor *-- "0..*" Value : recordedValues
+SensorController --> "1" Apartment : managedApartment
+SensorController --> "1" EMonitor : linkedMonitor
+User --> "1" Apartment : ownedApartment
+Alert --> "1" User : recipient
+@enduml

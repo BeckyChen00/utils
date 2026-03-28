@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CampaignCampaign">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedCampaigns" eType="#//plantuml"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enforcedCompliance" eType="#//ComplianceChecker" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Campaign">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentState" eType="#//ProgressState" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTaskManager" eType="#//TaskManager" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProgressState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackedGoals" eType="#//GoalMarker" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfilledGoals" eType="#//GoalMarker" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedEvents" eType="#//EventLog" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedTasks" eType="#//TaskRecord" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedUsers" eType="#//User" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredSkill" eType="#//SkillSet" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProgressReporter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackedStates" eType="#//ProgressState" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetedUser" eType="#//User" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedEvents" eType="#//EventRecord" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GoalMarker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JobScheduler">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledTasks" eType="#//TaskRecord" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SkillSet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkflowEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedProcesses" eType="#//ProcessRecord" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taskManager" eType="#//TaskManager" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeProcess" eType="#//ProcessRecord" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CampaignExecutor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedCampaigns" eType="#//Campaign" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionTrail" eType="#//ActionTrail" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedCampaign" eType="#//Campaign" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enforcedCompliance" eType="#//ComplianceChecker" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionTrail"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalyticsEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedAnalytics" eType="#//AnalyticsData" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedCampaigns" eType="#//CampaignCampaign" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//ReportingSystem" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedSkills" eType="#//SkillSet" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackedStates" eType="#//ProgressState" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedMetrics" eType="#//AnalyticsData" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taskManager" eType="#//TaskManager" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackedUser" eType="#//User" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalyticsData">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedState" eType="#//ProgressState" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedMetrics" eType="#//Metrics" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Metrics"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedLogs" eType="#//AuditLog" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capturedEvents" eType="#//EventRecord" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subscribedChannels" eType="#//NotificationChannel" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supervisedByChecker" eType="#//ComplianceChecker" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationChannel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuredRules" eType="#//NotificationRule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyValidator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedRules" eType="#//SafetyRule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="validatedCheckers" eType="#//ComplianceChecker" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceChecker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProgressReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedGenerators" eType="#//ReportGenerator" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReportGenerator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceAnalytics" eType="#//AnalyticsEngine" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RankingSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rankingsByUser" eType="#//Ranker" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ranker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReportingSystem"/>
+</ecore:EPackage>

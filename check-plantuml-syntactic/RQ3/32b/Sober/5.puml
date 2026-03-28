@@ -1,0 +1,92 @@
+
+---
+
+
+@startuml
+
+' Entities
+
+class Customer {
+    - id: int
+    - name: String
+    - email: String
+    - phoneNumber: String
+    - rideSharingCount: int
+}
+
+class CarOwner {
+    - id: int
+    - name: String
+    - contactInfo: String
+    - car: Car "1"
+}
+
+class Car {
+    - licensePlate: String
+    - model: String
+    - status: String  // e.g., "Available", "On Ride", "Maintenance"
+    - owner: CarOwner "1..*"
+    - accidents: List<Accident>
+}
+
+class Accident {
+    - date: Date
+    - location: String
+    - damageAmount: double
+    - car: Car "1"
+}
+
+class Ride {
+    - id: int
+    - pickupTime: DateTime
+    - dropoffTime: DateTime
+    - pickupLocation: String
+    - dropoffLocation: String
+    - duration: Duration
+    - distance: double
+    - fee: double
+    - numberOfPassengers: int
+    - customers: List<Customer>
+    - leadCustomer: Customer
+}
+
+abstract class RideType {}
+
+class RideHail extends RideType {
+    - requestType: String  // "App" or "HandWave"
+}
+
+class RideShare extends RideType {
+    - negotiatedFee: double
+    - carbonFootprintReduction: double
+}
+
+' Relationships
+
+Customer "0..*" -- "1" Ride : participates in
+Ride "1" -- "1" RideType : type of
+RideHail "1" -- "1" Ride : extends
+RideShare "1" -- "1" Ride : extends
+Car "1" -- "0..*" Accident : has
+CarOwner "1" -- "1" Car : owns
+Customer "1" -- "0..*" Ride : uses
+
+note right of RideShare
+    Sober plants a tree for each customer
+    who books 20 ride-sharing services.
+end note
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- The `Ride` class is abstract because it's extended by both `RideHail` and `RideShare`.
+- Each `Ride` has a `RideType`, either `RideHail` or `RideShare`.
+- A `Customer` can be part of multiple rides, and one is the *lead customer* who pays.
+- `RideShare` has special logic for flexible pricing and environmental incentives.
+- `Accident` is associated with a specific `Car`.
+
+---
+

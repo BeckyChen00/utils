@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedOrders" eType="#//Order" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderLines" eType="#//OrderLine" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedProducts" eType="#//Product" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentMethod" eType="#//PaymentMethod" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shippingAddress" eType="#//Address" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedInvoice" eType="#//Invoice" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderLine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Product"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Address"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="billedCustomer" eType="#//Customer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedPaymentMethod" eType="#//PaymentMethod" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Delivery">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deliveryAddress" eType="#//Address" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedOrderLines" eType="#//OrderLine" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originWarehouse" eType="#//Warehouse" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="groupedInto" eType="#//ShipmentGroup" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Warehouse">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedProducts" eType="#//Product" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShipmentGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBy" eType="#//Warehouse" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Stock">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedProducts" eType="#//Product" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

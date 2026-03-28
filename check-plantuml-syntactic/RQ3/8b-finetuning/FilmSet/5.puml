@@ -1,0 +1,70 @@
+@startuml
+class ProductionCompany {
+  companyName: String
+  +getCompanyInfo(): String
+}
+class FilmSet {
+  location: String
+  +assignToFilm(film: Film): void
+  +releaseForUse(): void
+}
+class Film {
+  title: String
+  releaseYear: int
+  genre: String
+  +getDetails(): String
+}
+class Screenplay {
+  title: String
+  version: String
+  writingDate: Date
+  numberOfScenes: int
+  plotSummary: String
+  +generateSynopsis(): String
+  +linkToReference(type: String): Novel | String
+}
+class Novel {
+  title: String
+  author: String
+}
+class Screenwriter {
+  name: String
+  mostSuccessfulFilm: String
+  +writeScreenplay(title: String, genre: String): Screenplay
+  +getCareerHistory(): String
+}
+class Author {
+  name: String
+}
+class Actor {
+  name: String
+  socialSecurityNumber: String
+  oscarWinner: boolean
+  +getEducation(): String
+}
+class Director {
+  name: String
+  socialSecurityNumber: String
+  oscarWinner: boolean
+  assistantName: String
+  +directFilm(film: Film): void
+}
+class Technician {
+  name: String
+  socialSecurityNumber: String
+  fieldOfActivity: String
+}
+FilmSet "1" --> "0..*" Film : usedForFilms
+Film "1" *-- "1" Screenplay : basedOn
+Screenplay "1" --> "0..1" Novel : basedOnNovel
+Screenplay "1" --> "1" Screenwriter : writtenBy
+Screenwriter "1" --> "0..*" Author : coAuthors
+Film "1" *-- "1" Director : directedBy
+Film "1" *-- "1..*" Actor : starringActors
+Actor "1" --> "1" Screenplay : preparedFor
+Director "1" --> "1" FilmSet : operatedSet
+ProductionCompany "1" *-- "0..*" Film : producedFilms
+ProductionCompany "1" *-- "0..*" Screenwriter : employedScreenwriters
+ProductionCompany "1" *-- "0..*" Director : employedDirectors
+Director "0..*" --> "0..*" Screenplay : directedScreenplays
+@enduml

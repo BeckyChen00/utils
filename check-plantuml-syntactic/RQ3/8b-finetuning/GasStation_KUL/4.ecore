@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedCards" eType="#//FuelCard" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FuelCard"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GasStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedPumps" eType="#//RefuelingPump" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//DailyReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RefuelingPump">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedTurns" eType="#//RefuelingTurn" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedIn" eType="#//DailyReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RefuelingTurn">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initiatedBy" eType="#//Customer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedIn" eType="#//Invoice"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="addressedTo" eType="#//Customer" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DailyReport"/>
+</ecore:EPackage>

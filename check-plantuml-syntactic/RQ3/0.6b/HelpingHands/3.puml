@@ -1,0 +1,39 @@
+@startuml
+class Diagram {
+    start
+    class "System Requirement" as SystemRequirement
+    systemRequirement : {name: "System Requirement", description: "This is a system requirement."}
+    end
+
+    class "Class Diagram" extends SystemRequirement {
+        name: "Class Diagram"
+        attributes: {
+            name: "Name",
+            description: "Description of the class."
+        }
+        methods: {
+            method1: "Method 1 Description",
+            method2: "Method 2 Description"
+        }
+    }
+
+    class "Relationships" extends ClassDiagram {
+        relationships: {
+            relationship1: "Relationship 1 Description",
+            relationship2: "Relationship 2 Description"
+        }
+    }
+
+    class "Constraints" extends Relationships {
+        constraints: {
+            constraint1: "Constraint 1 Description",
+            constraint2: "Constraint 2 Description"
+        }
+    }
+
+    class "Summary" extends Constraints {
+        summary: "Summary of all requirements and relationships."
+    }
+
+    end
+@enduml

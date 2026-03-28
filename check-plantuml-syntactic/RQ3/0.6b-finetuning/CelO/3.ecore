@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="snapshotData" eType="#//DataSnapshot" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataSnapshot"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataStream">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceStation" eType="#//DataCollectionStation" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedLogs" eType="#//EventLog" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataCollectionStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deployedNodes" eType="#//SensorNode" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishedDataStreams" eType="#//DataStream" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EventLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timeWindow" eType="#//TimeWindow" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeWindow"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataQuery">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetStream" eType="#//DataStream" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

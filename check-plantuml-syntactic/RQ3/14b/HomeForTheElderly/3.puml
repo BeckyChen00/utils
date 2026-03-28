@@ -1,0 +1,146 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class Department {
+  -id: int
+  -name: String
+  -rooms: Set<Room>
+}
+
+class Room {
+  -id: int
+  -roomNumber: String
+  -beds: Set<Bed>
+}
+
+class Bed {
+  -id: int
+  -bedNumber: String
+  -category: StayCategory
+}
+
+enum StayCategory {
+  REST_HOME
+  REST_NURSING_HOME
+  SERVICE_FLAT
+}
+
+class Inhabitant {
+  -id: int
+  -name: String
+  -dateOfBirth: Date
+  -registrationDate: Date
+  -waitingListPosition: int
+  -stays: Set<Stay>
+  -abilitiesAssessment: AbilitiesAssessment
+}
+
+class RegistrationProcess {
+  -inhabitant: Inhabitant
+  -basicData: BasicData
+  -abilitiesAssessment: AbilitiesAssessment
+}
+
+class BasicData {
+  -fullName: String
+  -dateOfBirth: Date
+  -contactInfo: String
+}
+
+class AbilitiesAssessment {
+  -eatingAbility: AbilityLevel
+  -dressingAbility: AbilityLevel
+  -personalCareAbility: AbilityLevel
+  -recommendedStayType: StayCategory
+}
+
+enum AbilityLevel {
+  INDEPENDENT
+  MINIMAL_ASSISTANCE
+  MODERATE_ASSISTANCE
+  FULL_ASSISTANCE
+}
+
+class WaitingList {
+  -inhabitants: List<Inhabitant>
+  -stayType: StayCategory
+}
+
+class Stay {
+  -id: int
+  -startDate: Date
+  -endDate: Date
+  -status: StayStatus
+  -category: StayCategory
+  -bed: Bed
+  -inhabitant: Inhabitant
+  -invoices: List<Invoice>
+}
+
+enum StayStatus {
+  ACTIVE
+  SUSPENDED
+  COMPLETED
+  INVALIDATED
+}
+
+class Invoice {
+  -id: int
+  -issueDate: Date
+  -dueDate: Date
+  -amount: Double
+  -outstandingAmount: Double
+  -status: InvoiceStatus
+  -stay: Stay
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  PARTIALLY_PAID
+  REFUNDED
+}
+
+class Payment {
+  -id: int
+  -paymentDate: Date
+  -amount: Double
+  -invoice: Invoice
+}
+
+class CreditNote {
+  -id: int
+  -issueDate: Date
+  -amount: Double
+  -invoice: Invoice
+}
+
+class DiscountPolicy {
+  -applyDiscount(stay1: Stay, stay2: Stay): Double
+}
+
+@enduml
+
+---
+
+### 📌 Summary of Key Classes:
+
+- **Department**: Contains rooms.
+- **Room**: Contains beds.
+- **Bed**: Belongs to a specific `StayCategory`.
+- **Inhabitant**: Has multiple stays, is assessed, and is on a waiting list.
+- **RegistrationProcess**: Handles registration and assessment.
+- **BasicData**: Captures basic personal information.
+- **AbilitiesAssessment**: Assesses the level of assistance needed and recommends a stay type.
+- **WaitingList**: Manages people waiting for a specific stay type.
+- **Stay**: Represents an ongoing or past stay with status and invoices.
+- **Invoice**: Tracks invoicing details, including outstanding amounts and status.
+- **Payment**: Records received payments and updates invoice status.
+- **CreditNote**: Created if overpayment occurs.
+- **DiscountPolicy**: Applies discounts when overlapping stays occur (e.g., SF + RNH).
+
+---
+
+Let me know if you'd like this rendered as an image or want to expand it further with associations, multiplicity, or notes!

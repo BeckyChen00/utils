@@ -1,0 +1,67 @@
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class Customer {
+  - String name
+  - String address
+  - String telephoneNumber
+  - String emailAddress
+  - List<String> countries
+}
+
+class Product {
+  - String uniqueName
+  - String description
+  - double netPrice
+  - String manufacturer
+  - String country
+}
+
+class Country {
+  - String countryName
+  - double vatRate
+  - String currency
+  - double euroConversionRate
+}
+
+class Representative {
+  - String firstName
+  - String lastName
+  - String socialSecurityNumber
+  - String telephoneNumber
+  - String emailAddress
+  - String country
+}
+
+class Order {
+  - String orderId
+  - Product product
+  - int quantity
+  - Date orderDate
+  - Date deliveryDate
+  - Representative representative
+}
+
+Customer "1" -- "0..*" Country : resides in
+Product "1" -- "0..*" Country : available in
+Representative "1" -- "1" Country : responsible for
+Representative "1" -- "0..*" Order : places
+Order "1" -- "1" Product : contains
+Order "1" -- "1" Representative : placed by
+
+@enduml
+
+---
+
+### ✅ Explanation of Relationships:
+
+- **Customer - Country**: A customer can reside in multiple countries (`1` to `*`).
+- **Product - Country**: A product can be available in multiple countries (`1` to `*`).
+- **Representative - Country**: Each representative is responsible for exactly one country (`1` to `1`).
+- **Representative - Order**: A representative can place multiple orders (`1` to `*`).
+- **Order - Product**: An order is associated with exactly one product (`1` to `1`).
+- **Order - Representative**: An order is placed by exactly one representative (`1` to `1`).
+
+---
+

@@ -1,0 +1,89 @@
+
+---
+
+
+@startuml
+skinparam noteStyle rectangle
+
+' Entities
+class Center {
+  +name: String (unique)
+  +address: String
+  +rooms: Set(Room)
+}
+
+class Room {
+  +number: int (unique within center)
+  +maxCapacity: int
+  +center: Center
+}
+
+class Person {
+  +firstName: String
+  +lastName: String
+  +birthDate: Date
+  +sessions: Set(Session)
+}
+
+class Trainer extends Person {
+  +diploma: String
+}
+
+class Session {
+  +date: Date
+  +startTime: Time
+  +room: Room
+  +type: String (optional)
+  +participants: Set(Person)
+  +supervisor: Trainer (optional)
+}
+
+' Relationships
+Center "1" -- "0..*" Room : has
+Room "1" -- "1" Center : belongs to
+Person "1" -- "0..*" Session : participates in
+Trainer "1" -- "0..*" Session : supervises (group session only)
+Session "1" -- "0..*" Person : participant
+Session "1" -- "0..1" Trainer : supervisor (only for group sessions)
+
+note right of Center
+  Each center has multiple rooms.
+  Rooms are uniquely numbered.
+  Address is atomic.
+end note
+
+note left of Person
+  Unique combination of first name,
+  last name, and birth date.
+end note
+
+note left of Trainer
+  In addition to Person attributes,
+  a trainer has a diploma.
+end note
+
+note right of Session
+  Sessions can be individual or group.
+  Group sessions have a supervisor (trainer).
+  All sessions must be in a room.
+end note
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Points:
+
+- **Center**: Represents a fitness center with a unique name, address, and multiple rooms.
+- **Room**: Has a number (unique per center), max capacity, and is associated with one center.
+- **Person**: Base class for all individuals. Includes first name, last name, and birth date.
+- **Trainer**: Subclass of `Person` with an additional `diploma` attribute.
+- **Session**: Contains date, start time, room, and type (for group sessions). Can have participants and a supervisor (only for group sessions).
+
+This model supports tracking:
+- Members who participate in sessions.
+- Trainers who supervise group sessions.
+- Prospects and interns who haven't participated or supervised yet.
+- Sessions that occur at the same time but in different rooms/centers.
+
+Let me know if you'd like this rendered as an image or want to add more constraints!

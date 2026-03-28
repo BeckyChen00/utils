@@ -1,0 +1,124 @@
+@startuml
+enum EnergyClass {
+  A
+  B
+  C
+  D
+  E
+  F
+  G
+  H
+  UNKNOWN
+}
+enum EntryType {
+  TEXT
+  FLOAT
+}
+enum ApprovalState {
+  PENDING
+  APPROVED
+  REJECTED
+  ARCHIVED
+}
+class WebPortal {
+  versionNumber: String
+  urlAddress: String
+  +searchBuildings(query: String): List<Building>
+  +getEntryDefinitions(): List<AdditionalEntryDefinition>
+}
+class Building {
+  id: String
+  name: String
+  energyClass: EnergyClass
+  address: String
+  constructionYear: int
+  owner: User
+  +getProfileImage(): Image
+  +addAdditionalEntry(entry: AdditionalEntry): void
+}
+class AdditionalEntryDefinition {
+  name: String
+  dataType: EntryType
+  unitDescription: String
+  defaultUnit: String
+  isPublic: boolean
+  +validateData(value: String): boolean
+}
+class AdditionalEntry {
+  value: String
+  unit: String
+  isReleased: boolean
+  creationDate: Date
+  +updateValue(newValue: String): void
+  +release(): void
+}
+class User {
+  username: String
+  email: String
+  password: String
+  isActive: boolean
+  +register(): void
+  +login(): boolean
+  +createBuilding(name: String): Building
+  +addComment(target: Building, text: String): Comment
+}
+class Comment {
+  text: String
+  likedCount: int
+  approvalStatus: ApprovalState
+  creationDate: Date
+  +approve(): void
+  +reject(): void
+}
+class Image {
+  fileName: String
+  mimeType: String
+  isProfilePhoto: boolean
+  storagePath: String
+}
+class Notification {
+  message: String
+  isRead: boolean
+  timestamp: Date
+  +markAsRead(): void
+}
+class AccessRule {
+  requiresVerification: boolean
+  allowsRegistration: boolean
+  maxSearchLimit: int
+  +checkAccess(user: User): boolean
+}
+class AuditLog {
+  actionDescription: String
+  performedDate: Date
+  actorId: String
+}
+class ApprovalTask {
+  taskId: String
+  currentState: ApprovalState
+  +approve(): void
+  +reject(reason: String): void
+}
+class SearchQuery {
+  queryText: String
+  queryType: String
+  +execute(): List<Building>
+}
+WebPortal *-- "*" Building : managedBuildings
+WebPortal *-- "*" AdditionalEntryDefinition : definedEntries
+WebPortal *-- "*" AccessRule : accessRules
+WebPortal --> "*" User : registeredUsers
+Building *-- "*" Image : images
+Building *-- "*" AdditionalEntry : entries
+Building --> "1" User : owner
+Comment --> "1" User : author
+Comment --> "1" Building : commentedBuilding
+User *-- "*" ApprovalTask : assignedTasks
+User *-- "*" AuditLog : auditLogs
+User *-- "*" Notification : notifications
+User --> "1" WebPortal : homePortal
+AdditionalEntryDefinition --> "1" EntryType : dataType
+Comment --> "1" AccessRule : accessRule
+SearchQuery --> "1" User : activatedUser
+SearchQuery --> "*" Building : results
+@enduml

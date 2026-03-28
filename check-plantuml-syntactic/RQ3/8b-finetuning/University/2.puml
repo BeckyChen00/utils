@@ -1,0 +1,61 @@
+@startuml
+enum StaffType {
+  Research
+  Administrative
+}
+class University {
+  +name: String
+  +totalEmployees: int
+}
+class Faculty {
+  +facultyName: String
+  +dean: Employee
+  +institutes: List<Institute>
+  +getTotalInactiveStaff(): int
+}
+class Institute {
+  +instituteName: String
+  +instituteAddress: String
+  +instituteType: StaffType
+  +manager: Employee
+}
+class Employee {
+  +socialSecurityNo: String
+  +fullName: String
+  +emailAddress: String
+  +staffType: StaffType
+  +isContracted: boolean
+  +getWorkloadDescription(): String
+  +calculateWorkloadScore(): double
+}
+class ResearchAssistant {
+  +researchField: String
+  +yearlySalary: double
+  +hoursPerWeek: int
+  +isOnLeave: boolean
+  +isFullTime: boolean
+  +isTenured: boolean
+  +hasGraduated: boolean
+  +projectAssignments: List<Project>
+  +courseTeachings: List<Course>
+}
+class Project {
+  +projectName: String
+  +startDate: Date
+  +endDate: Date
+  +budget: double
+  +isActive: boolean
+}
+class Course {
+  +courseId: String
+  +courseName: String
+  +weeklyDuration: int
+  +credits: int
+}
+University *-- "1..*" Faculty : faculties
+Faculty *-- "1..*" Institute : institutes
+Institute --> "1" Employee : manager
+Employee --> "0..*" Project : projectAssignments
+ResearchAssistant --> "0..*" Project : projectAssignments
+ResearchAssistant --> "0..*" Course : courseTeachings 'opposite: lecturers
+@enduml

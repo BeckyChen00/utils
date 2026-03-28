@@ -1,0 +1,142 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class Department {
+  -id: int
+  -name: String
+  -rooms: Set<Room>
+}
+
+class Room {
+  -id: int
+  -number: String
+  -beds: Set<Bed>
+}
+
+class Bed {
+  -id: int
+  -bedNumber: String
+  -category: Category
+  -isOccupied: boolean
+}
+
+class Category {
+  -id: int
+  -type: String (RH, RNH, SF)
+  -pricePerDay: double
+}
+
+class Inhabitant {
+  -id: int
+  -name: String
+  -dateOfBirth: Date
+  -registrationDate: Date
+  -waitingListPosition: int
+  -stays: Set<Stay>
+  -abilitiesAssessment: AbilitiesAssessment
+}
+
+class Stay {
+  -id: int
+  -startDate: Date
+  -endDate: Date (nullable)
+  -status: String (active, suspended, ended)
+  -category: Category
+  -bed: Bed
+  -invoices: Set<Invoice>
+}
+
+class AbilitiesAssessment {
+  -id: int
+  -assessmentDate: Date
+  -needsForHelp: Map<String, Level> (eating, dressing, personal care)
+  -recommendedCategory: Category
+}
+
+class WaitingListEntry {
+  -id: int
+  -inhabitant: Inhabitant
+  -category: Category
+  -registrationDate: Date
+}
+
+class Invoice {
+  -id: int
+  -invoiceDate: Date
+  -amountDue: double
+  -amountPaid: double
+  -status: String (unpaid, paid, partially_paid)
+  -stay: Stay
+}
+
+class PaymentEvent {
+  -id: int
+  -paymentDate: Date
+  -amount: double
+  -invoice: Invoice
+}
+
+class CreditNote {
+  -id: int
+  -issueDate: Date
+  -amount: double
+  -invoice: Invoice
+}
+
+class RegistrationProcess {
+  -id: int
+  -inhabitant: Inhabitant
+  -registrationDate: Date
+  -completed: boolean
+}
+
+class Proposal {
+  -id: int
+  -proposedDate: Date
+  -status: String (pending, accepted, refused)
+  -inhabitant: Inhabitant
+  -bed: Bed
+  -category: Category
+}
+
+class IntakeProcess {
+  -id: int
+  -inhabitant: Inhabitant
+  -intakeDate: Date
+  -validatedCategory: Category
+}
+
+' Relationships
+Department "1" --> "0..*" Room
+Room "1" --> "0..*" Bed
+Bed "1" --> "1" Category
+Inhabitant "1" --> "0..*" Stay
+Inhabitant "1" --> "1" AbilitiesAssessment
+Inhabitant "1" --> "0..*" WaitingListEntry
+Stay "1" --> "0..*" Invoice
+Invoice "1" --> "0..*" PaymentEvent
+Invoice "1" --> "0..*" CreditNote
+Proposal "1" --> "1" Inhabitant
+Proposal "1" --> "1" Bed
+Proposal "1" --> "1" Category
+RegistrationProcess "1" --> "1" Inhabitant
+IntakeProcess "1" --> "1" Inhabitant
+IntakeProcess "1" --> "1" Category
+WaitingListEntry "1" --> "1" Category
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Department`**, **`Room`**, and **`Bed`** form a hierarchical structure representing the physical layout.
+- **`Category`** defines the type of stay and its associated price.
+- **`Inhabitant`** is the main entity, with multiple **`Stay`** instances, an **`AbilitiesAssessment`**, and entries in the **`WaitingListEntry`**.
+- **`Stay`** includes billing information via **`Invoice`**, which tracks payments and possible refunds via **`PaymentEvent`** and **`CreditNote`**.
+- **`WaitingListEntry`** manages the waiting list logic, where inhabitants are queued based on registration date.
+- **`Proposal`** represents the assignment of a bed to an inhabitant from the waiting list.
+- **`IntakeProcess`** formalizes the acceptance and validation of a stay after proposal.
+
+---
+

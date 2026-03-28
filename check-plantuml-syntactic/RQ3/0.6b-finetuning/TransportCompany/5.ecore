@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subscribedSubscription" eType="#//Subscription" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Subscription">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePlans" eType="#//MembershipPlan" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownAccount" eType="#//UserAccount" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeSubscriptions" eType="#//Subscription" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attendedSessions" eType="#//StudySession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MembershipPlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offeredCourses" eType="#//Course" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendedSessions" eType="#//StudySession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Course">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="chapters" eType="#//Chapter" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//ProgressReport" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="studySessions" eType="#//StudySession" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Chapter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceCourse" eType="#//Course" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProgressReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedFeedback" eType="#//Feedback" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coveredSessions" eType="#//StudySession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StudySession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentChapter" eType="#//Chapter" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enrolledUser" eType="#//User" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Feedback"/>
+</ecore:EPackage>

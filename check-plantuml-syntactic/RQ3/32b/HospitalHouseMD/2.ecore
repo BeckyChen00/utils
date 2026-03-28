@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Diagnosis" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Diagnosis"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receives" eType="#//Treatment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//ConsentForm" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Treatment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="follows_rules" eType="#//StageRules" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConsentForm"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Doctor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="makes" eType="#//Diagnosis" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manages" eType="#//Treatment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeadDoctor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="approves" eType="#//Diagnosis" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Nurse">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="checks" eType="#//Patient" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Illness">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="related_to" eType="#//Diagnosis" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_possible_treatments" eType="#//Treatment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//PriorityScore" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PriorityScore"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StageRules"/>
+</ecore:EPackage>

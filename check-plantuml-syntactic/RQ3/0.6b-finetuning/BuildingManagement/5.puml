@@ -1,0 +1,65 @@
+@startuml
+enum RiskLevel {
+  Low
+  Medium
+  High
+  Critical
+}
+enum AlertType {
+  Warning
+  Alert
+  Warning
+  Critical
+  Warning
+}
+enum AlertState {
+  Pending
+  Active
+  Closed
+  Cancelled
+}
+enum ReportSeverity {
+  Minor
+  Major
+  Catastrophic
+}
+class DecisionMaker {
+  +evaluateDecision(data: RiskAnalysisReport): RiskDecision
+  +generateDashboard(report: RiskAnalysisReport): Visualization
+}
+class SystemController {
+  +manageAlerts(alerts: List<AlertEvent>): void
+  +triggerDecision(data: RiskAnalysisReport): RiskDecision
+  +getActiveAlerts(): List<AlertEvent>
+}
+class RiskAnalysisReport {
+  currentRiskLevel: RiskLevel
+  reportedSeverities: List<ReportSeverity>
+  +calculateProbabilisticAssessment(): Dictionary<AlertType, RiskLevel>
+  +updateSeverity(severity: ReportSeverity): void
+}
+class AlertEvent {
+  receivedDate: Date
+  severity: ReportSeverity
+  status: AlertState
+  +isCritical(): boolean
+  +getAlertType(): AlertType
+}
+class RiskDecision {
+  decisionDate: Date
+  decisionLevel: RiskLevel
+  outcomeDescription: String
+  +generateSummary(): String
+  +confirmDecision(): boolean
+}
+class Visualization {
+  visualizationUrl: String
+  +exportToPdf(): void
+}
+SystemController --> "1" DecisionMaker : managedBy
+SystemController --> "*" RiskAnalysisReport : managedReports
+SystemController --> "*" RiskDecision : generatedDecisions
+RisksAnalysisReport *-- "*" AlertEvent : containedAlerts
+RisksAnalysisReport *-- "*" RiskDecision : recordedDecisions
+RisksAnalysisReport --> "1" Visualization : generatedVisual: visualRepresentation
+@enduml

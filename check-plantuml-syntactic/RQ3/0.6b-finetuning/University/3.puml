@@ -1,0 +1,79 @@
+@startuml
+enum DishCategory {
+  Breakfast
+  Lunch
+  Dinner
+  Dessert
+  Holiday
+}
+enum PaymentMethod {
+  CreditCard
+  DigitalWallet
+  Cash
+}
+enum ReservationStatus {
+  Available
+  Waitlisted
+  Confirmed
+  Cancelled
+  Completed
+}
+class Reservation {
+  reservationDate: Date
+  currentStatus: ReservationStatus
+  +confirmReservation(): void
+  +cancelReservation(): void
+  +calculateTotalAmount(): decimal
+}
+class User {
+  username: String
+  loyaltyPoints: int
+  +placeReservation(date: Date, isExpress: boolean, category: DishCategory, size: String, quantity: int, mealTimeSlot: String): Reservation
+  +getMyFavourites(): List<Dish>
+}
+class Dish {
+  dishName: String
+  description: String
+  category: DishCategory
+  calories: int
+  +getRecommendedMeals(): List<Dish>
+}
+class Order {
+  orderDate: Date
+  customerNotes: String
+  paymentMethod: PaymentMethod
+  +placeOrder(itemList: List<Dish>, quantity: Map<String, int>): boolean
+  +confirmOrder(): void
+}
+class BillingRecord {
+  orderDate: Date
+  totalAmount: decimal
+  +calculateTotal(): decimal
+  +generateInvoice(): String
+}
+class PaymentGateway {
+  +processPayment(amount: decimal, method: PaymentMethod): boolean
+  +refundTransaction(transactionId: String): boolean
+}
+class RestaurantMenu {
+  menuVersion: int
+  +getToppingVariations(dish: Dish): List<ToppingVariation>
+  +findMatchingDish(searchTerm: String): Dish
+}
+class ToppingVariation {
+  toppingName: String
+  ingredients: List<String>
+  cost: decimal
+}
+User "1" --> "*" Reservation : placedReservations
+Reservation "1" *-- "1" Order : resultingOrder
+Order "1" *-- "1" BillingRecord : generatedRecord
+Order "1" --> "1" Dish : orderedDishes
+RestaurantMenu "1" *-- "*" Dish : menuItems
+Dish "1" *-- "*" ToppingVariation : availableOptions
+Order "1" --> "1" Dish : orderedItem
+User "1" --> "*" BillingRecord : associatedRecords
+Order "1" --> "1" PaymentGateway : paymentProcessor
+RestaurantMenu "1" --> "*" Dish : listedItems
+PaymentGateway "1" --> "*" PaymentTransaction : handledTransactions
+@enduml

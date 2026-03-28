@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsManifest" eType="#//CargoManifest" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CargoManifest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ShipmentRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="producesOrder" eType="#//TransportOrder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specifiesMaterial" eType="#//HazardousMaterial" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedVessel" eType="#//TransportVessel" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsMaterials" eType="#//HazardousMaterial" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracksStock" eType="#//CargoInventory" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiresInstrument" eType="#//SafetyInstrument" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedVehicle" eType="#//TransportVehicle" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsRecords" eType="#//ShipmentRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatesRecords" eType="#//ShipmentRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatesManifest" eType="#//CargoManifest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatesReports" eType="#//InspectionReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HazardousMaterial">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiresInstrument" eType="#//SafetyInstrument" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compliesWith" eType="#//ComplianceAudit" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedStock" eType="#//CargoInventory" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportVessel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participatesInGroup" eType="#//TransportVehicleGroup" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatesGroup" eType="#//TransportationVesselGroup" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CargoInventory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBatches" eType="#//MaterialBatch" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracksStock" eType="#//MaterialBatch" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownsManifest" eType="#//CargoManifest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditsStock" eType="#//ComplianceAudit" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracksGroup" eType="#//TransportVehicleGroup" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyInstrument">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggersAlerts" eType="#//RiskAlert" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportVehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfilledOrders" eType="#//TransportOrder" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShipmentRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceAudit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="verifiedInst" eType="#//SafetyInstrument" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inspectedVessels" eType="#//TransportationVessel" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportationVessel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskAlert">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alertsForRequest" eType="#//ShipmentRequest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alertsForOrder" eType="#//TransportOrder" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedAudits" eType="#//ComplianceAudit" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportVehicleGroup"/>
+  <eClassifiers xsi:type="ecore:EClass" name="dispatchCenterManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatesDispatchCenter" eType="#//DispatchCenter" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DispatchCenter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="transportVehicleGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedVessels" eType="#//TransportationVessel" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportationVesselGroup"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DispatchCenterManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managesStandards" eType="#//ComplianceStandards" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceStandards"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaterialBatch"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InspectionReport"/>
+</ecore:EPackage>

@@ -1,0 +1,48 @@
+@startuml
+class Building {
+  buildingName: String
+  buildingAddress: String
+  constructionYear: int
+  energyClass: String
+  isPubliclyAccessible: boolean
+  +getTotalEnergyConsumption(): float
+}
+class User {
+  username: String
+  email: String
+  isAdmin: boolean
+  +register(): void
+  +login(): boolean
+  +createBuilding(): Building
+}
+class WebPortal {
+  portalName: String
+  versionNumber: String
+  baseDomain: String
+  +getActiveQueries(): String
+}
+class Comment {
+  content: String
+  postedDate: Date
+  +editContent(newContent: String): void
+  +delete(): void
+}
+class Image {
+  fileName: String
+  isProfilePhoto: boolean
+  +getResolution(): String
+}
+class AdditionalEntry {
+  entryName: String
+  entryValue: Object
+  entryType: String
+  isPublic: boolean
+  +updateValue(newValue: Object): void
+}
+WebPortal *-- "*" User : registeredUsers
+Building *-- "*" AdditionalEntry : containedEntries
+Building "1" --> "0..1" User : owner
+User "1" --> "*" Comment : authoredComments
+User "1" --> "*" Building : managedBuildings
+Building "1" *-- "*" Image : associatedImages
+@enduml

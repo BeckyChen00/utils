@@ -1,0 +1,69 @@
+@startuml
+class ExaminationType {
+  description: String
+  +getId(): String
+}
+class Hospital {
+  name: String
+  allowedExaminationTypes: Set<ExaminationType>
+  +registerPermission(type: ExaminationType): boolean
+  +scheduleArrival(time: Date, patient: Patient): Appointment
+}
+class Appointment {
+  scheduledTime: Date
+  status: String
+  +confirm(): boolean
+  +cancel(): boolean
+}
+class Patient {
+  name: String
+  +getMedicalHistory(): List<MedicalHistory>
+}
+class MedicalHistory {
+  symptoms: String
+  createdDate: Date
+  +updateSymptom(newSymptom: String): void
+}
+class Doctor {
+  name: String
+  specialty: String
+  affiliatedHospitals: Set<Hospital>
+  +diagnose(history: MedicalHistory): String
+  +prescribePlan(history: MedicalHistory, plan: TreatmentPlan): TreatmentPlan
+}
+class Diagnosis {
+  code: String
+  description: String
+  date: Date
+  +getSeverity(): int
+}
+class TreatmentPlan {
+  problemDescription: String
+  treatmentSteps: List<String>
+  +isActive(): boolean
+  +addExamination(type: ExaminationType): void
+}
+class ActualTreatment {
+  executionDate: Date
+  performedActions: List<String>
+  +recordAction(action: String): void
+  +compareWithPlan(plan: TreatmentPlan): ComparisonResult
+}
+class ComparisonResult {
+  deviationScore: int
+  comments: String
+  +getDeviationMessage(): String
+}
+Hospital *-- "0..*" Appointment : managedAppointments
+Hospital --> "0..*" MedicalHistory : patientRecords 'opposite: patient
+Appointment --> "1" Patient : patient
+Appointment --> "1" Doctor : attendingDoctor 'opposite: appointments
+Doctor --> "0..*" Diagnosis : issuedDiagnoses
+MedicalHistory --> "1" Diagnosis : outcomeDiagnosis
+Doctor --> "0..*" TreatmentPlan : authoredPlans
+Doctor --> "0..*" ActualTreatment : performedTreatments
+ActualTreatment --> "1" Patient : treatedPatient
+ActualTreatment --> "1" Diagnosis : basedOnDiagnosis
+ActualTreatment --> "1" TreatmentPlan : followedPlan
+ActualTreatment *-- "1" ComparisonResult : outcomeComparison
+@enduml

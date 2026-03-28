@@ -1,0 +1,77 @@
+@startuml
+
+class Diagram {
+    name: "System Requirement Class Diagram"
+}
+
+class SystemRequirement {
+    name: "System Requirement"
+    attributes: [
+        id (int),
+        name (string),
+        description (string)
+    ]
+}
+
+class Requirement {
+    name: "Requirement"
+    attributes: [
+        id (int),
+        name (string),
+        type (string),
+        status (string),
+        priority (int)
+    ]
+}
+
+class Resource {
+    name: "Resource"
+    attributes: [
+        id (int),
+        name (string),
+        type (string),
+        availability (string),
+        cost (float)
+    ]
+}
+
+class Usage {
+    name: "Usage"
+    attributes: [
+        id (int),
+        resource_id (int),
+        requirement_id (int),
+        usage_amount (float),
+        time_of_usage (string)
+    ]
+}
+
+class Connection {
+    name: "Connection"
+    attributes: [
+        source_resource_id (int),
+        target_resource_id (int),
+        connection_type (string),
+        usage (Usage)
+    ]
+}
+
+class Relationship {
+    name: "Relationship"
+    attributes: [
+        source_requirement_id (int),
+        target_requirement_id (int),
+        relationship_type (string),
+        usage (Usage)
+    ]
+}
+
+Diagram --> SystemRequirement
+SystemRequirement --> Requirement
+Requirement --> Resource
+Resource --> Usage
+Usage --> Connection
+Connection --> Relationship
+Relationship --> ... (additional relationships as needed)
+
+@enduml

@@ -1,0 +1,96 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Cruise {
+    - cruiseNumber: int
+    - name: String
+    - startDate: Date
+    - endDate: Date
+}
+
+class Provider {
+    - name: String
+    - location: String
+}
+
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+}
+
+class Guest {
+    - name: String
+    - isVIP: boolean
+}
+
+class Ship {
+    - name: String
+    - numberOfDecks: int
+    - length: double
+    - numberOfPassengers: int
+}
+
+class TravelAgency {
+    - name: String
+    - address: String
+}
+
+class Booking {
+    - bookingNumber: String
+    - bookingDate: Date
+}
+
+class DestinationArea {
+    - name: String
+    - seaName: String
+}
+
+class Show {
+    - title: String
+    - duration: int // in minutes
+}
+
+class Ticket {
+    - ticketId: String // or any unique identifier
+}
+
+' Relationships
+
+Provider "1" -- "0..*" Cruise : organizes
+Cruise "1" -- "1" Provider : organizedBy
+
+Cruise "1" -- "1..*" Employee : requires
+Employee "0..*" -- "1" Cruise : assignedTo
+
+Cruise "1" -- "1" Ship : uses
+Ship "1" -- "0..*" Cruise : usedIn
+
+Cruise "1" -- "1" DestinationArea : headsFor
+DestinationArea "1" -- "0..*" Cruise : destinationOf
+
+Cruise "1" -- "1" TravelAgency : bookedThrough
+TravelAgency "1" -- "0..*" Booking : makesBooking
+Booking "1" -- "1" Cruise : forCruise
+Booking "1" -- "1" Guest : byGuest
+
+Cruise "1" -- "1..*" Show : offers
+Show "0..*" -- "1" Cruise : offeredOn
+
+Cruise "1" -- "1..*" Ticket : issues
+Ticket "0..*" -- "1" Guest : ownedBy
+Ticket "1" -- "1" Cruise : belongsTo
+
+Guest "1" -- "0..*" Cruise : participatesIn
+Cruise "0..*" -- "1" Guest : hasGuest
+
+@enduml
+
+---
+
+### Notes:
+- Multiplicities are added to show how many of each entity can be involved in a relationship.
+- All associations are labeled to clarify the nature of the relationship.
+- The `Ticket` class ensures that a guest can have multiple tickets, but only one per cruise.
+

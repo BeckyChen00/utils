@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Theatre"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Movie"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Copy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Show"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Reservation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Seat"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Offer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FreeTicket"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here"/>
+  <eClassifiers xsi:type="ecore:EClass" name="This"/>
+</ecore:EPackage>

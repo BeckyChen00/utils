@@ -1,0 +1,30 @@
+@startuml
+enum ReportStatus {
+  PendingReview
+  InProgress
+  Approved
+  Rejected
+  Archived
+}
+class ResearchProject {
+  projectName: String
+}
+class Dataset {
+  identifier: String
+  +computeSummary(): String
+  +validateData(): boolean
+}
+class DatasetAnalysis {
+  summaryText: String
+  status: ReportStatus
+  +execute(): void
+  +generateReport(): Report
+}
+class Report {
+  summary: String
+  status: ReportStatus
+}
+ResearchProject *-- "0..*" Dataset : ownedDatasets
+ResearchProject --> "1" DatasetAnalysis : primaryAnalysis
+DatasetAnalysis *-- "0..*" Report : generatedReports
+@enduml

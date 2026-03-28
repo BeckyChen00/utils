@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeConfig" eType="#//SimulationConfig" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationConfig"/>
+  <eClassifiers xsi:type="ecore:EClass" name="QuantumExperiment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryEnsemble" eType="#//EnsembleMember" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//ObservationReport" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalMeasurement" eType="#//MeasurementResult" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnsembleMember"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ObservationReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MeasurementResult">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceMember" eType="#//EnsembleMember" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contextConfig" eType="#//SimulationConfig" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executionUnit" eType="#//QuantumExperiment" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,31 @@
+@startuml
+
+class system_requirement { name: "System Requirement" }
+
+class system {
+    id: 1
+    name: "System"
+}
+
+class requirement {
+    id: 1
+    name: "Requirement"
+}
+
+class user {
+    id: 1
+    name: "User"
+}
+
+class component {
+    id: 1
+    name: "Component"
+}
+
+class system_requirement {
+    id: 1
+    name: "System Requirement"
+    requires: [system, requirement, user, component]
+}
+
+@enduml

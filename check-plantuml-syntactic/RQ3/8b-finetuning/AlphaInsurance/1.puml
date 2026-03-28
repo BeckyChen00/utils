@@ -1,0 +1,85 @@
+@startuml
+enum ClaimOutcome {
+  Approved
+  Rejected
+  PartiallyApproved
+}
+enum PolicyStatus {
+  Active
+  Expired
+  Cancelled
+  Pending
+  RenewalDue
+}
+enum InsuranceCategory {
+  VehicleInsurance
+  HomeInsurance
+  LifeInsurance
+  HealthInsurance
+  TravelInsurance
+}
+class InsurancePolicy {
+  policyNumber: String
+  effectiveDate: Date
+  expiryDate: Date
+  status: PolicyStatus
+  annualPremium: double
+  insuredCategories: InsuranceCategory[]
+  +calculatePremium(): double
+  +cancel(): void
+  +renew(): void
+}
+class Customer {
+  firstName: String
+  lastName: String
+  contactEmail: String
+  phoneNumber: String
+  +register(): void
+}
+class Broker {
+  brokerId: String
+  fullName: String
+  licenseNumber: String
+  registrationDate: Date
+  +assignCustomer(customer: Customer): void
+  +submitForReview(customerFile: CustomerProfile): void
+}
+class CustomerProfile {
+  riskLevel: String
+  yearsOfExperience: int
+  isVerified: boolean
+  +assessRisk(): String
+}
+class ContractOffer {
+  offerDate: Date
+  offerDetails: String
+  isAccepted: boolean
+  +generateOffer(policyType: InsuranceCategory, customer: Customer): void
+  +sendByEmail(): void
+}
+class ClaimCase {
+  caseNumber: String
+  incidentDate: Date
+  claimStatus: ClaimOutcome
+  totalLossAmount: double
+  +openCase(customer: Customer, policy: InsurancePolicy): void
+  +addEstimatorReport(report: EstimatorReport): void
+  +approveClaim(): void
+  +rejectClaim(reason: String): void
+}
+class EstimatorReport {
+  reportDate: Date
+  damageDescription: String
+  estimatedRepairCost: double
+  outcome: ClaimOutcome
+  +validateReport(): boolean
+}
+Broker --> "0..*" Customer : assignedCustomers
+Customer --> "0..1" CustomerProfile : ownedProfile
+CustomerProfile *-- "1..*" InsurancePolicy : heldPolicies
+InsurancePolicy --> "1" ContractOffer : resultingFrom
+ClaimCase *-- "1..*" EstimatorReport : containedReports
+Customer --> "0..*" ClaimCase : submittedClaims
+Broker --> "0..*" ContractOffer : submittedOffers
+Customer --> "0..*" ContractOffer : madeOffers
+@enduml

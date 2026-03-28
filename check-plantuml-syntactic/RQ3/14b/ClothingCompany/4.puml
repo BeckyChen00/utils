@@ -1,0 +1,72 @@
+
+@startuml
+
+' Classes
+class Customer {
+  - name: String
+  - address: String
+  - telephone: String
+  - email: String
+  - countriesReselling: List<String>
+}
+
+class Product {
+  - name: String
+  - description: String
+  - netPrice: Double
+  - manufacturer: Company
+  - country: Country
+}
+
+class Order {
+  - id: String
+  - quantity: Integer
+  - orderDate: Date
+  - deliveryDate: Date
+  - product: Product
+  - representative: Representative
+}
+
+class Representative {
+  - firstName: String
+  - lastName: String
+  - socialSecurityNumber: String
+  - telephone: String
+  - email: String
+  - country: Country
+}
+
+class Company {
+  - name: String
+  - country: String
+}
+
+class Country {
+  - name: String
+  - vatRate: Double
+  - currency: String
+  - euroConversionRate: Double
+}
+
+' Associations
+Customer "1" --> "0..*" Order : places
+Representative "1" --> "0..*" Order : handles
+Product "1" --> "0..*" Order : is ordered in
+Representative "1" --> "1" Country : responsible for
+Product "1" --> "1" Country : sold in
+Product "1" --> "1" Company : manufactured by
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+- **Customer**: Has personal and reselling information.
+- **Product**: Contains name, description, price, and links to manufacturer and country it is sold in.
+- **Order**: Is linked to one customer (via representative), one product, and one representative.
+- **Representative**: Handles orders and is associated with a single country.
+- **Company**: Represents the manufacturer of the product, located in a specific country.
+- **Country**: Holds VAT rate, currency, and conversion rate to Euro. Products are only sold in certain countries.
+
+---
+

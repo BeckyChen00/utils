@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//Aircraft"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Aircraft">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="seatCategories" eType="#//SeatCategory" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SeatCategory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Airline">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employFlightAttendant" eType="#//FlightAttendant" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employPilot" eType="#//Pilot" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlightAttendant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Pilot"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Flight">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="crewMembers" eType="#//FlightAttendant" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ticketList" eType="#//Ticket" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatingAircraft" eType="#//Aircraft" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="route" eType="#//Airport" lowerBound="2" upperBound="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="passenger" eType="#//Passenger" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Airport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Passenger">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="takeFlights" eType="#//Flight" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preferredCategories" eType="#//SeatCategory" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

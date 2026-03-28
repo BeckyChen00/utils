@@ -1,0 +1,57 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class Location {
+  -address: String
+}
+
+class Driver {
+  -firstName: String
+  -lastName: String
+  +assignOrder(order: Order): void
+  +unassignOrder(): void
+}
+
+class Vehicle {
+  -vehicleNumber: String
+  +assignDriver(driver: Driver): void
+  +unassignDriver(): void
+}
+
+class Truck extends Vehicle {
+  -weight: Double
+}
+
+class Car extends Vehicle {
+  -seats: Integer
+}
+
+class Van extends Vehicle {
+  // No additional attributes required
+}
+
+class Order {
+  -origin: Location
+  -destination: Location
+  -date: Date
+  -driver: Driver
+  +assignDriver(driver: Driver): void
+}
+
+' Associations
+Driver "1" *-- "0..1" Vehicle : drives
+Driver "1" *-- "1" Order : carries out
+Order "1" -- "1" Location : origin
+Order "1" -- "1" Location : destination
+Vehicle "1" -- "0..1" Driver : assigned to
+@enduml
+
+### Explanation of the Diagram:
+- **`Location`** has an address.
+- **`Driver`** has a first and last name. They can carry out at most one order at a time and are assigned to one vehicle.
+- **`Vehicle`** is the base class with a `vehicleNumber`. It is extended by `Truck`, `Car`, and `Van`, each adding their own specific attribute (weight, seats).
+- **`Order`** must have an origin and destination location, a date, and at least one driver assigned to it.
+- A **driver can be assigned to only one vehicle**, and a **vehicle can be driven by only one driver** at a time.
+- An **order is carried out by exactly one driver**, but a **driver can carry out at most one order at any given time**.
+

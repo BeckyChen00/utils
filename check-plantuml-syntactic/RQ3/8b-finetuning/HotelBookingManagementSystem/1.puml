@@ -1,0 +1,74 @@
+@startuml
+class Traveler {
+  name: String
+  +register(): void
+  +createPreliminaryBooking(date: Date, rooms: int, preferences: List<Preference>): PreliminaryBooking
+  +viewPastBookings(): List<Booking>
+}
+class Hotel {
+  chainName: String
+  address: String
+  city: String
+  +announceRoomAvailability(type: RoomType, dates: DateRange): void
+  +notifyBookingStatus(bookingId: String, status: String): void
+  +confirmBooking(bookingId: String): void
+}
+class RoomType {
+  roomCategory: String
+  pricePerNight: double
+  applicablePreferences: List<Preference>
+}
+class HotelChain {
+  chainName: String
+  +manageHotels(): List<Hotel>
+}
+class PreliminaryBooking {
+  price: double
+  preferredCity: String
+  requiredRooms: int
+  minRating: int
+  +generateOffer(competitorHotels: List<Hotel>): Offer
+}
+class Booking {
+  bookingId: String
+  bookingDate: Date
+  status: String
+  +calculateTotalCost(): double
+  +confirm(): void
+  +cancel(): void
+}
+class Offer {
+  price: double
+  durationDays: int
+  specialOfferDescription: String
+  +isValid(): boolean
+}
+class Payment {
+  amount: double
+  paymentMethod: String
+  +process(): boolean
+}
+class Preference {
+  description: String
+  key: String
+}
+class BookingConfirmation {
+  confirmationCode: String
+  confirmationDate: Date
+  +send(): void
+}
+Traveler *-- "0..*" Booking : pastBookings
+Traveler *-- "0..*" PreliminaryBooking : madePreliminaryBookings
+Traveler *-- "0..*" Payment : madePayments
+Traveler *-- "0..*" Preference : savedPreferences
+Hotel --> "1" HotelChain : belongsTo
+Hotel *-- "0..*" RoomType : offeredRoomTypes
+Hotel --> "0..*" Booking : handledBookings
+PreliminaryBooking --> "1" Offer : resultingOffer
+Booking --> "1" Hotel : bookedAtHotel
+Booking *-- "1" BookingConfirmation : confirmationRecord
+PreliminaryBooking --> "1" Traveler : initiatedBy
+Offer --> "1" Traveler : targetTraveller
+PreliminaryBooking --> "1" HotelChain : sharedWithCompetitors
+PreliminaryBooking --> "1" Traveler : relatedTraveller
+@enduml

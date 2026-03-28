@@ -1,0 +1,23 @@
+graph TD
+    A[System Requirement]
+    B[User]
+    C[Requirement]
+    D[Implementation]
+    E[Testing]
+    F[Documentation]
+    G[Architecture]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+
+    B --> D
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+
+This class diagram represents the structure of a system requirement with its components. It includes entities (A, B, C, D, E, F, G) and relationships between them.

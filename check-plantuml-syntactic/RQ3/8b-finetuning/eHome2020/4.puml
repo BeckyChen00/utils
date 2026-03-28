@@ -1,0 +1,68 @@
+@startuml
+enum SensorType {
+  TEMPERATURE
+  POWER_CONSUMPTION
+}
+enum UnitType {
+  CELSIUS
+  WATT
+}
+class Sensor {
+  sensorType: SensorType
+  unit: UnitType
+  vendorId: String
+  description: String
+  +validateRange(): boolean
+}
+class SensorController {
+  ipAddress: String
+  +registerSensor(sensor: Sensor): void
+  +getApartmentInfo(apartmentId: String): Apartment
+  +logValue(sensorId: String, value: double, timestamp: Date): void
+}
+class Apartment {
+  address: String
+  +addRoom(room: Room): void
+  +getRooms(): List<Room>
+}
+class Room {
+  description: String
+  +countSensors(): int
+}
+class Inhabitant {
+  fullName: String
+  emailAddress: String
+  hasAdminRights: boolean
+  +login(username: String, password: String): boolean
+  +configureSensor(sensor: Sensor, room: Room): void
+}
+class Threshold {
+  valueLimit: double
+  isActive: boolean
+  +compareValue(measuredValue: double): boolean
+}
+class Alert {
+  message: String
+  severity: String
+  timestamp: Date
+  +send(): void
+}
+class EMonitor {
+  +monitorSystem(controller: SensorController): void
+  +evaluateAlerts(): List<Alert>
+}
+class MeasurementValue {
+  timestamp: Date
+  value: double
+  +getValueAsDouble(): double
+}
+Apartment *-- "1..*" Room : containsRooms
+Apartment --> "1" SensorController : managedBy
+SensorController *-- "1..*" Sensor : registeredSensors
+SensorController *-- "1..*" MeasurementValue : recordedValues
+SensorController --> "0..*" Inhabitant : controlledBy
+Apartment --> "0..*" Inhabitant : residents
+Inhabitant --> "0..*" Alert : receivedAlerts
+SensorController --> "1" EMonitor : monitoredBy
+Sensor --> "1" Threshold : hasThreshold
+@enduml

@@ -1,0 +1,48 @@
+@startuml
+enum StaffType {
+  ResearchStaff
+  AdministrativeStaff
+}
+class University {
+  name: String
+  +getTotalEmployees(): int
+}
+class Faculty {
+  name: String
+  dean: Employee
+}
+class Institute {
+  name: String
+  address: String
+}
+class Employee {
+  socSecNumber: String
+  name: String
+  email: String
+  staffType: StaffType
+}
+class ResearchAssistant {
+  fieldOfStudy: String
+  +isAssignedTo(institute: Institute): boolean
+}
+class Lecture {
+  courseNumber: String
+  courseName: String
+  weeklyHours: int
+  +getCourseDetails(): String
+}
+class Project {
+  name: String
+  startDate: Date
+  endDate: Date
+  hoursSpent: int
+}
+University *-- "0..*" Faculty : faculties
+Faculty *-- "0..*" Institute : institutes
+Faculty "1..*" --> "0..1" Employee : dean
+Institute "1..*" --> "0..*" Employee : staff
+ResearchAssistant "1..*" --> "0..*" Institute : assignments
+Lecture "1..*" --> "1..*" Employee : instructors
+Employee "0..*" --> "0..*" Project : involvement
+Employee "0..*" --> "0..*" Lecture : teachingResponsibilities
+@enduml

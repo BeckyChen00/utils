@@ -1,0 +1,97 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Patient {
+  - id: String
+  - name: String
+  - consentGiven: boolean
+}
+
+class Doctor {
+  - id: String
+  - name: String
+  - isHeadDoctor: boolean
+}
+
+class Illness {
+  - id: String
+  - name: String
+  - priorityScore: PriorityScore (enum)
+}
+
+enum PriorityScore {
+  High
+  Low
+}
+
+class Diagnosis {
+  - id: String
+  - illness: Illness
+  - doctor: Doctor
+  - approvedByHeadDoctor: boolean
+}
+
+class Treatment {
+  - id: String
+  - stage: Stage (enum)
+  - diagnosis: Diagnosis
+  - patient: Patient
+}
+
+enum Stage {
+  Stage1
+  Stage2
+  Stage3
+}
+
+class ConsentForm {
+  - id: String
+  - patient: Patient
+  - signedAt: DateTime
+  - retracted: boolean
+}
+
+class Nurse {
+  - id: String
+  - name: String
+}
+
+' Relationships
+
+Patient "1" -- "0..*" ConsentForm : signs
+Patient "1" -- "1" Treatment : has
+Patient "1" -- "0..*" Diagnosis : is diagnosed with
+
+Doctor "1" -- "0..*" Diagnosis : makes
+Doctor "1" -- "0..*" Treatment : applies or changes stage
+Doctor "1" -- "0..*" Doctor : approves (if head doctor)
+
+Illness "1" -- "1" Diagnosis : of
+Illness "1" -- "0..*" Treatment : applied to
+
+Diagnosis "1" -- "1" Treatment : leads to
+Treatment "1" -- "1" Stage : current
+Treatment "1" -- "1" PriorityScore : affected by
+
+Nurse "1" -- "0..*" Treatment : monitors
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Patient**: Central entity, can have multiple diagnoses and treatments. Has a consent status.
+- **Doctor**: Can be a regular doctor or the **head doctor**, who must approve diagnoses before treatment.
+- **Illness**: Each has a **priority score** (`High` or `Low`) which affects treatment stages.
+- **Diagnosis**: Made by a doctor, must be approved by the head doctor before treatment.
+- **Treatment**: Has a **stage** (1–3), associated with a diagnosis and a patient.
+- **ConsentForm**: Signed by the patient to allow stage upgrades beyond stage 1.
+- **PriorityScore**: Affects whether treatments are immediately upgraded to **Stage 3**.
+- **Nurse**: Responsible for monitoring patients in higher treatment stages.
+
+---
+
+Let me know if you'd like the **sequence diagram** or **activity diagram** as well!

@@ -1,0 +1,140 @@
+@startuml
+enum PinType {
+  A15Pin
+  A14Pin
+  A13Pin
+  A12Pin
+  A11Pin
+  A10Pin
+  A9Pin
+  A8Pin
+  A7Pin
+  A6Pin
+  A5Pin
+  A4Pin
+  A3Pin
+  A2Pin
+  A1Pin
+  GNDPin
+}
+enum CircuitStatus {
+  Active
+  Inactive
+}
+enum PinStatus {
+  Uncapable
+  Capable
+}
+class CircuitDesign {
+  overallPinCount: int
+  boardConfiguration: String
+  +validateDesign(): boolean
+  +getCoverageSummary(): String
+}
+class CircuitNode {
+  pinLabels: String[]
+  currentStatus: CircuitStatus
+  +getName(): String
+  +updateStatus(newStatus: CircuitStatus): void
+}
+class Pin {
+  label: String
+  pinType: PinType
+  xPos: int
+  yPos: int
+  +getLabel(): String
+  +getPinType(): PinType
+  +setCoordinates(x: int, y: int): void
+}
+class DriverModule {
+  +getSpeedLimit(): int
+  +setSpeedLimit(limit: int): void
+}
+class Driver {
+  +initialize(): void
+  +release(): void
+}
+class SignalGenerator {
+  +generateSignal(frequency: int, amplitude: int): int
+  +replaySignal(): int
+}
+class SignalProfile {
+  frequency: int
+  amplitude: int
+  +applyToNode(node: CircuitNode): void
+}
+class DriverModule {
+  +updateDriverConfig(config: PinConfiguration): void
+}
+class Connection {
+  isPinConnected: boolean
+  signalStrength: int
+  +verifySignal(): boolean
+  +lockConnection(): void
+}
+class PinConfiguration {
+  voltageThreshold: int
+  isHighImpedance: boolean
+  +validateVoltage(): boolean
+}
+class BatteryModule {
+  capacity: int
+  ampCount: int
+  +charge(capacity: int): int
+  +discharge(percentage: int): void
+}
+class SystemBoard {
+  boardNumber: int
+  +canBeMounted(): boolean
+  +updateBoardStatus(): void
+}
+class Manufacturer {
+  companyName: String
+  +getSupportVersion(): String
+}
+class ModuleType {
+  typeName: String
+  compatibility: PinType[]
+  +checkCompatibility(pinType: PinType): boolean
+}
+class DiagnosticReport {
+  reportTitle: String
+  generationDate: Date
+  +assembleReport(): String
+  +createSummary(): String
+}
+class TestSession {
+  sessionName: String
+  executionStart: Date
+  +startTest(): void
+  +completeSession(): DiagnosticReport
+  +getExecutionStatus(): String
+}
+class TestResult {
+  resultCode: int
+  description: String
+  failureReason: String
+  +formatResult(): String
+}
+CircuitDesign *-- "1..*" CircuitNode : definedNodes
+CircuitNode *-- "1" Pin : associatedPin
+CircuitNode *-- "1" SignalProfile : configuredProfile
+CircuitNode *-- "0..*" Connection : formedConnections
+CircuitNode *-- "1" Pin : assignedPin
+Pin *-- "0..1" PinConfiguration : appliedConfiguration
+Pin --> "1" Driver : servingDriver
+Pin --> "1" BatteryModule : chargingBattery
+Driver --> "0..1" DriverModule : attachedModule
+CircuitDesign --> "1" Manufacturer : manufacturedBy
+CircuitDesign --> "0..*" TestSession : testSessions
+TestSession *-- "1..*" DiagnosticReport : generatedReports
+DiagnosticReport *-- "1..*" TestResult : containedResults
+TestSession --> "1" SystemBoard : executedBoard
+TestSession --> "1" SignalGenerator : usedGenerator
+TestSession --> "1" BatteryModule : utilizedBattery
+TestResult --> "1" CircuitNode : affectedNode
+SystemBoard --> "0..*" Manufacturer : compatibleManufacturers
+CircuitNode --> "0..1" Driver : targetDriver
+CircuitNode --> "0..*" Pin : activePins
+DeviceModule --> "0..*" Pin : connectedPins
+@enduml

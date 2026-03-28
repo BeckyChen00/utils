@@ -1,0 +1,41 @@
+@startuml
+class User {
+  id: int
+  name: String
+  email: String
+  dateOfBirth: Date
+  isActive: boolean
+  +register(): Account
+  +validateAccount(): boolean
+}
+class Account {
+  accountNumber: String
+  accountType: String
+  +createPage(name: String): Page
+  +grantPrivileges(targetPage: Page, role: String): void
+  +calculateMonthlyFee(): double
+}
+class Page {
+  pageName: String
+  visitCount: int
+  +getBounceRate(): double
+  +getClickThroughRate(): double
+  +getConversionRate(): double
+}
+class BusinessPage {
+  companyName: String
+  +calculateRevenue(): double
+}
+class AdvertisementPage {
+  bounceRate: double
+  clickThroughRate: double
+  conversionRate: double
+  +generateAnalyticsReport(): String
+  +updateMetrics(bounceData: double, clickData: double, conversionData: double): void
+}
+User --> "0..*" Account : ownedAccounts
+Account *-- "0..*" Page : createdPages
+User --> "0..*" Page : managedPages
+BusinessPage --|> Page
+AdvertisementPage --|> Page
+@enduml

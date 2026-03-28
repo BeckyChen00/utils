@@ -1,0 +1,97 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteStyle rectangle
+
+class Cinema {
+  - name: String
+  - location: String
+  - copies: Set<MovieCopy>
+}
+
+class Theatre {
+  - id: int
+  - cinema: Cinema
+  - shows: Set<Show>
+}
+
+class Movie {
+  - title: String
+  - duration: int
+}
+
+class MovieCopy {
+  - id: int
+  - movie: Movie
+  - cinema: Cinema
+  - location: String
+}
+
+class Show {
+  - id: int
+  - startTime: DateTime
+  - endTime: DateTime
+  - theatre: Theatre
+  - movie: Movie
+  - published: boolean
+  - status: String
+}
+
+class Reservation {
+  - id: int
+  - show: Show
+  - customer: Customer
+  - seatNumber: int
+  - reservedTime: DateTime
+  - isCancelled: boolean
+}
+
+class Offer {
+  - id: int
+  - reservation: Reservation
+  - newShow: Show
+  - offerTime: DateTime
+  - expiresAt: DateTime
+  - accepted: boolean
+}
+
+class Ticket {
+  - id: int
+  - show: Show
+  - seatNumber: int
+  - customer: Customer
+  - issuedAt: DateTime
+}
+
+class Customer {
+  - id: int
+  - name: String
+  - email: String
+}
+
+' Relationships
+
+Cinema "1" -- "0..*" Copy : has
+Theatre "1" -- "1" Cinema : located in
+Theatre "1" -- "0..*" Show : hosts
+Movie "1" -- "0..*" MovieCopy : used by
+Movie "1" -- "0..*" Show : shown in
+Show "1" -- "0..*" Reservation : has
+Show "1" -- "0..*" Offer : can generate
+Reservation "1" -- "1" Customer : made by
+Offer "1" -- "1" Reservation : related to
+Offer "1" -- "1" Show : offers new seat
+Show "1" -- "0..*" Ticket : has
+Ticket "1" -- "1" Customer : issued to
+Customer "1" -- "0..*" Reservation : makes
+Customer "1" -- "0..*" Ticket : receives
+
+@enduml
+
+### Notes:
+- This diagram uses **aggregation** and **composition** where appropriate.
+- The `status` field in `Show` can be used to represent whether it's published or cancelled.
+- The `Offer` class represents the alternative seat proposal for customers who cancel their reservations.
+- The `Ticket` class represents physical tickets issued at the entrance, which are not cancellable.
+- The `Reservation` class includes information about seat numbers, time, and cancellation status.
+

@@ -1,0 +1,91 @@
+
+@startuml
+
+' Define classes and their attributes and relationships
+
+class Person {
+    +personID: int
+    +phone: String
+    +keywords: List<String>
+    +institutionCode: int
+}
+
+class Institution {
+    +institutionCode: int
+    +name: String
+}
+
+class ScientificArticle {
+    +doi: String
+    +title: String
+    * authors: List<Authorship>
+}
+
+abstract class ArticleType {}
+
+class PeerReviewedPaper extends ArticleType {
+    +citationCount: int
+    * reviewers: List<Reviewer>
+    +journalName: String
+    +publisherName: String
+}
+
+class TechnicalReport extends ArticleType {
+    +institutionCode: int
+}
+
+class Authorship {
+    +position: int
+    - personID: int
+    - doi: String
+}
+
+class Reviewer {
+    - personID: int
+    - doi: String
+}
+
+class Publisher {
+    +name: String
+}
+
+class Journal {
+    +name: String
+    +impactFactor: float
+    +publisherName: String
+}
+
+' Relationships
+
+Person "1" -- "0..*" Authorship : has
+Authorship "1" -- "1" ScientificArticle : authored
+ScientificArticle "1" -- "0..*" Authorship : has
+
+Institution "1" -- "0..*" Person : employs
+Institution "1" -- "0..*" TechnicalReport : publishes
+
+PeerReviewedPaper "1" -- "0..*" Reviewer : reviewed by
+Reviewer "1" -- "1" PeerReviewedPaper : reviews
+
+PeerReviewedPaper "1" -- "1" Journal : published in
+Journal "1" -- "1" Publisher : published by
+
+TechnicalReport "1" -- "1" Institution : published by
+
+Publisher "1" -- "0..*" Journal : has
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Person`** and **`Institution`** are uniquely identified by `personID` and `institutionCode`, respectively.
+- **`ScientificArticle`** is abstracted into a base class with common properties like `doi`, `title`, and list of authors (`Authorship`).
+- **`Authorship`** tracks author positions and links to both `Person` and `ScientificArticle`.
+- **`PeerReviewedPaper`** is a subclass of `ArticleType` and includes citations, reviewers, journal, and publisher info.
+- **`TechnicalReport`** is also an `ArticleType` and must be published by one institution.
+- **`Publisher`** manages journals and can have multiple journals with the same name as other publishers.
+- **`Journal`** stores impact factor and is linked to its publisher and peer-reviewed papers.
+- Only **peer-reviewed papers** are published in journals (not technical reports).
+

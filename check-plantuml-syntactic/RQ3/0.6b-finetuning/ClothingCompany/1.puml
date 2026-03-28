@@ -1,0 +1,56 @@
+@startuml
+enum PinStatus {
+  OK
+  DOWNGRADING
+  UPGRADEING
+  OFFLINE
+  FRACTIONAL
+}
+enum AlarmState {
+  NORMAL
+  ALERTING
+  TRIPPING
+  STOPPING
+  WARNING
+  ERROR
+}
+class SmartMeter {
+  currentPinStatus: PinStatus
+  +readData(): double
+  +triggerAlarm(reason: String): AlarmState
+}
+class DataLog {
+  timestamp: Date
+  value: double
+  unit: String
+}
+class SensorReading {
+  measurementValue: double
+  timestamp: Date
+  +validate(): boolean
+}
+class AlarmRecord {
+  eventDescription: String
+  currentState: AlarmState
+  timestamp: Date
+  +resolve(): boolean
+}
+class ControlUnit {
+  isActive: boolean
+  +adjustPower(targetPower: double): boolean
+  +executeCommand(command: String): boolean
+}
+class ControlSystem {
+  updateFrequency: int
+  +processEvent(event: AlarmRecord): boolean
+  +getSystemStatus(): String
+}
+SmartMeter *-- "0..*" SensorReading : readings
+SmartMeter *-- "0..*" DataLog : logs
+SensorReading *-- "1" AlarmRecord : associatedAlarm
+ControlUnit *-- "0..*" AlarmRecord : systemAlarms
+ControlUnit --> "1" SmartMeter : connectedMeter
+ControlSystem --> "1" ControlUnit : managedUnit
+ControlSystem --> "0..*" AlarmRecord : activeAlarms
+ControlSystem --> "0..*" DataLog : systemLogs
+@enduml

@@ -1,0 +1,9 @@
+graph TD
+    A[User] --> B[Database]
+    B --> C[Table]
+    C --> D[Data]
+    D --> E[Query]
+    E --> F[Result]
+    F --> G[Output]
+
+This is a simple class diagram based on the provided `<System Requirement>`. If you have specific requirements or additional classes, please let me know!

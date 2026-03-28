@@ -1,0 +1,121 @@
+
+@startuml
+
+' Define classes
+class Hospital {
+    - id: String
+    - name: String
+}
+
+class ExaminationType {
+    - code: String
+    - name: String
+    - description: String
+}
+
+class Permission {
+    - hospital_id: String
+    - examination_type_code: String
+    - granted_at: Date
+}
+
+class Problem {
+    - id: String
+    - name: String
+    - description: String
+}
+
+class TreatmentPlan {
+    - problem_id: String
+    - advised_examination_type_code: String
+    - sequence_order: Integer
+}
+
+class Doctor {
+    - id: String
+    - name: String
+    - affiliated_hospital_id: String
+}
+
+class Patient {
+    - id: String
+    - name: String
+}
+
+class Diagnosis {
+    - patient_id: String
+    - doctor_id: String
+    - problem_id: String
+    - diagnosed_at: Date
+}
+
+class ActualTreatment {
+    - diagnosis_id: String
+    - treatment_plan_id: String?
+    - notes: String
+}
+
+class MedicalAction {
+    - actual_treatment_id: String
+    - type: String
+    - details: String
+}
+
+class Examination {
+    - medical_action_id: String
+    - examination_type_code: String
+    - performed_at_hospital_id: String
+    - scheduled_for: Date
+    - performed_at: Date
+}
+
+' Relationships
+Hospital "1" -- "0..*" Permission : has permission for
+ExaminationType "1" -- "0..*" Permission : can be given to
+Hospital "1" -- "0..*" Diagnosis : serves patients at
+Doctor "1" -- "1" Hospital : affiliated with
+Problem "1" -- "1..*" TreatmentPlan : has treatment plan for
+TreatmentPlan "1" -- "1" ExaminationType : includes
+Diagnosis "1" -- "1" ActualTreatment : leads to
+ActualTreatment "1" -- "0..*" MedicalAction : includes
+MedicalAction "1" -- "0..1" Examination : may be an examination
+MedicalAction "1" -- "0..1" OtherAction : may be other action (e.g., medication)
+Examination "1" -- "1" Hospital : performed at
+
+' Notes for clarity
+note right of Permission
+  A hospital can apply for permission
+  to perform specific types of examinations.
+end note
+
+note right of ActualTreatment
+  Can deviate from the standard treatment plan.
+  May include both advised and freely chosen actions.
+end note
+
+note right of Examination
+  An examination must be performed at a hospital 
+  that has permission for that type.
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Hospital**: Represents a healthcare facility.
+- **ExaminationType**: Describes the type of examination (e.g., NMR scan).
+- **Permission**: Links hospitals to allowed examination types.
+- **Problem**: A medical issue for which a treatment plan exists.
+- **TreatmentPlan**: A standardized set of recommended examinations for a problem.
+- **Doctor**: A medical professional affiliated with a hospital.
+- **Patient**: The individual receiving care.
+- **Diagnosis**: A doctor's assessment of a patient’s problem.
+- **ActualTreatment**: The real treatment applied to a patient, possibly differing from the treatment plan.
+- **MedicalAction**: Any action taken as part of the treatment—could be an examination or something else.
+- **Examination**: A specific instance of a medical test, linked to a type and a hospital.
+
+---
+
+Let me know if you'd like this exported as a PNG or need any modifications!

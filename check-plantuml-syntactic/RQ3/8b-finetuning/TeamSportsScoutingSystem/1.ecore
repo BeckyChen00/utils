@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedAssignments" eType="#//ScoutingAssignment" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingAssignment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingReport" eType="#//ScoutingReport" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Scout">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedAssignments" eType="#//ScoutingAssignment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//ScoutingReport" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="observedProfile" eType="#//PlayerProfile" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PlayerProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClubDirector">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offeredPlayers" eType="#//PlayerProfile" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeadCoach">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedProfiles" eType="#//PlayerProfile" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviewedAssignments" eType="#//ScoutingAssignment" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

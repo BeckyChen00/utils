@@ -1,0 +1,21 @@
+@startuml
+
+class Diagram {
+    startDiagram
+    class SystemRequirement {
+        start
+        class Components {
+            component1
+            component2
+        }
+        end
+        class Dependencies {
+            dependency1
+            dependency2
+        }
+        end
+    }
+    end
+}
+
+@enduml

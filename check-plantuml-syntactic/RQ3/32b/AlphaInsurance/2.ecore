@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Contract" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generates" eType="#//Invoice" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_to" eType="#//Broker" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="files" eType="#//Claim" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Broker">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creates" eType="#//Contract" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommends" eType="#//InsurancePolicy" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Claim">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//ClaimCase" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InsurancePolicy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="included_in" eType="#//Contract" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="covered_by" eType="#//Claim" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimCase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessed_by" eType="#//Report" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leads_to" eType="#//CompensationDecision"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Report">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submitted_by" eType="#//Estimator" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Estimator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompensationDecision">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executed_as" eType="#//Payment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+</ecore:EPackage>

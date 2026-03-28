@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedTasks" eType="#//RepairTask" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RepairTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedEstimates" eType="#//RepairTimeEstimate" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceRecords" eType="#//ServiceRecord" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentEstimate" eType="#//RepairTimeEstimate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedTasks" eType="#//RepairTask" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RepairTimeEstimate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceQueue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedVehicles" eType="#//Vehicle" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="queuedTasks" eType="#//RepairTask" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,77 @@
+@startuml
+class AuditReport {
+  reportDate: Date
+  generationStatus: String
+  +generate(): void
+  +validate(): boolean
+}
+class SystemUser {
+  username: String
+  role: String
+  +authorize(): boolean
+}
+class IdentityDocument {
+  documentType: String
+  rawDocumentData: byte[]
+  +isValid(): boolean
+}
+class AuditRecord {
+  timestamp: Date
+  description: String
+  actionTaken: String
+  +recordAction(action: String): void
+}
+class PolicyRule {
+  rulePriority: int
+  conditionDescription: String
+  +evaluate(user: SystemUser, document: IdentityDocument): boolean
+}
+class AuditSession {
+  sessionStartTime: Date
+  sessionEndTime: Date
+  isActive: boolean
+  +startTime(): Date
+  +endTime(): Date
+  +isActiveSession(): boolean
+}
+class AccessLog {
+  accessTime: Date
+  ipAddress: String
+  +recordAccess(userId: String, ip: String): void
+}
+class AuditModule {
+  moduleId: String
+  moduleName: String
+  +triggerAudit(): AuditReport
+  +execute(): void
+}
+class GranularityLevel {
+  granularityType: String
+  +calculateGranularity(dateRange: Date): int
+}
+class TokenCache {
+  tokenCount: int
+  +cacheToken(token: String): void
+  +getTokenCount(): int
+}
+class PolicyChecker {
+  policyName: String
+  +checkAccess(user: SystemUser, document: IdentityDocument): boolean
+}
+class AccessGrant {
+  grantType: String
+  allowedTags: String[]
+  enabled: boolean
+  +approve(): boolean
+}
+AuditSession "1" *-- "0..*" AuditReport : generatedReports
+AuditSession "1" *-- "1" AccessLog : sessionLog
+AuditSession "1" *-- "1" AuditModule : activeModule
+AuditModule "1" *-- "*" AuditRule : definedRules
+AuditRule "1" --> "0..*" PolicyChecker : referencedCheckers
+Auditor "1" --> "*" SystemUser : assignedUsers
+Auditor "1" --> "*" AuditRecord : auditRecords
+AuditModule "1" --> "0..*" AccessGrant : sourceGrants
+AuditModule "1" --> "0..*" AccessLog : emittedLogs
+AuditModule "1" --> "0..*" IdentityDocument : checkedDocuments
+@enduml

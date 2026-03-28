@@ -1,0 +1,87 @@
+
+@startuml
+
+package "HBMS System" {
+    [Traveler] as T
+    [Hotel] as H
+    [HotelChain] as HC
+    [Booking] as B
+    [PreliminaryBooking] as PB
+    [FinalizedBooking] as FB
+    [SpecialOffer] as SO
+    [CreditCard] as CC
+    [City] as C
+    [RoomType] as RT
+    [ReliabilityRating] as RR
+}
+
+T --|> Person
+T "1" -- "many" CC : uses
+T "1" -- "1" B : has
+T "1" -- "1" RR : has
+T "1" -- "1" PB : may have
+T "1" -- "1" FB : may have
+
+H --|> Location
+H "1" -- "1" C : located in
+H "1" -- "0..*" HC : belongs to
+H "1" -- "0..*" RT : offers
+H "1" -- "0..*" SO : receives
+H "1" -- "0..*" FB : confirms
+H "1" -- "0..*" PB : receives
+
+HC --|> Hotel
+HC "1" -- "many" H : manages
+
+PB "1" -- "1" B : part of
+PB "1" -- "1" T : from
+PB "1" -- "0..*" SO : includes
+PB "1" -- "1" RR : considers
+
+FB "1" -- "1" B : part of
+FB "1" -- "1" T : from
+FB "1" -- "1" H : confirmed by
+FB "1" -- "1" CC : uses
+FB "1" -- "1" RR : affects
+FB "1" -- "1" CancellationDeadline : has
+
+SO "1" -- "1" H : offered by
+SO "1" -- "1" PB : related to
+SO "1" -- "1" RT : for room type
+SO "1" -- "1" Price : has
+SO "1" -- "1" HotelRating : has
+
+B "1" -- "1" T : made by
+B "1" -- "1" H : for
+B "1" -- "1" PB : may be preliminary
+B "1" -- "1" FB : may be finalized
+B "1" -- "1" CC : requires
+B "1" -- "1" RR : depends on
+
+CC "1" -- "1" T : used by
+CC "1" -- "1" B : associated with
+
+RR "1" -- "1" T : for traveler
+RR "1" -- "1" B : influences
+
+C "1" -- "1" H : city of hotel
+C "1" -- "1" PB : search in
+C "1" -- "1" FB : search in
+
+RT "1" -- "1" H : offered by
+RT "1" -- "1" B : requested
+RT "1" -- "1" SO : for offer
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The classes are organized into a package named `"HBMS System"`.
+- Relationships include associations (`--`), aggregations (`--|>`), and compositions (`"1" -- "1"`).
+- Some relationships are optional, denoted by `0..*` or `0..1`.
+- This diagram reflects the business logic and data flow described in the system requirements.
+
+---
+
+### ✅ To Use:

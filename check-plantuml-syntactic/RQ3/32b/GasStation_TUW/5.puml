@@ -1,0 +1,54 @@
+
+@startuml
+
+' Classes
+class GasStation {
+  - id: int
+  - address: String
+  + addFuelPump(fuelPump: FuelPump): void
+  + removeFuelPump(fuelPump: FuelPump): void
+  + recordDailyPrice(dailyPrice: DailyPrice): void
+}
+
+class FuelPump {
+  - number: int
+  - isSelfService: boolean
+  + addFuel(fuel: Fuel): void
+  + removeFuel(fuel: Fuel): void
+}
+
+class Fuel {
+  - name: String
+  - octaneRating: int
+}
+
+class DailyPrice {
+  - date: Date
+  - pricePerLiter: double
+}
+
+class FuelPurchase {
+  - id: int
+  - litersDispensed: double
+}
+
+' Associations and Multiplicities
+GasStation "1" *-- "0..12" FuelPump : has
+FuelPump "1" *-- "1..*" Fuel : offers
+GasStation "1" *-- "1..*" DailyPrice : archives
+DailyPrice "1" -- "1" Fuel : forFuel
+DailyPrice "1" -- "1" GasStation : atStation
+FuelPurchase "1" -- "1" FuelPump : atPump
+FuelPurchase "1" -- "1" Fuel : ofFuel
+FuelPurchase "1" -- "1" DailyPrice : atPrice
+
+@enduml
+
+### Explanation:
+
+- **GasStation**: Has a unique ID and address. It can have up to 12 `FuelPump` objects.
+- **FuelPump**: Identified by a number and whether it's self-service. Each fuel pump offers one or more `Fuel` types.
+- **Fuel**: Identified by its name and octane rating.
+- **DailyPrice**: Records the price per liter for a specific fuel at a specific gas station on a given date.
+- **FuelPurchase**: Represents a purchase made using a specific fuel pump, with a specific fuel and daily price, and includes the quantity in liters.
+

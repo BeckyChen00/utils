@@ -1,0 +1,91 @@
+@startuml
+
+' Class Diagram for Tile-O Application
+
+class Game {
+  - gameBoard: Board
+  - players: List<Player>
+  - actionDeck: Deck<ActionCard>
+  - currentTurn: int
+  + startGame()
+  + nextTurn()
+  + checkWinCondition()
+}
+
+class Board {
+  - tiles: List<Tile>
+  - hiddenTile: Tile
+  - actionTiles: List<Tile>
+  + addTile(Tile tile)
+  + removeTile(Tile tile)
+  + isTileConnected(Tile tile1, Tile tile2)
+}
+
+class Tile {
+  - position: Position
+  - isVisited: boolean
+  - isActionTile: boolean
+  - actionDuration: int
+  + markAsVisited()
+  + isHidden(): boolean
+  + isActionTile(): boolean
+}
+
+class Player {
+  - color: Color
+  - position: Position
+  - hasLostTurn: boolean
+  + move(int steps)
+  + takeAction(ActionCard card)
+  + getTurnResult(): Result
+}
+
+class Position {
+  - x: int
+  - y: int
+  + equals(Position other): boolean
+}
+
+class ActionCard {
+  - type: ActionType
+  - effect: String
+  + execute(Player player, Board board)
+}
+
+enum ActionType {
+  EXTRA_TURN,
+  CONNECT_TILES,
+  REMOVE_CONNECTION,
+  MOVE_ARBITRARY_TILE,
+  LOSE_NEXT_TURN
+}
+
+class Deck {
+  - cards: List<ActionCard>
+  + drawCard(): ActionCard
+  + shuffle()
+}
+
+' Associations
+
+Game "1" -- "1" Board: has
+Game "1" -- "0..4" Player: has
+Game "1" -- "1" Deck: has
+
+Player "1" -- "1" Position: has
+Tile "1" -- "1" Position: has
+
+Deck "1" -- "0..32" ActionCard: contains
+
+@enduml
+
+### Notes:
+- This class diagram captures the core entities and relationships in the **Tile-O** application.
+- The `Game` class manages the overall game state, including the board, players, and action deck.
+- The `Board` holds all the tiles, tracks the hidden tile, and manages connections between tiles.
+- Each `Tile` can be visited, may be an action tile, and can have a duration for its special behavior.
+- `Player` objects represent each participant, with their own color and position.
+- `ActionCard` defines the various actions that can be taken during the game.
+- The `Deck` class manages the 32 action cards, which are drawn when players land on action tiles.
+
+Let me know if you'd like to generate this as an image or need further refinements!

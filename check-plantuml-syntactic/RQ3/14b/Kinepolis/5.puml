@@ -1,0 +1,130 @@
+
+@startuml
+
+' Define classes
+class Cinema {
+  -id: int
+  -name: String
+  -location: String
+  +getTheatres(): List<Theatre>
+}
+
+class Theatre {
+  -id: int
+  -cinema: Cinema
+  -name: String
+  -capacity: int
+  +getShows(): List<Show>
+}
+
+class Movie {
+  -id: int
+  -title: String
+  -duration: int
+  +getTitle(): String
+}
+
+class MovieCopy {
+  -id: int
+  -movie: Movie
+  -cinema: Cinema
+  -location: String
+  +getLocation(): String
+}
+
+class Show {
+  -id: int
+  -theatre: Theatre
+  -movie: Movie
+  -startTime: DateTime
+  -endTime: DateTime
+  -published: boolean
+  +getAvailableSeats(): int
+  +cancelShow(): void
+}
+
+class Reservation {
+  -id: int
+  -show: Show
+  -customer: Customer
+  -seatNumber: int
+  -paymentStatus: PaymentStatus
+  -reservedAt: DateTime
+  +cancelReservation(): void
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+}
+
+class Customer {
+  -id: int
+  -name: String
+  -email: String
+  -creditCard: String
+  +makeReservation(show: Show, seat: int): Reservation
+  +cancelReservation(reservation: Reservation): void
+  +acceptOffer(offer: Offer): void
+}
+
+class Offer {
+  -id: int
+  -reservation: Reservation
+  -newShow: Show
+  -createdAt: DateTime
+  -expiresAt: DateTime
+  +sendOffer(): void
+  +isExpired(): boolean
+}
+
+class Ticket {
+  -id: int
+  -show: Show
+  -seatNumber: int
+  -customer: Customer
+  -type: TicketType
+}
+
+enum TicketType {
+  ONLINE_RESERVATION
+  CASH_PURCHASE
+}
+
+class CashPurchase {
+  -id: int
+  -ticket: Ticket
+  -purchaseTime: DateTime
+}
+
+' Define relationships
+Cinema "1" --> "0..*" Theatre
+Theatre "1" --> "0..*" Show
+Movie "1" --> "0..*" MovieCopy
+MovieCopy "1" --> "1" Cinema
+Show "1" --> "0..*" Reservation
+Reservation "1" --> "1" Customer
+Customer "1" --> "0..*" Reservation
+Customer "1" --> "0..*" Offer
+Offer "1" --> "1" Reservation
+Offer "1" --> "1" Show
+Show "1" --> "0..*" Ticket
+Ticket "1" --> "1" TicketType
+Ticket "1" --> "0..1" CashPurchase
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **Cinema** contains multiple **Theatres**, which in turn have multiple **Shows**.
+- Each **Show** is associated with a specific **Movie** and a **Theatre**.
+- A **Movie** can have multiple **MovieCopies**, each located in a **Cinema**.
+- **Reservations** are made by **Customers** for **Shows** and are linked to a **PaymentStatus**.
+- **Offers** are sent when a **Show** is cancelled and a new one is available; these are tied to **Reservations**.
+- **Tickets** can be either from online reservations or purchased at the entrance (cash purchase).
+- **CashPurchases** are anonymous and not refundable.
+
+Let me know if you'd like a version with **associations**, **multiplicities**, or **notes** added explicitly.

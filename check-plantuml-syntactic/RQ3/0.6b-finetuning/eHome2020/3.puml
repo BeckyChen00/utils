@@ -1,0 +1,64 @@
+@startuml
+class ShoppingPreference {
+  hasUrgentPriority: boolean
+  +getPriorityScore(): int
+}
+class Product {
+  productCode: String
+  sku: String
+  name: String
+  unitPrice: double
+  minStockLevel: int
+}
+class ProductCategory {
+  categoryName: String
+  isAvailable: boolean
+  +getCategoryName(): String
+}
+class DeliveryAddress {
+  street: String
+  city: String
+  zipCode: String
+  state: String
+  +getFormattedAddress(): String
+}
+class Order {
+  orderDate: Date
+  status: String
+  totalAmount: double
+  +calculateTotal(): double
+  +updateStatus(newStatus: String): void
+}
+class OrderItem {
+  quantity: int
+  unitPrice: double
+  +calculateSubtotal(): double
+}
+class ReservationRequest {
+  priorityLevel: int
+  +getServicePriority(): int
+  +getEstimatedDeliveryDate(): Date
+  +addOrder(item: OrderItem): void
+}
+class Customer {
+  customerName: String
+  emailAddress: String
+  age: int
+  +getContactInfo(): String
+}
+class DeliveryProfile {
+  trackingNumber: int
+  isPreferredMethod: boolean
+  +calculateEstimatedCost(): double
+  +updateTrackStatus(status: String): void
+}
+ReservationRequest "1" *-- "0..*" OrderItem : contains
+Order "1" *-- "1" DeliveryAddress : assignedDeliveryAddress
+Order "1" --> "1" Customer : owner
+Order "1" *-- "1" DeliveryProfile : usesProfile
+Order "1" *-- "1" ProductCategory : specifiedCategory
+Product "1" --> "0..1" DeliveryAddress : isPickupAddress
+Customer "1" --> "1" ShoppingPreference : preferences
+Customer "1" *-- "0..*" ReservationRequest : hasPendingRequests
+Product "1" --> "0..1" DeliveryProfile : adoptedHeader
+@enduml

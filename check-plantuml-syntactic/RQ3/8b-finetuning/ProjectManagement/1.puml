@@ -1,0 +1,34 @@
+@startuml
+enum TeamMemberStatus {
+  Active
+  Inactive
+  PendingReview
+}
+class Researcher {
+  researcherName: String
+  currentResearchGroup: ResearchGroup
+  +getFullname(): String
+  +changeResearchGroup(newGroup: ResearchGroup)
+}
+class ResearchGroup {
+  groupName: String
+  departmentCode: String
+  +getGroupMembers(): Researcher[]
+}
+class ResearchProject {
+  projectTitle: String
+  startDate: Date
+  endDate: Date
+  +getActiveWorkPackages(): WorkPackage[]
+}
+class WorkPackage {
+  workPackageCode: String
+  description: String
+  +addTeamMember(researcher: Researcher, status: TeamMemberStatus)
+  +removeTeamMember(researcher: Researcher)
+  +getTeamMembers(): Researcher[]
+}
+ResearchProject *-- "*" WorkPackage : containedWorkPackages
+WorkPackage --> "1" ResearchGroup : responsibleResearchGroup
+Researcher --> "*" WorkPackage : teamMemberAssignments 'opposite: assignedTeamMembers
+@enduml

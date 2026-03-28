@@ -1,0 +1,111 @@
+
+@startuml
+
+' Classes and Relationships for DestroyBlock Application
+
+class User {
+  -username: String
+  -password: String
+  -isAdmin: Boolean
+}
+
+class Admin {
+  +createGame(): Game
+  +designGame(): Game
+}
+
+class Player {
+  +playGame(): Game
+  +pauseGame(): void
+  +resumeGame(): void
+}
+
+class Game {
+  -name: String
+  -hallOfFame: HallOfFame
+  -blocks: List<Block>
+  -levels: List<Level>
+  -minSpeed: Integer
+  -speedIncreaseFactor: Double
+  -maxPaddleLength: Integer
+  -minPaddleLength: Integer
+}
+
+class HallOfFame {
+  -highScores: Map<Player, Integer>
+  +addScore(player: Player, score: Integer): void
+}
+
+class Block {
+  -color: String
+  -points: Integer
+}
+
+class Level {
+  -levelNumber: Integer
+  -isRandom: Boolean
+  -startingBlocks: List<Block>
+  -blockCount: Integer
+}
+
+class GameSession {
+  -currentLevel: Level
+  -player: Player
+  -lives: Integer
+  -score: Integer
+  +saveGame(): void
+  +loadGame(): void
+}
+
+class PlayArea {
+  -ballPosition: Position
+  -paddlePosition: Position
+  -ballDirection: Direction
+  -ballSpeed: Integer
+  -paddleLength: Integer
+}
+
+class Position {
+  -x: Integer
+  -y: Integer
+}
+
+class Direction {
+  -dx: Integer
+  -dy: Integer
+}
+
+' Associations and Inheritance
+
+User <|-- Admin
+User <|-- Player
+
+Admin "1" --> "1" Game
+Player "1" --> "1" GameSession
+GameSession "1" --> "1" Game
+Game "1" --> "*" Level
+Game "1" --> "*" Block
+Level "1" --> "*" Block
+Game "1" --> "1" HallOfFame
+
+GameSession "1" --> "1" PlayArea
+PlayArea "1" --> "1" Position
+PlayArea "1" --> "1" Direction
+
+@enduml
+
+---
+
+### ✅ Summary of Key Elements in the Diagram:
+- **User** is a base class with two subclasses: `Admin` and `Player`.
+- **Admin** can create and design games.
+- **Player** plays games, pauses/resumes them, and scores points.
+- **Game** contains levels, blocks, and a hall of fame.
+- **Level** has a configuration (random or not), block count, and starting blocks.
+- **Block** has a color and point value.
+- **HallOfFame** keeps track of high scores per player.
+- **GameSession** tracks the current state of a game session (e.g., lives, score, level).
+- **PlayArea** models the physical layout of the game, including ball position, paddle, direction, etc.
+
+---
+

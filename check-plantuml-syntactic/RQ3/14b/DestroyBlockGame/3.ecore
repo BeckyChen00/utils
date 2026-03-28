@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="GridPosition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="row" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="column" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HallOfFame">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="highScores" eType="#//Map_Player_Integer"/>
+    <eOperations xsi:type="ecore:EOperation" name="addScore">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+      <eParameters xsi:type="ecore:EParameter" name="score" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="getHighScore" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="player" eType="#//Player"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentLevel" eType="#//Level"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lives" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="score" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currently_playing" eType="#//Level" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongs_to" eType="#//Player" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="part_of" eType="#//Game" lowerBound="1"/>
+    <eOperations xsi:type="ecore:EOperation" name="startLevel"/>
+    <eOperations xsi:type="ecore:EOperation" name="endLevel"/>
+    <eOperations xsi:type="ecore:EOperation" name="loseLife"/>
+    <eOperations xsi:type="ecore:EOperation" name="checkGameOver" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//password" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="password"/>
+  <eClassifiers xsi:type="ecore:EClass" name="login">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="hallOfFame">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Block&gt;" eType="#//blocks"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="blocks"/>
+  <eClassifiers xsi:type="ecore:EClass" name="levels"/>
+  <eClassifiers xsi:type="ecore:EClass" name="minSpeed">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Integer" eType="#//levels"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="speedIncreaseFactor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Integer" eType="#//maxPaddleLength" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="maxPaddleLength"/>
+  <eClassifiers xsi:type="ecore:EClass" name="minPaddleLength"/>
+  <eClassifiers xsi:type="ecore:EClass" name="color">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//minPaddleLength"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="points">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Boolean" eType="#//isRandom"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="isRandom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="blockArrangement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startingBlockCount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Integer" eType="#//blockArrangement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_Player_Integer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Player">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_active_session_for" eType="#//GameSession" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Level">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//GridPosition" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses_blocks_from_game's_block_set" eType="#//Block" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="may_be" eType="#//Admin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="always_is" eType="#//Player" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Admin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creates_and_manages" eType="#//Game" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Game">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//HallOfFame" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Block" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Level" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Block"/>
+</ecore:EPackage>

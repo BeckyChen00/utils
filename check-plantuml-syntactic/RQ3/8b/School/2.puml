@@ -1,0 +1,76 @@
+
+@startuml
+
+class School {
+  -name: String
+  -rooms: Set<Room>
+  -principals: Set<Teacher>
+}
+
+class Teacher {
+  -firstName: String
+  -lastName: String
+  -email: String
+  -teachingRelationships: Set<TeachingRelationship>
+}
+
+class Student {
+  -firstName: String
+  -lastName: String
+  -classGroup: ClassGroup
+}
+
+class ClassGroup {
+  -name: String
+  -students: Set<Student>
+  -classroom: Classroom
+}
+
+class Classroom {
+  -name: String
+  -capacity: Integer
+  -classGroups: Set<ClassGroup>
+}
+
+class Room {
+  -name: String
+  -size: Double
+}
+
+class Gym extends Room {
+  -type: String
+}
+
+class TeachingRelationship {
+  -hours: Integer
+  -teacher: Teacher
+  -school: School
+}
+
+School "1" -- "0..*" TeachingRelationship : has
+TeachingRelationship "1" -- "1" Teacher : involves
+TeachingRelationship "1" -- "1" School : involves
+
+School "1" -- "1" Teacher : principal (only one)
+Teacher "1" -- "0..1" School : can be principal of
+
+Student "1" -- "1" ClassGroup : belongs to
+ClassGroup "1" -- "1" Classroom : assigned to
+Classroom "1" -- "1" ClassGroup : contains
+
+Room "1" -- "1" School : part of
+Gym "1" -- "1" Room : is a type of
+
+@enduml
+
+### Notes:
+- **`School`** has a name and contains rooms and principals.
+- **`Teacher`** has first name, last name, and email, and may have multiple teaching relationships with schools.
+- **`Student`** has first and last name and belongs to exactly one **`ClassGroup`**.
+- **`ClassGroup`** has a name, contains students, and is assigned to a **`Classroom`**.
+- **`Classroom`** is a type of **`Room`**, which also includes other types like **`Gym`**.
+- **`TeachingRelationship`** connects a teacher to a school and records the number of hours they teach there.
+- A **`School`** has **exactly one principal**, who is a **`Teacher`**.
+- A **`Teacher`** can be the principal of **at most one school**.
+- A **`ClassGroup`** consists of **10–31 students** and is assigned to **one classroom**, and vice versa.
+

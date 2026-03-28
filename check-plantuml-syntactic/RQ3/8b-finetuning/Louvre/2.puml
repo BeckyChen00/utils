@@ -1,0 +1,63 @@
+@startuml
+class Museum {
+  name: String
+  location: String
+  +getName(): String
+  +getTotalExhibitionCount(): int
+}
+class Exhibition {
+  title: String
+  startDate: Date
+  endDate: Date
+  +addItem(item: ExhibitionItem): void
+  +removeItem(item: ExhibitionItem): void
+  +getStages(): ExhibitionStage
+}
+class ExhibitionItem {
+  description: String
+  requiredQuantities: int[]
+  +getItemDetails(): String
+}
+class Location {
+  name: String
+  capacity: int
+  +getAvailableSpace(): int
+}
+class ExhibitionStage {
+  currentStatus: String
+  plannedStartDate: Date
+  +updateStatus(newStatus: String): void
+  +nextStep(): void
+}
+class Piece {
+  title: String
+  artist: String
+  creationYear: int
+  condition: String
+}
+class Collector {
+  name: String
+  region: String
+  +manageCollection(): void
+}
+class Employee {
+  name: String
+  role: String
+  +assignTask(task: String): void
+}
+class CoachingAssignment {
+  startDate: Date
+  endDate: Date
+  +isActive(): boolean
+}
+Museum "1" *-- "0..*" Location : locations
+Museum "1" *-- "0..*" Exhibition : exhibitions
+Exhibition "1" *-- "1..*" ExhibitionItem : items
+ExhibitionItem "1" --> "0..*" Piece : sourcedFrom
+ExhibitionItem "1" --> "1" Collector : primarySupplier
+ExhibitionStage "1" *-- "1" Employee : coordinator
+Location "1" --> "0..*" Exhibition : hostedExhibitions
+Collector "1" --> "0..*" Piece : ownedPieces
+Employee "1" --> "0..*" CoachingAssignment : coachingRoles
+CoachingAssignment "1" --> "1" Employee : mentee
+@enduml

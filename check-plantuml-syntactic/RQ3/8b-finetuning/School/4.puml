@@ -1,0 +1,40 @@
+@startuml
+enum RoomType {
+  CLASSROOM
+  GYM
+  LAB
+}
+class Person {
+  firstName: String
+  lastName: String
+  email: String
+}
+class School {
+  name: String
+  +getPrincipal(): Teacher
+}
+class Teacher {
+  +teachAt(school: School, hours: int): void
+  +canBePrincipal(): boolean
+}
+class Student {
+  +enrollIn(classGroup: ClassGroup): void
+}
+class ClassGroup {
+  groupName: String
+  size: int
+}
+class Room {
+  roomName: String
+  capacity: int
+  type: RoomType
+  size: int
+}
+School *-- "*" Room : rooms
+School *-- "*" ClassGroup : classGroups
+School --> "1" Teacher : principal
+Teacher --> "*" School : assignments
+Student --> "1" School : school
+ClassGroup *-- "*" Student : members
+ClassGroup --> "1" Room : assignedRoom
+@enduml

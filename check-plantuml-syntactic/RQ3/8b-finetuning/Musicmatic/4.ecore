@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessUser" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uploadedSong" eType="#//Song" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Song">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedFiles" eType="#//MusicFile" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryArtist" eType="#//Artist" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MusicFile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Artist"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Album">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedSongs" eType="#//Song" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SongCollection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedSongs" eType="#//Song" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegularUser">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedCollections" eType="#//SongCollection" upperBound="-1" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

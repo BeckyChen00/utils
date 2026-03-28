@@ -1,0 +1,136 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement {
+        id: "System Requirement"
+        name: "System Requirement"
+        description: "The system requirement specifies the necessary components and functionalities."
+    }
+
+    class Component {
+        id: "Component"
+        name: "Component"
+        description: "A part of the system that performs a specific function."
+    }
+
+    class Functionality {
+        id: "Functionality"
+        name: "Functionality"
+        description: "The ability of the component to perform a task."
+    }
+
+    class Requirement {
+        id: "Requirement"
+        name: "Requirement"
+        description: "A specific requirement associated with a component or functionality."
+    }
+
+    class Dependency {
+        id: "Dependency"
+        name: "Dependency"
+        description: "A relationship between components or functionalities."
+    }
+
+    class Interface {
+        id: "Interface"
+        name: "Interface"
+        description: "An abstraction representing a set of operations or interactions."
+    }
+
+    class ComponentInterface {
+        id: "ComponentInterface"
+        name: "ComponentInterface"
+        description: "A component's interface for interacting with other components."
+    }
+
+    class Task {
+        id: "Task"
+        name: "Task"
+        description: "A specific action or operation required by a component."
+    }
+
+    class Relationship {
+        id: "Relationship"
+        name: "Relationship"
+        description: "A link between components, functionalities, requirements, or interfaces."
+    }
+
+    class RequirementType {
+        id: "RequirementType"
+        name: "RequirementType"
+        description: "A type of requirement (e.g., performance, security)."
+    }
+
+    class ComponentType {
+        id: "ComponentType"
+        name: "ComponentType"
+        description: "A type of component (e.g., database, web server)."
+    }
+
+    class FunctionalCategory {
+        id: "FunctionalCategory"
+        name: "FunctionalCategory"
+        description: "A category of functionalities (e.g., data processing, user interaction)."
+    }
+
+    class Category {
+        id: "Category"
+        name: "Category"
+        description: "A group of related categories."
+    }
+
+    class Module {
+        id: "Module"
+        name: "Module"
+        description: "A module within the system."
+    }
+
+    class Subsystem {
+        id: "Subsystem"
+        name: "Subsystem"
+        description: "A subcomponent of a larger subsystem."
+    }
+
+    class Service {
+        id: "Service"
+        name: "Service"
+        description: "A service provided by the system."
+    }
+
+    class BusinessRule {
+        id: "BusinessRule"
+        name: "BusinessRule"
+        description: "A business rule defining constraints or conditions."
+    }
+
+    class Constraint {
+        id: "Constraint"
+        name: "Constraint"
+        description: "A constraint that must be satisfied by the system."
+    }
+
+    class Validation {
+        id: "Validation"
+        name: "Validation"
+        description: "A validation process ensuring correctness and compliance."
+    }
+
+    class TestScenario {
+        id: "TestScenario"
+        name: "Test Scenario"
+        description: "A test case that defines the expected behavior."
+    }
+
+    class TestCase {
+        id: "TestCase"
+        name: "TestCase"
+        description: "A test case that is executed in a scenario."
+    }
+
+    class Test {
+        id: "Test"
+        name: "Test"
+        description: "A test that verifies the system's functionality."
+    }
+
+@enduml

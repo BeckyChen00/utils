@@ -1,0 +1,107 @@
+@startuml
+enum WarehouseLocation {
+  Sunnyvale
+  Sunnyvale2
+  Sunnyvale3
+  Sunnyvale4
+  Sunnyvale5
+}
+enum OrderStatus {
+  Pending
+  Confirmed
+  InProgress
+  Completed
+  Cancelled
+}
+enum ProductCategory {
+  Electronics
+  Books
+  Clothing
+  Fashion
+  HomeKit
+  Homesecurity
+  RetailStore
+}
+enum PaymentMethod {
+  CreditCard
+  PayPal
+  SkuCash
+  BankTransfer
+}
+enum DispatchStatus {
+  Dispatched
+  Delivered
+  Waitlisted
+}
+class CustomerOrder {
+  customerName: String
+  orderDate: Date
+  status: OrderStatus
+  +confirmOrder(): boolean
+  +cancelOrder(): boolean
+  +addItem(product: ProductOrder): void
+  +removeItem(product: ProductOrder): void
+}
+class ProductOrder {
+  totalPrice: double
+  currentStatus: OrderStatus
+  +getSubtotal(): double
+  +calculateTotal(): double
+  +updateQuantity(quantity: int): void
+}
+class OrderLine {
+  quantity: int
+  unitPrice: double
+  productCategory: ProductCategory
+  +computeSubtotal(): double
+}
+class OrderItem {
+  trackingCode: String
+  warehouseLocation: WarehouseLocation
+  status: DispatchStatus
+  +calculateTotal(): double
+}
+class InventoryItem {
+  skuCode: String
+  categoryId: String
+  quantityInStock: int
+  +checkAvailability(): boolean
+  +updateStock(amount: int): boolean
+}
+class OrderSubmittal {
+  submissionDate: Date
+  isApproved: boolean
+  +submit(): boolean
+  +approve(): boolean
+  +reject(): boolean
+}
+class InboundReceipt {
+  receiptNumber: String
+  isVerified: boolean
+  issuesCount: int
+  +verifyReceipt(): boolean
+}
+class Technologies {
+  name: String
+  type: String
+}
+class SyncService {
+  +updateSyncStatus(status: String): boolean
+  +generateSyncReport(): String
+}
+class Warehouse {
+  location: WarehouseLocation
+  +getWarehouseLocation(): WarehouseLocation
+}
+CustomerOrder *-- "1..*" OrderLine : lineItems
+CustomerOrder *-- "0..1" OrderSubmittal : submission
+OrderLine *-- "1" OrderItem : orderItem
+OrderLine --> "1" ProductOrder : associatedOrder
+OrderItem --> "1" InventoryItem : product
+OrderSubmittal --> "1" OrderLine : supportedLine
+OrderSubmittal --> "1" Technologies : requiredTechnologies
+OrderLine --> "1" Technologies : requiredTechnologies
+InboundReceipt *-- "1..*" OrderLine : containedLines
+InboundReceipt --> "1" Technologies : usedTechnologies
+SyncService -- Technologies
+@enduml

@@ -1,0 +1,120 @@
+@startuml
+enum DeliveryStatus {
+  Pending
+  Completed
+  Cancelled
+}
+enum PriorityLevel {
+  Low
+  Medium
+  High
+}
+enum OrderStatus {
+  InProgress
+  Shipped
+  Delivered
+}
+class Customer {
+  +registerAccount(): void
+  +updateProfile(): void
+}
+class CustomerAddress {
+  streetAddress: String
+  zipCode: String
+  city: String
+  +getFormattedAddress(): String
+}
+class UserAccount {
+  emailAddress: String
+  isVerified: boolean
+  preferences: String
+  +authenticate(credentials: String): boolean
+  +updatePreferences(newPref: String): void
+}
+class Product {
+  productName: String
+  stockLevel: int
+  +restock(quantity: int): void
+  +checkAvailability(): boolean
+}
+class Order {
+  orderDate: Date
+  status: OrderStatus
+  totalAmount: double
+  +calculateTotal(): double
+  +cancel(): void
+}
+class OrderItem {
+  quantity: int
+  unitPrice: double
+  +calculateSubtotal(): double
+  +updateQuantity(amount: int): void
+}
+class DeliveryAddress {
+  streetAddress: String
+  postalCode: String
+  city: String
+  +getFormattedAddress(): String
+}
+class Warehouse {
+  warehouseName: String
+  capacity: int
+  +selectLocation(): String
+  +processOrder(order: Order): void
+}
+class DeliveryVehicle {
+  licensePlate: String
+  currentLocation: String
+  +updateLocation(location: String): void
+  +enqueueOrder(order: Order): void
+}
+class Shipment {
+  trackingId: String
+  estimatedDeliveryDate: Date
+  currentStatus: DeliveryStatus
+  +assignVehicle(vehicle: DeliveryVehicle): void
+  +updateStatus(newStatus: DeliveryStatus): void
+  +isLifted(): boolean
+}
+class Notification {
+  messageContent: String
+  sendDate: Date
+  +logEvent(recipient: Customer): void
+}
+class Alert {
+  severityLevel: PriorityLevel
+  description: String
+  +triggerAlert(): void
+}
+class Preference {
+  blacklistItems: String[]
+  blacklistColors: String[]
+  +syncPreferences(): void
+}
+class NotificationService {
+  +broadcast(message: String, recipients: List<Customer>): void
+  +sendSms(to: String, content: String): void
+}
+class DeliverySchedule {
+  dayOfWeek: String
+  startTime: Time
+  endTime: Time
+  +generateRoute(): String
+  +reschedule(newTime: Time): void
+}
+Order *-- "0..*" OrderItem : items
+Order --> "1" Customer : customer
+Order --> "1" DeliveryAddress : pickupAddress
+OrderItem --> "1" Product : item
+DeliverySchedule --> "1" CustomerAddress : targetLocation
+Shipment -- CustomerAddress
+Shipment -- UserAccount
+UserAccount -- Preference
+NotificationService -- Notification
+NotificationService -- Notification
+Notification -- DeliverySchedule
+UserAccount -- DeliveryVehicle
+UserAccount -- Warehouse
+Customer -- DeliverySchedule
+DeliverySchedule -- Address
+@enduml

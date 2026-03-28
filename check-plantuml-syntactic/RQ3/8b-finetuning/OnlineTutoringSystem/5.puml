@@ -1,0 +1,57 @@
+@startuml
+enum PaymentMethod {
+  CreditCard
+  WireTransfer
+  DigitalWallet
+  BankTransfer
+  PayPal
+}
+enum SessionStatus {
+  Pending
+  Confirmed
+  Cancelled
+  Completed
+}
+enum ExpertiseLevel {
+  PrimarySchool
+  HighSchool
+  University
+  GraduateLevel
+  Professional
+  AdvancedCertification
+}
+class User {
+  name: String
+  emailAddress: String
+  registeredDate: Date
+  +register(): void
+}
+class Tutor {
+  hourlyRate: double
+  availableSlots: String[]
+  +createTutorProfile(): void
+  +addSubjectOffer(subjectName: String, expertiseLevel: ExpertiseLevel, price: double): void
+  +scheduleSession(subjectName: String, expertiseLevel: ExpertiseLevel, scheduledDate: Date, durationMinutes: int): TuitionSession
+}
+class Student {
+  name: String
+  emailAddress: String
+  +browseOffers(subject: String): List<TuitionSession>
+  +makeRequest(tutor: Tutor, subject: String, date: Date, time: Time): TuitionSession
+  +paySession(session: TuitionSession, method: PaymentMethod): void
+}
+class TuitionSession {
+  scheduledDate: Date
+  durationMinutes: int
+  status: SessionStatus
+  isCancelledEarly: boolean
+  +confirmSession(): void
+  +cancelSession(reason: String): void
+  +calculateFee(): double
+  +markComplete(): void
+}
+Tutor --|> User
+Student --|> User
+Student "1" --> "*" TuitionSession : attendingSessions
+Tutor "1" --> "*" TuitionSession : offeringSessions
+@enduml

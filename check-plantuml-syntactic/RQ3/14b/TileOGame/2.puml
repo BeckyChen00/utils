@@ -1,0 +1,133 @@
+
+@startuml
+' Class Diagram for Tile-O Application
+
+class Game {
+  -gameBoard: GameBoard
+  -players: List<Player>
+  -hiddenTile: Tile
+  -actionDeck: Deck<ActionCard>
+  -spareConnections: List<ConnectionPiece>
+  -currentPlayerIndex: int
+  +startGame()
+  +endGame()
+  +getCurrentPlayer(): Player
+  +nextTurn()
+}
+
+class GameBoard {
+  -tiles: Map<Position, Tile>
+  -connections: Map<Position, List<ConnectionPiece>>
+  +addTile(tile: Tile)
+  +connectTiles(from: Position, to: Position)
+  +getTileAt(position: Position): Tile
+  +getConnectedTiles(position: Position): List<Tile>
+}
+
+class Tile {
+  -position: Position
+  -color: Color
+  -isVisited: boolean
+  -isActionTile: boolean
+  -actionDuration: int
+  -actionType: ActionType
+  +visit()
+  +isHidden(): boolean
+  +isActionTile(): boolean
+}
+
+enum ActionType {
+  EXTRA_TURN,
+  CONNECT_TILES,
+  REMOVE_CONNECTION,
+  MOVE_ARBITRARY,
+  LOSE_TURN
+}
+
+class Player {
+  -name: String
+  -color: Color
+  -piecePosition: Position
+  +moveTo(position: Position)
+  +getCurrentPosition(): Position
+  +hasWon(): boolean
+}
+
+class ConnectionPiece {
+  -id: int
+  -fromPosition: Position
+  -toPosition: Position
+  +connectTiles()
+  +disconnectTiles()
+}
+
+class ActionCard {
+  -actionType: ActionType
+  +execute(player: Player, game: Game)
+}
+
+class Deck<ActionCard> {
+  -cards: List<ActionCard>
+  +drawCard(): ActionCard
+  +shuffle()
+}
+
+class GameDesigner {
+  -game: Game
+  +designGame()
+  +placeTile(tile: Tile, position: Position)
+  +connectTiles(from: Position, to: Position)
+  +setHiddenTile(tile: Tile)
+  +setStartingPositions(players: List<Player>)
+  +defineActionCards(deck: Deck<ActionCard>)
+}
+
+class Position {
+  -x: int
+  -y: int
+}
+
+class Color {
+  -name: String
+}
+
+' Relationships
+
+Game "1" --> "1" GameBoard
+Game "1" --> "*" Player
+Game "1" --> "1" Deck<ActionCard>
+Game "1" --> "*" ConnectionPiece
+Game "1" --> "1" Tile : hiddenTile
+
+GameBoard "1" --> "*" Tile
+GameBoard "1" --> "*" ConnectionPiece
+
+Player "1" --> "1" Tile : piecePosition
+Player "1" --> "1" Color
+Tile "1" --> "1" Color
+Tile "1" --> "1" ActionType
+
+Deck<ActionCard> "1" --> "*" ActionCard
+GameDesigner "1" --> "1" Game
+GameDesigner "1" --> "*" Tile
+GameDesigner "1" --> "*" ConnectionPiece
+GameDesigner "1" --> "1" Deck<ActionCard>
+
+@enduml
+
+---
+
+### Summary of Key Classes:
+- **`Game`**: Manages the overall game state.
+- **`GameBoard`**: Holds tiles and connections.
+- **`Tile`**: Represents a single tile with properties like color, visited status, and action type.
+- **`Player`**: Represents a player with a color and position.
+- **`ConnectionPiece`**: Represents a physical or logical connection between tiles.
+- **`ActionCard`**: Defines an action that can be executed during gameplay.
+- **`Deck<ActionCard>`**: A collection of action cards.
+- **`GameDesigner`**: Handles the design phase of the game.
+- **`Position` & `Color`**: Utility classes for positioning and coloring.
+
+---
+
+Let me know if you'd like this diagram visualized or exported in a specific format (e.g., PNG, SVG).

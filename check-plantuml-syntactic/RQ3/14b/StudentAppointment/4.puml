@@ -1,0 +1,57 @@
+
+@startuml
+class Student {
+  -studentID: String
+  -name: String
+  -email: String
+  -registeredCourses: List<Course>
+}
+
+class TeachingAssistant {
+  -taID: String
+  -name: String
+  -email: String
+  -teachingCourses: List<Course>
+}
+
+class Course {
+  -courseCode: String
+  -title: String
+  -description: String
+}
+
+class Appointment {
+  -appointmentID: String
+  -date: Date
+  -time: Time
+  -duration: Integer
+  -student: Student
+  -teachingAssistant: TeachingAssistant
+  -course: Course
+}
+
+Student "1" -- "0..*" Course : registered for
+TeachingAssistant "1" -- "0..*" Course : teaches
+Appointment "1" -- "1" Student : requested by
+Appointment "1" -- "1" TeachingAssistant : assigned to
+Appointment "1" -- "1" Course : related to
+
+note right of Appointment
+  An appointment is always for one specific course and with one particular TA.
+end note
+
+note right of Student
+  A student can only request an appointment for a course they are registered for.
+end note
+
+note right of TeachingAssistant
+  A TA can only provide help for courses they are teaching.
+end note
+@enduml
+
+### Explanation:
+- **Student**: Has a list of registered courses and can request appointments for those courses.
+- **TeachingAssistant**: Has a list of courses they teach and can be assigned to appointments for those courses.
+- **Course**: Represents a course with a code, title, and description.
+- **Appointment**: Links a student, a teaching assistant, and a course. It has details like date, time, and duration.
+

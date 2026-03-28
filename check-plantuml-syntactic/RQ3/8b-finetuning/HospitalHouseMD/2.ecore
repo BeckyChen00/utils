@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedDiagnoses" eType="#//Diagnosis" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Diagnosis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classifiedIllness" eType="#//Illness" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Doctor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeDiagnoses" eType="#//Diagnosis" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPlans" eType="#//TreatmentPlan" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="approvedDiagnosis" eType="#//Diagnosis" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patientDiagnoses" eType="#//Diagnosis" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePlans" eType="#//TreatmentPlan" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagnosedIllnesses" eType="#//Illness" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Illness"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentPlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedMedications" eType="#//Medication" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="knownSideEffects" eType="#//SideEffect" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Medication"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SideEffect"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Nurse">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPatients" eType="#//Patient" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentRegistry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredPlans" eType="#//TreatmentPlan" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

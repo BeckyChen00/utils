@@ -1,0 +1,59 @@
+@startuml
+enum ControllerState {
+  Off
+  On
+  Charging
+  LowBattery
+  Error
+  Idle
+  FastCharge
+}
+enum WheelType {
+  Standard
+  PlusSize
+  FatTire
+  Minimalist
+}
+class Battery {
+  capacityWh: int
+  currentCharge: int
+  +getRemainingLife(): int
+  +isFullyCharged(): boolean
+  +startCharging(): void
+}
+class Wheel {
+  diameterCm: int
+  type: WheelType
+  +getDiameter(): int
+}
+class Controller {
+  currentState: ControllerState
+  hasGps: boolean
+  +updateState(newState: ControllerState): void
+  +getDiagnosticInfo(): String
+  +estimateNextInspectionDate(): Date
+}
+class Frame {
+  materialType: String
+  weightKg: double
+  +connectWheel(wheel: Wheel): void
+  +mountBattery(battery: Battery): void
+}
+class EBike {
+  modelName: String
+  productionYear: int
+  +assembleParts(frame: Frame, wheels: Wheel[], motor: Motor): void
+  +attachController(controller: Controller): void
+  +getCurrentState(): ControllerState
+}
+class Motor {
+  maxPowerW: int
+  +generateTorque(): int
+}
+Frame *-- "*" Wheel : wheels
+Frame *-- "0..1" Battery : battery
+Frame *-- "1" Controller : controller
+Controller --> "0..1" Battery : managedBattery
+EBike *-- "1" Frame : frame
+Controller --> "1" Motor : controlledMotor
+@enduml

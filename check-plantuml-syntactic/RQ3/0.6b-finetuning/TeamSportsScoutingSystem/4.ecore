@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enrolledSchool" eType="#//School" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="School"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConferentialActionEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedClassroom" eType="#//ClassRoom" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventDescription" eType="#//Announcement" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassRoom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConferenceRoom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentConfiguration" eType="#//RoomConfiguration" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoomConfiguration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedRoom" eType="#//ClassRoom" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ticketOwner" eType="#//User" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceReservation" eType="#//Reservation" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subscribedAnnouncements" eType="#//Announcement" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reservation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledTime" eType="#//Schedule" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBy" eType="#//BookingSystem" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BookingSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notificationService" eType="#//NotificationService" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vaultStorage" eType="#//SecurityVault" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timingEngine" eType="#//TimingEngine" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationService"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityVault"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimingEngine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TicketingAuthority">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedNotifications" eType="#//NotificationService" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedPayments" eType="#//Payment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Announcement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BookingPortal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBookingSystem" eType="#//BookingSystem" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyVault">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedTickets" eType="#//Ticket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Address"/>
+</ecore:EPackage>

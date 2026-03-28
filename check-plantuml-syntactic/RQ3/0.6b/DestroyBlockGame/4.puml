@@ -1,0 +1,13 @@
+@startuml
+
+classDiagram
+
+SystemRequirement --> Class Diagram
+
+ClassDiagram extends SystemRequirement with the following attributes:
+
+- Name: String
+- Description: String
+- Version: String
+
+@enduml

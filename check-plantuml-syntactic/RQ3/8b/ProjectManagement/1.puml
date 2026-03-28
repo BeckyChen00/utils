@@ -1,0 +1,45 @@
+
+@startuml
+
+' Define classes
+class ResearchGroup {
+  - id: int
+  - name: string
+  - department: string
+  + getResearchers(): List<Researcher>
+  + getWorkPackages(): List<WorkPackage>
+}
+
+class Researcher {
+  - id: int
+  - name: string
+  - researchGroup: ResearchGroup
+  + getWorkPackages(): List<WorkPackage>
+}
+
+class WorkPackage {
+  - id: int
+  - name: string
+  - leaderResearchGroup: ResearchGroup
+  + getResearchers(): List<Researcher>
+}
+
+' Define relationships
+ResearchGroup "1" -- "0..*" Researcher : belongsTo
+ResearchGroup "1" -- "0..*" WorkPackage : leads
+Researcher "1" -- "0..*" WorkPackage : isAssignedTo
+
+@enduml
+
+### Explanation of Relationships:
+- **ResearchGroup** has a one-to-many relationship with **Researcher** (a group can have many researchers).
+- **ResearchGroup** has a one-to-many relationship with **WorkPackage** (a group can lead multiple work packages).
+- **Researcher** can be assigned to multiple **WorkPackages** (one-to-many).
+- **WorkPackage** has a reference to its **leaderResearchGroup** (which is a ResearchGroup).
+
+This model captures the requirement that:
+- A researcher can be assigned to any WP, regardless of the leading RG.
+- Service delivery between groups must be traceable via the assignments.
+- When a researcher changes groups or a WP leadership changes, assignments are updated accordingly.
+
+Let me know if you'd like this rendered as an image or extended with more attributes or methods.

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attendanceLogs" eType="#//AttendanceLog" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttendanceLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Team">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" eType="#//User" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedRooms" eType="#//Room" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="installedSchedulers" eType="#//Scheduler" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SupportRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creator" eType="#//User" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTeam" eType="#//Team" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sentTemplate" eType="#//NotificationTemplate" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessionRoom" eType="#//Room" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Scheduler">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="handledRequests" eType="#//SupportRequest" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Detector">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoringUsers" eType="#//User" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationTemplate"/>
+</ecore:EPackage>

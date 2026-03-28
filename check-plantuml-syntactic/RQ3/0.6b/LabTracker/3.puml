@@ -1,0 +1,32 @@
+@startuml
+class Diagram {
+    class SystemRequirement { 
+        name: "System Requirement" 
+    }
+    class Module {
+        name: "Module1"
+        description: "This is a sample module for the system requirement."
+    }
+
+    class Dependency {
+        name: "Dependency1"
+        description: "This dependency is part of the system requirement."
+    }
+
+    class Relationship {
+        from: "SystemRequirement"
+        to: "Module"
+        type: "mandatory"
+    }
+
+    class Connection {
+        from: "SystemRequirement"
+        to: "Dependency"
+        type: "required"
+    }
+
+    class Diagram {
+        relationship [Relationship] between SystemRequirement and Module
+        connection [Connection] between SystemRequirement and Dependency
+    }
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+enum OrderStatus {
+  pending
+  confirmed
+  overpaid
+  returned
+  cancelled
+  processed
+  failed
+}
+class Customer {
+  name: String
+  contactInfo: String
+}
+class Order {
+  orderTimestamp: Date
+  estimatedPaymentAmount: double
+  totalAmount: double
+  +getOrderStatus(): OrderStatus
+  +calculateTotal(): double
+  +setOrderStatus(newStatus: OrderStatus): void
+  +generatePaymentReceipt(): String
+}
+class OrderItem {
+  quantity: int
+  unitPrice: double
+  productCategory: String
+  isCustomized: boolean
+  +calculateSubtotal(): double
+}
+class Payment {
+  paymentDate: Date
+  transactionId: String
+  amount: double
+  status: String
+  +process(): boolean
+  +refund(): boolean
+}
+Customer *-- "0..*" Order : placedOrders
+Order *-- "1..*" OrderItem : containedItems
+OrderItem --> "1" Customer : orderCustomer
+Order --> "0..1" Payment : paymentOccurrence
+@enduml

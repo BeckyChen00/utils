@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedBatches" eType="#//ProductionBatch" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionBatch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePlan" eType="#//ProductionPlan" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionPlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Job">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTask" eType="#//Task" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachedWorkOrder" eType="#//WorkOrder" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inspectedBy" eType="#//QualityControl" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBatch" eType="#//ProductionBatch" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredProtocol" eType="#//SafetyProtocol" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredEquipment" eType="#//Equipment" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceNotes" eType="#//MaintenanceLog"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documentTemplate" eType="#//DocumentTemplate" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalReport" eType="#//Report" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityControl"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyProtocol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Equipment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentTemplate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Report"/>
+</ecore:EPackage>

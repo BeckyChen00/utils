@@ -1,0 +1,96 @@
+@startuml
+enum CommandStatus {
+  Requested
+  Processing
+  Completed
+  Failed
+  Cancelled
+}
+enum SensorType {
+  Temperature
+  Movement
+  LightLevel
+  Humidity
+  GasDetected
+}
+enum RoomType {
+  LivingRoom
+  Bedroom
+  Kitchen
+  Bathroom
+}
+class SmartHome {
+  address: String
+  rooms: RoomType[]
+  +getRoomCount(type: RoomType): int
+}
+class SmartDevice {
+  id: String
+  isActive: boolean
+  firmwareVersion: String
+  lastMaintenanceDate: Date
+  +activate()
+  +deactivate()
+  +updateFirmware(version: String)
+  +getLastMaintenance(): Date
+}
+class SensorDevice {
+  type: SensorType
+  currentReadingValue: double
+  lastReadingTimestamp: Date
+  +getCurrentValue(): double
+  +getLastTimestamp(): Date
+}
+class ActuatorDevice {
+  supportedCommands: String[]
+  currentStatus: CommandStatus
+  +executeCommand(command: String): CommandStatus
+  +getStatus(): CommandStatus
+}
+class Room {
+  type: RoomType
+  name: String
+  +containsDevice(device: SmartDevice): boolean
+}
+class ActivityLog {
+  records: String[]
+  +addRecord(record: String)
+  +getLogContent(): String
+}
+class AlertRule {
+  description: String
+  isActive: boolean
+  +createRule(description: String)
+  +editRule(description: String)
+  +activate()
+  +deactivate()
+  +evaluateCondition(): boolean
+  +triggerAction()
+  +getDependencies(): AlertRule[]
+}
+class SensorReading {
+  value: double
+  timestamp: Date
+  sensorType: SensorType
+}
+class ControlCommand {
+  commandName: String
+  status: CommandStatus
+  timestamp: Date
+  +execute()
+  +cancel()
+}
+SmartHome *-- "*" Room : containedRooms
+Room --> "*" SmartDevice : housedDevices
+SmartDevice --> "1" Room : parentRoom
+SmartHome *-- "*" SensorDevice : managedSensors
+SmartHome *-- "*" ActuatorDevice : managedActuators
+SmartHome *-- "1" ActivityLog : systemLog
+AlertRule --> "1" Room : targetRoom
+AlertRule --> "*" SensorDevice : monitoredSensors
+AlertRule --> "*" ControlCommand : triggeredActions
+SensorDevice --> "*" SensorReading : generatedReadings
+ActuatorDevice --> "*" ControlCommand : executedCommands
+AlertRule --> "*" ControlCommand : definedActions
+SensorReading --> "1" ActuatorDevice : targetActuator
+@enduml

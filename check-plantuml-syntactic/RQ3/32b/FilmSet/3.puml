@@ -1,0 +1,106 @@
+
+---
+
+
+@startuml
+' Entities related to people
+class Person {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+abstract class CreativeEmployee extends Person {}
+
+class Director extends CreativeEmployee {
+  - hasOscar: boolean
+  - assistantName: String
+}
+
+class Actor extends CreativeEmployee {
+  - hasOscar: boolean
+  - education: String
+}
+
+class Technician extends Person {
+  - fieldOfActivity: String
+}
+
+class Screenwriter {
+  - name: String
+  - mostSuccessfulFilm: String
+}
+
+class Screenplay {
+  - title: String
+  - version: String
+  - date: Date
+  - numberOfScenes: int
+  - plot: String
+}
+
+class FilmSet {
+  - location: String
+}
+
+class Film {
+  - title: String
+  - yearOfRelease: int
+}
+
+enum Genre {
+  Thriller,
+  Action,
+  Horror,
+  Comedy
+}
+
+class Novel {
+  - title: String
+  - author: String
+}
+
+' Relationships
+Person <|-- CreativeEmployee
+CreativeEmployee <|-- Director
+CreativeEmployee <|-- Actor
+CreativeEmployee <|-- Technician : is not, but grouped for clarity
+
+Screenwriter "1" --> "many" Screenplay
+Screenplay "1" --> "1" Film
+Film "many" --> "many" FilmSet
+Film "1" --> "1" Genre
+Film "1" --> "1" Screenplay
+Screenplay "0..1" --> "1" Novel
+Screenplay "0..1" --> "1" Concept
+
+Actor "many" --> "1" Film
+Director "1" --> "1" Film
+Technician "many" --> "1" Film
+
+note right of Screenplay
+  A screenplay can be based on either a novel or a concept.
+end note
+
+note left of Film
+  A film uses multiple sets and belongs to one genre.
+end note
+
+@enduml
+
+---
+
+### 🧩 Explanation of Key Elements:
+
+- **Inheritance**: `CreativeEmployee` is an abstract base class for `Director`, `Actor`, and possibly `Technician` (though it's more accurate to treat `Technician` as separate).
+- **Associations**:
+  - A `Screenwriter` writes many `Screenplays`.
+  - A `Film` uses multiple `FilmSets` and has one `Genre`.
+  - A `Screenplay` is used by exactly one `Film`.
+  - An `Actor` appears in a `Film`.
+  - A `Director` directs a `Film`.
+- **Concept vs Novel**: The `Screenplay` is associated with either a `Novel` or a `Concept`. Since "concept" isn't a defined class, we model this with an optional association.
+
+---
+
+
+Let me know if you'd like a **simplified version**, a **sequence diagram**, or a **component diagram** next!

@@ -1,0 +1,66 @@
+@startuml
+enum ScoutingRecommendation {
+  keyPlayer
+  firstTeamPlayer
+  reserveTeamPlayer
+  prospectivePlayer
+  notGoodSigning
+}
+enum PlayerPosition {
+  GK
+  LB
+  RB
+  CB
+  CB2
+  LB2
+  RB2
+  DF
+  CM
+  RWB
+  LB3
+  RB3
+  FWD
+}
+class PlayerProfile {
+  playerName: String
+  playerPositions: PlayerPosition[]
+  playerAttributes: Map<PlayerPosition, int>
+  +validateProfile(): boolean
+}
+class ScoutingAssignment {
+  scoutingRecommendation: ScoutingRecommendation
+  isCompleted: boolean
+  notes: String
+  +completeAssignment(): void
+  +addNote(note: String): void
+}
+class ScoutingReport {
+  reportText: String
+  pros: List<String>
+  cons: List<String>
+  recommendation: ScoutingRecommendation
+  +submitReport(): void
+}
+class ClubDirector {
+  name: String
+  +makeOffer(player: PlayerProfile): void
+}
+class HeadCoach {
+  name: String
+  +createDesignatedProfile(targetPosition: PlayerPosition): PlayerProfile
+  +evaluatePlayer(player: PlayerProfile): ScoutingRecommendation
+}
+class Scout {
+  name: String
+  +generateReport(player: PlayerProfile, assignment: ScoutingAssignment): ScoutingReport
+  +submitAssignment(assignment: ScoutingAssignment): void
+}
+PlayerProfile *-- "0..*" ScoutingAssignment : relatedAssignments
+Scout --> "0..*" ScoutingAssignment : conductedAssignments
+Scout --> "0..*" ScoutingReport : generatedReports
+Scout --> "1" PlayerProfile : observedProfile
+ClubDirector --> "0..*" PlayerProfile : offeredPlayers
+HeadCoach --> "0..*" PlayerProfile : managedProfiles
+HeadCoach --> "0..*" ScoutingAssignment : reviewedAssignments
+ScoutingAssignment *-- "0..1" ScoutingReport : resultingReport
+@enduml

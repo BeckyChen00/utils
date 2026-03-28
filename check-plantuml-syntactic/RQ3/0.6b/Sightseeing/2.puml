@@ -1,0 +1,23 @@
+@startuml
+class Diagram { SystemRequirement }
+role User in Diagram
+role Developer in Diagram
+role Tester in Diagram
+
+participant user
+participant developer
+participant tester
+
+User << Developer << Tester
+Developer << Tester << User
+
+# Relationship
+user has Developer
+user has Tester
+Developer has Tester
+Tester has Developer
+Tester has User
+User has Tester
+Developer has User
+
+@enduml

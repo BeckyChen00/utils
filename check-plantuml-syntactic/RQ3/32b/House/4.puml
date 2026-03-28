@@ -1,0 +1,74 @@
+
+@startuml
+
+' Houses
+class House {
+  +String address
+  +String buildingMaterial
+  +Basement basement
+}
+
+' Basements
+abstract class Basement {
+  +String name
+  +int size
+}
+
+class EarthBasement extends Basement {
+  +double humidityLevel
+}
+
+class ConcreteBasement extends Basement {}
+
+House "0..1" -- "1" EarthBasement : has>
+House "0..1" -- "1" ConcreteBasement : has>
+
+' Semi-Detached House
+class SemiDetachedHouse extends House {
+  +boolean hasGarden
+  +int numberOfWindows
+  +GarageOrCarport garageOrCarport
+}
+
+' Garage or Carport
+abstract class GarageOrCarport {}
+
+class Carport extends GarageOrCarport {
+  +boolean isDouble
+  +boolean hasFlatRoof
+}
+
+class Garage extends GarageOrCarport {
+  +boolean hasAutomaticDoor
+}
+
+SemiDetachedHouse --> Carport : has>
+SemiDetachedHouse --> Garage : has>
+
+' Companies and Jobs
+class Company {
+  +String name
+  +String address
+}
+
+class JobLog {
+  +Company company
+  +House house
+  +int hoursWorked
+  +double agreedPrice
+}
+
+Company "1" -- "*" JobLog : services>
+House "1" -- "*" JobLog : has job log for>
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+- **`House`** is the base class with common attributes like `address`, `buildingMaterial`, and a reference to a `Basement`.
+- **`Basement`** is an abstract class with two concrete types: `EarthBasement` and `ConcreteBasement`. Only one of them can be associated with a house.
+- **`SemiDetachedHouse`** is a specialized type of `House` with additional properties and a choice between having a `Garage` or a `Carport`.
+- **`Garage`** and **`Carport`** are subtypes of the abstract class `GarageOrCarport`.
+- **`Company`** stores information about service providers, and **`JobLog`** records jobs done by companies in houses.
+

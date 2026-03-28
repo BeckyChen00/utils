@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//UserAccount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Student" eSuperTypes="#//UserAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentHistory" eType="#//PaymentTransaction" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledSessions" eType="#//TutoringSession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tutor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentHistory" eType="#//PaymentTransaction" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedSessions" eType="#//TutoringSession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentTransaction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TutoringSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessionAlerts" eType="#//Notification" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MonthlyAward">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="awardees" eType="#//Tutor" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,12 @@
+@startuml
+    class Diagram {System Requirement}
+    
+    class SystemRequirement {
+        [Name: System Requirement]
+        [Description: A requirement for a system to meet certain criteria.]
+        
+        [Requirements] - [R1] 
+        [R2] 
+        [R3] 
+    }
+@enduml

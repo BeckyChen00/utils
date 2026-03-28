@@ -1,0 +1,131 @@
+@startuml
+enum CaseStatus {
+  Open
+  UnderReview
+  Approved
+  Rejected
+  PendingArchived
+}
+enum DocumentType {
+  BirthCertificate
+  MarriageCertificate
+  SeparationCertificate
+  GuardianshipDecision
+  EmploymentRecord
+}
+enum PriorityLevel {
+  Low
+  Medium
+  High
+}
+class CaseFile {
+  caseNumber: String
+  currentStatus: CaseStatus
+  +updateStatus(newStatus: CaseStatus): void
+  +getDocumentSummary(): String
+}
+class Document {
+  fileName: String
+  documentType: DocumentType
+  uploadDate: Date
+  +validateContent(): boolean
+  +getDocumentTitle(): String
+}
+class PendingDocument {
+  documentNumber: String
+  uploadDate: Date
+  +validateContent(): boolean
+}
+class Lawyer {
+  lawyerName: String
+  specialization: String
+  +updateProfessionalInfo(newInfo: String): void
+}
+class Appointment {
+  appointmentDate: Date
+  isConfirmed: boolean
+  isLate: boolean
+  +confirmAppointment(): boolean
+  +rejectAppointment(reason: String): void
+}
+class Schedule {
+  timeSlot: String
+  durationMinutes: int
+  +getAvailableSlot(): Date
+}
+class Moderator {
+  moderatorName: String
+  authority: String
+  +reviewDocument(document: Document, isCritical: boolean): boolean
+}
+class Decision {
+  decisionDate: Date
+  outcome: String
+  penaltyAmount: double
+  +getDecisionOutcome(): String
+}
+class Reviewer {
+  reviewerName: String
+  expertiseArea: String
+  +assessWeight(document: Document, weightFactor: double): double
+}
+class Application {
+  applicationDate: Date
+  submissionDate: Date
+  +submit(): boolean
+  +submitClaim(claimType: DocumentType): boolean
+}
+class CaseApplication {
+  caseNumber: String
+  currentStatus: CaseStatus
+  +submitApplication(): boolean
+  +generateCaseSummary(): String
+  +updateStatus(newStatus: CaseStatus): void
+}
+class Notice {
+  issueDate: Date
+  content: String
+  +sendNotice(recipient: String): void
+}
+class Archive {
+  archiveDate: Date
+  +archiveDocument(document: Document): void
+  +seekSeeker(query: String): String
+}
+class Advisory {
+  advisoryNotes: String
+  reviewDate: Date
+  +generateAdvisory(): String
+}
+class Notification {
+  notificationDate: Date
+  content: String
+  +sendNotification(recipient: String): void
+}
+class Membership {
+  membershipType: String
+  inactive: boolean
+  +addMember(lawyer: Lawyer): void
+}
+Lawyer *-- "1" Membership : membership
+CaseApplication *-- "1" Application : application
+CaseFile *-- "*" Document : documents
+CaseFile --> "1" Notification : attachedNotice
+CaseFile --> "*" Decision : decisions
+CaseFile --> "1" Reviewer : primaryReviewer
+CaseFile --> "1" Advisory : advisoryComment
+CaseFile *-- "*" Schedule : timeSlots
+CaseFile *-- "*" Appointment : appointments
+CaseFile *-- "*" Notification : generatedNotices
+Application --> "1" CaseFile : relatedFile
+CaseFile --> "*" Reviewer : assignedReviewers
+CaseFile --> "1" Archive : storedInArchive
+CaseApplication --> "1" Notification : issuedNotice
+Application --> "*" Notice : generatedNotices
+Appointment --> "1" Schedule : scheduledTime
+Applicant --> "*" Notification : receivedNotices
+Moderator --> "*" Reviewer : supervisedReviewers
+Moderator --> "*" Reviewer : delegatedReviewers
+Notice --> "*" Reviewer : notifiedReviewers
+CaseApplication --> "*" Member : involvedMembers
+@enduml

@@ -1,0 +1,149 @@
+
+This diagram captures the main entities, their relationships, and key attributes and operations. It focuses on modeling the structural aspects of the system such as `Inhabitant`, `Stay`, `Bed`, `Department`, `Invoice`, etc., along with the core business logic described in your requirement.
+
+---
+
+
+@startuml
+
+' Entities
+class Inhabitant {
+  - id: String
+  - name: String
+  - dateOfBirth: Date
+  + register()
+  + assessNeeds()
+  + acceptProposal()
+  + refuseProposal()
+}
+
+class Registration {
+  - id: String
+  - registrationDate: Date
+  + submitRegistrationData()
+  + saveBasicInformation()
+}
+
+class Assessment {
+  - id: String
+  - assessmentDate: Date
+  - needsHelpEating: boolean
+  - needsHelpDressing: boolean
+  - needsHelpPersonalCare: boolean
+  + determineStayType()
+}
+
+class StayType {
+  <<enumeration>>
+  RestHome (RH)
+  RestNursingHome (RNH)
+  ServiceFlat (SF)
+}
+
+class WaitingListEntry {
+  - position: Integer
+  - waitingSince: Date
+  + proposeBed()
+  + reAssessStayType()
+}
+
+class Department {
+  - id: String
+  - name: String
+  + getAvailableBeds()
+}
+
+class Room {
+  - id: String
+  - departmentId: String
+  + getAvailableBeds()
+}
+
+class Bed {
+  - id: String
+  - roomId: String
+  - category: StayType
+  - price: Double
+  + assignToInhabitant()
+  + release()
+}
+
+class Stay {
+  - id: String
+  - startDate: Date
+  - endDate: Date (optional)
+  - suspended: boolean
+  - stayType: StayType
+  + suspendStay()
+  + resumeStay()
+  + endStay()
+}
+
+class Invoice {
+  - id: String
+  - issueDate: Date
+  - dueDate: Date
+  - amount: Double
+  - outstandingAmount: Double
+  - status: String ("Pending", "Paid")
+  + calculateAmount()
+  + sendInvoice()
+  + applyDiscount()
+  + markAsPaid()
+}
+
+class Payment {
+  - id: String
+  - paymentDate: Date
+  - amount: Double
+  + registerPayment()
+  + refundExcess()
+}
+
+class CreditNote {
+  - id: String
+  - issueDate: Date
+  - amount: Double
+  + createCreditNote()
+  + executeRefund()
+}
+
+class Complaint {
+  - id: String
+  - description: String
+  - resolved: boolean
+  + submitComplaint()
+  + resolve()
+}
+
+' Relationships
+Inhabitant --> "1" Registration : has one
+Inhabitant --> "0..*" Assessment : has multiple
+Inhabitant --> "0..*" WaitingListEntry : on waiting list
+Inhabitant --> "0..*" Stay : has multiple stays
+Stay --> "1" Bed : uses
+Stay --> "1" StayType : type of
+Stay --> "1" Department : located in
+Stay --> "1" Invoice : generates
+Invoice --> "0..*" Payment : receives
+Invoice --> "0..*" CreditNote : may have
+Invoice --> "0..*" Complaint : may receive
+WaitingListEntry --> "1" StayType : for type
+Bed --> "1" StayType : belongs to category
+Bed --> "1" Room : located in
+Room --> "1" Department : part of
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **Enumeration `StayType`** represents the different types of care: RH, RNH, SF.
+- **`Inhabitant`** can have **multiple concurrent or suspended stays**.
+- **`Invoice`** and **`Payment`** are modeled as classes but note that payments are treated as events in the requirement.
+- **`Complaint`** and **`CreditNote`** model post-invoice interactions.
+- **`WaitingListEntry`** keeps track of the position and handling of proposals.
+
+---
+
+Let me know if you'd like an enhanced version with use cases, activity diagrams, or database schema as well!

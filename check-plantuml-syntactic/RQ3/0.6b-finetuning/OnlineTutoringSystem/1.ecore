@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedDocument" eType="#//IntellectualPropertyDocument" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntellectualPropertyDocument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassifierRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggerRequests" eType="#//ReviewRequest" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReviewRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedReviewer" eType="#//Reviewer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedDocuments" eType="#//IntellectualPropertyDocument" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReport" eType="#//FeedbackReport" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluatedDocuments" eType="#//IntellectualPropertyDocument" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processingEngine" eType="#//ClassificationEngine" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//FeedbackReport" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="checkedReviewers" eType="#//Reviewer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reviewer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FeedbackReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassificationEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedRequests" eType="#//ReviewRequest" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReviewVault">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedRequests" eType="#//ReviewRequest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedDocuments" eType="#//IntellectualPropertyDocument" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,96 @@
+
+@startuml
+' Define classes and their attributes and relationships
+
+class Student {
+  - name: String
+  - email: String
+  + requestTutoring(subject: String, level: String, date: Date, time: Time): void
+  + payForSession(sessionId: String, paymentMethod: String): void
+}
+
+class Tutor {
+  - name: String
+  - email: String
+  - bankAccount: String
+  + offerTutoring(subject: String, expertiseLevel: String, hourlyPrice: Double): void
+  + setWeeklyAvailability(days: List<String>, times: List<String>): void
+  + confirmSession(requestId: String): void
+  + suggestAlternativeSlot(requestId: String, newDate: Date, newTime: Time): void
+}
+
+class TutoringRequest {
+  - requestId: String
+  - subject: String
+  - level: String
+  - requestedDate: Date
+  - requestedTime: Time
+  - status: String
+  - tutorId: String
+  - studentId: String
+}
+
+class TutoringSession {
+  - sessionId: String
+  - subject: String
+  - level: String
+  - date: Date
+  - time: Time
+  - price: Double
+  - tutorId: String
+  - studentId: String
+  - status: String
+  + scheduleFollowUp(): void
+  + cancelSession(canceler: String): void
+}
+
+class Payment {
+  - paymentId: String
+  - sessionId: String
+  - amount: Double
+  - method: String
+  - timestamp: Date
+}
+
+class Award {
+  - awardId: String
+  - tutorId: String
+  - subject: String
+  - month: String
+  - title: String
+}
+
+' Define relationships
+
+Student "1" -- "0..*" TutoringRequest : creates
+Tutor "1" -- "0..*" TutoringRequest : receives
+TutoringRequest "1" -- "1" TutoringSession : leadsTo
+TutoringSession "1" -- "1" Payment : generates
+Tutor "1" -- "0..*" Award : receives
+TutoringSession "1" -- "1" Award : relatesTo (optional)
+
+@enduml
+
+### Explanation of Key Elements:
+
+- **Student**: Represents a user who can request tutoring. Attributes include `name`, `email`. Methods include requesting tutoring and making payments.
+  
+- **Tutor**: A tutor may also be a student. Attributes include `name`, `email`, `bankAccount`. Methods include offering subjects, setting availability, confirming or suggesting alternative slots.
+
+- **TutoringRequest**: A request made by a student to a tutor. It contains details like subject, level, date, time, etc.
+
+- **TutoringSession**: Represents an actual session once confirmed. Includes details about the session and its status. It has methods for scheduling follow-ups and cancellations.
+
+- **Payment**: Tracks the financial transaction after a session is completed.
+
+- **Award**: Monthly awards given to top tutors in each subject.
+
+### Relationships:
+- Students create `TutoringRequest`s.
+- Tutors receive `TutoringRequest`s.
+- A `TutoringRequest` leads to a `TutoringSession`.
+- A `TutoringSession` generates a `Payment`.
+- Tutors may receive `Award`s at the end of the month.
+
+---
+

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="ResearchInstitution">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="institutionCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishes" eType="#//TechnicalReport" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subscribes_to" eType="#//Subscription" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScientificArticle">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="doi" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authors" eType="#//Person" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="authorPosition" eType="#//Map_Person_Integer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PeerReviewedPaper" eSuperTypes="#//ScientificArticle">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="citationCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviewers" eType="#//Person" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="published_in" eType="#//Journal" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnicalReport" eSuperTypes="#//ScientificArticle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publisherInstitution" eType="#//ResearchInstitution"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Publisher">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishes" eType="#//Journal" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Journal">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publisher" eType="#//Publisher"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="impactFactor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subscribed_by" eType="#//Subscription" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Subscription">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="researchInstitution" eType="#//ResearchInstitution"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="journal" eType="#//Journal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//personID" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="personID"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//phoneNumber"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="phoneNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="keywords"/>
+  <eClassifiers xsi:type="ecore:EClass" name="institutionCode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//keywords"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="author_of" eType="#//ScientificArticle" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviewer_of" eType="#//ScientificArticle" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_Person_Integer"/>
+</ecore:EPackage>

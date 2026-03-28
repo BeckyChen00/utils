@@ -1,0 +1,67 @@
+@startuml
+enum statusType {
+  confirmed
+  maybe
+  declined
+  noReply
+}
+enum taskCategory {
+  foodAndDrink
+  decorations
+  entertainment
+  activities
+  additionalItems
+  personalNeeds
+  sharedNeeds
+}
+class organizer {
+  name: String
+  email: String
+  phone: String
+  password: String
+  isManagerOnly: boolean
+  +manageEvent(event: event): void
+  +inviteAttendees(attendeeList: List<attendee>): void
+}
+class attendee {
+  name: String
+  email: String
+  password: String
+  +register(): void
+  +updateStatus(choice: statusType): void
+}
+class event {
+  title: String
+  occasion: String
+  startDate: Date
+  endDate: Date
+  locationName: String
+  locationAddress: String
+  +getGuestList(): List<attendee>
+  +getChecklist(): List<checklistTask>
+}
+class eventCategory {
+  categoryName: String
+  description: String
+}
+class location {
+  locationName: String
+  address: String
+}
+class checklistTask {
+  description: String
+  required: boolean
+  isApplicable: boolean
+  category: taskCategory
+  +markComplete(): void
+  +addTask(task: checklistTask): void
+}
+organizer *-- "0..*" event : managedEvents
+organizer --> "1" eventCategory : primaryCategory
+event *-- "1" location : venue
+event --> "0..*" attendee : confirmedAttendees
+organizer --> "0..*" attendee : invitedAttendees
+attendee *-- "1" organizer : host
+checklistTask --> "1" organizer : owner
+checklistTask --> "0..*" attendee : assignedTo
+@enduml

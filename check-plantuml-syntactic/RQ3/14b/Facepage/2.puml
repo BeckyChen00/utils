@@ -1,0 +1,70 @@
+
+@startuml
+
+class User {
+  -id: String
+  -name: String
+  -email: String
+  -dateOfBirth: Date
+}
+
+class Account {
+  -accountNumber: String
+  -accountType: String (Personal / Business)
+  +createPage(pageName: String): Page
+}
+
+class PersonalAccount {
+  +sendFriendRequest(toUser: User): void
+  +acceptFriendRequest(fromUser: User): void
+}
+
+class BusinessAccount {
+  -monthlyFee: Double
+  +createAdPage(pageName: String): AdPage
+}
+
+class Page {
+  -pageName: String
+  -visits: Integer
+  +grantPrivilege(account: Account): void
+}
+
+class AdPage {
+  -bounceRate: Double
+  -clickThroughRate: Double
+  -conversionRate: Double
+}
+
+User "1" --> "1" Account
+Account "1" --> "0..*" Page
+Account "1" --> "0..1" User
+Page "1" --> "1" Account
+Page "1" --> "0..*" Account (granted privileges)
+
+note right of Page
+  Only personal accounts can be granted privileges to pages.
+end note
+
+note right of BusinessAccount
+  Business accounts can create ad pages with metrics.
+end note
+
+note right of PersonalAccount
+  Only personal accounts can send/receive friend requests.
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Relationships and Features:
+- **User** has a unique ID and fills out a form to register.
+- **Account** is created per user, with a unique account number. It can be either **Personal** or **Business**.
+- A **User** can have only one **Account** (either personal or business), as per Facepage's Terms of Use.
+- **PersonalAccount** allows sending and receiving friend requests.
+- **BusinessAccount** incurs a monthly fee and can create **AdPages**.
+- **Page** is managed by exactly one **Account**, but **PersonalAccounts** can be granted privileges to other pages.
+- **AdPage** is a special type of **Page** that tracks marketing metrics.
+
+Let me know if you'd like a UML image generated from this or further refinements!

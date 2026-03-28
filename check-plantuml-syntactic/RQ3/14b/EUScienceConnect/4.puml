@@ -1,0 +1,103 @@
+
+@startuml
+
+' Entities
+class Person {
+  - personID: String
+  - name: String
+  - phoneNumber: String
+  - keywords: List<String>
+  - institutionCode: String
+}
+
+class Institution {
+  - institutionCode: String
+  - name: String
+}
+
+class Article {
+  - doi: String
+  - title: String
+  - authors: List<Person>
+  - authorPositions: List<Integer>
+}
+
+class PeerReviewedPaper {
+  - citationCount: Integer
+  - reviewers: List<Person>
+}
+
+class TechnicalReport {
+  - publisherInstitutionCode: String
+}
+
+class Publisher {
+  - name: String
+}
+
+class Journal {
+  - name: String
+  - impactFactor: Double
+  - publisherName: String
+}
+
+class Subscription {
+  - institutionCode: String
+  - journalName: String
+  - publisherName: String
+}
+
+' Relationships
+Person "1" -- "0..*" Article : writes as author
+Person "1" -- "0..*" Article : reviews
+
+Article "1" -- "1" PeerReviewedPaper : is a
+Article "1" -- "1" TechnicalReport : is a
+
+PeerReviewedPaper "1" -- "0..*" Person : reviewed by
+
+TechnicalReport "1" -- "1" Institution : published by
+
+Publisher "1" -- "0..*" Journal : publishes
+
+Journal "1" -- "0..*" Subscription : has subscribers
+
+Institution "1" -- "0..*" Subscription : subscribes to
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Person**:
+  - Identified by `personID`.
+  - Works at an **Institution**.
+  - Can be both **author** and **reviewer** of different **Articles**.
+
+- **Institution**:
+  - Identified by `institutionCode`.
+  - Publishes **TechnicalReports** and subscribes to **Journals**.
+
+- **Article**:
+  - Base class with common properties (`doi`, `title`, `authors`).
+  - Inherited by `PeerReviewedPaper` and `TechnicalReport`.
+
+- **PeerReviewedPaper**:
+  - Has a `citationCount` and a list of `reviewers`.
+
+- **TechnicalReport**:
+  - Always published by a single **Institution**.
+
+- **Publisher**:
+  - Identified by name.
+  - Publishes multiple **Journals** (which may have the same name as other publishers).
+
+- **Journal**:
+  - Has a `name`, `impactFactor`, and associated `publisherName`.
+
+- **Subscription**:
+  - Represents an **Institution**'s subscription to a **Journal** from a **Publisher**.
+
+---
+

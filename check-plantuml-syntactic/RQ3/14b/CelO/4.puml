@@ -1,0 +1,107 @@
+
+@startuml
+skinparam linetype zigzag
+
+class Organizer {
+  - firstName: String
+  - lastName: String
+  - email: String
+  - postalAddress: String
+  - phoneNumber: String
+  - password: String
+  - isAttending: Boolean
+}
+
+class Attendee {
+  - firstName: String
+  - lastName: String
+  - email: String
+  - password: String
+  - attendanceStatus: String // "Attending", "Maybe", "Not Attending"
+}
+
+class Event {
+  - eventName: String
+  - startDate: DateTime
+  - endDate: DateTime
+  - occasion: String
+  - location: Location
+  - organizers: List<Organizer>
+}
+
+class Location {
+  - name: String
+  - address: String
+}
+
+class Task {
+  - description: String
+  - status: String // "To Do", "Done", "Not Applicable"
+  - assignedToAttendee: Boolean
+}
+
+class Checklist {
+  - tasks: List<Task>
+}
+
+class Invitation {
+  - sender: Organizer
+  - recipient: Attendee
+  - event: Event
+  - status: String // "Pending", "Accepted", "Declined", "Maybe"
+}
+
+class EventChecklist {
+  - event: Event
+  - checklist: Checklist
+}
+
+class Account {
+  - username: String
+  - password: String
+  - user: User
+}
+
+abstract class User {
+  - username: String
+  - password: String
+}
+
+class OrganizerAccount extends Account {
+  - organizer: Organizer
+}
+
+class AttendeeAccount extends Account {
+  - attendee: Attendee
+}
+
+Organizer --> "1" Event : organizes
+Event --> "1" Location : has
+Event --> "0..*" Organizer : has
+Event --> "0..*" Attendee : invites
+Attendee --> "1" Invitation : receives
+Invitation --> "1" Event : relates to
+Event --> "1" EventChecklist : has
+EventChecklist --> "1" Checklist : contains
+Checklist --> "0..*" Task : contains
+Task --> "0..1" Attendee : assigned to
+Organizer --> "0..*" Task : creates
+Organizer --> "0..*" Account : has
+Attendee --> "0..*" Account : has
+Organizer --> "1" OrganizerAccount : owns
+Attendee --> "1" AttendeeAccount : owns
+Organizer --> "1" User : is
+Attendee --> "1" User : is
+@enduml
+
+---
+
+### 📌 Summary of Key Relationships:
+
+- `Organizer` can organize multiple `Event`s.
+- An `Event` has one `Location`, and can be organized by multiple `Organizer`s.
+- `Attendee`s receive an `Invitation` to join an `Event`.
+- Each `Event` has a specific `Checklist` with `Task`s, some of which may be assigned to `Attendee`s.
+- `Organizer` and `Attendee` have their own `Account` for login purposes.
+- Both `Organizer` and `Attendee` are subclasses of the abstract `User` class.
+

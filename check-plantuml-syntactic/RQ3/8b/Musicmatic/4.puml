@@ -1,0 +1,108 @@
+
+@startuml
+
+' Song Class
+class Song {
+    +title: String
+    +year: int
+    +length: int
+    +genre: String
+    +artist: Artist
+    +id: String
+}
+
+' Artist Class
+class Artist {
+    +name: String
+    +dateOfBirth: Date
+    +websiteURL: String
+    +id: String
+}
+
+' User Class
+class User {
+    +id: String
+    +name: String
+    +address: String
+    +type: UserType
+}
+
+' UserType Enumeration
+enum UserType {
+    REGULAR,
+    BUSINESS
+}
+
+' BusinessUser Class (inherits from User)
+class BusinessUser {
+    +vatNumber: String
+}
+
+' RegularUser Class (inherits from User)
+class RegularUser {
+    +purchaseHistory: List<Purchase>
+}
+
+' Purchase Class
+class Purchase {
+    +item: Song
+    +user: User
+    +type: PurchaseType
+}
+
+' PurchaseType Enumeration
+enum PurchaseType {
+    SINGLE,
+    ALBUM
+}
+
+' Album Class
+class Album {
+    +trackList: List<Hit>
+    +suggestedTo: List<RegularUser>
+}
+
+' Hit Class
+class Hit {
+    +trackNumber: int
+    +song: Song
+    +artist: Artist
+}
+
+' Association between Song and Artist
+Song "1" -- "1" Artist : belongsTo
+
+' Association between User and BusinessUser / RegularUser
+User <|-- BusinessUser
+User <|-- RegularUser
+
+' Association between RegularUser and Purchase
+RegularUser "1" -- "0..*" Purchase : purchases
+
+' Association between Purchase and Song
+Purchase "1" -- "1" Song : includes
+
+' Association between Album and Hit
+Album "1" -- "0..*" Hit : contains
+
+' Association between Hit and Song
+Hit "1" -- "1" Song : isA
+
+' Association between Hit and Artist
+Hit "1" -- "1" Artist : isA
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Relationships:
+- **Song** has a **unique relationship** with an **Artist**, since each song belongs to exactly one artist.
+- A **User** can be either a **BusinessUser** or a **RegularUser** — this is modeled using inheritance.
+- **BusinessUser** can only upload **Singles** (which are individual songs).
+- **RegularUser** can buy **Singles** or **Albums** (comprising multiple **Hits**).
+- **Hits** are part of **Albums** and are also individual **Songs**.
+- **Purchase** tracks what a **RegularUser** buys, and includes a reference to the **Song** or **Album**.
+- **Albums** may be suggested to other **RegularUsers** based on behavior.
+
+---
+

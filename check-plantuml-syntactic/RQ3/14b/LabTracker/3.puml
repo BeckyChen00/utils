@@ -1,0 +1,136 @@
+
+@startuml
+' LabTracker Class Diagram
+
+class Doctor {
+  - practitionerNumber: String
+  - fullName: String
+  - address: String
+  - phoneNumber: String
+  - signature: Image
+  + prescribeTest(patient: Patient, testGroup: TestGroup): Requisition
+  + viewTestResults(requisition: Requisition): List<TestResult>
+}
+
+class Patient {
+  - healthNumber: String
+  - firstName: String
+  - lastName: String
+  - dateOfBirth: Date
+  - address: String
+  - phoneNumber: String
+  + bookAppointment(requisition: Requisition, lab: Lab): Appointment
+  + viewTestResults(requisition: Requisition): List<TestResult>
+}
+
+class Requisition {
+  - requisitionId: String
+  - doctor: Doctor
+  - patient: Patient
+  - validFrom: Date
+  - tests: List<Test>
+  - repetitionCount: Integer
+  - repetitionInterval: IntervalType
+  + addTest(test: Test): void
+  + getTestGroup(): TestGroup
+}
+
+enum IntervalType {
+  WEEKLY
+  MONTHLY
+  HALF_YEARLY
+  YEARLY
+}
+
+class Test {
+  - testName: String
+  - duration: Duration
+  - testGroup: TestGroup
+  + getDuration(): Duration
+}
+
+class TestGroup {
+  - groupName: String
+  - tests: List<Test>
+  + isValidTest(test: Test): Boolean
+}
+
+class Lab {
+  - labId: String
+  - name: String
+  - address: String
+  - businessHours: TimeRange
+  - registrationNumber: String
+  - cancellationFee: Double
+  + getAvailableAppointments(test: Test, date: Date): List<TimeSlot>
+  + scheduleAppointment(appointment: Appointment): void
+}
+
+class Appointment {
+  - appointmentId: String
+  - patient: Patient
+  - requisition: Requisition
+  - lab: Lab
+  - date: Date
+  - startTime: Time
+  - endTime: Time
+  - confirmationNumber: String
+  + changeAppointment(newDate: Date, newTime: Time): Boolean
+  + cancelAppointment(): Boolean
+}
+
+class TestResult {
+  - result: String (e.g., "Positive", "Negative")
+  - report: String
+  - test: Test
+  - date: Date
+  + getResult(): String
+  + getReport(): String
+}
+
+class TimeRange {
+  - start: Time
+  - end: Time
+  + isWithinRange(time: Time): Boolean
+}
+
+class TimeSlot {
+  - time: Time
+  - available: Boolean
+  + isAvailable(): Boolean
+  + markAsBooked(): void
+}
+
+class Duration {
+  - minutes: Integer
+  + getTotalMinutes(): Integer
+}
+
+' Relationships
+Doctor "1" --> "1..*" Requisition : creates
+Patient "1" --> "1..*" Requisition : receives
+Requisition "1" --> "1" Doctor : prescribedBy
+Requisition "1" --> "1" Patient : belongsTo
+Requisition "1" --> "1..*" Test : includes
+Test "1" --> "1" TestGroup : belongsTo
+TestGroup "1" --> "1..*" Test : contains
+Appointment "1" --> "1" Requisition : relatesTo
+Appointment "1" --> "1" Lab : scheduledAt
+Appointment "1" --> "1" Patient : madeBy
+Lab "1" --> "1..*" Appointment : schedules
+TestResult "1" --> "1" Test : relatesTo
+TestResult "1" --> "1" Patient : belongsTo
+@enduml
+
+---
+
+### 📌 Notes:
+- The `Doctor` class has a method to **prescribe tests**, and the `Patient` can **book appointments**.
+- A `Requisition` is linked to a group of tests that belong to the same `TestGroup`.
+- The `TestGroup` ensures that only compatible tests are grouped together.
+- An `Appointment` is tied to one `Requisition`, one `Lab`, and one `Patient`.
+- The `Lab` manages its own **business hours**, **cancellation fee**, and **available time slots**.
+- `TestResult` contains both the result and a report for each test.
+- The `TimeRange` represents the daily working hours of a lab, and `TimeSlot` represents available times within that range.
+
+Let me know if you'd like this rendered as an image or extended with more details.

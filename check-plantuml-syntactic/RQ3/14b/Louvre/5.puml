@@ -1,0 +1,73 @@
+
+@startuml
+' Class Diagram for Louvre Museum Exhibition Management System
+
+class Location {
+  -id: int
+  -name: String
+  -description: String
+}
+
+class Exhibition {
+  -id: int
+  -title: String
+  -startDate: Date
+  -endDate: Date
+  -status: String
+  -coordinator: Employee
+}
+
+class Employee {
+  -id: int
+  -name: String
+  -role: String
+  -coach: Employee
+}
+
+class ExhibitionItem {
+  -id: int
+  -itemType: String
+  -description: String
+}
+
+class Piece {
+  -id: int
+  -title: String
+  -artist: String
+  -collector: Collector
+}
+
+class Collector {
+  -id: int
+  -name: String
+  -contactInfo: String
+}
+
+class RequestedPiece {
+  -id: int
+  -exhibitionItem: ExhibitionItem
+  -piece: Piece
+  -status: String
+}
+
+' Relationships
+
+Location "1" --> "0..*" Exhibition : contains
+Exhibition "1" --> "1" Employee : coordinator
+Employee "0..1" --> "1" Employee : coach
+Exhibition "1" --> "0..*" ExhibitionItem : has
+ExhibitionItem "1" --> "0..*" RequestedPiece : requestedPieces
+RequestedPiece "1" --> "1" Piece : provides
+Piece "1" --> "1" Collector : belongsTo
+@enduml
+
+### Explanation of Key Elements:
+
+- **`Location`**: Represents parts of the museum (e.g., wings, floors) where exhibitions are held.
+- **`Exhibition`**: Contains details about each exhibition, including its coordinator.
+- **`Employee`**: Each employee can be assigned as a coordinator or coach; junior employees have a senior coach.
+- **`ExhibitionItem`**: Defines what items are needed for an exhibition (e.g., "a sunflower painting").
+- **`Piece`**: Represents a specific artwork that may be sourced from a collector.
+- **`Collector`**: Holds information about external collectors who own potential pieces.
+- **`RequestedPiece`**: Tracks which piece is being requested for a particular exhibition item.
+

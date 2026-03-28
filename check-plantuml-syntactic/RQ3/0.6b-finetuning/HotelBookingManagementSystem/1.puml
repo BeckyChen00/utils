@@ -1,0 +1,45 @@
+@startuml
+enum QuantumStateType {
+  Spin1
+  Spin2
+}
+enum DimensionCount {
+  2
+  4
+  8
+  16
+}
+class QuantumExperiment {
+  isOptimized: boolean
+  sampleCount: int
+  +runSimulation(): void
+  +getOptimizedResult(): String
+}
+class ObservationReport {
+  confidenceScore: double
+  +generateSummary(): String
+}
+class SimulationConfig {
+  systemSize: DimensionCount
+  depthIterations: int
+  +validateSettings(): boolean
+}
+class EnsembleMember {
+  isQuantum: boolean
+  overallState: QuantumStateType
+  +getIndividualState(): QuantumStateType
+  +identifyQuantum(): boolean
+}
+class MeasurementResult {
+  isComplete: boolean
+  recordedState: QuantumStateType
+  +isValid(): boolean
+}
+QuantumExperiment *-- "1" SimulationConfig : activeConfig
+QuantumExperiment *-- "*" EnsembleMember : primaryEnsemble
+QuantumExperiment *-- "*" ObservationReport : generatedReports
+QuantumExperiment --> "1" MeasurementResult : finalMeasurement
+MeasurementResult --> "1" EnsembleMember : sourceMember
+MeasurementResult --> "1" SimulationConfig : contextConfig
+MeasurementResult --> "1" QuantumExperiment : executionUnit
+@enduml

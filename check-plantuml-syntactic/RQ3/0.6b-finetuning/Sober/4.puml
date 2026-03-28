@@ -1,0 +1,224 @@
+@startuml
+class DeionizationSystem {
+  systemName: String
+  +startSystem(): boolean
+  +stopSystem(): boolean
+  +monitorPerformance(): String
+}
+class RecoveryUnit {
+  unitIdentifier: String
+  isOperational: boolean
+  +reset(): boolean
+  +calibrate(): boolean
+}
+class Contactor {
+  isClosed: boolean
+  +close(): boolean
+  +open(): boolean
+}
+class FiltrationElement {
+  elementLabel: String
+  materialType: String
+  +detectSlot(): boolean
+}
+class PurificationProcess {
+  plusPurge: boolean
+  isActive: boolean
+  targetConcentration: double
+  +execute(): boolean
+  +terminate(): boolean
+}
+class BacteriologicalTest {
+  testDate: Date
+  output: String
+}
+class CleaningInstruction {
+  requiredCount: int
+  isCompleted: boolean
+  +evaluate(): boolean
+}
+class MaintenanceRecord {
+  maintenanceDate: Date
+  technicianId: String
+  notes: String
+  +generateSummary(): String
+}
+class SensorArray {
+  sensorType: String
+  +readValues(): Map<String, double>
+}
+class SystemMaintenance {
+  isEmergency: boolean
+  +performInspection(): boolean
+  +requestRepair(): boolean
+}
+class RecoveryZone {
+  zoneName: String
+  flowRate: double
+  +addCleaner(technician: Technician): boolean
+  +assignZone(technician: Technician): boolean
+}
+class TemperatureDial {
+  currentTemperature: double
+  +adjustTemperature(delta: double): boolean
+  +calibrate(): boolean
+}
+class LeakDetector {
+  isCalibrated: boolean
+  +detectLeak(): boolean
+}
+class ChemicalSelector {
+  chemicalNames: String[]
+  currentChemical: String
+  +selectChemical(chemicalCode: String): boolean
+  +removeChemical(chemicalCode: String): boolean
+}
+class SettingConfiguration {
+  isColdMode: boolean
+  targetTemperature: double
+  +applySettings(): boolean
+  +getStatus(): String
+}
+class CycleLog {
+  cycleStart: Date
+  cycleEnd: Date
+  status: String
+  +recordCycle(): boolean
+}
+class OperationLog {
+  startTime: Date
+  endTime: Date
+  actionDescription: String
+  +logAction(action: String): boolean
+}
+class ErrorLog {
+  errorMessage: String
+  severity: int
+  +recordError(message: String, code: int): boolean
+}
+class AlkalinityTest {
+  testDate: Date
+  result: double
+  isPassed: boolean
+  +verifyData(): boolean
+}
+class FiltrationUnit {
+  isActivated: boolean
+  +runFiltering(): boolean
+  +resetFilterUnit(): boolean
+}
+class PrecipitationSensor {
+  isCalibrated: boolean
+  +detectWaste(): String
+}
+class CleaningShaped {
+  shapeType: String
+  shapeDescription: String
+  +shapeShape(): boolean
+}
+class CleaningRoutine {
+  taskDescription: String
+  priorityLevel: int
+  +execute(): boolean
+}
+class SafetyCheckList {
+  checkItem: String
+  isPassed: boolean
+  +checkItem(item: String): boolean
+}
+class DeionizationCycle {
+  startTime: Date
+  endTime: Date
+  isCompleted: boolean
+  +advanceTime(minutes: int): boolean
+  +endTime(): Date
+}
+class MaterialChemistry {
+  chemicalFormula: String
+  solubility: double
+  knownProperties: String
+}
+class WaterSample {
+  collectionDate: Date
+  volumeLiters: double
+  qualityGrade: String
+  +analyzeQuality(): String
+}
+class WaterSensor {
+  currentReading: double
+  +readSensors(): Map<String, double>
+}
+class DistributionUnit {
+  currentFlow: double
+  +allocateWater(): boolean
+  +sendWaterTo(zoneId: String): boolean
+}
+class WaterLevelSensor {
+  currentLevel: double
+  +getCurrentLevel(): double
+}
+class MonitoringStation {
+  stationCode: String
+  +collectData(): String
+  +generateReport(): String
+}
+class LeakDetector {
+  +detectLeak(): boolean
+}
+class ChemicalGenerator {
+  chemicalCode: String
+  isRunning: boolean
+  +releaseChemical(chemicalCode: String): boolean
+  +restartGenerator(): boolean
+}
+class pHMeter {
+  currentpH: double
+  +measurepH(): double
+  +calibrate(): boolean
+}
+class ControlPanel {
+  systemMode: String
+  +configureZone(zoneId: String): boolean
+  +displayStatus(): String
+}
+class AlarmAlert {
+  alertId: int
+  message: String
+  isActive: boolean
+  +triggerAlert(): boolean
+}
+DeionizationSystem *-- "1..*" RecoveryUnit : containedUnits
+RecoveryUnit *-- "1" Contactor : statusMonitor
+RecoveryUnit *-- "0..*" FiltrationElement : installedElements
+DeionizationSystem *-- "0..*" CleaningInstruction : generatedInstructions
+DeionizationSystem *-- "0..*" MaintenanceRecord : maintenanceHistory
+DeionizationSystem *-- "1" SystemMaintenance : activeMaintenance
+DeionizationSystem *-- "1" SensorArray : monitoringSensors
+DeionizationSystem *-- "1" LeakDetector : detectionSystem
+DeionizationSystem *-- "1" ChemicalGenerator : chemicalSource
+DeionizationSystem *-- "1..*" Temperatures : temperatureReadings
+DeionizationSystem *-- "1..*" ProcessingCycle : activeCycle
+DeionizationSystem *-- "1..*" BacteriologicalTest : sampleTests
+DeionizationSystem *-- "0..*" ChemicalSelector : activeChemicals
+DeionizationSystem *-- "1..*" ProcessGenerator : processUnits
+DeionizationSystem *-- "1..*" FlowRate : flowRates
+DeionizationSystem *-- "1..*" SafetyCheckList : safetyConsequences
+DeionizationSystem *-- "1..*" WaterSample : collectedSamples
+WaterSample *-- "1" pHMeter : pHTest
+WaterSample *-- "0..*" ChemicalGenerator : generatedChemicals
+WaterSample *-- "1" WaterLevelSensor : levelMeasurement
+DistributionUnit *-- "1..*" Location : assignedLocations
+WaterSensor *-- "1..*" FlowRate : flowRateLimits
+MonitoringStation *-- "1..*" WaterSensor : monitoredSensors
+MonitoringStation *-- "1" ControlPanel : centralController
+MonitoringStation *-- "1" LeakDetector : detectionSystem
+MonitoringStation *-- "1" BacteriologicalTest : testResults
+MonitoringStation *-- "0..*" AlkalinityTest : testedSamples
+DeionizationSystem *-- "0..*" MaterialChemistry : chemicalComposition
+DeionizationSystem *-- "0..*" WaterSample : collectedSamples
+DeionizationSystem --> "0..*" CycleLog : cycleLogs
+DeionizationSystem --> "0..*" ErrorLog : errorLogs
+DeionizationSystem --> "1..*" SensorArray : monitoringSensors
+DeionizationSystem --> "0..*" AlarmAlert : generatedAlerts
+DeionizationSystem --> "0..*" AlkalinityTest : testedSamples
+@enduml

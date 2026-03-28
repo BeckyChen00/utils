@@ -1,0 +1,29 @@
+@startuml
+    class diagram system_requirements
+
+    class requirement {
+        name: "Data Entry System"
+        description: "System for managing and storing data entries."
+    }
+
+    class user {
+        name: "User 1"
+        description: "Person using the system."
+    }
+
+    class entry {
+        id: "entry_001"
+        name: "Sales Report"
+        description: "A record of a sales transaction."
+    }
+
+    relationship between requirement and entry {
+        requirement --> entry
+    }
+
+    relationship between user and entry {
+        user --> entry
+    }
+
+    end
+@enduml

@@ -1,0 +1,46 @@
+@startuml
+enum AircraftStatus {
+  Pending
+  Built
+  Delivered
+}
+enum ContractType {
+  AircraftSale
+  MaintenanceAgreement
+}
+class AirlineCompany {
+  companyName: String
+  +getLegalName(): String
+}
+class SalesPerson {
+  employeeName: String
+  +manageContract(contract: SalesContract): void
+  +transferOwnership(contract: SalesContract, newOwner: SalesPerson): void
+}
+class CustomerAccount {
+  accountNumber: String
+  registrationDate: Date
+  +getAccountStatus(): String
+}
+class SalesContract {
+  contractType: ContractType
+  startDate: Date
+  endDate: Date
+  +addAcquisition(acquisition: AircraftAcquisition): void
+  +getTotalValue(): double
+  +isValid(): boolean
+}
+class AircraftAcquisition {
+  acquisitionDate: Date
+  negotiatedPrice: double
+  deliveryCondition: String
+  +getStatus(): AircraftStatus
+  +calculatePrice(): double
+}
+CustomerAccount "1" *-- "0..*" SalesPerson : activeEmployees
+CustomerAccount "1" *-- "0..*" SalesContract : ownedContracts
+SalesContract "1" *-- "1..*" AircraftAcquisition : acquisitions
+SalesContract "1" --> "1" SalesPerson : assignedSalesperson
+SalesContract "1" --> "1" AirlineCompany : negotiatingParty
+AircraftAcquisition "*" --> "1" AirlineCompany : sellerCompany
+@enduml

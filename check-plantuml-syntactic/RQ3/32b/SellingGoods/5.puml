@@ -1,0 +1,126 @@
+
+---
+
+
+@startuml
+
+' Entities
+class Customer {
+    - id: int
+    - name: string
+    - vatNumber: string
+    - headOfficeAddress: Address
+}
+
+class Address {
+    - id: int
+    - street: string
+    - city: string
+    - zipCode: string
+    - country: string
+}
+
+class Product {
+    - id: int
+    - name: string
+    - description: string
+    - unitPrice: decimal
+    - stockQuantity: int
+}
+
+class Order {
+    - id: int
+    - customer: Customer
+    - orderDate: datetime
+    - paymentDate: datetime (optional)
+    - isFullyPaid: boolean
+    - isFullyShipped: boolean
+}
+
+class OrderLine {
+    - id: int
+    - product: Product
+    - quantityOrdered: int
+    - quantityShipped: int
+    - order: Order
+    - status: enum { Pending, PartiallyShipped, FullyShipped }
+}
+
+class Shipment {
+    - id: int
+    - shipmentDate: datetime
+    - deliveryStatus: enum { Packed, Shipped, Delivered, Lost, Damaged }
+    - deliveryServiceUsed: string
+}
+
+class Delivery {
+    - id: int
+    - shipment: Shipment
+    - address: Address
+    - orderLines: list<OrderLine>
+    - deliveryDate: datetime (optional)
+    - receivedBy: string
+}
+
+class Invoice {
+    - id: int
+    - order: Order
+    - invoiceDate: datetime
+    - totalAmount: decimal
+    - paymentDueDate: datetime
+    - isPaid: boolean
+}
+
+' Associations and Multiplicities
+Customer "1" -- "0..*" Order : places
+Order "1" -- "1" Invoice : generates
+Order "1" -- "1..*" OrderLine : contains
+OrderLine "1" -- "1" Product : forProduct
+Customer "1" -- "1" Address : hasHeadOffice
+Customer "0..*" -- "0..*" Address : hasDeliveryAddress
+Address "0..*" -- "0..*" OrderLine : usedForDelivery
+OrderLine "1" -- "0..*" Delivery : shippedIn
+Delivery "1" -- "1" Shipment : partOf
+Shipment "1" -- "1" Delivery : includes
+Invoice "1" -- "1" Order : relatesTo
+
+' Constraints
+note right of OrderLine
+    quantityShipped <= quantityOrdered
+end note
+
+note right of Order
+    isFullyShipped = true iff all OrderLines are FullyShipped
+    isFullyPaid = true iff paymentDate is set
+end note
+
+note right of Shipment
+    A shipment may include multiple deliveries.
+    Each delivery can have one or more order lines.
+end note
+
+@enduml
+
+---
+
+### 📌 Key Features Covered:
+
+- **Customers**: Can have both a head office and delivery addresses.
+- **Orders & OrderLines**: Support partial shipments per line.
+- **Stock Management**: Products track current stock levels.
+- **Payment Options**: Orders can be paid at time of placing or after delivery.
+- **Invoicing**: Invoices are generated and linked to orders.
+- **Shipping Enhancements**:
+  - **Shipments** represent groups of delivered items.
+  - **Deliveries** handle actual shipping events with statuses.
+  - **Partial shipments** are supported by tracking `quantityShipped` in each `OrderLine`.
+- **Tracking & Accountability**:
+  - Shipment status (`Packed`, `Shipped`, `Delivered`, etc.)
+  - Ability to log delivery issues (`Lost`, `Damaged`)
+
+---
+
+### ✅ How to Use
+
+
+Would you like me to also provide the **state machine diagrams** or **sequence diagrams** for specific use cases (e.g., placing an order, shipping, paying)?

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedNodes" eType="#//NetworkNode" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NetworkNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedPaths" eType="#//RoutingPath" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostInterfaces" eType="#//NetworkInterface" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedProtocols" eType="#//TransportProtocol" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedEvents" eType="#//TrafficEvent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NetworkZone">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostInterface" eType="#//NetworkInterface" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NetworkInterface"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrafficManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzer" eType="#//TrafficAnalyzer" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedNodes" eType="#//NetworkNode" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enforcedPolicies" eType="#//SecurityPolicy" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredNodes" eType="#//NetworkNode" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedNodes" eType="#//NetworkNode" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredZone" eType="#//NetworkZone" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSessions" eType="#//ConnectionSession" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeSessions" eType="#//ConnectionSession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrafficAnalyzer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedNodes" eType="#//NetworkNode" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedEvents" eType="#//TrafficEvent" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedSources" eType="#//NetworkNode" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrafficEvent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityPolicy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RoutingPath"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportProtocol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectionSession"/>
+</ecore:EPackage>

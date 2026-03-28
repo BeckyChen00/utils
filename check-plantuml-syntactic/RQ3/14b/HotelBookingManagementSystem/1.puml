@@ -1,0 +1,160 @@
+
+@startuml
+' HBMS Class Diagram
+
+class Traveller {
+  +name: String
+  +billingInfo: BillingInfo
+  +travelPreferences: List<TravelPreference>
+  +reliabilityRating: Double
+  +register(): void
+  +searchAccommodation(city: String, arrivalDate: Date, departureDate: Date, numRooms: Integer, roomType: RoomType, minStars: Integer, budgetPerNight: Double, preferences: List<TravelPreference>): List<Offer>
+  +createPreliminaryBooking(offer: Offer): Booking
+  +finalizeBooking(bookingId: String, creditCard: CreditCard): Booking
+  +viewPastBookings(): List<Booking>
+}
+
+class BillingInfo {
+  +companyName: String
+  +address: String
+}
+
+class TravelPreference {
+  +preferenceType: String
+  +value: String
+}
+
+class Hotel {
+  +name: String
+  +address: String
+  +city: String
+  +chain: HotelChain
+  +hotelRating: Integer
+  +sendSpecialOffer(preliminaryBooking: PreliminaryBooking): void
+  +confirmBooking(booking: Booking): void
+  +cancelBooking(booking: Booking): void
+}
+
+class HotelChain {
+  +name: String
+  +hotels: List<Hotel>
+}
+
+class RoomType {
+  +type: String
+  +maxOccupancy: Integer
+  +amenities: List<String>
+}
+
+class Offer {
+  +hotel: Hotel
+  +roomType: RoomType
+  +pricePerNight: Double
+  +startDate: Date
+  +endDate: Date
+  +available: Boolean
+  +specialOffer: Boolean
+  +preferencesMatched: List<TravelPreference>
+}
+
+class Booking {
+  +bookingId: String
+  +traveller: Traveller
+  +hotel: Hotel
+  +roomType: RoomType
+  +startDate: Date
+  +endDate: Date
+  +totalPrice: Double
+  +paymentMethod: PaymentMethod
+  +confirmationStatus: ConfirmationStatus
+  +cancellationDeadline: Date
+  +finalize(): void
+  +cancel(): void
+}
+
+class PreliminaryBooking {
+  +bookingId: String
+  +traveller: Traveller
+  +hotel: Hotel
+  +roomType: RoomType
+  +startDate: Date
+  +endDate: Date
+  +pricePerNight: Double
+  +preferencesMatched: List<TravelPreference>
+  +hotelRating: Integer
+  +cityArea: String
+  +forwardToCompetitors(): void
+}
+
+class CreditCard {
+  +cardNumber: String
+  +expiryDate: Date
+  +cvv: String
+  +holderName: String
+}
+
+class PaymentMethod {
+  +type: PaymentType
+  +details: String
+}
+
+enum PaymentType {
+  PREPAID
+  PAID_AT_HOTEL
+}
+
+enum ConfirmationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+class HBMS {
+  +searchAccommodation(traveller: Traveller, city: String, arrivalDate: Date, departureDate: Date, numRooms: Integer, roomType: RoomType, minStars: Integer, budgetPerNight: Double, preferences: List<TravelPreference>): List<Offer>
+  +createPreliminaryBooking(traveller: Traveller, offer: Offer): PreliminaryBooking
+  +forwardToCompetitors(preliminaryBooking: PreliminaryBooking): void
+  +sendBestOffers(traveller: Traveller): List<Offer>
+  +finalizeBooking(traveller: Traveller, bookingId: String, creditCard: CreditCard): Booking
+  +checkHotelConfirmation(booking: Booking): void
+  +reimbursePrepaidBooking(booking: Booking): void
+  +calculateReliabilityRating(traveller: Traveller): Double
+}
+
+' Relationships
+Traveller "1" --> "0..*" BillingInfo
+Traveller "1" --> "0..*" TravelPreference
+Traveller "1" --> "0..*" Booking
+Traveller "1" --> "0..*" PreliminaryBooking
+
+Hotel "1" --> "0..*" Offer
+Hotel "1" --> "0..*" RoomType
+Hotel "1" --> "0..*" Booking
+
+HotelChain "1" --> "0..*" Hotel
+
+Booking "1" --> "1" Traveller
+Booking "1" --> "1" Hotel
+Booking "1" --> "1" RoomType
+Booking "1" --> "1" PaymentMethod
+
+PreliminaryBooking "1" --> "1" Traveller
+PreliminaryBooking "1" --> "1" Hotel
+PreliminaryBooking "1" --> "1" RoomType
+
+HBMS "1" --> "*" Offer
+HBMS "1" --> "*" PreliminaryBooking
+HBMS "1" --> "*" Booking
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- The `HBMS` class acts as the central orchestrator of the system.
+- The `Traveller` can have multiple `Booking`s and `PreliminaryBooking`s.
+- Each `Hotel` has multiple `RoomType`s and `Offer`s.
+- A `Booking` may be either `PREPAID` or `PAID_AT_HOTEL`.
+- `PreliminaryBooking` is used to let hotels compete with offers within 24 hours.
+- `HBMS` manages all the business logic, including reliability ratings, sending notifications, and cancellations.
+

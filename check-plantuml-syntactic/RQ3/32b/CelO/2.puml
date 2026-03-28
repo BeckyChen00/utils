@@ -1,0 +1,105 @@
+
+---
+
+
+@startuml
+
+' Define classes and their attributes
+
+class User {
+    +String firstName
+    +String lastName
+    +String email (username)
+    +String password
+    +String postalAddress
+    +String phoneNumber
+}
+
+class Organizer {
+    +createEvent()
+    +inviteAttendee()
+    +updateChecklist()
+    +viewEventStatus()
+    +addTaskToGlobalChecklist()
+}
+
+class Attendee {
+    +respondToInvitation()
+    +selectTasks()
+}
+
+class Event {
+    +String type
+    +DateTime startDate
+    +DateTime endDate
+    +String occasion
+    +Location location
+    +List<Organizer> organizers
+    +List<Attendee> attendees
+    +Checklist checklist
+}
+
+class Checklist {
+    +List<Task> tasks
+}
+
+class Task {
+    +String description
+    +TaskStatus status
+    +boolean assignedToAttendee
+    +Attendee? assignee
+}
+
+enum TaskStatus {
+    NeedsToBeDone
+    Done
+    NotApplicable
+}
+
+class Location {
+    +String name
+    +String address
+}
+
+class Invitation {
+    +Attendee attendee
+    +Event event
+    +ResponseStatus responseStatus
+}
+
+enum ResponseStatus {
+    Attending
+    Maybe
+    NotAttending
+    NoResponse
+}
+
+' Inheritance relationships
+User <|-- Organizer
+User <|-- Attendee
+
+' Associations
+Organizer "1..*" -- "1" Event : organizes
+Event "1" -- "1..*" Checklist : has
+Event "1" -- "0..*" Attendee : invites
+Event "1" -- "1..*" Location : takes place at
+Checklist "1" -- "1..*" Task : contains
+Task "0..1" -- "1" Attendee : assigned to
+Attendee "1" -- "1" Invitation : receives
+Event "1" -- "1" Invitation : sends
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Relationships:
+
+- **User** is an abstract class, with **Organizer** and **Attendee** as its subclasses.
+- An **Event** can be organized by one or more **Organizers**, and can invite multiple **Attendees**.
+- Each **Event** has a **Checklist**, which includes various **Tasks**.
+- A **Task** may be assigned to an **Attendee**, if required.
+- **Attendees** receive **Invitations**, which have a **ResponseStatus**.
+- **Locations** can be reused across events.
+
+---
+

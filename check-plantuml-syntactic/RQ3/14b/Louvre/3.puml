@@ -1,0 +1,69 @@
+
+@startuml
+' Class Diagram for Louvre Museum Exhibition Management System
+
+class Museum {
+  -name: String
+  -locations: List<Location>
+}
+
+class Location {
+  -name: String
+  -exhibitions: List<Exhibition>
+}
+
+class Exhibition {
+  -title: String
+  -startDate: Date
+  -endDate: Date
+  -coordinator: Employee
+  -items: List<ExhibitionItem>
+}
+
+class Employee {
+  -name: String
+  -role: String
+  -coach: Employee
+}
+
+class ExhibitionItem {
+  -description: String
+  -pieces: List<Piece>
+}
+
+class Piece {
+  -title: String
+  -artist: String
+  -collector: Collector
+}
+
+class Collector {
+  -name: String
+  -pieces: List<Piece>
+}
+
+' Relationships
+
+Museum "1" --> "0..*" Location
+Location "1" --> "0..*" Exhibition
+Exhibition "1" --> "1" Employee : coordinator
+Employee "1" --> "0..1" Employee : coach
+Exhibition "1" --> "0..*" ExhibitionItem
+ExhibitionItem "1" --> "0..*" Piece
+Piece "1" --> "1" Collector
+
+@enduml
+
+---
+
+### Explanation of Classes and Relationships:
+
+- **Museum**: Contains multiple `Location`s.
+- **Location**: Can host multiple `Exhibition`s.
+- **Exhibition**: Has a start and end date, a coordinator (`Employee`), and a list of `ExhibitionItem`s.
+- **Employee**: Each has a name, role, and potentially a `Coach` (another `Employee`).
+- **ExhibitionItem**: Represents an item needed in an exhibition. It can be fulfilled by one or more `Piece`s.
+- **Piece**: A specific artwork, with an artist and associated `Collector`.
+- **Collector**: Owns multiple `Piece`s.
+
+This model supports tracking exhibitions, their planning stages, required items, sourcing from collectors, and the coaching relationships between employees.

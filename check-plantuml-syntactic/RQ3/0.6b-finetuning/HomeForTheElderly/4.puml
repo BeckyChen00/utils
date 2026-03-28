@@ -1,0 +1,155 @@
+@startuml
+enum TransactionType {
+  CryptocurrencyExchange
+  CryptocurrencyFundamental
+  CryptocurrencyFiatCurrency
+}
+enum RiskFactorType {
+  MarketRisk
+  CreditRisk
+  InterestRateRisk
+  CurrencyRisk
+}
+class TradingStrategy {
+  strategyName: String
+  isActive: boolean
+  +calculateRiskMetrics(): RiskFactorType
+  +getRiskProfile(): RiskFactorType
+}
+class InvestmentProfile {
+  riskToleranceLevel: int
+  fundAllocationTarget: double
+  +validateProfile(): boolean
+  +analyzeMarketPosition(): AnalysisReport
+  +updateRiskLevel(newLevel: int): void
+}
+class MarketState {
+  marketName: String
+  referenceDate: Date
+  +getMarketQuote(entityId: String): float
+  +getCurrentPrice(entityId: String): float
+}
+class TradingInstrument {
+  instrumentCode: String
+  marketVolume: int
+  expirationDate: Date
+  +calculateExposure(price: float): double
+  +getLeverageFactor(): float
+}
+class FinancialEvent {
+  eventName: String
+  eventType: String
+  triggerDate: Date
+  +getReason(): String
+  +isTriggered(): boolean
+}
+class MarketController {
+  +monitorMarketState(state: MarketState): void
+  +evaluateStrategy(strategy: TradingStrategy): void
+  +applyRiskToProfile(profile: InvestmentProfile, amount: double): void
+}
+class RiskAnalyzer {
+  +assessRisk(database: AssetDatabase, metricProfile: RiskFactorType, riskLevel: double): RiskFactorType
+  +generateRiskReport(): RiskFactorType
+}
+class UserAccount {
+  userName: String
+  bankName: String
+  +authenticate(credentials: String): boolean
+  +updateProfile(data: String): void
+}
+class LoggingSystem {
+  +recordEvent(event: FinancialEvent): void
+  +getHistory(account: UserAccount): List<FinancialEvent>
+}
+class PortfolioManager {
+  +generatePortfolio(report: AnalysisReport): void
+  +selectInstrument(marketState: MarketState, strategy: TradingStrategy): TradingInstrument
+}
+class AnalysisReport {
+  reportDate: Date
+  summary: String
+  +getSummary(): String
+}
+class AssetDatabase {
+  +queryHistory(account: UserAccount, dateRange: DateRange): List<MarketState>
+  +searchAssetName(state: MarketState): TradingInstrument
+}
+class RiskFactorType {
+  type: String
+  thresholdValue: double
+}
+class SecurityProfile {
+  issuer: String
+  tickerSymbol: String
+  +calculateWeightedValue(): double
+}
+class TradingSession {
+  startTime: Date
+  endTime: Date
+  status: String
+  +processOrder(order: TradingOrder): void
+  +closeSession(): void
+}
+class TradingOrder {
+  orderType: TransactionType
+  quantity: int
+  price: float
+  +validateEntry(profit: float): boolean
+}
+class MarginAccount {
+  currentBalance: float
+  +deposit(amount: float): void
+  +withdraw(amount: float): boolean
+}
+class Database {
+  +queryDatabase(query: String): List<SecurityProfile>
+  +saveProfile(profile: SecurityProfile): void
+}
+class MarketIterator {
+  +getNextState(): MarketState
+  +advanceDate(date: Date): MarketState
+}
+class TradingVolume {
+  volumeCount: int
+  changePercent: float
+  +getVolumeDetails(): String
+}
+class PortfolioBalance {
+  totalValue: float
+  liquidityScore: float
+  +calculateTotalValue(): float
+  +getBalanceDistribution(): Map<SecurityProfile, float>
+}
+TradingStrategy --> "1" UserAccount : managedAccount
+TradingStrategy --> "1" MarketController : controlSystem
+TradingStrategy --> "1" RiskAnalyzer : riskEvaluator
+MarketState *-- "*" TradingInstrument : containedInstruments
+MarketState *-- "1" Instrument : marketStateInstrument
+TradingInstrument --> "1" SecurityProfile : underlyingAsset
+TradingInstrument --> "1" AssetDatabase : sourceDatabase
+MarketController --> "1" MarketIterator : adaptationStrategy
+MarketController --> "1" LoggingSystem : loggingSystem
+PortfolioManager *-- "1" PortfolioBalance : currentBalance
+PortfolioManager --> "*" TradingInstrument : tradedInstruments
+InvestmentProfile --> "1" MarketState : currentMarketState
+InvestmentProfile --> "1" FinancialEvent : triggeredEvent
+UserAccount --> "*" LoggingSystem : logSources
+UserAccount --> "*" FinancialEvent : logHistory
+LogSystem --> "*" FinancialEvent : recordedEvents
+RiskAnalyzer *-- "*" RiskFactorType : evaluatedFactors
+AssetDatabase *-- "*" SecurityProfile : storedProfiles
+TradingSession *-- "*" TradingInstrument : purchasedInstruments
+TradingOrder --> "*" TradingInstrument : targetedInstruments
+SecurityProfile --> "1" TradingInstrument : mainInstrument
+TradingInstrument --> "1" MarketState : underlyingMarket
+SecurityProfile --> "1" MarketState : sourceMarket
+MarketIterator --> "*" MarketState : iteratedStates
+SecurityProfile --> "1" AssetDatabase : sourceDatabase
+TradingInstrument --> "1" PropertyModel : assetProperties
+TradingSession --> "*" TradingOrder : executedOrders
+RiskAnalyzer --> "*" TradingInstrument : analyzedInstruments
+DataEvent --> "*" FinancialEvent : relatedEvents
+UserAccount --> "*" FinancialEvent : loggedEvents
+UserAccount --> "*" DataEvent : loggedData
+@enduml

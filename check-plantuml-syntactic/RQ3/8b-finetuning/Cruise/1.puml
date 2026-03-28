@@ -1,0 +1,86 @@
+@startuml
+enum GuestTagType {
+  VIP
+  FAMILY
+  SINGLES
+  ELDERLY
+}
+enum ShipType {
+  OCEAN_Liner
+  CONTINENTAL_Cruiser
+  ISLAND_Hopper
+}
+class CruiseAgency {
+  name: String
+  address: String
+  +scheduleCruise(provider: CruiseProvider, itinerary: CruiseItinerary): Cruise
+  +bookGuestTicket(guest: Guest, cruise: Cruise): Ticket
+}
+class CruiseProvider {
+  providerName: String
+  location: String
+  +hireStaff(employee: StaffMember): void
+  +maintainShip(ship: CruiseShip): void
+}
+class Cruise {
+  cruiseNumber: String
+  cruiseName: String
+  startDate: Date
+  endDate: Date
+  +registerGuest(guest: Guest): Ticket
+  +getPassengers(): List<Guest>
+  +getCruiseShip(): CruiseShip
+  +getItinerary(): CruiseItinerary
+}
+class Guest {
+  guestName: String
+  isVip: boolean
+  hasSpecialNeeds: boolean
+  +purchaseTicket(cruise: Cruise): Ticket
+}
+class Ticket {
+  ticketNumber: String
+  bookingDate: Date
+  +getPassenger(): Guest
+  +getCruise(): Cruise
+}
+class CruiseShip {
+  shipName: String
+  shipType: ShipType
+  numberOfDecks: int
+  lengthInMeters: double
+  maxPassengers: int
+  +assignCruise(cruise: Cruise): void
+}
+class CruiseItinerary {
+  destinationArea: String
+  seaName: String
+  +getVisitedDestinations(): List<String>
+}
+class StaffMember {
+  staffName: String
+  socialSecurityNumber: String
+  assignedRole: String
+  +workOnCruise(cruise: Cruise): void
+}
+class Show {
+  showTitle: String
+  showDuration: int
+  showType: String
+  +performAt(cruise: Cruise): void
+}
+CruiseAgency "1" --> "0..*" Cruise : scheduledCruises
+CruiseAgency "1" --> "0..*" Guest : managedGuests
+CruiseProvider "1" --> "0..*" Cruise : operatedCruises
+CruiseProvider "1" --> "0..*" CruiseShip : maintainedShips
+CruiseProvider "1" --> "0..*" StaffMember : hiredStaff
+Cruise "1" *-- "1" CruiseShip : assignedShip
+Cruise "1" *-- "1" CruiseItinerary : definedItinerary
+Cruise "1" *-- "0..*" Show : onboardShows
+Cruise "1" *-- "0..*" Guest : registeredGuests
+Cruise "1" *-- "0..*" Ticket : issuedTickets
+Guest "0..*" --> "0..*" Ticket : purchasedTickets
+Ticket "0..*" --> "1" Cruise : belongsToCruise
+Cruise "0..*" --> "0..*" StaffMember : crewMembers
+CruiseAgency "0..*" --> "0..*" StaffMember : employedStaff
+@enduml

@@ -1,0 +1,146 @@
+
+---
+
+
+@startuml
+
+' Define classes with attributes and methods
+
+class Game {
+    - currentTurn: int
+    - activeGame: boolean
+    + startGame(): void
+    + endGame(): void
+    + nextPlayer(): Player
+}
+
+class GameDesigner {
+    + createGame(): Game
+    + defineBoard(): Board
+    + setStartingPositions(players: List<Player>): void
+    + setActionTiles(tiles: List<Tile>): void
+    + setHiddenTile(tile: Tile): void
+    + createActionDeck(): ActionCardDeck
+}
+
+class Player {
+    - name: String
+    - color: Color
+    - position: Tile
+    - hasExtraTurn: boolean
+    + move(steps: int): void
+    + drawActionCard(deck: ActionCardDeck): ActionCard
+    + loseNextTurn(): void
+}
+
+class Tile {
+    - id: int
+    - visited: boolean
+    - isActionTile: boolean
+    - actionDuration: int
+    - connections: Map<Direction, Tile>
+    + addConnection(direction: Direction, tile: Tile): void
+    + removeConnection(direction: Direction): void
+}
+
+class ConnectionPiece {
+    - id: int
+    - isUsed: boolean
+}
+
+class Board {
+    - tiles: List<Tile>
+    - hiddenTile: Tile
+    - startingPositions: Map<Player, Tile>
+    - actionTiles: List<Tile>
+    + getTileById(id: int): Tile
+}
+
+class Die {
+    - sides: int
+    + roll(): int
+}
+
+class ActionCardDeck {
+    - cards: List<ActionCard>
+    + shuffle(): void
+    + draw(): ActionCard
+}
+
+abstract class ActionCard {
+    + execute(player: Player, game: Game): void
+}
+
+class ExtraTurnCard extends ActionCard {
+    + execute(player: Player, game: Game): void
+}
+
+class ConnectTilesCard extends ActionCard {
+    + execute(player: Player, game: Game): void
+}
+
+class RemoveConnectionCard extends ActionCard {
+    + execute(player: Player, game: Game): void
+}
+
+class MoveAnywhereCard extends ActionCard {
+    + execute(player: Player, game: Game): void
+}
+
+class LoseTurnCard extends ActionCard {
+    + execute(player: Player, game: Game): void
+}
+
+enum Direction {
+    UP, DOWN, LEFT, RIGHT
+}
+
+enum Color {
+    RED, BLUE, GREEN, YELLOW
+}
+
+' Associations
+
+Game "1" --> "1..4" Player : contains
+Game "1" --> "1" Board : uses
+Game "1" --> "1" Die : uses
+Game "1" --> "1" ActionCardDeck : uses
+
+Player "1" --> "1" Tile : current position
+
+Board "1" --> "many" Tile : contains
+Board "1" --> "many" ConnectionPiece : uses
+Board "1" --> "1" Tile : hidden tile
+
+Tile "0..*" <--> "0..*" Tile : connected via [ConnectionPiece]
+Tile "1" --> "many" ConnectionPiece : may have
+
+GameDesigner "1" --> "1" Board : designs
+GameDesigner "1" --> "1" ActionCardDeck : creates
+
+ActionCardDeck "1" --> "many" ActionCard : contains
+
+ActionCard "1" <|-- ExtraTurnCard
+ActionCard "1" <|-- ConnectTilesCard
+ActionCard "1" <|-- RemoveConnectionCard
+ActionCard "1" <|-- MoveAnywhereCard
+ActionCard "1" <|-- LoseTurnCard
+
+@enduml
+
+---
+
+### 📝 Notes on the Diagram:
+
+- **Game**: Manages the state of the game, tracks turns, and handles game flow.
+- **GameDesigner**: Responsible for creating the game structure, placing tiles, setting action tiles, etc.
+- **Player**: Represents each player with a unique color and position on the board.
+- **Tile**: A tile can be connected to other tiles in four directions and may be an action or hidden tile.
+- **Board**: Holds all tiles and manages the layout and special positions like the hidden tile.
+- **ActionCardDeck**: Contains 32 predefined action cards, shuffled and drawn as needed.
+- **ActionCard**: Abstract base class for all types of action cards.
+- **ConnectionPiece**: Used to connect tiles manually by players using certain action cards.
+- **Die**: Handles dice rolls that determine movement steps.
+
+---
+

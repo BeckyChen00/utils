@@ -1,0 +1,101 @@
+
+---
+
+
+@startuml
+
+class Student {
+  - name: String
+  - email: String
+  + browseTutoringOffers(subject: String)
+  + makeRequest(tutor: Tutor, subject: String, level: String, date: Date, time: Time)
+}
+
+class Tutor {
+  - name: String
+  - email: String
+  - bankAccount: String
+  + offerTutoring(subject: String, level: String, price: Double, availability: List<Availability>)
+  + confirmSession(request: Request)
+  + cancelSession(session: Session)
+}
+
+class Availability {
+  - day: String
+  - startTime: Time
+  - endTime: Time
+}
+
+class TutoringOffer {
+  - subject: String
+  - level: String
+  - price: Double
+  - tutor: Tutor
+  + getAvailability()
+}
+
+class Request {
+  - student: Student
+  - tutor: Tutor
+  - subject: String
+  - level: String
+  - requestedDate: Date
+  - requestedTime: Time
+  + suggestDateAndTime()
+}
+
+class Session {
+  - date: Date
+  - time: Time
+  - tutor: Tutor
+  - student: Student
+  - subject: String
+  - level: String
+  - price: Double
+  + calculateCancellationFee(canceller: User)
+}
+
+class Cancellation {
+  - session: Session
+  - reason: String
+  - fee: Double
+}
+
+class User {
+  - name: String
+  - email: String
+}
+
+User <|-- Student
+User <|-- Tutor
+
+Student "1" -- "many" Request : makes
+Tutor "1" -- "many" Request : receives
+Tutor "1" -- "many" TutoringOffer : offers
+TutoringOffer "1" -- "1" Availability : has
+Request "1" -- "1" Session : leads to
+Session "1" -- "1" Cancellation : may have
+Session "1" -- "1" User : involves (student)
+Session "1" -- "1" User : involves (tutor)
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Classes and Relationships:
+
+- **`Student` and `Tutor`** both inherit from **`User`**, as they are both registered users with a name and email.
+- A **`Student`** can **browse tutoring offers** and **make requests** for sessions.
+- A **`Tutor`** can **offer tutoring in specific subjects**, specify **availability**, and **confirm or cancel sessions**.
+- A **`TutoringOffer`** is tied to a **`Tutor`** and includes details like subject, level, and price.
+- A **`Request`** is made by a **`Student`** and received by a **`Tutor`**; it suggests a session time.
+- A **`Session`** represents an actual tutoring session and includes details like date, time, and price.
+- A **`Cancellation`** is associated with a **`Session`** and may involve a **fee** depending on who cancels and how early.
+- **`Availability`** tracks the days and times when a **`Tutor`** is available for sessions.
+
+---
+
+### 💡 Notes:
+- The diagram assumes a basic structure but can be extended further if needed (e.g., adding payment methods, follow-up sessions, awards, etc.).
+
+Let me know if you'd like this diagram rendered as an image or want to extend it further!

@@ -1,0 +1,74 @@
+
+@startuml
+' Define classes and their attributes
+
+class House {
+  -address: String
+  -buildingMaterial: String (wood, brick, concrete)
+  -hasBasement: Boolean
+  -basement: Basement
+}
+
+class Basement {
+  -name: String
+  -size: Double
+}
+
+class EarthBasement <|-- Basement {
+  -humidityLevel: Double
+}
+
+class ConcreteBasement <|-- Basement
+
+class SemiDetachedHouse <|-- House {
+  -hasGarden: Boolean
+  -numWindows: Integer
+  -parking: Parking
+}
+
+class Parking {
+  -type: String (carport or garage)
+}
+
+class Carport <|-- Parking {
+  -isDouble: Boolean
+  -hasFlatRoof: Boolean
+}
+
+class Garage <|-- Parking {
+  -hasAutomaticDoor: Boolean
+}
+
+class Company {
+  -name: String
+  -address: String
+}
+
+class JobLog {
+  -house: House
+  -company: Company
+  -hoursWorked: Integer
+  -agreedPrice: Double
+}
+
+' Define associations and multiplicity
+
+House "1" *-- "0..*" Company : serviced by
+House "1" *-- "0..1" Basement : has
+SemiDetachedHouse "1" -- "1" Parking : has
+House "1" *-- "0..*" JobLog : has job logs
+Company "1" *-- "0..*" JobLog : performs jobs
+
+@enduml
+
+### Explanation of Key Elements:
+- `House` is the base class with common attributes like address, building material, and optional basement.
+- `Basement` is an abstract class with two subclasses: `EarthBasement` and `ConcreteBasement`.
+- `SemiDetachedHouse` inherits from `House` and adds specific attributes like garden and number of windows. It also has a `Parking` object, which can be either a `Carport` or a `Garage`.
+- `JobLog` links `House` and `Company`, storing details about work performed.
+- Associations reflect that:
+  - A house may have one basement or none.
+  - A semi-detached house must have either a carport or a garage.
+  - A house may be serviced by multiple companies.
+  - Each job log is associated with one house and one company.
+

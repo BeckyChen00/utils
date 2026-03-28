@@ -1,0 +1,130 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Department {
+    +id: int
+    +name: String
+}
+
+class Room {
+    +id: int
+    +department: Department
+    +roomNumber: String
+}
+
+class Bed {
+    +id: int
+    +room: Room
+    +category: StayCategory
+}
+
+class StayCategory {
+    +id: int
+    +name: String (e.g., RH, RNH, SF)
+    +pricePerMonth: float
+}
+
+class Inhabitant {
+    +id: int
+    +name: String
+    +dateOfBirth: Date
+    +registrationDate: Date
+    +*waitingListEntry: WaitingListEntry
+    +*stay: Stay*
+}
+
+class Stay {
+    +id: int
+    +inhabitant: Inhabitant
+    +stayCategory: StayCategory
+    +startDate: Date
+    +endDate: Date (optional)
+    +suspended: boolean
+    +*invoice: Invoice*
+}
+
+class WaitingListEntry {
+    +id: int
+    +inhabitant: Inhabitant
+    +stayCategory: StayCategory
+    +positionOnList: int
+    +*proposal: Proposal*
+}
+
+class Proposal {
+    +id: int
+    +waitingListEntry: WaitingListEntry
+    +bed: Bed
+    +proposedDate: Date
+    +accepted: boolean
+    +rejected: boolean
+    +invalidated: boolean
+}
+
+class Assessment {
+    +id: int
+    +inhabitant: Inhabitant
+    +assessmentDate: Date
+    +needsHelpWithEating: boolean
+    +needsHelpWithDressing: boolean
+    +needsHelpWithPersonalCare: boolean
+    +recommendedStayCategory: StayCategory
+}
+
+class Invoice {
+    +id: int
+    +stay: Stay
+    +invoiceDate: Date
+    +totalAmount: float
+    +outstandingAmount: float
+    +status: String (e.g., "pending", "paid")
+    +*paymentEvent: PaymentEvent*
+}
+
+class PaymentEvent {
+    +id: int
+    +invoice: Invoice
+    +paymentDate: Date
+    +amountPaid: float
+    +remainingAmount: float
+    +creditNoteIssued: boolean
+}
+
+' Relationships
+
+Inhabitant "1" -- "0..*" WaitingListEntry : has
+Inhabitant "1" -- "0..*" Stay : has
+Inhabitant "1" -- "1" Assessment : has initial
+Inhabitant "1" -- "0..*" Invoice : involved in
+
+Department "1" -- "0..*" Room : contains
+Room "1" -- "0..*" Bed : contains
+Bed "1" -- "1" StayCategory : belongs to
+
+WaitingListEntry "1" -- "0..1" Proposal : receives
+Proposal "1" -- "1" Bed : offers
+
+Stay "1" -- "1" Invoice : generates
+Invoice "1" -- "0..*" PaymentEvent : receives payments
+
+Stay "1" -- "0..*" Stay : suspended by or overlaps with
+
+' Inheritance (if needed)
+
+abstract class BaseStay {}
+Stay --|> BaseStay
+SuspendedStay --|> BaseStay
+
+@enduml
+
+---
+
+### Notes:
+- **`Inhabitant`** can have multiple `Stay`s simultaneously (including suspended ones).
+- A **`Proposal`** is made to a person on the **`WaitingListEntry`**, and it refers to a specific **`Bed`**.
+- **`Assessment`** determines the appropriate stay category.
+- The **`Invoice`** is tied to a **`Stay`** and can be modified until marked as **"paid"**.
+- **`PaymentEvent`** tracks each individual payment against an invoice.
+

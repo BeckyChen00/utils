@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceFeature" eType="#//DataFeature" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataFeature"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GenerateReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="report" eType="#//GenerateReport" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuration" eType="#//ReportGeneratorConfiguration" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedSession" eType="#//AnalysisSession" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceFeatures" eType="#//DataFeature" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReportGeneratorConfiguration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalysisSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reportedMetrics" eType="#//StatisticalMetric" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="schemaDefinition" eType="#//TableSchema" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedInsights" eType="#//Insight" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedExports" eType="#//ExportTask" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedEvents" eType="#//LogEvent" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePipeline" eType="#//AnalysisPipeline" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatisticalMetric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TableSchema"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Insight"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExportTask"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LogEvent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalysisPipeline">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consumedResources" eType="#//DataResource" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedFeatures" eType="#//DataFeature" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataQuery">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceResource" eType="#//DataResource" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="derivedMetrics" eType="#//StatisticalMetric" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="derivedInsights" eType="#//Insight" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="querySchema" eType="#//TableSchema" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedTools" eType="#//VisualizationTool" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourcedResource" eType="#//DataResource" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="queriedSchema" eType="#//TableSchema" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedInsights" eType="#//Insight" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedMetrics" eType="#//StatisticalMetric" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VisualizationTool"/>
+</ecore:EPackage>

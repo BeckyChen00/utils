@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="membership" eType="#//Membership" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Membership"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CaseApplication">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="application" eType="#//Application" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedNotice" eType="#//Notification" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involvedMembers" eType="#//Member" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Application">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedFile" eType="#//CaseFile" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedNotices" eType="#//Notice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CaseFile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documents" eType="#//Document" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachedNotice" eType="#//Notification" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decisions" eType="#//Decision" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryReviewer" eType="#//Reviewer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="advisoryComment" eType="#//Advisory" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timeSlots" eType="#//Schedule" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appointments" eType="#//Appointment" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedNotices" eType="#//Notification" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedReviewers" eType="#//Reviewer" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedInArchive" eType="#//Archive" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Document"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Decision"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Reviewer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Advisory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Appointment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledTime" eType="#//Schedule" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Archive"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Notice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notifiedReviewers" eType="#//Reviewer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Applicant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedNotices" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Moderator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supervisedReviewers" eType="#//Reviewer" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="delegatedReviewers" eType="#//Reviewer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Member"/>
+</ecore:EPackage>

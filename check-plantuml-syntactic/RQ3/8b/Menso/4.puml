@@ -1,0 +1,105 @@
+
+---
+
+
+@startuml
+
+' Main classes
+class Bus {
+  - busId: int
+  - line: Line
+  - status: string
+}
+
+class Line {
+  - lineId: int
+  - name: string
+  - category: Category
+  - trajectories: List<Trajectory>
+}
+
+class Trajectory {
+  - trajectoryId: int
+  - description: string
+  - status: string
+  - approvalStatus: string
+  - approvedDate: Date
+  - suspendedFrom: Date
+  - suspendedUntil: Date
+  - cancellationDate: Date
+}
+
+class Customer {
+  - customerId: int
+  - name: string
+  - homeAddress: string
+  - officeAddress: string
+  - workingHours: string
+  - mensoCardId: string
+}
+
+class MensoCard {
+  - cardId: string
+  - customerId: int
+  - active: boolean
+}
+
+class Trip {
+  - tripId: int
+  - date: Date
+  - time: Time
+  - line: Line
+  - customer: Customer
+  - paid: boolean
+}
+
+class Invoice {
+  - invoiceId: int
+  - customerId: int
+  - month: Date
+  - amount: double
+  - discountPercentage: double
+  - totalAmount: double
+  - status: string
+}
+
+class Category {
+  - categoryId: int
+  - categoryName: string
+  - priceMultiplier: double
+}
+
+' Relationships
+Bus --> Line
+Line --> Trajectory
+Customer --> MensoCard
+Customer --> Trip
+Trip --> Line
+Trip --> Customer
+Invoice --> Customer
+Line --> Category
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Classes and Relationships:
+
+- **`Bus`**: Represents a physical bus. It is assigned to a `Line`.
+- **`Line`**: A group of related `Trajectories`. Each `Line` has a `Category` that determines pricing.
+- **`Trajectory`**: A specific route plan that may be approved, suspended, or cancelled.
+- **`Customer`**: Holds personal information and is associated with a `MensoCard` if they are registered.
+- **`MensoCard`**: Used by customers to register trips. It is linked to a `Customer`.
+- **`Trip`**: Records each trip taken by a customer using the `MensoCard`, including date, time, and line.
+- **`Invoice`**: Generated monthly for all trips of a customer, including discounts.
+- **`Category`**: Defines pricing categories for lines, used to calculate trip costs.
+
+---
+
+### 🧾 Optional Enhancements:
+If you want to include more details like:
+- **State diagrams** for `Trajectory` status (`approved`, `suspended`, `cancelled`)
+- **Association multiplicity**
+- **Inheritance** (e.g., `Ticket` could be an abstract class with `MensoTicket` and `RegularTicket`)
+
+Let me know and I can refine it further!

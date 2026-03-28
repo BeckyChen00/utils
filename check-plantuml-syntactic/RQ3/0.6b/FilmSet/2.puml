@@ -1,0 +1,18 @@
+@startuml
+classDiagram
+
+systemRequirement --> classSystemRequirement
+classSystemRequirement
+    has property name, description, version
+    requires otherRequirements
+    uses interfaces
+
+otherRequirements --> systemRequirement
+    has property name, description, version
+    requires systemRequirement
+    uses interfaces
+
+classInterface
+    has interface name, description
+    implements methods
+@enduml

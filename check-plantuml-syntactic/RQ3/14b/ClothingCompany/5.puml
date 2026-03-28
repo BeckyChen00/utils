@@ -1,0 +1,70 @@
+
+@startuml
+' Class Diagram for Clothing Company Application
+
+class Country {
+  -countryCode: String
+  -countryName: String
+  -vatRate: Double
+  -currency: String
+  -euroConversionRate: Double
+}
+
+class Product {
+  -productId: String
+  -productName: String
+  -description: String
+  -netPrice: Double
+  -manufacturer: String
+  -availableInCountries: Set<Country>
+}
+
+class Representative {
+  -representativeId: String
+  -firstName: String
+  -lastName: String
+  -socialSecurityNumber: String
+  -telephone: String
+  -email: String
+  -country: Country
+}
+
+class Customer {
+  -customerId: String
+  -name: String
+  -address: String
+  -telephone: String
+  -email: String
+  -resellingCountries: Set<Country>
+}
+
+class Order {
+  -orderId: String
+  -orderDate: Date
+  -desiredDeliveryDate: Date
+  -quantity: Integer
+  -product: Product
+  -placedBy: Representative
+  -customer: Customer
+}
+
+' Relationships
+Product "0..*" -- "1" Country : availableIn
+Representative "1" -- "1" Country : responsibleFor
+Customer "1" -- "1.." Country : resellsIn
+Order "1" -- "1" Product : refersTo
+Order "1" -- "1" Representative : placedBy
+Order "1" -- "1" Customer : belongsTo
+@enduml
+
+### Explanation of Key Elements:
+
+- **Country**: Holds VAT rate, currency, and conversion rate to Euro.
+- **Product**: Has a unique name, description, net price, manufacturer, and availability per country.
+- **Representative**: Handles sales in one specific country and has personal details.
+- **Customer**: Can resell products in certain countries.
+- **Order**: Links a customer, product, and representative with order quantity, dates, etc.
+
+This class diagram models the core structure of the application, including associations between entities like `Product` and `Country`, and `Order` and its related parties (`Customer`, `Representative`, and `Product`). 
+
+Let me know if you want to generate a UML image or expand this into a full ERD or sequence diagram.

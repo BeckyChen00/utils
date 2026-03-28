@@ -1,0 +1,78 @@
+
+@startuml
+
+package "HBMS" {
+    [Traveller] as T
+    [Hotel] as H
+    [RoomType] as RT
+    [Booking] as B
+    [PreliminaryBooking] as PB
+    [SpecialOffer] as SO
+    [CreditCard] as CC
+    [ReliabilityRating] as RR
+    [City] as C
+    [HotelChain] as HC
+}
+
+T --> "registers with" H
+T --> "searches for" H
+T --> "creates booking" B
+T --> "provides credit card info" CC
+T --> "cancels booking" B
+T --> "views past bookings" RR
+
+H --> "offers room types" RT
+H --> "announces availability" H
+H --> "receives special offers" SO
+H --> "confirms booking" B
+H --> "sends confirmation" B
+H --> "notifies HBMS of cancellation" B
+
+PB --> "is a type of" B
+PB --> "sent to competitor hotels" SO
+PB --> "includes preliminary data" T
+PB --> "has reliability rating" RR
+
+SO --> "from hotel" H
+SO --> "based on preferences" T
+SO --> "competed for 24h" PB
+
+B --> "has status: confirmed, pending, cancelled" 
+B --> "contains payment method" CC
+B --> "has cancellation deadline" 
+B --> "linked to room type" RT
+B --> "has reliability rating" RR
+
+CC --> "used for pre-paid or at hotel" B
+
+RR --> "calculated from past bookings" T
+RR --> "influences special offers" SO
+
+C --> "has hotels" H
+HC --> "owns hotels" H
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+- **Traveller**: User who registers, searches, books, and cancels.
+- **Hotel**: Participating entity that provides accommodation.
+- **RoomType**: Type of room (single, double, etc.).
+- **Booking**: Represents a confirmed or pending booking.
+- **PreliminaryBooking**: A temporary booking used to gather competitive offers.
+- **SpecialOffer**: Offer sent by a hotel in response to a preliminary booking.
+- **CreditCard**: Payment method used during finalization.
+- **ReliabilityRating**: Calculated based on past behavior to influence offers.
+- **City**: Location where hotels are situated.
+- **HotelChain**: Organization managing one or more hotels.
+
+---
+
+### 📌 Notes:
+- Relationships are shown using arrows (`-->`) and associations.
+- The `Booking` class has a generalization relationship with `PreliminaryBooking`.
+- All entities are part of the `HBMS` package.
+
+---
+

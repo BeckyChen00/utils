@@ -1,0 +1,87 @@
+
+---
+
+
+@startuml
+class GameArea {
+  -name: String
+  +getBoss(): Opponent
+  +addGameElement(gameElement: GameElement): void
+  +addGamePiece(gamePiece: GamePiece): void
+}
+
+class GameElement {
+  x: long
+  y: long
+}
+
+class Shape {
+  +connectTo(shape: Shape): void
+}
+
+class Object {
+}
+
+class Opponent {
+  lives: int
+  +kill(): void
+}
+
+class GamePiece {
+}
+
+GameArea "1" -- "1..*" GameElement : contains
+GameArea "1" -- "*" GamePiece : contains
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+Shape "1" -- "*" Shape : connectedTo
+GameArea "1" -- "1" Opponent : boss
+@enduml
+
+---
+
+### 📜 **Textual Representation (DEX-like Syntax)**
+
+#### Classes:
+
+**GameArea**
+- Attributes:
+  - name: String
+- Associations:
+  - contains: GameElement (multiplicity: 1..*)
+  - contains: GamePiece (multiplicity: 1 or 2)
+  - boss: Opponent (multiplicity: 1)
+
+**GameElement**
+- Attributes:
+  - x: long
+  - y: long
+- Relationships:
+  - generalization: Shape
+  - generalization: Object
+  - generalization: Opponent
+
+**Shape**
+- Operations:
+  - connectTo(shape: Shape): void
+- Relationships:
+  - association: connectedTo (multiplicity: 0..*)
+
+**Object**
+- No attributes or operations specified
+
+**Opponent**
+- Attributes:
+  - lives: int
+- Operations:
+  - kill(): void
+- Relationships:
+  - generalization: GameElement
+
+**GamePiece**
+- No attributes or operations specified
+
+---
+
+Let me know if you'd like a version with visibility modifiers included or if you want to generate the UML diagram in another format.

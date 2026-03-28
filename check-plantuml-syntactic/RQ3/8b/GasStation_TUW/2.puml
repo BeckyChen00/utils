@@ -1,0 +1,64 @@
+
+@startuml
+
+class GasStation {
+  - id: int
+  - address: string
+  - fuelPumps: List<FuelPump>
+  + getFuelPumps(): List<FuelPump>
+}
+
+class FuelPump {
+  - id: int
+  - pumpNumber: int
+  - isSelfService: boolean
+  - fuels: List<Fuel>
+  + getFuels(): List<Fuel>
+}
+
+class Fuel {
+  - name: string
+  - octaneRating: double
+  - fuelPumps: List<FuelPump>
+}
+
+class DailyPrice {
+  - date: Date
+  - gasStation: GasStation
+  - fuel: Fuel
+  - pricePerLiter: double
+}
+
+class FuelPurchase {
+  - id: int
+  - fuelPump: FuelPump
+  - fuel: Fuel
+  - dailyPrice: DailyPrice
+  - litersDispensed: double
+}
+
+GasStation "1" -- "0..*" FuelPump : has
+FuelPump "1" -- "0..*" Fuel : offers
+Fuel "0..*" -- "1" FuelPump : offered at
+GasStation "1" -- "0..*" DailyPrice : has
+Fuel "1" -- "0..*" DailyPrice : applies to
+FuelPump "1" -- "0..*" FuelPurchase : used for
+Fuel "1" -- "0..*" FuelPurchase : purchased
+DailyPrice "1" -- "0..*" FuelPurchase : associated with
+
+@enduml
+
+---
+
+### ✅ Explanation of Relationships:
+
+- **`GasStation` has multiple `FuelPump`s**: A gas station can have up to 12 fuel pumps.
+- **`FuelPump` offers multiple `Fuel`s**: Each fuel pump can offer several types of fuel (e.g., regular, premium).
+- **`Fuel` is offered at multiple `FuelPump`s**: A fuel type can be available at multiple pumps.
+- **`GasStation` has multiple `DailyPrice`s**: Each day, a gas station records prices for different fuels.
+- **`Fuel` has multiple `DailyPrice`s**: Each fuel type can have a price recorded each day at a specific gas station.
+- **`FuelPump` is used in multiple `FuelPurchase`s**: Each fuel pump can be used for many purchases.
+- **`Fuel` is purchased in multiple `FuelPurchase`s**: A fuel type can be bought multiple times.
+- **`DailyPrice` is associated with multiple `FuelPurchase`s**: One price can be used for many purchases.
+
+Let me know if you'd like this rendered as an image or further refined!

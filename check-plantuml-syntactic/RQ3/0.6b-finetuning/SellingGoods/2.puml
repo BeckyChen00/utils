@@ -1,0 +1,44 @@
+@startuml
+class Customer {
+  customerName: String
+  contactEmail: String
+  +placeOrder(items: List<OrderItem>): boolean
+  +cancelOrder(orderId: String): String
+}
+class Order {
+  orderDate: Date
+  totalAmount: double
+  +addItem(item: ProductItem, quantity: int): boolean
+  +calculateTotal(): double
+  +getOrderStatus(): String
+}
+class OrderItem {
+  quantity: int
+  unitPrice: double
+  +calculateSubtotal(): double
+}
+class Product {
+  productName: String
+  stockQuantity: int
+  unitPrice: double
+  +purchase(quantity: int): boolean
+  +restock(amount: int): void
+}
+class Warehouse {
+  warehouseAddress: String
+  capacity: int
+  +assignOrder(order: Order): boolean
+  +getAvailableStock(product: Product): int
+}
+class Inventory {
+  stockLevel: int
+  lastUpdated: Date
+  +checkAvailability(product: Product): boolean
+  +allocateStock(product: Product, amount: int): boolean
+}
+Customer "1" *-- "0..*" Order : orders
+Order "1" *-- "1..*" OrderItem : items
+OrderItem "*" --> "1" Product : product
+OrderItem "*" --> "1" Warehouse : assignedWarehouse
+Warehouse "1" *-- "1" Inventory : inventory
+@enduml

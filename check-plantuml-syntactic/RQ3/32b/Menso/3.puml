@@ -1,0 +1,150 @@
+
+---
+
+
+@startuml
+
+' Classes
+class Bus {
+  +String id
+  +String type
+}
+
+class Trajectory {
+  +String id
+  +String name
+  +String description
+  +Status status
+  +Date submissionDate
+  +Date approvalDate
+  +List<Modification> modifications
+}
+
+class Line {
+  +String lineNo
+  +String name
+  +Category category
+  +List<Trajectory> trajectories
+}
+
+class Modification {
+  +Date date
+  +String description
+  +Trajectory trajectory
+}
+
+class ApprovalRequest {
+  +Date requestDate
+  +ApprovalResult result
+  +Trajectory trajectory
+}
+
+enum ApprovalResult {
+  APPROVED
+  REJECTED
+  MODIFIED
+}
+
+enum Status {
+  PENDING_APPROVAL
+  APPROVED
+  OPERATIONAL
+  SUSPENDED
+  CANCELLED
+}
+
+class MENSO_Ticket {
+  +String cardNumber
+  +Date startDate
+  +Date endDate
+  +Customer customer
+}
+
+class Trip {
+  +DateTime timestamp
+  +Line line
+  +MENSO_Ticket mensoTicket
+}
+
+class Customer {
+  +String id
+  +String name
+  +String homeAddress
+  +String officeAddress
+  +WorkingHours workingHours
+  +MENSO_Ticket mensoTicket
+}
+
+class WorkingHours {
+  +Day day
+  +Time startTime
+  +Time endTime
+}
+
+enum Day {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+class Invoice {
+  +String id
+  +Date issueDate
+  +Date dueDate
+  +BigDecimal amount
+  +BigDecimal discount
+  +Customer customer
+  +List<Trip> trips
+  +Category category
+}
+
+class Category {
+  +String code
+  +String description
+  +BigDecimal basePricePerTrip
+}
+
+' Associations
+Bus --> Line : assigned to
+
+Line --> "1..*" Trajectory : contains
+Trajectory --> "0..1" ApprovalRequest : has
+Trajectory --> "0..*" Modification : has
+Trajectory --> "1" Status : has state
+
+ApprovalRequest --> "1" ApprovalResult : result is
+
+MENSO_Ticket --> "1" Customer : belongs to
+MENSO_Ticket --> "1" Category : category of line
+Trip --> "1" MENSO_Ticket : recorded by
+Trip --> "1" Line : traveled on
+
+Customer --> "0..1" WorkingHours : provides
+Customer --> "1" Invoice : receives
+Invoice --> "0..*" Trip : includes
+Invoice --> "1" Category : based on category
+Category --> "1..*" Line : assigned to lines
+
+@enduml
+
+---
+
+### 🧩 Explanation of Key Relationships
+
+- **`Trajectory`** can go through multiple **approval requests**, each with a result.
+- A **`Line`** may include multiple **trajectories**, especially during different times or variations.
+- A **`MENSO Ticket`** is tied to a **`Customer`** and a **`Category`**, which affects pricing.
+- **`Trip`** records are collected for invoicing and analyzing behavior.
+- **`Invoice`** is generated per month, including all trips and applying discounts if applicable.
+- **`WorkingHours`** help De Lijn understand when customers are likely to travel.
+
+---
+
+### 🔧 How to Use
+
+
+Let me know if you'd like a version that includes **state diagrams** or **sequence diagrams** for parts like approval workflows or trip registration!

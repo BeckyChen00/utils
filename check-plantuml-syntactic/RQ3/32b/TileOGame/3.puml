@@ -1,0 +1,122 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Game {
+    - currentPlayer: Player
+    - players: List<Player>
+    - board: Board
+    - actionCardDeck: ActionCardDeck
+    - isGameOver: boolean
+}
+
+class Board {
+    - tiles: Map<Position, Tile>
+    - hiddenTile: Tile
+    - startingPositions: Map<Player, Position>
+    - spareConnectionPieces: int = 32
+}
+
+class Tile {
+    - position: Position
+    - visited: boolean
+    - isActionTile: boolean
+    - connections: Map<Direction, Tile>
+}
+
+enum Direction {
+    TOP
+    BOTTOM
+    LEFT
+    RIGHT
+}
+
+class Position {
+    - x: int
+    - y: int
+}
+
+class Player {
+    - name: String
+    - color: Color
+    - position: Position
+    - hasExtraTurn: boolean
+    - nextTurnLost: boolean
+}
+
+class ActionCardDeck {
+    - cards: List<ActionCard>
+}
+
+abstract class ActionCard {
+    + execute(player: Player): void
+}
+
+class RollDieExtraTurnCard {
+    + execute(player: Player): void
+}
+
+class ConnectTilesCard {
+    + execute(player: Player): void
+}
+
+class RemoveConnectionCard {
+    + execute(player: Player): void
+}
+
+class MoveToAnyTileCard {
+    + execute(player: Player): void
+}
+
+class LoseNextTurnCard {
+    + execute(player: Player): void
+}
+
+class Designer {
+    + createGame(): Game
+    + defineBoardLayout(board: Board): void
+    + setConnections(tile: Tile, direction: Direction, connectedTile: Tile): void
+    + setStartingPositions(players: List<Player>, positions: Map<Player, Position>): void
+    + setActionTiles(tiles: List<Tile>): void
+    + setHiddenTile(hiddenTile: Tile): void
+    + createActionCardDeck(deck: ActionCardDeck): void
+}
+
+' Relationships
+
+Game "1" -- "1" : contains > Board
+Game "1" -- "1..4" : manages > Player
+Game "1" -- "1" : uses > ActionCardDeck
+
+Board "1" -- "many" : holds > Tile
+Board "1" -- "1" : defines > Tile (hidden)
+Board "1" -- "map" : assigns > Player (starting positions)
+
+Tile "1" -- "0..1" : connects to > Tile
+Tile "1" -- "1" : has > Position
+Tile "1" -- "1" : may be an instance of > ActionTile
+
+Player "1" -- "1" : occupies > Position
+
+ActionCardDeck "1" -- "many" : contains > ActionCard
+
+ActionCard <|-- RollDieExtraTurnCard
+ActionCard <|-- ConnectTilesCard
+ActionCard <|-- RemoveConnectionCard
+ActionCard <|-- MoveToAnyTileCard
+ActionCard <|-- LoseNextTurnCard
+
+Designer "1" -- "1" : creates > Game
+
+@enduml
+
+---
+
+### Notes:
+- The `Game` class manages the flow between the designer phase and the playing phase.
+- The `Board`, `Tile`, and `Player` classes model the core gameplay mechanics.
+- `ActionCard` is abstract with concrete implementations for each card type.
+- The `Designer` class encapsulates all functionality for setting up the game before it starts.
+- A `Position` is used to uniquely identify a tile's location.
+

@@ -1,0 +1,53 @@
+
+@startuml
+
+class GasStation {
+  +id: int
+  +address: string
+  -fuelPumps: List<FuelPump>
+}
+
+class FuelPump {
+  +number: int
+  +isSelfService: boolean
+  -fuels: List<Fuel>
+}
+
+class Fuel {
+  +name: string
+  +octaneRating: double
+}
+
+class DailyFuelPrice {
+  +date: Date
+  +fuel: Fuel
+  +gasStation: GasStation
+  +pricePerLiter: double
+}
+
+class FuelPurchase {
+  +id: int
+  +fuelPump: FuelPump
+  +fuel: Fuel
+  +dailyFuelPrice: DailyFuelPrice
+  +litersDispensed: double
+}
+
+GasStation "1" -- "0..*" FuelPump : has
+FuelPump "1" -- "0..*" Fuel : offers
+Fuel "1" -- "0..*" DailyFuelPrice : applies to
+GasStation "1" -- "0..*" DailyFuelPrice : has
+FuelPump "1" -- "0..*" FuelPurchase : used for
+Fuel "1" -- "0..*" FuelPurchase : purchased
+DailyFuelPrice "1" -- "0..*" FuelPurchase : associated with
+
+@enduml
+
+### Explanation of Relationships:
+
+- **`GasStation`** has multiple **`FuelPump`**s.
+- Each **`FuelPump`** offers one or more **`Fuel`** types.
+- A **`DailyFuelPrice`** is associated with a specific **`Fuel`** and **`GasStation`**.
+- A **`FuelPurchase`** is made at a specific **`FuelPump`**, involves a specific **`Fuel`**, and is associated with a **`DailyFuelPrice`**.
+
+Let me know if you'd like to include additional constraints, associations, or stereotypes!

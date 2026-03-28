@@ -1,0 +1,132 @@
+@startuml
+enum StationStatus {
+  Operational
+  Halted
+  Maintenance
+  OutOfService
+}
+enum LoadCategory {
+  GroundVehicle
+  Aircraft
+  Train
+  ToyCar
+  Pedestrian
+}
+enum VehicleType {
+  Motorcycle
+  Bus
+  Truck
+  Motorcycle
+}
+class Transportation {
+  name: String
+  +getAvailableCapacity(): int
+}
+class TrainSegment {
+  segmentCode: String
+  +validateSegment(): boolean
+}
+class TransitStation {
+  stationName: String
+  status: StationStatus
+  +isOperational(): boolean
+}
+class Vehicle {
+  vehicleType: VehicleType
+  licensePlate: String
+  maximumLoadCapacity: int
+  +calculateLoadWeight(category: LoadCategory): int
+}
+class VehicleUnit {
+  unitNumber: String
+  +isOperational(): boolean
+  +getCapacity(): int
+}
+class Route {
+  routeName: String
+  +getStops(): List<TransitStation>
+}
+class Passenger {
+  firstName: String
+  lastName: String
+  specialRequests: List<String>
+  +getFullName(): String
+}
+class DispatchOrder {
+  confirmationCode: String
+  deliveryDate: Date
+  +scheduleDelivery(): boolean
+}
+class Driver {
+  driverName: String
+  isCertified: boolean
+  +assignToOrder(order: DispatchOrder): boolean
+}
+class PassengerBoarding {
+  boardingTime: Date
+  isConfirmed: boolean
+  issueBags: List<String>
+  +confirmBoarding(): boolean
+  +assignPassenger(p: Passenger): boolean
+}
+class Ticket {
+  ticketNumber: int
+  issueDate: Date
+  +validate(): boolean
+}
+class Reservation {
+  reservationDate: Date
+  +confirmReservation(): boolean
+}
+class ChargingStation {
+  stationCode: String
+  voltageLevel: double
+  +checkAvailability(isPreApproved: boolean): boolean
+}
+class DriverProfile {
+  licenseNumber: String
+  yearsOfExperience: int
+  isAvailable: boolean
+  +getAvailableHours(): int
+}
+class ChangeRequest {
+  requestDate: Date
+  reason: String
+  +submitRequest(): boolean
+  +approveRequest(): boolean
+}
+class Punishment {
+  punishmentType: String
+  timestamp: Date
+  +calculatePunishment(): int
+  +recordEvent(): void
+}
+class SecuritySensor {
+  sensorType: String
+  isActive: boolean
+  +detect威胁(): boolean
+}
+class RoutePlan {
+  planningDate: Date
+  currentStatus: StationStatus
+  +updatePlan(newRoute: String): boolean
+  +calculateTotalDistance(): double
+}
+TrainSegment --|> RoutePlan
+TransitStation --|> RoutePlan
+Driver --|> Passenger
+DriverProfile *-- "1" VehicleUnit : assignedVehicle
+DispatchOrder --> "1" TrainSegment : targetedSegment
+PassengerBoarding --> "1" Passenger : assignedPassenger
+PassengerBoarding --> "1" Ticket : issuedTicket
+Driver --> "0..*" DispatchOrder : assignedOrders
+Passenger -- Ticket
+GuestReservation -- Ticket
+TrainSegment -- VehicleUnit
+VehicleUnit -- SecuritySensor
+Passenger -- Payment
+RoutePlan -- SecuritySensor
+RoutePlan -- PassengerBoarding
+Driver -- PassengerBoarding
+Customer -- Ticket
+@enduml

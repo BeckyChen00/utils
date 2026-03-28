@@ -1,0 +1,30 @@
+@startuml
+
+class Diagram { System Requirement }
+
+class SystemRequirement {
+    name: "System Requirement"
+    description: "System Requirement"
+    requires:
+        - user1, user2
+}
+
+class User {
+    name: "User"
+    id: integer
+    role: string
+}
+
+class Role {
+    name: "Role"
+    description: "Role"
+}
+
+class UserWithRole {
+    name: "User With Role"
+    id: integer
+    role: Reference(Role)
+    user: Reference(User)
+}
+
+@enduml

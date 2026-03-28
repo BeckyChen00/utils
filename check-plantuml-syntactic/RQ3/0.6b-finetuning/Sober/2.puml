@@ -1,0 +1,52 @@
+@startuml
+enum JobState {
+  Pending
+  Running
+  Completed
+  Failed
+}
+enum SensorType {
+  Temperature
+  Humidity
+  Pressure
+  WaterLevel
+ грузовикTemperature
+}
+class SensorNode {
+  locationCode: String
+  sensorType: SensorType
+  lastCalibrationDate: Date
+  +calibrate(): void
+  +getStatus(): JobState
+}
+class Vehicle {
+  licensePlate: String
+  model: String
+  +getVehicleHash(): String
+  +isRegistered(): boolean
+}
+class Task {
+  priorityLevel: int
+  description: String
+  +execute(): void
+  +cancel(): void
+}
+class MaintenanceJob {
+  currentState: JobState
+  estimatedDuration: int
+  +startJob(): void
+  +updateStatus(newState: JobState): void
+  +getCompletionTime(): Date
+}
+class MaintenanceSchedule {
+  timeWindowStart: Date
+  timeWindowEnd: Date
+  +isValid(): boolean
+  +addJob(job: MaintenanceJob): void
+}
+Vehicle *-- "0..*" SensorNode : connectedSensors
+Vehicle --> "0..*" MaintenanceJob : assignedJobs
+Vehicle --> "0..*" Task : assignedTasks
+MaintenanceJob --> "1" Vehicle : targetVehicle
+MaintenanceJob --> "0..1" MaintenanceSchedule : scheduledOn
+@enduml

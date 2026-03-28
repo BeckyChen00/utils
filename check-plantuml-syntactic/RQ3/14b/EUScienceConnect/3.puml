@@ -1,0 +1,81 @@
+
+@startuml
+skinparam linetype zigzag
+
+class Person {
+  -personID: String
+  -name: String
+  -phoneNumber: String
+  -keywords: List<String>
+  -institutionCode: String
+}
+
+class Institution {
+  -institutionCode: String
+  -name: String
+}
+
+class Article {
+  -doi: String
+  -title: String
+  -authors: List<Person>
+  -authorPositions: List<Integer>
+}
+
+class PeerReviewedPaper {
+  -citationCount: Integer
+  -reviewers: List<Person>
+}
+
+class TechnicalReport {
+  -publishingInstitutionCode: String
+}
+
+class Publisher {
+  -name: String
+}
+
+class Journal {
+  -publisherName: String
+  -journalName: String
+  -impactFactor: Double
+}
+
+class Subscription {
+  -institutionCode: String
+  -journalName: String
+  -publisherName: String
+}
+
+' Associations
+Person "1" *-- "0..*" Article : author of
+Person "1" *-- "0..*" Article : reviewer of
+
+Article <|-- PeerReviewedPaper
+Article <|-- TechnicalReport
+
+PeerReviewedPaper o-- "0..*" Person : reviewed by
+
+Institution "1" *-- "0..*" TechnicalReport : publishes
+
+Publisher "1" *-- "0..*" Journal : owns
+
+Journal "1" *-- "0..*" Subscription : subscribed to by
+Institution "1" *-- "0..*" Subscription : subscribes to
+
+Person "1" -- "1" Institution : works at
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **`Person`** has a unique `personID`, is affiliated with an `Institution`, and can be both an **author** and **reviewer** of articles.
+- **`Institution`** is uniquely identified by `institutionCode` and can publish **TechnicalReports** and have **Subscriptions** to **Journals**.
+- **`Article`** is the base class for both **PeerReviewedPaper** and **TechnicalReport**. Each article has a unique **DOI**, title, and list of authors (with positions).
+- **`PeerReviewedPaper`** includes citation count and reviewers.
+- **`TechnicalReport`** must be published by an institution.
+- **`Publisher`** can have multiple **Journals** with the same name as other publishers.
+- **`Journal`** has an **impact factor** and is associated with a **Subscription** that links institutions to journals.
+
+Let me know if you'd like a UML image or further refinements!

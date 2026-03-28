@@ -1,0 +1,69 @@
+@startuml
+enum SeatState {
+  Available
+  Reserved
+  Occupied
+  Blocked
+  Maintenance
+}
+class Customer {
+  name: String
+  creditCardNumber: String
+}
+class Seat {
+  seatNumber: String
+  seatType: String
+  +isAvailable(): boolean
+}
+class Show {
+  startTime: Date
+  duration: int
+  +getEndTime(): Date
+  +isPublic(): boolean
+}
+class Movie {
+  title: String
+  director: String
+  duration: int
+  +getGenre(): String
+}
+class Cinema {
+  name: String
+  address: String
+  +getTheatres(): List<Theatre>
+}
+class Theatre {
+  screenCount: int
+  accessibilityDescription: String
+  +getAvailableSeats(): List<Seat>
+}
+class Ticket {
+  purchaseTime: Date
+  +getSeat(): Seat
+  +isValid(): boolean
+}
+class Reservation {
+  reservationTime: Date
+  +getCustomer(): Customer
+  +cancel(): boolean
+}
+class BookingSystem {
+  +processReservation(customer: Customer, show: Show, seat: Seat): Reservation
+  +cancelShow(show: Show): boolean
+  +generateTicket(reservation: Reservation, seat: Seat): Ticket
+  +findAvailableTheatres(movie: Movie, date: Date): List<Theatre>
+}
+class EventLog {
+  message: String
+  timestamp: Date
+}
+Cinema *-- "*" Theatre : theatres
+Theatre *-- "*" Seat : seats
+Movie "1" --> "*" Show : shows
+Show "1" --> "1" Theatre : venue
+Show "1" --> "*" Seat : availableSeats
+Customer -- Reservation
+Reservation -- Ticket
+Theatre -- EventLog
+BookingSystem -- EventLog
+@enduml

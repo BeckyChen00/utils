@@ -1,0 +1,136 @@
+
+---
+
+
+@startuml
+
+' User class
+class User {
+  - username: String
+  - password: String
+  + setUsername(username: String): void
+  + setPassword(password: String): void
+}
+
+' Admin is a type of User
+User <|-- Admin
+
+' Player is a type of User
+User <|-- Player
+
+' Game class
+class Game {
+  - name: String
+  - hallOfFame: List<Score>
+  - blocks: Set<Block>
+  - levels: List<Level>
+  - minSpeed: int
+  - speedIncreaseFactor: double
+  - maxPaddleLength: int
+  - minPaddleLength: int
+  + createGame(): void
+  + publishGame(): void
+}
+
+' Block class
+class Block {
+  - color: String
+  - points: int
+  - gridPosition: Position
+  + setColor(color: String): void
+  + setPoints(points: int): void
+  + setGridPosition(gridPosition: Position): void
+}
+
+' Level class
+class Level {
+  - levelNumber: int
+  - blockArrangement: List<Block>
+  - isRandom: boolean
+  + setBlocks(blockArrangement: List<Block>): void
+  + setIsRandom(isRandom: boolean): void
+}
+
+' Position class
+class Position {
+  - x: int
+  - y: int
+  + setPosition(x: int, y: int): void
+}
+
+' Score class
+class Score {
+  - player: Player
+  - score: int
+  - timestamp: Date
+  + setPlayer(player: Player): void
+  + setScore(score: int): void
+  + setTimestamp(timestamp: Date): void
+}
+
+' GameSession class
+class GameSession {
+  - game: Game
+  - player: Player
+  - currentLevel: Level
+  - lives: int
+  - ballSpeed: int
+  - paddleLength: int
+  - isPaused: boolean
+  + startGame(): void
+  + resumeGame(): void
+  + pauseGame(): void
+  + endGame(): void
+}
+
+' Relationships
+
+' User can be Admin or Player
+User --|> Admin
+User --|> Player
+
+' Admin creates Game
+Admin "1" -- "1" Game : creates
+
+' Game has multiple Levels
+Game "1" -- "0..*" Level : contains
+
+' Game has multiple Blocks
+Game "1" -- "0..*" Block : defines
+
+' Level has multiple Blocks
+Level "1" -- "0..*" Block : contains
+
+' Game has Hall of Fame (List of Scores)
+Game "1" -- "0..*" Score : has
+
+' Player plays Game
+Player "1" -- "1" Game : plays
+
+' GameSession is associated with a Game and Player
+Game "1" -- "1" GameSession : is part of
+Player "1" -- "1" GameSession : is part of
+
+' Score is associated with a Player
+Player "1" -- "0..*" Score : has
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- The diagram shows:
+  - `User` as a base class that can be either an `Admin` or a `Player`.
+  - `Game` includes all the game configuration and is managed by an `Admin`.
+  - Each `Game` has its own `hallOfFame`, which is a list of `Score`s.
+  - `Block` objects are defined in a `Game` and used to construct each `Level`.
+  - A `Level` may be random or predefined.
+  - `GameSession` represents the ongoing state of a game being played by a `Player`.
+  - `Score` records the result of a game session for a `Player`.
+
+---
+
+### 📝 To Render the Diagram:
+
+Let me know if you'd like the diagram rendered as an image!

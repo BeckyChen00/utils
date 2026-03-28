@@ -1,0 +1,38 @@
+@startuml
+enum VehicleStatus {
+  InService
+  UnderRepair
+}
+enum ShiftType {
+  Morning
+  Afternoon
+  Night
+}
+enum DriverStatus {
+  Active
+  OnLeave
+}
+class Driver {
+  driverName: String
+  driverId: String
+  currentStatus: DriverStatus
+  isAvailable: Boolean
+}
+class Bus {
+  licencePlate: String
+  currentStatus: VehicleStatus
+}
+class Route {
+  routeNumber: int
+  routeName: String
+}
+class Shift {
+  shiftType: ShiftType
+  scheduledDate: Date
+  startTime: Time
+  endTime: Time
+}
+Driver --> "*" Shift : scheduledShifts
+Shift --> "1" Bus : assignedBus
+Shift --> "1" Route : associatedRoute
+@enduml

@@ -1,0 +1,91 @@
+
+@startuml
+
+' Entities and Classes
+class User {
+    - id: int
+    - name: string
+    - contactInfo: string
+}
+
+class Customer extends User {
+    - leadCustomer: boolean
+    - rideCount: int
+}
+
+class CarOwner extends User {
+    - licensePlate: string
+    - carModel: string
+}
+
+class SelfDrivingCar {
+    - licensePlate: string
+    - model: string
+    - owner: User (either CarOwner or Sober)
+    - accidents: List<Accident>
+}
+
+class Accident {
+    - date: DateTime
+    - location: string
+    - damageAmount: double
+    - affectedCar: SelfDrivingCar
+}
+
+class Ride {
+    - startTime: DateTime
+    - endTime: DateTime
+    - pickupLocation: string
+    - dropoffLocation: string
+    - duration: TimeSpan
+    - distance: double
+    - fee: double
+    - numberOfPassengers: int
+    - requestType: RequestType (enum: APP, HAND_WAVE)
+    - customers: List<Customer>
+    - leadCustomer: Customer
+    - car: SelfDrivingCar
+}
+
+class RideHail extends Ride {
+    - maxPassengers = 6
+}
+
+class RideShare extends Ride {
+    - maxPassengers = 10
+    - negotiatedFeePerCustomer: double
+}
+
+class SoberSystem {
+    - manageRideRequests()
+    - trackUserActivity()
+    - handleAccidents()
+    - plantTreeForLoyalUsers()
+}
+
+' Associations
+User "1" -- "many" {Ride} : participates in
+SelfDrivingCar "1" -- "many" Accident : has
+Ride "1" -- "1" LeadCustomer : has
+Ride "1" -- "1" SelfDrivingCar : uses
+RideHail "1" -- "1" Ride : is a type of
+RideShare "1" -- "1" Ride : is a type of
+Customer "1" -- "many" Ride : participates in
+
+' Enumeration
+enum RequestType {
+    APP
+    HAND_WAVE
+}
+
+@enduml
+
+---
+
+### ✅ Diagram Highlights:
+- **User** is the base class extended by **Customer** and **CarOwner**.
+- **SelfDrivingCar** can be owned either by a **CarOwner** or by **Sober** directly.
+- **Ride** is an abstract base class with two concrete types: **RideHail** and **RideShare**, each with specific constraints (e.g., max passengers).
+- **Accident** records relevant details per car.
+- **SoberSystem** encapsulates key business logic like managing rides, tracking users, handling accidents, and planting trees as incentives.
+

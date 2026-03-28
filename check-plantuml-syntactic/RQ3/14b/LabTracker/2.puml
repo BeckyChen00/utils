@@ -1,0 +1,101 @@
+
+@startuml
+
+' Classes
+class Doctor {
+  -practitionerNumber: String
+  -fullName: String
+  -address: String
+  -phoneNumber: String
+  -signature: Image
+}
+
+class Patient {
+  -healthNumber: String
+  -firstName: String
+  -lastName: String
+  -dateOfBirth: Date
+  -address: String
+  -phoneNumber: String
+}
+
+class Test {
+  -testId: String
+  -name: String
+  -duration: Integer
+  -isAppointmentRequired: Boolean
+  -isSampleDropoff: Boolean
+  -testGroup: String
+}
+
+class Requisition {
+  -requisitionId: String
+  -validFrom: Date
+  -repeatCount: Integer
+  -repeatInterval: String (weekly, monthly, etc.)
+  -doctor: Doctor
+  -patient: Patient
+  -tests: List<Test>
+}
+
+class Appointment {
+  -appointmentId: String
+  -confirmationNumber: String
+  -startDate: Date
+  -startTime: Time
+  -endTime: Time
+  -labName: String
+  -labRegistrationNumber: String
+  -requisition: Requisition
+  -lab: Lab
+}
+
+class Lab {
+  -labId: String
+  -name: String
+  -registrationNumber: String
+  -address: String
+  -businessHoursStart: Time
+  -businessHoursEnd: Time
+  -cancellationFee: Double
+}
+
+class TestResult {
+  -resultId: String
+  -test: Test
+  -requisition: Requisition
+  -result: String (positive/negative)
+  -report: String
+}
+
+' Relationships
+Doctor "1" --> "0..*" Requisition : creates
+Patient "1" --> "0..*" Requisition : submits
+Requisition "1" --> "1" Doctor : prescribedBy
+Requisition "1" --> "1" Patient : belongsTo
+Requisition "1" --> "1..*" Test : includes
+Test "1" --> "0..*" Requisition : includedIn
+Test "1" --> "0..*" Appointment : scheduledFor
+Appointment "1" --> "1" Lab : at
+Appointment "1" --> "1" Requisition : for
+Lab "1" --> "0..*" Appointment : provides
+TestResult "1" --> "1" Test : relatesTo
+TestResult "1" --> "1" Requisition : relatesTo
+Doctor "1" --> "0..*" TestResult : views
+Patient "1" --> "0..*" TestResult : views
+
+@enduml
+
+---
+
+### ✅ Summary of Key Elements:
+- **Doctor**: Manages requisitions and must provide personal info and digital signature.
+- **Patient**: Submits requisitions and can make appointments or drop off samples.
+- **Test**: Has a group, duration, and whether it needs an appointment or sample drop-off.
+- **Requisition**: Contains tests from the same group, may be repeated, and links doctor and patient.
+- **Appointment**: Made by patients for tests requiring one; has confirmation details and lab info.
+- **Lab**: Provides all tests, defines hours and fees.
+- **TestResult**: Stores test outcome and report, accessible to both doctor and patient.
+
+---
+

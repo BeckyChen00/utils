@@ -1,0 +1,23 @@
+@startuml
+
+class Diagram {
+    name: System Requirements
+    description: Defines the requirements for a system.
+}
+
+# Components
+Component1 << Component1 >
+    name: System Requirement 1
+    description: This component represents a requirement that must be included in the system.
+
+Component2 << Component2 >
+    name: System Requirement 2
+    description: This component represents another requirement that must be included in the system.
+
+# Relationships
+Relationship1 between Component1 and Component2 {
+    name: "Requirement Relationship"
+    description: The components are related by this requirement relationship.
+}
+
+@enduml

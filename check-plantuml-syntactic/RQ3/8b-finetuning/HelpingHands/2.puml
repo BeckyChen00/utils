@@ -1,0 +1,91 @@
+@startuml
+enum ItemCondition {
+  Excellent
+  VeryGood
+  Good
+  Fair
+  Poor
+  Damaged
+  Unusable
+}
+enum PickupStatus {
+  Scheduled
+  InProgress
+  Completed
+  Cancelled
+  Failed
+}
+class Resident {
+  fullName: String
+  phoneNumber: String
+  emailAddress: String
+  streetAddress: String
+  +placePickupRequest(description: String, requestedTime: Date, includePickupNotes: boolean): PickupRequest
+}
+class PickupRequest {
+  pickupDescription: String
+  scheduledTime: Date
+  status: PickupStatus
+  +updateStatus(newStatus: PickupStatus): void
+}
+class PickupSchedule {
+  scheduleDate: Date
+  isRouteOptimized: boolean
+  +addPickupRequest(request: PickupRequest): void
+}
+class PickupVehicle {
+  vehicleCapacity: int
+  +getAvailableCapacity(): int
+  +assignToSchedule(schedule: PickupSchedule): void
+}
+class H2SEmployee {
+  employeeName: String
+  +examineItem(item: SecondHandItem): ItemCondition
+  +assignCategory(item: SecondHandItem, category: String): void
+}
+class SecondHandItem {
+  description: String
+  condition: ItemCondition
+  category: String
+  weight: double
+}
+class PickupDriver {
+  driverName: String
+  availableDays: String[]
+  +acceptSchedule(schedule: PickupSchedule): void
+  +completeShift(): void
+}
+class FoodBank {
+  name: String
+  address: String
+  +receiveNonPerishables(items: NonPerishableFoodItem[]): void
+}
+class NonPerishableFoodItem {
+  foodType: String
+  quantity: int
+  expiryDate: Date
+}
+class DistributionCenter {
+  name: String
+  address: String
+  +warehouseCapacity: int
+  +dropOffItems(items: SecondHandItem[]): void
+}
+class PickupRoute {
+  assignedDrivers: String[]
+  totalDistance: double
+  +optimizeRoute(): void
+}
+DistributionCenter "1" *-- "1" H2SEmployee : staff
+DistributionCenter "1" *-- "1" FoodBank : linkedFoodBank
+PickupRequest "1" --> "1" Resident : requester
+PickupSchedule "1" *-- "1" PickupRoute : plannedRoute
+PickupRoute "1" *-- "0..*" PickupVehicle : usedVehicles
+PickupSchedule "1" --> "0..*" PickupRequest : scheduledRequests
+PickupRequest "1" --> "1" PickupVehicle : assignedVehicle
+PickupRequest "1" --> "0..1" SecondHandItem : collectedItem
+PickupDriver "1" --> "1" PickupSchedule : assignedSchedule
+H2SEmployee "1" --> "0..*" SecondHandItem : maintainedItems
+H2SEmployee "1" --> "0..*" NonPerishableFoodItem : processedFoods
+NonPerishableFoodItem "1" --> "1" FoodBank : recipient
+@enduml

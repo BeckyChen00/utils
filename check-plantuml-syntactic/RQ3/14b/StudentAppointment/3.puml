@@ -1,0 +1,49 @@
+
+@startuml
+' Class Diagram for Appointment Management System
+
+class Student {
+  -studentID: String
+  -name: String
+  -registeredCourses: List<Course>
+}
+
+class TeachingAssistant {
+  -taID: String
+  -name: String
+  -teachingCourses: List<Course>
+}
+
+class Course {
+  -courseID: String
+  -title: String
+  -description: String
+}
+
+class Appointment {
+  -appointmentID: String
+  -date: Date
+  -time: Time
+  -duration: Integer
+  -student: Student
+  -teachingAssistant: TeachingAssistant
+  -course: Course
+}
+
+Student "1" --> "0..*" Course : registeredFor
+TeachingAssistant "1" --> "0..*" Course : teaches
+Appointment "1" --> "1" Student : student
+Appointment "1" --> "1" TeachingAssistant : teachingAssistant
+Appointment "1" --> "1" Course : course
+
+note right of Appointment
+  An appointment is always for one specific course and with one TA.
+end note
+@enduml
+
+### Explanation:
+- **Student**: Can request appointments only for courses they are registered in.
+- **TeachingAssistant (TA)**: Can only provide help for courses they teach.
+- **Course**: Has a unique ID, title, and description.
+- **Appointment**: Links a student, a teaching assistant, and a course. Each appointment is associated with exactly one student, one TA, and one course.
+

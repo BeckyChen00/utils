@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedCustomers" eType="#//Customer" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedProfile" eType="#//CustomerProfile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedClaims" eType="#//ClaimCase" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeOffers" eType="#//ContractOffer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomerProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="heldPolicies" eType="#//InsurancePolicy" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InsurancePolicy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingFrom" eType="#//ContractOffer" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContractOffer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimCase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedReports" eType="#//EstimatorReport" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EstimatorReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Broker">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedOffers" eType="#//ContractOffer" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

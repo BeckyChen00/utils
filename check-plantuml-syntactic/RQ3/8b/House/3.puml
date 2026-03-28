@@ -1,0 +1,81 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor yellow
+
+class House {
+  - String address
+  - String buildingMaterial
+  - Basement basement
+  - Set<Company> companies
+  - Set<JobLog> jobLogs
+}
+
+class Basement {
+  - String name
+  - int size
+  - String type
+  - if (type == "earth") then
+    - int humidityLevel
+  endif
+}
+
+class Company {
+  - String name
+  - String address
+  - Set<JobLog> jobLogs
+}
+
+class JobLog {
+  - int hours
+  - double price
+  - House house
+  - Company company
+}
+
+class SemiDetachedHouse {
+  - boolean hasOwnGarden
+  - int numberOfWindows
+  - CarportOrGarage carportOrGarage
+}
+
+class CarportOrGarage {
+  - boolean isDoubleCarport
+  - boolean hasFlatRoof
+  - boolean hasAutomaticGarageDoor
+}
+
+note right of House: A House can be a SemiDetachedHouse
+note right of SemiDetachedHouse: Must have either CarportOrGarage (with Carport details) or Garage (with Garage details)
+
+House --> Basement
+House --> Company
+House --> JobLog
+House <|-- SemiDetachedHouse
+
+SemiDetachedHouse --> CarportOrGarage
+
+CarportOrGarage --> Carport
+CarportOrGarage --> Garage
+
+class Carport {
+  - boolean isDoubleCarport
+  - boolean hasFlatRoof
+}
+
+class Garage {
+  - boolean hasAutomaticGarageDoor
+}
+
+CarportOrGarage <|-- Carport
+CarportOrGarage <|-- Garage
+
+@enduml
+
+### Explanation:
+- **House**: Base class with common attributes and relationships.
+- **Company**: Services houses and records jobs.
+- **JobLog**: Records job details for a company and house.
+- **SemiDetachedHouse**: Specialization of `House` with additional attributes.
+- **CarportOrGarage**: Abstract class that represents either a carport or a garage. It's used to differentiate between the two options in a semi-detached house.
+

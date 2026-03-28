@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orders" eType="#//Order" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executionResult" eType="#//ExecutionResult" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExecutionResult"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Trader">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderBook" eType="#//OrderBook" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="historyEvents" eType="#//MarketEvent" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedResults" eType="#//ExecutionResult" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderBook"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TradingSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeTrader" eType="#//Trader" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredEvents" eType="#//MarketEvent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MarketEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affectedOrders" eType="#//Order" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

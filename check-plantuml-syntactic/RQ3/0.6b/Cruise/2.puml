@@ -1,0 +1,15 @@
+@startuml
+class Diagram {SystemRequirement}
+    class SystemRequirement {
+        component name "System Requirement"
+        constraint {
+            required [SystemRequirement.name]
+        }
+        constraint {
+            optional [SystemRequirement.description]
+        }
+        constraint {
+            required [SystemRequirement.dependencies]
+        }
+    }
+@enduml

@@ -1,0 +1,77 @@
+@startuml
+enum TaskStatus {
+  Pending
+  Running
+  Completed
+  Failed
+  Cancelled
+}
+enum SkillType {
+  Artistic
+  Technical
+  Research
+  Communication
+  Planning
+}
+enum OrderPriority {
+  Low
+  Medium
+  High
+}
+class User {
+  firstName: String
+  lastName: String
+  email: String
+  isActive: boolean
+  +updateProfile(newEmail: String): void
+}
+class Project {
+  title: String
+  startDate: Date
+  endDate: Date
+  status: TaskStatus
+  +assignTask(task: Task): void
+  +updateStatus(newStatus: TaskStatus): void
+}
+class ProjectPlan {
+  version: int
+  lastModified: Date
+  description: String
+  +addTask(task: Task): void
+  +addAssignment(task: Task, assignee: User): void
+}
+class Task {
+  title: String
+  priority: OrderPriority
+  status: TaskStatus
+  estimatedHours: int
+  actualHours: int
+  +calculateProgress(): double
+  +updateStatus(newStatus: TaskStatus): void
+}
+class Skill {
+  name: String
+  type: SkillType
+  proficiencyLevel: int
+  +isCompetent(user: User): boolean
+}
+class Resource {
+  name: String
+  type: SkillType
+  capacity: int
+  +allocateTo(task: Task): void
+  +returnTo(team: Team): void
+}
+class Team {
+  name: String
+  capacity: int
+  +addMember(user: User): void
+  +removeMember(user: User): void
+}
+ProjectPlan *-- "*" Task : containedTasks
+Project *-- "*" Resource : allocatedResources
+Project --> "*" Team : assignedTeams
+User --> "*" Project : submittedProjects
+Project --> "1" ProjectPlan : sourcePlan
+Task -- User
+@enduml

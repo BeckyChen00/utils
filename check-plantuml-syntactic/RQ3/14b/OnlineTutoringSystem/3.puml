@@ -1,0 +1,113 @@
+
+@startuml
+' Class Diagram for Online Tutoring Service (OTS)
+
+class Student {
+  - name: String
+  - email: String
+  + requestTutoring(subject: String, level: String, date: DateTime): void
+  + scheduleFollowUpSession(sessionId: String): void
+}
+
+class Tutor {
+  - name: String
+  - email: String
+  - bankAccount: String
+  + offerTutoring(subject: String, level: String, hourlyRate: Double): void
+  + setWeeklyAvailability(availability: Map<DayOfWeek, List<TimeRange>>): void
+  + confirmRequest(requestId: String): void
+  + suggestAlternativeSlot(requestId: String, newSlot: TimeRange): void
+}
+
+class TutoringRequest {
+  - id: String
+  - subject: String
+  - level: String
+  - requestedBy: Student
+  - requestedFor: Tutor
+  - targetDate: DateTime
+  - status: RequestStatus
+  + submit(): void
+  + cancel(): void
+}
+
+class TutoringSession {
+  - id: String
+  - subject: String
+  - level: String
+  - tutor: Tutor
+  - student: Student
+  - scheduledAt: DateTime
+  - confirmedAt: DateTime
+  - paymentStatus: PaymentStatus
+  + agreeOnSession(): void
+  + cancelSession(by: User): void
+  + completeSession(): void
+  + scheduleFollowUp(): void
+}
+
+class Payment {
+  - amount: Double
+  - method: PaymentMethod
+  - session: TutoringSession
+  - paidAt: DateTime
+  + processPayment(): void
+}
+
+class Award {
+  - tutor: Tutor
+  - subject: String
+  - month: Month
+  - title: String
+  + assignAward(): void
+}
+
+enum RequestStatus {
+  PENDING, CONFIRMED, CANCELLED, COMPLETED
+}
+
+enum PaymentStatus {
+  UNPAID, PAID, PARTIALLY_PAID
+}
+
+enum PaymentMethod {
+  CREDIT_CARD, WIRE_TRANSFER
+}
+
+class User {
+  - name: String
+  - email: String
+}
+
+Student <|-- User
+Tutor <|-- User
+
+TutoringRequest "1" *-- "0..1" TutoringSession : relates to
+TutoringRequest "1" *-- "1" Student : requested by
+TutoringRequest "1" *-- "1" Tutor : requested for
+
+TutoringSession "1" *-- "1" Payment : associated with
+TutoringSession "1" *-- "1" Tutor : conducted by
+TutoringSession "1" *-- "1" Student : attended by
+
+Tutor "1" *-- "0..*" TutoringSession : conducts
+Tutor "1" *-- "0..*" TutoringRequest : offers for
+Tutor "1" *-- "0..*" Award : receives
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`User`** is a base class for both `Student` and `Tutor`.
+- **`Tutor`** has additional attributes like `bankAccount` and can offer tutoring in different subjects with specific expertise levels and rates.
+- **`TutoringRequest`** represents a student's request for a session. It links the student and tutor and holds details about the desired session.
+- **`TutoringSession`** represents an actual session that has been agreed upon. It includes scheduling, cancellation rules, and payment handling.
+- **`Payment`** handles the financial aspects of a session.
+- **`Award`** tracks monthly awards given to top tutors per subject.
+- **Enums** (`RequestStatus`, `PaymentStatus`, `PaymentMethod`) are used to define valid states and options.
+
+---
+
+Let me know if you want this rendered as an image or expanded further!

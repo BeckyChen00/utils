@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactionHistory" eType="#//TransactionRecord" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransactionRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FinancialAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditRecords" eType="#//AuditLog" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="riskProfiles" eType="#//RiskProfile" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactionHistory" eType="#//TransactionRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditedRecords" eType="#//TransactionRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredViolations" eType="#//ViolationEvent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceChecker">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governedBy" eType="#//RegulatoryRegulator" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governedAccounts" eType="#//FinancialAccount" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedTo" eType="#//RegulatoryRegulator" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReport" eType="#//ComplianceReport" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredRecords" eType="#//TransactionRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegulatoryRegulator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ViolationEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implicatedAccount" eType="#//FinancialAccount" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Regulator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="regulatedAccount" eType="#//FinancialAccount" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

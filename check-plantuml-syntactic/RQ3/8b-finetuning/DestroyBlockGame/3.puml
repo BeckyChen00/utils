@@ -1,0 +1,68 @@
+@startuml
+enum GameStatus {
+  Draft
+  Published
+  Completed
+  Archived
+}
+enum BlockType {
+  Red
+  Blue
+  Green
+  Yellow
+  Purple
+  Orange
+  Black
+  White
+  Transparent
+  Explosive
+}
+class User {
+  username: String
+  password: String
+  isPremiumMember: boolean
+}
+class Game {
+  name: String
+  status: GameStatus
+  maxLevel: int
+  minSpeed: int
+  speedIncreaseFactor: int
+  maxPaddleLength: float
+  minPaddleLength: float
+  +defineLevel(levelNumber: int, blockConfig: List<Block>): void
+  +randomizeBlocks(): void
+}
+class Block {
+  color: BlockType
+  pointsValue: int
+  isDestroyed: boolean
+}
+class PlaySession {
+  startTime: Date
+  isPaused: boolean
+  livesLeft: int
+  currentScore: int
+  +resume(): void
+  +pause(): void
+  +calculateTotalScore(): int
+}
+class HallOfFame {
+  +addEntry(score: int, player: User): void
+  +getTopEntries(limit: int): List<ScoreEntry>
+}
+class ScoreEntry {
+  timestamp: Date
+  scoreValue: int
+  +getFormattedString(): String
+}
+User "1" --> "0..*" Game : isOwner
+User "1" --> "0..*" PlaySession : ownsSessions
+Game "1" *-- "1..*" Block : definesBlocks
+Game "1" *-- "1" HallOfFame : belongsTo
+Game "0..*" --> "0..*" PlaySession : hostedSessions
+PlaySession "1" *-- "0..*" Block : interactsWithBlocks
+PlaySession "1" --> "1" User : playsAs
+HallOfFame "1" --> "0..*" ScoreEntry : containsEntries
+ScoreEntry "1" --> "1" User : scoredBy
+@enduml

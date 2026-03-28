@@ -1,0 +1,136 @@
+
+---
+
+
+@startuml
+
+' Classes
+class WebPortal {
+  - version: String
+  - url: String
+}
+
+class Building {
+  - id: String
+  - name: String
+  - energyClass: String (A/B/C/D)
+  - address: String
+  - yearOfConstruction: Integer
+  - owner: User
+  - additionalEntries: List<Entry>
+  - images: List<Image>
+  - profilePhoto: Image
+}
+
+class Entry {
+  - name: String
+  - isPublic: Boolean
+  + addEntry()
+  + updateEntry()
+  + deleteEntry()
+}
+
+class TextualEntry <|-- Entry
+class NumericEntry <|-- Entry
+
+TextualEntry {
+  - content: String
+}
+
+NumericEntry {
+  - value: Float
+  - unit: String
+}
+
+class Image {
+  - fileName: String
+}
+
+class User {
+  - username: String
+  - email: String
+  - password: String
+  - buildings: List<Building>
+  - comments: List<Comment>
+}
+
+class Administrator <|-- User
+Administrator {
+  - idCardNumber: String
+}
+
+class Comment {
+  - content: String
+  - author: User
+  - building: Building
+  - date: DateTime
+}
+
+class Search {
+  + searchBuildings(keyword: String): List<Building>
+}
+
+' Relationships
+WebPortal "1" -- "0..*" Building : contains
+User "1" -- "0..*" Building : owns
+Building "1" -- "0..*" Entry : has
+Building "1" -- "0..*" Image : has
+Entry "1" -- "0..*" TextualEntry : type
+Entry "1" -- "0..*" NumericEntry : type
+User "1" -- "0..*" Comment : creates
+Comment "1" -- "1" Building : belongs to
+Comment "1" -- "1" User : posted by
+User "1" -- "0..*" Search : uses
+Administrator "1" -- "0..*" User : manages
+
+@enduml
+
+---
+
+### 📋 **Use Cases & Actors**
+
+Here are **10 meaningful use cases**, associated with **actors**, using **generalization** where applicable:
+
+@startuml
+
+actor Visitor
+actor User
+actor Administrator
+
+Visitor --> (Search for Buildings)
+User --> (Register as User)
+User --> (Login)
+User --> (Create Building)
+User --> (Add Additional Entry to Building)
+User --> (Comment on Building)
+User --> (View Public Entries)
+Administrator --> (Setup User Account)
+Administrator --> (Delete Comment)
+User --> (Manage Entries)
+
+' Generalizations
+User <|-- Visitor
+User <|-- Administrator
+
+@enduml
+
+---
+
+### 🔍 **Explanation of Key Elements**
+
+- **Generalization**:
+  - `User` is generalized into `Visitor` and `Administrator`.
+  - `Entry` is generalized into `TextualEntry` and `NumericEntry`.
+
+- **Associations**:
+  - A `WebPortal` contains multiple `Building`s.
+  - A `User` owns multiple `Building`s.
+  - A `Building` has multiple `Entry`s and `Image`s.
+  - An `Entry` can be either `TextualEntry` or `NumericEntry`.
+  - A `User` can create `Comments`, which are linked to specific `Building`s.
+
+- **Use Case Hierarchy**:
+  - `User` and `Administrator` inherit some use cases from `Visitor`, but have more specific actions like `Setup User Account` or `Delete Comment`.
+
+---
+

@@ -1,0 +1,63 @@
+@startuml
+enum SafetyStatus {
+  Safe
+  Critical
+  Indeterminate
+}
+enum TaskType {
+  Diagnostic
+  Protection
+  Resistant
+  Clean
+}
+enum InspectionStatus {
+  Pending
+  Completed
+}
+class MaintenanceTask {
+  taskType: TaskType
+  estimatedDurationMinutes: int
+  +validateTaskRequirement(inspectionStatus: InspectionStatus): boolean
+  +calculatePriorityScore(): double
+}
+class MaintenanceSchedule {
+  maintenanceDate: Date
+  +addTask(task: MaintenanceTask): void
+  +getConsecutiveTasksCount(): int
+}
+class WorkOrder {
+  orderDescription: String
+  priorityLevel: int
+  +isFulfillable(): boolean
+}
+class InspectionReport {
+  inspectionStatus: InspectionStatus
+  findingsSummary: String
+  +generateSummaryReport(): String
+  +getStatusReport(): String
+}
+class SafetyProtocol {
+  description: String
+  recommendedStatus: SafetyStatus
+  +verifyCompliance(checkStatus: InspectionStatus): SafetyStatus
+}
+class Inspector {
+  +assessTask(task: MaintenanceTask): InspectionResult
+  +recruitInspector(): void
+  +validateWorkOrder(workOrder: WorkOrder): boolean
+}
+class ScheduleManager {
+  +generateWeeklyPlan(startDate: Date, endDate: Date): void
+  +releaseScheduleSheet(): void
+  +compileInspectionReport(period: DateRange): InspectionReport
+}
+MaintenanceSchedule *-- "*" MaintenanceTask : containedTasks
+WorkOrder --> "1" MaintenanceTask : assignedTask
+WorkOrder --> "1" InspectionReport : generatedReport
+WorkOrder --> "1" MaintenanceTask : fulfilledTask
+SafetyProtocol --> "1" InspectionReport : basedOnProtocol
+Inspector --> "1..*" MaintenanceTask : assignedTasks
+Inspector --> "1" SafetyProtocol : followedProtocol
+ScheduleManager --> "1" InspectionReport : managedReports
+ScheduleManager --> "1" MaintenanceSchedule : controlledSchedule
+@enduml

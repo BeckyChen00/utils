@@ -1,0 +1,48 @@
+@startuml
+enum ResearchStatus {
+  pending
+  active
+  completed
+  suspended
+}
+class University {
+  name: String
+  +getDepartments(): List<Department>
+}
+class Department {
+  name: String
+  code: String
+}
+class ResearchGroup {
+  name: String
+  code: String
+  +addMember(researcher: Researcher): void
+}
+class Researcher {
+  name: String
+  email: String
+  +isAssignedTo(wp: WorkPackage): boolean
+  +getCurrentGroups(): List<ResearchGroup>
+}
+class ResearchProject {
+  title: String
+  startDate: Date
+  endDate: Date
+  currentStatus: ResearchStatus
+  +addWorkPackage(title: String): WorkPackage
+  +getTotalTeamSize(): int
+}
+class WorkPackage {
+  title: String
+  description: String
+  +getLeadershipGroup(): ResearchGroup
+  +updateStatus(newStatus: ResearchStatus): void
+}
+ResearchProject *-- "1..*" WorkPackage : workPackages
+University *-- "1..*" Department : departments
+Department --> "0..*" ResearchGroup : researchGroups
+ResearchGroup --> "0..*" Researcher : members 'opposite: groups
+ResearchProject --> "0..*" ResearchGroup : associatedGroups
+ResearchGroup --> "0..*" Researcher : researchMembers
+WorkPackage --> "0..*" Researcher : teamMembers
+@enduml

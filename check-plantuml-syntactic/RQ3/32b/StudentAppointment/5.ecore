@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//studentId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="studentId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Course&gt;" eType="#//enrolledCourses"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Course&gt;" eType="#//assignedCourses"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="enrolledCourses"/>
+  <eClassifiers xsi:type="ecore:EClass" name="requestAppointment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//taId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="taId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="assignedCourses"/>
+  <eClassifiers xsi:type="ecore:EClass" name="acceptAppointment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//courseId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="courseId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="title">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Student&gt;" eType="#//students"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="students"/>
+  <eClassifiers xsi:type="ecore:EClass" name="tas"/>
+  <eClassifiers xsi:type="ecore:EClass" name="appointmentId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//tas"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="course">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Student" eType="#//student" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="student"/>
+  <eClassifiers xsi:type="ecore:EClass" name="teachingAssistant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//status"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="status"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Student">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_&gt;_Course" eType="#//enrolledCourses" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requests_&gt;_Appointment" eType="#//appointments" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Course">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includes_&gt;" eType="#//students" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigns_&gt;" eType="#//tas" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TeachingAssistant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teaches_&gt;_Course" eType="#//assignedCourses" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="provides_&gt;_Appointment" eType="#//appointments" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="appointments"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Appointment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="for_&gt;" eType="#//course" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="with_&gt;" eType="#//teachingAssistant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="by_&gt;" eType="#//student" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,12 @@
+@startuml
+    class Diagram {
+        "System Requirement" as systemRequirement
+
+        systemRequirement
+            node {systemRequirement}
+    }
+
+    systemRequirement
+        ---> [systemRequirement]
+
+@enduml

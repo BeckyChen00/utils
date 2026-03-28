@@ -1,0 +1,102 @@
+
+---
+
+
+@startuml
+
+class User {
+  - username: String
+  - password: String
+  + login(mode: String): Boolean
+}
+
+class Player {
+  - username: String
+  - password: String
+  + play(game: Game): void
+  + saveGame(game: Game): void
+  + resumeGame(game: Game): void
+}
+
+class Admin {
+  - username: String
+  - password: String
+  + createGame(name: String): Game
+  + designGame(game: Game): void
+}
+
+class Game {
+  - name: String
+  - hallOfFame: List<Score>
+  - blocks: Set<Block>
+  - levels: List<Level>
+  - minSpeed: int
+  - speedIncreaseFactor: int
+  - maxPaddleLength: int
+  - minPaddleLength: int
+  + publish(): void
+  + isPublished(): Boolean
+}
+
+class Level {
+  - levelNumber: int
+  - blockArrangement: Set<BlockPosition>
+  - isRandom: Boolean
+  + generateBlocks(): void
+}
+
+class Block {
+  - color: String
+  - points: int
+  - position: BlockPosition
+}
+
+class BlockPosition {
+  - row: int
+  - column: int
+}
+
+class Score {
+  - player: Player
+  - score: int
+  - timestamp: DateTime
+}
+
+User <|-- Player
+User <|-- Admin
+Player --|> Game
+Admin --|> Game
+Game --|> Level
+Level --|> Block
+Block --|> BlockPosition
+Game --|> Score
+
+@enduml
+
+---
+
+### 📌 Explanation of Relationships:
+
+- **User**: Base class with common properties (username and password). A user can be either a `Player` or an `Admin`.
+- **Player**: Extends `User`, allows playing games, saving, and resuming games.
+- **Admin**: Extends `User`, allows creating and designing games.
+- **Game**: Contains information about the game (name, hall of fame, blocks, levels, etc.). It can be played by players.
+- **Level**: Represents a specific level in the game, with its block arrangement and settings.
+- **Block**: Represents a single block in the game, with its color, points, and position.
+- **BlockPosition**: Holds the grid coordinates of a block (row and column).
+- **Score**: Represents a player's score in a game, stored in the game’s hall of fame.
+
+---
+
+### ✅ Notes:
+- The `Player` and `Admin` are both subclasses of `User`, representing different roles.
+- Each `Game` has one `Admin` and multiple `Players`.
+- A `Game` contains multiple `Levels`, and each `Level` has a set of `Blocks`.
+- The `BlockPosition` is used to define where a block is placed in the grid.
+- The `Score` is associated with a `Player` and stored in the `Game`’s `hallOfFame`.
+
+---
+
+### 🧾 To Use This Diagram:
+
+Let me know if you'd like the diagram as an image or in another format!

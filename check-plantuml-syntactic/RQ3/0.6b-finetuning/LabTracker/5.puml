@@ -1,0 +1,474 @@
+@startuml
+class OrganicCrop {
+  species: String
+  waterRequirement: double
+  soilType: String
+  +generateComplianceReport(): String
+  +isSuitableFor(environment: ClimateForecast): boolean
+}
+class CropVariety {
+  varietyName: String
+  geneticInfo: String
+  +verifyCompatibility(otherVariety: CropVariety): boolean
+  +getGeneticBackground(): String
+}
+class MarketOrder {
+  orderQuantity: int
+  requestQuantity: int
+  isUrgent: boolean
+  +submit(): void
+  +cancel(): void
+}
+class UsageProfile {
+  currentUsage: int
+  +calculateEfficiency(): double
+  +updateUsage(target: int): void
+}
+class Container {
+  capacityVolume: double
+  currentVolume: double
+  state: String
+  +fillAmount(amount: double): void
+  +empty(): void
+  +checkStatus(): String
+}
+class StorageUnit {
+  temperatureRange: String
+  +storeCrops(crops: OrganicCrop[]): void
+  +retrieveCrops(): OrganicCrop[]
+}
+class SeedBatch {
+  batchCode: String
+  isAnalyzed: boolean
+  +validateQuality(): boolean
+  +exportData(): String
+}
+class PestControlPlan {
+  treatmentSchedule: String
+  +initiatePlan(): void
+  +restartPlan(): void
+}
+class SeedSourcing {
+  sourceRegion: String
+  +findSupplier(providerId: String): SeedSupplier
+  +retrievePrice(): double
+}
+class CostAggregator {
+  +calculateTotalCost(order: MarketOrder): double
+  +generateInvoice(): String
+}
+class DistributionNetwork {
+  +routeOrder(crop: OrganicCrop, container: Container): void
+  +optimizePath(): void
+}
+class ClimateForecast {
+  forecastDate: Date
+  regionCode: String
+  currentTemperature: double
+  weatherConditions: String
+  +getLastUpdate(): Date
+  +predictClimate(): String
+}
+class AlertSystem {
+  +sendAlert(message: String): void
+  +acknowledgeAlert(): void
+  +getAlertCount(): int
+}
+class PaymentProcessor {
+  +processPayment(amount: double, transactionId: String): boolean
+  +refundAmount(amount: double): String
+}
+class ComplianceLog {
+  logDate: Date
+  violationDescription: String
+  severityLevel: String
+  +recordViolation(): void
+  +generateReport(): String
+}
+class RiskAssessment {
+  riskLevel: String
+  +evaluateRisk(assessmentDate: Date): String
+  +documentRisk(): void
+}
+class AgronomyStaff {
+  +prepareCropPlan(crop: OrganicCrop, variety: CropVariety): void
+  +conductInspection(): boolean
+}
+class PlantingOrder {
+  orderDate: Date
+  targetDate: Date
+  +updateStatus(): void
+}
+class AuditLog {
+  +recordAction(actionType: String, details: String): void
+  +generateAuditSummary(): String
+}
+class ProductionRecord {
+  recordDate: Date
+  harvestDate: Date
+  yieldPerUnit: double
+  +exportDetails(): String
+}
+class BudgetAllocation {
+  allocationCode: String
+  amount: double
+  +allocateResource(): void
+  +allocateResource(operator: AgronomyStaff): void
+}
+class SystemConfiguration {
+  isActive: boolean
+  +configureParameter(paramName: String, value: String): void
+  +getStatus(): String
+}
+class ClimateAnalysis {
+  analysisDate: Date
+  trends: String
+  +generateAnalysisReport(): String
+}
+class DistributionCenter {
+  +synchronizeData(): void
+  +dispatchOrder(crop: OrganicCrop, order: MarketOrder): void
+}
+class AlertNotification {
+  notificationToken: String
+  messageContent: String
+  deliveryStatus: String
+  +deliverMessage(): boolean
+  +acknowledge(): void
+}
+class InventoryManager {
+  +retrieveStock(crop: OrganicCrop): int
+  +reserveStock(crop: OrganicCrop, amount: int): boolean
+  +releaseStock(crop: OrganicCrop): int
+}
+class MonitoringDevice {
+  deviceType: String
+  lastReading: double
+  isActive: boolean
+  +readValue(): double
+  +isValid(): boolean
+}
+class SupplyChain {
+  +updateSupplyStatus(): void
+  +verifyTransaction(): boolean
+}
+class CurrencyConverter {
+  +convertAmount(amount: double, targetCurrency: String): double
+  +reverseRate(): double
+}
+class RiskManager {
+  +manageRiskAssessment(): void
+  +monitorRiskLevel(): void
+}
+class RegulatoryAuthority {
+  jurisdiction: String
+  +enforceCompliance(): void
+  +issueRegulation(ids: String[]): void
+}
+class MarketData {
+  +getCurrentPrice(crop: OrganicCrop): double
+  +getMarketStatus(): String
+}
+class SensorNetwork {
+  +collectData(): double[]
+  +calibrateSensors(): void
+}
+class SensorNode {
+  location: String
+  isActive: boolean
+  +readData(): double
+  +resetSensor(): void
+}
+class AlertService {
+  +formatAlertMessage(alertType: String, content: String): String
+  +emitAlert(message: String): void
+}
+class ComplianceReport {
+  reportDate: Date
+  totalRegulations: int
+  issuedBy: String
+  +compileData(): String
+}
+class SecuritySystem {
+  systemName: String
+  +lockSystem(): void
+  +unlockSystem(): void
+  +refreshTokens(): void
+}
+class ComplianceValidator {
+  +validateCompliance(report: ComplianceReport): boolean
+  +generateValidationReport(): String
+}
+class AgriProject {
+  projectName: String
+  fundingSource: String
+  +initiateProject(): void
+  +finalizeProject(): void
+}
+class AgriculturalOrganisation {
+  organisationName: String
+  +initiateProject(): AgriProject
+  +issueRegulation(): void
+}
+class ProductionRecord {
+  cropType: String
+  yieldCount: int
+  harvestDate: Date
+  +getSummary(): String
+}
+class PricingEngine {
+  +calculatePrice(crop: OrganicCrop, marketData: MarketData): double
+  +calculateDiscount(rate: double): double
+}
+class FarmingZone {
+  zoneName: String
+  isApproved: boolean
+  +approveZone(): void
+  +rejectZone(): void
+}
+Class OrganicCrop {
+  species: String
+  waterRequirement: double
+  soilType: String
+  +generateComplianceReport(): String
+  +isSuitableFor(environment: ClimateForecast): boolean
+}
+Class CropVariety {
+  varietyName: String
+  geneticInfo: String
+  +verifyCompatibility(otherVariety: CropVariety): boolean
+  +getGeneticBackground(): String
+}
+Class MarketOrder {
+  orderQuantity: int
+  requestQuantity: int
+  isUrgent: boolean
+  +submit(): void
+  +cancel(): void
+}
+Class UsageProfile {
+  currentUsage: int
+  +calculateEfficiency(): double
+  +updateUsage(target: int): void
+}
+Class Container {
+  capacityVolume: double
+  currentVolume: double
+  state: String
+  +fillAmount(amount: double): void
+  +empty(): void
+  +checkStatus(): String
+}
+Class StorageUnit {
+  temperatureRange: String
+  +storeCrops(crops: OrganicCrop[]): void
+  +retrieveCrops(): OrganicCrop[]
+}
+Class SeedBatch {
+  batchCode: String
+  isAnalyzed: boolean
+  +validateQuality(): boolean
+  +exportData(): String
+}
+Class PestControlPlan {
+  treatmentSchedule: String
+  +initiatePlan(): void
+  +restartPlan(): void
+}
+Class SeedSourcing {
+  sourceRegion: String
+  +findSupplier(providerId: String): SeedSupplier
+  +retrievePrice(): double
+}
+class CostAggregator {
+  +calculateTotalCost(order: MarketOrder): double
+  +generateInvoice(): String
+}
+class DistributionNetwork {
+  +routeOrder(crop: OrganicCrop, container: Container): void
+  +optimizePath(): void
+}
+class SeedSupplier {
+  providerName: String
+  contactInfo: String
+  +supplySeed(crop: OrganicCrop, quantity: int): SeedBatch
+}
+class AgronomyStaff {
+  +prepareCropPlan(crop: OrganicCrop, variety: CropVariety): void
+  +conductInspection(): boolean
+}
+class AgriculturalOrganisation {
+  organisationName: String
+  +initiateProject(): AgriProject
+  +issueRegulation(): void
+}
+class AgriProject {
+  projectName: String
+  fundingSource: String
+  +initiateProject(): void
+  +finalizeProject(): void
+}
+class ProductionRecord {
+  cropType: String
+  yieldCount: int
+  harvestDate: Date
+  +getSummary(): String
+}
+class BudgetAllocation {
+  allocationCode: String
+  amount: double
+  +allocateResource(): void
+  +allocateResource(operator: AgronomyStaff): void
+}
+class AnalysisEngine {
+  +generateAnalysisReport(): String
+  +analyzeClimateData(): ClimateForecast
+}
+class RiskManager {
+  +manageRiskAssessment(): void
+  +monitorRiskLevel(): void
+}
+class EnergyManager {
+  +monitorUsage(): double
+  +optimizeEnergyUse(): void
+}
+class ClimateForecast {
+  forecastDate: Date
+  regionCode: String
+  currentTemperature: double
+  weatherConditions: String
+  +getLastUpdate(): Date
+  +predictClimate(): String
+}
+class AlertSystem {
+  +sendAlert(message: String): void
+  +acknowledgeAlert(): void
+  +getAlertCount(): int
+}
+class AlertNotification {
+  notificationToken: String
+  messageContent: String
+  deliveryStatus: String
+  +deliverMessage(): boolean
+  +acknowledge(): void
+}
+class ComplianceLog {
+  logDate: Date
+  violationDescription: String
+  severityLevel: String
+  +recordViolation(): void
+  +generateReport(): String
+}
+class RiskAssessment {
+  riskLevel: String
+  +evaluateRisk(assessmentDate: Date): String
+  +documentRisk(): void
+}
+class AgronomyStaff {
+  +prepareCropPlan(crop: OrganicCrop, variety: CropVariety): void
+  +conductInspection(): boolean
+}
+class PaymentProcessor {
+  +processPayment(amount: double, transactionId: String): boolean
+  +refundAmount(amount: double): String
+}
+class CurrencyConverter {
+  +convertAmount(amount: double, targetCurrency: String): double
+  +reverseRate(): double
+}
+class AuditLog {
+  +recordAction(actionType: String, details: String): void
+  +generateAuditSummary(): String
+}
+class InventoryManager {
+  +retrieveStock(crop: OrganicCrop): int
+  +reserveStock(crop: OrganicCrop, amount: int): boolean
+  +releaseStock(crop: OrganicCrop): int
+}
+class MonitoringDevice {
+  deviceType: String
+  lastReading: double
+  isActive: boolean
+  +readData(): double
+  +resetSensor(): void
+}
+class MarketData {
+  currentPrice: double
+  marketStatus: String
+}
+class SensorNetwork {
+  +collectData(): double[]
+  +calibrateSensors(): void
+}
+class SensorNode {
+  location: String
+  isActive: boolean
+  +readData(): double
+  +resetSensor(): void
+}
+class AlertService {
+  +formatAlertMessage(alertType: String, content: String): String
+  +emitAlert(message: String): void
+}
+class ComplianceValidator {
+  +validateCompliance(report: ComplianceReport): boolean
+  +generateValidationReport(): String
+}
+class AgronomyResource {
+  resourceName: String
+  isActive: boolean
+  +consumeResource(): void
+  +returnResource(): void
+}
+class EcologicalImpactAssessor {
+  +assessImpact(crop: OrganicCrop, region: String): String
+  +calculateBiodiversityIndex(): double
+}
+class AgriculturalTechnologicalSolution {
+  solutionName: String
+  description: String
+  +validateSolution(): boolean
+  +getImplementationDetails(): String
+}
+class AgronomyResearcher {
+  researcherName: String
+  expertiseArea: String
+  +conductResearch(crop: OrganicCrop): void
+}
+class RegulatoryBoundary {
+  jurisdiction: String
+  +enforceCompliance(): void
+}
+class FinancialAccount {
+  accountNumber: String
+  balance: double
+  +deposit(amount: double): void
+  +withdraw(amount: double): boolean
+}
+AgronomyStaff --> "1" AgronomyResource : assignedResource
+AgronomyStaff --> "*" OrganicCrop : managedCrops
+AgronomyStaff --> "*" AgronomyProject : supervisedProjects
+AgronomyStaff --> "*" ComplianceValidator : managedValidators
+AgronomyProject --> "1" AgronomyStaff : leadStaff
+AgronomyProject --> "1" RegulatoryBoundary : governedBy
+AgronomyProject --> "1" CostAggregator : projectCost
+AgronomyProject --> "1" CostAggregator : managedCost
+AgronomyProject --> "1" PaymentProcessor : financedBy
+AgronomyProject --> "1" MarketData : supportedMetrics
+AgronomyProject --> "*" ComplianceReport : generatedReports
+AgronomyProject --> "*" AgriculturalTechnologicalSolution : implementedSolutions
+AgronomyProject --> "1" AgricultureOrganisation : hostedOrganisation
+AgronomyProject --> "*" HarvestSchedule : plannedHarvests
+AgronomyProject --> "*" AgriculturalTechnologicalSolution : solutionsImplement
+AgronomyProject --> "1" PaymentProcessor : fundedBy
+AgronomyProject --> "*" CostAggregator : costOrganizations
+AgronomyProject --> "*" SupplyChain : includedSupplyChains
+AgronomyProject --> "*" SupplyChain : supplySource
+AgronomyProject --> "1" FinancialAccount : ownedBy
+AgronomyProject --> "*" AlertSystem : monitoringSystem
+RiskManager --> "*" RiskAssessment : managedAssessments
+EcologicalImpactAssessor -- AlertService
+AgronomyResearcher -- AgriculturalTechnologySolution
+AgriculturalTechnologicalSolution -- ComplianceValidator
+A
+@enduml

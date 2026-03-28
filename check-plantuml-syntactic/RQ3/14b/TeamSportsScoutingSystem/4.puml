@@ -1,0 +1,93 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class PlayerProfile {
+  -position: String
+  -attributes: Map<String, Integer>
+}
+
+class Player {
+  -id: String
+  -name: String
+  -currentClub: String
+  -age: Integer
+}
+
+class LongList {
+  -players: List<Player>
+}
+
+class ScoutingAssignment {
+  -player: Player
+  -scout: Scout
+  -dateAssigned: Date
+  -status: String
+}
+
+class ScoutingReport {
+  -player: Player
+  -pros: String
+  -cons: String
+  -recommendation: String
+}
+
+class ShortList {
+  -players: List<Player>
+}
+
+class Employee {
+  -id: String
+  -name: String
+  -role: String
+}
+
+class Coach extends Employee {
+  +identifyPlayerProfiles(): PlayerProfile
+  +reviewScoutingReports(): void
+  +selectShortListPlayers(): void
+}
+
+class Scout extends Employee {
+  +notePlayerOnLongList(player: Player): void
+  +assignScoutingTask(assignment: ScoutingAssignment): void
+  +submitScoutingReport(report: ScoutingReport): void
+}
+
+class Director extends Employee {
+  +makeOfficialOffer(player: Player): void
+}
+
+class HeadCoach extends Coach {
+  +defineTargetProfiles(): PlayerProfile
+}
+
+class HeadScout extends Scout {
+  +evaluateLongList(): void
+  +createScoutingAssignments(): ScoutingAssignment
+  +submitFinalRecommendations(): ScoutingReport
+}
+
+PlayerProfile "1" --> "0..*" Player : matches
+LongList "1" --> "0..*" Player : contains
+ScoutingAssignment "1" --> "1" Player : assigned to
+ScoutingAssignment "1" --> "1" Scout : assigned by
+ScoutingReport "1" --> "1" Player : about
+ShortList "1" --> "0..*" Player : contains
+Coach "1" --> "0..*" ScoutingReport : reviews
+HeadScout "1" --> "0..*" ScoutingAssignment : creates
+Director "1" --> "0..*" Player : offers
+@enduml
+
+### Explanation of Key Elements:
+
+- **PlayerProfile**: Represents the target profile for scouting (e.g., position and attributes).
+- **Player**: A player being scouted.
+- **LongList**: A list of players that match some criteria but are not yet fully evaluated.
+- **ScoutingAssignment**: A task assigned to a scout to investigate a specific player.
+- **ScoutingReport**: The result of a scouting assignment.
+- **ShortList**: Players that have been selected for more in-depth evaluation.
+- **Employee**: Base class for all club employees.
+- **Coach**, **Scout**, **Director**: Subclasses of `Employee` with specific roles.
+- **HeadCoach**, **HeadScout**: Specialized roles with additional responsibilities.
+

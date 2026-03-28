@@ -1,0 +1,45 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Bank {
+  - name: String
+}
+
+class Customer {
+  - firstName: String
+  - lastName: String
+}
+
+class Branch {
+  - name: String
+}
+
+class Account {
+  - accountNumber: int
+  - balance: double
+}
+
+class CurrentAccount {
+  - overdraftLimit: double
+}
+
+class SavingsAccount {}
+
+' Associations and relationships
+
+Bank "1" *-- "0..*" Branch : has
+Bank "1" *-- "0..*" Customer : manages
+Customer "1" *-- "1..5" Account : owns
+Account <|-- CurrentAccount
+Account <|-- SavingsAccount
+
+@enduml
+
+### Explanation of the Diagram:
+- **`Bank`** manages multiple **`Customer`s** and has multiple **`Branch`es**.
+- Each **`Customer`** can have between 1 and 5 **`Account`s**.
+- An **`Account`** has an `accountNumber`, `balance`.
+- There are two types of accounts: **`CurrentAccount`** (with an `overdraftLimit`) and **`SavingsAccount`**, both inherit from **`Account`**.
+

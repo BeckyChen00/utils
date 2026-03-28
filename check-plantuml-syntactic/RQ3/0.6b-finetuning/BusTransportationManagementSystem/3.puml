@@ -1,0 +1,90 @@
+@startuml
+enum ThreatLevel {
+  Critical
+  Major
+  Minor
+}
+enum CampaignPhase {
+  Planning
+  Launching
+  Consolidating
+  Escalating
+  Consolidated
+  Active
+  Completed
+}
+enum TaskType {
+  Reconnaissance
+  ExplosiveMine
+  Demolition
+  Garrison
+  Survivability
+  Logistics
+}
+class BattlefieldUnit {
+  unitName: String
+  assignedThreatLevel: ThreatLevel
+  currentPhase: CampaignPhase
+  +updatePosition(location: Location): void
+  +assignTask(type: TaskType): void
+}
+class TerrainItem {
+  identifier: String
+  type: String
+  +getAreaSize(): int
+  +classifyType(): String
+}
+class SensorDevice {
+  samplingRate: double
+  +captureData(): DataPacket
+  +calibrate(): boolean
+}
+class DataPacket {
+  timestamp: Date
+  rawValues: double[]
+  +encode(): String
+}
+class LogisticsHub {
+  location: Location
+  capacity: int
+  +loadCargo(quantity: int): void
+  +unloadCargo(): void
+}
+class Location {
+  coordinate: String
+  elevation: double
+  +getCoordinates(): String
+}
+class CommandCenter {
+  centerName: String
+  +dispatchCommand(unit: BattlefieldUnit): boolean
+  +reviewTimeline(schedules: Date[]): int
+}
+class CommandLog {
+  date: Date
+  actionDetails: String
+  +generateSummary(): String
+  +archiveLog(): void
+}
+class BattlefieldUnit {
+  +generateInventoryReport(includeExplosives: boolean): InventoryReport
+  +calculateDefensiveScore(): int
+}
+BattlefieldUnit *-- "1" Location : assignedLocation
+BattlefieldUnit *-- "1" LogisticsHub : assignedHub
+BattlefieldUnit *-- "0..*" CommandLog : commandLogs
+BattlefieldUnit *-- "1" InventoryReport : patrolInventory
+BattlefieldUnit *-- "0..*" TerrainItem : deployedTerrains
+BattlefieldUnit *-- "1..*" SensorDevice : equippedSensors
+CommandLog --> "1..*" BattlefieldUnit : linkedUnits
+CommandCenter --> "1..*" BattlefieldUnit : managedUnits
+CommandCenter --> "1" LogisticsHub : managedHub
+CommandCenter --> "1" Location : mainBase
+BattlefieldUnit --> "1" Location : shiftBase
+BattlefieldUnit --> "1" LogisticsHub : centralHub
+BattlefieldUnit --> "0..*" DataPacket : capturedPackets
+CommandLog --> "1" BattlefieldUnit : commandSource
+CommandLog --> "1" Location : recordedLocation
+CommandLog --> "0..*" DataPacket : generatedPackets
+CommandCenter --> "1..*" Location : managedBase
+@enduml

@@ -1,0 +1,62 @@
+@startuml
+class Tutor {
+  +name: String
+  +email: String
+  +bankAccount: String
+  +subjects: List<String>
+  +expertLevels: List<String>
+  +hourlyPrices: Map<String, double>
+  +weeklyAvailability: List<String>
+  +scheduleSession(student: Student, subject: String, date: Date, time: Time): Session
+  +confirmSession(session: Session): boolean
+}
+class Student {
+  +name: String
+  +email: String
+  +makeRequest(tutor: Tutor, subject: String, date: Date, time: Time): Request
+  +cancelSession(session: Session): boolean
+  +payForSession(session: Session, paymentMethod: String): boolean
+}
+class Request {
+  -subjectName: String
+  -preferredDate: Date
+  -preferredTime: Time
+  -status: String
+  +submit(): void
+  +updateStatus(newStatus: String): void
+}
+class Session {
+  -scheduledDate: Date
+  -startTime: Time
+  -endTime: Time
+  -actualDuration: int
+  -isCompleted: boolean
+  -attendanceConfirmed: boolean
+  +markAsCompleted(): void
+  +calculateRefundAmount(): double
+  +getPaymentStatus(): String
+}
+class Payment {
+  -transactionId: String
+  -amount: double
+  -paymentMethod: String
+  -timestamp: Date
+  -isRefunded: boolean
+  +process(): boolean
+  +applyRefund(reason: String): boolean
+}
+class Notification {
+  -messageContent: String
+  -sentDate: Date
+  -isRead: boolean
+  +send(recipient: String): void
+  +markAsRead(): void
+}
+Tutor *-- "0..*" Payment : receivedPayments
+Student *-- "0..*" Request : madeRequests
+Request --> "1" Tutor : targetTutor
+Request --> "0..1" Session : resultsInSession
+Session *-- "0..1" Payment : associatedPayment
+Tutor --> "0..*" Notification : sentNotifications
+Student --> "0..*" Notification : receivedNotifications
+@enduml

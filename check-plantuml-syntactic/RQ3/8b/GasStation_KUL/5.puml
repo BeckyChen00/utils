@@ -1,0 +1,95 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Customer {
+  - name: String
+  - refuelCard: RefuelCard
+  - status: Status
+}
+
+class RefuelCard {
+  - cardId: String
+  - customer: Customer
+  - balance: Double
+}
+
+enum Status {
+  ACTIVE, SUSPENDED, BLOCKED
+}
+
+class Invoice {
+  - invoiceId: String
+  - month: Date
+  - customer: Customer
+  - totalAmount: Double
+  - discount: Double
+  - isPaid: Boolean
+}
+
+class Payment {
+  - paymentId: String
+  - invoice: Invoice
+  - amount: Double
+  - date: Date
+}
+
+class GasStation {
+  - stationId: String
+  - location: String
+  - pumps: List<Pump>
+}
+
+class Pump {
+  - pumpId: String
+  - typeOfGasoline: String
+  - currentLevel: Double
+  - reorderLevel: Double
+  - criticalLevel: Double
+  - isBlocked: Boolean
+  - gasStation: GasStation
+}
+
+class RefuelTurn {
+  - turnId: String
+  - customer: Customer
+  - pump: Pump
+  - amount: Double
+  - timestamp: Date
+  - isPaid: Boolean
+}
+
+' Relationships
+
+Customer "1" -- "1" RefuelCard : has
+Customer "1" -- "1" Invoice : has
+Invoice "1" -- "1" Payment : has
+Customer "1" -- "*" RefuelTurn : has
+RefuelTurn "1" -- "1" Pump : uses
+Pump "1" -- "1" GasStation : belongs to
+
+@enduml
+
+---
+
+### ✅ Summary of Key Classes and Relationships:
+
+- **Customer**: Represents a customer who can use a refuel card or pay in cash/credit.
+- **RefuelCard**: A card that allows deferred payment; linked to a customer.
+- **Status**: An enum representing the customer's account status (active, suspended, blocked).
+- **Invoice**: Generated monthly with amounts due based on refuel turns.
+- **Payment**: Records when an invoice is paid.
+- **GasStation**: A collection of pumps.
+- **Pump**: A refueling point with gasoline levels, reordering logic, and blocking conditions.
+- **RefuelTurn**: A single refueling event at a specific time.
+
+---
+
+### 📌 Notes:
+- The `RefuelTurn` only appears once per month on the invoice of the month it occurred.
+- If a customer doesn't pay an invoice, the refuel turn does not carry over to the next month.
+- Pumps have thresholds for refilling and blocking due to low fuel or dirt.
+- Invoices can be sent before payments are received, but payments must occur after invoices are sent.
+
+Let me know if you'd like this rendered as an image or want to add more details!

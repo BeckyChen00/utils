@@ -1,0 +1,60 @@
+@startuml
+enum SuitType {
+  Diamonds
+  Hearts
+  Spades
+  Clubs
+}
+enum SoloType {
+  Trump
+  Jack
+  Queen
+}
+enum MatchState {
+  NotStarted
+  InProgress
+  Completed
+}
+enum CardComparisonResult {
+  Lower
+  Equal
+  Higher
+}
+class Card {
+  rank: int
+  suit: SuitType
+  +compare(other: Card): CardComparisonResult
+  +getDescription(): String
+}
+class Game {
+  state: MatchState
+  playerCount: int
+  +startGame(): void
+  +playRound(): Round
+  +isComplete(): boolean
+}
+class Deck {
+  cardList: Card[]
+  +shuffle(): void
+  +dealCards(playerCount: int): Card[]
+  +getCardById(id: int): Card
+}
+class ScoringTable {
+  +addRound(result: Round): void
+  +getTotalScore(): int
+  +calculateLeader(): String
+}
+class Round {
+  isJackRound: boolean
+  isSoloRound: boolean
+  soloType: SoloType
+  pointsAwarded: int
+  +generateReport(): String
+  +validate(): boolean
+}
+Deck *-- "1..*" Card : cards
+Game *-- "1" Deck : activeDeck
+Game *-- "1" ScoringTable : scoringTable
+Game --> "0..*" Round : playedRounds
+Game --> "1..4" Player : participants
+@enduml

@@ -1,0 +1,75 @@
+@startuml
+
+class Frame {
+  - material: String
+  + insertWheel(wheel: Wheel): void
+}
+
+class Wheel {
+  + rotate(): void
+}
+
+class DriveSystem {
+  - motor: Motor
+  + commandMotor(command: String): void
+}
+
+class Motor {
+  + spin(): void
+}
+
+class Controller {
+  - state: State
+  + setState(state: State): void
+  + getState(): State
+  + controlBattery(battery: Battery): void
+  + commandDriveSystem(driveSystem: DriveSystem): void
+}
+
+enum State {
+  On, Off, Charging
+}
+
+class Battery {
+  - storedEnergy: double (Wh)
+  + getStoredEnergy(): double
+  + setStoredEnergy(energy: double): void
+}
+
+class EBike {
+  - frame: Frame
+  - driveSystem: DriveSystem
+  - controller: Controller
+  - battery: Battery (optional)
+  + connectBattery(battery: Battery): void
+  + disconnectBattery(): void
+}
+
+class BasicController {
+  -- extends Controller
+}
+
+class AdvancedController {
+  -- extends Controller
+  + estimateNextInspectionDate(): Date
+}
+
+Frame --> Wheel
+DriveSystem --> Motor
+Controller <|-- BasicController
+Controller <|-- AdvancedController
+EBike --> Frame
+EBike --> DriveSystem
+EBike --> Controller
+EBike --> Battery : optional
+Battery --> Controller
+
+@enduml
+
+### Notes:
+- The `State` is represented as an `enum`.
+- `Battery` is an optional component of the `EBike`.
+- `BasicController` and `AdvancedController` are subclasses of `Controller`.
+- `AdvancedController` has an additional method to estimate the next inspection date.
+- `Frame` has a method to insert wheels.
+

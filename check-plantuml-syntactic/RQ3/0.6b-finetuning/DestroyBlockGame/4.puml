@@ -1,0 +1,46 @@
+@startuml
+class TransportationPlan {
+  +generateRoute(): Route
+}
+class Route {
+  +getTotalDistance(): double
+}
+class Segment {
+  +findOptimalPath(): Path
+}
+class Path {
+  +getEstimatedCost(): double
+}
+class Node {
+  +getCoordinates(): double[]
+  +getDistance(): double
+}
+class Stop {
+  +getDescription(): String
+}
+class Station {
+  +getName(): String
+}
+class RouteSegment {
+  +findOptimalPath(): Path
+}
+class StationList {
+  +validateSegment(): boolean
+}
+class Graph {
+  +addEdge(nodeA: Node, nodeB: Node, weight: double): void
+  +findShortestPath(start: Node, end: Node): double
+}
+StationList *-- "1..*" Station : containedStations
+Station *-- "0..*" Stop : associatedStops
+Station --> "1..*" Node : servingNode
+Graph *-- "1..*" Node : graphNodes
+Graph *-- "0..*" Edge : graphEdges
+RestSystemGraph *-- "0..*" Path : generatedPaths
+TransportationPlan --> "1" Route : primaryRoute
+TransportationPlan *-- "0..*" RouteSegment : composedSegments
+RouteSegment --> "1" Node : finalStop
+RouteSegment --> "0..*" Station : connectedStops
+Route --> "1" Graph : underlyingGraph
+Station --> "0..*" Node : childNodes
+@enduml

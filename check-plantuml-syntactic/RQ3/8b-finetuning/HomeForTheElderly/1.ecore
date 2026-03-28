@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedBed" eType="#//Bed" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bed">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedCategory" eType="#//BedCategory" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invoicedStays" eType="#//Invoice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Inhabitant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedProposals" eType="#//StayProposal" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="waitingListPosition" eType="#//WaitingList"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lodgedComplaints" eType="#//Complaint" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessmentReports" eType="#//ReassessmentReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StayProposal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="proposedCategory" eType="#//BedCategory" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetDepartment" eType="#//Department" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingInvoice" eType="#//Invoice"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaitingList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="queuedCandidates" eType="#//Inhabitant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Complaint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedInvoice" eType="#//Invoice" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReassessmentReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessedInhabitant" eType="#//Inhabitant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendedCategory" eType="#//BedCategory" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Department">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedRooms" eType="#//Room" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedBeds" eType="#//Bed" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BedCategory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentHistory" eType="#//PaymentRecord" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invoicedInhabitant" eType="#//Inhabitant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedByDepartment" eType="#//Department" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentRecord"/>
+</ecore:EPackage>

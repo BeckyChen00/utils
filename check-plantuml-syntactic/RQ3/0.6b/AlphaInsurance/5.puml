@@ -1,0 +1,80 @@
+@startuml
+
+class Diagram {
+  class SystemRequirement {
+    string name;
+    string description;
+  }
+
+  class Requirement {
+    string name;
+    string type;
+    string status;
+  }
+
+  class Component {
+    string name;
+    string description;
+    string resource;
+  }
+
+  class Module {
+    string name;
+    string description;
+    list of Component: components;
+  }
+
+  class Service {
+    string name;
+    string description;
+    list of Component: components;
+  }
+
+  class User {
+    string name;
+    string role;
+  }
+
+  class Connection {
+    string sourceComponent;
+    string targetComponent;
+    string type;
+    string status;
+  }
+
+  class Flow {
+    string name;
+    string description;
+    list of Connection: connections;
+  }
+
+  class TestScenario {
+    string name;
+    string description;
+    list of Flow: flows;
+  }
+
+  class Test {
+    string name;
+    string description;
+    string testScenario: testScenarios;
+  }
+
+  class TestResult {
+    string result;
+  }
+
+  class TestExecution {
+    string testName;
+    string executionDate;
+    string status;
+    string testResult;
+  }
+
+  class TestRun {
+    string runName;
+    string description;
+    list of Test: tests;
+  }
+
+@enduml

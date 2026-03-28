@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedReservations" eType="#//Reservation" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reservation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingOrder" eType="#//Order" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedRecord" eType="#//BillingRecord" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedDishes" eType="#//Dish" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedItem" eType="#//Dish" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentProcessor" eType="#//PaymentGateway" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BillingRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Dish">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="availableOptions" eType="#//ToppingVariation" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RestaurantMenu">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="menuItems" eType="#//Dish" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="listedItems" eType="#//Dish" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ToppingVariation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedRecords" eType="#//BillingRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentGateway">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="handledTransactions" eType="#//PaymentTransaction" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentTransaction"/>
+</ecore:EPackage>

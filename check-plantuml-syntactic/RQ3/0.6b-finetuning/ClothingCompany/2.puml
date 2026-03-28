@@ -1,0 +1,40 @@
+@startuml
+class MedicalWhisper {
+  +whisperText: String
+  +isDraft: boolean
+  +generateContent(response: String, frequencyFactor: double): String
+  +calculateFrequency(): double
+}
+class User {
+  +userEmail: String
+  +createConversation(topic: String): ChatSession
+  +joinSession(session: ChatSession): void
+}
+class Message {
+  +content: String
+  +timestamp: Date
+  +getFormattedMessage(): String
+}
+class ChatSession {
+  +topic: String
+  +isActive: boolean
+  +sendMessage(content: String): Message
+  +sendMessage(blockUser: boolean): void
+  +getHistory(): List<Message>
+}
+class WhisperArchive {
+  +totalCount: int
+  +getArchivedMessageCount(topic: String): int
+  +clearArchive(): void
+}
+class ArchiveManager {
+  +archivePolicy: String
+  +archiveContent(session: ChatSession): void
+  +validateArchiveFormat(content: String): boolean
+}
+User *-- "0..*" ChatSession : hostedSessions
+ChatSession *-- "0..*" Message : conversationLog
+ChatSession --> "1" WhisperArchive : containedArchive
+ArchiveManager --> "0..*" ChatSession : managedSessions
+User --> "0..*" Message : generatedMessages
+@enduml

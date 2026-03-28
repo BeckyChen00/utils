@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="PublishedResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceTitle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceCategory" eType="#//ResourceCategory"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="availableAccess" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceReference" eType="#//SourceReference" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="citation" eType="#//Citation" lowerBound="1" containment="true"/>
+    <eOperations xsi:type="ecore:EOperation" name="getDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SourceReference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations xsi:type="ecore:EOperation" name="isValid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Citation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="citationDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="authorNames" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="createLink" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters xsi:type="ecore:EParameter" name="target" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EditorChamber">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="chamberName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="chairName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedProjects" eType="#//StudyProject" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="createdRecords" eType="#//PublicationRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedAuthority" eType="#//InstitutionalAuthority" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affiliatedDepartments" eType="#//AcademicDepartment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedReviewers" eType="#//Reviewer" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedArchive" eType="#//Archive" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedRepository" eType="#//Repository" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedArchiveSystem" eType="#//ArchiveSystem" lowerBound="1"/>
+    <eOperations xsi:type="ecore:EOperation" name="submitProposal">
+      <eParameters xsi:type="ecore:EParameter" name="project" eType="#//StudyProject"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="approveProposal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DisseminationPlan">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetAudience" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="disseminationStrategy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="generateOutline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="estimateCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eOperations xsi:type="ecore:EOperation" name="validateIntegrity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FundingStatement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="grantNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="depositAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="grantType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="verifyFunding" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations xsi:type="ecore:EOperation" name="getGrantDetails" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reviewer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reviewerName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="experienceYears" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isVerified" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations xsi:type="ecore:EOperation" name="markDecision">
+      <eParameters xsi:type="ecore:EParameter" name="project" eType="#//StudyProject"/>
+      <eParameters xsi:type="ecore:EParameter" name="status" eType="#//PublicationStatus"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="assessQuality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eParameters xsi:type="ecore:EParameter" name="resource" eType="#//PublishedResource"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReviewPanel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="panelSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations xsi:type="ecore:EOperation" name="evaluateProject">
+      <eParameters xsi:type="ecore:EParameter" name="project" eType="#//StudyProject"/>
+      <eParameters xsi:type="ecore:EParameter" name="reviewer" eType="#//Reviewer"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="generateSummary" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="isPanelApproved" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PublicationRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publicationType" eType="#//PublicationType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="status" eType="#//PublicationStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="keywords" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="updateStatus">
+      <eParameters xsi:type="ecore:EParameter" name="newStatus" eType="#//PublicationStatus"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="addKeyword">
+      <eParameters xsi:type="ecore:EParameter" name="keyword" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JournalOrBook">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="journalName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="volume" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="issueNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedRecord" eType="#//PublicationRecord" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedResources" eType="#//PublishedResource" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishedByAuthority" eType="#//InstitutionalAuthority" lowerBound="1"/>
+    <eOperations xsi:type="ecore:EOperation" name="getPublicationDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Archive">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="archiveName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="licenseType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedResources" eType="#//PublishedResource" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedCitation" eType="#//Citation" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedRepositories" eType="#//Repository" lowerBound="1" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="archiveResource">
+      <eParameters xsi:type="ecore:EParameter" name="resource" eType="#//PublishedResource"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="retrieveResource" eType="#//PublishedResource">
+      <eParameters xsi:type="ecore:EParameter" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchiveSystem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="storageCapacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedRepositories" eType="#//Repository" lowerBound="1" upperBound="-1" containment="true"/>
+    <eOperations xsi:type="ecore:EOperation" name="generateArchiveKey" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters xsi:type="ecore:EParameter" name="resource" eType="#//PublishedResource"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="archiveResource">
+      <eParameters xsi:type="ecore:EParameter" name="resource" eType="#//PublishedResource"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Repository">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="repositoryName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="createArchive" eType="#//Archive">
+      <eParameters xsi:type="ecore:EParameter" name="keySystem" eType="#//ArchiveSystem"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="importArchive">
+      <eParameters xsi:type="ecore:EParameter" name="system" eType="#//ArchiveSystem"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AcademicDepartment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="departmentCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="departmentName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="assignResources">
+      <eParameters xsi:type="ecore:EParameter" name="resource" eType="#//PublishedResource"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InstitutionalAuthority">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="authorityName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jurisdiction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="authorizeAccess" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters xsi:type="ecore:EParameter" name="resource" eType="#//PublishedResource"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="studyMethod" eType="#//StudyMethod" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StudyMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceCategory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StudyProject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publications" eType="#//PublishedResource" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PublicationStatus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PublicationType"/>
+</ecore:EPackage>

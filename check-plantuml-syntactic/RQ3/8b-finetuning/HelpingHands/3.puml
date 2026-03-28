@@ -1,0 +1,109 @@
+@startuml
+enum ArticleCategory {
+  Outfit
+  HatAndGloves
+  SocksAndUnderwear
+  BabyClothing
+  WomenWinterBoots
+  Fridge
+  Microwave
+  ShelfAndCabinet
+}
+enum ArticleCondition {
+  FullyFunctional
+  PartiallyFunctional
+  NeedsRepairs
+  Destroyed
+}
+enum PickupStatus {
+  Scheduled
+  Completed
+  Cancelled
+  InProgress
+  Failed
+}
+class Resident {
+  fullName: String
+  streetAddress: String
+  phoneNumber: String
+  email: String
+  +requestPickup(itemsDescription: String, requestedDate: Date): PickupRequest
+}
+class PickupRequest {
+  description: String
+  pickupDate: Date
+  status: PickupStatus
+  weightEstimate: double
+  dimensionEstimate: String
+  +submitRequest(): void
+}
+class PickupVehicle {
+  capacity: double
+  availableDays: String[]
+  +getAvailableDays(): String[]
+  +isCompatible(request: PickupRequest): boolean
+}
+class PickupRoute {
+  scheduledDate: Date
+  startTime: Time
+  endTime: Time
+  totalDistance: double
+  +addStop(request: PickupRequest): void
+  +calculateTotalDistance(): double
+}
+class DistributionCenter {
+  centerName: String
+  address: String
+  +receiveArticles(articles: List<Article>): void
+  +generateDeliveryList(clientCriteria: CategoryList): List<Article>
+}
+class StorageBin {
+  currentCapacity: double
+  maxCapacity: double
+  +isFull(): boolean
+  +getAvailableSpace(): double
+}
+class Article {
+  isPerishable: boolean
+  length: double
+  width: double
+  height: double
+  weight: double
+  isFragile: boolean
+  currentCondition: ArticleCondition
+  assignedCategory: ArticleCategory
+  +updateCondition(newCondition: ArticleCondition): void
+  +updateCategory(newCategory: ArticleCategory): void
+}
+class VolunteerDriver {
+  name: String
+  licenseNumber: String
+  employedDays: String[]
+  +acceptShift(route: PickupRoute): boolean
+  +completeShift(): void
+}
+class Client {
+  fullName: String
+  preferredCategories: List<ArticleCategory>
+  contactInfo: String
+  +expressInterest(categoryList: CategoryList): void
+}
+class CategoryList {
+  requiredCategories: List<ArticleCategory>
+  excludedCategories: List<ArticleCategory>
+}
+class NotificationService {
+  +sendConfirmationEmail(client: Client, pickup: PickupRequest): void
+  +sendDailyUpdate(client: Client, articles: List<Article>): void
+}
+Resident --> "*" PickupRequest : placedRequests
+PickupRequest --> "1" PickupVehicle : allocatedVehicle
+PickupRoute *-- "*" PickupRequest : includedRequests
+PickupRoute --> "1" VolunteerDriver : assignedDriver
+DistributionCenter *-- "*" StorageBin : containedBins
+DistributionCenter --> "*" Article : receivedArticles
+VolunteerDriver --> "*" PickupRoute : drivenRoutes 'opposite: assignedDriver
+Client --> "*" Article : requestedArticles
+Client --> "1" DistributionCenter : managedBy
+NotificationService --> "*" Client : notifiedClients
+@enduml

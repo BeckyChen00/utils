@@ -1,0 +1,182 @@
+
+---
+
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor yellow
+skinparam classAttributeIconSize 0
+
+' User class
+class User {
+  +username: String
+  +password: String
+  -mode: Mode
+}
+
+' Mode enum
+enum Mode {
+  PLAY,
+  ADMIN
+}
+
+' Admin class (inherits from User)
+class Admin {
+  +createGame(gameName: String): Game
+}
+
+' Player class (inherits from User)
+class Player {
+  +playGame(game: Game): void
+}
+
+' Game class
+class Game {
+  +gameName: String
+  +hallOfFame: HallOfFame
+  +blocks: Set<Block>
+  +levels: List<Level>
+  +minSpeed: int
+  +speedIncreaseFactor: double
+  +maxPaddleLength: int
+  +minPaddleLength: int
+  +isPublished: boolean
+}
+
+' HallOfFame class
+class HallOfFame {
+  +addScore(player: Player, score: int): void
+  +getTopScores(): List<Score>
+}
+
+' Score class
+class Score {
+  +player: Player
+  +score: int
+  +game: Game
+}
+
+' Level class
+class Level {
+  +levelNumber: int
+  +blockArrangement: Set<BlockPosition>
+  +isRandom: boolean
+  +initialBlocksCount: int
+}
+
+' BlockPosition class
+class BlockPosition {
+  +row: int
+  +column: int
+}
+
+' Block class
+class Block {
+  +color: Color
+  +points: int
+}
+
+' Color enum
+enum Color {
+  RED,
+  GREEN,
+  BLUE,
+  YELLOW,
+  PURPLE,
+  ORANGE,
+  BLACK,
+  WHITE
+}
+
+' Paddle class
+class Paddle {
+  +length: int
+  +position: int
+}
+
+' Ball class
+class Ball {
+  +speed: int
+  +direction: Direction
+}
+
+' Direction enum
+enum Direction {
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT,
+  DIAGONAL_UP_LEFT,
+  DIAGONAL_UP_RIGHT
+}
+
+' GameSession class
+class GameSession {
+  +game: Game
+  +player: Player
+  +currentLevel: Level
+  +lives: int
+  +score: int
+  +isPaused: boolean
+}
+
+' GameProgress class
+class GameProgress {
+  +game: Game
+  +player: Player
+  +savedLevel: Level
+  +score: int
+  +lives: int
+}
+
+' Relationships
+
+User <|-- Admin
+User <|-- Player
+
+Game "1" -- "1" HallOfFame : has
+Game "1" -- "0..*" Block : contains
+Game "1" -- "0..*" Level : has
+Game "1" -- "1" GameSession : manages
+Game "1" -- "0..*" GameProgress : can save
+
+HallOfFame "1" -- "0..*" Score : contains
+
+Score "1" -- "1" Player : belongs to
+Score "1" -- "1" Game : belongs to
+
+Level "1" -- "0..*" BlockPosition : has
+Level "1" -- "1" Game : belongs to
+
+BlockPosition "1" -- "1" Block : references
+
+Block "1" -- "1" Game : defined in
+
+Paddle "1" -- "1" GameSession : used in
+Ball "1" -- "1" GameSession : used in
+
+GameSession "1" -- "1" Player : played by
+GameSession "1" -- "1" Game : associated with
+
+GameProgress "1" -- "1" Game : for
+GameProgress "1" -- "1" Player : of
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The `User` class serves as a base class for both `Admin` and `Player`.
+- `Game` contains multiple `Level`s and `Block`s.
+- Each `Level` may be either fixed or random, and it contains a set of `BlockPosition`s.
+- `BlockPosition` is used to represent where a block is placed on the grid.
+- `HallOfFame` tracks scores from players across different games.
+- `GameSession` represents an active game being played by a player.
+- `GameProgress` allows saving a paused game session.
+
+---
+
+### 🔧 How to Use:
+
+
+Let me know if you'd like a version with more details (like methods or associations) or in a specific format!

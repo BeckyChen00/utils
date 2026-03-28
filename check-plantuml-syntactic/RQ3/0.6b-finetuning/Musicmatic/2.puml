@@ -1,0 +1,27 @@
+@startuml
+enum SleepPhaseType {
+  REM
+  NREM
+  DREAMING
+}
+class SleepCycle {
+  startTime: Date
+  endTime: Date
+  totalDuration: double
+  +calculateDuration(): double
+  +getStageName(): String
+}
+class SleepStage {
+  phaseType: SleepPhaseType
+  isStimulated: boolean
+  +getStageDescription(): String
+}
+class StageSequence {
+  sequenceName: String
+  sequenceMode: String
+  +executeSequence(): void
+}
+SleepCycle *-- "1" SleepStage : primaryStage
+StageSequence --> "1" SleepStage : targetStage
+StageSequence --> "0..1" SleepCycle : adjustedCycle
+@enduml

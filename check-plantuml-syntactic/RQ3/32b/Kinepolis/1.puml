@@ -1,0 +1,142 @@
+
+---
+
+
+@startuml
+' Entities involved in the cinema booking system
+
+class Cinema {
+    - id: int
+    - name: string
+    - town: string
+}
+
+class Theatre {
+    - id: int
+    - name: string
+    - capacity: int
+    - cinema: Cinema
+}
+
+class Movie {
+    - title: string
+    - duration: int (minutes)
+    - releaseDate: Date
+}
+
+class Copy {
+    - id: int
+    - movie: Movie
+    - cinema: Cinema
+}
+
+class Show {
+    - id: int
+    - startTime: DateTime
+    - endTime: DateTime
+    - theatre: Theatre
+    - copy: Copy
+}
+
+class Reservation {
+    - id: int
+    - customerEmail: string
+    - seatNumber: int
+    - show: Show
+    - reservationTime: DateTime
+    - cancellationTime: DateTime (nullable)
+    - status: Status (Pending / Cancelled / Confirmed)
+}
+
+class Ticket {
+    - id: int
+    - seatNumber: int
+    - show: Show
+    - purchaseTime: DateTime
+    - type: string (OnlineReservation / OnSite)
+}
+
+class FreeTicketOffer {
+    - id: int
+    - newShow: Show
+    - newSeatNumber: int
+    - expirationTime: DateTime
+    - accepted: boolean
+    - reservation: Reservation
+}
+
+class Customer {
+    - email: string
+    - firstName: string
+    - lastName: string
+}
+
+class CreditCard {
+    - number: string
+    - cvv: string
+    - expiry: string
+    - customer: Customer
+}
+
+class Payment {
+    - id: int
+    - amount: decimal
+    - paymentTime: DateTime
+    - creditCard: CreditCard
+    - reservation: Reservation
+}
+
+class Display {
+    - availableSeats: int
+    - show: Show
+}
+
+class Programming {
+    - startDate: Date
+    - endDate: Date
+    - publishedOn: DateTime
+    - shows: list<Show>
+}
+
+' Associations
+
+Cinema "1" *-- "many" Theatre : contains
+Theatre "1" o-- "many" Show : hosts
+Copy "1" -- "many" Show : used in
+Cinema "1" *-- "many" Copy : owns
+Movie "1" *-- "many" Copy : has copies of
+
+Show "1" -- "many" Reservation : has
+Show "1" -- "many" Ticket : has
+Reservation "1" -- "1" Payment : paid with
+Reservation "1" -- "0..1" FreeTicketOffer : may have
+Customer "1" -- "many" CreditCard : owns
+CreditCard "1" -- "many" Payment : used for
+Customer "1" -- "many" Reservation : made by
+Show "1" -- "1" Display : displayed on
+Programming "1" -- "many" Show : includes
+
+enum Status {
+    Pending
+    Cancelled
+    Confirmed
+}
+
+@enduml
+
+---
+
+### 🧩 Explanation of Key Elements:
+
+- **Cinema**: A location that can contain multiple theatres.
+- **Theatre**: A room inside a cinema where shows are played.
+- **Movie & Copy**: Each movie has one or more physical copies stored at specific cinemas.
+- **Show**: A scheduled screening of a movie copy in a theatre.
+- **Reservation & Ticket**: Customers can reserve seats online or buy tickets on-site. Reservations are refundable under certain conditions.
+- **FreeTicketOffer**: An offer to rebook when a show is canceled.
+- **Payment**: Only debited after the cancellation period ends.
+- **Display**: Shows how many seats are left for a particular show.
+- **Programming**: Weekly schedule from Wednesday to Tuesday.
+
+---
+

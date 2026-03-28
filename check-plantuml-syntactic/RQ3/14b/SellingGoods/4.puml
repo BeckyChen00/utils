@@ -1,0 +1,167 @@
+
+@startuml
+' STEP 1: Basic Stock, Customers, Orders
+
+class Customer {
+  -id: int
+  -name: String
+  -address: String
+  -vatNumber: String
+}
+
+class Product {
+  -id: int
+  -name: String
+  -stockLevel: int
+}
+
+class Order {
+  -id: int
+  -customer: Customer
+  -orderLines: List<OrderLine>
+  -isPaid: boolean
+  -isShipped: boolean
+  -paymentDate: Date
+  -shippingDate: Date
+}
+
+class OrderLine {
+  -id: int
+  -product: Product
+  -quantity: int
+  -isShipped: boolean
+}
+
+Customer "1" --> "0..*" Order
+Order "1" --> "0..*" OrderLine
+OrderLine "1" --> "1" Product
+
+note right of Order
+  Each order must be paid before shipping.
+  An order is shipped only if all lines are available in stock.
+end note
+
+note right of OrderLine
+  An order line is marked as shipped when the product is delivered.
+end note
+
+' STEP 2: Partial Shipments
+
+OrderLine "1" --> "1" ShipmentLine
+class ShipmentLine {
+  -id: int
+  -shipment: Shipment
+  -orderLine: OrderLine
+  -status: String <<enumeration>> {Pending, Shipped, Delivered, Damaged}
+}
+
+class Shipment {
+  -id: int
+  -dateShipped: Date
+  -dateReceived: Date
+  -deliveryStatus: String <<enumeration>> {Pending, InTransit, Delivered, Damaged}
+}
+
+Shipment "1" --> "0..*" ShipmentLine
+
+note right of OrderLine
+  Order lines can be shipped individually or in groups.
+end note
+
+note right of Shipment
+  Each shipment may contain multiple order lines.
+  Track delivery status for each shipment.
+end note
+
+' STEP 3: Multiple Addresses, Invoicing Options
+
+Customer "1" --> "1" Address
+class Address {
+  -id: int
+  -street: String
+  -city: String
+  -postcode: String
+  -isHeadOffice: boolean
+}
+
+Customer "1" --> "0..*" Invoice
+class Invoice {
+  -id: int
+  -order: Order
+  -dueDate: Date
+  -isPaid: boolean
+  -paymentMethod: String <<enumeration>> {Prepaid, Postpaid}
+}
+
+Order "1" --> "1" Invoice
+
+note right of Customer
+  A customer has a head office address and possibly multiple delivery addresses.
+end note
+
+note right of Invoice
+  Payment method can be Prepaid (paid at order time) or Postpaid (paid after delivery).
+end note
+
+' STEP 4: Grouped Shipments & Delivery Tracking
+
+ShipmentLine "1" --> "1" DeliveryEvent
+class DeliveryEvent {
+  -id: int
+  -shipmentLine: ShipmentLine
+  -eventDate: Date
+  -eventType: String <<enumeration>> {Packed, Shipped, Received, Damaged}
+}
+
+ShipmentLine "1" --> "0..*" DeliveryEvent
+
+note right of DeliveryEvent
+  Track the lifecycle of each shipment line with events:
+  Packed -> Shipped -> Received / Damaged
+end note
+
+note right of Shipment
+  Shipments may be grouped by order lines for efficient handling.
+end note
+
+@enduml
+
+---
+
+### ✅ Summary of Classes and Relationships:
+
+- **Customer**
+  - Attributes: id, name, address, vatNumber
+  - Associations: 1 to * Orders, 1 to * Invoices, 1 to * Addresses
+
+- **Address**
+  - Attributes: id, street, city, postcode, isHeadOffice
+
+- **Product**
+  - Attributes: id, name, stockLevel
+
+- **Order**
+  - Attributes: id, customer, orderLines, isPaid, isShipped, paymentDate, shippingDate
+  - Associations: 1 to * OrderLines, 1 to 1 Invoice
+
+- **Invoice**
+  - Attributes: id, order, dueDate, isPaid, paymentMethod
+  - Associations: 1 to 1 Order
+
+- **OrderLine**
+  - Attributes: id, product, quantity, isShipped
+  - Associations: 1 to 1 Product, 1 to * ShipmentLines
+
+- **Shipment**
+  - Attributes: id, dateShipped, dateReceived, deliveryStatus
+  - Associations: 1 to * ShipmentLines
+
+- **ShipmentLine**
+  - Attributes: id, shipment, orderLine, status
+  - Associations: 1 to 1 Shipment, 1 to 1 OrderLine, 1 to * DeliveryEvents
+
+- **DeliveryEvent**
+  - Attributes: id, shipmentLine, eventDate, eventType
+
+---
+

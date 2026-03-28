@@ -1,0 +1,109 @@
+
+---
+
+
+@startuml
+
+' Define classes with their attributes and relationships
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+  + username: String
+  + password: String
+}
+
+class AdministrativeEmployee extends Employee {
+  - fieldOfActivity: String
+}
+
+class Planner extends Employee {
+  - username: String
+  - password: String
+}
+
+class Driver extends Employee {
+  - licensePlateNumber: String
+  - mileage: Integer
+}
+
+class Vehicle {
+  - licensePlateNumber: String
+  - mileage: Integer
+  - type: String
+}
+
+class Repair {
+  - repairShopName: String
+  - repairShopAddress: String
+  - employee: Employee
+  - duration: Integer
+  - cost: Double
+  - vehicle: Vehicle
+}
+
+class Customer {
+  - name: String
+  - billingAddress: String
+}
+
+class Order {
+  - customer: Customer
+  - pickupAddress: String
+  - deliveryAddress: String
+  - comment: String
+  - startDateTime: DateTime
+  - endDateTime: DateTime
+  - driver: Driver
+  - vehicle: Vehicle
+  - planner: Planner
+}
+
+' Relationships
+
+' Employees (including subtypes) can log in with username and password
+Employee <|-- AdministrativeEmployee
+Employee <|-- Planner
+Employee <|-- Driver
+
+' Vehicles have a type (refrigerated truck, van, etc.)
+Vehicle -- "1" "1" Order : has
+Order --> Driver
+Order --> Vehicle
+Order --> Planner
+
+' Repair is related to a vehicle and an employee
+Repair --> Vehicle
+Repair --> Employee
+
+' Orders are assigned to customers
+Order --> Customer
+
+' Customers have billing address
+Customer --|> Order
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **Employees** are base class with common fields like `name`, `socialSecurityNumber`, `username`, and `password`. Subclasses include:
+  - `AdministrativeEmployee` with `fieldOfActivity`
+  - `Planner`
+  - `Driver` with `licensePlateNumber` and `mileage`
+
+- **Vehicles** have a `type` and are used in **Orders**.
+
+- **Repairs** are linked to both **Vehicles** and **Employees**, including details like `repairShopName`, `duration`, and `cost`.
+
+- **Orders** are tied to a **Customer**, **Driver**, **Vehicle**, and **Planner**. They also track time, location, and comments.
+
+- **Customers** are linked to **Orders** via the `customer` relationship.
+
+---
+
+### 📝 How to Use:
+
+
+Let me know if you'd like a version with associations or multiplicities explicitly shown!

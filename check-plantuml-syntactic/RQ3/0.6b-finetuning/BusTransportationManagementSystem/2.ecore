@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedCases" eType="#//Case" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Case"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LaunchEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostSpacecraft" eType="#//Spacecraft" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentMission" eType="#//LaunchMission" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Spacecraft"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LaunchMission">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedCases" eType="#//Case" upperBound="-1" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

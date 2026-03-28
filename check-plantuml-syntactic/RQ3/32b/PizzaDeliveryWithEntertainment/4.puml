@@ -1,0 +1,93 @@
+
+---
+
+
+@startuml
+
+' User is the base class for BusinessOwner, HungryCustomer, and Entertainer
+class User {
+  - id: int
+  - name: String
+  - birthday: Date
+  - address: String
+}
+
+class BusinessOwner {
+  - linkedIn: String
+}
+
+class HungryCustomer {
+  - deliveryAddress: String
+}
+
+class Entertainer {
+  - stageName: String
+  - bio: String
+  - pricePer30Min: float
+}
+
+User <|-- BusinessOwner
+User <|-- HungryCustomer
+User <|-- Entertainer
+
+class Restaurant {
+  - zipCode: String
+  - address: String
+  - phoneNumber: String
+  - website: String
+  - openingHours: String
+}
+
+BusinessOwner "1" --> "0..*" Restaurant : owns
+
+class Pizza {
+  - name: String
+  - crustStructure: String
+  - price: float
+}
+
+Restaurant "1" --> "0..*" Pizza : offers
+
+class Order {
+  - orderId: int
+  - orderDateTime: DateTime
+  - latestDeliveryTime: DateTime
+  - numberOfPeople: int
+}
+
+HungryCustomer "1" --> "0..*" Order : places
+
+class EntertainmentOrder {
+  - entertainmentType: String
+  - durationMinutes: int
+}
+
+Order <|-- EntertainmentOrder
+
+EntertainmentOrder "1" --> "1" Entertainer : assignedTo
+
+class EntertainerAvailability {
+  - dayOfWeek: String
+  - available: boolean
+}
+
+Entertainer "1" --> "0..*" EntertainerAvailability : has
+Entertainer "1" --> "0..*" Restaurant : worksFor
+
+@enduml
+
+---
+
+### 📝 Explanation of Key Elements:
+
+- **User** is the base class with common fields (`id`, `name`, `birthday`, `address`).
+- **BusinessOwner**, **HungryCustomer**, and **Entertainer** inherit from `User`.
+- **Restaurant** is owned by a `BusinessOwner`, and can offer multiple `Pizza`s.
+- A `Pizza` is uniquely identified by its restaurant + name + other attributes.
+- A `HungryCustomer` places one or more `Order`s.
+- An `Order` may be an `EntertainmentOrder`, which adds extra fields like `entertainmentType` and `durationMinutes`.
+- Each `EntertainmentOrder` is fulfilled by exactly one `Entertainer`.
+- An `Entertainer` can work for multiple `Restaurant`s and must specify availability per day of the week via `EntertainerAvailability`.
+
+---
+

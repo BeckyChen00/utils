@@ -1,0 +1,96 @@
+
+This diagram captures key classes, their attributes, and relationships according to the system requirements:
+
+@startuml
+' Sober Taxi System Class Diagram
+
+class Car {
+  -carId: String
+  -licensePlate: String
+  -owner: Owner
+  -isSelfDriving: Boolean
+  -accidents: List<Accident>
+}
+
+class Owner {
+  -ownerId: String
+  -fullName: String
+  -email: String
+  -phoneNumber: String
+  -registeredCars: List<Car>
+}
+
+class Customer {
+  -customerId: String
+  -fullName: String
+  -email: String
+  -phoneNumber: String
+  -rideShareBookings: List<RideShareBooking>
+  -rideHailBookings: List<RideHailBooking>
+}
+
+class RideService {
+  -serviceId: String
+  -pickupTime: DateTime
+  -dropoffTime: DateTime
+  -pickupLocation: Location
+  -dropoffLocation: Location
+  -rideDuration: Integer
+  -distance: Double
+  -fee: Double
+}
+
+class RideHailBooking extends RideService {
+  -requestType: RequestType (APP or HAND_WAVING)
+  -leadCustomer: Customer
+  -passengerCount: Integer (1..6)
+}
+
+class RideShareBooking extends RideService {
+  -negotiatedFee: Double
+  -customerList: List<Customer>
+  -passengerCount: Integer (1..10)
+  -treesPlanted: Boolean
+}
+
+class Accident {
+  -accidentId: String
+  -date: DateTime
+  -location: Location
+  -damageAmount: Double
+}
+
+class Location {
+  -latitude: Double
+  -longitude: Double
+  -address: String
+}
+
+enum RequestType {
+  APP
+  HAND_WAVING
+}
+
+' Relationships
+Car "1" -- "0..*" Accident : has
+Owner "1" -- "0..*" Car : owns
+Customer "1" -- "0..*" RideHailBooking : booked
+Customer "1" -- "0..*" RideShareBooking : booked
+RideHailBooking "1" -- "1" Customer : leadCustomer
+RideShareBooking "1" -- "*" Customer : customerList
+@enduml
+
+---
+
+### Explanation of Key Classes:
+
+- **`Car`**: Represents a vehicle, whether owned by Sober or registered by an individual.
+- **`Owner`**: Manages registered car owners who can offer their cars as Sober cabs.
+- **`Customer`**: Users of the service who can hail or share rides.
+- **`RideService`**: Abstract base class for both ride-hailing and ride-sharing services.
+- **`RideHailBooking` & `RideShareBooking`**: Concrete types of ride services with specific properties.
+- **`Accident`**: Tracks incidents involving cars.
+- **`Location`**: Captures geographical details.
+- **`RequestType`**: Enum indicating how a ride was requested (via app or hand-waving).
+
+Let me know if you'd like this extended with methods or UML stereotypes.

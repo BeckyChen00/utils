@@ -1,0 +1,38 @@
+@startuml
+class Patient {
+  name: String
+  contactNumber: String
+  +register(): boolean
+}
+class HealthRecord {
+  isValid: boolean
+  +generateReport(): String
+  +verifyData(): boolean
+}
+class DiagnosticReport {
+  description: String
+  dataPoints: String[]
+  +attachDataPoint(key: String): void
+}
+class MedicalStaff {
+  name: String
+}
+class DiseaseProfile {
+  severityLevel: int
+  +assessRisk(): boolean
+}
+class TreatmentPlan {
+  description: String
+  +assignSteps(): void
+}
+class TreatmentStep {
+  stepNumber: int
+  durationSeconds: double
+  symptomsDetected: boolean
+}
+Patient "1" *-- "1" HealthRecord : healthRecord
+HealthRecord "1" --> "*" DiagnosticReport : attachedReports
+DiseaseProfile "1" --> "*" TreatmentPlan : proposedPlans
+TreatmentStep "1" --> "1" TreatmentPlan : assignedPlan
+TreatmentPlan "1" --> "*" MedicalStaff : assignedTeam
+@enduml

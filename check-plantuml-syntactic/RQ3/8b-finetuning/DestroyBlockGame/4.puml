@@ -1,0 +1,105 @@
+@startuml
+enum GameStatus {
+  Active
+  Paused
+  Ended
+  Completed
+  Failed
+}
+enum BlockColor {
+  Red
+  Green
+  Blue
+  Yellow
+  Purple
+}
+class User {
+  username: String
+  password: String
+  +login(credentials: String): boolean
+  +logout(): void
+}
+class Admin {
+  +designGame(name: String, blocks: List<Block>, maxLevels: int): Game
+  +configureGame(game: Game, speedParams: SpeedConfig, paddleParams: PaddleConfig): void
+}
+class Game {
+  name: String
+  status: GameStatus
+  hallOfFame: List<PlayerScore>
+  +createLevel(levelNumber: int, blockPositions: Map<String, Block>): void
+  +publish(): void
+  +getLevelCount(): int
+  +getCurrentLevel(): Level
+}
+class Level {
+  levelNumber: int
+  isRandomized: boolean
+  blockLayout: Map<String, Block>
+  +getBlocks(): List<Block>
+}
+class Block {
+  color: BlockColor
+  pointValue: int
+  isDestroyed: boolean
+  +getPointValue(): int
+}
+class Player {
+  nickname: String
+  +playGame(game: Game): GameSession
+  +getScoreHistory(): List<PlayerScore>
+}
+class GameSession {
+  startTime: Date
+  livesRemaining: int
+  currentSpeed: int
+  currentPaddleLength: int
+  stateSequence: List<String>
+  +start(level: Level): void
+  +processInput(x: int): void
+  +update(bounce: boolean): void
+  +checkCollision(ball: Ball, block: Block): boolean
+  +end(): PlayerScore
+  +pause(): void
+  +resume(): void
+}
+class Ball {
+  direction: Vector
+  speed: int
+  isMoving: boolean
+  +bounceWall(): void
+  +bounceBlock(block: Block): void
+  +move(): void
+}
+class Paddle {
+  length: int
+  position: int
+  +moveLeft(): void
+  +moveRight(): void
+  +getPosition(): int
+}
+class SpeedConfig {
+  minSpeed: int
+  increaseFactor: double
+  +calculateSpeed(level: int): int
+}
+class PaddleConfig {
+  maxLength: int
+  minLength: int
+  +calculateLength(level: int): int
+}
+Admin --|> User
+Player --|> User
+Game *-- "*" Level : levels
+Game *-- "1" SpeedConfig : speedConfiguration
+Game *-- "1" PaddleConfig : paddleConfiguration
+Game --> "*" Block : definedBlocks
+Player --> "*" Game : playedGames
+GameSession *-- "1" Ball : ball
+GameSession *-- "1" Paddle : paddle
+GameSession *-- "1" Ball : ball
+GameSession *-- "1" Level : activeLevel
+Player --> "*" GameSession : participatedSessions
+GameSession --> "1" Player : player
+GameSession --> "1" Game : gameInstance
+@enduml

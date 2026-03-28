@@ -1,0 +1,83 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor #f0f0f0
+
+' Define classes
+class Hospital {
+    +String name
+    +List<ExaminationType> allowedExaminationTypes
+    +applyPermission(ExaminationType type)
+}
+
+class ExaminationType {
+    +String name
+    +boolean isAllowedBy(Hospital hospital)
+}
+
+class Doctor {
+    +String name
+    +Hospital hospital
+}
+
+class Patient {
+    +String name
+    +String problem
+}
+
+class Problem {
+    +String name
+    +List<TreatmentPlan> treatmentPlans
+}
+
+class TreatmentPlan {
+    +String name
+    +List<ExaminationType> recommendedExaminations
+}
+
+class ActualTreatment {
+    +Patient patient
+    +Doctor doctor
+    +List<Examination> examinations
+    +List<MedicalAction> medicalActions
+}
+
+class Examination {
+    +ExaminationType type
+    +Hospital hospital
+    +Patient patient
+}
+
+class MedicalAction {
+    +String description
+}
+
+' Associations
+Hospital "1" -- "0..*" ExaminationType : allows
+Hospital "1" -- "1" Doctor : employs
+Doctor "1" -- "1" Patient : treats
+Patient "1" -- "1" Problem : has
+Problem "1" -- "1" TreatmentPlan : defines
+TreatmentPlan "1" -- "0..*" ExaminationType : recommends
+Doctor "1" -- "1" ActualTreatment : creates
+ActualTreatment "1" -- "0..*" Examination : includes
+ActualTreatment "1" -- "0..*" MedicalAction : includes
+Examination "1" -- "1" Hospital : performed at
+Examination "1" -- "1" Patient : for
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **Hospital**: Manages allowed examination types and can apply for permission to perform certain types.
+- **ExaminationType**: Represents a type of examination (e.g., "echography", "radiology").
+- **Doctor**: Belongs to a hospital and diagnoses patients.
+- **Patient**: Has a specific problem and receives an actual treatment.
+- **Problem**: Is associated with one or more treatment plans.
+- **TreatmentPlan**: Defines the recommended examinations for a particular problem.
+- **ActualTreatment**: Includes both the recommended examinations and any freely chosen medical actions.
+- **Examination**: A specific instance of an examination, which must be performed at a hospital that has the necessary permissions.
+- **MedicalAction**: Represents any medical action not covered by the recommended examinations.
+

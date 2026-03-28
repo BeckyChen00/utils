@@ -1,0 +1,41 @@
+@startuml
+class CreditRiskScore {
+  score: double
+  description: String
+}
+class CreditApplication {
+  applicationDate: Date
+  isApproved: boolean
+  isRepaymentRequired: boolean
+  +calculateScore(): CreditRiskScore
+  +renewApplication(renewDate: Date): void
+}
+class CreditScoreReport {
+  reportDate: Date
+  score: double
+}
+class CreditReport {
+  reportDate: Date
+  primaryScore: CreditRiskScore
+  secondaryScores: CreditRiskScore[]
+}
+class LedgerEntry {
+  amount: double
+  currencyCode: String
+}
+class PaymentLog {
+  paymentDate: Date
+  amount: double
+  status: String
+}
+class FinancialStatement {
+  statementTimestamp: Date
+  totalAmount: double
+}
+CreditApplication "1" *-- "0..1" CreditScoreReport : generatedReport
+CreditApplication "1" *-- "1" CreditReport : generatedReport
+CreditReport "*" --> "1" CreditScoreReport : primaryReport
+CreditScoreReport "*" --> "*" FinancialStatement : relatedStatements
+CreditScoreReport "*" --> "*" LedgerEntry : coveredEntries
+CreditScoreReport "*" --> "*" PaymentLog : associatedLogs
+@enduml

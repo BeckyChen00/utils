@@ -1,0 +1,73 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class School {
+    - name: String
+    - principal: Teacher
+}
+
+class Teacher {
+    - firstName: String
+    - lastName: String
+    - email: String
+}
+
+class Student {
+    - firstName: String
+    - lastName: String
+}
+
+class ClassGroup {
+    - name: String
+    - minStudents: int = 10
+    - maxStudents: int = 31
+}
+
+class Room {
+    - name: String
+}
+
+class Classroom extends Room {
+    - capacity: int
+}
+
+class OtherRoom extends Room {
+    - size: double // in square meters
+}
+
+' Associations and relationships
+
+School "1" -- "1..*" Teacher : employs\nas teacher |
+Teacher "1" -- "1" School : is principal of <<aggregation>> |
+Teacher "1" -- "0..3" School : teaches at |
+School "1" -- "1" Principal : has <<aggregation>> |
+
+Student "1" -- "1" School : attends |
+Student "1" -- "1" ClassGroup : is member of |
+ClassGroup "1" -- "1" Classroom : uses classroom |
+Classroom "1" -- "1" ClassGroup : is used by |
+
+Teacher "1" -- "1" School : can be principal of (max 1) |
+School "1" -- "1" Principal : has principal |
+
+note right of Principal
+    A Principal is a Teacher who
+    acts as the head of a School.
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **Inheritance**: `Classroom` and `OtherRoom` inherit from `Room`.
+- **Multiplicity**:
+  - A `Teacher` can teach at up to 3 schools (`0..3`).
+  - A `Student` belongs to exactly one `ClassGroup`, which uses exactly one `Classroom`.
+  - A `ClassGroup` has between 10 and 31 students.
+- **Aggregation/Composition**:
+  - `School` contains one `Principal` (a `Teacher`), represented with aggregation.
+  - A `ClassGroup` is assigned to exactly one `Classroom`.
+

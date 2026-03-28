@@ -1,0 +1,131 @@
+
+@startuml
+
+' Define classes and their attributes and relationships
+
+class Customer {
+    +String name
+    +String address
+    +Date registrationDate
+    +int numberOfUnpaidInvoices
+    +boolean isSuspended
+    +CreditCard creditCard
+    +FuelCard fuelCard
+}
+
+class FuelCard {
+    +String cardNumber
+    +Customer customer
+    +double discountRate
+}
+
+class CreditCard {
+    +String cardNumber
+    +String expiryDate
+    +String cvv
+}
+
+class RefuelTurn {
+    +DateTime refuelDate
+    +double quantity
+    +double amount
+    +PaymentMethod paymentMethod
+    +Pump pump
+    +Invoice invoice
+}
+
+enum PaymentMethod {
+    CASH
+    CREDIT_CARD
+    FUEL_CARD
+}
+
+class Invoice {
+    +DateTime invoiceDate
+    +double totalAmount
+    +double discountApplied
+    +List<RefuelTurn> refuelTurns
+    +Customer customer
+    +boolean isPaid
+    +boolean isSent
+}
+
+class Pump {
+    +int id
+    +GasType gasType
+    +Tank tank
+    +RefuelTurn currentRefuelTurn
+    +Queue<RefuelTurn> waitingQueue
+}
+
+class Tank {
+    +double capacity
+    +double currentLevel
+    +double reorderLevel
+    +double criticalLevel
+    +boolean isBlocked
+    +double refillQuantity
+}
+
+class GasType {
+    +String type
+    +double pricePerLiter
+}
+
+class DailyReport {
+    +Date reportDate
+    +List<Tank> tanksToRefill
+    +Map<Pump, Double> currentLevels
+    +Map<Pump, Double> quantitiesToOrder
+}
+
+class GasStation {
+    +String location
+    +List<Pump> pumps
+    +List<Customer> customers
+    +List<Invoice> invoices
+    +DailyReport dailyReport
+}
+
+' Relationships
+
+Customer "1" -- "0..*" FuelCard : owns
+Customer "1" -- "0..*" CreditCard : owns
+Customer "1" -- "0..*" Invoice : receives
+Customer "1" -- "0..*" RefuelTurn : makes
+
+RefuelTurn "1" -- "1" PaymentMethod : uses
+RefuelTurn "1" -- "1" Pump : at
+RefuelTurn "1" -- "0..1" Invoice : appears in
+
+Invoice "1" -- "1" Customer : sent to
+Invoice "1" -- "0..*" RefuelTurn : includes
+
+Pump "1" -- "1" Tank : contains
+Pump "1" -- "0..*" RefuelTurn : used by
+Pump "1" -- "1" GasType : dispenses
+
+Tank "1" -- "0..1" DailyReport : reported in
+
+GasStation "1" -- "0..*" Pump : has
+GasStation "1" -- "0..*" Customer : serves
+GasStation "1" -- "0..*" Invoice : issues
+GasStation "1" -- "1" DailyReport : generates
+
+@enduml
+
+---
+
+### 🧾 Notes:
+- **Enumerations**: `PaymentMethod` is an enum with 3 options.
+- **Associations**:
+  - A `Customer` can have a `FuelCard`, `CreditCard`, and many `RefuelTurns`.
+  - A `RefuelTurn` must be associated with one `Pump` and may be part of one `Invoice`.
+  - An `Invoice` can include multiple `RefuelTurns` and belongs to one `Customer`.
+  - A `Pump` is connected to a `Tank` and a `GasType`.
+  - The `GasStation` manages all `Pumps`, `Customers`, and generates reports.
+- **Multiplicity** is indicated where relevant (e.g., `0..*`, `1`).
+- **States** like suspension or blocking are modeled via attributes in `Customer` and `Tank`.
+
+---
+

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pumps" eType="#//FuelPump" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FuelPump">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offeredFuels" eType="#//Fuel" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedPrices" eType="#//DailyPrice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Fuel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DailyPrice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FuelPurchase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedPump" eType="#//FuelPump" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedPrice" eType="#//DailyPrice" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="purchasedFuel" eType="#//Fuel" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GasStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedPrices" eType="#//DailyPrice" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

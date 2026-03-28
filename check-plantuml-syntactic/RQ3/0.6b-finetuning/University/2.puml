@@ -1,0 +1,65 @@
+@startuml
+enum PermitStatus {
+  Pending
+  Approved
+  Rejected
+}
+enum ApplicationStatus {
+  Unsubmitted
+  UnderReview
+  Active
+  Completed
+  Archived
+}
+enum AmendmentType {
+  StructuralModification
+  MaterialChange
+  ConstructionSubsidiary
+  EmergencyExpedition
+}
+class PermitApplication {
+  submissionDate: Date
+  status: ApplicationStatus
+  +submit(): void
+  +close(): void
+  +generateCertificate(): PermitCertificate
+}
+class PermitCertificate {
+  issueDate: Date
+  expiryDate: Date
+  +validate(): boolean
+}
+class ConstructionProject {
+  projectName: String
+  constructionDate: Date
+  status: ApplicationStatus
+  +getWitnesses(): List<Witness>
+}
+class Witness {
+  testimonyText: String
+  +recordWitness(): void
+}
+class Subcontractor {
+  subcontractorName: String
+  +submitContract(): void
+}
+class Contractor {
+  contractorName: String
+  +submitContract(): void
+}
+class AmendmentRequest {
+  requestDate: Date
+  amendmentType: AmendmentType
+  description: String
+  status: ApplicationStatus
+  +approve(): boolean
+  +reject(): void
+}
+ConstructionProject *-- "0..*" PermitApplication : applications
+PermitApplication --> "1" PermitCertificate : issuedCertificate
+PermitApplication *-- "0..*" AmendmentRequest : amendmentRequests
+PermitCertificate --> "1" Subcontractor : licensedSubcontractor
+PermitCertificate --> "0..1" Contractor : licensedContractor
+Witness *-- "0..*" AmendmentRequest : submittedRequests
+AmendmentRequest --> "1" ConstructionProject : targetProject
+@enduml

@@ -1,0 +1,97 @@
+
+---
+
+
+@startuml
+
+' Organizers
+class Organizer {
+    +username: String
+    +password: String
+    +firstName: String
+    +lastName: String
+    +email: String
+    +postalAddress: String
+    +phoneNumber: String
+    +eventKind: String
+    +startDate: DateTime
+    +endDate: DateTime
+    +occasion: String
+    +locationName: String
+    +locationAddress: String
+    +inviteAttendee(firstName: String, lastName: String, email: String)
+    +viewInvitationStatus()
+    +selectEvent(eventId: String)
+    +addTask(taskName: String, isAttendeeTask: Boolean)
+    +markTaskStatus(taskId: String, status: String)
+}
+
+' Attendees
+class Attendee {
+    +username: String
+    +password: String
+    +firstName: String
+    +lastName: String
+    +email: String
+    +confirmedAttendance: Boolean
+    +maybeAttendance: Boolean
+    +cannotAttend: Boolean
+    +selectTask(taskId: String)
+    +viewTasks()
+}
+
+' Event
+class Event {
+    +eventId: String
+    +eventKind: String
+    +startDate: DateTime
+    +endDate: DateTime
+    +occasion: String
+    +locationName: String
+    +locationAddress: String
+    +organizers: List<Organizer>
+    +attendees: List<Attendee>
+    +tasks: List<Task>
+}
+
+' Task
+class Task {
+    +taskId: String
+    +taskName: String
+    +isAttendeeTask: Boolean
+    +status: String
+    +organizerId: String
+    +attendeeId: String
+}
+
+' Relationship between classes
+Organizer "1" -- "1" Event : manages
+Attendee "1" -- "1" Event : attends
+Event "1" -- "0..*" Task : has
+Organizer "1" -- "0..*" Task : adds
+Attendee "1" -- "0..*" Task : completes
+
+@enduml
+
+---
+
+### 📌 Explanation of Classes and Relationships
+
+- **Organizer**: Manages events, invites attendees, tracks tasks, and handles event details.
+- **Attendee**: Can confirm attendance, select tasks, and respond to invitations.
+- **Event**: Contains all information about an event, including organizers, attendees, and tasks.
+- **Task**: Represents specific tasks for an event, which can be assigned to attendees or handled by the organizer.
+- **Relationships**:
+  - One **Organizer** manages one **Event**.
+  - One **Attendee** attends one **Event**.
+  - One **Event** has many **Tasks**.
+  - One **Organizer** can add many **Tasks**.
+  - One **Attendee** can complete many **Tasks**.
+
+---
+
+### 💡 How to Use This
+
+
+
+Let me know if you'd like a version with more detailed associations, inheritance, or stereotypes!

@@ -1,0 +1,59 @@
+
+@startuml
+class EBike {
+  +Frame frame
+  +DriveSystem driveSystem
+  +Controller controller
+}
+
+class Frame {
+  -material: String = "steel"
+}
+
+class DriveSystem {
+  +Motor motor
+}
+
+class Motor {
+  // No specific attributes or methods mentioned
+}
+
+class Battery {
+  -storedEnergy: Double (in Wh)
+}
+
+class Controller {
+  -state: String (On | Off | Charging)
+  +controlBattery()
+  +commandDriveSystem()
+}
+
+class BasicController {
+  // Inherits from Controller
+}
+
+class AdvancedController {
+  -nextInspectionDate: Date
+  +estimateNextInspectionDate(): Date
+}
+
+// Relationships
+EBike "1" --> "1" Frame
+EBike "1" --> "1" DriveSystem
+EBike "1" --> "1" Controller
+DriveSystem "1" --> "1" Motor
+EBike "0..1" --> "1" Battery
+Controller "1" --> "0..1" Battery
+Controller <|-- BasicController
+Controller <|-- AdvancedController
+@enduml
+
+### Explanation of the Diagram:
+- `EBike` contains a single `Frame`, `DriveSystem`, and `Controller`.
+- The `Frame` is made of steel.
+- The `DriveSystem` has one `Motor`.
+- An `EBike` can have **zero or one** `Battery`.
+- `Controller` has three possible states (`On`, `Off`, `Charging`) and controls both the battery and the drive system.
+- There are two types of controllers: `BasicController` and `AdvancedController`.
+- `AdvancedController` has an additional attribute `nextInspectionDate` and a method to estimate it.
+

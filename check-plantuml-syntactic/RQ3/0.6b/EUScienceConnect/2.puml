@@ -1,0 +1,51 @@
+@startuml
+    class diagram systemRequirement {
+        [System Requirement]
+        # System Requirements
+        [1] A user can perform tasks in the system.
+        [2] The system must have access to necessary resources.
+        [3] The system must be secure and protected from unauthorized access.
+        [4] The system should respond to user requests promptly.
+
+        # Relationships
+        $A$ -> $B$ : User can perform tasks in the system
+        $A$ -> $C$ : The system must have access to necessary resources
+        $A$ -> $D$ : The system must be secure and protected from unauthorized access
+        $A$ -> $E$ : The system should respond to user requests promptly
+
+        # Connections between classes
+        $A$ --> $B$
+        $A$ --> $C$
+        $A$ --> $D$
+        $A$ --> $E$
+
+        # Dependencies
+        $A$ --> $B$ (User can perform tasks)
+        $A$ --> $C$ (System must have access to resources)
+        $A$ --> $D$ (System must be secure)
+        $A$ --> $E$ (System must respond quickly)
+
+        # Attributes
+        $A$ has $B$
+        $A$ has $C$
+        $A$ has $D$
+        $A$ has $E$
+
+        # Relationships with other classes
+        $B$ is a user
+        $C$ is a resource
+        $D$ is a security feature
+        $E$ is an availability response
+
+        # Flow of work
+        Start at $A$
+        Then $B$, $C$, $D$, and $E$
+        End at $E$
+
+        # Nodes for relationships
+        $A$ node
+        $B$ node
+        $C$ node
+        $D$ node
+        $E$ node
+@enduml

@@ -1,0 +1,72 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor yellow
+
+class Patient {
+  - String id
+  - String name
+  - List<Doctor> assignedDoctors
+  - List<Treatment> treatments
+  - boolean consentGiven
+}
+
+class Doctor {
+  - String id
+  - String name
+  - List<Patient> patients
+  + diagnose(Patient patient, Illness illness)
+}
+
+class Illness {
+  - String id
+  - String name
+  - int priorityScore (1: low, 2: high)
+  + updatePriorityScore(int newScore)
+}
+
+class Treatment {
+  - String id
+  - Illness illness
+  - int stage (1, 2, or 3)
+  - Patient patient
+  - List<Doctor> doctors
+  + upgradeStage(int targetStage)
+  + downgradeStage(int targetStage)
+}
+
+class HeadDoctor {
+  - String id
+  - String name
+  + approveDiagnosis(Doctor doctor, Patient patient, Illness illness)
+}
+
+class Nurse {
+  - String id
+  - String name
+  - List<Patient> patients
+  + monitorPatient(Patient patient)
+}
+
+' Associations
+Patient -- "1..*" "0..*" Doctor : assigned to
+Doctor --> Illness : diagnoses
+Illness -- "1" "1..*" Treatment : has
+Treatment -- "1" Patient : for
+Doctor -- "1..*" Treatment : applies
+HeadDoctor -- "1" Doctor : supervises
+Nurse -- "1..*" Patient : monitors
+
+note right of Patient: Consent allows treatment upgrades without re-consent
+note left of Illness: Priority score can change dynamically
+note left of Treatment: Stage changes require approval or patient consent
+@enduml
+
+### Explanation of Key Concepts:
+- **Patient**: Has an ID, name, assigned doctors, and a list of treatments. They may give consent for treatment stage upgrades.
+- **Doctor**: Diagnoses patients with illnesses and may apply treatments. Can be supervised by the HeadDoctor.
+- **Illness**: Each illness has a priority score that determines if treatments are automatically upgraded to stage 3.
+- **Treatment**: Has a stage (1, 2, or 3), is associated with a patient and an illness. Stages can be upgraded or downgraded.
+- **HeadDoctor**: Approves diagnoses made by other doctors before any treatment can proceed.
+- **Nurse**: Monitors patients, especially those with high-priority illnesses or in higher stages.
+

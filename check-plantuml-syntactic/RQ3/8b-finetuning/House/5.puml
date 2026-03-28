@@ -1,0 +1,85 @@
+@startuml
+enum HouseType {
+  SingleFamily
+  SemiDetached
+  Apartment
+  Condo
+  Townhouse
+  Villa
+  Bungalow
+}
+enum MaterialType {
+  Wood
+  Brick
+  Concrete
+  Steel
+  Composite
+}
+enum FloorLevel {
+  GroundFloor
+  FirstFloor
+  SecondFloor
+  ThirdFloor
+  Attic
+  Basement
+}
+enum RoofType {
+  FlatRoof
+  PitchedRoof
+  GableRoof
+  MansardRoof
+  DomeRoof
+}
+enum OccupationStatus {
+  Vacant
+  Occupied
+  UnderMaintenance
+  Reserved
+  Sold
+  ForSale
+}
+class House {
+  address: String
+  buildingMaterial: MaterialType
+  currentStatus: OccupationStatus
+  +calculateSquareFootage(): int
+}
+class Basement {
+  name: String
+  floorLevel: FloorLevel
+  isEarth: boolean
+  humidityLevel: double
+  +getCapacity(): int
+}
+class SemiDetachedHouse {
+  hasGarden: boolean
+  windowCount: int
+  +inspectStructure(): boolean
+}
+class Carport {
+  isDoubleCarport: boolean
+  roofType: RoofType
+  +estimateCost(): double
+}
+class Garage {
+  hasAutomaticDoor: boolean
+  +verifyAccess(): boolean
+}
+class Company {
+  name: String
+  address: String
+}
+class ServiceJob {
+  jobDate: Date
+  totalHours: int
+  agreedPrice: double
+  description: String
+  +recordCompletion(): boolean
+}
+House *-- "0..*" Basement : basements
+House *-- "0..1" Carport : carport
+House *-- "0..1" Garage : garage
+House *-- "0..*" ServiceJob : serviceJobs
+SemiDetachedHouse --|> House
+ServiceJob --> "1" Company : serviceProvider
+@enduml

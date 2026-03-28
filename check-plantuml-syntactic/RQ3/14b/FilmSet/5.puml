@@ -1,0 +1,82 @@
+
+@startuml
+' Class Diagram for Film Set System
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class CreativeEmployee <|-- Employee
+class Director <|-- CreativeEmployee
+class Actor <|-- CreativeEmployee
+
+class Technician <|-- Employee {
+  - fieldOfActivity: String
+}
+
+class FilmSet {
+  - location: String
+}
+
+class Film {
+  - title: String
+  - releaseYear: Integer
+  - genre: String (enum: thriller, action, horror, comedy)
+}
+
+class Screenwriter {
+  - name: String
+  - mostSuccessfulFilm: String
+}
+
+class Screenplay {
+  - title: String
+  - version: String
+  - date: Date
+  - numberOfScenes: Integer
+  - plot: String
+  - sourceType: String (enum: novel, concept)
+  - sourceTitle: String
+  - sourceAuthor: String (if novel)
+}
+
+class Novel {
+  - title: String
+  - author: String
+}
+
+class Concept {
+  - title: String
+}
+
+class OscarWinner {
+  - hasOscar: Boolean
+}
+
+Director <|-- OscarWinner
+Actor <|-- OscarWinner
+
+Employee "1" *-- "0..*" Film: worksOn
+CreativeEmployee "1" *-- "0..*" Film: directs or actsIn
+Director "1" --> "1" Film: directs
+Actor "1" --> "*" Film: actsIn
+Technician "1" --> "*" Film: worksOn
+
+Screenwriter "1" --> "*" Screenplay: writes
+Screenplay "1" --> "1" Film: usedFor
+Screenplay "1" --> "1" Novel: basedOn (optional)
+Screenplay "1" --> "1" Concept: basedOn (optional)
+
+Film "1" --> "1" FilmSet: uses
+@enduml
+
+### Explanation of Key Relationships:
+- `Employee` is the base class for all people involved in the system.
+- `CreativeEmployee` is a subclass of `Employee`, which includes `Director` and `Actor`.
+- `Technician` is also a subclass of `Employee`, but with a different role.
+- `OscarWinner` is an interface or abstract class that both `Director` and `Actor` can implement to indicate if they have won an Oscar.
+- `Screenwriter` creates one or more `Screenplay`s.
+- Each `Screenplay` belongs to exactly one `Film`, and each `Film` may use multiple `FilmSet`s.
+- A `Screenplay` can be based on either a `Novel` or a `Concept`.
+

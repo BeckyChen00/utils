@@ -1,0 +1,97 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Sensor {
+  -vendorId: String
+  -description: String
+  -unit: Unit
+  -room: Room
+  -threshold: float
+  +getMeasuredValues(): List<Measurement>
+  +getLastValue(): Measurement
+}
+
+class TemperatureSensor extends Sensor {
+  -minTemp: float
+  -maxTemp: float
+}
+
+class PowerSensor extends Sensor {
+  -totalConsumption: float
+}
+
+class SensorController {
+  -apartment: Apartment
+  -sensors: List<Sensor>
+  -users: List<User>
+  +authenticateUser(username: String, password: String): Boolean
+  +addSensor(sensor: Sensor): void
+  +removeSensor(sensor: Sensor): void
+  +updateThreshold(sensor: Sensor, threshold: float): void
+}
+
+class User {
+  -username: String
+  -password: String
+  -email: String
+  -isAdmin: boolean
+  +login(): Boolean
+  +querySensorData(sensor: Sensor): List<Measurement>
+  +setThreshold(sensor: Sensor, threshold: float): void
+}
+
+class Apartment {
+  -address: String
+  -rooms: List<Room>
+  -inhabitants: List<User>
+}
+
+class Room {
+  -description: String
+  -sensors: List<Sensor>
+}
+
+class Measurement {
+  -timestamp: DateTime
+  -value: float
+}
+
+class EMonitor {
+  -sensorController: SensorController
+  +checkThresholds(): void
+  +sendAlert(user: User, message: String): void
+}
+
+enum Unit {
+  CELSIUS,
+  WATT
+}
+
+' Relationships
+User "1" -- "1" Apartment : resides in
+Apartment "1" -- "many" Room : contains
+Room "1" -- "many" Sensor : contains
+Sensor "1" -- "1" Room : assigned to
+SensorController "1" -- "1" Apartment : manages
+SensorController "1" -- "many" Sensor : controls
+SensorController "1" -- "many" User : has users
+Sensor "1" -- "many" Measurement : records
+EMonitor "1" -- "1" SensorController : monitors
+
+@enduml
+
+---
+
+### ✅ Key Points Covered:
+- **Sensors**: Base class with two types (`TemperatureSensor` and `PowerSensor`)
+- **SensorController**: Manages sensors, user authentication, and thresholds
+- **User & Admin Rights**: Users can query data and set thresholds; admins can configure sensors
+- **Apartment & Rooms**: Logical grouping of sensors and inhabitants
+- **Measurements**: Each sensor has historical data with timestamps
+- **EMonitor Integration**: External system that checks thresholds and sends alerts
+- **Unit Enum**: Handles different measurement units (CELSIUS, WATT)
+
+---
+

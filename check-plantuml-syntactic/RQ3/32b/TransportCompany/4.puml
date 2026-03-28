@@ -1,0 +1,94 @@
+
+@startuml
+
+' Define classes for the transport company system
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class Driver extends Employee {
+}
+
+class Planner extends Employee {
+  + username: String
+  + password: String
+}
+
+class AdministrativeStaff extends Employee {
+  + username: String
+  + password: String
+  + fieldOfActivity: String
+}
+
+class Customer {
+  + name: String
+  + billingAddress: String
+}
+
+class PartnerCompany {
+  + name: String
+  + address: String
+}
+
+class Vehicle {
+  + licensePlate: String
+  + mileage: Integer
+  + type: String
+}
+
+note right of Vehicle
+    Types include:
+    - refrigerated truck
+    - small van
+    - loading platform
+    - box truck
+end note
+
+class RepairShop {
+  + name: String
+  + address: String
+}
+
+class MaintenanceRecord {
+  + duration: Integer (hours)
+  + cost: Double
+  + employeeId: String
+}
+
+class Order {
+  + pickupAddress: String
+  + deliveryAddress: String
+  + comment: String
+  + startDate: DateTime
+  + endDate: DateTime
+}
+
+' Relationships
+
+Employee <|-- Planner
+Employee <|-- AdministrativeStaff
+Employee "1" --> "0..*" MaintenanceRecord : initiates
+Customer "1" --> "0..*" Order : places
+PartnerCompany "1" --> "0..*" Order : places via partner
+Planner "1" --> "0..*" Order : assigns
+Driver "1" --> "0..*" Order : executes
+Vehicle "1" --> "0..*" Order : assigned to
+Vehicle "1" --> "0..*" MaintenanceRecord : maintained at
+RepairShop "1" --> "0..*" MaintenanceRecord : performed by
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Employees** are abstracted into `Driver`, `Planner`, and `AdministrativeStaff`.
+- **Planners and Admin Staff** have login credentials.
+- **Vehicles** have types and maintenance records.
+- **Orders** are linked to a customer or partner, assigned by a planner, executed by a driver, and associated with a vehicle.
+- **Maintenance Records** track when and where a vehicle was repaired, by whom, and the cost/duration.
+
+---
+

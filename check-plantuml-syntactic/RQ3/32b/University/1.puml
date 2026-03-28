@@ -1,0 +1,96 @@
+
+@startuml
+
+' Define classes with their attributes and relationships
+
+class University {
+    +String name
+    +Faculty[] faculties
+}
+
+class Faculty {
+    +String name
+    +Institute[] institutes
+    +Employee dean
+}
+
+class Institute {
+    +String name
+    +Address address
+}
+
+class Address {
+    +String street
+    +String city
+    +String postalCode
+}
+
+class Employee {
+    +String socialSecurityNumber
+    +String name
+    +String email
+    +int totalEmployees
+}
+
+abstract class Staff {
+}
+
+class ResearchStaff extends Staff {
+}
+
+class AdministrativeStaff extends Staff {
+}
+
+class ResearchAssistant {
+    +String fieldOfResearch
+    +Institute[] assignedInstitutes
+}
+
+class Project {
+    +String name
+    +Date startDate
+    +Date endDate
+    +int hoursInvolved
+}
+
+class Lecturer {
+    +Course[] coursesTaught
+}
+
+class Course {
+    +String id
+    +String name
+    +int weeklyDuration
+}
+
+' Relationships
+
+University "1" *-- "many" Faculty : has
+Faculty "1" *-- "many" Institute : has
+Faculty "1" o-- "1" Employee : has dean
+Institute "1" *-- "many" ResearchAssistant : assigns
+
+Employee "1" ^-- "many" ResearchAssistant : is employee
+Employee "1" ^-- "many" AdministrativeStaff : is employee
+Employee "1" ^-- "many" ResearchStaff : is employee
+ResearchStaff "1" ^-- "many" ResearchAssistant : is research staff
+
+ResearchAssistant "1" *-- "many" Project : participates in
+ResearchAssistant "1" o-- "many" Lecturer : can be
+
+Lecturer "1" *-- "many" Course : teaches
+
+@enduml
+
+---
+
+### Explanation:
+
+- **University** contains multiple **Faculties**.
+- Each **Faculty** has a **Dean** (an **Employee**) and multiple **Institutes**.
+- An **Institute** has an **Address** and may assign **Research Assistants (RAs)**.
+- **Employee** is a base class with derived types: **AdministrativeStaff**, **ResearchStaff**, etc.
+- A **ResearchAssistant** is an **Employee** and a **ResearchStaff**, and can be a **Lecturer** if they teach **Courses**.
+- **Projects** are linked to RAs via the number of hours involved.
+- **Courses** are taught by **Lecturers** (which are also RAs).
+

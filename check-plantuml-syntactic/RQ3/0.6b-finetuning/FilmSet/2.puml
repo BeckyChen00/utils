@@ -1,0 +1,63 @@
+@startuml
+enum ControlState {
+  Idle
+  Actuated
+  Paused
+  Failed
+}
+enum SensorCategory {
+  Motion
+  Sound
+  Environmental
+  ObjectPresence
+}
+enum DataQualityLevel {
+  VeryGood
+  Good
+  Moderate
+  Poor
+  Critical
+}
+class Sensor {
+  sensorType: String
+  isCalibrated: boolean
+  +getUnitDescription(): String
+  +calibrate(): boolean
+}
+class DataSeries {
+  timestampOffsets: double[]
+  seriesName: String
+  qualityLevel: DataQualityLevel
+  +processData(): SensorData
+  +isValid(): boolean
+}
+class SensorData {
+  rawValue: double
+  +normalize(): double
+}
+class PatrolOrder {
+  priority: int
+  description: String
+  +generateSummary(): String
+  +execute(): boolean
+}
+class PatrolSchedule {
+  locationId: String
+  startTimestamp: Date
+  endTimestamp: Date
+  +calculateDuration(): int
+  +getCurrentState(): ControlState
+}
+class Notification {
+  messageContent: String
+  priority: ControlState
+  +send(): boolean
+}
+PatrolSchedule *-- "*" PatrolOrder : definedOrders
+PatrolSchedule *-- "*" PatrolOrder : activeOrders
+PatrolOrder --> "1" PatrolSchedule : targetSchedule
+PatrolOrder --> "*" Notification : generatedNotifications
+PatrolSchedule --> "*" SensorData : collectedData
+PatrolSchedule --> "1" DataSeries : recordedData
+PatrolSchedule --> "*" Notification : emittedNotifications
+@enduml

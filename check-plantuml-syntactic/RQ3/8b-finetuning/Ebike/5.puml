@@ -1,0 +1,46 @@
+@startuml
+class E_Bike {
+  model: String
+  +assemble(components: List<Component>): void
+  +disassemble(): void
+}
+class Frame {
+  material: String
+  +insertWheel(wheel: Wheel): void
+  +removeWheel(wheel: Wheel): void
+}
+class Material {
+  name: String
+  weight: double
+}
+class Wheel {
+  diameter: double
+  tirePressure: double
+}
+class DriveSystem {
+  motorPower: double
+  +activate(): void
+  +deactivate(): void
+}
+class Controller {
+  state: String
+  supportedProtocols: List<String>
+  variantType: String
+  +calculateNextInspectionDate(): Date
+  +controlDriveSystem(drive: DriveSystem): void
+  +controlBattery(battery: Battery): void
+}
+class Battery {
+  storedEnergy: int
+  capacity: int
+  +charge(targetLevel: int): void
+  +discharge(currentDraw: int): void
+}
+E_Bike *-- "1" Frame : frame
+E_Bike *-- "1" DriveSystem : driveSystem
+E_Bike *-- "1" Controller : controller
+Frame --> "*" Wheel : wheels
+DriveSystem --> "1" Controller : controller
+Controller --> "1" Battery : battery
+Battery --> "1" Material : casingsMaterial
+@enduml

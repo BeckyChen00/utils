@@ -1,0 +1,51 @@
+
+@startuml
+class City {
+  -name: String
+  -inhabitants: Integer
+}
+
+class Attraction {
+  -name: String
+  -address: String
+}
+
+class GuidedTour {
+  -duration: Integer
+  -maxParticipants: Integer = 20
+  -discountAmount: Double
+}
+
+class Person {
+  -name: String
+}
+
+class Visitor {
+  -discounts: Map<GuidedTour, Double>
+}
+
+class Guide {
+  -experienceLevel: String
+}
+
+City "1" --> "has many" Attraction : contains
+Attraction "1" --> "offers" GuidedTour : offers
+GuidedTour "1" --> "requires" Person : requires (Guide)
+Visitor "1" --> "is a" Person : extends
+Guide "1" --> "is a" Person : extends
+GuidedTour "1" --> "has" Visitor : participants
+@enduml
+
+### Explanation of the Diagram:
+
+- **City** has a name and a number of inhabitants.
+- **Attraction** has a name and an address.
+- **GuidedTour** includes:
+  - Duration in minutes (or hours),
+  - A maximum of 20 participants,
+  - Discount amount for certain visitors.
+- **Person** is a base class for both **Visitor** and **Guide**, both of which have names.
+- **Visitor** can be granted discounts for specific guided tours.
+- **Guide** is a type of person with additional attributes like experience level.
+
+This model captures the relationships between cities, attractions, guided tours, people, and discounts. Let me know if you'd like to add more features or refine the associations!

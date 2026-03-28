@@ -1,0 +1,136 @@
+
+---
+
+
+@startuml
+' Define classes and their attributes and methods
+
+class SmartHome {
+    - id: String
+    - address: String
+    + addRoom(room: Room): void
+    + removeRoom(roomId: String): void
+    + updateInfrastructure(): void
+}
+
+class Room {
+    - id: String
+    - name: String
+    + addDevice(device: Device): void
+    + removeDevice(deviceId: String): void
+}
+
+class Device {
+    - id: String
+    - status: Boolean
+    + activate(): void
+    + deactivate(): void
+}
+
+abstract class Sensor extends Device {
+    + readValue(): Double
+}
+
+abstract class Actuator extends Device {
+    + sendCommand(command: ControlCommand): void
+}
+
+class TemperatureSensor extends Sensor {}
+class MovementSensor extends Sensor {}
+class LightController extends Actuator {}
+class LockController extends Actuator {}
+
+class ActivityLog {
+    - logEntries: List<LogEntry>
+    + addReading(reading: SensorReading): void
+    + addCommand(command: ControlCommand): void
+}
+
+class SensorReading {
+    - deviceId: String
+    - roomId: String
+    - value: Double
+    - timestamp: DateTime
+}
+
+class ControlCommand {
+    - actuatorId: String
+    - roomId: String
+    - commandType: String
+    - timestamp: DateTime
+    - status: CommandStatus
+}
+
+enum CommandStatus {
+    requested, completed, failed
+}
+
+class User {
+    - username: String
+    - role: Role
+}
+
+enum Role {
+    owner, guest
+}
+
+class AutomationRule {
+    - id: String
+    - precondition: String
+    - action: List<ControlCommand>
+    - isActive: Boolean
+    - dependencies: List<AutomationRule>
+    - conflicts: List<AutomationRule>
+    + trigger(): void
+    + create(): void
+    + edit(): void
+    + activate(): void
+    + deactivate(): void
+}
+
+class Alert {
+    - ruleId: String
+    - timestamp: DateTime
+    - triggeredBy: AutomationRule
+}
+
+class LogEntry {
+    - entryId: String
+    - timestamp: DateTime
+    - description: String
+}
+
+' Relationships
+
+SmartHome "1" -- "0..*" Room : contains
+Room "1" -- "0..*" Device : contains
+Room "1" -- "0..*" SensorReading : records readings in
+Room "1" -- "0..*" ControlCommand : executes commands in
+
+Device <|-- Sensor
+Device <|-- Actuator
+Sensor "1" -- "0..*" SensorReading : generates
+Actuator "1" -- "0..*" ControlCommand : receives
+
+ActivityLog "1" -- "0..*" SensorReading : logs
+ActivityLog "1" -- "0..*" ControlCommand : logs
+
+User "1" -- "0..*" AutomationRule : manages
+AutomationRule "0..*" -- "0..*" AutomationRule : depends on/conflicts with
+AutomationRule "1" -- "1" Alert : triggers
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **`SmartHome`** is the central entity containing **Rooms**, which in turn contain **Devices**.
+- **Sensors** and **Actuators** are subclasses of **Device** with specific behaviors.
+- **ActivityLog** tracks both **SensorReadings** and **ControlCommands**.
+- **AutomationRule** allows users (especially owners) to define conditions and actions that can trigger **ControlCommands**.
+- The **Alert** class logs when a rule is triggered.
+
+---
+
+
+Let me know if you'd like to expand this to include more features like **UI components**, **security roles**, or **event-driven architecture**!

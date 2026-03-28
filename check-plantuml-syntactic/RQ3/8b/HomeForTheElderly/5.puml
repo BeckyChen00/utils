@@ -1,0 +1,148 @@
+
+---
+
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class Person {
+  +id: String
+  +name: String
+  +dateOfBirth: Date
+  +registrationDate: Date
+  +waitingListPosition: Integer
+}
+
+class Inhabitant {
+  +id: String
+  +person: Person
+  +currentStays: Set<Stay>
+  +waitingListEntries: Set<WaitingListEntry>
+}
+
+class WaitingListEntry {
+  +id: String
+  +typeOfStay: String (RH/RNH/SF)
+  +person: Person
+  +position: Integer
+}
+
+class Category {
+  +id: String
+  +name: String (RH/RNH/SF)
+  +pricePerMonth: Double
+}
+
+class Room {
+  +id: String
+  +department: Department
+  +beds: Set<Bed>
+}
+
+class Department {
+  +id: String
+  +name: String
+  +rooms: Set<Room>
+}
+
+class Bed {
+  +id: String
+  +room: Room
+  +category: Category
+  +isAvailable: Boolean
+}
+
+class Stay {
+  +id: String
+  +inhabitant: Inhabitant
+  +startDate: Date
+  +endDate: Date
+  +category: Category
+  +isSuspended: Boolean
+}
+
+class Proposal {
+  +id: String
+  +waitingListEntry: WaitingListEntry
+  +proposalDate: Date
+  +status: String (Pending/Accepted/Rejected/Invalidated)
+  +category: Category
+}
+
+class Invoice {
+  +id: String
+  +stay: Stay
+  +issueDate: Date
+  +dueDate: Date
+  +totalAmount: Double
+  +paidAmount: Double
+  +outstandingAmount: Double
+  +status: String (Pending/Paid/PartiallyPaid)
+}
+
+class Payment {
+  +id: String
+  +invoice: Invoice
+  +amount: Double
+  +paymentDate: Date
+  +method: String
+}
+
+class Assessment {
+  +id: String
+  +person: Person
+  +results: String
+  +date: Date
+  +typeOfStayRecommended: String
+}
+
+' Relationships
+
+Person "1" -- "1" Inhabitant : has
+Inhabitant "1" -- "0..*" WaitingListEntry : has
+WaitingListEntry "1" -- "1" Proposal : is linked to
+Proposal "1" -- "1" WaitingListEntry : is for
+Proposal "1" -- "1" Category : recommends
+Category "1" -- "0..*" Bed : has
+Department "1" -- "0..*" Room : has
+Room "1" -- "0..*" Bed : has
+Inhabitant "1" -- "0..*" Stay : has
+Stay "1" -- "1" Category : uses
+Stay "1" -- "1" Inhabitant : belongs to
+Invoice "1" -- "1" Stay : is for
+Invoice "1" -- "0..*" Payment : has
+Payment "1" -- "1" Invoice : is for
+Assessment "1" -- "1" Person : is for
+Assessment "1" -- "1" WaitingListEntry : determines
+
+@enduml
+
+---
+
+### 🧾 Summary of Classes and Relationships
+
+| Class Name        | Description |
+|-------------------|-------------|
+| **Person**        | Represents an individual with basic data like name, birth date, etc. |
+| **Inhabitant**    | A registered person who may be in multiple stays. |
+| **WaitingListEntry** | Entry for a person waiting for a specific type of stay. |
+| **Category**      | Defines types of stays (RH, RNH, SF) and their prices. |
+| **Room**          | A room in a department that contains beds. |
+| **Department**    | A division within the home containing rooms. |
+| **Bed**           | A bed in a room assigned to a category. |
+| **Stay**          | A period during which an inhabitant resides in a bed. Can be suspended. |
+| **Proposal**      | A suggestion made to a waiting list entry to accept a stay. |
+| **Invoice**       | Monthly invoice for a stay. Can be partially paid or unpaid. |
+| **Payment**       | An event representing a payment towards an invoice. |
+| **Assessment**    | Evaluation of a person's needs to determine suitable stay type. |
+
+---
+
+### 📝 Notes:
+- **Associations** are shown with multiplicity and labels.
+- **Attributes** include both identifiers and relevant data fields.
+- **Behavioral aspects** such as status (`Pending`, `Accepted`, `Rejected`) are modeled as properties.
+- The system supports **suspended stays**, **waiting lists**, and **invoicing logic** for multiple concurrent stays with discounts.
+
+---
+

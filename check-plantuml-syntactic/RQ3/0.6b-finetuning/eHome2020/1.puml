@@ -1,0 +1,35 @@
+@startuml
+enum JobStatus {
+  Scheduled
+  Running
+  Completed
+  Failed
+}
+enum MaterialType {
+  Plastic
+  Metal
+  Glass
+  Wooden
+}
+class ProductionOrder {
+  orderDate: Date
+  isUrgent: boolean
+  +updateStatus(newStatus: JobStatus): void
+  +cancelOrder(): void
+}
+class BatchJob {
+  status: JobStatus
+  isCritical: boolean
+  +execute(): void
+  +updateStatus(newStatus: JobStatus): void
+}
+class ProductionCycle {
+  cycleName: String
+  cycleDurationHours: double
+  +scheduleBatch(startTime: Date, endTime: Date): BatchJob
+  +getNextCycle(): ProductionCycle
+}
+ProductionCycle "1" *-- "0..*" BatchJob : batches
+ProductionOrder "1" --> "0..*" BatchJob : containedJobs
+BatchJob "1" *-- "1" ProductionCycle : executionCycle
+@enduml

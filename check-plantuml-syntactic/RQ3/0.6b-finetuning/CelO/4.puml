@@ -1,0 +1,55 @@
+@startuml
+enum RiskCategory {
+  NonViolent
+  Violent
+  Dehumanizing
+  Harmful
+}
+enum ResponseStatus {
+  Pending
+  Completed
+  Cancelled
+  InProgress
+}
+class InterventionResponse {
+  weightFactor: int
+  isEmergency: boolean
+  notes: String
+  responseStatus: ResponseStatus
+  +calculateSeverity(): RiskCategory
+  +getSummary(): String
+}
+class HotlineCall {
+  isEmergency: boolean
+  callLogId: String
+  timestamp: Date
+  +getOperatorMessage(): String
+}
+class SafetyAdvisor {
+  name: String
+  expertise: String
+  +authorizeCall(network: ContactPoint, priorityLevel: int): HotlineCall
+}
+class ContactPoint {
+  location: String
+  defaultCategory: RiskCategory
+  +getPriorityLevel(): int
+}
+class ResponseRecord {
+  actionTaken: String
+  durationMinutes: int
+  isCompleted: boolean
+  +getStatusReport(): String
+}
+class RiskAssessment {
+  assessmentDate: Date
+  riskLevel: RiskCategory
+  indicatorValues: int[]
+  +generateReport(): String
+}
+ContactPoint *-- "1..*" InterventionResponse : hostedResponses
+HotlineCall --> "1" ContactPoint : originatingPoint
+SafetyAdvisor --> "0..*" HotlineCall : authorizedCalls
+ResponseRecord --> "1" HotlineCall : sourcedCall
+ResponseRecord *-- "1" RiskAssessment : supportingAssessment
+@enduml

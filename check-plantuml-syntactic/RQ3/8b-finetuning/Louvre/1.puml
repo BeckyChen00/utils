@@ -1,0 +1,64 @@
+@startuml
+enum ExhibitionStatus {
+  PlanningPhase
+  ResearchPhase
+  NegotiationPhase
+  OnDisplay
+  MaintenancePhase
+}
+enum ExhibitionCategory {
+  ArtHistory
+  Architecture
+  NaturalScience
+  CulturalHeritage
+  Technology
+  Literature
+  Music
+}
+class MuseumLocation {
+  locationName: String
+  maximumCapacity: int
+  +getAvailableDate(startDate: Date): Date
+}
+class Exhibition {
+  exhibitionName: String
+  startYear: int
+  currentStatus: ExhibitionStatus
+  category: ExhibitionCategory
+  +assignCoordinator(coordinator: Employee): void
+  +addItem(item: ExhibitionItem): void
+}
+class ExhibitionItem {
+  itemName: String
+  description: String
+  requiredKeyword: String
+  +requestPiece(collector: Collector, pieceDetails: String): LoanAgreement
+}
+class LoanAgreement {
+  loanTerms: String
+  isInsuranceRequired: boolean
+  +approve(): boolean
+  +reject(): void
+}
+class Employee {
+  employeeName: String
+  role: String
+  +hasAccessTo(location: MuseumLocation): boolean
+  +isActive(): boolean
+}
+class Coach {
+  +mentorUnderling(employee: Employee): void
+}
+class Collector {
+  collectorName: String
+  specialization: String
+  +hasPiece(item: ExhibitionItem): boolean
+}
+Employee "1" *-- "0..*" LoanAgreement : executedAgreements
+Employee "1" *-- "0..*" Coach : mentees
+Exhibition "1" *-- "0..*" ExhibitionItem : includedItems
+ExhibitionItem "0..*" --> "0..*" LoanAgreement : requestedLoans
+LoanAgreement "0..*" --> "0..1" Collector : sourcedFrom
+LoanAgreement "0..*" --> "1" Employee : signedBy
+Employee "0..*" --> "1" MuseumLocation : assignedLocation
+@enduml

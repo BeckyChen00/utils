@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//JewelryItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JewelryItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="materialType" eType="#//MaterialSpecification" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="colorPalette" eType="#//ColorPalette" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedBudget" eType="#//BudgetAllocation" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="designerProfile" eType="#//DesignerProfile" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="safetyRating" eType="#//SafetyRating"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaterialSpecification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ColorPalette"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BudgetAllocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DesignerProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyRating"/>
+</ecore:EPackage>

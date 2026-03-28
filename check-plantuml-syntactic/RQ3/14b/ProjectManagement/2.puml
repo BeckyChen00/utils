@@ -1,0 +1,70 @@
+
+@startuml
+' Class Diagram for Research Project Management System
+
+class Department {
+  -id: int
+  -name: String
+}
+
+class ResearchGroup {
+  -id: int
+  -name: String
+  -department: Department
+}
+
+class Researcher {
+  -id: int
+  -name: String
+  -currentResearchGroup: ResearchGroup
+}
+
+class Project {
+  -id: int
+  -title: String
+  -startDate: Date
+  -endDate: Date
+}
+
+class WorkPackage {
+  -id: int
+  -title: String
+  -project: Project
+  -leadingResearchGroup: ResearchGroup
+}
+
+class Assignment {
+  -id: int
+  -researcher: Researcher
+  -workPackage: WorkPackage
+  -startDate: Date
+  -endDate: Date
+  -createdBy: ResearchGroup
+}
+
+' Relationships
+Department "1" --> "0..*" ResearchGroup : contains
+ResearchGroup "1" --> "0..*" Researcher : contains
+Project "1" --> "0..*" WorkPackage : contains
+WorkPackage "1" --> "1" ResearchGroup : led by
+Researcher "0..*" --> "0..*" Assignment : assigned to
+WorkPackage "0..*" --> "0..*" Assignment : has team members
+
+' Note about service delivery traceability
+note right of Assignment
+  Service delivery is tracked via this assignment.
+  When researcher changes group or WP leadership changes,
+  assignments are terminated and re-created.
+end note
+@enduml
+
+### Explanation of Key Elements:
+
+- **Department**: A department can contain many research groups.
+- **ResearchGroup**: Belongs to one department and contains researchers.
+- **Researcher**: Belongs to exactly one research group at any time.
+- **Project**: Contains multiple work packages.
+- **WorkPackage**: Part of a project and led by one research group.
+- **Assignment**: Links a researcher to a work package, with dates and tracking of which group created the assignment (i.e., who "delivered" the service).
+
+This model ensures that even if a researcher moves groups or the leadership of a WP changes, the historical record of service delivery is preserved in the `Assignment` class.

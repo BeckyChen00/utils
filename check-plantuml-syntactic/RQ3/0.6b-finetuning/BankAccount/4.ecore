@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Shipment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="updatedShipment" eType="#//plantuml"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedRecords" eType="#//ServiceRecord" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RentalContract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rentedMachines" eType="#//Machine" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providerVendor" eType="#//Vendor" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfilledOrders" eType="#//WorkOrder" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredParts" eType="#//SparePart" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Machine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Vendor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryTechnician" eType="#//Technician" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredLogs" eType="#//MaintenanceLog" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Technician">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedMachines" eType="#//Machine" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SparePart"/>
+</ecore:EPackage>

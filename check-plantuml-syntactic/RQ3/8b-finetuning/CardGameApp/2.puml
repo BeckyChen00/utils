@@ -1,0 +1,59 @@
+@startuml
+enum SuitType {
+  Diamonds
+  Hearts
+  Spades
+  Clubs
+}
+enum PlayState {
+  Valid
+  Invalid
+  NotPlayed
+  Skipped
+}
+enum HandType {
+  Regular
+  JackSolo
+  QueenSolo
+  TrumpSolo
+  NoSolo
+}
+class Card {
+  suit: SuitType
+  isTrump: boolean
+  height: int
+  +compareTo(other: Card): PlayState
+}
+class Player {
+  name: String
+  id: String
+  +playCard(card: Card): void
+  +isEligibleForSolo(): boolean
+}
+class Deck {
+  cards: List<Card>
+  +deal(): Card
+  +shuffle(): void
+}
+class Round {
+  roundNumber: int
+  isJackRound: boolean
+  isSoloRound: boolean
+  soloType: HandType
+  soloPlayer: Player
+  +calculateScoring(isMandatory: boolean): int
+  +getWinners(): List<Player>
+  +validateMove(player: Player, card: Card): boolean
+}
+class ScoringTable {
+  history: List<Round>
+  +addRound(round: Round): void
+  +getHistory(): List<Round>
+  +computeTotalScore(): int
+}
+Deck *-- "1..*" Card : cards
+Player --> "0..1" Round : currentRound
+ScoringTable *-- "1..*" Round : rounds
+Round --> "1..*" Card : playedCards
+Player --> "0..1" Card : heldCard
+@enduml

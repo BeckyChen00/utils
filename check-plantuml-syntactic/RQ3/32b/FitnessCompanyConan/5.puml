@@ -1,0 +1,87 @@
+
+@startuml
+
+' Define classes and their attributes
+class FitnessCenter {
+    +string name : unique
+    +string address
+}
+
+class Room {
+    +int roomNumber : unique within FitnessCenter
+    +int maxCapacity
+}
+
+class Person {
+    +string firstName
+    +string lastName
+    +date birthDate : unique combination with firstName and lastName
+}
+
+class Trainer {
+    +string diploma
+}
+
+class Session {
+    +date sessionDate
+    +time startTime
+    +Room room
+    +FitnessCenter center
+}
+
+class GroupSession {
+    +string type (e.g., aerobics, bodystyling)
+    +Trainer trainer
+}
+
+class IndividualSession {}
+
+class Participation {
+    +Person person
+    +Session session
+}
+
+class Supervision {
+    +Trainer trainer
+    +GroupSession groupSession
+}
+
+' Inheritance
+Person <|-- Trainer
+Session <|-- GroupSession
+Session <|-- IndividualSession
+
+' Associations
+FitnessCenter "1" *-- "many" Room
+Room "1" *-- "many" Session
+FitnessCenter "1" *-- "many" Session
+Person "0..*" -- "0..*" Participation : participates in
+Session "1" *-- "0..*" Participation
+Trainer "0..*" -- "0..*" Supervision : supervises
+GroupSession "1" *-- "0..1" Supervision
+
+' Constraints
+note right of Session
+  At a given start hour of a given day,
+  at most one individual or group session 
+  can start in a given room of a given center.
+end note
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+- **FitnessCenter**: Each has a unique name and address.
+- **Room**: Identified by number within a center and has a maximum capacity.
+- **Person**: Base class for all individuals. Includes name, surname, and birth date (unique together).
+- **Trainer**: A subclass of Person; stores additional diploma information.
+- **Session**: Abstract base class with date, time, room, and center.
+- **GroupSession**: Extends `Session`, includes session type and references a `Trainer`.
+- **IndividualSession**: Extends `Session`, no trainer involved.
+- **Participation**: Many-to-many relationship between `Person` and `Session`.
+- **Supervision**: Links `Trainer` to `GroupSession`.
+
+This model allows for tracking both members and trainers across multiple sessions and centers while ensuring constraints like room scheduling are respected.
+
+Let me know if you want this rendered as an image or integrated into documentation!

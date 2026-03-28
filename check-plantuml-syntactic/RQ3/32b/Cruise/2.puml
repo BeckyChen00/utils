@@ -1,0 +1,86 @@
+
+@startuml
+
+' Define classes with attributes
+
+class Provider {
+    - name: String
+    - location: String
+}
+
+class Cruise {
+    - cruiseNumber: int
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - destinationArea: DestinationArea
+}
+
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+}
+
+class Guest {
+    - name: String
+    - isVIP: boolean
+}
+
+class Ship {
+    - name: String
+    - numberOfDecks: int
+    - length: double
+    - maxPassengers: int
+}
+
+class TravelAgency {
+    - name: String
+    - address: String
+}
+
+class Booking {
+    - bookingNumber: String
+    - bookingDate: Date
+}
+
+class DestinationArea {
+    - name: String
+    - seaName: String
+}
+
+class Show {
+    - title: String
+    - duration: int  // in minutes
+}
+
+class Ticket {
+    - ticketId: int
+}
+
+' Relationships
+
+Provider "1" -- "many" Cruise : organizes
+Cruise "1" -- "many" Employee : requires
+Cruise "1" -- "many" Guest : has
+Cruise "1" -- "1" Ship : uses
+Cruise "1" -- "many" Show : offers
+Cruise "1" -- "1" DestinationArea : heads to
+TravelAgency "1" -- "many" Booking : handles
+Booking "1" -- "1" Cruise : for
+Booking "1" -- "1" Guest : by
+Ticket "1" -- "1" Cruise : belongs to
+Guest "0..*" -- "0..*" Cruise : participates in
+Guest "0..*" -- "0..*" Ticket : owns (1 per cruise)
+
+@enduml
+
+---
+
+### Explanation of Key Points:
+- **Multiplicity**: Indicated where necessary (e.g., `0..*` means zero or more).
+- **Aggregation/Composition**: Not explicitly shown, but you can infer some composition (e.g., a `Cruise` **composes** a `Ticket`).
+- **Uniqueness Constraints**:
+  - Each `Ticket` belongs to **exactly one** `Cruise`.
+  - A `Guest` may have **multiple tickets**, but only **one per cruise**.
+- **Inheritance**: Not needed in this case; all are simple value-based classes.
+

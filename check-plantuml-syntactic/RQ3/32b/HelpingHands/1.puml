@@ -1,0 +1,155 @@
+
+---
+
+
+@startuml
+
+' Classes
+class Resident {
+    +String name
+    +String streetAddress
+    +String phoneNumber
+    +String email (optional)
+    +List<Item> itemsToPickup
+    +Date pickupDate
+}
+
+class PickupRequest {
+    +Resident resident
+    +Date scheduledDate
+    +TimeWindow timeWindow
+    +List<Item> items
+    +String status
+}
+
+class Item {
+    +String description
+    +double weight
+    +double dimensions
+    +Category category
+}
+
+class Category {
+    +int id
+    +String name
+}
+
+class VolunteerDriver {
+    +String name
+    +String contactInfo
+    +Set<DayOfWeek> availableDays
+}
+
+class Vehicle {
+    +String licensePlate
+    +double maxStorageCapacity
+    +VolunteerDriver assignedDriver
+    +List<PickupRequest> scheduledPickups
+}
+
+class PickupRoute {
+    +Vehicle vehicle
+    +List<Location> route
+    +Date date
+    +Time startTime
+    +Time endTime
+}
+
+class Location {
+    +String address
+    +double latitude
+    +double longitude
+}
+
+class DistributionCenter {
+    +String name
+    +Location location
+    +List<Article> receivedArticles
+    +Employee manager
+}
+
+class Employee {
+    +String name
+    +String role
+    +DistributionCenter assignedCenter
+}
+
+class Article {
+    +Item item
+    +String RFIDTag
+    +String qualityStatus
+    +Category category
+}
+
+class FoodBank {
+    +String name
+    +Location location
+}
+
+class Client {
+    +String name
+    +String homeAddress
+    +Set<Category> interestedCategories
+    +List<Article> requestedArticles
+}
+
+class DeliveryRequest {
+    +Client client
+    +Article article
+    +Date scheduledDeliveryDate
+    +VolunteerDriver assignedDriver
+}
+
+' Relationships
+Resident "1" -- "0..*" PickupRequest : places
+PickupRequest "1" -- "1" Item : includes
+PickupRequest "1" -- "1" TimeWindow : has
+PickupRequest "1" -- "1" Location : at
+PickupRequest "1" -- "1" PickupRoute : part of
+PickupRoute "1" -- "1" Vehicle : assigned to
+Vehicle "1" -- "1" VolunteerDriver : driven by
+VolunteerDriver "1" -- "0..*" DayOfWeek : available on
+PickupRoute "1" -- "0..*" PickupRequest : contains
+Item "1" -- "1" Category : belongs to
+Article "1" -- "1" Item : represents
+Article "1" -- "1" Category : categorized as
+Article "1" -- "1" DistributionCenter : delivered to
+Client "1" -- "0..*" Category : interested in
+Client "1" -- "0..*" DeliveryRequest : requests
+DeliveryRequest "1" -- "1" VolunteerDriver : handled by
+DeliveryRequest "1" -- "1" Article : delivers
+DistributionCenter "1" -- "1" Employee : managed by
+PickupRequest "1" -- "1" Resident : from
+PickupRequest "1" -- "1" PickupRoute : added to
+
+note right of DistributionCenter
+    In some cities, H2S offers
+    delivery services to clients.
+end note
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Entities:
+
+- **Resident**: Submits a pickup request with personal info and item descriptions.
+- **PickupRequest**: A request made by a resident to have items picked up.
+- **Item & Category**: Represents donated items and their classifications.
+- **VolunteerDriver & Vehicle**: Volunteers who drive pickup/delivery vehicles.
+- **PickupRoute**: Daily schedule for a volunteer driver's pickups.
+- **DistributionCenter**: Where articles are sorted, tagged, and cataloged.
+- **FoodBank**: Direct drop-off point for non-perishable food items.
+- **Client & DeliveryRequest**: For clients who need assistance receiving articles via delivery.
+
+---
+
+### 💡 Notes:
+- The diagram supports both **pickup** and **delivery** operations.
+- The **category list** is standardized with 134 categories.
+- Only **second-hand articles** go through the distribution center; **food items** are sent directly to the food bank.
+- Some cities offer **delivery service**, which is modeled separately.
+
+---
+
+Let me know if you want this rendered as an image or extended to include use cases or sequence diagrams!

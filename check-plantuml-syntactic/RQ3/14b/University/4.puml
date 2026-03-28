@@ -1,0 +1,83 @@
+
+@startuml
+skinparam classAttributeIconName false
+
+class University {
+  -faculties: List<Faculty>
+  -totalEmployees: int
+}
+
+class Faculty {
+  -name: String
+  -dean: Dean
+  -institutes: List<Institute>
+}
+
+class Institute {
+  -name: String
+  -address: String
+}
+
+class Dean {
+  -socialSecurityNumber: String
+  -name: String
+  -email: String
+}
+
+class Employee {
+  -socialSecurityNumber: String
+  -name: String
+  -email: String
+}
+
+class ResearchAssistant {
+  -fieldOfResearch: String
+  -projects: List<Project>
+  -coursesTaught: List<Course>
+}
+
+class Project {
+  -name: String
+  -startDate: Date
+  -endDate: Date
+  -hours: int
+}
+
+class Course {
+  -courseID: String
+  -name: String
+  -weeklyDuration: int
+}
+
+class Lecturer {
+  -coursesTaught: List<Course>
+}
+
+class AdministrativeStaff {
+  // No specific attributes mentioned
+}
+
+' Relationships
+University "1" --> "0..*" Faculty
+Faculty "1" --> "1" Dean
+Faculty "1" --> "0..*" Institute
+Institute "1" --> "0..*" ResearchAssistant
+ResearchAssistant "1" --> "0..*" Project
+ResearchAssistant "1" --> "0..*" Course
+Course "1" --> "0..*" Lecturer
+Employee "1" --> "0..*" ResearchAssistant
+Employee "1" --> "0..*" AdministrativeStaff
+ResearchAssistant "1" --> "1" Employee
+AdministrativeStaff "1" --> "1" Employee
+@enduml
+
+### Explanation of Key Elements:
+- `University` contains multiple `Faculty` and tracks the total number of employees.
+- Each `Faculty` has a `Dean` (which is an `Employee`) and may contain multiple `Institute`s.
+- Each `Institute` has a name and address, and can have multiple `ResearchAssistant`s.
+- `ResearchAssistant` is a type of `Employee`, and they are associated with projects and courses. If they teach, they are also considered `Lecturer`s.
+- `Project` includes details like name, start date, end date, and hours.
+- `Course` has a unique ID, name, and weekly duration.
+- `Employee` is a base class for both `ResearchAssistant` and `AdministrativeStaff`.
+
+Let me know if you'd like this exported as a PNG or need any refinements!

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeTreatments" eType="#//Treatment" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Treatment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="treatsIllness" eType="#//Illness" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiresConsent" eType="#//Consent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Doctor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeDiagnoses" eType="#//Diagnosis" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authorizedTreatments" eType="#//Treatment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Diagnosis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagnosedIllness" eType="#//Illness" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendedStages" eType="#//TreatmentStage" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Illness">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prioritizedSlots" eType="#//TimeSlot" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentStage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Consent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Nurse">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSlots" eType="#//TimeSlot" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredPatients" eType="#//Patient" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeSlot"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient"/>
+</ecore:EPackage>

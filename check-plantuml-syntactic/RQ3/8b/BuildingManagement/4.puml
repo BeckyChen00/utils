@@ -1,0 +1,167 @@
+
+---
+
+
+@startuml
+
+' Actors
+actor "Visitor" as Visitor
+actor "User" as User
+actor "Administrator" as Admin
+
+' Classes
+
+class WebPortal {
+  - versionNumber: String
+  - url: String
+  - catalog: Set<Building>
+}
+
+class Building {
+  - id: String
+  - name: String
+  - energyClass: String (A, B, C, D)
+  - address: String
+  - yearOfConstruction: int
+  - owner: User
+  - images: Set<Image>
+  - profilePhoto: Image
+}
+
+class Image {
+  - fileName: String
+}
+
+class AdditionalEntry {
+  - name: String
+  - content: Object (text or float)
+  - unit: String
+  - isPublic: Boolean
+  - building: Building
+}
+
+class User {
+  - username: String
+  - email: String
+  - password: String
+  - buildings: Set<Building>
+  - comments: Set<Comment>
+}
+
+class Comment {
+  - text: String
+  - author: User
+  - building: Building
+}
+
+class Administrator extends User {
+  - idCardNumber: String
+}
+
+' Relationships
+
+WebPortal "1" -- "0..*" Building : has
+Building "1" -- "1" User : owned by
+User "1" -- "0..*" AdditionalEntry : has
+AdditionalEntry "1" -- "1" Building : belongs to
+User "1" -- "0..*" Comment : has
+Comment "1" -- "1" Building : related to
+User "1" -- "0..*" Image : has
+Image "1" -- "0..*" Building : belongs to
+Administrator "1" -- "0..*" User : manages
+Administrator "1" -- "0..*" Comment : deletes
+
+' Use Cases (grouped under actors)
+
+[Use Case] as UC1
+UC1 --> User
+UC1 : Register
+UC1 : Confirm Email
+UC1 : Activate Account
+
+[Use Case] as UC2
+UC2 --> User
+UC2 : Login
+
+[Use Case] as UC3
+UC3 --> User
+UC3 : Create Building
+
+[Use Case] as UC4
+UC4 --> User
+UC4 : Manage Entries
+
+[Use Case] as UC5
+UC5 --> User
+UC5 : Comment on Building
+
+[Use Case] as UC6
+UC6 --> Visitor
+UC6 : Search Buildings
+
+[Use Case] as UC7
+UC7 --> Admin
+UC7 : Setup User Account
+
+[Use Case] as UC8
+UC8 --> Admin
+UC8 : Delete Comments
+
+[Use Case] as UC9
+UC9 --> User
+UC9 : Release Entry Publicly
+
+[Use Case] as UC10
+UC10 --> User
+UC10 : Upload Image
+
+@enduml
+
+---
+
+### ✅ **Explanation of Key Elements**
+
+#### **Actors**
+- `Visitor`: Can search for buildings.
+- `User`: Can register, login, create buildings, manage entries, comment, and upload images.
+- `Administrator`: A special type of user with additional privileges (setup users, delete comments).
+
+#### **Classes**
+- `WebPortal`: Represents the portal with version and URL, and holds a catalog of buildings.
+- `Building`: Has details like name, energy class, and is owned by a user.
+- `Image`: Saved with a file name; one image is used as the profile photo.
+- `AdditionalEntry`: Textual or numerical data with optional public visibility.
+- `User`: Base class for all users, including administrators.
+- `Comment`: A user can comment on a building.
+- `Administrator`: Extends `User` and adds an ID card number.
+
+#### **Relationships**
+- One-to-many: `WebPortal` contains many `Building`s.
+- One-to-one: A `Building` has one `owner` (`User`).
+- One-to-many: A `User` can have many `AdditionalEntry`s and `Comment`s.
+- One-to-many: A `Building` can have many `Image`s.
+
+#### **Use Cases**
+- **UC1**: Register & confirm email
+- **UC2**: Login
+- **UC3**: Create a building
+- **UC4**: Manage entries (add/edit/delete)
+- **UC5**: Comment on a building
+- **UC6**: Search for buildings (by visitor)
+- **UC7**: Setup user account (admin)
+- **UC8**: Delete comments (admin)
+- **UC9**: Make entry public
+- **UC10**: Upload image
+
+---
+
+### 💡 **Notes**
+- Generalization is used between `Administrator` and `User`.
+- All use cases are mapped to appropriate actors.
+- Relationships reflect the domain logic described in the requirement.
+
+---
+
+### 📝 **To Render the Diagram**
+
+Let me know if you'd like a visual version of this diagram!

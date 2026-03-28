@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//BankAccount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BankAccount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedInvoices" eType="#//Invoices" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedAccounts" eType="#//BankAccount" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedCards" eType="#//CreditCard" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initiatedPayments" eType="#//PaymentProcessing" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoices">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//Customer" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactions" eType="#//Transaction" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreditCard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactions" eType="#//Transaction" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transaction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReconciliationReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reportedBy" eType="#//Customer" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedCard" eType="#//CreditCard" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceAccount" eType="#//BankAccount" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedBy" eType="#//Invoices" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetAccount" eType="#//BankAccount" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentProcessing">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedInvoice" eType="#//Invoices" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,46 @@
+
+@startuml
+' Class Diagram for Tourist Attractions System
+
+class City {
+  -name: String
+  -inhabitants: Integer
+}
+
+class Attraction {
+  -name: String
+  -address: String
+}
+
+class GuidedTour {
+  -duration: Integer
+  -maxVisitors: Integer = 20
+  -discountAmount: Double
+}
+
+class Visitor {
+  -name: String
+}
+
+class Guide {
+  -name: String
+}
+
+' Associations
+
+City "1" -- "0..*" Attraction : has
+
+Attraction "1" -- "0..*" GuidedTour : offers
+
+GuidedTour "1" -- "0..20" Visitor : includes
+GuidedTour "1" -- "1" Guide : requires
+
+@enduml
+
+### Explanation of the Diagram:
+- **`City`** contains multiple **`Attraction`** instances.
+- Each **`Attraction`** can offer multiple **`GuidedTour`** instances.
+- Each **`GuidedTour`** has a fixed maximum of 20 **`Visitor`**s and is led by one **`Guide`**.
+- A **`GuidedTour`** may have a discount amount, which applies to certain visitors.
+- Both **`Visitor`** and **`Guide`** are people with names.
+

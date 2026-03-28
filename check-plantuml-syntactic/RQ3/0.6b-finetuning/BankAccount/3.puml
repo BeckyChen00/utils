@@ -1,0 +1,225 @@
+@startuml
+enum CapabilityStatus {
+  Active
+  Pending
+  Expired
+  Maintenance
+  Unknown
+}
+enum SubscriptionTier {
+  Free
+  Pro
+  Enterprise
+}
+enum UtilizationMetric {
+  ValidityDays
+  SectorCoverage
+  PeakFrequency
+  MinutelyActive
+  HourlyOnPeak
+  WeeklyPeak
+}
+class ZoologicalUnit {
+  unitName: String
+  habitatType: String
+  capitalBudget: double
+  currentPopulation: int
+  +generateUnitReport(count: int): String
+  +validateEntry(entry: Entry): boolean
+}
+class Animal {
+  animalName: String
+  speciesType: String
+  ageInYears: int
+  +
+}
+class MedicalRecord {
+  recordDate: Date
+  treatmentNotes: String
+  +isUpToDate(): boolean
+}
+class MonitorSession {
+  startTime: Date
+  endTime: Date
+  durationMinutes: int
+  +calculatePace(): double
+  +generateSessionSummary(): String
+}
+class Entry {
+  entryTimestamp: Date
+  entryCount: int
+  remark: String
+  +isValidEntry(): boolean
+}
+class AnimalCarePlan {
+  planDescription: String
+  startDate: Date
+  endDate: Date
+  +assignToUnit(unit: ZoologicalUnit): void
+}
+class SpeciesProfile {
+  scientificName: String
+  commonName: String
+  conservationStatus: String
+  +isConserved(): boolean
+}
+class FeatureProfile {
+  featureTags: String[]
+  featureDefinition: String
+  +isFeatureBased(): boolean
+}
+class AnalysisReport {
+  generationDate: Date
+  summaryKey: String
+  +formatReportFormat(formatType: String): String
+}
+class DailyUtilizationLog {
+  utilizationMetric: UtilizationMetric
+  utilizationUnits: double
+  isDynamic: boolean
+  +formatUtilizationSheet(): String
+}
+class AlertRule {
+  ruleDescription: String
+  threshold: double
+  isActive: boolean
+  +triggerAlert(): void
+}
+class SimulationEngine {
+  simulationName: String
+  iterationStep: int
+  currentStage: String
+  +execute(): void
+  +getSimulationStep(): int
+}
+class TieredSubscription {
+  tierName: String
+  maxPurchasedCount: int
+  monthlyFee: double
+  +calculateTotalCost(): double
+  +getSubscriptionStatus(): SubscriptionTier
+  +renewSubscription(): boolean
+}
+class DataSyncService {
+  syncIntervalHours: int
+  +syncData(backupRepository: BackupRepository): boolean
+  +generateSnapshot(): String
+}
+class AuditLog {
+  logEvent: String
+  timestamp: Date
+  +recordAction(action: String): boolean
+}
+class ReportingEngine {
+  reportFrequency: String
+  +generateAccountSummary(unit: ZoologicalUnit): String
+  +generateUsageReport(unit: ZoologicalUnit): String
+  +exportReport(formatType: String): String
+}
+class SimulationSchedule {
+  startDate: Date
+  endDate: Date
+  activityCount: int
+  +isActive(): boolean
+}
+class SensorReading {
+  timestamp: Date
+  readingValue: double
+  unitType: String
+  +isValid(): boolean
+}
+class AnalyticsService {
+  +analyzeRecord(record: MedicalRecord): AnalysisReport
+  +analyzeSession(session: MonitorSession): AnalysisReport
+}
+class TelemetryHub {
+  hubName: String
+  +connectUnit(unit: ZoologicalUnit): void
+  +getActiveHubs(): List<String>
+}
+class LocationSnapshot {
+  locationName: String
+  latitude: double
+  longitude: double
+  +isWithinRange(): boolean
+}
+class TransactionLog {
+  transactionTime: Date
+  amount: double
+  type: String
+  +verifyTransaction(): boolean
+}
+class BeaconUnit {
+  isActive: boolean
+  frequency: String
+  +broadcastSignal(): void
+  +recordLocation(latitude: double, longitude: double): LocationSnapshot
+}
+class MicroService {
+  serviceName: String
+  version: String
+  +invokeService(target: Object): void
+  +validate(): boolean
+}
+class RegionalDistribution {
+  regionCode: String
+  populationDensity: double
+  +aggregateUnits(): List<ZoologicalUnit>
+}
+class SystemAdministrator {
+  +configureZoologicalUnit(unit: ZoologicalUnit, config: String): void
+  +monitorHealth(zoologicalUnits: List<ZoologicalUnit>): void
+  +generateSystemReport(): String
+}
+class UserAccount {
+  username: String
+  role: String
+  +executeAction(action: String): boolean
+}
+class BackupRepository {
+  repositoryName: String
+  storageCapacity: double
+  +storeData(data: String): boolean
+  +retrieveData(): String
+}
+class ServiceCatalog {
+  catalogName: String
+  +lookupService(name: String): MicroService
+  +getServiceVersion(serviceName: String): String
+}
+ZoologicalUnit *-- "1" SpeciesProfile : speciesProfile
+ZoologicalUnit *-- "*" AnimalCarePlan : carePlans
+Animal *-- "*" MedicalRecord : medicalRecords
+AnimalCarePlan *-- "*" Animal : assignedAnimals
+AnimalCarePlan --> "1" SpeciesProfile : targetSpecies
+MonitorSession --> "1" ZoologicalUnit : monitoredUnit
+MonitorSession *-- "1" AlarmEvent : alarmEvent
+MonitorSession *-- "*" SensorReading : monitoringReadings
+MonitorSession *-- "1" AlertRule : activeAlertRule
+MonitorSession --> "1" TelemetryHub : telemetryHub
+MonitorSession --> "1" UserAccount : analystAccount
+MonitorSession *-- "1" AnalyticsService : analyticsService
+ZoologicalUnit *-- "1" FeatureProfile : characteristicProfile
+ZoologicalUnit *-- "*" LocationSnapshot : locationSnapshots
+ZoologicalUnit --> "1" SpeciesProfile : speciesProfile
+MonitoringService --> "*" ZoologicalUnit : monitoredUnits
+SystemAdministrator --> "*" ZoologicalUnit : managedUnits
+UserAccount --> "*" ZoologicalUnit : managedUnits
+ZoologicalUnit --> "1" RegionalDistribution : regionalDistribution
+ZoologicalUnit --> "1" TieredSubscription : currentSubscription
+ZoologicalUnit --> "1" TransactionLog : transactionHistory
+ZoologicalUnit --> "1" BackupRepository : storageRepository
+SystemAdministrator --> "1" TieredSubscription : configuredSubscription
+SystemAdministrator --> "1" AnalyticsService : managedAnalytics
+UserAccount --> "*" TieredSubscription : managedSubscriptions
+UserAccount --> "*" MonitoringService : usedServices
+UserAccount --> "*" ZoologicalUnit : accessedUnits
+MonitoringService --> "*" SensorReading : monitoredReadings
+SystemAdministrator --> "*" SimulationEngine : controlledSimulations
+SimulationEngine --> "1" RegionalDistribution : simulatedRegion
+SimulationEngine --> "*" DataSyncService : dataSyncers
+AnalyticsService --> "*" DataSyncService : dataSync
+SystemAdministrator --> "*" AnalyticsService : managedAnalytics
+ZoologicalUnit --> "*" DataSyncService : syncServices
+ZoologicalUnit -- SystemAdministrator
+@enduml

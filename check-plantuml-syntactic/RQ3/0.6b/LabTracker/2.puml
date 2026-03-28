@@ -1,0 +1,28 @@
+@startuml
+
+class Diagram {systemRequirement}
+
+# System Requirement
+class systemRequirement {
+  # of users, number of devices, network configuration, etc.
+}
+
+class diagramUsers {
+  user1, user2, user3 ...
+}
+
+class diagramDevices {
+  device1, device2, device3 ...
+}
+
+class diagramNetworks {
+  network1, network2, network3 ...
+}
+
+class diagramSystem {
+  systemRequirement as network1
+  systemRequirement as network2
+  systemRequirement as network3
+}
+
+@enduml

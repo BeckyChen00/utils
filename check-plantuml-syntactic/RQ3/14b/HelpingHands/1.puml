@@ -1,0 +1,143 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Resident {
+  - name: String
+  - streetAddress: String
+  - phoneNumber: String
+  - email: String (optional)
+  - itemsDescription: String
+}
+
+class PickupRequest {
+  - pickupDate: Date
+  - pickupTime: Time (between 8:00 and 14:00)
+  - status: String (e.g., scheduled, completed)
+  - resident: Resident
+  - vehicle: PickupVehicle
+}
+
+class PickupVehicle {
+  - vehicleID: String
+  - storageCapacity: Integer
+  - currentLoad: Integer
+  - driver: VolunteerDriver
+}
+
+class VolunteerDriver {
+  - driverID: String
+  - name: String
+  - availableDays: List<Date>
+  - assignedRoute: Route
+}
+
+class Route {
+  - routeID: String
+  - pickupRequests: List<PickupRequest>
+  - startTime: Time
+  - endTime: Time
+  - vehicle: PickupVehicle
+}
+
+class SecondHandArticle {
+  - articleID: String
+  - description: String
+  - category: String
+  - rfidTagId: String
+  - qualityStatus: String (e.g., usable, damaged)
+}
+
+class DistributionCenter {
+  - centerID: String
+  - employee: Employee
+  - articlesReceived: List<SecondHandArticle>
+}
+
+class Employee {
+  - employeeID: String
+  - name: String
+  - role: String
+  - assignedCenter: DistributionCenter
+}
+
+class FoodBank {
+  - foodBankID: String
+  - address: String
+}
+
+class DeliveryRequest {
+  - deliveryID: String
+  - client: Client
+  - article: SecondHandArticle
+  - deliveryDate: Date
+  - deliveryTime: Time
+  - driver: VolunteerDriver
+}
+
+class Client {
+  - clientId: String
+  - name: String
+  - address: String
+  - preferredCategories: List<String>
+}
+
+class NotificationService {
+  - sendNotification(client: Client, message: String): void
+}
+
+class InventorySystem {
+  - addArticle(article: SecondHandArticle): void
+  - updateArticle(article: SecondHandArticle): void
+}
+
+class RoutePlanner {
+  - planRoute(vehicle: PickupVehicle, requests: List<PickupRequest>): Route
+}
+
+' Relationships
+Resident "1" --> "1" PickupRequest
+PickupRequest "1" --> "1" PickupVehicle
+PickupVehicle "1" --> "1" VolunteerDriver
+VolunteerDriver "1" --> "1" Route
+Route "1" --> "*" PickupRequest
+
+PickupRequest "1" --> "1" SecondHandArticle
+DistributionCenter "1" --> "*" SecondHandArticle
+DistributionCenter "1" --> "1" Employee
+Employee "1" --> "1" DistributionCenter
+Employee "1" --> "*" DeliveryRequest
+Employee "1" --> "*" NotificationService
+
+Client "1" --> "*" DeliveryRequest
+DeliveryRequest "1" --> "1" Client
+DeliveryRequest "1" --> "1" VolunteerDriver
+DeliveryRequest "1" --> "1" SecondHandArticle
+
+PickupVehicle "1" --> "1" RoutePlanner
+InventorySystem "1" --> "*" SecondHandArticle
+RoutePlanner "1" --> "1" PickupVehicle
+
+@enduml
+
+---
+
+### ✅ Summary of Key Classes:
+- **Resident**: Initiates pickup requests.
+- **PickupRequest**: Represents a request for item pickup.
+- **PickupVehicle**: Stores collected items and has a driver.
+- **VolunteerDriver**: Drives vehicles and indicates availability.
+- **Route**: A planned sequence of pickups for a day.
+- **SecondHandArticle**: Articles received from residents, tagged and categorized.
+- **DistributionCenter**: Where articles are processed and delivered.
+- **Employee**: Handles processing, categorization, and delivery coordination.
+- **FoodBank**: Receives non-perishable food directly.
+- **Client**: Receives second-hand articles via delivery service.
+- **DeliveryRequest**: Request to deliver an article to a client.
+- **NotificationService**: Sends notifications to clients about new items.
+- **RoutePlanner**: Plans daily pickup routes.
+- **InventorySystem**: Manages inventory of second-hand articles.
+
+---
+
+Let me know if you'd like this rendered as an image or want to expand it with methods or associations!

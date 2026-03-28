@@ -1,0 +1,83 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Song {
+    - title: String
+    - year: int
+    - length: float
+    - genre: String
+}
+
+class Artist {
+    - name: String (unique)
+    - dateOfBirth: Date
+    - url: String
+}
+
+class User {
+    - id: String (unique)
+    - name: String
+    - address: String
+}
+
+class RegularUser {
+}
+
+class BusinessUser {
+    - vatNumber: String
+}
+
+class Single {
+}
+
+class Hit {
+}
+
+class Album {
+    - trackNumber: int
+}
+
+class Suggestion {
+}
+
+' Associations and relationships
+
+Artist "1" -- "many" Song : creates
+Song "1" -- "1" Artist : belongs to
+
+User <|-- RegularUser
+User <|-- BusinessUser
+
+BusinessUser "1" -- "many" Song : uploads
+Song "1" -- "1" BusinessUser : uploaded by
+
+Song <|-- Single
+Song <|-- Hit
+
+Album "1" -- "many" Hit : contains
+Hit "1" -- "1" Album : part of
+
+RegularUser "1" -- "many" Single : buys
+RegularUser "1" -- "many" Album : buys
+RegularUser "1" -- "many" Suggestion : receives
+
+Album "1" -- "many" Suggestion : suggested as
+
+' Note: A user can be both a RegularUser and a BusinessUser, so no inheritance from both
+' This is modeled with two separate subclasses from User.
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Design Decisions:
+- **Artist-Song Relationship**: Each `Song` belongs to exactly one `Artist`, but multiple songs can have the same title. The unique key is the combination of `title` + `artist`.
+- **User Types**: `User` is an abstract base class with two types: `RegularUser` and `BusinessUser`. Users can switch roles.
+- **Song Subtypes**: Songs are split into `Single` and `Hit` to distinguish usage contexts.
+- **Album Composition**: An `Album` is made only of `Hit` songs and stores their order via `trackNumber`.
+- **Suggestion Logic**: Albums can be suggested to other users based on behavior.
+
+---
+

@@ -1,0 +1,91 @@
+
+@startuml
+' Define classes
+
+class Employee {
+  -name: String
+  -socialSecurityNumber: String
+}
+
+class Planner extends Employee {
+  -username: String
+  -password: String
+}
+
+class AdministrativeStaff extends Employee {
+  -fieldOfActivity: String
+}
+
+class Driver extends Employee {
+  -assignedOrders: List<Order>
+}
+
+class Customer {
+  -name: String
+  -billingAddress: String
+}
+
+class PartnerCompany {
+  -name: String
+  -address: String
+}
+
+class Vehicle {
+  -licensePlateNumber: String
+  -mileage: Integer
+  -type: String
+}
+
+class Repair {
+  -repairShopName: String
+  -repairShopAddress: String
+  -employeeResponsible: Employee
+  -duration: Integer
+  -cost: Double
+}
+
+class Order {
+  -customer: Customer
+  -partnerCompany: PartnerCompany
+  -planner: Planner
+  -driver: Driver
+  -vehicle: Vehicle
+  -pickupAddress: String
+  -deliveryAddress: String
+  -orderComment: String
+  -startTime: DateTime
+  -endTime: DateTime
+}
+
+' Define associations
+
+Employee "1" -- "0..*" Order : assigns
+Planner "1" -- "0..*" Order : assigned by
+Driver "1" -- "0..*" Order : completes
+Vehicle "1" -- "0..*" Order : used for
+Customer "1" -- "0..*" Order : client of
+PartnerCompany "1" -- "0..*" Order : placed by
+
+Vehicle "1" -- "0..1" Repair : requires
+Employee "1" -- "0..1" Repair : responsible for
+
+' Define inheritance
+
+Employee <|-- Planner
+Employee <|-- AdministrativeStaff
+Employee <|-- Driver
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Employee** is the base class for **Planner**, **AdministrativeStaff**, and **Driver**.
+- **Planners** and **Administrative Staff** can log in using **username** and **password**.
+- **Drivers** are associated with **Orders** they complete, using a **Vehicle**.
+- **Vehicles** have a **type** (e.g., refrigerated truck), **license plate number**, and **mileage**.
+- **Repairs** include details about the **repair shop**, **responsible employee**, **duration**, and **cost**.
+- **Orders** have a **planner**, **driver**, **vehicle**, **customer**, **partner company**, **addresses**, and **comments**.
+- Each **Order** has a **start time** and **end time** to track its duration.
+

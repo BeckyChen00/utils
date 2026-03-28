@@ -1,0 +1,141 @@
+@startuml
+class Inhabitant {
+  fullName: String
+  contactInfo: String
+  preferredStays: String[]
+  +register()
+  +assessAbilities()
+}
+class Stay {
+  startDates: Date[]
+  endDates: Date[]
+  currentCategory: StayCategory
+  monthlyInvoices: Invoice[]
+  +addStay(category: StayCategory, startDate: Date)
+  +endStay()
+  +validateStayRequirements()
+}
+class StayCategory {
+  categoryName: String
+  description: String
+  pricePerMonth: double
+  requiredAbilities: String[]
+}
+class Room {
+  roomNumber: String
+  capacity: int
+  isActive: boolean
+  +assignBed(bed: Bed)
+}
+class Bed {
+  bedNumber: String
+  isAvailable: boolean
+  allocatedToStay: Stay
+  +release()
+}
+class Department {
+  departmentName: String
+  location: String
+  +getAvailableBeds(category: StayCategory): Bed[]
+}
+class WaitingList {
+  category: StayCategory
+  +addPerson(inhabitant: Inhabitant): void
+  +removePerson(inhabitant: Inhabitant): void
+  +getTopCandidate(): Inhabitant
+}
+class Proposal {
+  proposedCategory: StayCategory
+  generatedDate: Date
+  isAccepted: boolean
+  +getTransferDate(): Date
+  +validate(reassessment: boolean): boolean
+}
+class Invoice {
+  invoiceNumber: String
+  invoiceDate: Date
+  totalAmount: double
+  outstandingAmount: double
+  status: String
+  +calculateAmount(startDate: Date, endDate: Date): double
+  +registerPayment(amount: double): void
+  +calculateRemainingBalance(): double
+}
+class PaymentRecord {
+  paymentDate: Date
+  amountPaid: double
+  paymentMethod: String
+  +confirm()
+}
+class CreditNote {
+  creditAmount: double
+  reason: String
+  +issue()
+}
+class AssessmentReport {
+  assessmentDate: Date
+  bodyWeight: double
+  bodyHeight: double
+  mobilityScore: int
+  +generateReport(): void
+}
+class Notification {
+  messageContent: String
+  sentDate: Date
+  +send(recipient: Inhabitant)
+}
+class Admin {
+  adminId: String
+  +manageDepartment(department: Department, action: String)
+  +processPayment(record: PaymentRecord)
+  +generateSystemReport(): Report
+}
+class Report {
+  reportDate: Date
+  title: String
+  contentSummary: String
+  +generateContent(): void
+}
+class SystemLog {
+  logEntries: String[]
+  +recordEvent(eventType: String, details: String)
+}
+class Alarm {
+  alarmLevel: String
+  triggerTime: Date
+  isResolved: boolean
+  +trigger(): void
+  +resolve()
+}
+class StaffMember {
+  staffId: String
+  role: String
+  +assignRoom(room: Room)
+  +assessInhabitant(inhabitant: Inhabitant)
+}
+Department *-- "*" Room : containedRooms
+Room *-- "*" Bed : containedBeds
+StaffMember --> "1" Department : assignedTo
+Inhabitant --> "1" Room : currentRoom
+Inhabitant --> "*" Stay : stays
+Stay --> "*" Bed : allocatedBeds
+Stay --> "*" Invoice : generatedInvoices
+Invoice *-- "*" PaymentRecord : payments
+Invoice *-- "*" CreditNote : credits
+Proposal --> "1" Inhabitant : targetInhabitant
+Proposal --> "1" StayCategory : proposedCategory
+Proposal --> "1" Room : reservedRoom
+Proposal --> "1" AssessmentReport : relatedReport
+Notification --> "1" Inhabitant : recipient
+StaffMember --> "*" Notification : sentNotifications
+StaffMember --> "*" Proposal : madeProposals
+Inhabitant --> "*" Notification : receivedNotifications
+Admin --> "*" StaffMember : supervisedStaff
+Admin --> "*" Department : managedDepartments
+SystemLog --> "*" StaffMember : loggedActivities
+SystemLog --> "*" Alarm : recordedAlarms
+StaffMember --> "*" Alarm : triggeredAlarms
+Admin --> "*" Invoice : processedInvoices
+Report --> "*" Inhabitant : coveredInhabitants
+Report --> "*" StaffMember : coveredStaff
+@enduml

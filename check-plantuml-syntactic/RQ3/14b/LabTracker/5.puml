@@ -1,0 +1,128 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+skinparam classOperationIconColor Green
+
+class Doctor {
+  - practitionerNumber: String
+  - fullName: String
+  - address: String
+  - phoneNumber: String
+  - signature: Image
+  + prescribeTest(requisition: Requisition): void
+  + viewTestResults(test: Test): void
+}
+
+class Patient {
+  - healthNumber: String
+  - firstName: String
+  - lastName: String
+  - dateOfBirth: Date
+  - address: String
+  - phoneNumber: String
+  + bookAppointment(requisition: Requisition, lab: Lab): Appointment
+  + viewTestResults(test: Test): void
+}
+
+class Requisition {
+  - validityDate: Date
+  - tests: List<Test>
+  - repetitionCount: Integer
+  - repetitionInterval: IntervalType
+  + addTest(test: Test): void
+  + getTests(): List<Test>
+  + isValid(): Boolean
+}
+
+class Test {
+  - name: String
+  - duration: Duration
+  - testGroup: TestGroup
+  - isWalkInOnly: Boolean
+  - requiresSampleDropOff: Boolean
+  + getDuration(): Duration
+  + belongsToGroup(group: TestGroup): Boolean
+}
+
+enum IntervalType {
+  Weekly
+  Monthly
+  EveryHalfYear
+  Yearly
+}
+
+class TestGroup {
+  - groupName: String
+  - tests: List<Test>
+  + addTest(test: Test): void
+}
+
+class Lab {
+  - name: String
+  - address: String
+  - registrationNumber: String
+  - businessHoursStart: Time
+  - businessHoursEnd: Time
+  - feeForCancellationOrChange: Double
+  + getAvailableAppointments(date: Date): List<AppointmentTimeSlot>
+  + scheduleAppointment(appointment: Appointment): void
+  + calculateFee(): Double
+}
+
+class Appointment {
+  - confirmationNumber: String
+  - date: Date
+  - startTime: Time
+  - endTime: Time
+  - lab: Lab
+  - patient: Patient
+  - requisition: Requisition
+  + cancelAppointment(): void
+  + changeAppointment(newDate: Date, newTime: Time): void
+}
+
+class AppointmentTimeSlot {
+  - date: Date
+  - time: Time
+  - lab: Lab
+  - available: Boolean
+  + isAvailable(): Boolean
+  + markAsBooked(): void
+}
+
+class Result {
+  - test: Test
+  - result: String (e.g., "Positive", "Negative")
+  - report: String
+  + getResult(): String
+  + getReport(): String
+}
+
+Doctor "1" --> "0..*" Requisition : creates
+Patient "1" --> "0..*" Requisition : receives
+Requisition "1" --> "1" Doctor : prescribedBy
+Requisition "1" --> "1" Patient : for
+Requisition "1" --> "1..*" Test : contains
+Test "1" --> "1" TestGroup : belongsTo
+Test "1" --> "0..1" Result : has
+Appointment "1" --> "1" Lab : at
+Appointment "1" --> "1" Patient : for
+Appointment "1" --> "1" Requisition : basedOn
+Lab "1" --> "0..*" AppointmentTimeSlot : offers
+Lab "1" --> "0..*" Appointment : manages
+@enduml
+
+---
+
+### 📌 Explanation of Key Relationships:
+- A `Doctor` can create multiple `Requisition`s.
+- A `Requisition` is associated with one `Doctor` and one `Patient`.
+- A `Requisition` contains multiple `Test`s, but only from the same `TestGroup`.
+- Each `Test` may be part of a `TestGroup`, and has properties like duration and whether it's walk-in or sample drop-off.
+- A `Patient` can make an `Appointment` for a `Requisition` at a specific `Lab`.
+- An `Appointment` is tied to a `Lab`, `Patient`, and `Requisition`.
+- A `Lab` defines its own `business hours`, `fees`, and provides `AppointmentTimeSlot`s.
+
+---
+
+Let me know if you'd like this rendered as an image or extended further!

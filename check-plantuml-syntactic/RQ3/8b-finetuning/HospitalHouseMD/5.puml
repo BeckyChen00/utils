@@ -1,0 +1,88 @@
+@startuml
+enum PriorityLevel {
+  LOW
+  HIGH
+}
+enum StageLevel {
+  STAGE_1
+  STAGE_2
+  STAGE_3
+}
+class Patient {
+  name: String
+  contactInfo: String
+}
+class Doctor {
+  name: String
+  specialty: String
+  licenseNumber: String
+  positionCode: String
+}
+class Diagnosis {
+  description: String
+  symptoms: String
+  diagnosedDate: Date
+  +confirm(): void
+  +updateHistory(): void
+}
+class Illness {
+  name: String
+  symptomKeywords: String[]
+  currentPriority: PriorityLevel
+  +upgradePriority(): void
+  +determineSeverity(): int
+}
+class TreatmentPlan {
+  planName: String
+  startDate: Date
+  endDate: Date
+  +addStage(stage: TreatmentStage): void
+  +isActive(): boolean
+}
+class TreatmentStage {
+  currentStageLevel: StageLevel
+  startDate: Date
+  +calculateProgress(): double
+  +advanceStage(): boolean
+  +revertStage(): boolean
+  +getRequiredConsent(): boolean
+}
+class MedicalTreatment {
+  description: String
+  dosage: double
+  administeredDate: Date
+  +execute(): void
+  +logSideEffect(effect: String): void
+  +validateDosage(): boolean
+}
+class FollowUpSchedule {
+  frequency: String
+  nextCheckupDate: Date
+  +generateCheckupList(): String
+  +markCompleted(date: Date): void
+}
+class AuditTrail {
+  timestamp: DateTime
+  actionType: String
+  details: String
+  actor: String
+}
+class ConsentForm {
+  signatureDate: Date
+  signatureHash: String
+  isValid: boolean
+  +verifySignature(): boolean
+  +revoke(): void
+}
+Doctor "1" --> "*" Patient : assignedPatients 'opposite: consultingDoctors
+Patient "1" *-- "*" Diagnosis : medicalHistory
+Illness "1" --> "*" Diagnosis : relatedDiagnoses
+Diagnosis "1" *-- "1" TreatmentPlan : treatmentPlan
+Illness "1" --> "*" MedicalTreatment : applicableTreatments
+Illness "1" --> "*" ConsentForm : associatedConsents
+TreatmentPlan "1" *-- "1" FollowUpSchedule : followUpSchedule
+TreatmentPlan "1" *-- "*" TreatmentStage : stages
+TreatmentStage "1" *-- "1" MedicalTreatment : activeTreatment
+TreatmentStage "1" *-- "*" AuditTrail : stageHistory
+AuditTrail "1" --> "1" Doctor : performedBy
+@enduml

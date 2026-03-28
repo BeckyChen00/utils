@@ -1,0 +1,78 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Person {
+    +String firstName
+    +String familyName
+    +Date birthDate
+}
+
+class Trainer {
+    +String diploma
+}
+
+class Member {
+}
+
+class Center {
+    +String name
+    +String address
+}
+
+class Room {
+    +int roomNumber
+    +int maxCapacity
+}
+
+abstract class Session {
+    +Date date
+    +Time startTime
+}
+
+class GroupSession {
+    +String type
+}
+
+class IndividualSession {
+}
+
+class Prospect {
+}
+
+class Intern {
+}
+
+' Define associations and relationships
+
+Person <|-- Trainer
+Person <|-- Member
+Person "0..*" --> "0..*" Session : participates in
+Trainer "1" --> "1..*" GroupSession : supervises
+
+Center "1" --> "1..*" Room : contains
+Room "1" --> "1..*" Session : hosts
+
+Session <|-- GroupSession
+Session <|-- IndividualSession
+
+' Inheritance and other relations
+Person "0..*" --> "0..*" Prospect : may be a
+Trainer "0..*" --> "0..*" Intern : may be an
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **`Person`**: Abstract base class containing all people (members, trainers, prospects).
+- **`Trainer` and `Member`** inherit from `Person`.
+- **`GroupSession`** requires a **`Trainer`**, while **`IndividualSession`** does not.
+- **`Session`** is an abstract class with common properties (`date`, `startTime`), extended by `GroupSession` and `IndividualSession`.
+- **`Room`** is part of a **`Center`** and can host sessions.
+- **`Prospect`** and **`Intern`** are special roles that extend or relate to `Person` and `Trainer` respectively, even if they haven't participated/supervised yet.
+
+---
+

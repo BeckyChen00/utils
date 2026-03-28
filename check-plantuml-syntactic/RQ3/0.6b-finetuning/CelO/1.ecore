@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolean" eType="#//hasAutomaticBraking" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="hasAutomaticBraking"/>
+  <eClassifiers xsi:type="ecore:EClass" name="receiveSensorReading">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedLight" eType="#//TrafficLight" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrafficLight"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrafficController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledFleet" eType="#//FleetManager" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FleetManager"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentLane" eType="#//LaneSegment" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeRoute" eType="#//RoutePlan" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="occupiedSegments" eType="#//RoadSegment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivesReadings" eType="#//SensorReading" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedScenario" eType="#//ScenarioSolver" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownsMultiple" eType="#//Vehicle" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedFleet" eType="#//FleetManager" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredAt" eType="#//MonitoringStation" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alertsTo" eType="#//AlertSystem" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notifiesOf" eType="#//NotificationManager" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedRoute" eType="#//RoutePlan" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reportedIncidents" eType="#//IncidentReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LaneSegment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RoutePlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RoadSegment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorReading"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScenarioSolver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simulatedEngine" eType="#//SimulationEngine" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedOn" eType="#//RoadSegment" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoringEngine" eType="#//AlertSystem" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//IncidentReport" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeSolver" eType="#//ScenarioSolver" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredVehicle" eType="#//Vehicle" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertSystem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationManager"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IncidentReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationEngine"/>
+</ecore:EPackage>

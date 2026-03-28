@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSessions" eType="#//GameSession" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notificationService" eType="#//NotificationService"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameSessionController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledSessions" eType="#//GameSession" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engine" eType="#//GameEngine" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notificationService" eType="#//NotificationService" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentSession" eType="#//GameSession"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="playedSessions" eType="#//GameSession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Player">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initiatedSessions" eType="#//GameSession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationService"/>
+</ecore:EPackage>

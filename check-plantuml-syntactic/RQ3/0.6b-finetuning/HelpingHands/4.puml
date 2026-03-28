@@ -1,0 +1,67 @@
+@startuml
+enum TransactionStatus {
+  Pending
+  Completed
+}
+enum TrendType {
+  Positive
+  Negative
+  Horizontal
+  Vertical
+  Cyclical
+  Stochastic
+}
+enum SecurityType {
+  Stock
+  Bond
+  Currency
+  Commodity
+  Derivative
+}
+class Trader {
+  tradeHistory: String[]
+  lastTransactionDate: Date
+  +getTimestamp(): Date
+  +submitOrder(type: SecurityType, value: double, frequency: int): Order
+  +getAverageVolume(): double
+}
+class MarketEvent {
+  eventDate: Date
+  eventType: String
+  valueChange: double
+  +getMagnitude(): double
+}
+class Order {
+  type: SecurityType
+  price: double
+  volume: double
+  status: TransactionStatus
+  +execute(): void
+  +cancel(): void
+}
+class OrderBook {
+  +getOrderHeight(height: int): int
+  +getVolumeOnChord(): double
+}
+class TradingSession {
+  startDate: Date
+  endDate: Date
+  activeTrend: TrendType
+  +calculateTimestamp(interval: int): Date
+  +terminate(): void
+}
+class ExecutionResult {
+  success: boolean
+  percentProfit: double
+  finalPrice: double
+  +getSummary(): String
+}
+Trader *-- "0..*" Order : orders
+Order *-- "0..1" ExecutionResult : executionResult
+Trader --> "0..*" OrderBook : orderBook
+TradingSession --> "1" Trader : activeTrader
+TradingSession --> "0..*" MarketEvent : triggeredEvents
+MarketEvent --> "0..*" Order : affectedOrders
+Trader --> "0..*" MarketEvent : historyEvents
+Trader --> "0..*" ExecutionResult : generatedResults
+@enduml

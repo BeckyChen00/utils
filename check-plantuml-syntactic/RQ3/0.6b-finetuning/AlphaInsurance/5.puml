@@ -1,0 +1,45 @@
+@startuml
+enum GesturalCategory {
+  HandClapping
+  Spinning
+  Dribbling
+  FootBalling
+  Basketball
+}
+enum GamePhase {
+  Opening
+  MiddleGame
+  FinalMatch
+}
+class Player {
+  name: String
+  level: int
+  +challenge(otherPlayer: Player): boolean
+  +acceptChallenge(): void
+}
+class GamificationEvent {
+  title: String
+  description: String
+  totalPoints: int
+  phase: GamePhase
+  +calculateProgress(): int
+  +getEventSummary(): String
+}
+class GameStream {
+  inputStream: CompressedStream
+  +playStream(): void
+  +stopStream(): void
+}
+class SequenceRecord {
+  stepCount: int
+  startTime: Time
+  duration: Time
+  +getSequenceInfo(): String
+  +recordStep(sequence: Sequence): void
+}
+Player *-- "*" GamificationEvent : events
+GamificationEvent --> "*" GameStream : streams
+SequenceRecord *-- "1" GameStream : sourceStream
+SequenceRecord --> "1" Player : participant
+GamificationEvent --> "1" GamePhase : phase
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+    classDiagram
+        A[System Requirements] as SystemRequirements
+        B[Requirement1] as Requirement1
+        C[Requirement2] as Requirement2
+        D[Requirement3] as Requirement3
+        E[Requirement4] as Requirement4
+
+        A --> B
+        B --> C
+        C --> D
+        D --> E
+
+        E --> A
+    endDiagram
+@enduml

@@ -1,0 +1,141 @@
+
+---
+
+
+@startuml
+skinparam classAttributeStyle rectangle
+
+' User Class
+class User {
+  +username: String
+  +password: String
+  -mode: Mode
+}
+
+' Mode Enum
+enum Mode {
+  PLAY,
+  ADMIN
+}
+
+' Admin Class (extends User)
+class Admin {
+  +createGame(game: Game): void
+  +designGame(game: Game): void
+}
+
+' Player Class (extends User)
+class Player {
+  +playGame(game: Game): void
+  +resumeGame(game: Game): void
+  +pauseGame(game: Game): void
+}
+
+' Game Class
+class Game {
+  +name: String
+  +hallOfFame: HallOfFame
+  +levels: List<Level>
+  +minSpeed: int
+  +speedIncreaseFactor: int
+  +maxPaddleLength: int
+  +minPaddleLength: int
+  +numBlocksPerLevel: int
+  +isPublished: boolean
+  +getLevel(levelNumber: int): Level
+  +publish(): void
+  +unpublish(): void
+}
+
+' HallOfFame Class
+class HallOfFame {
+  +addScore(player: Player, score: int): void
+  +getHighScores(): List<Score>
+}
+
+' Score Class
+class Score {
+  +player: Player
+  +score: int
+  +game: Game
+}
+
+' Level Class
+class Level {
+  +levelNumber: int
+  +isRandom: boolean
+  +blocks: List<Block>
+  +getBlocks(): List<Block>
+}
+
+' Block Class
+class Block {
+  +color: String
+  +points: int
+  +position: Position
+}
+
+' Position Class
+class Position {
+  +x: int
+  +y: int
+}
+
+' GameAdmin Interface
+interface GameAdmin {
+  +createGame(name: String): Game
+  +designGame(game: Game): void
+  +publishGame(game: Game): void
+  +unpublishGame(game: Game): void
+}
+
+' GamePlayer Interface
+interface GamePlayer {
+  +playGame(game: Game): void
+  +pauseGame(game: Game): void
+  +resumeGame(game: Game): void
+}
+
+' GameStatus Interface
+interface GameStatus {
+  +isRunning(): boolean
+  +isPaused(): boolean
+  +isFinished(): boolean
+}
+
+' GameSettings Interface
+interface GameSettings {
+  +getMinSpeed(): int
+  +getMaxPaddleLength(): int
+  +getMinPaddleLength(): int
+  +getSpeedIncreaseFactor(): int
+  +getNumBlocksPerLevel(): int
+}
+
+User <|-- Admin
+User <|-- Player
+
+Admin --> GameAdmin
+Player --> GamePlayer
+
+Game "1" -- "*" HallOfFame : has
+Game "1" -- "*" Level : has
+Level "1" -- "*" Block : has
+Block --> Position
+
+Game --> GameSettings
+Game --> GameStatus
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- The `User` class serves as a base class with common attributes (`username`, `password`) and a `mode` enum.
+- `Admin` and `Player` are subclasses of `User`.
+- `Game` holds information about levels, settings, and hall of fame.
+- `Level` contains blocks and can be either static or random.
+- `Block` has a position in the grid and points value.
+- Interfaces like `GameAdmin`, `GamePlayer`, `GameStatus`, and `GameSettings` represent roles and behaviors that can be implemented by different entities (like `Admin`, `Player`, etc.).
+

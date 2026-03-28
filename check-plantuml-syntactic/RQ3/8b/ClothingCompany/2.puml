@@ -1,0 +1,62 @@
+
+@startuml
+
+' Define classes
+class Customer {
+    - name: String
+    - address: String
+    - telephoneNumber: String
+    - emailAddress: String
+    - countries: List<String>
+}
+
+class Product {
+    - uniqueName: String
+    - description: String
+    - netPrice: Double
+    - manufacturer: String
+    - countryOfOrigin: String
+}
+
+class Country {
+    - name: String
+    - vatRate: Double
+    - currency: String
+    - conversionRateToEuro: Double
+}
+
+class Representative {
+    - firstName: String
+    - lastName: String
+    - socialSecurityNumber: String
+    - telephoneNumber: String
+    - emailAddress: String
+    - responsibleCountry: Country
+}
+
+class Order {
+    - orderId: String
+    - product: Product
+    - orderQuantity: Integer
+    - orderDate: Date
+    - deliveryDate: Date
+    - representative: Representative
+}
+
+' Relationships
+Customer "1" -- "0..*" Country : resells in
+Product "1" -- "0..*" Country : available in
+Representative "1" -- "1" Country : responsible for
+Representative "1" -- "0..*" Order : places
+Product "1" -- "0..*" Order : included in
+Order "1" -- "1" Representative : placed by
+
+@enduml
+
+### Explanation of the Diagram:
+- **Customer**: Stores customer details and the countries where they resell the products.
+- **Product**: Contains product information, including its origin country.
+- **Country**: Holds VAT, currency, and conversion rate data for each country.
+- **Representative**: Manages one country and places orders on behalf of customers.
+- **Order**: Links a product to a customer via a representative, with quantity, dates, and other order details.
+

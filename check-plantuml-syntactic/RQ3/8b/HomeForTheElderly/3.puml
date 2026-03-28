@@ -1,0 +1,121 @@
+
+---
+
+
+@startuml
+
+' Define the main classes
+class Department {
+    +String name
+    +List<Room> rooms
+}
+
+class Room {
+    +String number
+    +List<Bed> beds
+}
+
+class Bed {
+    +String id
+    +Category category
+}
+
+class Category {
+    +String type (e.g., RH, RNH, SF)
+    +double pricePerMonth
+    +List<Bed> beds
+}
+
+class Inhabitant {
+    +String id
+    +String name
+    +Date registrationDate
+    +List<Stay> stays
+    +List<WaitingListEntry> waitingListEntries
+}
+
+class Stay {
+    +Date startDate
+    +Date endDate
+    +Category category
+    +Boolean isSuspended
+    +Invoice invoice
+}
+
+class WaitingListEntry {
+    +Inhabitant inhabitant
+    +Category category
+    +int position
+    +Proposal proposal
+}
+
+class Proposal {
+    +Date proposedDate
+    +boolean accepted
+    +Date responseDeadline
+    +boolean isValid
+    +Stay stay
+}
+
+class Invoice {
+    +Date invoiceDate
+    +double totalAmount
+    +double paidAmount
+    +double outstandingAmount
+    +List<Payment> payments
+    +Stay stay
+}
+
+class Payment {
+    +Date paymentDate
+    +double amount
+    +boolean isRefund
+    +CreditNote creditNote (if applicable)
+}
+
+' Relationships
+
+Department "1" -- "0..*" Room : contains
+Room "1" -- "0..*" Bed : has
+Bed "1" -- "1" Category : belongs to
+Inhabitant "1" -- "0..*" Stay : has
+Stay "1" -- "1" Category : of type
+Inhabitant "1" -- "0..*" WaitingListEntry : on
+WaitingListEntry "1" -- "1" Proposal : has
+Proposal "1" -- "1" Stay : for
+Proposal "1" -- "1" WaitingListEntry : related to
+Stay "1" -- "0..1" Invoice : generates
+Invoice "1" -- "0..*" Payment : has
+Payment "1" -- "0..1" CreditNote : may create
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Classes and Relationships
+
+- **Department**: Contains multiple rooms.
+- **Room**: Has multiple beds.
+- **Bed**: Belongs to a specific category and can be assigned to an inhabitant.
+- **Category**: Defines a type of stay (RH, RNH, SF) with a monthly price.
+- **Inhabitant**: Can have multiple stays and may be on a waiting list for a specific category.
+- **Stay**: Represents a period during which an inhabitant occupies a bed in a specific category. It can be suspended or ended.
+- **WaitingListEntry**: Tracks an inhabitant’s position in the waiting list for a specific category.
+- **Proposal**: A suggestion made to an inhabitant to accept a bed in a specific category.
+- **Invoice**: Generated monthly for each stay, tracking amounts paid and outstanding balances.
+- **Payment**: Records when a payment is made toward an invoice.
+- **CreditNote**: Created if a payment exceeds the invoice amount.
+
+---
+
+### 🧠 Notes
+
+- The system supports **multiple stays** for an inhabitant, including **suspended stays**.
+- The **waiting list** is sorted by **registration date**.
+- **Invoices are generated monthly**, and can be modified until they are marked as **paid**.
+- **Discounts apply** when an inhabitant has multiple active stays (e.g., service flat while in rest & nursing).
+- **Payments** are tracked, and **credit notes** are issued for overpayments.
+
+---
+
+Let me know if you'd like this rendered as an image or want to adjust any part of the model!

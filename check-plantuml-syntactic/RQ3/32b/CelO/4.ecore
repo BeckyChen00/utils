@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="```plantuml" eType="#//This" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="This"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//Organizer" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Organizer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plans" eType="#//Event" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//Attendee" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attendee">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="can_select" eType="#//Task" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Checklist" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invites" eType="#//Attendee" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="organized_by" eType="#//Organizer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Checklist">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Task" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_to" eType="#//Attendee"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Location">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="used_in" eType="#//Event" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

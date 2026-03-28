@@ -1,0 +1,133 @@
+
+---
+
+
+@startuml
+
+' -----------------------------
+' STEP 1 - Basic System Entities
+' -----------------------------
+
+class Customer {
+    +String name
+    +String address
+    +String vatNumber
+}
+
+class Product {
+    +String name
+    +String description
+    +int stockLevel
+}
+
+class Order {
+    +int orderId
+    +Date orderDate
+    +boolean isPaid
+    +boolean isShipped
+}
+
+class OrderLine {
+    +int lineNumber
+    +Product product
+    +int quantity
+}
+
+class Delivery {
+    +int deliveryId
+    +Date shippedDate
+    +Date receivedDate
+    +String status
+}
+
+class Invoice {
+    +int invoiceId
+    +Date issuedDate
+    +boolean isPaid
+}
+
+' Associations for STEP 1
+Customer "1" --> "0..*" Order
+Order "1" --> "1..*" OrderLine
+OrderLine "1" --> "1" Product
+Order "1" --> "1" Delivery
+Order "1" --> "1" Invoice
+
+' -----------------------------
+' STEP 2 - Partial Shipments
+' -----------------------------
+
+class ShipmentGroup {
+    +int groupId
+    +List<OrderLine> linesInGroup
+    +Date shippedDate
+    +String status
+}
+
+OrderLine "1" --> "0..1" ShipmentGroup
+ShipmentGroup "1" --> "1" Delivery
+
+' -----------------------------
+' STEP 3 - Multi-Warehouse & Invoicing
+' -----------------------------
+
+Customer {
+    +String headOfficeAddress
+    +List<String> warehouseAddresses
+}
+
+Order {
+    +String deliveryAddress
+}
+
+Invoice {
+    +String customerReference
+    +float totalAmount
+    +PaymentMethod paymentMethod
+}
+
+enum PaymentMethod {
+    PAY_ON_DELIVERY
+    PAY_UPFRONT
+}
+
+' -----------------------------
+' STEP 4 - Enhanced Deliveries & Shipment Tracking
+' -----------------------------
+
+class Shipment {
+    +int shipmentId
+    +List<ShipmentGroup> groups
+    +Date packedDate
+    +Date shippedDate
+    +Date receivedDate
+    +String status
+}
+
+Delivery "1" --> "1" Shipment
+ShipmentGroup "1" --> "1" Shipment
+
+enum ShipmentStatus {
+    PACKED
+    SHIPPED
+    DELIVERED
+    LOST
+    DAMAGED
+}
+
+@enduml
+
+---
+
+### 📌 **Explanation of Key Elements in the Diagram:**
+
+- **`Customer`** now has multiple addresses (head office and warehouses).
+- **`OrderLine`** can be grouped into **`ShipmentGroup`**, which tracks when it was shipped.
+- **`ShipmentGroup`** is linked to **`Shipment`**, which handles tracking (packed, shipped, delivered, etc.).
+- **`Delivery`** is replaced or extended by **`Shipment`**, which provides more detailed tracking capabilities.
+- **`Invoice`** is added with options for **`PAY_ON_DELIVERY`** or **`PAY_UPFRONT`**.
+- **`ShipmentStatus`** is an enumerated type to track the state of each shipment.
+
+---
+
+Let me know if you'd like this exported as an image or want a UML version in another format (e.g., Mermaid).

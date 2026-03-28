@@ -1,0 +1,61 @@
+
+@startuml
+' Class Diagram for the Transportation Management System
+
+class Location {
+  - address: String
+}
+
+class Driver {
+  - firstName: String
+  - lastName: String
+  + driveVehicle(vehicle: Vehicle)
+}
+
+class Vehicle {
+  - vehicleNumber: String
+  + assignDriver(driver: Driver)
+}
+
+class Truck extends Vehicle {
+  - weight: Double
+}
+
+class Car extends Vehicle {
+  - seats: Integer
+}
+
+class Van extends Vehicle {
+  - capacity: Integer
+}
+
+class Order {
+  - origin: Location
+  - destination: Location
+  - date: Date
+  - driver: Driver
+  + assignDriver(driver: Driver)
+}
+
+' Associations
+
+Location "1" *-- "0..*" Driver : has
+Driver "1" *-- "0..1" Vehicle : drives
+Vehicle "1" *-- "0..1" Driver : drivenBy
+Driver "1" *-- "0..1" Order : carries
+Order "1" -- "1" Location : origin
+Order "1" -- "1" Location : destination
+@enduml
+
+### Explanation of the Diagram:
+
+- **`Location`** has an address and can have multiple drivers.
+- **`Driver`** has a first and last name, can drive one vehicle at a time, and can carry out one order at a time.
+- **`Vehicle`** is an abstract class with a `vehicleNumber`, and can be assigned to one driver.
+- **`Truck`**, **`Car`**, and **`Van`** are subclasses of `Vehicle` with specific attributes:
+  - `Truck` has a `weight`
+  - `Car` has `seats`
+  - `Van` has `capacity`
+- **`Order`** has an origin and destination location, a date, and one assigned driver.
+
+Let me know if you want to generate a PNG image or add more details!

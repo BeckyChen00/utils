@@ -1,0 +1,106 @@
+
+@startuml
+
+' Define the classes
+class Department {
+  +id: int
+  +name: string
+  +rooms: List<Room>
+}
+
+class Room {
+  +id: int
+  +number: string
+  +department: Department
+  +beds: List<Bed>
+}
+
+class Bed {
+  +id: int
+  +category: Category
+  +room: Room
+  +isOccupied: boolean
+  +inhabitant: Inhabitant (0..1)
+}
+
+class Category {
+  +id: int
+  +type: string (e.g., RH, RNH, SF)
+  +price: decimal
+}
+
+class Inhabitant {
+  +id: int
+  +name: string
+  +registrationDate: Date
+  +waitingListPosition: int
+  +stays: List<Stay>
+  +assessmentResults: List<Assessment>
+}
+
+class Stay {
+  +id: int
+  +startDate: Date
+  +endDate: Date
+  +category: Category
+  +bed: Bed
+  +isSuspended: boolean
+  +invoice: Invoice
+}
+
+class Assessment {
+  +id: int
+  +date: Date
+  +results: Map<string, string>
+  +inhabitant: Inhabitant
+}
+
+class Proposal {
+  +id: int
+  +date: Date
+  +category: Category
+  +inhabitant: Inhabitant
+  +status: string (e.g., pending, accepted, refused)
+}
+
+class Invoice {
+  +id: int
+  +issueDate: Date
+  +dueDate: Date
+  +amount: decimal
+  +outstandingAmount: decimal
+  +stay: Stay
+  +status: string (e.g., pending, paid, partially paid)
+}
+
+class Payment {
+  +id: int
+  +date: Date
+  +amount: decimal
+  +invoice: Invoice
+  +isRefund: boolean
+}
+
+' Associations
+
+Department "1" -- "0..*" Room : contains
+Room "1" -- "0..*" Bed : has
+Bed "1" -- "0..1" Inhabitant : assigned to
+Category "1" -- "0..*" Bed : defines
+Inhabitant "1" -- "0..*" Stay : has
+Stay "1" -- "1" Category : of type
+Stay "1" -- "1" Bed : uses
+Inhabitant "1" -- "0..*" Assessment : has
+Inhabitant "1" -- "0..*" Proposal : is proposed to
+Proposal "1" -- "1" Category : for
+Proposal "1" -- "1" Inhabitant : for
+Stay "1" -- "1" Invoice : generates
+Invoice "1" -- "0..*" Payment : has
+
+@enduml
+
+### Notes:
+- **Inheritance**: There is no explicit inheritance in this model, but `Stay` could potentially be extended if different types of stays had unique behavior.
+- **Associations**: Relationships between objects are clearly defined with direction and multiplicity.
+- **State/Status**: Status attributes like `isSuspended`, `status`, and `status` are included where relevant to capture the dynamic aspects of the system.
+

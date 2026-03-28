@@ -1,0 +1,87 @@
+
+@startuml
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class CreativeEmployee {
+  + isOscarWinner: Boolean
+}
+
+class Director {
+  - assistantName: String
+  * extends CreativeEmployee
+}
+
+class Actor {
+  - education: String
+  * extends CreativeEmployee
+}
+
+class Technician {
+  - fieldOfActivity: String
+}
+
+Employee <|-- CreativeEmployee
+CreativeEmployee <|-- Director
+CreativeEmployee <|-- Actor
+Employee <|-- Technician
+
+class FilmSet {
+  - location: String
+  * has Films
+}
+
+class Film {
+  - title: String
+  - yearOfRelease: int
+  - genre: String
+  * has Employees
+  * has Screenplay
+  * has FilmSet
+}
+
+class Screenwriter {
+  - name: String
+  - mostSuccessfulFilm: String
+  * creates Screenplay
+}
+
+class Screenplay {
+  - title: String
+  - version: String
+  - date: Date
+  - numberOfScenes: int
+  - plot: String
+  - basedOn: String (novel or concept)
+  * has Novel
+  * has Film
+}
+
+class Novel {
+  - title: String
+  - author: String
+  * isBasedOn Screenplay
+}
+
+FilmSet "0..*" -- "1" Film: uses
+Film "1" -- "0..*" Employee: has
+Film "1" -- "1" Screenplay: basedOn
+Screenplay "1" -- "1" Novel: basedOn
+Screenwriter "1" -- "0..*" Screenplay: creates
+
+@enduml
+
+### Explanation of Relationships:
+- `Employee` is the base class for all employees.
+- `CreativeEmployee` is a subclass of `Employee`, and it includes `Director` and `Actor`.
+- `Director` has an assistant name, and both `Director` and `Actor` can be Oscar winners.
+- `Technician` has a field of activity.
+- `FilmSet` is used by multiple `Film`s.
+- `Film` has a title, release year, and genre. It also has a screenplay and may use one or more film sets.
+- `Screenwriter` writes one or more `Screenplay`s.
+- `Screenplay` is written for exactly one `Film` and can be based on a `Novel` or a concept.
+- `Novel` is based on a `Screenplay`.
+

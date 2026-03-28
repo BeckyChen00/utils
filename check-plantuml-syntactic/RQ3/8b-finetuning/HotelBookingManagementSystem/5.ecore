@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BookingRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeRequest" eType="#//plantuml"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="searchResults" eType="#//HotelOffer" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HotelOffer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Traveler">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pastBookings" eType="#//Booking" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectedOffer" eType="#//HotelOffer" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="confirmationRecord" eType="#//BookingConfirmation" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentDetails" eType="#//PaymentInfo" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedPolicy" eType="#//CancellationPolicy" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedHotel" eType="#//Hotel" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BookingConfirmation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentInfo"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CancellationPolicy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Hotel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentChain" eType="#//HotelChain"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HotelChain"/>
+</ecore:EPackage>

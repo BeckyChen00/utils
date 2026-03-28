@@ -1,0 +1,64 @@
+@startuml
+class Tile {
+  position: int[]
+  isLocked: boolean
+  color: String
+  +lockTile(): void
+  +unlockTile(): void
+}
+class GameBoard {
+  rows: int
+  columns: int
+  +calculateDistance(targetTile: Tile): int
+  +getTileAt(row: int, column: int): Tile
+}
+class Player {
+  playerName: String
+  playerColor: String
+  +movePiece(steps: int, direction: String): Location
+  +isTurnActive(): boolean
+}
+class GameDesigner {
+  +createGameBoard(layout: TileLayout): GameBoard
+  +configureGameSettings(playersCount: int, hiddenTile: Tile): GameParameters
+}
+class TileLayout {
+  tileConnections: ConnectionDefinition[]
+  +validateConnections(): boolean
+}
+class ConnectionDefinition {
+  sourceTile: Tile
+  targetTile: Tile
+  connectionType: String
+}
+class GameParameters {
+  maxPlayers: int
+  hiddenTile: Tile
+  actionDeck: ActionCard[]
+}
+class ActionCard {
+  effect: String
+  duration: int
+  +execute(player: Player): void
+}
+class Location {
+  tileReference: Tile
+  coordinates: int[]
+  +getDescription(): String
+}
+class Dice {
+  +rollDice(): int
+}
+GameDesigner --> "1" GameBoard : designedBoard
+GameDesigner --> "1" GameParameters : configuredSettings
+GameBoard *-- "*" Tile : composedTiles
+TileLayout *-- "*" ConnectionDefinition : definedConnections
+Player --> "1" GameBoard : activeBoard
+Player --> "1" Dice : usedDie
+Player --> "*" Location : visitedTiles
+GameBoard --> "*" Location : availableTiles
+GameBoard --> "1" Dice : gameDie
+TileLayout --> "1" GameBoard : appliedLayout
+Dice --> "*" Player : controlledBy
+ActionCard --> "1" Player : actedUpon
+@enduml

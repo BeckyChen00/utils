@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="designedGame" eType="#//BoardGame" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BoardGame">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tiles" eType="#//Tile" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionCardDeck" eType="#//ActionCardDeck" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections" eType="#//TileConnection" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TileConnection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Player">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledPiece" eType="#//PlayingPiece" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="personalDie" eType="#//Die" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeGame" eType="#//BoardGame" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlayingPiece"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Die"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionCardDeck"/>
+</ecore:EPackage>

@@ -1,0 +1,99 @@
+
+@startuml
+
+package "Smart Home Automation System" {
+
+    "SmartHome" as SH
+    "Room" as R
+    "SensorDevice" as SD
+    "ActuatorDevice" as AD
+    "ActivityLog" as AL
+    "AutomationRule" as AR
+    "RuleTrigger" as RT
+    "ControlCommand" as CC
+    "SensorReading" as SR
+
+    SH "1" -- "*" R : contains
+    R "1" -- "*" SD : contains
+    R "1" -- "*" AD : contains
+    SD "1" -- "1" SR : generates
+    AD "1" -- "1" CC : receives
+    AL "1" -- "*" SR : stores
+    AL "1" -- "*" CC : stores
+    AR "1" -- "1" RT : triggers
+    RT "1" -- "*" CC : executes
+
+    note right of SH
+        - unique physical address
+        - manages rooms and devices
+    end note
+
+    note right of R
+        - name
+        - location within smart home
+    end note
+
+    note right of SD
+        - device ID
+        - type (e.g., temperature, movement)
+        - status (active/inactive)
+    end note
+
+    note right of AD
+        - device ID
+        - type (e.g., light, lock)
+        - status (active/inactive)
+    end note
+
+    note right of AL
+        - timestamp
+        - log entries (sensor readings, control commands)
+    end note
+
+    note right of AR
+        - rule ID
+        - precondition (Boolean expression)
+        - action (sequence of control commands)
+        - status (active/inactive)
+        - dependencies
+        - conflicts
+    end note
+
+    note right of RT
+        - timestamp
+        - triggered rule
+        - execution status
+    end note
+
+    note right of CC
+        - command type (e.g., lockDoor, turnOnHeating)
+        - status (requested, completed, failed)
+        - timestamp
+    end note
+
+    note right of SR
+        - sensor ID
+        - value
+        - timestamp
+        - room
+    end note
+
+}
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Relationships:
+
+- **SmartHome** contains multiple **Rooms**.
+- Each **Room** may contain **SensorDevices** and **ActuatorDevices**.
+- **SensorDevices** generate **SensorReadings**.
+- **ActuatorDevices** receive **ControlCommands**.
+- All **SensorReadings** and **ControlCommands** are stored in an **ActivityLog**.
+- **AutomationRules** can be triggered by **RuleTriggers**, which record when a rule was executed.
+- **RuleTriggers** execute a sequence of **ControlCommands**.
+- **AutomationRules** can have dependencies or conflicts with other rules.
+
+---
+

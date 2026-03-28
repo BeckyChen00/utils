@@ -1,0 +1,110 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Employee {
+    + String name
+    + String role
+}
+
+class HeadCoach {
+    + identifyDesignatedPlayerProfiles()
+    + setTargetPositions()
+    + addPlayerAttributes()
+}
+
+class Director {
+    + makeOfficialOffer()
+}
+
+class Scout {
+    + notePlayerOnLongList()
+    + submitScoutingReport()
+    + evaluateProsAndCons()
+    + giveRecommendation()
+}
+
+class HeadScout {
+    + evaluateLongList()
+    + assignScoutingAssignments()
+    + decideShortlist()
+}
+
+class DesignatedPlayerProfile {
+    + String position
+    + List<PlayerAttribute> attributes
+}
+
+class PlayerAttribute {
+    + String attributeName
+    + String attributeValue
+}
+
+class Player {
+    + String name
+    + String position
+    + List<ScoutingReport> reports
+}
+
+class LongList {}
+
+class ShortList {}
+
+class ScoutingAssignment {
+    + Date startDate
+    + Date endDate
+    + Player player
+    + Scout assignedScout
+}
+
+class ScoutingReport {
+    + String pros
+    + String cons
+    + Recommendation recommendation
+}
+
+enum Recommendation {
+    KeyPlayer
+    FirstTeamPlayer
+    ReserveTeamPlayer
+    ProspectivePlayer
+    NotAGoodSigning
+}
+
+' Inheritance
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+Employee <|-- HeadScout
+
+' Associations
+HeadCoach --> "1" DesignatedPlayerProfile : creates
+DesignatedPlayerProfile --> "0..*" PlayerAttribute : has
+Scout --> "0..*" ScoutingReport : submits
+Scout --> "0..*" ScoutingAssignment : performs
+HeadScout --> "1" LongList : evaluates
+HeadScout --> "0..*" ScoutingAssignment : assigns
+ScoutingAssignment --> "1" Player : targets
+ScoutingAssignment --> "1" Scout : assigned to
+ScoutingReport --> "1" ScoutingAssignment : part of
+Player --> "0..*" ScoutingReport : has
+LongList --> "0..*" Player : contains
+ShortList --> "0..*" Player : contains
+Director --> "1" Player : makes offer for
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The system includes roles (`HeadCoach`, `Director`, `Scout`, `HeadScout`) all extending from an abstract `Employee` class.
+- A `DesignatedPlayerProfile` defines what kind of players are being targeted by the club.
+- Players can be in either a `LongList` or a `ShortList`.
+- `ScoutingAssignment` links a `Scout` to a `Player`, and each assignment leads to a `ScoutingReport`.
+- `ScoutingReport` includes the scout’s evaluation and recommendation for a player.
+
+---
+

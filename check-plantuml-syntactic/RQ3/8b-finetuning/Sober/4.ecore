@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredVehicle" eType="#//Vehicle" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedDriver" eType="#//Driver" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tripLogs" eType="#//TripLog" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Driver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affiliatedOwners" eType="#//CarOwner" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TripLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedVia" eType="#//RideService"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incidentCause" eType="#//SafetyLog"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RideService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfilledBy" eType="#//CustomerOrder"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryCustomer" eType="#//Customer" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomerOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invitedPassengers" eType="#//Customer" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReservation" eType="#//ReserveTrip" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReservedTrip">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="createdFrom" eType="#//CustomerOrder" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affectedVehicle" eType="#//Vehicle" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CarOwner"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReserveTrip"/>
+</ecore:EPackage>

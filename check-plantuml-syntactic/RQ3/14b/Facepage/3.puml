@@ -1,0 +1,72 @@
+
+@startuml
+' Facepage Class Diagram
+
+class User {
+  -id: String
+  -name: String
+  -email: String
+  -dateOfBirth: Date
+}
+
+class Account {
+  -accountNumber: String
+  -type: String (personal/business)
+  +createPage(): Page
+}
+
+class PersonalAccount <<interface>> {
+  +sendFriendRequest(user: User): void
+  +acceptFriendRequest(user: User): void
+}
+
+class BusinessAccount <<interface>> {
+  -monthlyFee: Double
+  +createAdvertisementPage(): AdvertisementPage
+}
+
+class Page {
+  -name: String
+  -visits: Integer
+  +getPageStats(): String
+}
+
+class AdvertisementPage {
+  -bounceRate: Double
+  -clickThroughRate: Double
+  -conversionRate: Double
+  +getAdStats(): String
+}
+
+class FriendRequest {
+  -sender: User
+  -receiver: User
+  -status: String (pending/accepted/rejected)
+}
+
+User "1" -- "1" Account : creates
+Account "1" -- "0..*" Page : owns
+Account "1" -- "0..*" FriendRequest : sends
+Page "1" -- "1" Account : administeredBy
+User "1" -- "0..*" Page : hasPrivilegesOn
+
+Account <|-- PersonalAccount
+Account <|-- BusinessAccount
+Page <|-- AdvertisementPage
+@enduml
+
+---
+
+### Explanation of Key Relationships and Elements:
+
+- **User**: Represents a person who wants to join Facepage. Each user has unique personal information.
+- **Account**: Abstract class representing either a `PersonalAccount` or `BusinessAccount`. An account is uniquely identified by an account number.
+- **PersonalAccount**: Extends `Account`. Only these can send or receive friend requests.
+- **BusinessAccount**: Extends `Account`. Can create advertisement pages and pays monthly fees.
+- **Page**: A generic page that can be created by any account. Each account can have multiple pages with unique names.
+- **AdvertisementPage**: A specialized type of page used for marketing, tracking bounce rate, click-through rate, and conversion rate.
+- **FriendRequest**: A class to manage friend relationship status between users.
+
+---
+
+Let me know if you'd like to add more features such as login, messaging, or post functionality!

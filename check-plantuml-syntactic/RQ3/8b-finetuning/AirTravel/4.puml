@@ -1,0 +1,88 @@
+@startuml
+enum SeatCategoryType {
+  Economy
+  PremiumEconomy
+  BusinessClass
+}
+enum FlightStatusType {
+  Scheduled
+  Boarding
+  Departed
+  Arrived
+  Delayed
+  Cancelled
+}
+class Aircraft {
+  aircraftRegistrationNumber: String
+  type: String
+  yearOfManufacture: int
+  nextInspectionDate: Date
+  homeAirport: Airport
+  +checkAircraftStatus(): Boolean
+  +getServiceableCategory(): SeatCategoryType
+}
+class PassengerAircraft {
+  totalSeatCapacity: int
+  +calculateTotalWeight(): double
+  +getAllSeatCategories(): List<SeatCategory>
+}
+class Flight {
+  flightNumber: String
+  departureTime: Date
+  arrivalTime: Date
+  status: FlightStatusType
+  departureAirport: Airport
+  destinationAirport: Airport
+  +generateFlightTicket(passenger: Passenger, category: SeatCategory): Ticket
+  +assignCrew(stewardesses: List<FlightAttendant>, pilots: List<Pilot>): void
+}
+class FlightAttendant {
+  staffName: String
+  hireDate: Date
+  isChief: boolean
+  specialization: SeatCategoryType
+  +workHoursPerDay(): int
+}
+class Pilot {
+  staffName: String
+  hireDate: Date
+  licenseNumber: String
+  +isCertified(): boolean
+}
+class Airport {
+  airportName: String
+  address: String
+  numberOfRunways: int
+  +locateGateTerminal(): GateTerminal
+}
+class Ticket {
+  ticketNumber: String
+  price: double
+  issueDate: Date
+  isUpgradeRequested: boolean
+  +validateTicket(): boolean
+}
+class Passenger {
+  passengerName: String
+  passportNumber: String
+  +registerPassenger(): void
+}
+class SeatCategory {
+  categoryType: SeatCategoryType
+  maxOccupancy: int
+  entertainmentProgram: boolean
+  basePrice: double
+  +describeCategory(): String
+}
+PassengerAircraft --|> Aircraft
+Aircraft *-- "*" SeatCategory : seatCategories
+Airline *-- "*" FlightAttendant : employFlightAttendant
+Airline *-- "*" Pilot : employPilot
+Flight *-- "*" FlightAttendant : crewMembers
+Flight *-- "*" Ticket : ticketList
+Flight --> "1" Aircraft : operatingAircraft
+Flight --> "2" Airport : route
+Passenger --> "*" Flight : takeFlights
+Ticket --> "1" Passenger : passenger
+Passenger --> "*" SeatCategory : preferredCategories
+@enduml

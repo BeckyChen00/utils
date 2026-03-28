@@ -1,0 +1,54 @@
+@startuml
+enum ShipmentStatus {
+  Pending
+  InProgress
+  Delivered
+  Returned
+  Damaged
+  Lost
+}
+enum OrderStatus {
+  Pending
+  Completed
+}
+class Customer {
+  addressLine1: String
+  addressLine2: String
+  vatNumber: String
+  +register(): void
+}
+class Product {
+  name: String
+  unitPrice: double
+  +updateStock(quantity: int): void
+}
+class Order {
+  orderDate: Date
+  status: OrderStatus
+  +addLine(product: Product, quantity: int): void
+  +calculateTotal(): double
+}
+class OrderLine {
+  quantity: int
+  unitCost: double
+  isFulfilled: boolean
+}
+class Shipment {
+  trackingCode: String
+  shipmentDate: Date
+  status: ShipmentStatus
+  +trackStatus(): ShipmentStatus
+  +addLine(orderLine: OrderLine): void
+}
+class StockRecord {
+  quantityOnHand: int
+  reorderLevel: int
+  +updateQuantity(changeAmount: int): void
+}
+Customer "1" --> "*" Order : placedOrders
+Order "1" *-- "*" OrderLine : orderLines
+OrderLine "*" --> "1" Product : product
+Product "1" *-- "1" StockRecord : stockRecord
+Order "*" --> "*" Shipment : associatedShipments
+Shipment "1" *-- "*" OrderLine : shippedLines
+@enduml

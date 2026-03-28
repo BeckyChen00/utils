@@ -1,0 +1,78 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor yellow
+skinparam classAttributeIconSize 0
+
+class User {
+  +id: String (unique)
+  +name: String
+  +email: String
+  +dateOfBirth: Date
+  -account: Account
+}
+
+class Account {
+  +accountNumber: String (unique)
+  +type: String ("business" | "personal")
+  -user: User
+  -pages: List<Page>
+}
+
+class Page {
+  +name: String
+  +visitCount: Integer
+  -account: Account
+  -privileges: List<Privilege>
+}
+
+class Privilege {
+  +privilegeType: String ("writeOnFriends" | "adjustInfo")
+  -grantedBy: User
+  -grantedTo: User
+}
+
+class AdvertisementPage {
+  +bounceRate: Double
+  +clickThroughRate: Double
+  +conversionRate: Double
+  -page: Page
+}
+
+User --|> Account
+Account --|> Page
+Page "1" -- "*" Privilege
+AdvertisementPage --|> Page
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **`User`**:
+  - Stores personal information and is linked to a single `Account`.
+  - A user can only have one account (either personal or business).
+
+- **`Account`**:
+  - Has an auto-generated account number.
+  - Can be either a **personal** or **business** type.
+  - Is associated with exactly one `User`.
+  - Can create multiple `Page`s.
+
+- **`Page`**:
+  - Must be administered by exactly one `Account`.
+  - Has a unique name per account.
+  - Can have privileges assigned to it, which are stored in the `Privilege` class.
+  - Only **personal accounts** can send or receive friend requests.
+
+- **`Privilege`**:
+  - Represents permissions granted from one user to another.
+  - For example, a user can be granted the privilege to write on friends’ pages.
+
+- **`AdvertisementPage`**:
+  - A special type of page created by business accounts.
+  - Records metrics like bounce rate, click-through rate, and conversion rate.
+
+---
+

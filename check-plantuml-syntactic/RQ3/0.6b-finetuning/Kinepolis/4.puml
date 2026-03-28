@@ -1,0 +1,91 @@
+@startuml
+enum PriorityLevel {
+  Critical
+  High
+  Medium
+  Low
+  Negligible
+}
+enum JobState {
+  Pending
+  Processing
+  Completed
+}
+class ActivitySession {
+  sessionStartTime: DateTime
+  sessionStatus: String
+  +startSession(): void
+  +completeSession(): void
+}
+class SimulationStep {
+  stepName: String
+  stepDescription: String
+  stepDuration: double
+  stepPriority: PriorityLevel
+  +execute(): void
+  +pause(): void
+}
+class ResourceAllocation {
+  allocationDate: DateTime
+  assignedCapacity: double
+  currentLoad: double
+  +updateLoad(newValue: double): void
+  +checkAvailability(): boolean
+}
+class TaskScheduler {
+  +scheduleStep(task: SimulationStep, priority: PriorityLevel): SimulationStep
+  +assignResources(alloc: ResourceAllocation): void
+  +optimizeFlow(): void
+}
+class JobQueue {
+  batchSize: int
+  queueStatus: String
+  +enqueueTask(task: SimulationStep): void
+  +dequeueTask(): SimulationStep
+  +monitorQueue(): void
+}
+class PerformanceMetric {
+  metricName: String
+  metricValue: double
+  timestamp: DateTime
+  +isValid(): boolean
+}
+class SystemMonitor {
+  +calculateAverageLoad(): double
+  +evaluateJobState(job: SimulationStep): JobState
+  +generateReport(): String
+  +traceActivity(session: ActivitySession): void
+}
+class TimeWindow {
+  startTime: DateTime
+  endTime: DateTime
+  +getDuration(): double
+  +isValid(): boolean
+}
+class TaskContext {
+  contextName: String
+  isLocked: boolean
+  +initiate(task: SimulationStep): void
+  +finalizeTask(): void
+}
+class LogEvent {
+  eventType: String
+  timestamp: DateTime
+  details: String
+  severity: String
+  +recordEvent(): void
+}
+ActivitySession *-- "1" SimulationStep : currentStep
+ActivitySession *-- "1" TimeWindow : durationWindow
+ActivitySession *-- "1" ResourceAllocation : allocatedResources
+TaskScheduler --> "1" ActivitySession : managedSession
+TaskScheduler --> "*" SimulationStep : scheduledSteps
+SimulationStep *-- "1" JobQueue : executionQueue
+SimulationStep *-- "1" TaskContext : taskContext
+SystemMonitor --> "*" SimulationStep : monitoredSteps
+SystemMonitor --> "*" ActivitySession : monitoredSessions
+SystemMonitor --> "*" PerformanceMetric : trackedMetrics
+SystemMonitor --> "*" LogEvent : generatedLogs
+TaskScheduler --> "*" ResourceAllocation : managedResources
+TaskScheduler --> "*" SimulationStep : managedTasks
+@enduml

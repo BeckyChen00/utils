@@ -1,0 +1,113 @@
+
+---
+
+
+@startuml
+skinparam monochrome true
+skinparam noteAlign center
+
+' Users
+class User {
+  +id: String
+  +name: String
+  +address: String
+  +birthday: Date
+}
+
+' Business Owner
+class BusinessOwner {
+  +linkedinAccount: String
+  -User user
+  *1..1 "owns" --> 0..*
+}
+
+' Pizza Restaurant
+class PizzaRestaurant {
+  +zipCode: String
+  +address: String
+  +phone: String
+  +website: String
+  +openingHours: String
+  *1 "owned by" --> 1..*
+}
+
+' Pizza
+class Pizza {
+  +name: String
+  +crustType: String
+  +price: Double
+  *1..* "offered by" --> 1..*
+}
+
+' Order
+class Order {
+  +id: String
+  +placedAt: DateTime
+  +latestDeliveryTime: DateTime
+  +numberOfPeople: Integer
+  *1 "placed by" --> 1..*
+}
+
+' EntertainmentOrder
+class EntertainmentOrder {
+  +entertainmentType: String
+  +durationMinutes: Integer
+  *1 "is a type of" --> 1..*
+}
+
+' HungryCustomer
+class HungryCustomer {
+  +deliveryAddress: String
+  *1 "is a type of" --> 1..*
+}
+
+' Entertainer
+class Entertainer {
+  +stageName: String
+  +bio: String
+  +pricePer30Minutes: Double
+  *1 "works for" --> 0..*
+}
+
+' Availability
+class Availability {
+  +day: String
+  +timeSlots: List<String>
+  *1 "for" --> 1..*
+}
+
+' Relationships
+User --|> BusinessOwner
+User --|> HungryCustomer
+User --|> Entertainer
+
+PizzaRestaurant --|> Pizza
+
+Order --|> EntertainmentOrder
+Order --|> HungryCustomer
+
+EntertainmentOrder --|> Order
+
+Entertainer --|> Availability
+Entertainer --|> PizzaRestaurant
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **Inheritance**: 
+  - `BusinessOwner`, `HungryCustomer`, and `Entertainer` inherit from `User`.
+  - `EntertainmentOrder` inherits from `Order`.
+- **Associations**:
+  - A `PizzaRestaurant` can have many `Pizzas`.
+  - An `Entertainer` can work for multiple `PizzaRestaurants`.
+  - An `Entertainer` has an `Availability` per day.
+- **Multiplicity**:
+  - One `User` can be one of three types (owner, customer, entertainer).
+  - Each `Order` can be either regular or entertainment.
+  - Pizzas are unique even if they share the same name and price across different restaurants.
+
+---
+
+### 🔧 To Use

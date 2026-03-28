@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Room" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Sensor" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Actuator" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Actuator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Device">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generates" eType="#//Reading" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executes" eType="#//Command" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reading"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Command"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SmartHome">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logs" eType="#//ActivityLog" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActivityLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stores" eType="#//Reading" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stores" eType="#//Command" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Owner">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owns" eType="#//SmartHome" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manages" eType="#//AlertRule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//BooleanExpression" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Action" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Action"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//BooleanOperator" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//BooleanExpression" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//BooleanExpression" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanOperator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RelationalTerm">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//RelationalOperator" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RelationalOperator"/>
+</ecore:EPackage>

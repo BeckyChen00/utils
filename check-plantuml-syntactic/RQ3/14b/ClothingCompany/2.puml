@@ -1,0 +1,73 @@
+
+@startuml
+skinparam linetype zigzag
+
+class Country {
+  -countryCode: String
+  -countryName: String
+  -vatRate: Double
+  -currency: String
+  -euroConversionRate: Double
+}
+
+class Manufacturer {
+  -manufacturerId: Integer
+  -name: String
+  -country: Country
+}
+
+class Product {
+  -productId: Integer
+  -name: String
+  -description: String
+  -netPrice: Double
+  -manufacturer: Manufacturer
+  -availableInCountries: Set<Country>
+}
+
+class Representative {
+  -representativeId: Integer
+  -firstName: String
+  -lastName: String
+  -socialSecurityNumber: String
+  -telephone: String
+  -email: String
+  -country: Country
+}
+
+class Customer {
+  -customerId: Integer
+  -name: String
+  -address: String
+  -telephone: String
+  -email: String
+  -resellingCountries: Set<Country>
+}
+
+class Order {
+  -orderId: Integer
+  -quantity: Integer
+  -orderDate: Date
+  -deliveryDate: Date
+  -product: Product
+  -representative: Representative
+  -customer: Customer
+}
+
+Country "1" *-- "0..*" Product : availableIn
+Manufacturer "1" -- "1" Product : manufacturedBy
+Country "1" -- "1" Representative : responsibleFor
+Customer "1" -- "0..*" Country : resellsIn
+Product "1" -- "1" Order : ordered
+Representative "1" -- "1" Order : placedBy
+Customer "1" -- "1" Order : placedFor
+@enduml
+
+### Explanation of Key Elements:
+- **Country**: Contains VAT rate, currency, and conversion rate to the euro.
+- **Manufacturer**: Each product has one manufacturer, which is located in a country.
+- **Product**: Has a name, description, net price, and manufacturer. It's available in certain countries.
+- **Representative**: Is responsible for one country, and places orders on behalf of customers.
+- **Customer**: Has contact info and can resell products in multiple countries.
+- **Order**: Is uniquely identifiable and includes quantity, dates, and references to customer, product, and representative.
+

@@ -1,0 +1,27 @@
+@startuml
+class Student {
+  studentName: String
+  studentEmail: String
+  +requestAppointment(course: Course, assistant: TeachingAssistant): Appointment
+}
+class Course {
+  courseCode: String
+  courseName: String
+  +registerStudent(student: Student): void
+}
+class TeachingAssistant {
+  assistantName: String
+  +manageAppointments(): List<Appointment>
+}
+class Appointment {
+  scheduledDate: Date
+  timeSlot: String
+  status: String
+  +confirm(): void
+  +cancel(): void
+}
+Student "1" --> "*" Appointment : studentAppointment
+Course "1" *-- "*" TeachingAssistant : courseTAs
+Course "1" --> "*" Appointment : courseAppointments
+Appointment "1" --> "*" Student : participants
+@enduml

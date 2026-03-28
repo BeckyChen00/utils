@@ -1,0 +1,79 @@
+
+@startuml
+
+' Set skin to classic for clarity
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+}
+
+class Contract {
+    +String id
+    +Date startDate
+    +Date endDate
+    +String deliveryConditions
+    +String legalTerms
+}
+
+class Acquisition {
+    +String acquisitionId
+    +int quantity
+    +Date deliveryDate
+    +double negotiatedPrice
+    +String customizations
+}
+
+class Aircraft {
+    +String model
+    +int capacity
+    +String configuration
+}
+
+class AirlineCompany {
+    +String name
+    +String country
+    +String parentCompany (optional)
+    +List<AirlineCompany> subsidiaries
+}
+
+class Salesperson {
+    +String employeeId
+    +String name
+    +String department
+}
+
+' Relationships
+Contract "1" -- "0..*" Acquisition : contains
+Contract "1" -- "1" Salesperson : managed by
+Contract "1" -- "1" AirlineCompany : signed with
+
+Acquisition "1" -- "1" Aircraft : includes
+Acquisition "1" -- "1" AirlineCompany : delivered to
+
+AirlineCompany "1" -- "0..*" AirlineCompany : has subsidiary > (parent-child)
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **`Contract`**: Represents the overarching agreement between Boeing and an airline company.
+  - May contain multiple `Acquisition`s.
+  - Managed by one `Salesperson`.
+
+- **`Acquisition`**: Each acquisition is for one or more aircrafts, with specific terms like price, delivery date, etc.
+  - Linked to a single `Aircraft` model and assigned to an `AirlineCompany`.
+
+- **`Aircraft`**: Describes the type/model of the aircraft being acquired.
+
+- **`AirlineCompany`**: Tracks airlines and their hierarchical relationships (e.g., parent/child companies).
+  - One airline can have many subsidiaries.
+
+- **`Salesperson`**: A Boeing employee who manages contracts.
+  - One salesperson can manage multiple contracts over time.
+
+---
+
+
+Let me know if you'd like to include additional features such as inheritance, interfaces, or database mappings!

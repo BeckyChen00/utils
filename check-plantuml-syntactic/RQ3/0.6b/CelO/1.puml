@@ -1,0 +1,52 @@
+@startuml
+
+class Diagram {Diagram}
+
+class SystemRequirement {
+    class Name: "System Requirement"
+    class Description: "System Requirements"
+    class Version: "1.0"
+}
+
+class Module {
+    class Name: "Module 1"
+    class Description: "Implementation of a module for the system"
+    class Version: "1.0"
+}
+
+class Component {
+    class Name: "Component 1"
+    class Description: "Component that supports the module"
+    class Version: "1.0"
+}
+
+class Dependency {
+    class Name: "Dependency 1"
+    class Description: "A dependency required by the component"
+    class Version: "1.0"
+}
+
+class Interface {
+    class Name: "Interface 1"
+    class Description: "The interface between components and modules"
+    class Version: "1.0"
+}
+
+class Relationship {
+    class From: "Component"
+    class To: "Interface"
+}
+
+class Connection {
+    class Name: "Connection 1"
+    class Type: "Data Transfer"
+    class Version: "1.0"
+}
+
+class Connection2 {
+    class Name: "Connection 2"
+    class Type: "Communication"
+    class Version: "1.0"
+}
+
+@enduml

@@ -1,0 +1,82 @@
+@startuml
+enum ApprovalStatus {
+  Pending
+  Approved
+  Rejected
+  Cancelled
+  Suspended
+  Active
+}
+enum TravelMode {
+  Walking
+  Cycling
+  Bus
+  Train
+  Car
+}
+enum TicketType {
+  SingleTrip
+  DailyPass
+  WeeklyPass
+  MonthlyPass
+  YearlyPass
+  StudentDiscount
+  SeniorDiscount
+  GroupDiscount
+  CorporateCard
+}
+abstract class Person {
+  name: String
+  address: String
+  contactInfo: String
+}
+class Customer {
+  customerNumber: String
+  joinedMensoDate: Date
+  +subscribe(): void
+  +provideData(): void
+}
+class BusLine {
+  lineCode: String
+  lineNumber: String
+  category: TicketType
+  basePrice: double
+  +getCategory(): TicketType
+}
+class Trajectory {
+  status: ApprovalStatus
+  description: String
+  +getLength(): double
+}
+class TripRecord {
+  date: Date
+  time: Time
+  line: BusLine
+  travelMode: TravelMode
+  fareAmount: double
+  +isValid(): boolean
+}
+class Invoice {
+  invoiceDate: Date
+  totalAmount: double
+  discountPercentage: double
+  paidStatus: boolean
+  +calculateTotal(): double
+  +applyDiscount(): void
+  +markAsPaid(): void
+}
+class MensoCard {
+  cardNumber: String
+  expirationDate: Date
+  isActive: boolean
+  +validate(): boolean
+  +activate(): void
+}
+Customer --|> Person
+Customer *-- "0..*" Invoice : invoices
+Customer "0..*" --> "0..*" BusLine : traveledLines
+Customer "1" --> "0..1" MensoCard : activeCard 'opposite: owner
+BusLine *-- "1..*" Trajectory : definitions
+Invoice "0..*" --> "0..*" TripRecord : includes
+TripRecord "1" --> "1" BusLine : line
+@enduml

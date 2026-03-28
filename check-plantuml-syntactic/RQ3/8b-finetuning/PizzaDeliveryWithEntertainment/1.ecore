@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Restaurant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="menuItems" eType="#//Pizza" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contractedEntertainers" eType="#//Entertainer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pizza"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Entertainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedByCustomer" eType="#//User" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedFrom" eType="#//Restaurant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedEntertainer" eType="#//Entertainer"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,55 @@
+@startuml
+enum AccountType {
+  Personal
+  Business
+}
+enum PageStatus {
+  Active
+  Archived
+  Deleted
+}
+enum PrivacyLevel {
+  Public
+  Private
+}
+class User {
+  id: int
+  name: String
+  email: String
+  dateOfBirth: Date
+  +registerAccount(type: AccountType): Account
+}
+class Account {
+  isVerified: boolean
+  accountNumber: String
+  accountType: AccountType
+  +createPage(name: String, description: String): Page
+  +updateSettings(description: String, status: PageStatus): void
+  +generateReport(isDetailed: boolean): String
+}
+class Page {
+  pageName: String
+  description: String
+  currentStatus: PageStatus
+  visitCount: int
+  defaultPrivacy: PrivacyLevel
+  +updateDetails(newName: String, newDescription: String): void
+  +archivePage(): void
+  +generateInsights(): String
+  +getVisitHistory(): int[]
+}
+class BusinessAccount {
+  companyName: String
+  monthlyFee: double
+  +payFee(amount: double): boolean
+}
+class AdPage {
+  bounceRate: double
+  clickRate: double
+  conversionRate: double
+}
+User "1" --> "0..1" Account : account
+Account "1" *-- "0..*" Page : pages
+AdPage --|> Page
+Account "1" --> "0..*" Account : linkedAccount
+@enduml

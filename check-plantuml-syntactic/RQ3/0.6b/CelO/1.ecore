@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Description"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Version"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Dependency">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Name" eType="#//lass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Description" eType="#//lass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Version" eType="#//lass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Interface">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Name" eType="#//lass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Description" eType="#//lass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Version" eType="#//lass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Relationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="From" eType="#//lass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="To" eType="#//lass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Name" eType="#//lass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Type" eType="#//lass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Version" eType="#//lass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection2">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Name" eType="#//lass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Type" eType="#//lass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Version" eType="#//lass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml"/>
+  <eClassifiers xsi:type="ecore:EClass" name="lass"/>
+</ecore:EPackage>

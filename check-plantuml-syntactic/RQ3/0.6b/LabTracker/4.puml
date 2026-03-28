@@ -1,0 +1,22 @@
+@startuml
+class diagram -system requirement
+
+    class system_requirement {
+        requires: 
+            {a, b} = 1
+            {c, d} = 2
+    }
+
+    class variable a, b, c, d {
+        a is integer;
+        b is integer;
+        c is integer;
+        d is integer;
+    }
+
+    # Define the relations between variables
+    edge a -> b (equal)
+    edge b -> c (equal)
+    edge c -> d (equal)
+
+@enduml

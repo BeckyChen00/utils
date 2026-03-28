@@ -1,0 +1,130 @@
+
+@startuml
+skinparam defaultTextAlignment center
+
+class Customer {
+  -id: int
+  -name: String
+  -address: String
+  -refuelCard: RefuelCard
+  -invoices: List<Invoice>
+  -status: CustomerStatus
+}
+
+enum CustomerStatus {
+  ACTIVE
+  SUSPENDED
+  BLOCKED
+}
+
+class RefuelCard {
+  -cardNumber: String
+  -balance: double
+  -customer: Customer
+  -invoices: List<Invoice>
+}
+
+class Invoice {
+  -invoiceId: int
+  -date: Date
+  -totalAmount: double
+  -discount: double
+  -customer: Customer
+  -refuelTurns: List<RefuelTurn>
+  -paymentStatus: PaymentStatus
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  OVERDUE
+}
+
+class RefuelTurn {
+  -turnId: int
+  -date: Date
+  -amount: double
+  -pump: Pump
+  -invoice: Invoice
+}
+
+class GasStation {
+  -stationId: int
+  -name: String
+  -location: String
+  -pumps: List<Pump>
+  -reports: List<DailyReport>
+}
+
+class Pump {
+  -pumpId: int
+  -type: FuelType
+  -reservoirLevel: double
+  -criticalLevel: double
+  -reorderLevel: double
+  -isBlocked: boolean
+  -gasStation: GasStation
+  -refuelTurns: List<RefuelTurn>
+  -dailyReports: List<DailyReport>
+}
+
+enum FuelType {
+  PETROL_95
+  PETROL_98
+  DIESEL
+}
+
+class DailyReport {
+  -reportId: int
+  -date: Date
+  -pump: Pump
+  -currentLevel: double
+  -quantityToOrder: double
+  -needsRefill: boolean
+}
+
+class Payment {
+  -paymentId: int
+  -date: Date
+  -amount: double
+  -invoice: Invoice
+}
+
+Customer "1" -- "1" RefuelCard : has
+Customer "1" -- "0..*" Invoice : has
+RefuelCard "1" -- "0..*" Invoice : generates
+Invoice "1" -- "0..*" RefuelTurn : contains
+Invoice "1" -- "0..*" Payment : can have
+
+GasStation "1" -- "0..*" Pump : contains
+Pump "1" -- "0..*" RefuelTurn : processes
+Pump "1" -- "1" DailyReport : generates
+GasStation "1" -- "0..*" DailyReport : generates
+
+Customer "1" -- "0..*" Payment : makes
+Payment "1" -- "1" Invoice : pays
+
+Pump "1" -- "1" DailyReport : includes
+@enduml
+
+---
+
+### ✅ Summary of Key Classes:
+
+- **Customer**: Represents a customer who may use refuel cards.
+- **RefuelCard**: Used by customers to pay for refueling later via invoices.
+- **Invoice**: Monthly billing for refuel turns made with a refuel card.
+- **RefuelTurn**: A single refueling event at a pump.
+- **GasStation**: Manages pumps and produces daily reports.
+- **Pump**: Handles refueling and tracks fuel levels.
+- **DailyReport**: Generated for each pump when fuel needs to be reordered.
+- **Payment**: Records a payment made by a customer against an invoice.
+
+---
+
+### 🔄 Notes:
+- The `CustomerStatus` and `PaymentStatus` are enums to represent different states.
+- Relationships like "has", "generates", "processes", etc., are captured as associations.
+- The system supports multiple invoices and payments per customer, with tracking of unpaid invoices and suspension logic.
+- Pumps are blocked under certain conditions (e.g., low fuel level or during refill).
+

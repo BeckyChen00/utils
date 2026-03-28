@@ -1,0 +1,55 @@
+@startuml
+enum VehicleStatus {
+  Idle
+  Driving
+  Parking
+  Resting
+  Maintenance
+}
+enum SignalStatus {
+  Clear
+  Low
+  High
+}
+enum TrafficLightPhase {
+  Green
+  Amber
+  Red
+  Stop
+}
+class TrafficLightController {
+  +updateSignalStatus(light: TrafficLight): void
+  +getQueueStatus(): List<CarId>
+}
+class Lane {
+  id: String
+  capacity: int
+  +isOccupied(): boolean
+}
+class Car {
+  id: String
+  licensePlate: String
+  location: String
+  currentStatus: VehicleStatus
+  isReardriver: boolean
+  +updateLocation(newLocation: String): void
+  +driveTo(target: Lane): boolean
+  +park(): void
+}
+class LightPattern {
+  phase: TrafficLightPhase
+  isStops: boolean
+  +getCurrentPhase(): TrafficLightPhase
+}
+class SignalEvent {
+  timestamp: Date
+  phaser: TrafficLightPhase
+  color: String
+  isRear: boolean
+  +getEventDescription(): String
+}
+TrafficLightController *-- "*" LightPattern : managedLightPatches
+Lane --> "*" Car : parkedCars
+TrafficLightController --> "*" SignalEvent : generatedEvents
+TrafficLightController --> "*" SignalEvent : receivedEvents
+@enduml

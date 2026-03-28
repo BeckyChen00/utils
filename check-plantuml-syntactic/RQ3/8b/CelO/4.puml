@@ -1,0 +1,98 @@
+
+---
+
+
+@startuml
+
+class User {
+    +username: String
+    +password: String
+    +email: String
+}
+
+class Organizer extends User {
+    +firstName: String
+    +lastName: String
+    +phone: String
+    +postalAddress: String
+    +eventKind: String
+    +startDate: DateTime
+    +endDate: DateTime
+    +occasion: String
+    +location: Location
+    -inviteAttendees(attendeeList: List<Attendee>)
+    -viewInvitationStatus()
+    -manageChecklist(checklist: Checklist)
+    -addTask(task: Task)
+    -designateTaskForAttendees(task: Task)
+}
+
+class Attendee extends User {
+    +attendanceStatus: String  # "Confirmed", "Maybe", "Cannot"
+    +tasksToBring: List<Task>
+    -confirmAttendance()
+    -updateTasks()
+}
+
+class Event {
+    +id: String
+    +name: String
+    +startDate: DateTime
+    +endDate: DateTime
+    +occasion: String
+    +location: Location
+    +organizers: List<Organizer>
+    +attendees: List<Attendee>
+    +checklist: Checklist
+}
+
+class Location {
+    +id: String
+    +name: String
+    +address: String
+}
+
+class Checklist {
+    +id: String
+    +tasks: List<Task>
+}
+
+class Task {
+    +id: String
+    +description: String
+    +isForAttendees: Boolean
+    +status: String  # "Pending", "Done", "Not Applicable"
+}
+
+' Relationships
+Organizer --> Event
+Attendee --> Event
+Event --> Checklist
+Checklist --> Task
+Location --> Event
+User <|-- Organizer
+User <|-- Attendee
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Classes and Relationships:
+
+- **User**: Base class for both `Organizer` and `Attendee`. Contains common properties like `username`, `password`, and `email`.
+- **Organizer**: Extends `User` with additional details like name, contact info, and event setup.
+- **Attendee**: Extends `User` with attendance status and tasks to bring.
+- **Event**: Central entity that includes event details, organizers, attendees, and a checklist.
+- **Location**: Represents a physical place for the event; can be selected or created.
+- **Checklist**: A list of tasks specific to an event.
+- **Task**: Represents individual items in the checklist. Some tasks are for attendees to complete.
+
+---
+
+### 💡 Notes:
+- The `Organizer` can manage multiple events.
+- The `Attendee` is invited by the organizer via email and can confirm attendance.
+- Tasks can be shared across events if they're added to the general checklist.
+- The `Task` has a flag (`isForAttendees`) indicating whether it's assigned to attendees to complete.
+
+Let me know if you'd like a visual rendering or further refinement!

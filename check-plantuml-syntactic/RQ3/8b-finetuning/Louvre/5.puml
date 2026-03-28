@@ -1,0 +1,507 @@
+@startuml
+enum ExhibitionStatus {
+  Draft
+  Fundraising
+  Installation
+  Open
+  Closing
+  Archival
+}
+enum AssignmentStatus {
+  Pending
+  Active
+  Completed
+  Cancelled
+}
+class MuseumCollection {
+  collectionName: String
+  +getAvailablePieces(): List<Piece>
+}
+class Piece {
+  title: String
+  description: String
+  yearAcquired: int
+  +isCompatibleWith(artwork: Artwork): boolean
+}
+class Collector {
+  collectorName: String
+  contactInfo: String
+  +supplyPiece(piece: Piece): boolean
+}
+class Exhibition {
+  title: String
+  startYear: int
+  currentStatus: ExhibitionStatus
+  +addEvent(event: ExhibitionEvent): void
+  +closeExhibition(): void
+}
+class ExhibitionEvent {
+  eventName: String
+  occurrenceDate: Date
+  location: MuseumLocation
+  +addVenue(venue: Venue): void
+}
+class Venue {
+  venueName: String
+  capacity: int
+  +isAvailableFor(durationDays: int): boolean
+  +getLayout(): String
+}
+class Room {
+  roomNumber: String
+  areaSquareMeters: double
+  +getAvailableCapacity(): int
+}
+class Sequence {
+  sequenceName: String
+  maxAllowedPieces: int
+  +addPiece(piece: Piece): boolean
+  +removePiece(piece: Piece): void
+}
+class Category {
+  categoryName: String
+  description: String
+  +getSubcategories(): List<Category>
+}
+class Artwork {
+  artworkTitle: String
+  artistName: String
+  yearCreated: int
+  +getArtistDetails(): String
+}
+class ExhibitionItem {
+  itemDescription: String
+  requiredQuantity: int
+  preferredArtists: List<String>
+  +suggestProviders(): List<Collector>
+  +assignPiece(piece: Piece): boolean
+  +assignToCoordinator(employee: Employee): void
+}
+class Employee {
+  employeeName: String
+  department: String
+  +requestPiece(piece: Piece, quantity: int): OrderRequest
+  +completeTask(task: Task): void
+}
+class Task {
+  taskDescription: String
+  dueDate: Date
+  currentStatus: AssignmentStatus
+  +updateProgress(status: AssignmentStatus): void
+}
+class ProjectPlan {
+  projectName: String
+  estimatedDuration: int
+  +addMilestone(date: Date, description: String): void
+  +getProgressPercentage(): double
+}
+class OrderRequest {
+  requestedQuantity: int
+  requestDate: Date
+  +confirmOrder(): PurchaseOrder
+  +cancelRequest(): void
+}
+class PurchaseOrder {
+  orderNumber: String
+  orderDate: Date
+  totalAmount: double
+  +processPayment(): void
+  +cancelOrder(): void
+}
+class FinancialTransaction {
+  amount: double
+  paymentMethod: String
+  transactionDate: Date
+  +validatePayment(): boolean
+}
+class Budget {
+  budgetName: String
+  allocatedAmount: double
+  spentAmount: double
+  +calculateRemainingBalance(): double
+  +approveDisbursement(amount: double): void
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  totalAmount: double
+  isPaid: boolean
+  +payInvoice(): void
+}
+class Supplier {
+  supplierName: String
+  contactInfo: String
+  +supplyItem(order: OrderRequest): void
+}
+class TrainingProgram {
+  programTitle: String
+  startDate: Date
+  endDate: Date
+  +enrollEmployee(employee: Employee): void
+  +generateCertificate(employee: Employee): Certificate
+}
+class Certificate {
+  certificateNumber: String
+  issueDate: Date
+  validityPeriodDays: int
+  +isValid(): boolean
+}
+class AuditReport {
+  reportDate: Date
+  auditorName: String
+  findingsSummary: String
+  +compileReport(): void
+  +releaseReport(): void
+}
+class MaintenanceRecord {
+  maintenanceDate: Date
+  workDescription: String
+  technicianName: String
+  +logCompletion(): void
+}
+class SafetyCheckpoint {
+  checkpointName: String
+  locationCode: String
+  +checkSafetyStatus(): boolean
+  +triggerAlarm(): void
+}
+class DigitalArchive {
+  archiveName: String
+  storageLocation: String
+  +storeDocument(document: Document): void
+  +retrieveDocument(id: String): Document
+}
+class Document {
+  documentTitle: String
+  documentType: String
+  contentSummary: String
+  creationDate: Date
+  +updateContent(newContent: String): void
+}
+class Announcement {
+  announcementDate: Date
+  contentText: String
+  targetAudience: String
+  +publish(): void
+  +withdraw(): void
+}
+class NotificationService {
+  serviceName: String
+  +sendNotification(recipient: Employee, message: String): boolean
+}
+class NotificationChannel {
+  channelType: String
+  endpoint: String
+  +sendMessage(message: String): boolean
+}
+class AnalyticsDashboard {
+  dashboardName: String
+  +generatePerformanceReport(): String
+  +exportData(format: String): void
+}
+class SystemUser {
+  username: String
+  emailAddress: String
+  +login(): boolean
+  +logout(): void
+}
+class LogEntry {
+  timestamp: Date
+  actionDescription: String
+  actor: String
+  +recordAction(action: String, actor: String): void
+}
+class TimeSlot {
+  startTime: Date
+  endTime: Date
+  isBufferSlot: boolean
+  +getDuration(): int
+}
+class ClockInRecord {
+  checkInTime: Date
+  checkOutTime: Date
+  +calculateHoursWorked(): double
+}
+class ConferenceSession {
+  sessionTitle: String
+  startTime: Date
+  endTime: Date
+  speakerName: String
+  +registerAttendee(attendee: Employee): void
+  +finalizeSession(): void
+}
+class StagingArea {
+  areaCode: String
+  capacity: int
+  +assignToEvent(event: ExhibitionEvent): void
+}
+class Visitor {
+  visitorName: String
+  visitDate: Date
+  +checkIn(): void
+  +checkOut(): void
+}
+class Ticket {
+  ticketNumber: String
+  ticketType: String
+  issueDate: Date
+  +validateEntry(): boolean
+  +cancelTicket(): void
+}
+class Department {
+  departmentName: String
+  headEmployee: Employee
+  +assignTask(task: Task, employee: Employee): void
+  +manageBudget(budget: Budget): void
+}
+class TimeLog {
+  logDate: Date
+  hoursLogged: double
+  projectCode: String
+  +submitLog(): void
+}
+class Requestor {
+  requesterName: String
+  requestDate: Date
+  +submitRequest(type: String): void
+}
+class ApprovalWorkflow {
+  workflowName: String
+  currentState: AssignmentStatus
+  +approveStep(approver: Employee): boolean
+  +rejectStep(reason: String): void
+}
+class BookingRequest {
+  requestDate: Date
+  requestedDateRange: String
+  categoryFilter: String
+  +createBooking(): Booking
+  +checkAvailability(): boolean
+}
+class Booking {
+  bookingDate: Date
+  durationDays: int
+  totalCost: double
+  +confirmBooking(): void
+  +cancelBooking(): void
+}
+class StaffSchedule {
+  scheduleDate: Date
+  +assignTask(task: Task, employee: Employee): void
+  +getOvertimeHours(): double
+}
+class Shift {
+  shiftCode: String
+  startTime: Date
+  endTime: Date
+  +assignEmployee(employee: Employee): void
+}
+class AttendanceRecord {
+  attendanceDate: Date
+  isPresent: boolean
+  notes: String
+  +markAttendance(present: boolean): void
+}
+class EventSubscription {
+  subscriptionDate: Date
+  +subscribeToEvent(event: ExhibitionEvent): void
+  +unsubscribe(): void
+}
+class PromotionCampaign {
+  campaignName: String
+  startDate: Date
+  endDate: Date
+  targetAudience: String
+  +launchCampaign(): void
+  +trackPerformance(): double
+}
+class MarketingMaterial {
+  materialType: String
+  content: String
+  +distributeMaterial(): void
+}
+class CampaignBudget {
+  allocatedAmount: double
+  spentAmount: double
+  +allocateFunds(amount: double): void
+  +reallocateFunds(source: CampaignBudget, target: CampaignBudget, amount: double): void
+}
+class EventAgenda {
+  agendaTitle: String
+  +addSession(session: ConferenceSession): void
+  +publishAgenda(): void
+}
+class ExhibitionCatalog {
+  catalogTitle: String
+  publicationYear: int
+  +addExhibition(exhibition: Exhibition): void
+  +generateCatalog(): void
+}
+class ExhibitorProfile {
+  profileName: String
+  exhibitCategory: String
+  +updateProfileInfo(newInfo: String): void
+  +listExhibits(): List<Exhibition>
+}
+class VisitorLog {
+  logTimestamp: Date
+  visitorBehavior: String
+  +recordEntry(visitor: Visitor, behavior: String): void
+  +retrieveLogs(dateRange: String): List<LogEntry>
+}
+class ArtCurator {
+  curatorName: String
+  specialization: String
+  +curateExhibition(exhibition: Exhibition, theme: String): void
+  +approvePiece(piece: Piece): boolean
+}
+class Coordinator {
+  coordinatorName: String
+  +assignExhibition(exhibition: Exhibition, employee: Employee): void
+  +assignTask(task: Task, employee: Employee): void
+}
+class CommunicationLog {
+  messageContent: String
+  sendDate: Date
+  recipient: String
+  +updateMessage(newContent: String): void
+  +archiveLog(): void
+}
+class NotificationQueue {
+  queueName: String
+  +enqueueNotification(notification: NotificationService): void
+  +dequeueNotification(): NotificationService
+}
+class DataSource {
+  sourceName: String
+  +fetchData(type: String): String
+  +syncData(): boolean
+}
+class SystemSettings {
+  environmentMode: String
+  maxActiveSessions: int
+  +configureSettings(config: Map<String, Object>): void
+  +getSystemStatus(): String
+}
+class AuditTrail {
+  +logAction(actor: String, action: String, details: String): void
+  +exportTrail(filter: String): String
+}
+class UserInterface {
+  interfaceName: String
+  +renderDashboard(dashboard: AnalyticsDashboard): void
+  +displayError(message: String): void
+}
+class FrontendApp {
+  appName: String
+  +initialize(): void
+  +renderHomepage(): void
+}
+class AuthenticationModule {
+  +authenticateUser(username: String, password: String): boolean
+  +changePassword(oldPass: String, newPass: String): boolean
+}
+class DataTransformer {
+  +transformData(input: String, format: String): String
+  +validateDataStructure(data: Map<String, Object>): boolean
+}
+class ReportGenerator {
+  +generateReport(reportType: String, data: Map<String, Object>): String
+  +exportReport(report: String, format: String): void
+}
+class SearchEngine {
+  +searchCollection(query: String, category: Category): List<Piece>
+  +searchExhibitions(query: String, location: MuseumLocation): List<Exhibition>
+}
+class RatingSystem {
+  +rateExhibition(exhibition: Exhibition, score: int): void
+  +getAverageScore(exhibition: Exhibition): double
+  +getRatingsHistory(exhibition: Exhibition): List<int>
+}
+class ComplianceChecker {
+  +verifyCompliance(record: MaintenanceRecord): boolean
+  +checkAccess(venue: Venue, user: Employee): boolean
+}
+class FeedbackForm {
+  feedbackText: String
+  ratingScore: int
+  submissionDate: Date
+  +submitForm(): void
+}
+class ReviewSection {
+  sectionName: String
+  +addReview(feedback: FeedbackForm): void
+  +getSectionRatings(): List<int>
+}
+class RatingAggregator {
+  +aggregateRatings(ratings: List<int>): double
+  +calculateOverallScore(section: ReviewSection): double
+}
+class AnalyticsEngine {
+  +calculateTrend(dataSet: List<double>): List<double>
+  +identifyAnomalies(dataSet: List<double>): List<double>
+}
+class DataRepository {
+  repositoryName: String
+  +storeData(data: String): void
+  +retrieveData(criteria: String): String
+}
+class FileStorage {
+  storageLocation: String
+  +saveFile(data: File, path: String): boolean
+  +loadFile(path: String): File
+}
+class FileBackup {
+  backupDate: Date
+  +createBackup(): void
+  +restoreBackup(): void
+}
+class BackupManager {
+  +scheduleBackup(): void
+  +manageBackups(): void
+}
+class ReferenceBook {
+  bookTitle: String
+  publicationYear: int
+  +lookupDefinition(term: String): String
+}
+class Indexer {
+  +buildIndex(bucket: Bookshelf): void
+  +searchIndex(query: String): List<String>
+}
+class SearchIndex {
+  indexName: String
+  +addEntry(key: String, value: String): void
+  +getEntries(): List<String>
+}
+class IndexManager {
+  +maintainIndex(index: SearchIndex): void
+}
+class Bookshelf {
+  shelfName: String
+  categorization: String
+  +addReference(book: ReferenceBook): void
+  +removeReference(book: ReferenceBook): void
+}
+class MetadataTag {
+  tagName: String
+  tagValue: String
+  +updateTag(newName: String, newValue: String): void
+}
+class TagCloud {
+  cloudName: String
+  +generateCloud(hashtag: String): void
+  +getPopularTags(): List<String>
+}
+class TagManager {
+  +assignTag(item: Piece, tag: MetadataTag): void
+  +countTags(): int
+}
+class ArchiveManager {
+  +archiveItem(item: ExhibitionItem): void
+  +retrieveItem(id: String): ExhibitionItem
+}
+class Timeline {
+  timelineName: String
+  +
+@enduml

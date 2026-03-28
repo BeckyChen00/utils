@@ -1,0 +1,59 @@
+@startuml
+enum BuildingMaterial {
+  wood
+  brick
+  concrete
+}
+enum BasementType {
+  earthBasement
+  concreteBasement
+}
+enum RoofType {
+  flatRoof
+  slopedRoof
+  gableRoof
+  hipRoof
+}
+enum JobStatus {
+  pending
+  completed
+  cancelled
+}
+class House {
+  address: String
+  buildingMaterial: BuildingMaterial
+  +getBasementDetails(): String
+  +getServiceCount(): int
+}
+class Basement {
+  basementType: BasementType
+  depth: double
+  +getFloorCount(): int
+}
+class SemidetachedHouse {
+  hasOwnGarden: boolean
+  windowCount: int
+  carportCount: int
+  carportRoofType: RoofType
+  garageDoorType: String
+  +configureCarports(): void
+  +configureGarage(): void
+}
+class ServiceCompany {
+  companyName: String
+  companyAddress: String
+  +assignJob(jobLog: JobLog): void
+}
+class JobLog {
+  jobDescription: String
+  workHours: double
+  agreedPrice: double
+  completionDate: Date
+  +validateHours(): boolean
+  +calculateTotalCost(): double
+}
+SemidetachedHouse --|> House
+House *-- "1" Basement : primaryBasement
+House --> "*" ServiceCompany : serviceProviders
+House --> "*" JobLog : jobLogs
+@enduml

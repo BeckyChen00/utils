@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ship" eType="#//Ship" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Cruise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="itineraries" eType="#//CruiseItinerary" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shows" eType="#//Show" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tickets" eType="#//Ticket" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CruiseItinerary">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vessel" eType="#//Ship" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Show"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cruise" eType="#//Cruise" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guests" eType="#//Guest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="payments" eType="#//Payment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="travelAgency" eType="#//TravelAgency" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Guest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tickets" eType="#//Ticket" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ratings" eType="#//GuestRating" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GuestRating"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TravelAgency"/>
+</ecore:EPackage>

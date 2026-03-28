@@ -1,0 +1,78 @@
+
+@startuml
+
+' Define classes with attributes and associations
+
+class Driver {
+    - driverID: String (unique)
+    - name: String
+    - isOnSickLeave: boolean
+}
+
+class Bus {
+    - licensePlate: String (max 10 chars)
+    - isInRepairShop: boolean
+}
+
+class Route {
+    - routeNumber: Integer (0-9999)
+}
+
+class Assignment {
+    - date: Date
+    - bus: Bus
+    - route: Route
+}
+
+class Shift {
+    - shiftType: String (Morning, Afternoon, Night)
+    - date: Date
+    - driver: Driver
+    - bus: Bus
+    - route: Route
+}
+
+class Staff {
+    - assignBusesToRoutes()
+    - scheduleDrivers()
+    - updateDriverStatus()
+    - updateBusStatus()
+}
+
+' Relationships
+
+Staff --> "assigns" Assignment
+Staff --> "posts" Shift
+Staff --> "manages" Driver
+Staff --> "manages" Bus
+
+Driver --> "assigned to" Shift
+Bus --> "assigned to" Assignment
+Bus --> "operates in" Shift
+Route --> "has" Assignment
+Route --> "has shifts for" Shift
+Assignment --> "on" Route
+Assignment --> "using" Bus
+Shift --> "on" Route
+Shift --> "using" Bus
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **Driver**: Identified by unique `driverID` and `name`. Has status (`isOnSickLeave`) affecting scheduling.
+- **Bus**: Identified by `licensePlate` (up to 10 characters). Has status (`isInRepairShop`) affecting assignment.
+- **Route**: Identified by `routeNumber` (0–9999).
+- **Assignment**: Represents the assignment of a **bus to a route** on a specific **date**.
+- **Shift**: Represents a time slot (morning/afternoon/night) where a **driver operates a bus on a route**.
+- **Staff**: City staff who manage assignments and schedules.
+
+---
+
+### Notes from Requirements:
+- A **bus can be assigned to multiple routes**, but only one per day.
+- A **driver can have multiple shifts per day**, even overlapping ones.
+- **No updates** to drivers or buses are supported—only **add/delete**.
+- If a **bus is in repair** or a **driver is sick**, they cannot be scheduled/assigned.
+

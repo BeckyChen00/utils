@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Director"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Actor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Technician"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FilmSet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Film"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Screenwriter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Screenplay"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Novel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Concept"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OscarWinner"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="socialSecurityNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee"/>
+</ecore:EPackage>

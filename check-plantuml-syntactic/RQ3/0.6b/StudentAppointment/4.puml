@@ -1,0 +1,21 @@
+@startuml
+
+class systemRequirement { name: "System Requirement" }
+
+class systemRequirement {
+  member : requirement1, requirement2, requirement3
+}
+
+class component {
+  name: "Component A"
+  description: "This is a sample component."
+  parent: systemRequirement
+}
+
+class component {
+  name: "Component B"
+  description: "This is another sample component."
+  parent: systemRequirement
+}
+
+@enduml

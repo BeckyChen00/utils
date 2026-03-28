@@ -1,0 +1,172 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class SmartHome {
+    +String address
+    +Room[] rooms
+    +void addRoom(Room)
+    +void removeRoom(Room)
+}
+
+class Room {
+    +String name
+    +Sensor[] sensors
+    +Actuator[] actuators
+    +void addSensor(Sensor)
+    +void addActuator(Actuator)
+}
+
+abstract class Device {
+    +String deviceId
+    +boolean isActive
+    +void activate()
+    +void deactivate()
+}
+
+class Sensor extends Device {
+    +String type
+    +Reading[] readings
+    +void recordReading(double value, DateTime timestamp)
+}
+
+class Actuator extends Device {
+    +String type
+    +Command[] commands
+    +void executeCommand(Command command)
+}
+
+class Reading {
+    +double value
+    +DateTime timestamp
+    +Sensor sensor
+}
+
+class Command {
+    +String action
+    +DateTime timestamp
+    +CommandStatus status
+    +Actuator actuator
+}
+
+enum CommandStatus {
+    requested
+    completed
+    failed
+}
+
+class ActivityLog {
+    +Reading[] allReadings
+    +Command[] allCommands
+    +void logReading(Reading)
+    +void logCommand(Command)
+}
+
+class AlertRule {
+    +String ruleId
+    +String description
+    +BooleanExpression precondition
+    +Action action
+    +DateTime lastTriggered
+    +RuleStatus status
+    +AlertRule[] dependencies
+    +AlertRule[] conflicts
+    +void create()
+    +void edit()
+    +void activate()
+    +void deactivate()
+}
+
+enum RuleStatus {
+    active
+    inactive
+    deactivated
+}
+
+abstract class BooleanExpression {}
+
+class RelationalTerm extends BooleanExpression {
+    +String roomName
+    +String deviceType
+    +String deviceId
+    +String attributeName
+    +Object value
+    +RelationalOperator operator
+}
+
+enum RelationalOperator {
+    equals
+    notEquals
+    greaterThan
+    lessThan
+    greaterOrEqual
+    lessOrEqual
+}
+
+class CompositeExpression extends BooleanExpression {
+    +BooleanExpression left
+    +BooleanOperator operator
+    +BooleanExpression right
+}
+
+enum BooleanOperator {
+    AND
+    OR
+    NOT
+}
+
+class Action {
+    +Command[] commands
+}
+
+class Owner {
+    +User user
+    +SmartHome smartHome
+    +void manageRules(AlertRule)
+}
+
+class User {
+    +String username
+    +String email
+}
+
+' Associations
+
+SmartHome "1" *-- "many" Room : contains
+Room "1" *-- "many" Sensor : has
+Room "1" *-- "many" Actuator : has
+Device "1" -- "0..*" Reading : generates
+Device "1" -- "0..*" Command : executes
+SmartHome "1" -- "1" ActivityLog : logs
+ActivityLog "1" -- "many" Reading : stores
+ActivityLog "1" -- "many" Command : stores
+Owner "1" -- "1" SmartHome : owns
+Owner "1" -- "many" AlertRule : manages
+AlertRule "1" -- "1" BooleanExpression : has
+AlertRule "1" -- "1" Action : has
+BooleanExpression "1" ..> CompositeExpression : may be
+BooleanExpression "1" ..> RelationalTerm : may be
+BooleanExpression "1" ..> AlertRule : is part of
+CompositeExpression "1" -- "1" BooleanOperator : uses
+CompositeExpression "1" -- "1" BooleanExpression : left
+CompositeExpression "1" -- "1" BooleanExpression : right
+RelationalTerm "1" -- "1" RelationalOperator : uses
+
+@enduml
+
+---
+
+### 📌 Notes on the Diagram:
+- **`SmartHome`** is composed of multiple **`Room`** objects.
+- Each **`Room`** can contain multiple **`Sensor`** and **`Actuator`** devices.
+- All **`Device`** types have an `isActive` flag and are tracked by SHAS when activated or deactivated.
+- **`Sensor`** records **`Reading`** data periodically.
+- **`Actuator`** executes **`Command`**s and stores their status.
+- All **`Reading`** and **`Command`** data are stored in the **`ActivityLog`**.
+- **`Owner`** manages **`AlertRule`** objects, which consist of a **`BooleanExpression`** and an **`Action`**.
+- The **`BooleanExpression`** can be either a **`RelationalTerm`** or a **`CompositeExpression`** using logical operators.
+
+---
+
+Let me know if you'd like this rendered as an image or want to extend it with use cases or sequence diagrams.

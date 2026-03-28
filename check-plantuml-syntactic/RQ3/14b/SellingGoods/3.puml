@@ -1,0 +1,120 @@
+
+This model includes:
+
+- `Customer` with address and VAT number.
+- `Product` with name and stock level.
+- `Order` with order lines, payment status, and shipping status.
+- `OrderLine` with product, quantity, and shipment status (introduced in Step 2).
+- `Shipment` to track individual shipments (introduced in Step 4), which can contain multiple `OrderLines`.
+- `DeliveryStatus` as an enum for tracking the state of each delivery (introduced in Step 4).
+- `Invoice` introduced in Step 3.
+- `WarehouseAddress` to track where orders are delivered (introduced in Step 3).
+
+---
+
+
+@startuml
+skinparam classAttributeIconName true
+
+class Customer {
+  -id: int
+  -name: String
+  -address: String
+  -vatNumber: String
+}
+
+class Product {
+  -id: int
+  -name: String
+  -stockLevel: int
+}
+
+class Order {
+  -id: int
+  -customer: Customer
+  -orderDate: Date
+  -paymentStatus: PaymentStatus
+  -shippingStatus: ShippingStatus
+  -invoice: Invoice
+  +addOrderLine(product: Product, quantity: int)
+  +removeOrderLine(orderLine: OrderLine)
+  +markAsPaid()
+  +markAsShipped()
+}
+
+class OrderLine {
+  -id: int
+  -product: Product
+  -quantity: int
+  -shipmentStatus: ShipmentStatus
+  -shipment: Shipment
+}
+
+class Shipment {
+  -id: int
+  -orderLines: List<OrderLine>
+  -deliveryStatus: DeliveryStatus
+  -packedDate: Date
+  -shippedDate: Date
+  -receivedDate: Date
+}
+
+class Invoice {
+  -id: int
+  -order: Order
+  -amount: double
+  -dueDate: Date
+  -paidDate: Date
+}
+
+class WarehouseAddress {
+  -id: int
+  -customer: Customer
+  -address: String
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+}
+
+enum ShippingStatus {
+  NOT_SHIPPED
+  PARTIALLY_SHIPPED
+  FULLY_SHIPPED
+}
+
+enum ShipmentStatus {
+  NOT_SHIPPED
+  SHIPPED
+  DELIVERED
+  LOST
+  DAMAGED
+}
+
+enum DeliveryStatus {
+  PACKED
+  SHIPPED
+  DELIVERED
+  LOST
+  DAMAGED
+}
+
+Customer "1" -- "0..*" Order : places
+Order "1" -- "1" Invoice : has
+Order "1" -- "0..*" OrderLine : contains
+OrderLine "1" -- "1" Shipment : belongsTo
+Customer "1" -- "0..*" WarehouseAddress : has
+Shipment "1" -- "0..*" OrderLine : contains
+@enduml
+
+---
+
+### 📌 Notes:
+- **PaymentStatus** and **ShippingStatus** are enums to represent the status of payments and overall order shipping.
+- **ShipmentStatus** and **DeliveryStatus** are used to track individual line items and shipment groups respectively.
+- **Invoice** is associated with an **Order**, and tracks the amount due, when it was paid, etc.
+- **WarehouseAddress** is a new class introduced in Step 3 to handle different delivery locations per customer.
+
+---
+

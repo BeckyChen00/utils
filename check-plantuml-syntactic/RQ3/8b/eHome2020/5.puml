@@ -1,0 +1,96 @@
+
+@startuml
+
+' Define the classes and their attributes
+class Sensor {
+    +vendorId: String
+    +description: String
+    +unit: Unit
+    +room: Room
+    +threshold: Threshold
+    +lastValue: Value
+    +getValues(): List<Value>
+}
+
+class PowerSensor extends Sensor {
+    +totalPowerConsumption: Double
+}
+
+class TemperatureSensor extends Sensor {
+    +minValue: Double
+    +maxValue: Double
+}
+
+class Room {
+    +description: String
+    +sensors: List<Sensor>
+}
+
+class Apartment {
+    +address: String
+    +rooms: List<Room>
+    +inhabitants: List<Inhabitant>
+    +email: String
+}
+
+class Inhabitant {
+    +username: String
+    +password: String
+    +isAdmin: Boolean
+    +thresholds: Map<Sensor, Threshold>
+}
+
+class Threshold {
+    +value: Double
+    +unit: Unit
+}
+
+class Value {
+    +timestamp: DateTime
+    +value: Double
+}
+
+class SensorController {
+    +sensors: List<Sensor>
+    +apartments: List<Apartment>
+    +login(username: String, password: String): Inhabitant
+    +querySensorValues(sensor: Sensor): List<Value>
+    +setThreshold(sensor: Sensor, threshold: Threshold)
+    +getLastValue(sensor: Sensor): Value
+}
+
+class EMonitor {
+    +checkThresholds(apartment: Apartment): List<Alert>
+    +sendAlert(alert: Alert)
+}
+
+class Alert {
+    +message: String
+    +timestamp: DateTime
+    +apartment: Apartment
+}
+
+' Define associations and multiplicity
+Sensor "1" -- "1" Room: assignedTo
+SensorController "1" -- "1" Apartment: manages
+Inhabitant "1" -- "1" Apartment: belongsTo
+Inhabitant "1" -- "0..*" Threshold: has
+Sensor "1" -- "1" Threshold: has
+SensorController "1" -- "1" Inhabitant: allows login
+SensorController "1" -- "1" Value: stores
+SensorController "1" -- "1" EMonitor: communicates with
+EMonitor "1" -- "1" Alert: generates
+Apartment "1" -- "1" Email: has (not explicitly modeled but implied)
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The `Unit` type is used as an enum or a simple string (e.g., `"CELSIUS"` or `"WATT"`).
+- The `Value` class represents historical data points with a timestamp.
+- The `Threshold` class holds a value and unit for comparison.
+- The `EMonitor` system interacts with the `SensorController` to check thresholds and send alerts.
+- The `Inhabitant` can have administrative rights, which allow them to configure sensors (e.g., assign to rooms, change descriptions).
+
+Let me know if you'd like this rendered as an image or need any modifications!

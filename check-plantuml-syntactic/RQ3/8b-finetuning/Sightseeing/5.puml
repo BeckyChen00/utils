@@ -1,0 +1,48 @@
+@startuml
+enum TourStatus {
+  Scheduled
+  Ongoing
+  Completed
+  Cancelled
+}
+enum RoleType {
+  Guide
+  Visitor
+}
+class City {
+  cityCode: String
+  cityName: String
+  populationCount: int
+  +findAttractionsByCategory(category: String): List<Attraction>
+}
+class Attraction {
+  attractionName: String
+  streetAddress: String
+  +getDescription(): String
+}
+class GuidedTour {
+  tourDurationMinutes: int
+  tourCapacityLimit: int
+  currentStatus: TourStatus
+  +registerVisitor(visitor: Visitor, discountPercentage: int): boolean
+  +getAvailableSlots(): int
+  +updateStatus(newStatus: TourStatus): void
+}
+class Visitor {
+  visitorName: String
+  roleName: RoleType
+  +checkEligibility(): boolean
+}
+class Booking {
+  bookingDate: Date
+  confirmationNumber: String
+  +confirmBooking(): boolean
+  +cancelBooking(): boolean
+}
+City "1" *-- "0..*" Attraction : contains
+City "1" *-- "0..*" Visitor : residents
+Attraction "1" *-- "0..*" GuidedTour : offers
+GuidedTour "1" *-- "0..*" Visitor : joins
+Booking "1" *-- "0..*" GuidedTour : includes
+Booking "1" *-- "0..*" Visitor : includes
+@enduml

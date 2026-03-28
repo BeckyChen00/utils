@@ -1,0 +1,91 @@
+
+@startuml
+
+' Define classes
+class SmartHome {
+  - id: String
+  - address: String
+  - rooms: Set<Room>
+}
+
+class Room {
+  - id: String
+  - name: String
+  - smartHome: SmartHome
+  - sensors: Set<Sensor>
+  - actuators: Set<Actuator>
+}
+
+class Sensor {
+  - id: String
+  - type: String
+  - room: Room
+  + getReading(): SensorReading
+}
+
+class Actuator {
+  - id: String
+  - type: String
+  - room: Room
+  + receiveCommand(command: ControlCommand): void
+}
+
+class SensorReading {
+  - sensor: Sensor
+  - timestamp: DateTime
+  - value: Double
+}
+
+class ControlCommand {
+  - actuator: Actuator
+  - timestamp: DateTime
+  - status: String
+  - commandType: String
+}
+
+class ActivityLog {
+  - smartHome: SmartHome
+  - readings: Set<SensorReading>
+  - commands: Set<ControlCommand>
+}
+
+class AutomationRule {
+  - id: String
+  - smartHome: SmartHome
+  - precondition: String
+  - action: String
+  - isActivated: Boolean
+  - dependsOn: Set<AutomationRule>
+  - conflictsWith: Set<AutomationRule>
+}
+
+class RuleTrigger {
+  - rule: AutomationRule
+  - timestamp: DateTime
+}
+
+' Relationships
+SmartHome "1" -- "0..*" Room : contains
+Room "1" -- "0..*" Sensor : has
+Room "1" -- "0..*" Actuator : has
+Sensor "1" -- "1" SensorReading : generates
+Actuator "1" -- "1" ControlCommand : receives
+SmartHome "1" -- "1" ActivityLog : records
+SmartHome "1" -- "0..*" AutomationRule : manages
+AutomationRule "1" -- "0..*" RuleTrigger : triggers
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **SmartHome**: Represents a physical smart home with an address and rooms.
+- **Room**: A room within a smart home, containing sensors and actuators.
+- **Sensor & Actuator**: Represent devices in the system; each has a unique ID and belongs to a room.
+- **SensorReading & ControlCommand**: Data captured by the system from sensors and sent to actuators.
+- **ActivityLog**: Stores all sensor readings and control commands for a smart home.
+- **AutomationRule**: Defines rules that trigger actions based on conditions involving sensors, actuators, and previous commands.
+- **RuleTrigger**: Records when a rule was triggered, including the timestamp.
+
+Let me know if you want this rendered as an image or need a UML tool recommendation!

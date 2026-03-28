@@ -1,0 +1,48 @@
+
+@startuml
+
+class ResearchGroup {
+  +String id
+  +String name
+  +List<WorkPackage> workPackages
+  +List<Researcher> researchers
+}
+
+class WorkPackage {
+  +String id
+  +String name
+  +ResearchGroup leaderGroup
+  +List<Researcher> teamMembers
+}
+
+class Researcher {
+  +String id
+  +String name
+  +ResearchGroup currentGroup
+  +List<WorkPackage> assignedWPs
+}
+
+' Relationships
+ResearchGroup "1" -- "0..*" WorkPackage : has
+WorkPackage "1" -- "0..*" Researcher : has team members
+Researcher "1" -- "1" ResearchGroup : belongs to
+Researcher "1" -- "0..*" WorkPackage : is assigned to
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **`ResearchGroup`**:
+  - Holds a list of `WorkPackage`s that it leads.
+  - Maintains a list of `Researcher`s who belong to the group.
+
+- **`WorkPackage`**:
+  - Is led by exactly one `ResearchGroup`.
+  - Has a list of `Researcher`s assigned as team members, regardless of their research group.
+
+- **`Researcher`**:
+  - Belongs to exactly one `ResearchGroup`.
+  - Can be assigned to multiple `WorkPackage`s.
+  - When a researcher changes groups or a `WorkPackage` leadership changes, the assignments are re-recorded to maintain traceability of service delivery.
+
+This diagram captures the core entities and relationships described in your system requirements. Let me know if you'd like to add more details like attributes, constraints, or operations!

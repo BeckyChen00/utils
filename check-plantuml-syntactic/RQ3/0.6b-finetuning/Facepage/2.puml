@@ -1,0 +1,173 @@
+@startuml
+enum StakeholderType {
+  GovernmentOfficial
+  CompanyExecutive
+  Researcher
+  IndustryPartner
+  Volunteer
+  EducationForAll
+  RegulatoryBody
+}
+enum TrainingGoal {
+  CapacityBuild
+  CompetencyEnhancement
+  ProcessOptimization
+  AccountabilityReview
+}
+enum TrainingStatus {
+  InProgress
+  Completed
+  Paused
+}
+class TrainingProgram {
+  name: String
+  startDate: Date
+  endDate: Date
+  +createSchedule(): TrainingSchedule
+  +addParticipant(stakeholder: Stakeholder): void
+}
+class TrainingSchedule {
+  totalDurationHours: int
+  +getActiveActivities(): List<TrainingActivity>
+  +isComplete(): boolean
+}
+class TrainingActivity {
+  activityName: String
+  durationMinutes: int
+  requiredSkills: List<String>
+  +getFreeTime(): String
+}
+class TrainingSession {
+  sessionDate: Date
+  durationMinutes: int
+  +getEnrolledStakeholders(): List<Stakeholder>
+}
+class LeadParticipant {
+  name: String
+  role: StakeholderType
+}
+class Participant {
+  name: String
+  stakeholderType: StakeholderType
+  currentStatus: TrainingStatus
+  +registerInSession(session: TrainingSession): void
+  +getAssignedActivities(): List<TrainingActivity>
+}
+class Stakeholder {
+  name: String
+  role: StakeholderType
+  +joinProgram(program: TrainingProgram): void
+}
+class TrainingGoal {
+  description: String
+  goalDate: Date
+  priorityLevel: int
+  +isAchieved(): boolean
+}
+class FollowUpPlan {
+  actionDescription: String
+  estimatedDurationDays: int
+  +scheduleAction(): void
+}
+class EvaluationMetric {
+  metricName: String
+  targetValue: double
+  +calculateScore(): double
+}
+class EvaluationReport {
+  reportTitle: String
+  generatedDate: Date
+  +generateSummary(): String
+  +exportFormat(formatType: String): void
+}
+class TrainingFeedback {
+  feedbackContent: String
+  submissionDate: Date
+  +submitFeedback(): void
+}
+class Guardian {
+  name: String
+  role: StakeholderType
+  +reviewProgram(program: TrainingProgram): void
+  +monitorStakeholder(stakeholder: Stakeholder): void
+}
+class Notification {
+  messageContent: String
+  sentDate: Date
+  +send(): void
+}
+class ComplianceCheck {
+  checkCode: String
+  status: boolean
+  +executeCheck(): boolean
+}
+class ResourceAllocation {
+  resourceType: String
+  allocatedHours: int
+  +allocateResources(): void
+}
+class ContentPackage {
+  packageName: String
+  contentDescription: String
+  +validateContent(): boolean
+}
+class EvaluationSession {
+  sessionDate: Date
+  +recordMetrics(metrics: List<EvaluationMetric>): void
+}
+class DependencyGraph {
+  graphName: String
+  +validateDependencies(): boolean
+  +findCycles(): List<StakeholderType>
+}
+class StatusTracker {
+  currentStatus: TrainingStatus
+  +updateStatus(newStatus: TrainingStatus): void
+  +getProgressPercentage(): double
+}
+class TrainingUnit {
+  unitName: String
+  unitLocation: String
+  +getUnitDetails(): String
+}
+class InstitutionalAuthority {
+  authorityName: String
+  jurisdiction: String
+  +authorizeStakeholder(stakeholder: Stakeholder): boolean
+}
+TrainingProgram *-- "1" StatusTracker : trackingSystem
+TrainingProgram *-- "1" TrainingSchedule : schedule
+TrainingProgram *-- "*" TrainingActivity : activities
+TrainingProgram *-- "*" TrainingSession : sessions
+TrainingProgram --> "0..*" LeadParticipant : leadingParticipants
+TrainingProgram --> "1" ComplianceCheck : complianceCheck
+TrainingProgram --> "0..1" FollowUpPlan : nextSteps
+TrainingProgram --> "1" Guardian : registeredGuardian
+TrainingProgram --> "1" InstitutionalAuthority : ledAuthority
+Participant *-- "1" TrainingProgram : program
+Participant *-- "0..*" TrainingActivity : participatedActivities
+Participant --> "1" TrainingGoal : assignedGoal
+Participant --> "0..*" TrainingSession : scheduledSessions
+Participant --> "0..*" TrainingFeedback : submittedFeedbacks
+TrainingSession --> "1" TrainingActivity : activity
+TrainingSession --> "1" EvaluationMetric : recordedMetrics
+TrainingSession *-- "0..*" TrainingFeedback : receivedFeedbacks
+TrainingUnit --> "1" TrainingProgram : hostedProgram
+TrainingUnit --> "1" TrainingActivity : hostedActivity
+TrainingUnit --> "0..*" TrainingSession : hostedSessions
+TrainingUnit --> "0..*" ResourceAllocation : allocatedResources
+TrainingSession --> "1" ContentPackage : includedContent
+TrainingSession --> "1" Stakeholder : involvedStakeholders
+ComplianceCheck --> "0..*" Stakeholder : checkedStakeholders
+EvaluationSession --> "1" Stakeholder : evaluator
+TrainingUnit --> "0..*" FollowUpPlan : executedPlans
+InstitutionalAuthority --> "0..*" Stakeholder : sanctionedStakeholders
+TrainingProgram --> "0..*" EvaluationMetric : recordedMetrics
+TrainingProgram --> "0..*" EvaluationReport : generatedReports
+TrainingProgram --> "0..*" TrainingFeedback : gatheredFeedbacks
+TrainingProgram --> "0..*" TrainingSession : supportedSessions
+TrainingProgram --> "0..*" TrainingUnit : organizedUnits
+Guardian --> "0..*" Participant : supervisedParticipants
+TrainingProgram --> "0..*" DependencyGraph : dependencyGraph
+TrainingProgram --> "0..*" ResourceAllocation : requisitionedResources
+@enduml

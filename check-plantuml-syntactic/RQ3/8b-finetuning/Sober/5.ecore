@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredOwners" eType="#//CarOwner" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CarOwner"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TripRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedStrategy" eType="#//PricingStrategy" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leadCustomer" eType="#//Customer" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatedBy" eType="#//Car" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="originRequest" eType="#//ServiceRequest" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedAccidents" eType="#//AccidentReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PricingStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governedBy" eType="#//Regulation" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Car">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuredRules" eType="#//SafetyRule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceLogs" eType="#//MaintenanceLog" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incidentReports" eType="#//AccidentReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedRoutes" eType="#//RoutePlanner" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoutePlanner"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AccidentReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Driver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatedCars" eType="#//Car" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FleetManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedFleet" eType="#//Car" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedTrips" eType="#//TripRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalyticsEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedRecords" eType="#//TripRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notifiedTrips" eType="#//TripRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alertedAccidents" eType="#//AccidentReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Regulation"/>
+</ecore:EPackage>

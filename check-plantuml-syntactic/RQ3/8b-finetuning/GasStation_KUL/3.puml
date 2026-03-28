@@ -1,0 +1,60 @@
+@startuml
+class RefuelingTransaction {
+  transactionTime: Date
+  fuelType: String
+  litersPumped: double
+  isCompleted: boolean
+  +calculateTotal(): double
+  +startRefueling(): void
+  +stopRefueling(): void
+}
+class FuelCard {
+  cardNumber: String
+  isBlocked: boolean
+  +activate(): void
+  +block(): void
+  +applyDiscount(rate: double): double
+}
+class Customer {
+  name: String
+  contactInfo: String
+  +payInvoice(amount: double): boolean
+  +validateCard(card: FuelCard): boolean
+}
+class FuelStation {
+  location: String
+  +generateDailyReport(): DailyReport
+}
+class Pump {
+  fuelType: String
+  currentLevel: double
+  reorderLevel: double
+  criticalLevel: double
+  isOperational: boolean
+  +refuel(transaction: RefuelingTransaction): void
+  +block(): void
+  +unblock(): void
+}
+class DailyReport {
+  generationDate: Date
+  +generate(station: FuelStation): void
+  +getPumpsNeedingRefill(): List<Pump>
+}
+class Invoice {
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  discountRate: double
+  +send(): void
+  +markPaid(amount: double): void
+  +getRefundedAmount(): double
+}
+RefuelingTransaction --> "1" Pump : assignedPump
+FuelStation *-- "1..*" Pump : pumps
+FuelStation *-- "1" DailyReport : dailyReport
+Invoice --> "1" Customer : recipient
+Customer "1" --> "0..*" FuelCard : heldCards
+FuelCard --> "0..*" RefuelingTransaction : linkedTransactions
+Customer "1" --> "0..*" Invoice : receivedInvoices
+FuelCard -- Invoice
+@enduml

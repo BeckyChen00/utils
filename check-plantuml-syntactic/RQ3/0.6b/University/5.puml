@@ -1,0 +1,29 @@
+@startuml
+
+class diagram: System Requirement
+
+    class SystemRequirement {
+        id "System Requirement"
+        description "This is a system requirement for the project."
+    }
+
+    class Component1 {
+        id "Component 1"
+        description "A component that fulfills part of the system requirement."
+    }
+
+    class Component2 {
+        id "Component 2"
+        description "A component that fulfills another part of the system requirement."
+    }
+
+    class Connection {
+        id "Connection between Components"
+        description "Establishes a connection between two components to satisfy the system requirement."
+    }
+
+    connect Component1 with Connection as C1-C2
+    connect Component2 with Connection as C2-C3
+    connect Component3 with Connection as C3-C4
+
+@enduml

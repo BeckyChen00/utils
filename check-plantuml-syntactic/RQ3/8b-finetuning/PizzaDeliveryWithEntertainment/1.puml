@@ -1,0 +1,68 @@
+@startuml
+enum CrustType {
+  Classic
+  DeepDish
+  Cheese
+  ThinCrispy
+  GarlicParmesan
+  StuffedCrust
+  GlutenFree
+}
+enum EntertainmentType {
+  Singing
+  JokeTelling
+  MagicTricks
+  ComedyAct
+  BaristaStorytelling
+  ImprovTheater
+  LiveMusic
+}
+class User {
+  name: String
+  address: String
+  birthday: Date
+  +createAccount(): void
+}
+class BusinessOwner {
+  linkedInProfileUrl: String
+  +ownRestaurant(restaurant: Restaurant): void
+}
+class Restaurant {
+  restaurantName: String
+  zipCode: String
+  phoneNumber: String
+  websiteUrl: String
+  openingHours: String
+  +addPizza(pizza: Pizza): void
+  +getAvailableEntertainers(): List<Entertainer>
+}
+class Pizza {
+  pizzaName: String
+  crustType: CrustType
+  basePrice: double
+  +getDescription(): String
+}
+class Order {
+  orderDate: Date
+  deliveryTimeConstraint: Date
+  numberOfPeople: int
+  isEntertainmentOrder: boolean
+  requestedEntertainmentType: EntertainmentType
+  durationMinutes: int
+  +calculateTotalPrice(): double
+  +getSummary(): String
+}
+class Entertainer {
+  stageName: String
+  bio: String
+  pricePer30Minutes: double
+  +workAt(restaurant: Restaurant): void
+  +updateAvailability(day: String, available: boolean): void
+}
+BusinessOwner --|> User
+Restaurant *-- "*" Pizza : menuItems
+Restaurant --> "*" Entertainer : contractedEntertainers
+Order *-- "1" User : placedByCustomer
+Order --> "1" Restaurant : orderedFrom
+Order --> "0..1" Entertainer : assignedEntertainer
+@enduml

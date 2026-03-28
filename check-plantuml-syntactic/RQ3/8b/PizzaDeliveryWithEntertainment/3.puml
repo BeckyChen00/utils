@@ -1,0 +1,122 @@
+
+---
+
+
+@startuml
+
+' Users
+class User {
+  +id: String (unique)
+  +name: String
+  +address: String
+  +birthday: Date
+}
+
+' Business Owner
+class BusinessOwner {
+  +linkedinAccount: String
+  -User user
+  * owns: PizzaRestaurant
+}
+
+' Pizza Restaurant
+class PizzaRestaurant {
+  +zipCode: String
+  +address: String
+  +phone: String
+  +website: String
+  +openingHours: String
+  * offers: Pizza
+  * employs: Entertainer
+}
+
+' Pizza
+class Pizza {
+  +name: String
+  +crustStructure: String
+  +price: Decimal
+  -PizzaRestaurant restaurant
+}
+
+' Hungry Customer
+class HungryCustomer {
+  -User user
+  * places: Order
+}
+
+' Entertainment Order
+class EntertainmentOrder {
+  +entertainmentType: String
+  +duration: Integer
+  * extends: Order
+}
+
+' Order
+class Order {
+  +id: String (unique)
+  +placedAt: DateTime
+  +latestDeliveryTime: DateTime
+  +numberOfPeople: Integer
+  * contains: Pizza
+  * isEntertainmentOrder: Boolean
+  * belongsTo: HungryCustomer
+}
+
+' Entertainer
+class Entertainer {
+  +stageName: String
+  +bio: String
+  +pricePer30Minutes: Decimal
+  * worksAt: PizzaRestaurant
+  * fulfills: EntertainmentOrder
+}
+
+' Availability
+class Availability {
+  +day: String
+  +startTime: Time
+  +endTime: Time
+  -Entertainer entertainer
+  -PizzaRestaurant restaurant
+}
+
+' Relationships
+User "1" -- "1" BusinessOwner : has
+BusinessOwner "1" -- "0..*" PizzaRestaurant : owns
+PizzaRestaurant "1" -- "0..*" Pizza : offers
+Pizza "1" -- "1" PizzaRestaurant : belongs to
+HungryCustomer "1" -- "0..*" Order : places
+Order "1" -- "1" HungryCustomer : belongs to
+Order "1" -- "0..1" EntertainmentOrder : is a type of
+Entertainer "1" -- "0..*" PizzaRestaurant : works at
+PizzaRestaurant "1" -- "0..*" Entertainer : employs
+Entertainer "1" -- "0..*" Availability : has
+Availability "1" -- "1" Entertainer : belongs to
+Availability "1" -- "1" PizzaRestaurant : belongs to
+
+@enduml
+
+---
+
+### ✅ Summary of Classes and Relationships:
+
+| Class              | Attributes & Notes |
+|-------------------|--------------------|
+| **User**          | Unique ID, name, address, birthday |
+| **BusinessOwner** | LinkedIn account, owns pizza restaurants |
+| **PizzaRestaurant** | Address, phone, website, opening hours, offers pizzas |
+| **Pizza**         | Name, crust, price; unique per restaurant |
+| **HungryCustomer**| Places orders |
+| **Order**         | ID, time, delivery details, number of people, may be entertainment |
+| **EntertainmentOrder** | Extends `Order`; includes entertainment type and duration |
+| **Entertainer**   | Stage name, bio, price per 30 mins; works at restaurants |
+| **Availability**  | Day, start/end times; links entertainer and restaurant |
+
+---
+
+### 📌 Notes:
+- **Inheritance**: `EntertainmentOrder` inherits from `Order`.
+- **Associations** are shown with multiplicity and cardinality.
+- All entities have proper **uniqueness constraints**, especially for `User.id` and `Order.id`.
+
+Let me know if you'd like this in an image format or want to export it!

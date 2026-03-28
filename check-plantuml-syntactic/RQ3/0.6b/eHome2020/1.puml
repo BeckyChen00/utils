@@ -1,0 +1,19 @@
+@startuml
+
+class SystemRequirement {
+    class Component { id, name }
+    class Requirement { id, component_id, description }
+
+    component1: Component(id=1, name="Component A")
+    requirement1: Requirement(id=1, component_id=1, description="Required functionality")
+
+    component2: Component(id=2, name="Component B")
+    requirement2: Requirement(id=2, component_id=2, description="Additional functionality")
+
+    requirement3: Requirement(id=3, component_id=1, description="Dependency on Component A")
+    requirement4: Requirement(id=4, component_id=2, description="Dependency on Component B")
+
+    component3: Component(id=3, name="Component C")
+    requirement5: Requirement(id=5, component_id=3, description="New feature required")
+
+@enduml

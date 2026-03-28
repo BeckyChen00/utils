@@ -1,0 +1,113 @@
+
+---
+
+
+@startuml
+skinparam monochrome true
+skinparam noteStyle rectangle
+skinparam classAttributeIconSize 0
+
+' --- Entities ---
+class Bus {
+    +String busId
+    +String lineNumber
+}
+
+class Trajectory {
+    +String trajectoryId
+    +String description
+    +boolean approved
+    +Date approvalDate
+    +Date cancellationDate
+    +boolean suspended
+}
+
+class Line {
+    +String lineId
+    +String name
+    +List<Trajectory> trajectories
+}
+
+class Customer {
+    +String customerId
+    +String name
+    +String homeAddress
+    +String officeAddress
+    +Time workingHours
+}
+
+class MENSOCard {
+    +String cardId
+    +Customer customer
+    +Date subscriptionDate
+}
+
+class Trip {
+    +String tripId
+    +Date date
+    +Time time
+    +Line line
+    +MENSOCard card
+}
+
+class Invoice {
+    +String invoiceId
+    +Date month
+    +Customer customer
+    +List<Trip> trips
+    +double totalAmount
+    +double discount
+    +double netAmount
+}
+
+class DiscountPolicy {
+    +int maxDiscountPercentage
+    +double calculateDiscount(double total)
+}
+
+' --- Relationships ---
+
+' Bus can be assigned to a Trajectory
+Bus --> Trajectory
+
+' A Line contains multiple Trajectories
+Line "1" --o"0..*" Trajectory : has
+
+' A Customer can have one MENSOCard
+Customer "1" --o"1" MENSOCard : has
+
+' A MENSOCard can be used for multiple Trips
+MENSOCard "1" --o"0..*" Trip : used for
+
+' A Trip belongs to an Invoice
+Trip "1" --o"0..*" Invoice : recorded in
+
+' An Invoice is associated with a Customer
+Invoice "1" --o"1" Customer : issued to
+
+' An Invoice uses a DiscountPolicy (aggregation)
+Invoice "1" --o"0..1" DiscountPolicy : applies
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements
+
+- **Bus**: Represents a physical bus with an ID and a line number.
+- **Trajectory**: A route that needs to be approved by authorities. It may be suspended or cancelled.
+- **Line**: Groups overlapping trajectories. Each line has a name and ID.
+- **Customer**: Holds personal data like address and working hours.
+- **MENSOCard**: Used for monthly invoicing. Subscribed by customers.
+- **Trip**: Records each journey with time, date, and line.
+- **Invoice**: Generated monthly for trips made with MENSO. Includes discounts.
+- **DiscountPolicy**: Defines how discounts are applied (up to 20%).
+
+---
+
+### 📝 Notes
+
+- The diagram uses aggregation (`--o`) where appropriate (e.g., `Invoice` and `DiscountPolicy`).
+- Relationships are shown as associations with multiplicity.
+
+Let me know if you'd like a version with more detailed attributes or additional constraints!

@@ -1,0 +1,55 @@
+@startuml
+enum UnitOfMeasure {
+  Piece
+  Paire
+}
+enum OrderStatus {
+  Pending
+  Completed
+}
+class Address {
+  streetAddress: String
+  postalCode: String
+  city: String
+  country: String
+}
+class Customer {
+  customerName: String
+  emailAddress: String
+  telephoneNumber: String
+  resaleCountries: List<String>
+}
+class Product {
+  productName: String
+  description: String
+  netPrice: double
+  unitOfMeasure: UnitOfMeasure
+  manufacturer: String
+  countryOfOrigin: String
+}
+class Order {
+  orderQuantity: int
+  orderDate: Date
+  deliveryDate: Date
+  status: OrderStatus
+}
+class Representative {
+  representativeName: String
+  socialSecurityNumber: String
+  telephoneNumber: String
+  emailAddress: String
+  countryCode: String
+}
+class TaxInformation {
+  vatRate: double
+  currencyCode: String
+  exchangeRateToEuro: double
+}
+Customer "1" *-- "1" Address : billingAddress
+Customer "1" --> "*" Order : placedOrders 'opposite: buyer
+Order "1" --> "1" Product : orderedProduct
+Representative "1" --> "1" TaxInformation : managedTaxInfo
+Representative "1" --> "*" Product : availableProducts
+Product "*" --> "0..1" TaxInformation : applicableTaxInfo
+Order "1" --> "1" Representative : placedBy
+@enduml

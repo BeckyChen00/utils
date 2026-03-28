@@ -1,0 +1,51 @@
+@startuml
+enum RecommendationType {
+  KeyPlayer
+  FirstTeamPlayer
+  ReserveTeamPlayer
+  ProspectivePlayer
+  NotGoodSigning
+}
+class ClubDirector {
+  name: String
+  yearsOfExperience: int
+  isContractSigned: boolean
+  +makeOfficialOffer(): String
+}
+class ScoutingReport {
+  submissionDate: Date
+  prosAndCons: String[]
+  recommendation: RecommendationType
+  +generateSummary(): String
+  +exportReport(): String
+}
+class ScoutingAssignment {
+  details: String
+  deadline: Date
+  +evaluatePlayer(): boolean
+}
+class PlayerProfile {
+  name: String
+  targetPositions: String[]
+  contactInfo: String
+  +matchesCriteria(): boolean
+  +calculateScore(): int
+}
+class PlayerAttribute {
+  attributeName: String
+  currentValue: int
+  maxScore: int
+}
+class ScoutingSession {
+  sessionDate: Date
+  notes: String
+  +concludeSession(): ScoutingReport
+}
+ClubDirector "1" *-- "0..*" ScoutingReport : submittedReports
+PlayerProfile "1" *-- "0..*" ScoutingReport : evaluationReports
+PlayerProfile "1" --> "1..*" SearchQuery : matchingQueries
+ScoutingReport "1" --> "1..*" ScoutingAssignment : basedOnAssignments
+PlayerProfile "1" --> "1" ScoutingAssignment : assignedTo
+ScoutingAssignment "1" --> "0..*" ScoutingSession : executionSessions
+PlayerAttribute -- Scout
+@enduml

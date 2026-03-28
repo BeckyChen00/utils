@@ -1,0 +1,70 @@
+
+@startuml
+
+' Define classes
+class Location {
+    +String address
+}
+
+class Driver {
+    +String firstName
+    +String lastName
+    +assignVehicle(Vehicle vehicle)
+    +unassignVehicle()
+    +assignOrder(Order order)
+    +completeOrder()
+}
+
+abstract class Vehicle {
+    +String vehicleNumber
+}
+
+class Truck {
+    +int weight
+}
+
+class Car {
+    +int numberOfSeats
+}
+
+class Van {
+    ' No additional attributes for this example
+}
+
+class Order {
+    +Location origin
+    +Location destination
+    +Date executionDate
+    +Driver assignedDriver
+    +execute()
+}
+
+' Inheritance relationships
+Vehicle <|-- Truck
+Vehicle <|-- Car
+Vehicle <|-- Van
+
+' Associations
+Location "1" -- "many" Driver : has
+Location "1" -- "many" Vehicle : has
+Location "1" -- "many" Order : manages
+
+Driver "0..1" -- "1" Vehicle : drives
+Driver "1" -- "1" Order : carries out
+Order "1" -- "1" Driver : assigned to
+
+@enduml
+
+---
+
+### Explanation of Key Points:
+
+- **Inheritance**: `Truck`, `Car`, and `Van` inherit from the abstract `Vehicle` class.
+- **Multiplicity**:
+  - A `Driver` can drive **at most one** `Vehicle`.
+  - A `Driver` can be assigned **one** `Order` at a time.
+  - A `Location` can have **multiple** `Drivers`, `Vehicles`, and `Orders`.
+- **Associations**:
+  - Each `Order` must have an `origin` and `destination` (both are `Location`).
+  - A `Driver` carries out one `Order` at a time.
+

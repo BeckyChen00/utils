@@ -1,0 +1,84 @@
+@startuml
+enum PriorityLevel {
+  Low
+  Medium
+  High
+  Critical
+  Emergency
+}
+class SystemEvent {
+  description: String
+  severity: PriorityLevel
+  reportedAt: Date
+  +getDescription(): String
+  +getSeverity(): PriorityLevel
+}
+class TimelineSegment {
+  startTime: Date
+  endTime: Date
+  isCompleted: boolean
+  +isEndReached(): boolean
+  +getDurationMinutes(): int
+}
+class WatchlistEvent {
+  occurrenceTimestamp: Date
+  +getLocationAddress(): String
+  +getNoteContent(): String
+}
+class IncidentProfile {
+  summary: String
+  +identifyRootCause(): String
+  +calculateTotalRiskScore(): int
+}
+class RiskAssessment {
+  riskLevel: int
+  severityScore: int
+  +evaluateSeverity(): int
+  +computeTotalRisk(): int
+}
+class AlertRule {
+  ruleExpression: String
+  thresholdValue: int
+  isEnabled: boolean
+  +matchesEvent(event: SystemEvent): boolean
+}
+class AlertTrigger {
+  targetType: String
+  +evaluateCondition(event: SystemEvent): boolean
+}
+class ResponsePlan {
+  planName: String
+  estimatedDuration: int
+  +getStatus(): String
+}
+class ComplianceRecord {
+  complianceStatus: String
+  auditDate: Date
+  +validateCompliance(): boolean
+}
+class ResponseExecutor {
+  +executePlan(plan: ResponsePlan): void
+  +generateSummary(): String
+}
+class IncidentManager {
+  +assignWatchlistEvent(event: WatchlistEvent): void
+  +generateIncidentProfile(event: SystemEvent): IncidentProfile
+  +createInitialProfile(event: SystemEvent): IncidentProfile
+  +assignSeverity(event: SystemEvent, level: PriorityLevel): void
+  +generateTimeline(event: SystemEvent): TimelineSegment
+}
+WatchlistEvent --> "1" SystemEvent : relatedEvent
+SystemEvent --> "0..1" IncidentProfile : generatedProfile
+SystemEvent --> "0..*" ResponsePlan : applicablePlans
+ResponsePlan --> "0..*" IncidentProfile : generatedProfiles
+SystemEvent --> "0..*" AlertRule : evaluatedRules
+SystemEvent --> "1" IncidentManager : manager
+IncidentManager --> "0..*" WatchlistEvent : managedEvents
+IncidentManager --> "0..*" AlertTrigger : configuredTriggers
+IncidentManager --> "0..*" ResponsePlan : plannedResponses
+IncidentManager --> "0..*" ComplianceRecord : maintainedRecords
+AlertRule --> "1" ResponseExecutor : definedExecutor
+ResponseExecutor --> "0..*" IncidentProfile : processedProfiles
+IncidentProfile -- TimelineSegment
+IncidentProfile -- AlertRule
+@enduml

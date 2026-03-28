@@ -1,0 +1,95 @@
+
+@startuml
+
+package "Team Sports Scouting System" {
+
+    abstract class Employee {
+        +String id
+        +String name
+        +String role
+    }
+
+    class HeadCoach extends Employee {
+        +List<DesignatedPlayerProfile> designatedProfiles
+    }
+
+    class Director extends Employee {
+        +void makeOffer(Player player)
+    }
+
+    class Scout extends Employee {
+        +List<ScoutingAssignment> assignments
+        +void submitScoutingReport(ScoutingReport report)
+    }
+
+    class HeadScout extends Scout {
+        +List<ScoutingAssignment> scoutingAssignments
+    }
+
+    class Player {
+        +String id
+        +String name
+        +List<PlayerAttribute> attributes
+        +List<ScoutingReport> reports
+    }
+
+    class DesignatedPlayerProfile {
+        +String id
+        +String position (e.g., GK, LB)
+        +List<PlayerAttribute> targetAttributes
+    }
+
+    class ScoutingAssignment {
+        +String id
+        +Player player
+        +Scout scout
+        +Date assignmentDate
+    }
+
+    class ScoutingReport {
+        +String id
+        +Player player
+        +Scout scout
+        +Date reportDate
+        +List<String> pros
+        +List<String> cons
+        +String recommendation (e.g., Key Player, Reserve Team, etc.)
+    }
+
+    class PlayerAttribute {
+        +String name
+        +String value
+    }
+
+    ' Relationships
+    HeadCoach --> DesignatedPlayerProfile
+    Director --> Player
+    Scout --> ScoutingAssignment
+    Scout --> ScoutingReport
+    ScoutingAssignment --> Player
+    ScoutingAssignment --> Scout
+    ScoutingReport --> Player
+    ScoutingReport --> Scout
+    Player --> PlayerAttribute
+    DesignatedPlayerProfile --> PlayerAttribute
+}
+
+@enduml
+
+---
+
+### ✅ Explanation of Classes and Relationships:
+
+- **Employee**: Abstract base class for all club employees.
+- **HeadCoach**: Identifies player profiles and positions.
+- **Director**: Makes official offers to players.
+- **Scout**: Submits scouting reports and assigns players for evaluation.
+- **HeadScout**: A specialized type of scout who leads scouting assignments.
+- **Player**: Represents a player with attributes and reports.
+- **DesignatedPlayerProfile**: A template for identifying target players with specific attributes.
+- **ScoutingAssignment**: A task assigned to a scout for evaluating a player.
+- **ScoutingReport**: Contains evaluation details of a player by a scout.
+- **PlayerAttribute**: Attributes like height, speed, etc., that define a player's profile.
+
+---
+

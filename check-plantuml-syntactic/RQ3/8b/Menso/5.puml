@@ -1,0 +1,130 @@
+
+@startuml
+
+class Trajectory {
+  - id: int
+  - name: string
+  - status: string (approved, pending, suspended, cancelled)
+  - approvalHistory: List<Approval>
+  - operationalDate: date
+  - suspensionDates: List<Date>
+  - cancellationDate: date
+  + approve()
+  + suspend()
+  + cancel()
+}
+
+class Approval {
+  - id: int
+  - trajectory: Trajectory
+  - status: string (approved, rejected, pending)
+  - requestDate: date
+  - responseDate: date
+  - comments: string
+}
+
+class Line {
+  - id: int
+  - number: string
+  - name: string
+  - description: string
+  - trajectories: List<Trajectory>
+  + addTrajectory(Trajectory)
+  + removeTrajectory(Trajectory)
+}
+
+class Bus {
+  - id: int
+  - licensePlate: string
+  - model: string
+  - year: int
+  - assignedTrajectories: List<Trajectory>
+  + assignToTrajectory(Trajectory)
+  + unassignFromTrajectory(Trajectory)
+}
+
+class Customer {
+  - id: int
+  - name: string
+  - surname: string
+  - address: string
+  - email: string
+  - phone: string
+  - mensoSubscription: MensoSubscription
+  + subscribeToMenso()
+  + unsubscribeFromMenso()
+}
+
+class MensoSubscription {
+  - id: int
+  - customer: Customer
+  - startDate: date
+  - endDate: date
+  - personalData: PersonalData
+  + calculateMonthlyInvoice()
+}
+
+class PersonalData {
+  - homeAddress: string
+  - officeAddress: string
+  - workingHours: TimeRange
+  - preferredLines: List<Line>
+}
+
+class Trip {
+  - id: int
+  - customerId: int
+  - lineId: int
+  - date: date
+  - time: time
+  - category: string
+  - fare: float
+  + recordTrip()
+}
+
+class Invoice {
+  - id: int
+  - customerId: int
+  - month: date
+  - totalAmount: float
+  - discountPercentage: float
+  - amountAfterDiscount: float
+  - paymentStatus: string (paid, unpaid, pending)
+  + generateInvoice()
+}
+
+class Payment {
+  - id: int
+  - invoiceId: int
+  - paymentDate: date
+  - amount: float
+  - method: string
+  + recordPayment()
+}
+
+' Relationships
+Customer --> MensoSubscription
+MensoSubscription --> PersonalData
+MensoSubscription --> Invoice
+Invoice --> Payment
+Line --> Trajectory
+Trajectory --> Approval
+Trajectory --> Bus
+Trip --> Line
+Trip --> Customer
+Invoice --> Trip
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The `Trajectory` can be approved, suspended, or cancelled.
+- A `Line` may contain multiple `Trajectory` objects.
+- Each `Trip` is associated with a `Line`, a `Customer`, and recorded with a timestamp.
+- `MensoSubscription` links to `PersonalData` for customer profiling.
+- `Invoice` is generated from `Trip` data and may have multiple `Payment` entries.
+- `Approval` tracks the history of trajectory approvals and rejections.
+
+---
+

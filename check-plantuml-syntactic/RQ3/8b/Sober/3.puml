@@ -1,0 +1,69 @@
+
+@startuml
+
+' Main classes
+class Customer {
+    +String name
+    +String contactInfo
+    +List<Car> registeredCars
+}
+
+class Car {
+    +String licensePlate
+    +String make
+    +String model
+    +String year
+    +boolean isSelfDriving
+    +Customer owner
+}
+
+class Ride {
+    +LocalDateTime pickupTime
+    +LocalDateTime dropoffTime
+    +Location pickupLocation
+    +Location dropoffLocation
+    +Duration duration
+    +double distance
+    +int numberOfPassengers
+    +double fee
+    +String typeOfRequest
+    +List<Customer> passengers
+}
+
+class RideHail extends Ride {
+    +Customer leadCustomer
+    +int maxPassengers
+}
+
+class RideShare extends Ride {
+    +double negotiatedFeePerCustomer
+    +int maxPassengers
+    +int rideSharesBooked
+    +int treesPlanted
+}
+
+class Accident {
+    +LocalDate accidentDate
+    +Location accidentLocation
+    +double damageAmount
+    +Car involvedCar
+}
+
+' Relationships
+Customer "1" -- "0..*" Car : owns
+Car "1" -- "1" Customer : ownedBy
+Customer "1" -- "0..*" Ride : uses
+Ride "1" -- "1" Car : uses
+RideHail "1" -- "1" Ride : is a
+RideShare "1" -- "1" Ride : is a
+Car "1" -- "0..*" Accident : has
+
+@enduml
+
+### Notes:
+- **Customer** can own one or more cars and can use rides (both hailing and sharing).
+- **Car** can be either self-driving or registered by a customer.
+- **Ride** is an abstract class with common attributes and methods for both ride types.
+- **RideHail** and **RideShare** are concrete subclasses of `Ride` with specific attributes and constraints.
+- **Accident** is a separate class to track incidents involving cars.
+

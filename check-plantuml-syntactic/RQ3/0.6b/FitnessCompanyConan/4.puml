@@ -1,0 +1,20 @@
+@startuml
+
+class Diagram {
+  class system_requirements {
+    class requirement { 
+      label "Requirement"
+    }
+    class requirement_1 { 
+      label "Feature 1"
+    }
+    class requirement_2 { 
+      label "Feature 2"
+    }
+    class requirement_3 { 
+      label "Feature 3"
+    }
+  }
+}
+
+@enduml

@@ -1,0 +1,138 @@
+
+@startuml
+
+' Classes and their relationships
+
+class Home {
+}
+
+class Department {
+  - home: Home
+}
+
+class Room {
+  - department: Department
+}
+
+class Bed {
+  - room: Room
+  - category: StayCategory
+}
+
+class StayCategory {
+  - name: String (e.g., "RH", "RNH", "SF")
+  - price: Double
+}
+
+class Inhabitant {
+  - firstName: String
+  - lastName: String
+  - registrationDate: Date
+  - currentStays: List<Stay>
+}
+
+class Stay {
+  - inhabitant: Inhabitant
+  - stayCategory: StayCategory
+  - bed: Bed
+  - startDate: Date
+  - endDate: Date (optional)
+  - suspended: Boolean
+  - status: String (e.g., active, suspended, ended)
+}
+
+class RegistrationProcess {
+  - inhabitant: Inhabitant
+  - basicData: Map<String, String>
+  - assessmentResult: Assessment
+}
+
+class Assessment {
+  - needsHelpEating: Boolean
+  - needsHelpDressing: Boolean
+  - needsPersonalCare: Boolean
+  - recommendedStayCategory: StayCategory
+}
+
+class WaitingList {
+  - inhabitants: List<Inhabitant>
+  - sortByRegistrationDate(): void
+}
+
+class Proposal {
+  - inhabitant: Inhabitant
+  - stayCategory: StayCategory
+  - bed: Bed
+  - proposedDate: Date
+  - accepted: Boolean
+  - invalidated: Boolean
+}
+
+class Invoice {
+  - stay: Stay
+  - amount: Double
+  - outstandingAmount: Double
+  - paid: Boolean
+  - dateIssued: Date
+  - items: List<InvoiceItem>
+}
+
+class PaymentEvent {
+  - invoice: Invoice
+  - amountPaid: Double
+  - dateReceived: Date
+}
+
+class CreditNote {
+  - paymentEvent: PaymentEvent
+  - amountRefunded: Double
+  - dateCreated: Date
+}
+
+class InvoiceItem {
+  - description: String
+  - quantity: Integer
+  - unitPrice: Double
+  - total: Double
+}
+
+' Relationships
+
+Home "1" o-- "many" Department
+Department "1" o-- "many" Room
+Room "1" o-- "many" Bed
+Bed "0..*" --> "1" StayCategory
+
+Inhabitant "1" --> "many" Stay
+Stay "1" --> "1" Bed
+Stay "1" --> "1" StayCategory
+
+Inhabitant "1" --> "1" RegistrationProcess
+RegistrationProcess "1" --> "1" Assessment
+Assessment "1" --> "1" WaitingList
+
+WaitingList "1" --> "many" Inhabitant
+Proposal "1" --> "1" Inhabitant
+Proposal "1" --> "1" StayCategory
+Proposal "1" --> "1" Bed
+
+Stay "1" --> "many" Invoice
+Invoice "1" --> "many" InvoiceItem
+Invoice "1" --> "many" PaymentEvent
+PaymentEvent "0..1" --> "1" CreditNote
+
+@enduml
+
+---
+
+### ✅ Notes:
+- The `Home` is the top-level entity that contains multiple `Departments`.
+- Each `Room` in a `Department` has multiple `Beds`, each with a specific `StayCategory`.
+- An `Inhabitant` can have multiple overlapping `Stays` (e.g., from SF to RNH).
+- The `WaitingList` manages people waiting for a bed in a specific category.
+- A `Proposal` is made when a bed becomes available and is assigned to the highest-priority person on the list.
+- `Invoice` tracks billing, while `PaymentEvent` and `CreditNote` manage payments and refunds.
+- This model supports invoicing even if a person moves between stays or passes away.
+
+---
+

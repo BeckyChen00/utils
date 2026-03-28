@@ -1,0 +1,111 @@
+
+@startuml
+' Class Diagram for Tile-O Application
+
+package "Tile-O System" {
+  class Game {
+    -gameBoard: GameBoard
+    -players: List<Player>
+    -hiddenTile: Tile
+    -actionDeck: ActionDeck
+    -currentPlayerIndex: int
+    +startGame()
+    +endGame()
+    +getCurrentPlayer(): Player
+    +nextPlayer()
+  }
+
+  class GameBoard {
+    -tiles: Map<Tile, Position>
+    -connections: Map<Connection, TilePair>
+    +getTileAt(position: Position): Tile
+    +getConnectedTiles(tile: Tile): List<Tile>
+  }
+
+  class Tile {
+    -position: Position
+    -color: Color
+    -isVisited: boolean
+    -isActionTile: boolean
+    -actionDuration: int
+    +visit()
+    +isHidden(): boolean
+    +isActionTile(): boolean
+  }
+
+  class Position {
+    -row: int
+    -col: int
+  }
+
+  class Connection {
+    -type: String
+    -tile1: Tile
+    -tile2: Tile
+  }
+
+  class Player {
+    -name: String
+    -color: Color
+    -playingPiece: PlayingPiece
+    +moveTo(tile: Tile)
+    +rollDie(): int
+    +takeActionCard(actionCard: ActionCard)
+  }
+
+  class PlayingPiece {
+    -position: Position
+    -player: Player
+    +getPosition(): Position
+    +setPosition(position: Position)
+  }
+
+  class ActionDeck {
+    -cards: List<ActionCard>
+    +drawCard(): ActionCard
+    +shuffle()
+  }
+
+  class ActionCard {
+    -actionType: ActionType
+    +execute(player: Player, game: Game)
+  }
+
+  enum ActionType {
+    EXTRA_TURN,
+    CONNECT_TILES,
+    REMOVE_CONNECTION,
+    MOVE_TO_TILE,
+    LOSE_NEXT_TURN
+  }
+}
+
+' Associations
+Game --> GameBoard
+Game --> "List<Player>"
+Game --> ActionDeck
+GameBoard --> Tile
+GameBoard --> Connection
+Player --> PlayingPiece
+Player --> ActionCard
+ActionDeck --> ActionCard
+Tile --> Position
+Connection --> Tile
+PlayingPiece --> Position
+@enduml
+
+---
+
+### 🔍 Explanation of Key Classes and Relationships:
+
+- **Game**: Manages the overall game state, players, board, and action deck.
+- **GameBoard**: Contains tiles and connections between them.
+- **Tile**: Represents a single tile on the board. It can be visited, hidden, or an action tile.
+- **Position**: Represents the row and column coordinates of a tile.
+- **Connection**: Represents a physical or logical connection between two tiles.
+- **Player**: Has a playing piece and takes actions during their turn.
+- **PlayingPiece**: The actual token that moves around the board.
+- **ActionDeck**: Holds a list of action cards.
+- **ActionCard**: Represents one of the five predefined action types.
+
+Let me know if you'd like this exported to an image or extended with additional features!

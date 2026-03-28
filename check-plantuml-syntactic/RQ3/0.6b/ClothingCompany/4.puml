@@ -1,0 +1,15 @@
+@startuml
+
+class diagram -system requirement
+
+participant A <System Requirement> as SystemRequirement
+
+participant B <System Requirement> as SystemRequirement
+
+class SystemRequirement {
+    id: integer
+    name: string
+    description: string
+}
+
+@enduml

@@ -1,0 +1,87 @@
+@startuml
+enum ShowState {
+  draft
+  published
+  cancelled
+  expired
+  completed
+  paused
+  ongoing
+}
+enum ReservationStatus {
+  pending
+  confirmed
+  cancelled
+}
+enum SeatAvailability {
+  available
+  reserved
+  occupied
+  blocked
+  maintenance
+}
+class Cinema {
+  name: String
+  address: String
+  +getCopies(): List<MovieCopy>
+  +getTheatres(): List<Theatre>
+}
+class Theatre {
+  name: String
+  capacity: int
+  +scheduleShow(movie: Movie, time: DateTime): Show
+  +getShows(): List<Show>
+}
+class Show {
+  scheduledTime: DateTime
+  duration: int
+  status: ShowState
+  movieTitle: String
+  +publish(): void
+  +cancel(): void
+  +isAvailable(): boolean
+  +assignSeatReservation(customer: Customer, seatNumber: int): Reservation
+}
+class MovieCopy {
+  copyNumber: int
+  condition: String
+  +isAvailable(): boolean
+}
+class Customer {
+  name: String
+  email: String
+  +makeReservation(show: Show, seat: int): Reservation
+  +buyTicket(show: Show): Ticket
+}
+class Reservation {
+  reservationCode: String
+  status: ReservationStatus
+  timeSlot: DateTime
+  +cancel(): void
+  +acceptOffer(newShow: Show): void
+}
+class Ticket {
+  isPrinted: boolean
+  +printTicket(): void
+}
+class Screen {
+  resolution: String
+  +getDisplayMessage(): String
+}
+class CinemaManager {
+  +validateSchedule(): boolean
+  +processReservation(reservation: Reservation): boolean
+}
+Cinema "1" *-- "1..*" Theatre : hostedTheatres
+Cinema "1" *-- "1..*" MovieCopy : ownedCopies
+Theatre "1" *-- "1..*" Screen : equippedWith
+Theatre "1" --> "0..*" Show : scheduledShows
+Show "1" --> "1" Cinema : hostedBy
+Show "1" --> "1" MovieCopy : requiresCopy
+Reservation "0..*" --> "1" Show : forShow
+Reservation "0..*" --> "1" Customer : madeBy
+Customer "0..*" --> "0..*" Ticket : ownsTickets
+Reservation "0..*" --> "0..1" Ticket : generatesTicket
+Screen "1" --> "1..*" Reservation : displaysInfo
+CinemaManager "1" --> "1..*" Cinema : manages
+@enduml

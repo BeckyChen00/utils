@@ -1,0 +1,100 @@
+
+@startuml
+
+' Entities involved in the H2S Pickup and Delivery Service System
+
+package "H2S System" {
+    [Resident] as Resident
+    [PickupRequest] as PickupRequest
+    [Vehicle] as Vehicle
+    [VolunteerDriver] as VolunteerDriver
+    [PickupRoute] as PickupRoute
+    [Item] as Item
+    [DistributionCenter] as DistributionCenter
+    [Article] as Article
+    [RFIDTag] as RFIDTag
+    [Category] as Category
+    [Employee] as Employee
+    [Client] as Client
+    [DeliveryService] as DeliveryService
+    [FoodBank] as FoodBank
+}
+
+' Relationships between classes
+
+Resident --> PickupRequest : places
+PickupRequest --> Item : includes
+PickupRequest --> Resident : belongs to
+PickupRequest --> PickupRoute : assigned to
+PickupRoute --> Vehicle : assigned to
+PickupRoute --> VolunteerDriver : driven by
+Vehicle --> VolunteerDriver : has driver
+PickupRoute --> PickupRequest : includes
+Item --> PickupRequest : part of
+Item --> Article : may be
+Item --> FoodBank : goes to directly if food
+Article --> RFIDTag : tagged with
+Article --> Category : categorized under
+Article --> DistributionCenter : delivered to
+DistributionCenter --> Employee : managed by
+Employee --> Article : inspects and categorizes
+Employee --> DeliveryService : arranges
+Client --> DeliveryService : requests
+DeliveryService --> Article : delivers
+DeliveryService --> VolunteerDriver : uses
+DeliveryService --> Client : serves
+VolunteerDriver --> DeliveryService : may deliver
+VolunteerDriver --> PickupRoute : drives
+
+' Attributes and associations
+
+[Resident] : - name
+[Resident] : - streetAddress
+[Resident] : - phoneNumber
+[Resident] : - email (optional)
+
+[PickupRequest] : - requestedDate
+[PickupRequest] : - pickupTime (8:00-14:00)
+[PickupRequest] : - description
+
+[Item] : - dimensions
+[Item] : - weight
+[Item] : - type (e.g., second hand, non-perishable food)
+
+[Vehicle] : - capacity
+[Vehicle] : - storageSpace
+
+[VolunteerDriver] : - availabilityDays
+[VolunteerDriver] : - vehicleAssigned
+
+[PickupRoute] : - startLocation
+[PickupRoute] : - endLocation
+
+[Article] : - qualityStatus
+[Article] : - originalDescription
+[Article] : - correctedDescription
+
+[RFIDTag] : - tagId
+[RFIDTag] : - timestampOfTagging
+
+[Category] : - categoryName (from list of 134)
+
+[Client] : - needsCategories
+[Client] : - homeAddress
+
+[DeliveryService] : - deliveryDate
+[DeliveryService] : - status
+
+[Employee] : - employeeId
+[Employee] : - role
+
+@enduml
+
+---
+
+### ✅ Notes:
+- This class diagram models the **main actors**, **entities**, and **relationships** from the system requirement.
+- It assumes that `Item` can be either an `Article` or a `Non-perishable Food`, with food items going directly to the `FoodBank`.
+- The `PickupRoute` is associated with multiple `PickupRequests` and one `Vehicle` driven by a `VolunteerDriver`.
+- The `DistributionCenter` handles `Articles`, which are then optionally used for `DeliveryService` to `Clients`.
+

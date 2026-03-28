@@ -1,0 +1,68 @@
+
+@startuml
+
+class Hospital {
+  - name: String
+  - permittedExaminationTypes: Set<ExaminationType>
+  + applyPermission(examinationType: ExaminationType)
+}
+
+class Doctor {
+  - name: String
+  - hospital: Hospital
+  + prescribeExamination(patient: Patient, examinationType: ExaminationType)
+  + defineTreatmentPlan(problem: Problem, treatmentPlan: TreatmentPlan)
+}
+
+class Patient {
+  - name: String
+  - problem: Problem
+  + receiveExamination(examination: ExaminationType)
+}
+
+class ExaminationType {
+  - name: String
+  - description: String
+  + canBePerformedAt(hospital: Hospital): Boolean
+}
+
+class Problem {
+  - name: String
+  + getTreatmentPlan(): TreatmentPlan
+}
+
+class TreatmentPlan {
+  - name: String
+  - recommendedExaminations: Set<ExaminationType>
+  + getRecommendedExaminations(): Set<ExaminationType>
+}
+
+class ActualTreatment {
+  - patient: Patient
+  - examinationsPerformed: Set<ExaminationType>
+  - additionalActions: Set<String>
+  + compareWithStandardPlan(treatmentPlan: TreatmentPlan): String
+}
+
+' Associations
+Hospital "1" -- "0..*" ExaminationType : has permission
+Doctor "1" -- "1" Hospital : works at
+Doctor "1" -- "1" Problem : diagnoses
+Problem "1" -- "1" TreatmentPlan : defines
+TreatmentPlan "1" -- "0..*" ExaminationType : recommends
+Patient "1" -- "1" Doctor : diagnosed by
+Patient "1" -- "1" ActualTreatment : has
+ActualTreatment "1" -- "0..*" ExaminationType : includes
+ActualTreatment "1" -- "0..*" String : includes additional actions
+
+@enduml
+
+### Explanation of Key Relationships:
+
+- **Hospital** maintains a list of **permitted examination types**.
+- A **Doctor** belongs to a **Hospital** and can prescribe **Examinations** or define **Treatment Plans** for specific **Problems**.
+- A **Problem** is associated with a **Treatment Plan**, which lists the **recommended examinations**.
+- An **Actual Treatment** is created for a **Patient** and may include both **recommended examinations** and **additional medical actions**.
+- **Examination Types** can be checked for **permission** at a given **Hospital**.
+- The **Actual Treatment** can be compared against the **Treatment Plan** to monitor deviations.
+

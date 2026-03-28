@@ -1,0 +1,50 @@
+@startuml
+enum AlertLevel {
+  LOW
+  HIGH
+  CRITICAL
+}
+enum SensorType {
+  TEMPERATURE
+  POWER
+}
+class Sensor {
+  description: String
+  unit: String
+  vendorId: String
+  currentReading: double
+  lastReadingTimestamp: Date
+  +recordReading(value: double): void
+  +getLastReading(): double
+}
+class Room {
+  description: String
+  +getRoomName(): String
+}
+class Apartment {
+  address: String
+  +getRooms(): List<Room>
+}
+class UserAccount {
+  username: String
+  email: String
+  isAdmin: boolean
+  +login(): boolean
+}
+class SensorController {
+  +getSensorByRoom(room: Room): List<Sensor>
+  +isConnected(): boolean
+  +configureSensor(sensor: Sensor, newDescription: String): void
+}
+class EnergyMonitor {
+  +checkThresholds(apartment: Apartment): void
+  +sendAlerts(apartment: Apartment): void
+}
+Apartment *-- "1..*" Room : rooms
+Room *-- "0..*" Sensor : sensors
+UserAccount --> "1" Apartment : managedApartment
+SensorController --> "1" Apartment : controlledApartment
+SensorController --> "0..*" Sensor : managedSensors
+EnergyMonitor --> "1" Apartment : monitoredApartment
+SensorController --> "1" UserAccount : adminAccount
+@enduml

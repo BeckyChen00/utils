@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Frame">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="material" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="insertWheel">
+      <eParameters xsi:type="ecore:EParameter" name="wheel" eType="#//Wheel"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Wheel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="diameter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tireType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DriveSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="motor" eType="#//Motor"/>
+    <eOperations xsi:type="ecore:EOperation" name="powerOn"/>
+    <eOperations xsi:type="ecore:EOperation" name="powerOff"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Motor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="horsePower" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="voltage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Controller">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="battery" eType="#//Battery"/>
+    <eOperations xsi:type="ecore:EOperation" name="turnOn"/>
+    <eOperations xsi:type="ecore:EOperation" name="turnOff"/>
+    <eOperations xsi:type="ecore:EOperation" name="chargeBattery"/>
+    <eOperations xsi:type="ecore:EOperation" name="commandDriveSystem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="State">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="On"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Off" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Charging" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Battery">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currentCharge" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eOperations xsi:type="ecore:EOperation" name="charge">
+      <eParameters xsi:type="ecore:EParameter" name="chargeAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="discharge">
+      <eParameters xsi:type="ecore:EParameter" name="chargeAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicController">
+    <eOperations xsi:type="ecore:EOperation" name="turnOn"/>
+    <eOperations xsi:type="ecore:EOperation" name="turnOff"/>
+    <eOperations xsi:type="ecore:EOperation" name="chargeBattery"/>
+    <eOperations xsi:type="ecore:EOperation" name="commandDriveSystem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AdvancedController">
+    <eOperations xsi:type="ecore:EOperation" name="estimateNextInspectionDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eOperations xsi:type="ecore:EOperation" name="turnOn"/>
+    <eOperations xsi:type="ecore:EOperation" name="turnOff"/>
+    <eOperations xsi:type="ecore:EOperation" name="chargeBattery"/>
+    <eOperations xsi:type="ecore:EOperation" name="commandDriveSystem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Frame" eType="#//frame" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="frame"/>
+  <eClassifiers xsi:type="ecore:EClass" name="driveSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Controller" eType="#//controller"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="controller"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EBike"/>
+</ecore:EPackage>

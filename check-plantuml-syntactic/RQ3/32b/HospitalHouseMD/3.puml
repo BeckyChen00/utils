@@ -1,0 +1,107 @@
+
+---
+
+
+@startuml
+
+' Classes
+class Patient {
+    +String id
+    +String name
+    +consentSigned: boolean
+    +retractConsent()
+}
+
+class Doctor {
+    +String id
+    +String name
+    +makeDiagnosis(diagnosis)
+    +approveDiagnosis(diagnosis)
+}
+
+class HeadDoctor extends Doctor {
+    +approveDiagnosis(diagnosis)
+}
+
+class Diagnosis {
+    +String id
+    +Patient patient
+    +Illness illness
+    +Doctor doctor
+    +approvedByHeadDoctor: boolean
+    +approve()
+}
+
+class Illness {
+    +String id
+    +String description
+    +PriorityScore priorityScore
+    +updatePriorityScore(newScore)
+}
+
+enum PriorityScore {
+    HIGH
+    LOW
+}
+
+class Treatment {
+    +String id
+    +Diagnosis diagnosis
+    +Stage stage
+    +upgradeStage()
+    +downgradeStage()
+}
+
+abstract class Stage {
+    <<enumeration>>
+    STAGE_1
+    STAGE_2
+    STAGE_3
+}
+
+class ConsentForm {
+    +Patient patient
+    +Treatment treatment
+    +signedAt: DateTime
+    +isConsentGiven(): boolean
+}
+
+' Relationships
+Patient "1" -- "0..*" Diagnosis : has
+Diagnosis "1" -- "1" Illness : relates to
+Diagnosis "1" -- "0..*" Treatment : has
+Diagnosis "1" -- "1" Doctor : made by
+Diagnosis "1" -- "1" HeadDoctor : approved by
+Treatment "1" -- "1" Stage : current
+Treatment "1" -- "1" ConsentForm : requires consent?
+Patient "1" -- "0..*" ConsentForm : signs
+Illness "1" -- "1" PriorityScore : has
+
+' Inheritance
+Doctor <|-- HeadDoctor
+
+@enduml
+
+---
+
+### 🧾 Explanation of Key Elements:
+
+- **Patient**: Has a name and ID. Can sign or retract consent.
+- **Doctor / HeadDoctor**: Regular doctors can make diagnoses; head doctors must approve them.
+- **Diagnosis**: Linked to a patient and an illness. Must be approved before treatment.
+- **Illness**: Each illness has a `PriorityScore` which can influence treatment stages.
+- **PriorityScore**: An enum with values `HIGH` and `LOW`.
+- **Treatment**: Applied to a diagnosis and has a `Stage`. It can be upgraded/downgraded.
+- **Stage**: Enum representing the three treatment stages.
+- **ConsentForm**: Tracks if a patient has given consent for stage upgrades.
+
+---
+
+### 🔄 Behavior Highlights:
+- A **treatment** can only move from stage 1 → 2 or 1 → 3 if the patient gives **consent** via `ConsentForm`.
+- If an **illness** is marked as **HIGH** priority, all related treatments are immediately moved to **stage 3**, without needing consent.
+- **Downgrading** is initiated by the doctor when no longer needed.
+
+---
+
+Let me know if you want this rendered as an image or exported to another format!

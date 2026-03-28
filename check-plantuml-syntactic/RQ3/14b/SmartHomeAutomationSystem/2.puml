@@ -1,0 +1,140 @@
+
+@startuml
+
+' Classes
+class SmartHome {
+  -physicalAddress: String
+  -rooms: List<Room>
+  -infrastructureMap: Map<DeviceId, Device>
+  +addRoom(room: Room): void
+  +updateInfrastructureMap(device: Device): void
+}
+
+class Room {
+  -name: String
+  -sensors: List<Sensor>
+  -actuators: List<Actuator>
+  +addSensor(sensor: Sensor): void
+  +addActuator(actuator: Actuator): void
+}
+
+abstract class Device {
+  -deviceId: String
+  -status: String
+  +getId(): String
+  +getStatus(): String
+}
+
+class Sensor extends Device {
+  +getReading(): Reading
+  +sendReading(reading: Reading): void
+}
+
+class Actuator extends Device {
+  +sendCommand(command: Command): void
+}
+
+class Reading {
+  -value: Double
+  -timestamp: DateTime
+  -sensorId: String
+  +getValue(): Double
+  +getTimestamp(): DateTime
+  +getSensorId(): String
+}
+
+class Command {
+  -commandType: String
+  -timestamp: DateTime
+  -status: String
+  -actuatorId: String
+  +getCommandType(): String
+  +getTimestamp(): DateTime
+  +getStatus(): String
+  +getActuatorId(): String
+}
+
+class ActivityLog {
+  -entries: List<Entry>
+  +logReading(reading: Reading): void
+  +logCommand(command: Command): void
+  +getEntries(): List<Entry>
+}
+
+abstract class Entry {
+  -timestamp: DateTime
+  +getTimestamp(): DateTime
+}
+
+class ReadingEntry extends Entry {
+  -reading: Reading
+  +getReading(): Reading
+}
+
+class CommandEntry extends Entry {
+  -command: Command
+  +getCommand(): Command
+}
+
+class AutomationRule {
+  -precondition: BooleanExpression
+  -action: List<Command>
+  -isActive: Boolean
+  -ruleId: String
+  +createRule(precondition: BooleanExpression, action: List<Command>): void
+  +editRule(newPrecondition: BooleanExpression, newAction: List<Command>): void
+  +activate(): void
+  +deactivate(): void
+  +getRuleId(): String
+  +getPrecondition(): BooleanExpression
+  +getAction(): List<Command>
+  +isActive(): Boolean
+}
+
+class BooleanExpression {
+  -expression: String
+  +evaluate(context: Context): Boolean
+}
+
+class Context {
+  -sensorReadings: Map<String, Reading>
+  -commands: Map<String, Command>
+  +getContext(): Map<String, Object>
+}
+
+class RuleTriggerEvent {
+  -ruleId: String
+  -timestamp: DateTime
+  +getRuleId(): String
+  +getTimestamp(): DateTime
+}
+
+' Associations
+SmartHome "1" --> "0..*" Room
+Room "1" --> "0..*" Sensor
+Room "1" --> "0..*" Actuator
+Sensor "1" --> "1" Reading
+Actuator "1" --> "1" Command
+ActivityLog "1" --> "0..*" Entry
+ActivityLog "1" --> "0..*" ReadingEntry
+ActivityLog "1" --> "0..*" CommandEntry
+AutomationRule "1" --> "1" BooleanExpression
+AutomationRule "1" --> "1" List<Command>
+AutomationRule "1" --> "0..*" RuleTriggerEvent
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **`SmartHome`** manages rooms and tracks device changes via an `infrastructureMap`.
+- **`Room`** contains both **Sensors** and **Actuators**.
+- **`Device`** is abstract with two subclasses:
+  - **`Sensor`** provides readings.
+  - **`Actuator`** receives commands.
+- **`Reading`** and **`Command`** are logged in the **`ActivityLog`**, which stores entries like **`ReadingEntry`** and **`CommandEntry`**.
+- **`AutomationRule`** has a **`BooleanExpression`** as its precondition and a list of **`Command`** as its action.
+- **`Context`** helps evaluate conditions by providing current sensor readings and command statuses.
+- **`RuleTriggerEvent`** logs when a rule was triggered.
+

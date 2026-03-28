@@ -1,0 +1,88 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Person {
+  +personID: int
+  +phone: String
+  +keywords: List<String>
+  +institutionCode: int
+}
+
+class Institution {
+  +institutionCode: int
+  +name: String
+  +address: String
+}
+
+class ScientificArticle {
+  +doi: String
+  +title: String
+}
+
+class Authorship {
+  +position: int
+}
+
+class PeerReviewedPaper {
+  +citationCount: int
+}
+
+class TechnicalReport {
+  #institutionCode: int
+}
+
+class Publisher {
+  +name: String
+}
+
+class Journal {
+  +name: String
+  +impactFactor: double
+}
+
+class Subscription {
+  #institutionCode: int
+  #journalName: String
+  #publisherName: String
+}
+
+class Reviewer {
+  +personID: int
+}
+
+' Relationships between classes
+
+Person "1" -- "0..*" Authorship : has authorship role in
+Authorship "1" -- "1" ScientificArticle : of article
+ScientificArticle "1" -- "1" (PeerReviewedPaper, TechnicalReport) : is either a
+ScientificArticle "1" -- "1" Person : authored by
+ScientificArticle "1" -- "1..*" Reviewer : reviewed by
+
+Institution "1" -- "0..*" Person : employs
+Institution "1" -- "0..*" TechnicalReport : publishes
+Institution "1" -- "0..*" Subscription : subscribes to
+
+Publisher "1" -- "0..*" Journal : publishes
+Journal "1" -- "0..*" Subscription : subscribed by
+Journal "1" -- "0..*" PeerReviewedPaper : publishes
+
+TechnicalReport "1" -- "1" Institution : published by
+PeerReviewedPaper "1" -- "1" Journal : published in
+PeerReviewedPaper "1" -- "1..*" Reviewer : reviewed by
+
+' Generalization relationships
+ScientificArticle <|-- PeerReviewedPaper
+ScientificArticle <|-- TechnicalReport
+
+@enduml
+
+---
+
+### Notes:
+- The `Authorship` class captures the position of an author in a multi-author paper.
+- The `Reviewer` class is used to represent a person who reviews a peer-reviewed paper.
+- A `Subscription` links an `Institution`, a `Journal`, and a `Publisher`.
+- `TechnicalReport` can only be published by one institution, while `PeerReviewedPaper` must be published in a journal.
+

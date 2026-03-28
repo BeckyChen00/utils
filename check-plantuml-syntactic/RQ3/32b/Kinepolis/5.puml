@@ -1,0 +1,139 @@
+
+---
+
+
+@startuml
+
+' Define classes with attributes and methods
+
+class Cinema {
+    - id: String
+    - name: String
+    - town: String
+    + addTheatre(Theatre): void
+    + getAvailableCopies(Movie): List<MovieCopy>
+}
+
+class Theatre {
+    - id: String
+    - cinemaId: String
+    - name: String
+    - capacity: int
+    + getAvailableSeats(): int
+}
+
+class Movie {
+    - id: String
+    - title: String
+    - duration: int
+    - releaseDate: Date
+}
+
+class MovieCopy {
+    - id: String
+    - movieId: String
+    - cinemaId: String
+    - status: CopyStatus
+    + move(Cinema): boolean
+}
+
+enum CopyStatus {
+    AVAILABLE
+    IN_USE
+    OUT_OF_SERVICE
+}
+
+class Show {
+    - id: String
+    - movieCopyId: String
+    - theatreId: String
+    - startTime: DateTime
+    - endTime: DateTime
+    - published: boolean
+    + publish(): void
+    + cancel(): boolean
+    + offerAlternativeSeat(Reservation): boolean
+}
+
+class Reservation {
+    - id: String
+    - showId: String
+    - customerId: String
+    - seatsReserved: List<Seat>
+    - paymentMethod: PaymentMethod
+    - reservationTime: DateTime
+    - status: ReservationStatus
+    + cancel(): boolean
+    + debitCreditCard(): boolean
+}
+
+enum ReservationStatus {
+    PENDING
+    CONFIRMED
+    CANCELLED
+    EXPIRED
+}
+
+enum PaymentMethod {
+    CREDIT_CARD
+}
+
+class Seat {
+    - id: String
+    - theatreId: String
+    - row: int
+    - number: int
+    - isReserved: boolean
+}
+
+class Ticket {
+    - id: String
+    - showId: String
+    - seatId: String
+    - customerName: String (optional)
+    - issuedAt: DateTime
+    - type: TicketType
+}
+
+enum TicketType {
+    ONLINE_RESERVATION
+    ON_SITE_PURCHASE
+}
+
+class Customer {
+    - id: String
+    - name: String
+    - email: String
+    - creditCardInfo: String
+}
+
+' Relationships
+
+Cinema "1" *-- "many" Theatre : contains
+Cinema "1" *-- "many" MovieCopy : owns
+Movie "1" *-- "many" MovieCopy : has copies
+Theatre "1" *-- "many" Show : hosts
+Show "1" *-- "1" MovieCopy : uses copy
+Show "1" *-- "many" Reservation : has reservations
+Show "1" *-- "many" Ticket : has tickets
+Reservation "1" *-- "many" Seat : reserves
+Theatre "1" *-- "many" Seat : has seats
+Customer "1" *-- "many" Reservation : makes
+Customer "0..*" -- "many" Ticket : purchases
+Ticket "1" *-- "1" Seat : assigned to
+
+@enduml
+
+---
+
+### 📌 Notes:
+- `MovieCopy` is tied to a specific `Cinema` and can be moved between cinemas.
+- A `Show` is scheduled in a `Theatre` using a specific `MovieCopy`.
+- `Reservations` are linked to a `Customer`, whereas `Tickets` bought at the entrance may not be.
+- The `Reservation` class includes cancellation and refund logic.
+- `Offering an alternative seat` is modeled as a method of the `Show` class.
+- The system supports online and on-site ticket purchasing with different rules.
+
+---
+
+Let me know if you want this rendered into an image or exported to a file format like PNG or SVG!

@@ -1,0 +1,52 @@
+@startuml
+class Machine {
+  serialNumber: String
+  +checkAvailability(): boolean
+  +isOperational(): boolean
+}
+class MaintenanceLog {
+  isCompleted: boolean
+  +recordTendrnette(): void
+  +generateSummary(): String
+}
+class Technician {
+  employeeId: String
+  +assignWorkload(machine: Machine): void
+}
+class SparePart {
+  partNumber: String
+  quantityInStock: int
+  +checkStock(): int
+}
+class ServiceRecord {
+  serviceDate: Date
+  isSevereDamage: boolean
+}
+class Shipment {
+  shipmentDate: Date
+  weight: double
+  location: String
+}
+class RentalContract {
+  startDate: Date
+  endDate: Date
+  +calculateTotalCost(): double
+}
+class WorkOrder {
+  description: String
+}
+class Vendor {
+  name: String
+  contactInfo: String
+  +supply(parts: List<SparePart>): void
+}
+MaintenanceLog *-- "1" Shipment : updatedShipment
+MaintenanceLog *-- "*" ServiceRecord : generatedRecords
+RentalContract --> "*" Machine : rentedMachines 'opposite: rentalContract
+RentalContract --> "1" Vendor : providerVendor
+RentalContract --> "*" WorkOrder : fulfilledOrders
+Technician --> "*" Machine : assignedMachines 'opposite: assignedTechnicians
+WorkOrder --> "1" Technician : primaryTechnician
+WorkOrder --> "*" MaintenanceLog : requiredLogs
+RentalContract --> "*" SparePart : requiredParts
+@enduml

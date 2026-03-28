@@ -1,0 +1,87 @@
+
+@startuml
+
+' Define classes
+class Game {
+  - board: Board
+  - players: List<Player>
+  - currentTurn: int
+  - actionDeck: Deck<ActionCard>
+  - hiddenTile: Tile
+}
+
+class Board {
+  - tiles: List<Tile>
+  - connectionPieces: List<ConnectionPiece>
+}
+
+class Tile {
+  - position: Position
+  - isHidden: boolean
+  - isActionTile: boolean
+  - actionDuration: int
+  - color: Color
+}
+
+class ConnectionPiece {
+  - fromTile: Tile
+  - toTile: Tile
+  - isUsed: boolean
+}
+
+class Player {
+  - color: Color
+  - position: Position
+  - hasTurn: boolean
+}
+
+class ActionCard {
+  - type: ActionType
+  - effect: String
+}
+
+enum ActionType {
+  EXTRA_TURN,
+  CONNECT_TILES,
+  REMOVE_CONNECTION,
+  MOVE_TO_TILE,
+  LOSE_TURN
+}
+
+class Position {
+  - x: int
+  - y: int
+}
+
+class Color {
+  - name: String
+}
+
+' Associations
+Game --> Board
+Game --> Player : has
+Game --> ActionCard : uses
+Game --> Tile : has
+Game --> ConnectionPiece : has
+
+Player --> Tile : is on
+Player --> ActionCard : receives
+
+Board --> Tile : contains
+Board --> ConnectionPiece : contains
+
+Tile --> ConnectionPiece : connected to
+
+@enduml
+
+### Explanation of the Diagram:
+- **Game**: The central class representing the game state. It holds the board, players, action deck, and hidden tile.
+- **Board**: Contains the layout of tiles and connection pieces.
+- **Tile**: Represents a single tile on the board with properties like position, color, and whether it's an action tile or hidden.
+- **ConnectionPiece**: Links two adjacent tiles.
+- **Player**: Each player has a color and a position on the board.
+- **ActionCard**: Defines different types of actions that can be triggered when landing on an action tile.
+- **Position**: A simple class to represent coordinates on the board.
+- **Color**: Enumerates the colors of the players’ pieces.
+
+This diagram captures the core structure and relationships of the *Tile-O* system as described in the requirements.

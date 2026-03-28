@@ -1,0 +1,59 @@
+@startuml
+
+class City {
+  - name: String
+  - inhabitants: int
+  + getCityName(): String
+  + getInhabitants(): int
+}
+
+class Attraction {
+  - name: String
+  - address: String
+  + getAttractionName(): String
+  + getAddress(): String
+}
+
+class GuidedTour {
+  - name: String
+  - duration: int
+  - numberOfTours: int
+  - maxVisitors: int
+  + getTourName(): String
+  + getDuration(): int
+  + getNumberOfTours(): int
+  + getMaxVisitors(): int
+}
+
+class Visitor {
+  - name: String
+  + getVisitorName(): String
+}
+
+class Guide {
+  - name: String
+  + getGuideName(): String
+}
+
+class Discount {
+  - discountAmount: double
+  + getDiscountAmount(): double
+}
+
+' Associations
+
+City "1" -- "0..*" Attraction : has
+Attraction "1" -- "1" GuidedTour : offers
+GuidedTour "1" -- "0..*" Visitor : includes (max 20)
+GuidedTour "1" -- "1" Guide : requires
+Visitor "1" -- "0..*" Discount : may have (for specific tours)
+
+@enduml
+
+### Explanation:
+- **City** contains multiple **Attractions**.
+- Each **Attraction** is associated with one **GuidedTour**.
+- A **GuidedTour** can include up to 20 **Visitors**.
+- Each **GuidedTour** is led by one **Guide**.
+- Some **Visitors** may have a **Discount** for specific **GuidedTours**.
+

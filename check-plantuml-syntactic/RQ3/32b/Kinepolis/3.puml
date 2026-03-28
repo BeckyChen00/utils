@@ -1,0 +1,133 @@
+
+@startuml
+
+' Define classes and their attributes/relationships
+
+class Cinema {
+  - id: int
+  - name: String
+  - town: String
+}
+
+class Theatre {
+  - id: int
+  - name: String
+  - capacity: int
+  - cinema: Cinema
+}
+
+class Movie {
+  - id: int
+  - title: String
+  - duration: int
+  - releaseDate: Date
+}
+
+class Copy {
+  - id: int
+  - movie: Movie
+  - cinema: Cinema
+}
+
+class Show {
+  - id: int
+  - startTime: DateTime
+  - endTime: DateTime
+  - theatre: Theatre
+  - copy: Copy
+  - isPublished: boolean
+  - isCancelled: boolean
+}
+
+class Reservation {
+  - id: int
+  - customerName: String
+  - creditCardNumber: String
+  - reservationTime: DateTime
+  - show: Show
+  - seats: List<Seat>
+  - isCancelled: boolean
+  - offerMade: boolean
+}
+
+class Ticket {
+  - id: int
+  - show: Show
+  - seat: Seat
+  - purchaseTime: DateTime
+  - isAnonymized: boolean
+}
+
+class Seat {
+  - id: int
+  - row: int
+  - number: int
+  - theatre: Theatre
+}
+
+class Offer {
+  - id: int
+  - newShow: Show
+  - newSeat: Seat
+  - expirationTime: DateTime
+  - accepted: boolean
+  - reservation: Reservation
+}
+
+class FreeTicket {
+  - id: int
+  - reservation: Reservation
+  - sentDate: DateTime
+}
+
+' Relationships
+
+Cinema "1" *-- "many" Theatre : contains
+Cinema "1" *-- "many" Copy : owns
+Copy "1" -- "1" Movie : contains
+Copy "1" -- "0..*" Show : used in
+Theatre "1" *-- "many" Show : hosts
+Theatre "1" *-- "many" Seat : has
+Show "1" *-- "many" Reservation : has
+Show "1" *-- "many" Ticket : has
+Reservation "1" *-- "many" Seat : reserves
+Reservation "1" -- "1" Offer : offers alternative
+Offer "1" -- "1" Reservation : relates to
+Reservation "1" -- "1" FreeTicket : results in
+Ticket "1" -- "1" Seat : occupies
+
+' Additional notes (optional)
+note right of Reservation
+  Reservations can be cancelled up to 24h before show.
+  Credit card debited after cancellation period.
+end note
+
+note right of Show
+  Published every Sunday for next week.
+  Can be cancelled if no reservations exist.
+end note
+
+note right of Ticket
+  Issued at entrance, anonymous.
+  Cannot be cancelled or refunded.
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Cinema**: Owns theatres and copies of movies.
+- **Theatre**: Has seats and shows.
+- **Movie**: Represents a film with title and duration.
+- **Copy**: A physical or digital copy of a movie located in a specific cinema.
+- **Show**: A scheduled screening of a movie in a theatre using a specific copy.
+- **Reservation**: Customer booking of one or more seats for a show online.
+- **Ticket**: A physical ticket issued either online or at the door.
+- **Seat**: Identified by row and number within a theatre.
+- **Offer**: Alternative seat/show offer when a show is canceled.
+- **FreeTicket**: Sent home when no alternatives are available after cancellation.
+
+---
+

@@ -1,0 +1,14 @@
+@startuml
+
+class Diagram {System Requirement}
+
+# Organization
+Organization SystemRequirement {
+    class Diagram {System Requirement}
+    # Organization structure
+    parent Diagram to SystemRequirement
+    # Relationship between Diagram and SystemRequirement
+    relationship Diagram --> SystemRequirement {
+        "system requirement"
+    }
+@enduml

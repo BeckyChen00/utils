@@ -1,0 +1,38 @@
+@startuml
+class CustomizedProduct {
+  productName: String
+  specifications: Specification[]
+  materialsUsed: String[]
+  +defineSpecs(qualities: QualityQuality[], types: MaterialType[]): void
+  +getMaterialStatus(): String
+}
+class QualityQuality {
+  isMet: boolean
+  deviationCount: int
+  +hasIssues(): boolean
+}
+class MaterialType {
+  typeName: String
+  +getMaterialName(): String
+}
+class Specification {
+  isStrict: boolean
+  dimension: String
+  temperatureRange: String
+  +matchesSpecifications(measure: String): boolean
+}
+class OrderRequest {
+  requestDate: Date
+  priorityLevel: int
+  status: String
+  +validateOrder(): boolean
+  +generateFile(): File
+}
+CustomizedProduct *-- "0..*" Specification : specs
+CustomizedProduct *-- "0..1" QualityQuality : quality
+CustomizedProduct --> "1" MaterialType : baseMaterial
+CustomizedProduct *-- "1" Specification : structure
+MaterialType --> "0..*" Specification : applicableSpecifications
+OrderRequest --> "1" CustomizedProduct : requestedProduct
+CustomizedProduct --> "1" MaterialType : baseMaterial
+@enduml

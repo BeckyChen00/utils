@@ -1,0 +1,30 @@
+@startuml
+enum RecommendationType {
+  KeyPlayer
+  FirstTeamPlayer
+  ReserveTeamPlayer
+  ProspectivePlayer
+  NotAGoodSigning
+}
+class PlayerProfile {
+  name: String
+  haveMedicalClearance: boolean
+  targetPositions: String[]
+  +addScoutingReport(report: ScoutingReport)
+}
+class ScoutingReport {
+  pros: String[]
+  cons: String[]
+  recommendation: RecommendationType
+  isFinalized: boolean
+  +finalize(recommendation: RecommendationType)
+}
+class Scout {
+  name: String
+  yearsOfExperience: int
+  +getTotalScoutingAssignmentCount(): int
+  +getAverageScore(): double
+}
+PlayerProfile "1" *-- "0..*" ScoutingReport : reports
+Scout "0..*" --> "0..*" PlayerProfile : conductsAssignment
+@enduml

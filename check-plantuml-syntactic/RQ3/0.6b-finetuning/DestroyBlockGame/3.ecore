@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedEvidence" eType="#//AuditEvidence" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditEvidence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributedAssets" eType="#//FinancialAsset" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basisTransactions" eType="#//Transaction" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportingEvidence" eType="#//AuditEvidence" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transaction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluatedEvidence" eType="#//AuditEvidence" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedRules" eType="#//AuditRule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affectedRecords" eType="#//ComplianceRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedTransactions" eType="#//Transaction" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FinancialAsset"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditTrail">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trailEvidence" eType="#//AuditEvidence" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedEvidence" eType="#//AuditEvidence" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedTrail" eType="#//AuditTrail" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedRule" eType="#//ComplianceRule" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Participant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="followedRules" eType="#//AuditRule" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

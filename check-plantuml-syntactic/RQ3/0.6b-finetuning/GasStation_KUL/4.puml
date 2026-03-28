@@ -1,0 +1,91 @@
+@startuml
+class Reservation {
+  startTime: Date
+  endTime: Date
+  status: String
+  +createDetails(): String
+  +cancel(): void
+}
+class Guest {
+  name: String
+  contactInfo: String
+  +getFullName(): String
+}
+class Traveler {
+  +registerTraveler(): void
+}
+class Booking {
+  totalCost: double
+  +calculateTotalCost(): double
+}
+class Room {
+  roomNumber: int
+  capacity: int
+  isOccupied: boolean
+  +checkAvailability(): boolean
+}
+class StayContract {
+  startDate: Date
+  endDate: Date
+  type: String
+  +isExpired(): boolean
+  +generateStayReport(): String
+}
+class Service {
+  serviceName: String
+  description: String
+  serviceCost: double
+  +getServiceDescription(): String
+}
+class Equipment {
+  equipmentType: String
+  capacity: int
+  currentUsage: int
+  isOperational: boolean
+  +allocateCapacity(newCapacity: int): boolean
+}
+class Accommodation {
+  address: String
+  zipCode: String
+  maxCapacity: int
+  +isAvailable(): boolean
+}
+class Payment {
+  transactionId: String
+  amount: double
+  currency: String
+  paymentMethod: String
+  +processPayment(): boolean
+  +refund(): boolean
+}
+class ReservationSystem {
+  systemName: String
+  +processRequest(booking: Booking): void
+  +manageGuests(): void
+}
+class DateRange {
+  startDate: Date
+  endDate: Date
+  +lapsDate(other: DateRange): boolean
+}
+class Calendar {
+  +createSchedule(startDate: Date, durationDays: int): DateRange
+  +generateWeek(): String
+}
+Booking --> "1" Traveler : traveler
+Booking --> "1" Guest : guest
+Booking *-- "1" StayContract : stayContract
+Booking *-- "1" Payment : payment
+Booking --> "1" Room : allocatedRoom
+Booking --> "1" DateRange : bookingDate
+StayContract *-- "1..*" Service : includedServices
+StayContract --> "1..*" Accommodation : bookedAccommodation
+Accommodation *-- "1..*" Equipment : equippedEquipment
+Accommodation --> "0..1" DateRange : assignedDateRange
+Accommodation --> "0..*" Room : availableRooms
+Booking --> "0..*" Service : requestedServices
+Reservation --> "1" Traveler : requester
+Booking --> "0..1" DateRange : bookingDate
+Reservation --> "1" Guest : guest
+Calendar --> "0..*" DateRange : displayedRanges
+@enduml

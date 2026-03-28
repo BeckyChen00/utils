@@ -1,0 +1,19 @@
+@startuml
+    classDiagram
+
+    user --> request for data processing
+    request --> database connection
+    database --> query execution
+    query --> result set
+    result set --> output data
+    output data --> user interface display
+
+    # System Requirement
+    systemRequirement {System Requirement}
+    systemRequirement --> {
+        "Database": "MySQL",
+        "Processing": "Data Processing",
+        "Output": "UI Display"
+    }
+
+@enduml

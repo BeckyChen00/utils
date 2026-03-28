@@ -1,0 +1,45 @@
+@startuml
+enum RoomType {
+  CLASSROOM
+  GYM
+  COMPUTERLAB
+}
+class School {
+  name: String
+  +hasPrincipal(): boolean
+  +registerRoom(room: Room): void
+}
+class Person {
+  firstName: String
+  lastName: String
+  email: String
+}
+class Teacher {
+  +teachesAt(school: School, hours: int): void
+  +isPrincipal(): boolean
+}
+class Student {
+  +isEnrolledIn(group: ClassGroup): boolean
+}
+class Classroom {
+  name: String
+  capacity: int
+  area: int
+  roomType: RoomType
+}
+class ClassGroup {
+  groupName: String
+}
+class Schedule {
+  +addLesson(subjectName: String, startTime: Date, durationMinutes: int): void
+  +generatePlan(): Schedule
+}
+School *-- "1" Person : principal
+School *-- "*" Classroom : rooms
+School *-- "*" Schedule : plans
+Teacher --> "0..1" School : assignedSchool 'opposite: teachingStaff
+Student --> "1" ClassGroup : group
+ClassGroup --> "1" Classroom : assignedRoom
+ClassGroup --> "1" Schedule : plan
+Teacher --> "*" ClassGroup : managedGroups
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+    classDiagram
+
+    class System {
+        name: "System Requirement"
+    }
+
+    class User {
+        name: "User"
+    }
+
+    class Database {
+        name: "Database"
+    }
+
+    class SystemComponent {
+        name: "System Component"
+    }
+
+    class SystemComponentUsage {
+        name: "System Component Usage"
+    }
+
+    class Connection {
+        name: "Connection"
+    }
+
+    class Table {
+        name: "Table"
+    }
+
+    class Query {
+        name: "Query"
+    }
+
+    class Execution {
+        name: "Execution"
+    }
+
+    class Result {
+        name: "Result"
+    }
+
+    class Dependency {
+        name: "Dependency"
+    }
+
+    class Relationship {
+        name: "Relationship"
+    }
+
+    # Relationships
+    relationship System -> SystemComponentUsage
+    relationship SystemComponentUsage -> Connection
+    relationship Connection -> Table
+    relationship Table -> Query
+    relationship Query -> Execution
+    relationship Execution -> Result
+    relationship Result -> Dependency
+    relationship Dependency -> Relationship
+@enduml

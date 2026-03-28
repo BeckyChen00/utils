@@ -1,0 +1,97 @@
+
+@startuml
+' Class Diagram for E-Home-2020 System
+
+class Sensor {
+  -vendorId: String
+  -description: String
+  -unit: Unit
+  -roomId: String
+  +getLatestValue(): Value
+}
+
+class TemperatureSensor {
+  -minValue: Float
+  -maxValue: Float
+  +getValue(): Float
+}
+
+class PowerSensor {
+  -totalConsumption: Float
+  +getTotalConsumption(): Float
+}
+
+class Room {
+  -id: String
+  -description: String
+  +getSensors(): List<Sensor>
+}
+
+class Apartment {
+  -address: String
+  -rooms: List<Room>
+  -email: String
+  -inhabitants: List<Inhabitant>
+  +addRoom(room: Room): void
+  +removeRoom(room: Room): void
+}
+
+class Inhabitant {
+  -username: String
+  -password: String
+  -isAdmin: Boolean
+  +login(username: String, password: String): Boolean
+  +setThreshold(sensor: Sensor, threshold: Float): void
+  +configureSensor(sensor: Sensor, newRoomId: String, newDescription: String): void
+}
+
+class SensorController {
+  -sensors: Map<String, Sensor>
+  -apartment: Apartment
+  +registerSensor(sensor: Sensor): void
+  +login(username: String, password: String): Inhabitant
+  +getSensorValues(sensorId: String): List<Value>
+  +getLastValue(sensorId: String): Value
+}
+
+class Value {
+  -timestamp: DateTime
+  -value: Float
+}
+
+class EMonitor {
+  +checkThresholds(apartment: Apartment): void
+  +sendAlert(email: String, message: String): void
+}
+
+' Associations and Relationships
+
+Sensor <|-- TemperatureSensor
+Sensor <|-- PowerSensor
+
+Apartment "1" *-- "many" Room
+Room "1" *-- "many" Sensor
+Apartment "1" *-- "many" Inhabitant
+
+SensorController "1" --> "1" Apartment
+SensorController "1" --> "many" Sensor
+
+Inhabitant "1" --> "many" Sensor (via thresholds)
+Inhabitant "1" --> "many" Sensor (via configuration)
+
+SensorController "1" --> "1" EMonitor
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Sensor**: Abstract class with common attributes like `vendorId`, `description`, `unit`, and `roomId`.
+- **TemperatureSensor** and **PowerSensor**: Concrete subclasses with their specific attributes.
+- **Room**: Contains a list of sensors and has a description.
+- **Apartment**: Contains rooms, inhabitants, and an optional email address.
+- **Inhabitant**: Can log in, set thresholds, and configure sensors (if admin).
+- **SensorController**: Central component that manages sensors, handles user login, and stores apartment data.
+- **Value**: Represents a measured value with timestamp and numeric value.
+- **EMonitor**: External system that checks thresholds and sends alerts via email.
+

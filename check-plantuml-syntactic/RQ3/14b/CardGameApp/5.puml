@@ -1,0 +1,90 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Game {
+  -id: String
+  -players: List<Player>
+  -deck: Deck
+  -scoringTable: ScoringTable
+}
+
+class Player {
+  -id: String
+  -name: String
+}
+
+class Deck {
+  -id: String
+  -cards: List<Card>
+}
+
+class Card {
+  -id: String
+  -suit: Suit (diamonds, hearts, spades, clubs)
+  -value: Integer
+  +compare(other: Card): ComparisonResult
+}
+
+enum ComparisonResult {
+  LOWER
+  EQUAL
+  HIGHER
+}
+
+class ScoringTable {
+  -id: String
+  -rounds: List<Round>
+}
+
+abstract class Round {
+  -id: String
+  -winningPlayers: List<Player>
+  -pointValue: Integer
+}
+
+class JackRound extends Round {
+  // Specific attributes or methods for Jack rounds
+}
+
+class SoloRound extends Round {
+  -soloType: SoloType (trump, jack, queen)
+  -soloPlayer: Player
+}
+
+class MandatorySoloRound extends SoloRound {
+  // Specific attributes or methods for mandatory solo rounds
+}
+
+enum SoloType {
+  TRUMP
+  JACK
+  QUEEN
+}
+
+@enduml
+
+### Explanation of Classes and Relationships:
+
+- **Game** contains:
+  - 4 **Player** objects.
+  - A **Deck** of cards.
+  - A **ScoringTable** with multiple **Rounds**.
+
+- **Deck** contains a list of **Card** objects.
+
+- **Card** has:
+  - A suit (one of four options).
+  - A value used in comparison.
+  - A `compare()` method that returns a `ComparisonResult`.
+
+- **ScoringTable** contains a list of **Round** objects.
+
+- **Round** is an abstract base class. It can be:
+  - **JackRound**
+  - **SoloRound** (which has a **soloType** and a **soloPlayer**)
+    - **MandatorySoloRound** is a special type of **SoloRound**
+
+- All objects have a unique **id** attribute to ensure identification.
+
+Let me know if you'd like this rendered as an image or expanded with more details!

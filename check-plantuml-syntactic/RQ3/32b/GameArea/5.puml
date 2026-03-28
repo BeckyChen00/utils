@@ -1,0 +1,56 @@
+
+---
+
+
+@startuml
+
+' Classes and their attributes
+class GameArea {
+    name: String
+}
+
+class GameElement {
+    x: long
+    y: long
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+    lives: int
+    +kill()
+}
+
+class Boss {
+}
+
+' Associations
+GameArea "1" -- "1..*" GameElement : has
+GameArea "1" -- "1" Boss : knows > 'role name: boss'
+
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+
+Shape "0..*" -- "0..*" Shape : connectsTo 'association name: connectsTo'
+
+Opponent <|-- Boss
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements
+
+- **`GameArea`**: Contains a `name` and is associated with multiple `GameElement`s and exactly one `Boss`.
+- **`GameElement`**: Abstract base class with position (`x`, `y`) values.
+- **`Shape`**, **`Object`**, **`Opponent`**: Subclasses of `GameElement`.
+- **`Shape` to `Shape`**: A self-association to represent that shapes can connect to other shapes (with an association name).
+- **`Opponent`**: Has `lives` and a method `kill()`. It is extended by `Boss`.
+- **`Boss`**: Exactly one per `GameArea` (with a role name `boss`).
+
+Let me know if you'd like a visual version or further refinements!

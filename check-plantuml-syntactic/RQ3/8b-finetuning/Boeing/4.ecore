@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="acquisitions" eType="#//AirplaneAcquisition" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AirplaneAcquisition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//AirplaneModel" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="purchasedBy" eType="#//AirlineCompany" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AirplaneModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BoeingSalesContract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primarySalesperson" eType="#//Salesperson" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Salesperson">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedClient" eType="#//AirlineCompany" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AirlineCompany"/>
+</ecore:EPackage>

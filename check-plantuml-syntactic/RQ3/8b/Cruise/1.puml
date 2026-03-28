@@ -1,0 +1,93 @@
+
+@startuml
+
+' Providers
+class Provider {
+    - name: String
+    - location: String
+}
+
+' Cruises
+class Cruise {
+    - cruiseNumber: String
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - destinationArea: DestinationArea
+    - ship: Ship
+}
+
+' Employees
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+}
+
+' Guests
+class Guest {
+    - name: String
+    - isVIP: Boolean
+    - tickets: Ticket*
+}
+
+' Tickets
+class Ticket {
+    - ticketNumber: String
+    - cruise: Cruise
+    - guest: Guest
+}
+
+' Ships
+class Ship {
+    - name: String
+    - numberOfDecks: Integer
+    - length: Double
+    - numberOfPassengers: Integer
+}
+
+' DestinationAreas
+class DestinationArea {
+    - name: String
+    - seaName: String
+}
+
+' Shows
+class Show {
+    - title: String
+    - duration: Integer
+}
+
+' Booking
+class Booking {
+    - bookingNumber: String
+    - bookingDate: Date
+    - cruise: Cruise
+    - travelAgency: TravelAgency
+}
+
+' TravelAgency
+class TravelAgency {
+    - name: String
+    - address: String
+}
+
+' Relationships
+Provider "1" -- "1" Cruise : provides
+Cruise "1" -- "0..*" Employee : requires
+Cruise "1" -- "0..*" Guest : has
+Guest "1" -- "0..*" Ticket : has
+Ticket "1" -- "1" Cruise : belongs to
+Ticket "1" -- "1" Guest : belongs to
+Cruise "1" -- "1" Ship : uses
+Cruise "1" -- "0..*" Show : offers
+Show "1" -- "1" Cruise : offered on
+Cruise "1" -- "1" Booking : booked through
+Booking "1" -- "1" TravelAgency : made by
+
+@enduml
+
+### Notes:
+- The `*` symbol denotes a multiplicity of zero or more.
+- Relationships are shown with association arrows (`--`).
+- All attributes are defined with appropriate data types (e.g., `String`, `Integer`, `Date`, etc.).
+

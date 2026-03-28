@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="month" eType="#//Month"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customer" eType="#//Customer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refuelTurns" eType="#//RefuelTurn" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="discount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isPaid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invoice" eType="#//Invoice"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pump">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gasStation" eType="#//GasStation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fuelType" eType="#//FuelType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reservoirLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reorderLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="criticalLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isBlocked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refuelTurns" eType="#//RefuelTurn" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GasStation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pumps" eType="#//Pump" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dailyReport" eType="#//DailyReport"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DailyReport">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reportDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pumpsToRefill" eType="#//Pump" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currentLevels" eType="#//Map_Pump_double"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FuelType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Refill"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BlockEvent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//address"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="address"/>
+  <eClassifiers xsi:type="ecore:EClass" name="fuelCard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Invoice&gt;" eType="#//invoices"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="invoices"/>
+  <eClassifiers xsi:type="ecore:EClass" name="status">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//cardNumber" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="cardNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="pump">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Invoice" eType="#//invoice"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="invoice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Month"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RefuelTurn"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_Pump_double"/>
+</ecore:EPackage>

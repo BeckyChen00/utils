@@ -1,0 +1,65 @@
+
+@startuml
+
+class Country {
+  - countryName: String
+  - vatRate: Double
+  - currency: String
+  - euroConversionRate: Double
+}
+
+class Product {
+  - productName: String
+  - description: String
+  - netPrice: Double
+  - manufacturer: String
+  - country: Country
+}
+
+class Representative {
+  - firstName: String
+  - lastName: String
+  - socialSecurityNumber: String
+  - telephone: String
+  - email: String
+  - country: Country
+}
+
+class Customer {
+  - name: String
+  - address: String
+  - telephone: String
+  - email: String
+  - countriesReselling: Set<Country>
+}
+
+class Order {
+  - orderId: String
+  - quantity: Integer
+  - orderDate: Date
+  - desiredDeliveryDate: Date
+  - product: Product
+  - representative: Representative
+}
+
+Country "1" *-- "0..*" Product : sells
+Country "1" *-- "1" Representative : responsible for
+Customer "1" *-- "0..*" Country : resells in
+Representative "1" --> "1" Order : places
+Product "1" --> "1" Order : ordered
+Order "1" --> "1" Customer : belongs to (implicit)
+
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+
+- **`Country` ↔ `Product`**: A country may sell multiple products, but a product is sold only in one country.
+- **`Country` ↔ `Representative`**: Each representative is responsible for exactly one country.
+- **`Customer` ↔ `Country`**: A customer can resell in multiple countries.
+- **`Representative` ↔ `Order`**: Each order is placed by exactly one representative.
+- **`Product` ↔ `Order`**: Each order refers to exactly one product.
+- **`Order` ↔ `Customer`**: An order belongs to a customer (not explicitly modeled here, but implied).
+
+Let me know if you'd like this extended with associations, multiplicity details, or inheritance!

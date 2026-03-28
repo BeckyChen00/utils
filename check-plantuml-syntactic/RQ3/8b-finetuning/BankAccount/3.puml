@@ -1,0 +1,36 @@
+@startuml
+class Bank {
+  bankName: String
+  +openBranch(branchName: String): Branch
+  +getCustomerById(customerId: int): Customer
+}
+class Branch {
+  branchName: String
+  +getTransactionCount(): int
+}
+class Customer {
+  firstName: String
+  lastName: String
+  +registerAccount(account: Account): void
+  +getOwnedAccounts(): List<Account>
+}
+class Account {
+  accountNumber: int
+  currentBalance: double
+  overdraftLimit: double
+  +deposit(amount: double): void
+  +withdraw(amount: double): boolean
+  +getTransactions(): List<Transaction>
+}
+class Transaction {
+  transactionDate: Date
+  amount: double
+  description: String
+  +post(): void
+  +getAmount(): double
+}
+Bank *-- "0..*" Branch : branches
+Bank --> "0..*" Customer : customers
+Customer *-- "1..5" Account : accounts
+Account *-- "0..*" Transaction : transactions
+@enduml

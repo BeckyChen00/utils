@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="visits" eType="#//ExaminationVisit" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExaminationVisit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedExaminations" eType="#//Examination" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Doctor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedVisits" eType="#//ExaminationVisit" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagnoses" eType="#//Diagnosis" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Diagnosis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedOnPlan" eType="#//TreatmentPlan" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Examination">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//ExaminationType" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExaminationType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allowedHospitals" eType="#//Hospital" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Hospital">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledExaminations" eType="#//Examination" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentPlan"/>
+</ecore:EPackage>

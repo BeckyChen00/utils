@@ -1,0 +1,64 @@
+
+@startuml
+
+' Define classes and their relationships
+class University {
+}
+
+class Department {
+}
+
+class ResearchGroup {
+    - name: String
+    - department: Department
+}
+
+class Researcher {
+    - name: String
+    - researchGroup: ResearchGroup
+}
+
+class Project {
+    - title: String
+    - description: String
+}
+
+class WorkPackage {
+    - title: String
+    - description: String
+    - leader: ResearchGroup
+}
+
+class Assignment {
+    - startDate: Date
+    - endDate: Date (optional)
+}
+
+' Relationships
+University "1" -- "many" Department : contains
+Department "1" -- "many" ResearchGroup : has
+ResearchGroup "1" -- "many" Researcher : has
+ResearchGroup "0..*" -- "1" WorkPackage : leads
+Project "1" -- "many" WorkPackage : decomposes into
+WorkPackage "1" -- "many" Assignment : has
+Researcher "1" -- "many" Assignment : participates in
+Assignment "1" -- "1" WorkPackage : assigned to
+Assignment "1" -- "1" Researcher : performed by
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **University** contains **Departments**.
+- **Departments** have **ResearchGroups**.
+- **ResearchGroups**:
+  - Have multiple **Researchers**.
+  - Lead exactly one or more **WorkPackages**.
+- **Projects** are decomposed into **WorkPackages**.
+- A **WorkPackage** is led by a **ResearchGroup**.
+- **Researchers** can be assigned to any **WorkPackage**, regardless of their group.
+- An **Assignment** records when a **Researcher** works on a **WorkPackage**, including dates. This helps track service delivery across groups.
+
+This model ensures traceability of inter-group collaboration and supports tracking when researchers move between groups or when leadership of WPs changes.

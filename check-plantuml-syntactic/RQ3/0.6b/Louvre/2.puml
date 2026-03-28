@@ -1,0 +1,16 @@
+@startuml
+
+class Diagram {SystemRequirement}
+
+role User {User}
+role System {System}
+
+participant Diagram, User, System
+
+class SystemRequirement {
+    role SystemRequirement
+    with System
+    has User
+}
+
+@enduml

@@ -1,0 +1,83 @@
+
+@startuml
+
+class Employee {
+  - name: String
+  - role: String
+}
+
+class HeadCoach {
+  - designatedPlayerProfiles: List<DesignatedPlayerProfile>
+  + identifyDesignatedPlayerProfiles()
+}
+
+class Director {
+  - officialOffers: List<OfficialOffer>
+  + makeOfficialOffer(player: Player)
+}
+
+class Scout {
+  - scoutingReports: List<SourcingReport>
+  + notePlayerOnLongList(player: Player)
+  + submitScoutingReport(report: ScoutingReport)
+}
+
+class DesignatedPlayerProfile {
+  - targetPosition: String
+  - attributes: Map<String, String>
+  + matchPlayer(player: Player): boolean
+}
+
+class Player {
+  - name: String
+  - position: String
+  - profile: DesignatedPlayerProfile
+}
+
+class ScoutingReport {
+  - pros: List<String>
+  - cons: List<String>
+  - recommendation: String
+  + evaluatePlayer(player: Player)
+}
+
+class LongList {
+  - players: List<Player>
+  + addPlayer(player: Player)
+  + removePlayer(player: Player)
+}
+
+class ShortList {
+  - players: List<Player>
+  + addPlayer(player: Player)
+  + removePlayer(player: Player)
+}
+
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+
+HeadCoach --|> DesignatedPlayerProfile
+Director --|> OfficialOffer
+Scout --|> ScoutingReport
+Scout --|> LongList
+Scout --|> ShortList
+
+Player --|> DesignatedPlayerProfile
+Player --|> ScoutingReport
+
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+
+- **Employee** is an abstract class representing all club employees.
+- **HeadCoach** manages **DesignatedPlayerProfiles** and identifies target positions and player attributes.
+- **Director** handles **OfficialOffers** to players.
+- **Scout** submits **ScoutingReports**, maintains **LongList** and **ShortList** of players.
+- **DesignatedPlayerProfile** defines target positions and attributes used to filter players.
+- **Player** can be associated with a **DesignatedPlayerProfile** and has one or more **ScoutingReports**.
+- **ScoutingReport** includes **pros**, **cons**, and a **recommendation**.
+
+Let me know if you want this in a specific format (e.g., image, SVG, or rendered as text).

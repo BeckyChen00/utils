@@ -1,0 +1,18 @@
+@startuml
+    class diagram systemRequirement
+
+    class requirement {
+        identifier "Requirement"
+        attribute name "name" string
+        attribute id integer
+    }
+
+    class system {
+        identifier "System"
+        attribute name "name" string
+        attribute id integer
+    }
+
+    relation requirement to system with name "Requirement" and id as a constraint.
+
+@enduml

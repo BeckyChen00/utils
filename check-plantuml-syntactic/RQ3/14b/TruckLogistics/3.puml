@@ -1,0 +1,59 @@
+
+@startuml
+' Class Diagram for Location Management System
+
+class Location {
+  -address: String
+}
+
+class Driver {
+  -firstName: String
+  -lastName: String
+}
+
+class Vehicle {
+  -vehicleNumber: String
+  +assignDriver(driver: Driver)
+  +unassignDriver()
+}
+
+class Truck extends Vehicle {
+  -weight: Double
+}
+
+class Car extends Vehicle {
+  -seats: Integer
+}
+
+class Van extends Vehicle {
+  -capacity: Integer
+}
+
+class Order {
+  -origin: Location
+  -destination: Location
+  -date: Date
+  -driver: Driver
+  +assignDriver(driver: Driver)
+  +unassignDriver()
+}
+
+' Associations
+Driver "1" *-- "0..1" Vehicle : drives
+Driver "1" *-- "1" Order : carries out
+Order "1" -- "1" Location : origin
+Order "1" -- "1" Location : destination
+Vehicle "1" -- "0..1" Driver : assigned to
+@enduml
+
+### Explanation of the Diagram:
+- **Location** has an address and is used as a reference point for orders.
+- **Driver** has first and last names and can be assigned to one vehicle and one order at a time.
+- **Vehicle** is a base class with a `vehicleNumber`. It has three subclasses:
+  - **Truck**: has a weight
+  - **Car**: has number of seats
+  - **Van**: has capacity
+- **Order** has an origin and destination (both are locations), a date, and a driver. A driver can carry out only one order at a time.
+- A **Driver** can drive **one vehicle** and carry out **one order**.
+- A **Vehicle** can be assigned to **one driver**, but not necessarily always.
+

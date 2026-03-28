@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specs" eType="#//Specification" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Specification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomizedProduct">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="quality" eType="#//QualityQuality" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="baseMaterial" eType="#//MaterialType" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="structure" eType="#//Specification" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityQuality"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaterialType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicableSpecifications" eType="#//Specification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestedProduct" eType="#//CustomizedProduct" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

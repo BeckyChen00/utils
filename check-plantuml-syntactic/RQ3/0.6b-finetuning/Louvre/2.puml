@@ -1,0 +1,68 @@
+@startuml
+enum AgentType {
+  StandardAgent
+  CustomAgent
+  LearningAgent
+  MissionControl
+}
+enum LifecycleState {
+  Designed
+  InProduction
+  Maintenance
+  Decommissioned
+}
+class UserAccount {
+  username: String
+  +login(): boolean
+  +logout(): void
+}
+class Agent {
+  agentName: String
+  +isOperational(): boolean
+  +updateStatus(newStatus: String): void
+}
+class PreservationProject {
+  projectName: String
+  startDate: Date
+  endDate: Date
+  currentState: LifecycleState
+  +addAgent(agent: Agent): void
+  +removeAgent(agent: Agent): void
+  +updateState(newState: LifecycleState): void
+}
+class ResourceRequirement {
+  resourceType: String
+  requiredQuantity: int
+  +isFeasible(targetState: LifecycleState): boolean
+}
+class MaintenanceTask {
+  description: String
+  priority: int
+  estimatedDuration: int
+  +execute(): boolean
+}
+class SimulationRun {
+  simulationDuration: int
+  isActive: boolean
+  +startSimulation(): void
+  +endSimulation(): void
+  +getProgress(): double
+}
+class MonitoringReport {
+  generationDate: Date
+  summaryData: String
+  +generateSummary(): String
+}
+class LifecycleState {
+  currentState: LifecycleState
+  description: String
+  +transitionTo(newState: LifecycleState): void
+}
+UserAccount *-- "0..*" Agent : ownedAgents
+PreservationProject *-- "0..*" Agent : managedAgents
+PreservationProject *-- "0..*" ResourceRequirement : requiredResources
+PreservationProject *-- "0..*" MaintenanceTask : plannedTasks
+MaintenanceTask --> "1" Agent : targetAgent
+SimulationRun *-- "1" PreservationProject : executedProject
+SimulationRun *-- "0..*" MonitoringReport : generatedReports
+@enduml

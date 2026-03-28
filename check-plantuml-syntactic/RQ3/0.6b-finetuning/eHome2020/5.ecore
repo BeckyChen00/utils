@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedMap" eType="#//Map" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Map">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedRoute" eType="#//Route" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="installedSensors" eType="#//SensorNode" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappedBeacons" eType="#//Beacon" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredSensors" eType="#//SensorNode" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Route"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReadings" eType="#//SensorReading" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="poweredBy" eType="#//PowerSupplyUnit" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ElectricVehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedSensors" eType="#//SensorNode" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerSource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedReadings" eType="#//SensorReading" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorReading"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ChargingStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledBolts" eType="#//VehicleBolt" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedPowerUnit" eType="#//PowerSupplyUnit" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VehicleBolt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledAlerts" eType="#//AlertManager" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerSupplyUnit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Beacon"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LocationManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedMaps" eType="#//Map" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSessions" eType="#//UserSession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserSession"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemLog"/>
+</ecore:EPackage>

@@ -1,0 +1,84 @@
+
+@startuml
+
+' Define classes
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+  + login(username: String, password: String): Boolean
+}
+
+class Planner extends Employee {
+  - fieldOfActivity: String
+}
+
+class AdministrativeStaff extends Employee {
+  - username: String
+  - password: String
+}
+
+class Customer {
+  - name: String
+  - billingAddress: String
+}
+
+class Vehicle {
+  - licensePlateNumber: String
+  - mileage: Integer
+  + getType(): String
+}
+
+class Repair {
+  - repairShopName: String
+  - repairShopAddress: String
+  - employee: Employee
+  - duration: Integer
+  - cost: Double
+}
+
+class Order {
+  - customer: Customer
+  - pickupAddress: String
+  - deliveryAddress: String
+  - assignedDriver: Driver
+  - vehicle: Vehicle
+  - startTime: DateTime
+  - endTime: DateTime
+  - planner: Planner
+  - comment: String
+}
+
+class Driver extends Employee {
+  - assignedOrders: List<Order>
+}
+
+class PartnerCompany {
+  - name: String
+  - address: String
+}
+
+' Relationships
+Employee <|-- Planner
+Employee <|-- AdministrativeStaff
+Employee <|-- Driver
+
+Customer "1" -- "0..*" Order : places
+Order "1" -- "1" Customer : has
+Order "1" -- "1" Driver : assigned to
+Order "1" -- "1" Vehicle : uses
+Order "1" -- "1" Planner : planned by
+Vehicle "1" -- "0..*" Repair : requires
+PartnerCompany "1" -- "0..*" Order : from
+
+@enduml
+
+### Explanation of Key Elements:
+- **Employees** include drivers, planners, and administrative staff.
+- **Planners** have a field of activity.
+- **Administrative Staff** have usernames and passwords for login.
+- **Customers** have names and billing addresses.
+- **Vehicles** have types (e.g., refrigerated trucks, small vans) and are associated with repairs.
+- **Repairs** include details like shop name, employee, duration, and cost.
+- **Orders** are linked to customers, drivers, vehicles, and planners.
+- **Partner Companies** can also be the source of orders.
+

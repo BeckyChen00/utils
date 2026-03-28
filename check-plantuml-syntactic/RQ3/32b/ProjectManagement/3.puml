@@ -1,0 +1,78 @@
+
+@startuml
+
+' Define classes
+class ResearchGroup {
+    +id: int
+    +name: String
+}
+
+class Department {
+    +id: int
+    +name: String
+}
+
+class Researcher {
+    +id: int
+    +name: String
+    -researchGroup: ResearchGroup (1)
+}
+
+class Project {
+    +id: int
+    +title: String
+}
+
+class WorkPackage {
+    +id: int
+    +description: String
+    +startDate: Date
+    +endDate: Date
+    -leader: ResearchGroup (1)
+}
+
+class TeamAssignment {
+    +id: int
+    +startDate: Date
+    +endDate: Date (optional)
+    -researcher: Researcher (1)
+    -workPackage: WorkPackage (1)
+}
+
+' Relationships
+Department "1" -- "*" ResearchGroup : contains
+ResearchGroup "1" -- "*" Researcher : has members
+Project "1" -- "*" WorkPackage : decomposed into
+WorkPackage "1" -- "1" ResearchGroup : led by {composition}
+WorkPackage "1" -- "*" TeamAssignment : has team assignments
+TeamAssignment "1" -- "1" Researcher : assigned researcher
+TeamAssignment "1" -- "1" WorkPackage : assigned to WP
+
+' Notes for traceability of service delivery
+note right of TeamAssignment
+  Service delivery must be traceable.
+  When a researcher changes groups,
+  old assignments are terminated and new ones created.
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **ResearchGroup**:
+  - Each group belongs to a **Department**.
+  - A **Researcher** belongs to exactly one **ResearchGroup**.
+
+- **WorkPackage**:
+  - A **Project** is decomposed into multiple **WorkPackages**.
+  - Each **WorkPackage** is led by one **ResearchGroup**.
+
+- **TeamAssignment**:
+  - Represents a **Researcher** being assigned to a **WorkPackage**.
+  - Tracks start and end dates for accurate service delivery recording.
+  - If a researcher changes groups or a WP leader changes, assignments are updated accordingly.
+
+---
+

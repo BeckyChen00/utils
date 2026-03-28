@@ -1,0 +1,68 @@
+@startuml
+enum CurrencyCode {
+  EUR
+  USD
+  GBP
+}
+enum CountryCode {
+  DE
+  US
+  FR
+  IT
+  JP
+}
+class Country {
+  countryName: String
+  isoCode: CountryCode
+  vatRate: double
+  currency: CurrencyCode
+}
+class CurrencyExchangeRate {
+  exchangeRate: double
+  startDate: Date
+  endDate: Date
+}
+class TaxCalculator {
+  +calculateGrossPrice(netPrice: double, vatRate: double): double
+  +formatPrice(price: double, currency: CurrencyCode): String
+}
+class Product {
+  productName: String
+  productDescription: String
+  netPrice: double
+  productionYear: int
+  stockLevel: int
+  isPremium: boolean
+  +updateStock(amount: int): void
+}
+class Representative {
+  firstName: String
+  lastName: String
+  ssNumber: String
+  phoneNumber: String
+  emailAddress: String
+  supportedCountry: Country
+  +placeOrder(customer: Customer, product: Product, quantity: int): Order
+}
+class Customer {
+  customerName: String
+  address: String
+  phoneNumber: String
+  emailAddress: String
+  preferredCountries: List<Country>
+}
+class Order {
+  orderDate: Date
+  deliveryDate: Date
+  quantity: int
+  status: String
+}
+Country "1" *-- "*" CurrencyExchangeRate : exchangeRates
+Country "1" --> "*" Representative : assignedRepresentatives
+Representative "1" --> "*" Product : managedProducts
+Product "1" --> "*" Order : placedOrders 'opposite: orderedProduct
+Order "1" --> "1" Customer : placedBy
+Customer "1" --> "*" Representative : activeRepresentatives
+TaxCalculator -- Customer
+Customer -- Product
+@enduml

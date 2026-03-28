@@ -1,0 +1,112 @@
+
+@startuml
+
+' Classes
+class Traveller {
+  +name: String
+  +billingInfo: BillingInfo
+  +travelPreferences: List<TravelPreference>
+  +reliabilityRating: Double
+  +bookings: List<Booking>
+}
+
+class BillingInfo {
+  +companyName: String
+  +address: String
+  +creditCardInfo: String
+}
+
+class TravelPreference {
+  +preferenceType: String
+  +value: String
+}
+
+class Booking {
+  +bookingId: String
+  +traveller: Traveller
+  +hotel: Hotel
+  +startDate: Date
+  +endDate: Date
+  +numRooms: Integer
+  +roomType: String
+  +pricePerNight: Double
+  +totalCost: Double
+  +confirmationStatus: String
+  +paymentType: PaymentType
+  +cancellationDeadline: Date
+  +isConfirmed: Boolean
+}
+
+enum PaymentType {
+  PREPAID
+  PAID_AT_HOTEL
+}
+
+class PreliminaryBooking extends Booking {
+  +deadline: Date
+}
+
+class FinalizedBooking extends Booking {
+  +confirmedByHotel: Boolean
+  +confirmationDate: Date
+}
+
+class Hotel {
+  +hotelId: String
+  +name: String
+  +address: String
+  +city: String
+  +rating: Integer
+  +chain: HotelChain
+  +roomsAvailable: Map<Date, RoomAvailability>
+}
+
+class RoomAvailability {
+  +date: Date
+  +roomType: String
+  +quantity: Integer
+  +isFullyBooked: Boolean
+}
+
+class HotelChain {
+  +chainId: String
+  +name: String
+  +hotels: List<Hotel>
+}
+
+class SpecialOffer {
+  +offerId: String
+  +hotel: Hotel
+  +pricePerNight: Double
+  +additionalBenefits: List<String>
+  +validUntil: Date
+}
+
+' Relationships
+Traveller "1" -- "0..*" Booking : has
+Booking "1" -- "1" Hotel : belongs to
+Hotel "1" -- "0..*" RoomAvailability : has
+Hotel "1" -- "0..1" HotelChain : belongs to
+PreliminaryBooking "1" -- "1" Booking : is a
+FinalizedBooking "1" -- "1" Booking : is a
+Hotel "1" -- "0..*" SpecialOffer : provides
+Booking "1" -- "0..*" TravelPreference : includes
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **`Traveller`**: Core entity representing users. Has billing info, travel preferences, and bookings.
+- **`BillingInfo`**: Contains credit card and company details needed for finalizing a booking.
+- **`Booking`**: Base class with common attributes like dates, price, hotel, etc.
+- **`PreliminaryBooking` & `FinalizedBooking`**: Subclasses of `Booking` for different stages of booking.
+- **`Hotel`**: Represents hotels, including chain affiliation, address, and room availability.
+- **`RoomAvailability`**: Tracks available rooms per date and type.
+- **`HotelChain`**: Optional grouping of hotels under a brand or chain.
+- **`SpecialOffer`**: Offers made by competitor hotels after a preliminary booking.
+- **`PaymentType`**: Enum to differentiate between pre-paid and paid-at-hotel options.
+
+---
+

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contacts" eType="#//Contact" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Contact">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notifications" eType="#//NotificationService" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResidentProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredAccount" eType="#//UserAccount" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participatingEvents" eType="#//Event" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="likedCampaigns" eType="#//ReminderCampaign" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationService"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SocialMediaPlatform">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedEvents" eType="#//Event" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredUsers" eType="#//UserAccount" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReminderCampaign"/>
+</ecore:EPackage>

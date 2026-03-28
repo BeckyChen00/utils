@@ -1,0 +1,60 @@
+
+@startuml
+' Class Diagram for Boeing Aircraft Sales System
+
+class Contract {
+  -contractId: String
+  -startDate: Date
+  -endDate: Date
+  -globalTerms: String
+}
+
+class Acquisition {
+  -acquisitionId: String
+  -model: String
+  -price: Double
+  -deliveryDate: Date
+  -options: String
+}
+
+class Airline {
+  -airlineId: String
+  -name: String
+  -type: String
+}
+
+class Salesperson {
+  -salespersonId: String
+  -name: String
+  -email: String
+}
+
+class MotherDaughterRelationship {
+  -parentId: String
+  -childId: String
+}
+
+' Relationships
+Contract "1" --> "0..*" Acquisition : contains
+Contract "1" --> "1" Salesperson : managedBy
+Airline "0..1" --> "0..*" Airline : hasChild
+Airline "0..1" --> "0..*" Airline : hasParent
+Contract "1" --> "1" Airline : signedWith
+Acquisition "1" --> "1" Airline : deliveredTo
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **`Contract`**: Represents a sales agreement with an airline. It includes global terms and can contain multiple acquisitions.
+- **`Acquisition`**: Represents a specific airplane sale under a contract. Includes details like model, price, delivery date, and options.
+- **`Airline`**: Represents an airline company. An airline can be related to other airlines via mother-daughter relationships.
+- **`Salesperson`**: A Boeing employee who manages one or more contracts. One person can manage multiple contracts.
+- **`MotherDaughterRelationship`**: Captures the relationship between parent and child airlines (e.g., main airline and low-cost subsidiary).
+- **Relationships**:
+  - A `Contract` has many `Acquisition`s.
+  - A `Contract` is managed by exactly one `Salesperson`.
+  - An `Airline` may have zero or more `MotherDaughterRelationship`s as either a parent or a child.
+  - A `Contract` is signed with one `Airline`.
+  - Each `Acquisition` is delivered to one `Airline`.
+

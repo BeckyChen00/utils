@@ -1,0 +1,90 @@
+
+@startuml
+
+' Define classes
+class House {
+  - address: String
+  - buildingMaterial: String
+  - hasBasement: Boolean
+  - basement: Basement
+  - isSemiDetached: Boolean
+  - ownGarden: Boolean
+  - numberOfWindows: Integer
+  - carports: Carport
+  - garage: Garage
+  - companies: Set<Company>
+  - jobLogs: Set<JobLog>
+}
+
+class Basement {
+  - type: String
+  - size: Integer
+  - name: String
+  - humidityLevel: Integer
+}
+
+abstract class BasementType {
+  - type: String
+}
+
+class EarthBasement {
+  -- inherits from BasementType
+}
+
+class ConcreteBasement {
+  -- inherits from BasementType
+}
+
+class Carport {
+  - isDoubleCarport: Boolean
+  - hasFlatRoof: Boolean
+}
+
+class Garage {
+  - hasAutomaticDoor: Boolean
+}
+
+class Company {
+  - name: String
+  - address: String
+}
+
+class JobLog {
+  - hours: Integer
+  - price: Double
+}
+
+' Associations
+House --> Basement : has
+House --> Carport : has (0..1)
+House --> Garage : has (0..1)
+House --> Company : serviced by
+House --> JobLog : has
+
+' Specialization for basements
+Basement <|-- EarthBasement
+Basement <|-- ConcreteBasement
+
+' Specialization for semi-detached houses
+House <|-- SemiDetachedHouse
+
+class SemiDetachedHouse {
+  - ownGarden: Boolean
+  - numberOfWindows: Integer
+  - carports: Carport
+  - garage: Garage
+}
+
+' Association for semi-detached house
+SemiDetachedHouse --> Carport : has (0..1)
+SemiDetachedHouse --> Garage : has (0..1)
+
+@enduml
+
+### Explanation:
+- **House**: Core class with general attributes like `address`, `buildingMaterial`, and associations to `Basement`, `Carport`, `Garage`, `Company`, and `JobLog`.
+- **Basement**: Abstract base class that includes common properties. It is specialized into **EarthBasement** and **ConcreteBasement**, with `EarthBasement` having an additional attribute `humidityLevel`.
+- **SemiDetachedHouse**: A subclass of `House` with additional attributes (`ownGarden`, `numberOfWindows`) and specific associations.
+- **Carport** and **Garage**: Each has their own attributes, and a `House` can have either one or the other.
+- **Company** and **JobLog**: Represent the servicing companies and job records respectively.
+

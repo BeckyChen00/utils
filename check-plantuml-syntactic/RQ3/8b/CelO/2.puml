@@ -1,0 +1,95 @@
+
+---
+
+
+@startuml
+skinparam classAttributeStyle rectangle
+
+' == Classes ==
+class Organizer {
+  + String firstName
+  + String lastName
+  + String email (username)
+  + String postalAddress
+  + String phoneNumber
+  + String password
+  + Event event
+  + List<Attendee> invitedAttendees
+  + List<Task> checklistTasks
+}
+
+class Attendee {
+  + String email (username)
+  + String firstName
+  + String lastName
+  + String password
+  + Boolean hasConfirmedAttendance
+  + String attendanceStatus (confirmed, maybe, cannot)
+  + List<Task> assignedTasks
+}
+
+class Event {
+  + String eventName
+  + Date startTime
+  + Date endTime
+  + String occasion
+  + Location location
+  + List<Organizer> organizers
+  + List<Attendee> attendees
+  + List<Task> checklist
+}
+
+class Location {
+  + String name
+  + String address
+}
+
+class Task {
+  + String taskName
+  + Boolean isForAttendees
+  + String description
+  + List<Attendee> assignedTo
+  + Status status (needs to be done, done, not applicable)
+}
+
+enum Status {
+  NEEDS_TO_BE_DONE
+  DONE
+  NOT_APPLICABLE
+}
+
+' == Relationships ==
+Organizer --> "1..*" Event : manages
+Event --> "0..*" Organizer : managed by
+Event --> "1..*" Location : has
+Location --> Event : belongs to
+Event --> "0..*" Attendee : has
+Attendee --> "1" Organizer : invited by
+Attendee --> "0..*" Task : assigned
+Task --> "0..*" Attendee : assigned to
+Organizer --> "0..*" Task : adds
+Task --> "0..*" Organizer : added by
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Organizer**: Manages events, can invite attendees, maintains a checklist of tasks.
+- **Attendee**: Can confirm attendance, indicate status, and complete assigned tasks.
+- **Event**: Contains details like date, time, location, and is associated with one or more organizers and attendees.
+- **Location**: May be predefined or user-defined, and is associated with an event.
+- **Task**: A checklist item that may be assigned to attendees, and has a status indicating whether it's required, completed, or not applicable.
+- **Status**: An enum representing the status of a task (e.g., `NEEDS_TO_BE_DONE`, `DONE`, `NOT_APPLICABLE`).
+
+---
+
+### 💡 Notes:
+- The diagram uses aggregation and composition relationships where appropriate.
+- The `Status` enum represents the state of a task.
+- The `Attendee` can have multiple tasks, and each task may be assigned to one or more attendees.
+
+---
+
+Would you like me to generate this diagram as an image or export it to a file?

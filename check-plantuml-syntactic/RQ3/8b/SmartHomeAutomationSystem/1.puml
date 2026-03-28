@@ -1,0 +1,110 @@
+
+---
+
+
+@startuml
+skinparam monochrome true
+skinparam noteAlign center
+
+class SmartHome {
+  - id: String
+  - address: String
+  - rooms: List<Room>
+  - activityLog: ActivityLog
+  - automationRules: List<AutomationRule>
+}
+
+class Room {
+  - id: String
+  - name: String
+  - smartHome: SmartHome
+  - sensors: List<Sensor>
+  - actuators: List<Actuator>
+}
+
+class Sensor {
+  - id: String
+  - type: String
+  - room: Room
+  + read(): SensorReading
+}
+
+class Actuator {
+  - id: String
+  - type: String
+  - room: Room
+  + execute(command: ControlCommand): boolean
+}
+
+class SensorReading {
+  - timestamp: DateTime
+  - value: double
+  - sensor: Sensor
+}
+
+class ControlCommand {
+  - timestamp: DateTime
+  - status: String
+  - actuator: Actuator
+  - commandType: String
+}
+
+class ActivityLog {
+  - logEntries: List<LogEntry>
+}
+
+class LogEntry {
+  - timestamp: DateTime
+  - type: String
+  - content: String
+}
+
+class AutomationRule {
+  - id: String
+  - smartHome: SmartHome
+  - precondition: String
+  - action: List<ControlCommand>
+  - isActive: boolean
+  - dependsOn: List<AutomationRule>
+  - conflictsWith: List<AutomationRule>
+}
+
+class RuleTrigger {
+  - timestamp: DateTime
+  - rule: AutomationRule
+}
+
+' Relationships
+SmartHome "1" -- "0..*" Room : contains
+Room "1" -- "0..*" Sensor : has
+Room "1" -- "0..*" Actuator : has
+Sensor "1" -- "1" SensorReading : generates
+Actuator "1" -- "1" ControlCommand : receives
+SmartHome "1" -- "0..*" AutomationRule : has
+AutomationRule "1" -- "0..*" AutomationRule : dependsOn
+AutomationRule "1" -- "0..*" AutomationRule : conflictsWith
+AutomationRule "1" -- "1" RuleTrigger : triggers
+SmartHome "1" -- "1" ActivityLog : logs to
+ActivityLog "1" -- "0..*" LogEntry : contains
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements
+
+- **SmartHome**: Represents a physical smart home with an address and contains rooms.
+- **Room**: A room in the smart home that may have sensors and actuators.
+- **Sensor / Actuator**: Devices that provide readings or receive commands.
+- **SensorReading / ControlCommand**: Data objects representing sensor data or control actions.
+- **ActivityLog / LogEntry**: Tracks all events (sensor readings, control commands).
+- **AutomationRule**: Defines conditions and actions for automating tasks.
+- **RuleTrigger**: Records when a rule was triggered (used for auditing).
+
+---
+
+### 📝 Notes:
+- This model supports complex rule hierarchies, dependencies, and conflict management.
+- It also captures the behavior of the system regarding device activation/deactivation and logging.
+
+Let me know if you'd like a UML version exported as an image or further refinement!

@@ -1,0 +1,109 @@
+@startuml
+enum MaterialType {
+  Steel
+  Concrete
+  Glass
+}
+class StructuralMaterial {
+  materialName: String
+  density: double
+  type: MaterialType
+}
+class EngineeringProject {
+  projectName: String
+  location: String
+  startDate: Date
+  endDate: Date
+  +calculateTotalCost(): double
+  +getActiveMaterials(): List<StructuralMaterial>
+}
+class ConstructionSite {
+  siteName: String
+  constructionDate: Date
+  safetyStatus: String
+  +verifySafety(): boolean
+  +updateSafetyStatus(status: String): void
+}
+class SiteManager {
+  employeeName: String
+  +assignSite(site: ConstructionSite): void
+  +monitorSite(site: ConstructionSite): void
+}
+class SafetyProtocol {
+  protocolTitle: String
+  description: String
+  effectiveDate: Date
+  +applyTo(site: ConstructionSite): void
+}
+class MaterialLab {
+  labName: String
+  +getAvailableMaterials(): List<StructuralMaterial>
+  +retrieveMaterial(materialName: String): StructuralMaterial
+}
+class QualityInspection {
+  inspectionDate: Date
+  result: String
+  +validateConstraint(material: StructuralMaterial): boolean
+}
+class Inspector {
+  employeeName: String
+  +verifyInspection(result: String, site: ConstructionSite): boolean
+  +reviewSite(site: ConstructionSite): void
+}
+class ApprovalProcess {
+  processName: String
+  +generateApproval(request: StructuralMaterial): String
+  +validateAccess(reviewed: StructuralMaterial): boolean
+}
+class Permit {
+  permitNumber: String
+  issueDate: Date
+  expiryDate: Date
+  status: String
+  +checkValidity(): boolean
+  +issuePermit(): void
+}
+class CostEstimator {
+  +estimateCost(material: StructuralMaterial, duration: double): double
+  +computeTotalCost(project: EngineeringProject): double
+}
+class BudgetController {
+  budgetLimit: double
+  isOverBudget: boolean
+  +allocateBudget(material: StructuralMaterial, amount: double): void
+  +allocateBudget(project: EngineeringProject, amount: double): void
+  +getExpenditureSummary(): String
+}
+class WorkSchedule {
+  scheduleCode: String
+  startDate: Date
+  endDate: Date
+  +addTask(task: WorkTask): void
+  +getTasks(): List<WorkTask>
+}
+class WorkTask {
+  taskCode: String
+  description: String
+  estimatedHours: double
+  +updateStatus(newStatus: String): void
+}
+EngineeringProject *-- "0..*" StructuralMaterial : usedMaterials
+EngineeringProject *-- "1" ConstructionSite : mainSite
+EngineeringProject *-- "1" CostEstimator : costEstimator
+EngineeringProject *-- "1" BudgetController : budgetController
+EngineeringProject *-- "1..*" WorkSchedule : workSchedules
+EngineeringProject --> "1" SiteManager : siteManager
+EngineeringProject --> "1" SiteManager : siteManager
+EngineeringProject *-- "1..*" QualityInspection : inspectionHistory
+EngineeringProject --> "1" SafetyProtocol : complianceProtocol
+EngineeringProject --> "1" CostEstimator : costEstimator
+EngineeringProject --> "1..*" ApprovalProcess : approvalProcesses
+ConstructionSite *-- "1..*" SafetyProtocol : safetyProtocols
+ConstructionSite *-- "0..*" Permit : activePermits
+ConstructionSite --> "1" BudgetController : budgetController
+ConstructionSite --> "1" WorkSchedule : workSchedule
+WorkTask --> "1" StructuralMaterial : requiredMaterial
+WorkTask --> "1" Inspector : assignedInspector
+WorkSchedule *-- "1..*" WorkTask : tasks
+WorkTask --> "1" Project : owner
+@enduml

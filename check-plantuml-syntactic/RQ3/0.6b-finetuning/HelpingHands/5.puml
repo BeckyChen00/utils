@@ -1,0 +1,50 @@
+@startuml
+enum DeploymentStatus {
+  Pending
+  InProgress
+  Completed
+  Failed
+}
+class Cluster {
+  name: String
+  capacity: int
+}
+class Resource {
+  resourceName: String
+  resourceType: String
+  isAutoAllocate: boolean
+}
+class Infrastructure {
+  status: DeploymentStatus
+  version: String
+  +getStatus(): DeploymentStatus
+  +registerCluster(cluster: Cluster): void
+}
+class Deployment {
+  status: DeploymentStatus
+  startTime: Date
+  duration: int
+  +logAction(action: String): void
+  +getTimeline(): String
+  +getStatus(): DeploymentStatus
+}
+class ResourceAllocation {
+  totalCapacity: int
+  remainingSize: int
+  usedSpace: int
+  +calculateAllocation(): void
+  +getRequiredSpace(): int
+}
+class Node {
+  nodeName: String
+  ipAddress: String
+  status: DeploymentStatus
+  +getNodeInfo(): String
+}
+Cluster *-- "0..*" Infrastructure : managedInfra
+Infrastructure *-- "0..*" ResourceAllocation : allocations
+Infrastructure *-- "0..*" Deployment : deployments
+Deployment --> "1" Infrastructure : targetInfrastructure
+Infrastructure --> "0..*" Node : managedNodes 'opposite: ownedInfrastructure
+Resource Allocation --> "1..*" Resource : allocatedResources
+@enduml

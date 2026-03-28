@@ -1,0 +1,4 @@
+@startuml
+class Diagram {System Requirement} 
+    [Diagram] --> [System Requirement]
+@enduml

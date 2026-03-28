@@ -1,0 +1,30 @@
+@startuml
+
+class diagram: System Requirements
+
+    class SystemRequirements {
+        attribute String name;
+        attribute String description;
+
+        method getSystemDescription() {
+            return "This is a system requirement for the application.";
+        }
+    }
+
+    class Requirement {
+        attribute String name;
+        attribute String description;
+        attribute String priority;
+        attribute String type;
+
+        method getDescription() {
+            return description;
+        }
+    }
+
+    class SystemRequirement {
+        node Relationship between SystemRequirements and Requirement;
+        relationship SystemRequirements -> Requirement with label "Relation";
+    }
+
+@enduml

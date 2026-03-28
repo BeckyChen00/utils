@@ -1,0 +1,53 @@
+
+@startuml
+
+class Student {
+  +id: String
+  +name: String
+  +email: String
+  +coursesRegistered: List<Course>
+  +requestAppointment(course: Course, date: Date, time: Time)
+}
+
+class TeachingAssistant {
+  +id: String
+  +name: String
+  +email: String
+  +coursesTaught: List<Course>
+  +acceptAppointment(appointment: Appointment)
+}
+
+class Course {
+  +id: String
+  +title: String
+  +description: String
+  +studentsRegistered: List<Student>
+  +teachingAssistants: List<TeachingAssistant>
+}
+
+class Appointment {
+  +id: String
+  +date: Date
+  +time: Time
+  +course: Course
+  +ta: TeachingAssistant
+  +student: Student
+  +status: String
+}
+
+Student "1" -- "0..*" Course : registeredFor
+TeachingAssistant "1" -- "0..*" Course : teaches
+Course "1" -- "1" Appointment : has
+Appointment "1" -- "1" Student : for
+Appointment "1" -- "1" TeachingAssistant : with
+
+@enduml
+
+### Explanation of Relationships:
+
+- **Student** can register for multiple **Courses**.
+- **TeachingAssistant** can teach multiple **Courses**.
+- Each **Appointment** is associated with exactly one **Course**, one **TeachingAssistant**, and one **Student**.
+- A **Student** can only request an appointment for a **Course** they are registered in.
+- A **TeachingAssistant** can only provide help for the **Courses** they are teaching.
+

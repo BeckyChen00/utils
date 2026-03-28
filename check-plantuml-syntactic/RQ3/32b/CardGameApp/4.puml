@@ -1,0 +1,92 @@
+
+@startuml
+
+' Define classes and their attributes
+class Game {
+    - id: String
+    + players: List<Player>
+    + deck: Deck
+    + scoringTable: ScoringTable
+}
+
+class Player {
+    - id: String
+    + name: String
+}
+
+class Deck {
+    - id: String
+    + cards: List<Card>
+}
+
+abstract class Card {
+    - id: String
+    + suit: Suit
+    + rank: String
+    + compare(other: Card): ComparisonResult
+}
+
+enum Suit {
+    DIAMONDS, HEARTS, SPADES, CLUBS
+}
+
+enum ComparisonResult {
+    LOWER, EQUAL, HIGHER
+}
+
+class ScoringTable {
+    - id: String
+    + rounds: List<Round>
+}
+
+abstract class Round {
+    - id: String
+    + winningPlayers: List<Player>
+    + points: Integer
+}
+
+class JackRound {
+    - id: String
+}
+
+class SoloRound {
+    - id: String
+    + soloType: SoloType
+    + soloPlayer: Player
+}
+
+class MandatorySoloRound {
+    - id: String
+}
+
+enum SoloType {
+    TRUMP, JACK, QUEEN
+}
+
+' Inheritance relationships
+Card <|-- TrumpCard
+Card <|-- QueenCard
+Card <|-- JackCard
+
+Deck "1" *-- "0..48" Card : contains
+
+Game "1" *-- "4" Player : has
+Game "1" *-- "1" Deck : uses
+Game "1" *-- "1" ScoringTable : tracks
+
+ScoringTable "1" *-- "many" Round : contains
+
+Round <|-- JackRound
+Round <|-- SoloRound
+SoloRound <|-- MandatorySoloRound
+
+@enduml
+
+---
+
+### Notes:
+- **Abstract classes** like `Card` and `Round` are marked with `<|--`.
+- **Enums** (`Suit`, `ComparisonResult`, `SoloType`) define fixed sets of values.
+- **Associations** and **multiplicities** are included to model how many objects are involved in each relationship (e.g., 1 deck has up to 48 cards).
+- **MandatorySoloRound** inherits from `SoloRound`, which itself inherits from `Round`.
+

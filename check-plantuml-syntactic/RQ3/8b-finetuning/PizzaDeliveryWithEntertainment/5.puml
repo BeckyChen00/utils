@@ -1,0 +1,64 @@
+@startuml
+enum OrderStatus {
+  pending
+  delivered
+  completed
+  cancelled
+}
+class UserAccount {
+  userRole: String
+  name: String
+  email: String
+  address: String
+  +register()
+  +updateProfile()
+}
+class BusinessOwner {
+  linkedInAccount: String
+  +manageRestaurants()
+}
+class PizzaRestaurant {
+  name: String
+  zipCode: String
+  phone: String
+  website: String
+  operatingHours: String
+  +getMenuItems(): List<Pizza>
+}
+class Pizza {
+  name: String
+  crustType: String
+  basePrice: double
+  +getDescription(): String
+}
+class EntertainmentOrder {
+  requestedEntertainmentType: String
+  durationMinutes: int
+  +confirmDetails()
+}
+class CustomerOrder {
+  orderDate: Date
+  deliveryAddress: String
+  isExpressDelivery: boolean
+  maxWaitTimeMinutes: int
+  isEntertainmentIncluded: boolean
+  contactName: String
+  partySize: int
+  currentStatus: OrderStatus
+  +validateOrder()
+  +calculateTotalPrice()
+}
+class Entertainer {
+  stageName: String
+  bio: String
+  pricePer30Mins: double
+  +updateAvailability()
+}
+Entertainer -- PizzaRestaurant
+BusinessOwner -- PizzaRestaurant
+PizzaRestaurant -- Pizza
+CustomerOrder -- Pizza
+EntertainmentOrder -- Pizza
+UserAccount -- PizzaRestaurant
+UserAccount -- CustomerOrder
+@enduml

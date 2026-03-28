@@ -1,0 +1,30 @@
+@startuml
+    classDiagram
+        $systemRequirement$ as systemRequirement
+
+        user -> $systemRequirement$ (user)
+        $systemRequirement$ -> user (request)
+
+        component diagram
+            component1 -> component2
+            component3 -> component4
+            component5 -> component6
+
+            component2 -> component1
+            component3 -> component4
+            component4 -> component5
+            component5 -> component6
+            component6 -> component3
+
+            component6 -> component1
+            component3 -> component6
+            component4 -> component3
+            component5 -> component6
+
+        component1 -> component2
+        component2 -> component3
+        component3 -> component4
+        component4 -> component5
+        component5 -> component6
+        component6 -> component1
+@enduml

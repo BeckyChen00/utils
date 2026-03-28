@@ -1,0 +1,48 @@
+@startuml
+enum TaskStatus {
+  Pending
+  InProgress
+  Completed
+}
+class MaintenanceTask {
+  description: String
+  isCritical: boolean
+  currentStatus: TaskStatus
+  estimatedDowntime: int
+  +updateStatus(newStatus: TaskStatus): void
+  +calculateDowntime(seconds: int): int
+}
+class SparePart {
+  partNumber: String
+  partName: String
+  unitCost: int
+  +isAvailable(): boolean
+}
+class ServiceOrder {
+  orderDate: Date
+  priorityLevel: int
+  +generateOrderSummary(): String
+}
+class Customer {
+  customerName: String
+  contactEmail: String
+  +resolveIssue(description: String): MaintenanceTask
+}
+class WorkOrder {
+  workDate: Date
+  workerName: String
+  assignedStatus: TaskStatus
+  +assignWorker(worker: Worker): boolean
+  +closeOrder(): void
+}
+class Worker {
+  workerName: String
+  certifications: String[]
+  +getCertifications(): String[]
+}
+MaintenanceTask -- Worker
+ServiceOrder -- MaintenanceTask
+Customer -- WorkOrder
+ServiceOrder -- SparePart
+End
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+classDiagram
+
+SystemRequirement --> Requirement1
+Requirement1 --> Constraint1
+Constraint1 --> SystemRequirement
+
+Requirement1 --> Constraint2
+Constraint2 --> SystemRequirement
+
+@enduml

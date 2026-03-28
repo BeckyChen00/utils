@@ -1,0 +1,106 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteAlign center
+
+' Aircraft
+class Aircraft {
+  +name: String
+  +type: String
+  +yearOfManufacture: int
+  +nextInspectionDate: Date
+  +airline: Airline
+  +homeAirport: Airport
+}
+
+' Flight
+class Flight {
+  +flightNumber: String
+  +flightDate: Date
+  +departureAirport: Airport
+  +destinationAirport: Airport
+  +aircraft: Aircraft
+}
+
+' Passenger
+class Passenger {
+  +name: String
+  +passportNumber: String
+}
+
+' Ticket
+class Ticket {
+  +ticketNumber: String
+  +price: double
+  +upgradeDesired: boolean
+  +flight: Flight
+  +seatCategory: SeatCategory
+}
+
+' SeatCategory
+class SeatCategory {
+  +categoryDesignation: String
+  +entertainmentProgram: boolean
+  +numberOfSeats: int
+  +aircraft: Aircraft
+}
+
+' PassengerAircraft
+class PassengerAircraft <|-- Aircraft {
+  +numberOfSeats: int
+}
+
+' Airline
+class Airline {
+  +name: String
+  +flights: List<Flight>
+  +flightAttendants: List<FlightAttendant>
+  +pilots: List<Pilot>
+}
+
+' FlightAttendant
+class FlightAttendant {
+  +name: String
+  +dateOfEmployment: Date
+  +isChiefSteward: boolean
+  +flights: List<Flight>
+}
+
+' Pilot
+class Pilot {
+  +name: String
+  +dateOfEmployment: Date
+  +license: String
+  +flights: List<Flight>
+}
+
+' Airport
+class Airport {
+  +name: String
+  +address: String
+  +numberOfWorkingRunways: int
+}
+
+' Relationships
+Aircraft "1" -- "*" Flight : has
+Flight "1" -- "*" Passenger : has
+Flight "1" -- "*" Ticket : has
+Passenger "1" -- "*" Ticket : has
+Aircraft "1" -- "*" SeatCategory : has
+SeatCategory "1" -- "1" Ticket : assigned to
+Aircraft "1" -- "0..1" Airline : belongs to
+Airline "1" -- "*" FlightAttendant : employs
+Airline "1" -- "*" Pilot : employs
+Flight "1" -- "*" FlightAttendant : has
+Flight "1" -- "1" Pilot : captain
+Flight "1" -- "0..2" Pilot : co-pilots
+Airport "1" -- "*" Aircraft : home airport
+Airport "1" -- "*" Flight : departure
+Airport "1" -- "*" Flight : destination
+
+@enduml
+
+### How to Use:
+1. Copy the above code into a `.puml` file (e.g., `diagram.puml`).
+
+Let me know if you'd like this rendered as an image or need any adjustments!

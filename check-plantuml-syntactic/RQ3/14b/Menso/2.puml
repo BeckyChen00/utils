@@ -1,0 +1,134 @@
+
+@startuml
+' Class Diagram for De Lijn's MENSO Season Ticket System
+
+class Bus {
+  -id: String
+  -line: Line
+  -currentTrajectory: Trajectory
+}
+
+class Line {
+  -lineNumber: Integer
+  -name: String
+  -category: Category
+  -trajectories: Set<Trajectory>
+}
+
+class Trajectory {
+  -id: String
+  -description: String
+  -status: Status (approved, pending, suspended, cancelled)
+  -approvalHistory: List<ApprovalRequest>
+  -startDate: Date
+  -endDate: Date
+}
+
+class ApprovalRequest {
+  -id: String
+  -trajectory: Trajectory
+  -requestDate: Date
+  -status: Status (pending, approved, rejected, revised)
+  -revisions: List<Revision>
+}
+
+class Revision {
+  -id: String
+  -approvalRequest: ApprovalRequest
+  -date: Date
+  -changes: String
+}
+
+class Category {
+  -id: Integer
+  -name: String
+  -priceFactor: Double
+}
+
+class MensoUser {
+  -userId: String
+  -fullName: String
+  -homeAddress: String
+  -workAddress: String
+  -workingHours: String
+  -cards: Set<MensoCard>
+}
+
+class MensoCard {
+  -cardId: String
+  -user: MensoUser
+  -trips: List<Trip>
+}
+
+class Trip {
+  -tripId: String
+  -date: Date
+  -time: Time
+  -line: Line
+  -bus: Bus
+}
+
+class Invoice {
+  -invoiceId: String
+  -userId: String
+  -month: Month
+  -totalAmount: Double
+  -discount: Double
+  -paymentStatus: PaymentStatus
+  -trips: List<Trip>
+}
+
+class Payment {
+  -paymentId: String
+  -invoice: Invoice
+  -amount: Double
+  -date: Date
+}
+
+enum Status {
+  approved
+  pending
+  suspended
+  cancelled
+  rejected
+  revised
+}
+
+enum PaymentStatus {
+  unpaid
+  paid
+  overdue
+}
+
+' Relationships
+Bus --> Line
+Line --> Trajectory
+Trajectory --> ApprovalRequest
+ApprovalRequest --> Revision
+Line --> Category
+MensoUser --> MensoCard
+MensoCard --> Trip
+Trip --> Line
+Trip --> Bus
+MensoUser --> Invoice
+Invoice --> Trip
+Invoice --> Payment
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **`Bus`**: Represents each vehicle operated by De Lijn. It has a line and is assigned to a trajectory.
+- **`Line`**: A group of overlapping trajectories that form a route. Each line has a category which affects pricing.
+- **`Trajectory`**: A specific path or route with approval status and history.
+- **`ApprovalRequest` / `Revision`**: Handles the process of getting town authority approval for a trajectory.
+- **`Category`**: Determines the price factor for trips taken on lines in that category.
+- **`MensoUser`**: A user who subscribes to the MENSO card. Contains personal data used for analysis.
+- **`MensoCard`**: Used to register trips automatically when entering the bus.
+- **`Trip`**: Records of a trip made using a MENSO card, including date, time, and line.
+- **`Invoice` / `Payment`**: Monthly billing system. Invoices are generated from trips and can be paid in any order.
+
+---
+
+Let me know if you'd like this rendered as an image or extended with additional features (e.g., associations, multiplicity, etc.).

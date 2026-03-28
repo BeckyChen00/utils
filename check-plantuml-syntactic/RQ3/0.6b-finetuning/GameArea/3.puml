@@ -1,0 +1,67 @@
+@startuml
+enum GameStatus {
+  Open
+  Locked
+  Closed
+  Pending
+}
+enum PlayerRole {
+  Player
+  Guide
+  Instructor
+}
+class Player {
+  name: String
+  reputationPoints: int
+  +levelUp(): void
+}
+class PlayerProfile {
+  isActive: boolean
+  +updateReputation(points: int): void
+}
+class Challenge {
+  title: String
+  difficultyLevel: int
+  status: GameStatus
+  +createSession(): PlayerSession
+  +assignTeacher(teacher: Instructor): void
+}
+class PlayerSession {
+  startTime: Date
+  currentStatus: GameStatus
+  +startSession(): void
+  +endSession(): void
+  +updateStatus(newStatus: GameStatus): void
+}
+class Game {
+  gameName: String
+  genre: String
+  +generateTestEpisode(): boolean
+  +createEpisode(title: String): void
+}
+class Episode {
+  episodeTitle: String
+  durationInSeconds: int
+  +getDuration(): int
+  +isValidForSession(session: PlayerSession): boolean
+}
+class Quiz {
+  questionText: String
+  correctAnswerText: String
+  questionType: String
+  +getCorrectAnswer(): String
+}
+class Instructor {
+  specialization: String
+  +createQuiz(title: String): Quiz
+  +assignToSession(session: PlayerSession): void
+}
+Challenge "1" *-- "0..*" PlayerSession : sessionHistory
+Challenge "1" *-- "0..*" Episode : episodeSeries
+PlayerSession "1" --> "1" Player : activePlayer
+PlayerSession "1" --> "0..1" Instructor : assignedInstructor
+Challenge "1" --> "0..*" Quiz : assignedQuizzes
+Game "1" *-- "0..*" Episode : containedEpisodes
+Game "1" --> "0..*" Player : availablePlayers
+PlayerProfile "1" --> "0..*" Player : associatedPlayers
+@enduml

@@ -1,0 +1,153 @@
+
+---
+
+
+@startuml
+
+' Define classes and their attributes
+
+class Customer {
+    - id: int
+    - name: String
+    - address: String
+    - vatNumber: String
+    - headOfficeAddress: String
+}
+
+class Product {
+    - id: int
+    - name: String
+    - description: String
+    - stockLevel: int
+}
+
+class Order {
+    - id: int
+    - customer: Customer
+    - orderDate: Date
+    - paymentStatus: PaymentStatus (enum)
+    - shippingStatus: ShippingStatus (enum)
+    - totalAmount: double
+}
+
+class OrderLine {
+    - id: int
+    - order: Order
+    - product: Product
+    - quantity: int
+    - pricePerUnit: double
+    - shippedQuantity: int
+    - status: LineStatus (enum) <<{NotShipped, PartiallyShipped, FullyShipped}>>
+}
+
+class ShipmentGroup {
+    - id: int
+    - shipmentDate: Date
+    - deliveryServiceUsed: String
+    - trackingNumber: String
+    - status: DeliveryStatus (enum) <<{Packed, Shipped, InTransit, Delivered, Damaged, Missing}>>
+}
+
+class Invoice {
+    - id: int
+    - order: Order
+    - issueDate: Date
+    - dueDate: Date
+    - amount: double
+    - paid: boolean
+}
+
+class Address {
+    - id: int
+    - street: String
+    - city: String
+    - zipCode: String
+    - country: String
+}
+
+class Warehouse {
+    - id: int
+    - name: String
+    - address: Address
+}
+
+class DeliveryPoint {
+    - id: int
+    - warehouse: Warehouse
+    - customer: Customer
+    - default: boolean
+}
+
+' Relationships
+
+Customer "1" -- "0..*" Order : places
+Order "1" -- "1..*" OrderLine : contains
+Order "1" -- "1" Invoice : generates
+Product "1" -- "0..*" OrderLine : appears in
+OrderLine "1" -- "0..1" ShipmentGroup : belongs to
+ShipmentGroup "1" -- "1..*" OrderLine : ships
+Customer "1" -- "1" Address : has head office
+Customer "1" -- "0..*" DeliveryPoint : has warehouses for
+Warehouse "1" -- "1" Address : located at
+DeliveryPoint "1" -- "1" Address : delivery address is
+
+' Enumerations
+
+enum PaymentStatus {
+    Unpaid
+    PaidInAdvance
+    PaidAfterDelivery
+}
+
+enum ShippingStatus {
+    NotShipped
+    PartiallyShipped
+    FullyShipped
+}
+
+enum LineStatus {
+    NotShipped
+    PartiallyShipped
+    FullyShipped
+}
+
+enum DeliveryStatus {
+    Packed
+    Shipped
+    InTransit
+    Delivered
+    Damaged
+    Missing
+}
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements
+
+- **Customer**: Tracks basic info including VAT and addresses.
+- **Product**: Keeps track of stock levels and can be part of multiple orders.
+- **Order**: Contains multiple `OrderLine`s and tracks overall status (paid/shipped).
+- **OrderLine**: Represents a line item in an order; now supports partial shipments via `shippedQuantity` and `status`.
+- **ShipmentGroup**: Introduced in Step 4 to group order lines for delivery tracking.
+- **Invoice**: Added in Step 3 for billing purposes.
+- **Address & Warehouse**: Introduced in Step 3 to support multiple delivery locations.
+- **DeliveryPoint**: Links customers to their warehouses/delivery points.
+- **Enumerations**: Used for clarity and constraint enforcement (e.g., `PaymentStatus`, `DeliveryStatus`).
+
+---
+
+### 🔄 Iterative Changes Captured
+
+| Step | Change |
+|------|--------|
+| **Step 1** | Basic structure with Customer, Product, Order, OrderLine, Stock management |
+| **Step 2** | Support for partial shipments → `OrderLine.status` |
+| **Step 3** | Multiple delivery addresses + invoices → `Address`, `Warehouse`, `Invoice` |
+| **Step 4** | Shipment grouping + delivery tracking → `ShipmentGroup`, `DeliveryStatus` |
+
+---
+
+
+Let me know if you want a version with state machines or more detailed constraints!

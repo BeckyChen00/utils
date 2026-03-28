@@ -1,0 +1,75 @@
+@startuml
+enum SampleType {
+  Blood
+  Urine
+}
+enum SamplingProtocol {
+  Cardboard
+  Tissue
+}
+enum CollectionStatus {
+  Pending
+  Completed
+}
+enum DiagnosisStatus {
+  Pending
+  Confirmed
+  Rejected
+}
+enum CommunicationProtocol {
+  SMS
+  Email
+  TextMessage
+}
+class PatientRecord {
+  patientName: String
+  contactPhones: String[]
+  +generateSummaryReport(includeNotes: boolean): String
+  +getMedicalHistory(): String
+}
+class ClinicalObservation {
+  observationDate: Date
+  observationValue: String
+  toxicityLevel: String
+}
+class MedicalSample {
+  collectionDate: Date
+  sampleType: SampleType
+  collectingProtocol: SamplingProtocol
+  currentStatus: CollectionStatus
+}
+class LaboratoryTest {
+  testName: String
+  testType: String
+  testResult: String
+  isPositive: boolean
+}
+class Diagnosis {
+  diagnosisCode: String
+  diagnosisDate: Date
+  status: DiagnosisStatus
+  notes: String
+}
+class CommunicationChannel {
+  protocolType: CommunicationProtocol
+  isActive: boolean
+  +sendMessage(recipient: String): boolean
+  +receiveMessage(recipient: String): String
+}
+class EHRSystem {
+  +syncData(patientId: String, targetSystem: String): boolean
+  +getMedicalHistory(patientId: String): String
+}
+class NotificationService {
+  +sendAlert(recipient: String, content: String): boolean
+  +notifyLab(sampleId: String, message: String): boolean
+}
+PatientRecord *-- "*" MedicalSample : containedSamples
+PatientRecord *-- "*" ClinicalObservation : associatedObservations
+PatientRecord --> "*" Diagnosis : recordedDiagnoses
+MedicalSample --> "*" LaboratoryTest : conductedTests
+MedicalSample *-- "1" Diagnosis : confirmedDiagnosis
+CommunicationChannel --> "1" NotificationService : linkedNotificationService
+EHRSystem --> "1" NotificationService : managedNotificationService
+EHRSystem --> "*" PatientRecord : maintainedRecords
+@enduml

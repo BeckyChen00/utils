@@ -1,0 +1,95 @@
+
+@startuml
+
+' Define classes
+class User {
+    - username: String (unique)
+    - password: String
+}
+
+class Player {
+    + playGame(game: Game): void
+    + pauseGame(): void
+    + resumeGame(): void
+}
+
+class Admin {
+    + createGame(): Game
+    + designGame(game: Game): void
+}
+
+class Game {
+    - name: String (unique)
+    - hallOfFame: HallOfFame
+    - blocks: List<Block>
+    - levels: List<Level>
+    - minSpeed: int
+    - speedIncreaseFactor: float
+    - maxLength: int
+    - minLength: int
+    - admin: Admin
+}
+
+class Block {
+    - color: String
+    - points: int (1-1000)
+}
+
+class Level {
+    - number: int (1-99)
+    - gridLayout: Map<String, Block>  // e.g., "1/1": Block
+    - isRandom: boolean
+    - blockCount: int
+}
+
+class HallOfFame {
+    - entries: List<ScoreEntry>
+}
+
+class ScoreEntry {
+    - player: Player
+    - score: int
+    - date: Date
+}
+
+class GameSession {
+    - player: Player
+    - game: Game
+    - currentLevel: int
+    - lives: int
+    - totalScore: int
+    - paused: boolean
+}
+
+' Inheritance
+User <|-- Player
+User <|-- Admin
+
+' Associations
+Admin --> Game : creates
+Game --> Admin : has one admin
+Game --> Block : defines
+Game --> Level : contains
+Game --> HallOfFame : has
+Level --> Block : uses
+Player --> GameSession : participates in
+Game --> GameSession : played by
+GameSession --> Level : plays
+GameSession --> Player : belongs to
+HallOfFame --> ScoreEntry : records
+ScoreEntry --> Player : achieved by
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **User** is the base class that can be either a **Player** or an **Admin**.
+- A **Game** is created by an **Admin**, who also defines its **Blocks** and **Levels**.
+- Each **Game** has its own **Hall of Fame**, which stores **ScoreEntry** objects.
+- A **Player** interacts with a **GameSession**, which tracks progress like current level, lives, and score.
+- The **GameSession** allows pausing/resuming and ensures only one game is active at a time per player.
+- The **Level** includes a grid layout and may be randomized.
+
+---
+

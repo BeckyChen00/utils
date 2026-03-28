@@ -1,0 +1,124 @@
+
+@startuml
+' Sober Taxi System Class Diagram
+
+class Customer {
+  - id: int
+  - name: String
+  - email: String
+  - phoneNumber: String
+  - numberOfRideShares: int
+}
+
+class CarOwner {
+  - id: int
+  - name: String
+  - contactInfo: String
+  - carRegistrationNumber: String
+}
+
+class SelfDrivingCar {
+  - id: int
+  - licensePlate: String
+  - model: String
+  - status: String (available, inUse, maintenance)
+  - lastMaintenanceDate: Date
+  - damageAmount: double
+  - accidentHistory: List<Accident>
+}
+
+class Accident {
+  - id: int
+  - date: Date
+  - location: String
+  - damageAmount: double
+}
+
+class RideHailingService {
+  - id: int
+  - pickupTime: DateTime
+  - dropoffTime: DateTime
+  - pickupLocation: String
+  - dropoffLocation: String
+  - duration: int
+  - distance: double
+  - passengers: int
+  - fee: double
+  - requestType: String (App, HandWave)
+  - leadCustomer: Customer
+}
+
+class RideSharingService {
+  - id: int
+  - pickupTime: DateTime
+  - dropoffTime: DateTime
+  - pickupLocation: String
+  - dropoffLocation: String
+  - duration: int
+  - distance: double
+  - negotiatedFee: double
+  - customers: List<Customer>
+}
+
+class Request {
+  - id: int
+  - type: String (RideHailing, RideSharing)
+  - status: String (Pending, Confirmed, Completed)
+}
+
+class AppRequest {
+  - requestId: int
+  - customerId: int
+}
+
+class HandWaveRequest {
+  - requestId: int
+  - detectedBy: String (CameraSystem)
+}
+
+class SoberApp {
+  - version: String
+  - users: List<Customer>
+}
+
+class ImageRecognitionSystem {
+  - systemId: int
+  - accuracyRate: double
+  - requestsDetected: List<HandWaveRequest>
+}
+
+class AdminPanel {
+  - adminId: int
+  - managedCars: List<SelfDrivingCar>
+  - managedAccidents: List<Accident>
+}
+
+' Associations
+Customer "1" --> "0..*" RideHailingService : uses
+Customer "1" --> "0..*" RideSharingService : participates in
+Customer "1" --> "0..*" Request : makes
+CarOwner "1" --> "1" SelfDrivingCar : owns
+SelfDrivingCar "1" --> "0..*" Accident : has
+RideHailingService "1" --> "1" Request : corresponds to
+RideSharingService "1" --> "1" Request : corresponds to
+Request "1" --> "0..1" AppRequest : is an
+Request "1" --> "0..1" HandWaveRequest : is an
+HandWaveRequest "1" --> "1" ImageRecognitionSystem : detected by
+AdminPanel "1" --> "0..*" SelfDrivingCar : manages
+AdminPanel "1" --> "0..*" Accident : manages
+SoberApp "1" --> "0..*" Customer : registered users
+SoberApp "1" --> "0..*" Request : handles
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **Customer** can be both a **lead customer** in a ride-hailing service or a participant in a ride-sharing service.
+- **RideHailingService** and **RideSharingService** are types of **Request**.
+- **Request** can be further categorized into **AppRequest** or **HandWaveRequest**.
+- **ImageRecognitionSystem** detects **HandWaveRequests**.
+- **AdminPanel** is used to manage cars and accidents.
+- **SelfDrivingCar** can have multiple **Accidents** in its history.
+- **RideSharingService** allows up to 10 passengers, while **RideHailingService** allows up to 6.
+

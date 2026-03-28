@@ -1,0 +1,60 @@
+
+@startuml
+
+' Define classes and their attributes and methods
+
+class Student {
+    - studentId: String
+    - name: String
+    - enrolledCourses: List<Course>
+    + requestAppointment(course: Course, ta: TeachingAssistant): Appointment
+}
+
+class TeachingAssistant {
+    - taId: String
+    - name: String
+    - assignedCourses: List<Course>
+    + acceptAppointment(appointment: Appointment): void
+}
+
+class Course {
+    - courseId: String
+    - title: String
+    - students: List<Student>
+    - tas: List<TeachingAssistant>
+}
+
+class Appointment {
+    - appointmentId: String
+    - course: Course
+    - student: Student
+    - teachingAssistant: TeachingAssistant
+    - dateTime: DateTime
+    - status: String
+}
+
+' Associations
+
+Student "1" -- "many" enrolledCourses : has > Course
+Course "many" -- "many" students : includes >
+Course "many" -- "many" tas : assigns >
+
+TeachingAssistant "1" -- "many" assignedCourses : teaches > Course
+TeachingAssistant "1" -- "many" appointments : provides > Appointment
+
+Student "1" -- "many" appointments : requests > Appointment
+
+Appointment "1" -- "1" course : for >
+Appointment "1" -- "1" teachingAssistant : with >
+Appointment "1" -- "1" student : by >
+
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+- A `Student` is enrolled in one or more `Course`s.
+- A `TeachingAssistant` is assigned to one or more `Course`s.
+- An `Appointment` is made between a `Student`, a `TeachingAssistant`, and for a specific `Course`.
+- Constraints are modeled implicitly through associations (e.g., a student can only make an appointment if they're enrolled in the course).
+

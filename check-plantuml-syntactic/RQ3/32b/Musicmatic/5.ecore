@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Hit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="song" eType="#//Song"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="partOf" eType="#//Album" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Album">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hits" eType="#//Hit" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trackNumbers" eType="#//Map_Hit_int"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includes" eType="#//Hit" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="addHit">
+      <eParameters xsi:type="ecore:EParameter" name="Hit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eParameters xsi:type="ecore:EParameter" name="int" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Upload">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="businessUser" eType="#//BusinessUser"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="song" eType="#//Song"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Song" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="by" eType="#//BusinessUser" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//title" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="title"/>
+  <eClassifiers xsi:type="ecore:EClass" name="year">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//genre"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="genre"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getInfo"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String_" eType="#//getInfo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//address"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="dateOfBirth">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String_" eType="#//id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="address"/>
+  <eClassifiers xsi:type="ecore:EClass" name="register"/>
+  <eClassifiers xsi:type="ecore:EClass" name="vatNumber">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//register"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="uploadSong">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Song_" eType="#//song" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="song"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Song">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongsTo" eType="#//Artist" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isSingle" eType="#//Single"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isHit" eType="#//Hit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_Hit_int"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessUser" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uploads" eType="#//Upload" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RegularUser" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buys" eType="#//Single" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buys" eType="#//Album" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommends" eType="#//Album" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Artist">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creates" eType="#//Song" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Single"/>
+</ecore:EPackage>

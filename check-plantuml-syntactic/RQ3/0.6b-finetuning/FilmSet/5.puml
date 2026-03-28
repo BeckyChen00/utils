@@ -1,0 +1,62 @@
+@startuml
+enum AlarmSeverity {
+  Low
+  Medium
+  High
+  Critical
+  Emergency
+}
+enum VisionCondition {
+  Normal
+  NearSighted
+  Farsighted
+  AmnioticDystrophy
+  HyperopicRetinalDystrophy
+  HypoplasticRetinalDystrophy
+  Mixed
+}
+class Patient {
+  fullName: String
+  contactNumber: String
+}
+class ContactPerson {
+  fullName: String
+  contactNumber: String
+}
+class VisionProfile {
+  currentVisionCondition: VisionCondition
+  age: int
+}
+class DiagnosticReport {
+  reportDate: Date
+  diagnosisDescription: String
+  +generateSummary(): String
+}
+class OphthalmologyCenter {
+  centerName: String
+  +scheduleCheckup(patient: Patient, condition: VisionCondition): boolean
+  +generateReport(patient: Patient): DiagnosticReport
+}
+class Diagnosis {
+  diagnosisDate: Date
+  isConfirmed: boolean
+  severityLevel: AlarmSeverity
+  +confirm(): void
+  +reject(): void
+}
+class VisionTestResult {
+  testDate: Date
+  resultSeverity: AlarmSeverity
+  isPositive: boolean
+  +validate(): boolean
+}
+Patient *-- "1" VisionProfile : patientProfile
+VisionProfile --> "1" ContactPerson : primaryContact
+VisionProfile *-- "*" DiagnosticReport : diagnosticHistory
+VitaminRetinalDystrophyReport --> "1" Patient : affectedPatient
+Diagnosis *-- "*" VisionTestResult : testResults
+Diagnosis --> "1" VisionProfile : sourceProfile
+Diagnosis --> "1" Patient : treatedByPatient
+OphthalmologyCenter --> "*" Patient : acceptedPatients
+OphthalmologyCenter --> "*" DiagnosticReport : generatedReports
+@enduml

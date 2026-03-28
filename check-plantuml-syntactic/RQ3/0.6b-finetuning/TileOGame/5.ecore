@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedRecords" eType="#//AnimalRecord" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnimalRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RescueMission">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTeam" eType="#//RescueTeam" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedLocations" eType="#//Location" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetAnimal" eType="#//Animal" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredBy" eType="#//NotificationService" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activatedAlertSystem" eType="#//AlertSystem" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RescueTeam"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Location"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Animal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="carePlan" eType="#//AnimalCarePlan" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="treatmentHistory" eType="#//TreatmentReport" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="medicalHistory" eType="#//MedicalRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationService"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertSystem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnimalCarePlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MedicalRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Feed"/>
+</ecore:EPackage>

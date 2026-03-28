@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="speciesProfile" eType="#//SpeciesProfile" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpeciesProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ZoologicalUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="carePlans" eType="#//AnimalCarePlan" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="characteristicProfile" eType="#//FeatureProfile" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locationSnapshots" eType="#//LocationSnapshot" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="speciesProfile" eType="#//SpeciesProfile" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="regionalDistribution" eType="#//RegionalDistribution" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentSubscription" eType="#//TieredSubscription" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactionHistory" eType="#//TransactionLog" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storageRepository" eType="#//BackupRepository" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="syncServices" eType="#//DataSyncService" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnimalCarePlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedAnimals" eType="#//Animal" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetSpecies" eType="#//SpeciesProfile" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Animal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="medicalRecords" eType="#//MedicalRecord" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MedicalRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitorSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredUnit" eType="#//ZoologicalUnit" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alarmEvent" eType="#//AlarmEvent" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoringReadings" eType="#//SensorReading" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeAlertRule" eType="#//AlertRule" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="telemetryHub" eType="#//TelemetryHub" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analystAccount" eType="#//UserAccount" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyticsService" eType="#//AnalyticsService" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlarmEvent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorReading"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TelemetryHub"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedUnits" eType="#//ZoologicalUnit" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSubscriptions" eType="#//TieredSubscription" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedServices" eType="#//MonitoringService" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accessedUnits" eType="#//ZoologicalUnit" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalyticsService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataSync" eType="#//DataSyncService" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FeatureProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LocationSnapshot"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredUnits" eType="#//ZoologicalUnit" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredReadings" eType="#//SensorReading" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemAdministrator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedUnits" eType="#//ZoologicalUnit" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuredSubscription" eType="#//TieredSubscription" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedAnalytics" eType="#//AnalyticsService" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledSimulations" eType="#//SimulationEngine" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegionalDistribution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TieredSubscription"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TransactionLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BackupRepository"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simulatedRegion" eType="#//RegionalDistribution" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataSyncers" eType="#//DataSyncService" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataSyncService"/>
+</ecore:EPackage>

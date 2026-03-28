@@ -1,0 +1,58 @@
+@startuml
+enum SessionState {
+  paused
+  active
+  paused
+}
+enum ArtistCategory {
+  solo
+  duo
+  trios
+  ensemble
+  corporate
+  pop
+  hipHop
+  rock
+}
+enum SignalQuality {
+  sensitive
+  neutral
+  strong
+  robust
+}
+class MusicSession {
+  currentSignalQuality: SignalQuality
+  durationMs: int
+  currentState: SessionState
+  +calculateDuration(): int
+  +getCurrentState(): SessionState
+  +startSession(): void
+  +pauseSession(): void
+}
+class MusicClip {
+  clipDurationMs: int
+  isSelected: boolean
+  +selectClip(): void
+  +unselectClip(): void
+}
+class AudioElement {
+  audioPath: String
+  sampleRate: int
+  channelCount: int
+  isStereo: boolean
+  isMono: boolean
+  +exportFormat(formatType: String): byte[]
+  +getParameters(): Map<String, Object>
+}
+class Artist {
+  artistName: String
+  artistId: String
+  category: ArtistCategory
+  +addClip(clips: List<MusicClip>): void
+  +removeClip(clips: List<MusicClip>): void
+  +getSessionData(): Map<String, Object>
+}
+MusicClip --|> AudioElement
+MusicSession *-- "0..*" MusicClip : clips
+Artist --> "0..*" MusicClip : clips
+@enduml

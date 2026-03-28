@@ -1,0 +1,57 @@
+
+@startuml
+
+class School {
+  -name: String
+  -principal: Teacher
+  -rooms: Set<Room>
+  -classGroups: Set<ClassGroup>
+}
+
+class Teacher {
+  -firstName: String
+  -lastName: String
+  -email: String
+  -schools: Set<School>
+  -teachingHours: Map<School, Integer>
+}
+
+class Student {
+  -firstName: String
+  -lastName: String
+  -school: School
+  -classGroup: ClassGroup
+}
+
+class Room {
+  -name: String
+  -capacity: Integer
+  -size: Integer
+  -type: String
+}
+
+class ClassGroup {
+  -name: String
+  -students: Set<Student>
+  -room: Room
+}
+
+School "1" -- "1" ClassGroup : has
+ClassGroup "1" -- "1" Room : assigned to
+Student "1" -- "1" ClassGroup : belongs to
+Student "1" -- "1" School : attends
+Teacher "1" -- "*" School : teaches at
+Teacher "1" -- "1" ClassGroup : ? (optional)
+School "1" -- "1" Teacher : principal
+Teacher "1" -- "1" School : principal of
+
+@enduml
+
+### Explanation of Relationships:
+- **School** has a **principal** who is a **Teacher**.
+- A **Teacher** can teach at multiple **Schools**, with the number of hours recorded.
+- A **Teacher** can only be the **principal** of one **School**.
+- A **Student** belongs to exactly one **ClassGroup** and attends exactly one **School**.
+- A **ClassGroup** is assigned to exactly one **Room** and contains between 10 and 31 **Students**.
+- **Rooms** can be of different types (e.g., classroom, gym), but all have a **name**, **capacity** (for classrooms), or **size** (for other rooms).
+

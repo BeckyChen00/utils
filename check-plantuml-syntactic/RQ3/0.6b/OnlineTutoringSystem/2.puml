@@ -1,0 +1,11 @@
+@startuml
+    classDiagram
+        A {System Requirements} --> B {System Requirements}
+        B --> C {User Interface}
+        C --> D {Data Management}
+        D --> E {Application Logic}
+        E --> F {User Interaction}
+        F --> G {Security and Compliance}
+        G --> H {Reporting and Analytics}
+    ;
+@enduml

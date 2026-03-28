@@ -1,0 +1,78 @@
+@startuml
+enum EnergyClass {
+  ClassA
+  ClassB
+  ClassC
+  ClassD
+  ClassE
+  ClassF
+  ClassG
+}
+enum EntryType {
+  Text
+  Number
+}
+enum VisibilityState {
+  Visible
+  Hidden
+}
+enum UserRole {
+  Admin
+  User
+}
+class WebPortal {
+  versionNumber: int
+  baseUrl: String
+  +getActiveBuildings(): List<Building>
+}
+class Building {
+  buildingId: String
+  buildingName: String
+  energyClass: EnergyClass
+  address: String
+  constructionYear: int
+  owner: User
+  +addEntry(entry: AdditionalEntry): void
+  +getProfilePhoto(): Image
+}
+class AdditionalEntry {
+  entryName: String
+  entryType: EntryType
+  value: Object
+  unit: String
+  visibility: VisibilityState
+  +isEligibleForPublicView(): boolean
+}
+class User {
+  username: String
+  email: String
+  password: String
+  role: UserRole
+  +register(): void
+  +createBuilding(): Building
+  +manageEntries(): void
+  +comment(): void
+}
+class Image {
+  fileName: String
+  fileData: byte[]
+}
+class Comment {
+  content: String
+  creationDate: Date
+  +delete(): void
+}
+class Administrator {
+  idCardNumber: String
+  +setupUser(user: User): void
+  +deleteComment(comment: Comment): void
+}
+WebPortal *-- "*" Building : managedBuildings
+Building *-- "*" AdditionalEntry : entries
+Building *-- "*" Image : images
+User *-- "*" Building : ownedBuildings
+User *-- "*" Comment : comments
+Administrator --|> User
+WebPortal --> "*" User : registeredUsers 'opposite: homePortal
+Building -- Comment
+@enduml

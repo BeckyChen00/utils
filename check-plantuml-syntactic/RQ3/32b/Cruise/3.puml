@@ -1,0 +1,83 @@
+
+@startuml
+
+' Define classes with attributes and relationships
+
+class Provider {
+    +String name
+    +String location
+}
+
+class Cruise {
+    +int cruiseNumber
+    +String cruiseName
+    +Date startDate
+    +Date endDate
+}
+
+class Employee {
+    +String name
+    +String socialSecurityNumber
+}
+
+class Guest {
+    +String name
+    +boolean isVIP
+}
+
+class Ship {
+    +String name
+    +int numberOfDecks
+    +double length
+    +int passengerCapacity
+}
+
+class TravelAgency {
+    +String name
+    +String address
+}
+
+class Booking {
+    +String bookingNumber
+    +Date bookingDate
+}
+
+class DestinationArea {
+    +String name
+    +String seaName
+}
+
+class Show {
+    +String title
+    +int duration
+}
+
+class Ticket {
+    +int ticketId
+}
+
+' Relationships
+
+Provider "1" -- "0..*" Cruise : organizes
+Cruise "1" -- "1..*" Employee : requires
+Cruise "1" -- "1..*" Guest : includes
+Cruise "1" -- "1" Ship : uses
+Cruise "1" -- "1" DestinationArea : heads to
+Cruise "1" -- "1" TravelAgency : booked through
+TravelAgency "1" -- "0..*" Booking : makes
+Booking "1" -- "1" Cruise : for
+Cruise "1" -- "0..*" Show : offers
+Cruise "1" -- "1..*" Ticket : issues
+Guest "1" -- "0..*" Ticket : has (1 per cruise)
+Ticket "1" -- "1" Cruise : belongs to
+
+@enduml
+
+---
+
+### Notes:
+- All multiplicity constraints are defined according to the system requirements.
+- The `Ticket` class ensures that a guest can have multiple tickets but only one per cruise.
+- The `Employee`, `Guest`, and `Show` are associated with a cruise as required.
+- Each class includes relevant attributes based on the description.
+

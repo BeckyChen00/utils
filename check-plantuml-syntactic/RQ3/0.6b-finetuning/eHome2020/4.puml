@@ -1,0 +1,65 @@
+@startuml
+enum VehicleStatus {
+  Available
+  CheckedOut
+  UnderRepair
+}
+enum VehicleType {
+  Motorcycle
+  Bus
+  Truck
+  Van
+  Sedan
+  ElectricCar
+}
+enum RouteSegmentType {
+  MotorcycleOnly
+  TruckOnly
+  Both
+  Specialized
+}
+class Vehicle {
+  licensePlate: String
+  status: VehicleStatus
+  currentLocation: String
+  +checkAvailability(): boolean
+  +updateLocation(location: String): void
+}
+class Person {
+  name: String
+  contactInfo: String
+}
+class RepairTask {
+  description: String
+  priority: int
+}
+class MaintenanceSchedule {
+  scheduledDate: Date
+  location: String
+  type: VehicleType
+  +validateDate(): boolean
+}
+class Depot {
+  name: String
+  locationCode: String
+}
+class VehicleCategory {
+  categoryName: String
+  description: String
+}
+class Route {
+  routeName: String
+  routeNumber: String
+}
+class RouteSegment {
+  segmentType: RouteSegmentType
+  distance: double
+}
+Vehicle "1" *-- "0..1" MaintenanceSchedule : scheduledMaintenance
+Vehicle "1" --> "1" VehicleCategory : ownedCategory
+Vehicle "1" --> "1" Person : owner
+MaintenanceSchedule "1" --> "0..*" RepairTask : plannedTasks
+Vehicle "0..*" *-- "0..*" RouteSegment : routeSegments
+Depot "1" --> "0..*" Vehicle : storedVehicles
+Route "1" *-- "0..*" RouteSegment : segments
+@enduml

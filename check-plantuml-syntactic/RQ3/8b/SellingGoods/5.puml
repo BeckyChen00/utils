@@ -1,0 +1,100 @@
+
+- Key classes: `Customer`, `Product`, `Order`, `OrderLine`, and `Stock`.
+- Attributes and associations.
+- Constraints and FSM (Finite State Machine) states where applicable.
+
+---
+
+
+@startuml
+
+' Define classes
+class Customer {
+    +String name
+    +String address
+    +String vatNumber
+    -List<Order> orders
+}
+
+class Product {
+    +String name
+    +Double price
+    +Integer stockQuantity
+    -List<OrderLine> orderLines
+}
+
+class Order {
+    +Date orderDate
+    +Date paymentDate
+    +Date shipmentDate
+    -List<OrderLine> orderLines
+    +Boolean isPaid
+    +Boolean isShipped
+    +String customerId
+}
+
+class OrderLine {
+    +Integer quantity
+    +Product product
+    +Order order
+    +Double totalCost
+}
+
+class Stock {
+    +Map<Product, Integer> stockLevels
+    +void adjustStock(Product product, Integer quantity)
+}
+
+' Associations
+Customer "1" -- "0..*" Order : places
+Order "1" -- "0..*" OrderLine : contains
+OrderLine "1" -- "1" Product : refers to
+Stock "1" -- "0..*" Product : tracks
+
+' FSM for Order
+state "Order" as OrderFSM {
+    state "Pending" as Pending
+    state "Paid" as Paid
+    state "Shipped" as Shipped
+    state "Completed" as Completed
+
+    [Pending] --> [Paid] : pay
+    [Paid] --> [Shipped] : ship
+    [Shipped] --> [Completed] : complete
+}
+
+' Constraints
+note left of Order
+    isPaid -> must be true before shipment
+    isShipped -> must be true after payment
+end note
+
+note right of Stock
+    adjustStock() updates stock levels
+end note
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **`Customer`** has a VAT number and an address.
+- **`Product`** has a name, price, and current stock quantity.
+- **`Order`** represents a customer's order, including payment and shipment dates.
+- **`OrderLine`** links an order to a specific product and quantity.
+- **`Stock`** tracks the available quantity of each product.
+- **State transitions** are modeled using a simple FSM for `Order`: from `Pending` to `Paid` to `Shipped` to `Completed`.
+
+---
+
+### 🔁 Next Steps (for STEP 2–4)
+
+You can extend this model by adding:
+- A `Delivery` class to track shipments per line.
+- A `Invoice` class for billing.
+- A `Warehouse` or `DeliveryService` class for tracking delivery status.
+- Additional states for `OrderLine` (e.g., `Available`, `Unavailable`, `Shipped`, `Pending`).
+- A `PaymentMethod` enum for handling different payment options (pre-order or post-delivery).
+
+Let me know if you'd like the updated class diagram for **STEP 2** or beyond!

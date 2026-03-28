@@ -1,0 +1,50 @@
+@startuml
+
+class Customer {
+  - String firstName
+  - String lastName
+  - Account[] accounts (1..5)
+}
+
+class Branch {
+  - int branchID
+  - String branchName
+  - Account[] accounts
+}
+
+class Account {
+  - int accountNumber
+  - double balance
+  - Customer owner
+  - Branch branch
+}
+
+class CurrentAccount {
+  - double overdraftLimit
+  -- Account
+}
+
+class SavingsAccount {
+  -- Account
+}
+
+Customer "1" -- "*" Account : manages
+Account "1" -- "1" Customer : owned by
+Account "1" -- "1" Branch : located in
+CurrentAccount --|> Account
+SavingsAccount --|> Account
+
+@enduml
+
+### Explanation:
+
+- **Customer** has a first name, last name, and an array of up to five `Account` objects.
+- **Branch** has a unique ID and a name, and holds a collection of `Account` objects.
+- **Account** is an abstract class with common properties like `accountNumber`, `balance`, and associations to both `Customer` and `Branch`.
+- **CurrentAccount** and **SavingsAccount** are concrete subclasses of `Account` that inherit from it.
+- **CurrentAccount** has an additional property: `overdraftLimit`.
+- Relationships:
+  - A `Customer` can manage multiple accounts (`1` to `*`).
+  - An `Account` belongs to exactly one `Customer` and one `Branch`.
+  - `CurrentAccount` and `SavingsAccount` inherit from `Account`.
+

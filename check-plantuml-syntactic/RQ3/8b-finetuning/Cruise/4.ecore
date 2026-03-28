@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offeredCruises" eType="#//Cruise" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cruise">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedShip" eType="#//Ship" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="organizingAgency" eType="#//TravelAgency" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedDestinations" eType="#//DestinationArea" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedShows" eType="#//Show" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onboardGuests" eType="#//Guest" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TravelAgency"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DestinationArea"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Show"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Guest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeBookings" eType="#//Booking" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedTickets" eType="#//Ticket" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookedCruise" eType="#//Cruise" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ticketHolder" eType="#//Guest" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CruiseProvider"/>
+</ecore:EPackage>

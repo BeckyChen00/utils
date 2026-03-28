@@ -1,0 +1,58 @@
+
+@startuml
+
+' Define the base classes
+abstract class Card {
+  +id: String
+  +height: int
+  +suit: String
+  +compareHeight(other: Card): int
+}
+
+class Deck {
+  +id: String
+  +cards: List<Card>
+  +maxCards: int = 48
+}
+
+class Player {
+  +id: String
+  +name: String
+}
+
+class ScoringTable {
+  +id: String
+  +rounds: List<Round>
+}
+
+class Round {
+  +id: String
+  +winningPlayers: List<Player>
+  +points: int
+  +isJackRound: boolean
+  +isSoloRound: boolean
+  +isMandatorySoloRound: boolean
+}
+
+class SoloRound extends Round {
+  +soloType: String
+  +soloPlayer: Player
+  +soloTypeOptions: List<String> = ["trump", "jack", "queen"]
+}
+
+' Relationships
+Deck "1" -- "many" Card: contains
+ScoringTable "1" -- "many" Round: contains
+Round "1" -- "many" Player: has winning players
+
+@enduml
+
+### Explanation of Key Elements:
+
+- **Card**: Represents a card with an ID, height (for comparison), and suit.
+- **Deck**: Holds up to 48 cards and has an ID.
+- **Player**: Represents a player in the game with an ID and name.
+- **ScoringTable**: Contains multiple rounds.
+- **Round**: Each round has a list of winning players, points, and flags indicating if it's a jack or solo round.
+- **SoloRound**: A special type of round that is a subclass of `Round`. It includes a solo type and a solo player.
+

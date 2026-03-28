@@ -1,0 +1,66 @@
+@startuml
+enum CommandStatus {
+  requested
+  completed
+  failed
+}
+enum RuleDependencyType {
+  prerequisite
+  conflicting
+  parallel
+  exclusive
+}
+class SmartHome {
+  locationAddress: String
+  +getRooms(): List<Room>
+  +updateInfrastructureMap(): void
+}
+class Room {
+  roomName: String
+  roomType: String
+  +getDevices(): List<Device>
+}
+class Device {
+  deviceId: String
+  deviceType: String
+  isActive: boolean
+  +activate(): void
+  +deactivate(): void
+  +getStatus(): String
+}
+class Sensor {
+  +readValue(): SensorReading
+}
+class Actuator {
+  +executeCommand(command: ControlCommand): void
+}
+class SensorReading {
+  measuredValue: double
+  timestamp: Date
+  unit: String
+}
+class ControlCommand {
+  commandType: String
+  status: CommandStatus
+  isReversal: boolean
+  targetDeviceId: String
+  timestamp: Date
+}
+class AutomationRule {
+  description: String
+  expression: String
+  +evaluate(): boolean
+  +getActions(): List<ControlCommand>
+}
+SmartHome *-- "0..*" Room : rooms
+SmartHome *-- "0..*" Device : devices
+Sensor --|> Device
+Actuator --|> Device
+Room *-- "0..*" Device : devices
+Sensor "1" --> "0..*" SensorReading : readings
+Actuator *-- "0..*" ControlCommand : executedCommands
+ControlCommand --|> Device
+SmartHome "1" --> "0..*" AutomationRule : rules
+AutomationRule "1" --> "0..*" ControlCommand : actions
+Room "1" --> "0..*" AutomationRule : rules
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+enum ShapeType {
+  Triangle
+  Circle
+  Square
+  Pentagon
+}
+class Shape {
+  shapeType: ShapeType
+  x: long
+  y: long
+}
+class Object {
+  objectName: String
+}
+class GameElement {
+  x: long
+  y: long
+  +isValid(): boolean
+}
+class Opponent {
+  lives: int
+  +kill(): void
+}
+Opponent --|> GameElement
+Object --|> GameElement
+GameElement *-- "0..*" Shape : containedShapes
+GameElement --> "0..1" Opponent : knownOpponent
+@enduml

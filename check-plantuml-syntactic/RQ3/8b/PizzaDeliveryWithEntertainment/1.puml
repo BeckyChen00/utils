@@ -1,0 +1,106 @@
+
+---
+
+
+@startuml
+
+' Users
+class User {
+  +id: int
+  +name: string
+  +address: string
+  +birthday: date
+}
+
+' Business Owner
+class BusinessOwner {
+  +id: int
+  +linkedin: string
+}
+User <|-- BusinessOwner
+
+' Pizza Restaurant
+class PizzaRestaurant {
+  +id: int
+  +zipCode: string
+  +address: string
+  +phone: string
+  +website: string
+  +openingHours: string
+}
+BusinessOwner --|> PizzaRestaurant
+
+' Pizza
+class Pizza {
+  +id: int
+  +name: string
+  +crust: string
+  +price: float
+  +restaurantId: int
+}
+PizzaRestaurant --|> Pizza
+
+' HungryCustomer
+class HungryCustomer {
+  +id: int
+  +deliveryAddress: string
+}
+User <|-- HungryCustomer
+
+' Order
+class Order {
+  +id: int
+  +placedAt: datetime
+  +latestDeliveryTime: datetime
+  +numberOfPeople: int
+  +pizzaIds: list<int>
+  +isEntertainmentOrder: boolean
+}
+HungryCustomer --|> Order
+
+' EntertainmentOrder
+class EntertainmentOrder {
+  +id: int
+  +entertainmentType: string
+  +duration: int
+}
+Order <|-- EntertainmentOrder
+
+' Entertainer
+class Entertainer {
+  +id: int
+  +stageName: string
+  +bio: string
+  +pricePer30Minutes: float
+}
+User <|-- Entertainer
+
+' EntertainerAvailability
+class EntertainerAvailability {
+  +id: int
+  +entertainerId: int
+  +restaurantId: int
+  +day: string
+  +available: boolean
+}
+Entertainer --|> EntertainerAvailability
+PizzaRestaurant --|> EntertainerAvailability
+
+@enduml
+
+---
+
+### ✅ Summary of Key Relationships:
+
+- **User** is the base class for:
+  - **BusinessOwner**
+  - **HungryCustomer**
+  - **Entertainer**
+- **BusinessOwner** can own multiple **PizzaRestaurants**.
+- Each **PizzaRestaurant** offers multiple **Pizzas**, which are uniquely identified by name, restaurant, and price.
+- **HungryCustomer** places **Orders** (which may be regular or entertainment orders).
+- **EntertainmentOrder** extends **Order** and adds details about the entertainment type and duration.
+- **Entertainer** is assigned to an **EntertainmentOrder**, and has availability per **PizzaRestaurant** by day.
+
+---
+

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="department" eType="#//Department"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bed">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="room" eType="#//Room"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="category" eType="#//StayCategory"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StayCategory">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Inhabitant">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="registrationDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentStays" eType="#//Stay" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Stay">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inhabitant" eType="#//Inhabitant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stayCategory" eType="#//StayCategory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bed" eType="#//Bed"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suspended" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegistrationProcess">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inhabitant" eType="#//Inhabitant"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="basicData" eType="#//Map_String_String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessmentResult" eType="#//Assessment"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assessment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="needsHelpEating" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="needsHelpDressing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="needsPersonalCare" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendedStayCategory" eType="#//StayCategory"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaitingList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inhabitants" eType="#//Inhabitant" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="sortByRegistrationDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Proposal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inhabitant" eType="#//Inhabitant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stayCategory" eType="#//StayCategory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bed" eType="#//Bed"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="proposedDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accepted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="invalidated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stay" eType="#//Stay"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outstandingAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateIssued" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="items" eType="#//InvoiceItem" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invoice" eType="#//Invoice"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="amountPaid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateReceived" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreditNote">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentEvent" eType="#//PaymentEvent"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="amountRefunded" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateCreated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InvoiceItem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unitPrice" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="total" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Home" eType="#//home" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="home"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Department"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_String_String"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Home"/>
+</ecore:EPackage>

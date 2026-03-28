@@ -1,0 +1,56 @@
+@startuml
+enum RiskLevel {
+  Low
+  Moderate
+  High
+  Critical
+}
+enum TileSize {
+  Small
+  Medium
+}
+enum RecyclabilityStatus {
+  Recoverable
+  NonRecoverable
+  Lost
+}
+enum WasteType {
+  Paper
+  Plastic
+  Glass
+  Metal
+}
+class User {
+  username: String
+  isActive: boolean
+  +login(): boolean
+  +logout(): void
+}
+class CollateralAsset {
+  collateralValue: double
+  status: RecyclabilityStatus
+  +redundancyCheck(): boolean
+  +validateOwnership(): boolean
+}
+class DisposalRecord {
+  disposalDate: Date
+  totalWeight: double
+  isShipmentValid: boolean
+  +generateManifest(): String
+}
+class RecyclingTag {
+  weightGrams: double
+  riskLevel: RiskLevel
+  isSalvaged: boolean
+  +determineStatus(): RecyclabilityStatus
+  +updateRiskLevel(newRisk: RiskLevel): void
+}
+class DisposalBatch {
+  batchId: String
+  +generateBatchReport(): String
+}
+collateralAsset --> "0..1" RecyclingTag : maintenanceTag
+collateralAsset --> "1" DisposalRecord : disposalHistory
+DisposalRecord *-- "1" DisposalBatch : generatedBatch
+DisposalRecord --> "1" User : disposalOwner
+@enduml

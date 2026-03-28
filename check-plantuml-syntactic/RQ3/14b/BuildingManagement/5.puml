@@ -1,0 +1,107 @@
+
+---
+
+
+@startuml
+
+' Classes
+class WebPortal {
+  -version: String
+  -url: String
+}
+
+class Building {
+  -id: String
+  -name: String
+  -energyClass: String
+  -address: String
+  -yearOfConstruction: Integer
+  -owner: User
+  -entries: List<Entry>
+  -images: List<Image>
+  -profilePhoto: Image
+}
+
+class Entry {
+  -name: String
+  -isPublic: Boolean
+  -content: String
+  -unit: String
+}
+
+class TextualEntry <|-- Entry
+class NumericEntry <|-- Entry
+
+class Image {
+  -fileName: String
+}
+
+class User {
+  -username: String
+  -email: String
+  -password: String
+  -buildings: List<Building>
+  -comments: List<Comment>
+}
+
+class Comment {
+  -content: String
+  -user: User
+  -building: Building
+}
+
+class Administrator <|-- User {
+  -idCardNumber: String
+}
+
+class FullTextSearch {
+  +search(query: String): List<Building>
+}
+
+' Relationships
+WebPortal "1" --> "0..*" Building
+User "1" --> "0..*" Building
+Building "1" --> "0..*" Entry
+Building "1" --> "0..*" Image
+Entry "1" --> "0..1" TextualEntry
+Entry "1" --> "0..1" NumericEntry
+User "1" --> "0..*" Comment
+Comment "1" --> "1" User
+Comment "1" --> "1" Building
+Administrator "1" --> "0..*" User
+
+@enduml
+
+---
+
+### 📌 **Use Cases and Actors Mapping**
+
+| Use Case                     | Actor         | Description |
+|-----------------------------|---------------|-------------|
+| Register as a User          | Visitor       | A visitor registers with a username, email, and password. |
+| Confirm Email Address       | Visitor       | The user confirms their email by clicking a link sent during registration. |
+| Activate User Account       | Administrator | An administrator activates the user’s account after registration. |
+| Log In                      | User          | A registered user logs in with their credentials. |
+| Create a Building           | User          | A user creates a new building with all required information. |
+| Add Entry to a Building     | User          | A user adds an entry (text or number) to one of their buildings. |
+| Set Entry as Public         | User          | A user makes an entry visible to all visitors. |
+| Upload Image to Building    | User          | A user uploads images to a building and selects one as the profile photo. |
+| Comment on a Building       | User          | A user can comment on another user's building. |
+| Delete Comment              | Administrator | An administrator deletes inappropriate comments from the system. |
+
+---
+
+### 🔄 **Relationships Between Use Cases**
+
+- **Register as a User → Confirm Email Address**: Confirmation is a prerequisite for activation.
+- **Register as a User → Activate User Account**: Admin must activate the user before login.
+- **Activate User Account → Log In**: Only activated users can log in.
+- **Log In → Create a Building**: Users need to be logged in to create a building.
+- **Log In → Add Entry to a Building**: Users need to be logged in to add entries.
+- **Log In → Upload Image to Building**: Users need to be logged in to upload images.
+- **Log In → Comment on a Building**: Users must be logged in to comment.
+- **Delete Comment ← Comment on a Building**: Administrators delete comments that were posted by others.
+- **Full Text Search ← All Use Cases**: Visitors can always perform a full-text search for buildings.
+
+---
+

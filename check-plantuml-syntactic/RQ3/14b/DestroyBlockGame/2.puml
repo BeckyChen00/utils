@@ -1,0 +1,126 @@
+
+@startuml
+'--------------------------'
+'     Class Definitions    '
+'--------------------------'
+
+class User {
+  +username: String
+  +password: String
+  +isAdmin: Boolean
+}
+
+class Admin {
+  +createGame(): Game
+  +defineBlocks(): List<Block>
+  +defineLevels(): List<Level>
+  +setGameSettings(): void
+}
+
+class Player {
+  +playGame(game: Game): void
+  +movePaddle(direction: Direction): void
+  +pauseGame(): void
+  +resumeGame(): void
+}
+
+class Game {
+  +name: String
+  +blocks: List<Block>
+  +levels: List<Level>
+  +hallOfFame: HallOfFame
+  +minSpeed: Integer
+  +speedIncreaseFactor: Double
+  +maxPaddleLength: Integer
+  +minPaddleLength: Integer
+  +isPublished: Boolean
+}
+
+class Block {
+  +color: String
+  +points: Integer
+  +position: Position
+}
+
+class Level {
+  +levelNumber: Integer
+  +blockPositions: List<Position>
+  +isRandom: Boolean
+  +initialBlockCount: Integer
+}
+
+class HallOfFame {
+  +addScore(player: Player, score: Integer): void
+  +getHighScores(): List<ScoreEntry>
+}
+
+class Position {
+  +row: Integer
+  +column: Integer
+}
+
+class ScoreEntry {
+  +player: Player
+  +score: Integer
+  +date: Date
+}
+
+class Ball {
+  +position: Position
+  +direction: Direction
+  +speed: Integer
+}
+
+class Paddle {
+  +position: Position
+  +length: Integer
+}
+
+class Direction {
+  +x: Integer
+  +y: Integer
+}
+
+'--------------------------'
+'      Associations       '
+'--------------------------'
+
+User "1" -- "0..1" Admin : (is admin)
+User "1" -- "1" Player : (is player)
+
+Admin "1" --> "1" Game : creates
+Player "1" --> "1" Game : plays
+
+Game "1" --> "1" HallOfFame : has
+Game "1" --> "1" List<Block> : contains
+Game "1" --> "1" List<Level> : contains
+
+Level "1" --> "1" List<Block> : uses blocks from
+Level "1" --> "1" Game : belongs to
+
+Block "1" --> "1" Position : located at
+
+Ball "1" --> "1" Game : part of
+Paddle "1" --> "1" Game : part of
+Ball "1" --> "1" Direction : moves in
+Paddle "1" --> "1" Direction : moves in
+
+HallOfFame "1" --> "1" List<ScoreEntry> : contains
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **User**: Base class with a username and password. A user can be both an admin and a player, but not both roles in the same game.
+- **Admin**: Extends `User` and has methods to create and configure games.
+- **Player**: Extends `User` and has gameplay-related actions.
+- **Game**: Contains all game settings, levels, blocks, and hall of fame.
+- **Block**: Represents individual colored blocks with point values and positions.
+- **Level**: Defines the layout and rules for each level, including whether it's random.
+- **HallOfFame**: Maintains high scores for a given game.
+- **Position**: Used to represent grid coordinates for blocks and other elements.
+- **ScoreEntry**: Stores a player's score along with the date.
+
+This diagram captures the core entities and their relationships as described in your system requirement. Let me know if you'd like to add more details or generate a visual image from this!

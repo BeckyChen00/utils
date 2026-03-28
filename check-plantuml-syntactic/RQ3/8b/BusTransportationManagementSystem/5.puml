@@ -1,0 +1,59 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor #f0f0f0
+
+class Driver {
+  - String name
+  - int id
+  - boolean isOnSickLeave
+}
+
+class Bus {
+  - String licensePlate
+  - boolean isInRepairShop
+}
+
+class Route {
+  - int routeNumber
+  - String description
+}
+
+class Shift {
+  - String shiftType
+  - Date date
+}
+
+class Schedule {
+  - int routeNumber
+  - String licensePlate
+  - int driverId
+  - String shiftType
+  - Date date
+}
+
+Driver "1" -- "*" Schedule : assignedTo
+Bus "1" -- "*" Schedule : assignedTo
+Route "1" -- "*" Schedule : has
+Schedule -- "1" Shift : belongsTo
+
+note right of Schedule
+  For a given day, an overview shows:
+  - route number
+  - license plate
+  - entered shifts
+  - driver IDs and names
+  - highlighted if sick or in repair
+end note
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **Driver**: Stores the driver's name, unique ID, and whether they are on sick leave.
+- **Bus**: Stores the bus's license plate and whether it is in the repair shop.
+- **Route**: Identified by a unique number and possibly includes a description.
+- **Shift**: Represents a shift type (morning, afternoon, night) and the date.
+- **Schedule**: Links a driver, a bus, a route, and a shift for a specific date. It also includes information about the driver and bus status to determine if they can be scheduled.
+
+This diagram reflects the key entities and relationships in the BTMS system as described in the system requirements.

@@ -1,0 +1,87 @@
+
+---
+
+
+@startuml
+
+' Entities
+class Patient {
+  +id: int
+  +name: string
+  +consentGiven: boolean
+  +treatments: Set<Treatment>
+}
+
+class Doctor {
+  +id: int
+  +name: string
+  +diagnoses: Set<Diagnosis>
+}
+
+class HeadDoctor {
+  +id: int
+  +name: string
+  +approveDiagnosis(diagnosis: Diagnosis): boolean
+}
+
+class Illness {
+  +id: int
+  +name: string
+  +priority: Priority
+  +treatments: Set<Treatment>
+}
+
+enum Priority {
+  HIGH
+  LOW
+}
+
+class Diagnosis {
+  +id: int
+  +patient: Patient
+  +doctor: Doctor
+  +illness: Illness
+  +approvedByHeadDoctor: boolean
+}
+
+class Treatment {
+  +id: int
+  +illness: Illness
+  +stage: Stage
+  +patient: Patient
+  +consentGiven: boolean
+}
+
+enum Stage {
+  STAGE_1
+  STAGE_2
+  STAGE_3
+}
+
+' Associations
+Patient "1" -- "0..*" Treatment : has
+Doctor "1" -- "0..*" Diagnosis : makes
+HeadDoctor "1" -- "0..*" Diagnosis : approves
+Illness "1" -- "0..*" Diagnosis : relates to
+Illness "1" -- "0..*" Treatment : has
+Treatment "1" -- "1" Patient : applies to
+Diagnosis "1" -- "1" Illness : related to
+Diagnosis "1" -- "1" Doctor : made by
+Diagnosis "1" -- "1" Patient : for
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The `Priority` and `Stage` enums represent the possible states of an illness and a treatment.
+- A patient can have multiple treatments, each with a stage.
+- A doctor can make multiple diagnoses, and a diagnosis must be approved by the head doctor before any treatment can proceed.
+- If an illness has a **high priority**, all associated treatments are immediately moved to **Stage 3**, regardless of consent.
+- Once a patient gives consent, all treatments can be upgraded to higher stages without further consent.
+
+---
+
+### 💡 How to Use:
+
+Let me know if you'd like a version with more detailed methods or behaviors!

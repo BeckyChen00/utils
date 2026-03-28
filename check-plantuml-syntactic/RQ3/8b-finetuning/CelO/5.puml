@@ -1,0 +1,62 @@
+@startuml
+enum InvitationStatus {
+  NeedsResponse
+  Confirmed
+  Tentative
+  Declined
+  NotSent
+}
+enum TaskStatus {
+  Pending
+  Completed
+  Cancelled
+}
+class Organizer {
+  firstName: String
+  lastName: String
+  email: String
+  username: String
+  phoneNumber: String
+  password: String
+  +manageEvent(event: Event): void
+  +viewAllEvents(): List<Event>
+}
+class Event {
+  eventName: String
+  occurrenceDate: Date
+  startTime: Time
+  endTime: Time
+  locationName: String
+  address: String
+  isRecurring: boolean
+  +addAttendee(name: String, email: String): Attendee
+  +getInvitationStatusList(): List<Invite>
+  +getTaskChecklist(): Checklist
+}
+class Attendee {
+  firstName: String
+  lastName: String
+  email: String
+  invitationStatus: InvitationStatus
+  +confirmAttendance(): void
+  +declineAttendance(): void
+  +markTaskCompletion(task: Task): void
+}
+class Checklist {
+  defaultTasks: List<Task>
+  +addTask(description: String): Task
+  +getTasks(): List<Task>
+}
+class Task {
+  description: String
+  category: String
+  requiredStatus: TaskStatus
+  +isCompleted(): boolean
+}
+Organizer --> "*" Event : managedEvents
+Event *-- "1" Checklist : eventChecklist
+Attendee --> "*" Event : attendingEvents
+Event "1" *-- "*" Invite : eventInvitations
+Checklist *-- "*" Task : checklistTasks
+Attendee --> "*" Task : assignedTasks 'opposite: assignedBy
+@enduml

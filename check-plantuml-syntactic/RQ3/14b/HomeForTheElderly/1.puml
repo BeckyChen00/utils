@@ -1,0 +1,152 @@
+
+@startuml
+
+'-----------------------------'
+'       Classes               '
+'-----------------------------'
+
+class Person {
+  -id: int
+  -name: String
+  -dateOfBirth: Date
+  -contactInfo: String
+  +register(): void
+  +assessAbilities(): StayType
+}
+
+class Inhabitant <|-- Person {
+  -registrationDate: Date
+  -waitingListPosition: int
+  -currentStays: List<Stay>
+  +acceptProposal(Stay): void
+  +refuseProposal(): void
+}
+
+class Stay {
+  -id: int
+  -startDate: Date
+  -endDate: Date
+  -status: String (active, suspended, ended)
+  -stayType: StayType
+  -bed: Bed
+  -inhabitant: Inhabitant
+  +suspend(): void
+  +resume(): void
+  +end(): void
+}
+
+class StayType {
+  -type: String (RH, RNH, SF)
+  -pricePerDay: double
+}
+
+class Bed {
+  -id: int
+  -room: Room
+  -category: Category
+  -isOccupied: boolean
+  -inhabitant: Inhabitant
+  +assign(Inhabitant): void
+  +release(): void
+}
+
+class Room {
+  -id: int
+  -department: Department
+  -numberOfBeds: int
+  -availableBeds: int
+  +addBed(Bed): void
+  +removeBed(Bed): void
+}
+
+class Department {
+  -id: int
+  -name: String
+  -rooms: List<Room>
+  +addRoom(Room): void
+  +removeRoom(Room): void
+}
+
+class Category {
+  -id: int
+  -name: String
+  -pricePerDay: double
+  +getPrice(): double
+}
+
+class WaitingList {
+  -inhabitants: List<Inhabitant>
+  +addInhabitant(Inhabitant): void
+  +removeInhabitant(Inhabitant): void
+  +getNextCandidate(StayType): Inhabitant
+}
+
+class Invoice {
+  -id: int
+  -inhabitant: Inhabitant
+  -stay: Stay
+  -amountDue: double
+  -amountPaid: double
+  -status: String (pending, paid)
+  +generateInvoice(): void
+  +updatePayment(double): void
+  +sendReminder(): void
+}
+
+class PaymentEvent {
+  -id: int
+  -invoice: Invoice
+  -amount: double
+  -date: Date
+  +registerPayment(): void
+}
+
+class CreditNote {
+  -id: int
+  -invoice: Invoice
+  -amount: double
+  -date: Date
+  +createCreditNote(): void
+}
+
+class Assessment {
+  -id: int
+  -inhabitant: Inhabitant
+  -stayType: StayType
+  -date: Date
+  +assess(): StayType
+}
+
+'-----------------------------'
+'       Associations          '
+'-----------------------------'
+
+Person "1" -- "1" Inhabitant : is
+Inhabitant "1" -- "*" Stay : has
+Stay "1" -- "1" StayType : type
+Stay "1" -- "1" Bed : assigned to
+Bed "1" -- "1" Category : belongs to
+Bed "1" -- "1" Room : located in
+Room "1" -- "1" Department : part of
+Inhabitant "1" -- "1" WaitingList : on
+WaitingList "1" -- "*" Inhabitant : contains
+Stay "1" -- "1" Invoice : generates
+Invoice "1" -- "1" PaymentEvent : receives
+Invoice "1" -- "1" CreditNote : generates
+Inhabitant "1" -- "1" Assessment : has
+Assessment "1" -- "1" StayType : results in
+
+@enduml
+
+---
+
+### 📌 Notes:
+- `Inhabitant` inherits from `Person`, as only registered individuals can be inhabitants.
+- A person can have multiple stays simultaneously (e.g., John’s example).
+- The `StayType` class defines the pricing and category for each type of stay.
+- `Invoice` is generated per stay and can be modified if disputes arise.
+- `PaymentEvent` and `CreditNote` are event-based, not modeled as full objects.
+- The waiting list is managed based on registration date.
+- `Assessment` helps determine the correct stay type for an inhabitant.
+
+Let me know if you'd like a version with more detailed attributes or methods!

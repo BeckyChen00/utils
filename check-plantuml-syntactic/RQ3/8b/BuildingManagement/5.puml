@@ -1,0 +1,129 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class WebPortal {
+    +versionNumber: String
+    +url: String
+    +buildings: Set<Building>
+}
+
+class Building {
+    +id: String
+    +name: String
+    +energyClass: String (A, B, C, D)
+    +address: String
+    +yearOfConstruction: Integer
+    +owner: User
+    +additionalEntries: Set<AdditionalEntry>
+    +images: Set<Image>
+    +profilePhoto: Image
+}
+
+class AdditionalEntry {
+    +name: String
+    +value: Object
+    +unit: String
+    +isPublic: Boolean
+    +building: Building
+}
+
+class Image {
+    +fileName: String
+    +building: Building
+}
+
+class User {
+    +username: String
+    +email: String
+    +password: String
+    +isAdmin: Boolean
+    +buildings: Set<Building>
+    +comments: Set<Comment>
+}
+
+class Comment {
+    +text: String
+    +user: User
+    +building: Building
+}
+
+class Administrator {
+    -- User
+    +idCardNumber: String
+}
+
+' Relationships
+WebPortal "1" -- "0..*" Building : has
+Building "1" -- "1" User : owned by
+User "1" -- "0..*" AdditionalEntry : creates
+AdditionalEntry "1" -- "1" Building : belongs to
+Building "1" -- "0..*" Image : has
+Image "1" -- "1" Building : belongs to
+User "1" -- "0..*" Comment : comments on
+Comment "1" -- "1" User : made by
+Comment "1" -- "1" Building : refers to
+Administrator "1" -- "1" User : is a type of
+
+' Use Cases
+actor Visitor
+actor User
+actor Administrator
+
+usecase "Register as User" as UC1
+usecase "Confirm Email" as UC2
+usecase "Activate Account" as UC3
+usecase "Search Buildings" as UC4
+usecase "Create Building" as UC5
+usecase "Manage Entries" as UC6
+usecase "Comment on Building" as UC7
+usecase "View Public Entries" as UC8
+usecase "Delete Comment" as UC9
+usecase "Set Up User" as UC10
+
+Visitor --> UC1
+Visitor --> UC4
+User --> UC1
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+Administrator --> UC10
+Administrator --> UC9
+
+@enduml
+
+---
+
+## ✅ Use Cases and Actors
+
+| Use Case | Actor(s)         | Description |
+|----------|------------------|-------------|
+| UC1      | Visitor, User    | Register as a user with username, email, and password. |
+| UC2      | Visitor          | Confirm email via a link sent after registration. |
+| UC3      | System           | Automatically activate user account after confirmation and admin setup. |
+| UC4      | Visitor          | Search for buildings using full-text search. |
+| UC5      | User             | Create a new building in the portal. |
+| UC6      | User             | Manage additional entries (add, edit, delete). |
+| UC7      | User             | Comment on other users’ buildings. |
+| UC8      | Visitor          | View public additional entries of a building. |
+| UC9      | Administrator    | Delete comments from any user. |
+| UC10     | Administrator    | Set up or manage user accounts (create, edit, delete). |
+
+---
+
+## 🧠 Notes
+
+- **Generalization**: `Administrator` is a special type of `User`.
+- **Relationships**:
+  - A `WebPortal` contains multiple `Buildings`.
+  - Each `Building` is owned by one `User`.
+  - A `User` can create multiple `Buildings`, `Comments`, and `AdditionalEntries`.
+  - `AdditionalEntries` can be either textual or numeric with a unit.
+  - `Images` are associated with `Buildings`, and one image is selected as the profile photo.
+- **Use Cases** are grouped logically by actors and include both public and private functions.
+
+Let me know if you want this diagram rendered or exported!

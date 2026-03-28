@@ -1,0 +1,73 @@
+
+@startuml
+
+' Define classes
+class Song {
+  -title: String
+  -year: int
+  -length: int
+  -genre: String
+  -artist: Artist
+}
+
+class Artist {
+  -name: String
+  -dateOfBirth: Date
+  -websiteURL: String
+}
+
+class User {
+  -id: String
+  -name: String
+  -address: String
+}
+
+class BusinessUser {
+  -vatNumber: String
+  -"1..*" song: Song
+}
+
+class RegularUser {
+  -"0..*" albumSuggestion: Album
+}
+
+class Album {
+  -"0..*" hits: Hit
+  -"0..*" regularUser: RegularUser
+}
+
+class Hit {
+  -trackNumber: int
+  -song: Song
+}
+
+' Association relationships
+Song "1" -- "1" Artist : belongsTo
+User "1" -- "1" BusinessUser : extends
+User "1" -- "1" RegularUser : extends
+BusinessUser "1" -- "1..*" Song : uploads
+RegularUser "1" -- "1..*" Album : suggests
+Album "1" -- "1..*" Hit : contains
+Hit "1" -- "1" Song : is a hit of
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **Song** has attributes like title, year, length, and genre. It is associated with exactly one **Artist**.
+- **Artist** has name, date of birth, and a URL. An artist is uniquely identified by their name.
+- **User** is an abstract class with common attributes (ID, name, address).
+- **BusinessUser** extends **User** and adds a VAT number. A business user can upload **Songs**.
+- **RegularUser** extends **User** and can suggest **Albums** to other users.
+- **Album** contains multiple **Hits**, each with a track number.
+- **Hit** is a type of **Song** (i.e., a song that is part of an album), and it's stored in an **Album**.
+
+---
+
+### Notes:
+- The diagram uses **inheritance** (`<<extends>>`) between `User`, `BusinessUser`, and `RegularUser`.
+- **Association multiplicity** is included where necessary (e.g., `1..*` for many-to-many or one-to-many relationships).
+- **Aggregation** is used for `BusinessUser` and `Song` (a business user can upload many songs).
+

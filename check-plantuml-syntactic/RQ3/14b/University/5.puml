@@ -1,0 +1,78 @@
+
+@startuml
+' Class Diagram for University System
+
+class University {
+  -faculties: List<Faculty>
+  -totalEmployees: int
+}
+
+class Faculty {
+  -name: String
+  -institutes: List<Institute>
+  -dean: Dean
+}
+
+class Institute {
+  -name: String
+  -address: String
+  -ras: List<ResearchAssistant>
+}
+
+class Employee {
+  -socialSecurityNumber: String
+  -name: String
+  -email: String
+}
+
+class Dean {
+  -employee: Employee
+}
+
+class ResearchAssistant {
+  -fieldOfResearch: String
+  -projects: List<Project>
+  -coursesTaught: List<Course>
+}
+
+class Project {
+  -name: String
+  -startDate: Date
+  -endDate: Date
+  -hours: int
+}
+
+class Course {
+  -id: String
+  -name: String
+  -weeklyDuration: int
+}
+
+class Lecturer {
+  -researchAssistant: ResearchAssistant
+}
+
+' Relationships
+
+University "1" --> "0..*" Faculty
+Faculty "1" --> "0..*" Institute
+Faculty "1" --> "1" Dean
+Dean "1" --> "1" Employee
+
+Institute "1" --> "0..*" ResearchAssistant
+
+ResearchAssistant "1" --> "0..*" Project
+ResearchAssistant "1" --> "0..*" Course
+ResearchAssistant "1" --> "1" Lecturer
+
+Project "1" --> "1" ResearchAssistant
+
+Course "1" --> "0..*" ResearchAssistant
+@enduml
+
+### Notes:
+- `Employee` is a base class, and both `Dean` and `ResearchAssistant` are derived from it (though in this model, `Dean` is modeled as a separate class with an `Employee` reference).
+- A `Lecturer` is a role that a `ResearchAssistant` can take on.
+- `Project` has a name, start and end date, and number of hours.
+- `Course` has a unique ID, name, and weekly duration.
+

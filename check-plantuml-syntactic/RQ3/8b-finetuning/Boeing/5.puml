@@ -1,0 +1,32 @@
+@startuml
+class AirlineCompany {
+  companyName: String
+  countryCode: String
+}
+class Contract {
+  contractDate: Date
+  totalAmount: double
+  +generateContractReport(): String
+}
+class Salesperson {
+  employeeName: String
+  +assignToContract(contract: Contract): void
+}
+class Acquisition {
+  acquisitionDate: Date
+  negotiatedPrice: double
+  modelType: String
+  deliveryDate: Date
+  +calculateCustomizationCost(customizationItems: List<String>): double
+}
+class Aircraft {
+  serialNumber: String
+  isDemo: boolean
+  +verifyProductionStatus(): boolean
+}
+AirlineCompany "1" --> "*" Contract : acquiredContracts
+Contract "1" *-- "*" Acquisition : acquisitions
+Acquisition "1" *-- "0..1" Aircraft : producedAircraft
+Contract "1" --> "1" Salesperson : managingSalesperson
+Salesperson "1" --> "*" Contract : managedContracts
+@enduml

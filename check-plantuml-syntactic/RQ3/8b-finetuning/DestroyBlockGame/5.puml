@@ -1,0 +1,69 @@
+@startuml
+enum BlockType {
+  Green
+  Red
+  Blue
+  Yellow
+  Purple
+}
+enum GameStatus {
+  Pending
+  Active
+  Paused
+  Completed
+  Failed
+  Archived
+}
+class GameDesign {
+  gameTitle: String
+  maxLevelCount: int
+  blockColors: BlockType[]
+  blockPointValues: int[]
+  supportedBlockTypes: BlockType[]
+  isRandomized: boolean
+  +validateConfiguration(): boolean
+}
+class Block {
+  color: BlockType
+  pointValue: int
+  isDestroyed: boolean
+  +getInfo(): String
+}
+class GameLevel {
+  levelNumber: int
+  difficultyFactor: double
+  isRandom: boolean
+  blockLayout: Block[]
+  +calculateBlockPositions(): void
+}
+class Player {
+  username: String
+  password: String
+  +login(mode: String): boolean
+}
+class GameSession {
+  currentStatus: GameStatus
+  livesLeft: int
+  score: int
+  ballSpeed: double
+  paddleLength: double
+  pausedAtTime: Date
+  resumeTime: Date
+  +startGame(): void
+  +updateGame(): void
+  +pauseSession(): void
+  +resumeSession(): void
+  +getHighScore(): int
+}
+class HallOfFame {
+  totalEntries: int
+  +addEntry(player: Player, score: int): void
+  +getTopScores(limit: int): List<Player>
+}
+GameDesign *-- "*" GameLevel : levels
+GameLevel *-- "*" Block : blocks
+GameSession *-- "1" GameLevel : activeLevel
+Player --> "*" GameSession : sessions
+Player --> "1" HallOfFame : hallOfFame
+GameDesign --> "1" HallOfFame : associatedHallOfFame
+@enduml

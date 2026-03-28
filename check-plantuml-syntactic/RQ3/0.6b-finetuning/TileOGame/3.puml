@@ -1,0 +1,55 @@
+@startuml
+enum WorkflowState {
+  Pending
+  Running
+  Completed
+  Failed
+  Cancelled
+}
+enum TaskStatus {
+  Pending
+  Executing
+  Succeeded
+  Failed
+  Completed
+}
+enum PriorityLevel {
+  Low
+  Medium
+  High
+}
+class JobQueue {
+  queueDepth: int
+  currentPriority: PriorityLevel
+  +insertJob(task: Task): void
+  +removeJob(task: Task): void
+}
+class Worker {
+  jobState: WorkflowState
+  +executeTask(task: Task): void
+  +cancelTask(task: Task): void
+}
+class Task {
+  taskDescription: String
+  expectedDuration: int
+  +updateStatus(newStatus: TaskStatus, message: String): void
+  +validate(): boolean
+}
+class Resource {
+  resourceName: String
+  capacity: int
+  +isAvailable(): boolean
+}
+class Workflow {
+  workflowName: String
+  currentState: WorkflowState
+  +startProcessing(): void
+  +cancel(): void
+  +getStatus(): WorkflowState
+}
+Workflow *-- "*" Task : tasks
+Task --> "1" Worker : assignedWorker
+JobQueue --> "*" Task : queueItems
+Worker --> "*" Task : taskHistory
+Task --> "1" Resource : requiredResource
+@enduml

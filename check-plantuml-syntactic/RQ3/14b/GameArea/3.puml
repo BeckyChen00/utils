@@ -1,0 +1,91 @@
+
+@startuml
+class GameArea {
+  -name: String
+}
+
+class GameElement {
+  x: long
+  y: long
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+  lives: int
+  +kill(): void
+}
+
+GameArea "1" *-- "1..2" GamePiece : contains
+GameArea "1" -- "1" Opponent : has boss
+
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+
+Shape "0..*" -- "0..*" Shape : connectedTo
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **GameArea**:
+  - Has a `name` (String).
+  - Contains **at least one game element** and **one or two game pieces**.
+  - Has exactly **one Opponent** as the boss.
+
+- **GameElement**:
+  - Has `x` (protected long) and `y` (private long).
+  - Is the base class for `Shape`, `Object`, and `Opponent`.
+
+- **Shape**:
+  - Can be connected to any number of other `Shape` objects.
+
+- **Opponent**:
+  - Has `lives` (protected int).
+  - Has a method `kill()`.
+
+- **Associations**:
+  - `GameArea` has an association with `GamePiece` named `"contains"` with multiplicity `"1" *-- "1..2"`.
+  - `GameArea` has an association with `Opponent` named `"has boss"` with multiplicity `"1" -- "1"`.
+  - `Shape` can be connected to other `Shape` objects via the `"connectedTo"` association.
+
+---
+
+### Textual Class Diagram Description (as per DEX syntax):
+
+class GameArea {
+  name: String
+}
+
+class GameElement {
+  x: long
+  y: long
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+  lives: int
+  kill()
+}
+
+GameArea "1" *-- "1..2" GamePiece : contains
+GameArea "1" -- "1" Opponent : has boss
+
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+
+Shape "0..*" -- "0..*" Shape : connectedTo
+
+Let me know if you'd like to add more details or adjust the model!

@@ -1,0 +1,31 @@
+@startuml
+
+class SystemRequirement {
+    start {SystemRequirement}
+    end {SystemRequirement}
+
+    class Requirement {
+        name : string
+        description : string
+        dateCreated : date
+        dateModified : date
+    }
+
+    class System {
+        id : integer
+        name : string
+        requirements : [Requirement]
+    }
+
+    class Dependency {
+        from : System
+        to : System
+    }
+
+    class Relationship {
+        relationType : string
+        from : System
+        to : System
+    }
+
+@enduml

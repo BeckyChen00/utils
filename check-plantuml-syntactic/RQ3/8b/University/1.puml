@@ -1,0 +1,72 @@
+
+@startuml
+
+' Define classes
+class Faculty {
+    - name: String
+    - numberOfInstitutes: int
+    - dean: Employee
+}
+
+class Institute {
+    - name: String
+    - address: String
+    - faculty: Faculty
+}
+
+class Employee {
+    - socialSecurityNumber: String
+    - name: String
+    - email: String
+    + type: String  ' "Research" or "Administrative"
+}
+
+class ResearchAssistant {
+    - fieldOfResearch: String
+    - projects: List<Project>
+    - institutes: List<Institute>
+    -- extends Employee
+}
+
+class Lecturer {
+    - courses: List<Course>
+    -- extends ResearchAssistant
+}
+
+class Project {
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - hours: int
+    - researchAssistant: ResearchAssistant
+}
+
+class Course {
+    - courseID: String
+    - name: String
+    - weeklyDuration: int
+    - lecturer: Lecturer
+}
+
+' Relationships
+Faculty "1" -- "0..*" Institute : consists of
+Institute "1" -- "1" Faculty : belongs to
+Employee "1" -- "1" Faculty : dean
+Employee "1" -- "0..*" ResearchAssistant : is a
+ResearchAssistant "1" -- "0..*" Institute : assigned to
+ResearchAssistant "1" -- "0..*" Project : involved in
+Project "1" -- "1" ResearchAssistant : has
+ResearchAssistant "1" -- "0..*" Lecturer : is a
+Lecturer "1" -- "0..*" Course : teaches
+Course "1" -- "1" Lecturer : has
+
+@enduml
+
+### Explanation:
+- **Faculty** contains multiple **Institutes**, and each **Institute** belongs to one **Faculty**.
+- A **Faculty** has one **Dean**, who is an **Employee**.
+- **Employees** are either **Research Assistants** or **Administrative Staff**.
+- **Research Assistants** can be assigned to one or more **Institutes**, and may be involved in **Projects**.
+- **Lecturers** are a subclass of **Research Assistants** and teach **Courses**.
+- **Courses** have a unique **courseID**, a **name**, and a **weekly duration**.
+

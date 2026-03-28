@@ -1,0 +1,145 @@
+
+---
+
+
+@startuml
+
+' Actors
+actor "Visitor" as Visitor
+actor "User" as User
+actor "Administrator" as Admin
+
+' Classes
+
+class WebPortal {
+    +versionNumber: String
+    +url: String
+    +buildings: Set<Building>
+}
+
+class Building {
+    +id: String
+    +name: String
+    +energyClass: String
+    +address: String
+    +constructionYear: int
+    +owner: User
+    +additionalEntries: Set<AdditionalEntry>
+    +images: Set<Image>
+    +profilePhoto: Image
+}
+
+class AdditionalEntry {
+    +name: String
+    +value: Object
+    +unit: String (optional)
+    +isPublic: Boolean
+}
+
+class Image {
+    +fileName: String
+}
+
+class User {
+    +username: String
+    +email: String
+    +password: String
+    +buildings: Set<Building>
+    +comments: Set<Comment>
+}
+
+class Comment {
+    +text: String
+    +author: User
+    +building: Building
+}
+
+class Administrator extends User {
+    +idCardNumber: String
+}
+
+' Relationships
+
+WebPortal "1" -- "many" Building : contains
+Building "1" -- "1" User : owner
+Building "1" -- "many" AdditionalEntry : has
+Building "1" -- "many" Image : has
+User "1" -- "many" Comment : creates
+User "1" -- "many" Building : owns
+Administrator "1" -- "many" User : manages
+Administrator "1" -- "many" Comment : deletes
+
+' Use Cases
+
+usecase "Register" as UC_Register
+usecase "Confirm Email" as UC_ConfirmEmail
+usecase "Login" as UC_Login
+usecase "Create Building" as UC_CreateBuilding
+usecase "Manage Entries" as UC_ManageEntries
+usecase "Comment on Building" as UC_Comment
+usecase "Search Buildings" as UC_SearchBuildings
+usecase "Release Entry Publicly" as UC_ReleaseEntry
+usecase "Delete Comment" as UC_DeleteComment
+usecase "Set Up User" as UC_SetUpUser
+
+' Actor to Use Case associations
+
+Visitor --> UC_Register
+Visitor --> UC_SearchBuildings
+User --> UC_Register
+User --> UC_ConfirmEmail
+User --> UC_Login
+User --> UC_CreateBuilding
+User --> UC_ManageEntries
+User --> UC_Comment
+User --> UC_ReleaseEntry
+Administrator --> UC_SetUpUser
+Administrator --> UC_DeleteComment
+
+@enduml
+
+---
+
+### 📌 **Explanation of the Diagram**
+
+#### 🔹 **Actors**
+- **Visitor**: Can search for buildings.
+- **User**: Can register, login, create buildings, manage entries, comment, and release entries.
+- **Administrator**: A specialized user with additional privileges (manage users, delete comments).
+
+#### 🔹 **Classes**
+- **WebPortal**: Central entity that holds a collection of buildings.
+- **Building**: Has attributes like name, energy class, and is owned by a user.
+- **AdditionalEntry**: Can be either text or a number with a unit. It can be public or private.
+- **Image**: Represents an image file with a filename. One image is marked as profile photo.
+- **User**: Base class for both regular users and administrators.
+- **Comment**: A comment made by a user on a building.
+- **Administrator**: Extends `User` with an ID card number.
+
+#### 🔹 **Relationships**
+- Many-to-many between `WebPortal` and `Building`.
+- `Building` has one `User` as owner.
+- `Building` has many `AdditionalEntry` and `Image`.
+- `User` can own multiple `Building`s and make comments.
+- `Administrator` can manage other `User`s and delete `Comment`s.
+
+#### 🔹 **Use Cases**
+These are mapped to the actors:
+1. **UC_Register**: For visitor and user to register.
+2. **UC_ConfirmEmail**: Verification step after registration.
+3. **UC_Login**: User logs in to access features.
+4. **UC_CreateBuilding**: User can create new buildings.
+5. **UC_ManageEntries**: User adds, edits, or releases entries.
+6. **UC_Comment**: User comments on another user’s building.
+7. **UC_SearchBuildings**: Any visitor can perform full-text search.
+8. **UC_ReleaseEntry**: User can make an entry publicly visible.
+9. **UC_DeleteComment**: Admin can remove comments.
+10. **UC_SetUpUser**: Admin sets up user accounts before activation.
+
+---
+
+### ✅ **Notes**
+- The diagram uses generalization (`Administrator extends User`) and aggregation (`WebPortal contains Building`, etc.).
+- All relationships are modeled using UML syntax.
+
+Let me know if you want the diagram exported as an image or need further refinements!

@@ -1,0 +1,83 @@
+@startuml
+enum ItemType {
+  babyClothing
+  womenWinterBoots
+  fridge
+  microwave
+  clothing
+  furniture
+}
+class Resident {
+  name: String
+  address: String
+  contactInfo: String
+  +register(): void
+  +schedulePickup(items: List<SecondHandItem>, date: Date): PickupRequest
+}
+class PickupRequest {
+  requestedDate: Date
+  pickupStatus: String
+  +confirmRequest(): boolean
+}
+class SecondHandItem {
+  description: String
+  estimatedWeight: double
+  dimensions: String
+  category: ItemType
+}
+class PickupVehicle {
+  maxCapacity: double
+  isAvailable: boolean
+  +checkAvailability(): boolean
+  +assignRoute(route: Route): void
+}
+class Route {
+  routeDate: Date
+  priorityLevel: int
+  +calculateTotalDistance(): double
+  +updateSequence(stopOrder: List<String>): void
+}
+class PickupStop {
+  address: String
+  scheduledTime: Date
+  +recordArrival(): void
+}
+class DistributionCenter {
+  location: String
+  +processIncomingItems(items: List<SecondHandItem>): List<TaggedItem>
+  +generateDailyReport(): String
+}
+class VolunteerDriver {
+  name: String
+  licenseNumber: String
+  availableDays: List<String>
+  +assignToVehicle(vehicle: PickupVehicle): void
+  +completeRoute(): void
+}
+class FoodBank {
+  recipientName: String
+  +receiveNonPerishables(foodItems: List<SecondHandItem>): void
+}
+class TaggedItem {
+  rfidTagId: String
+  category: ItemType
+  +verifyTag(): boolean
+}
+class Client {
+  name: String
+  preferredCategories: List<ItemType>
+  requiresHomeDelivery: boolean
+  +requestHomeDelivery(items: List<TaggedItem>, address: String): void
+}
+Resident *-- "0..*" PickupRequest : submittedRequests
+PickupRequest --> "0..1" SecondHandItem : requestedItems
+PickupRequest --> "0..1" PickupStop : designatedStop
+PickupVehicle *-- "1" Route : assignedRoute
+Route *-- "0..*" PickupStop : stops
+PickupStop --> "1" SecondHandItem : collectedItem
+PickupStop --> "0..1" VolunteerDriver : assignedDriver
+DistributionCenter *-- "0..*" TaggedItem : processedItems
+DistributionCenter --> "1" FoodBank : recipientBank
+Client --> "0..*" TaggedItem : receivedItems
+VolunteerDriver --> "1" PickupVehicle : drivenVehicle
+@enduml

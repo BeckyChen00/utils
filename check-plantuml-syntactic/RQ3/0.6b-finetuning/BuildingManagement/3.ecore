@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedMaterials" eType="#//StructuralMaterial" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StructuralMaterial"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EngineeringProject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainSite" eType="#//ConstructionSite" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="costEstimator" eType="#//CostEstimator" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="budgetController" eType="#//BudgetController" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workSchedules" eType="#//WorkSchedule" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="siteManager" eType="#//SiteManager" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inspectionHistory" eType="#//QualityInspection" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="complianceProtocol" eType="#//SafetyProtocol" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="approvalProcesses" eType="#//ApprovalProcess" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstructionSite">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="safetyProtocols" eType="#//SafetyProtocol" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePermits" eType="#//Permit" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="budgetController" eType="#//BudgetController" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workSchedule" eType="#//WorkSchedule" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CostEstimator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BudgetController"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkSchedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tasks" eType="#//WorkTask" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SiteManager"/>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityInspection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyProtocol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ApprovalProcess"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Permit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredMaterial" eType="#//StructuralMaterial" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedInspector" eType="#//Inspector" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//Project" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Inspector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Project"/>
+</ecore:EPackage>

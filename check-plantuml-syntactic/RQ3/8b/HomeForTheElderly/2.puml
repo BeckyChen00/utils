@@ -1,0 +1,109 @@
+
+@startuml
+
+class Department {
+  +String id
+  +String name
+  -List<Room> rooms
+}
+
+class Room {
+  +String id
+  +String name
+  -List<Bed> beds
+}
+
+class Bed {
+  +String id
+  +String category
+  -Category category
+}
+
+class Category {
+  +String id
+  +String name
+  +double price
+  -List<Stay> stays
+}
+
+class Inhabitant {
+  +String id
+  +String name
+  +Date dateOfBirth
+  +String contactInfo
+  -List<Stay> stays
+  -List<WaitingListEntry> waitingListEntries
+}
+
+class Stay {
+  +String id
+  +Date startDate
+  +Date endDate
+  +Category category
+  -Department department
+  -Room room
+  -Bed bed
+  -List<Invoice> invoices
+}
+
+class WaitingListEntry {
+  +int position
+  +Date registrationDate
+  +Category category
+  -Inhabitant inhabitant
+}
+
+class Invoice {
+  +String id
+  +Date invoiceDate
+  +double totalAmount
+  +double paidAmount
+  +double outstandingAmount
+  -List<Payment> payments
+  -Stay stay
+}
+
+class Payment {
+  +String id
+  +Date paymentDate
+  +double amount
+  -Invoice invoice
+}
+
+class Proposal {
+  +Date proposalDate
+  +Category category
+  -Inhabitant inhabitant
+  -WaitingListEntry waitingListEntry
+  +boolean accepted
+}
+
+class Assessment {
+  +Date assessmentDate
+  +Category recommendedCategory
+  -Inhabitant inhabitant
+}
+
+@enduml
+
+---
+
+### ✅ Summary of Key Relationships:
+
+- **Department** contains multiple **Rooms**.
+- **Room** contains multiple **Beds**.
+- **Bed** belongs to a **Category**.
+- **Category** defines the type of stay (RH, RNH, SF) and has a **price**.
+- **Inhabitant** can have multiple **Stays** (e.g., suspended or active).
+- **Inhabitant** may be on a **WaitingListEntry** for a specific **Category**.
+- A **Stay** generates one or more **Invoices**.
+- **Invoice** can have multiple **Payments**.
+- A **Proposal** is made to an **Inhabitant** from a **WaitingListEntry**.
+- **Assessment** determines the **recommendedCategory** for an **Inhabitant**.
+
+---
+
+### 📌 Notes:
+- The diagram assumes that some relationships are **aggregations** (e.g., `Department` contains `Room`) and others are **associations** (e.g., `Inhabitant` has `Stay`).
+
+Let me know if you'd like to generate the actual image or further refine the diagram!

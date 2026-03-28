@@ -1,0 +1,78 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class School {
+  - name: String
+}
+
+class Teacher {
+  - firstName: String
+  - lastName: String
+  - email: String
+}
+
+class Student {
+  - firstName: String
+  - lastName: String
+}
+
+class Principal {
+}
+
+class Room {
+  - name: String
+}
+
+class Classroom extends Room {
+  - capacity: int
+}
+
+class OtherRoom extends Room {
+  - size: float
+}
+
+class ClassGroup {
+  - name: String
+}
+
+' Associations and Multiplicities
+
+School "1" -- "0..*" Teacher : employs (teaches at)
+School "1" -- "1" Principal : has
+School "1" -- "1..*" Room : contains
+School "1" -- "1" ClassGroup : assigns to
+
+Teacher "1" -- "0..3" School : teaches at
+Teacher "1" -- "0..1" Principal : is
+
+Student "1" -- "1" School : attends
+Student "1" -- "1" ClassGroup : belongs to
+
+ClassGroup "1" -- "1" Classroom : assigned to
+Classroom "1" -- "1" ClassGroup : assigned from
+
+' Inheritance
+
+Teacher <|-- Principal
+Room <|-- Classroom
+Room <|-- OtherRoom
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **Inheritance**:  
+  - `Principal` inherits from `Teacher`.  
+  - `Classroom` and `OtherRoom` inherit from `Room`.
+
+- **Multiplicity Constraints**:
+  - A `School` can employ **0 to 3 teachers**.
+  - A `Teacher` can be a **principal at only one school**.
+  - A `Student` is in **exactly one class group**, which is in **one school**.
+  - A `ClassGroup` is assigned to **exactly one classroom**, and vice versa.
+
+- **Attributes** are included where appropriate (e.g., `name`, `email`, `capacity`, etc.).
+

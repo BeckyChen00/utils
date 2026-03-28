@@ -1,0 +1,70 @@
+@startuml
+enum StationType {
+  GasStation
+  FoodStore
+  AutomotiveService
+  JewelryStore
+  Pharmacy
+  ConvenienceStore
+}
+class Restaurant {
+  name: String
+  location: String
+  +openSeason(): void
+  +closeSeason(): void
+  +getAvailableSlots(): List<Slot>
+}
+class Person {
+  name: String
+  dateOfBirth: Date
+  +getAge(): int
+}
+class Customer {
+  name: String
+  +requestService(type: String): Service
+}
+class Service {
+  serviceName: String
+  requiredStations: List<StationType>
+  unitPrice: double
+  +isAvailable(type: StationType): boolean
+  +getTotalCost(includeTax: boolean): double
+}
+class Order {
+  orderDate: Date
+  status: String
+  +confirmOrder(): void
+  +cancelOrder(): void
+}
+class RestaurantSlot {
+  startTime: Time
+  nextAvailableTime: Time
+  currentStatus: String
+  +updateAvailability(isAvailable: boolean): void
+  +getSchedule(): List<Time>
+}
+class Notification {
+  messageContent: String
+  sentTime: Date
+  +send(): void
+}
+class Payment {
+  amount: double
+  transactionId: String
+  status: String
+  +processPayment(): boolean
+  +refund(): boolean
+}
+Restaurant *-- "0..*" RestaurantSlot : managedSlots
+Restaurant *-- "0..*" Notification : deliveredNotifications
+Restaurant *-- "0..*" Payment : recordedPayments
+Restaurant *-- "0..*" Order : placedOrders
+Restaurant *-- "0..*" Person : restaurantEmployees
+Customer --> "0..*" Order : placedOrders
+Service *-- "0..*" RestaurantSlot : assignedSlots
+Service --> "1..*" Person : serviceStaff
+RestaurantSlot --> "1..*" Service : offeredServices
+RestaurantSlot --> "1..*" Notification : receivedNotifications
+Customer --> "1" Person : customer
+RestaurantSlot --> "1" Service : primaryService
+@enduml

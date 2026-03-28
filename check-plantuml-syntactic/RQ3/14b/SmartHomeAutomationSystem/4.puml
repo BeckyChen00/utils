@@ -1,0 +1,129 @@
+
+@startuml
+' Smart Home Automation System (SHAS) Class Diagram
+
+class SmartHome {
+  -physicalAddress: String
+  -rooms: List<Room>
+  -infrastructureMap: Map<String, Device>
+}
+
+class Room {
+  -name: String
+  -sensors: List<Sensor>
+  -actuators: List<Actuator>
+}
+
+abstract class Device {
+  -deviceId: String
+  -isActive: Boolean
+}
+
+class Sensor extends Device {
+  +provideReading(): Reading
+}
+
+class Actuator extends Device {
+  +sendCommand(command: Command): Status
+}
+
+class Reading {
+  -sensorId: String
+  -value: Double
+  -timestamp: DateTime
+}
+
+class Command {
+  -commandType: String
+  -targetDeviceId: String
+  -timestamp: DateTime
+  -status: CommandStatus
+}
+
+enum CommandStatus {
+  REQUESTED
+  COMPLETED
+  FAILED
+}
+
+class ActivityLog {
+  -entries: List<Entry>
+  +logEntry(entry: Entry): void
+}
+
+abstract class Entry {
+  -timestamp: DateTime
+}
+
+class SensorReadingEntry extends Entry {
+  -reading: Reading
+}
+
+class CommandEntry extends Entry {
+  -command: Command
+}
+
+class AutomationRule {
+  -id: String
+  -precondition: String
+  -action: List<Command>
+  -isActive: Boolean
+  -isDeactivated: Boolean
+  -dependencies: List<AutomationRule>
+  -conflicts: List<AutomationRule>
+}
+
+class RuleTriggerEvent {
+  -ruleId: String
+  -timestamp: DateTime
+}
+
+class Owner {
+  -username: String
+  -rules: List<AutomationRule>
+  +createRule(rule: AutomationRule): void
+  +editRule(rule: AutomationRule): void
+  +activateRule(rule: AutomationRule): void
+  +deactivateRule(rule: AutomationRule): void
+}
+
+class SHAS {
+  -smartHomes: List<SmartHome>
+  -activityLogs: List<ActivityLog>
+  -rules: List<AutomationRule>
+  -triggerEvents: List<RuleTriggerEvent>
+  +updateInfrastructureMap(device: Device): void
+  +processSensorReading(reading: Reading): void
+  +processCommand(command: Command): void
+  +evaluateRules(): void
+}
+
+' Associations and Relationships
+
+SmartHome "1" --> "0..*" Room
+Room "1" --> "0..*" Sensor
+Room "1" --> "0..*" Actuator
+Sensor "1" --> "1" Reading
+Actuator "1" --> "1" Command
+ActivityLog "1" --> "0..*" SensorReadingEntry
+ActivityLog "1" --> "0..*" CommandEntry
+Owner "1" --> "0..*" AutomationRule
+SHAS "1" --> "0..*" SmartHome
+SHAS "1" --> "0..*" ActivityLog
+SHAS "1" --> "0..*" AutomationRule
+SHAS "1" --> "0..*" RuleTriggerEvent
+AutomationRule "1" --> "0..*" AutomationRule : dependsOn
+AutomationRule "1" --> "0..*" AutomationRule : conflictsWith
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The `precondition` in `AutomationRule` is modeled as a `String` to represent the Boolean expression.
+- The `action` is a list of `Command` objects that will be executed when the rule triggers.
+- `SHAS` manages multiple smart homes, activity logs, automation rules, and trigger events.
+- Only **deactivated rules** can be edited by the owner.
+- Rules can have **dependencies** or **conflicts**, allowing for complex rule hierarchies.
+
+Let me know if you'd like this visualized with a UML image or exported into a file.

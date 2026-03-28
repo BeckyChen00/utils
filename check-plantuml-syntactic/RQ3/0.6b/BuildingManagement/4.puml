@@ -1,0 +1,69 @@
+@startuml
+
+class Diagram {
+    class "System Requirement" {
+        name: System Requirement
+        description: This is the system requirement for the application.
+    }
+
+    class "System Requirements" {
+        name: System Requirements
+        description: A list of requirements specified in the System Requirement.
+    }
+
+    class "Requirement" {
+        name: Requirement
+        description: A specific requirement that needs to be met by the system.
+    }
+
+    class "Requirement Item" {
+        name: Requirement Item
+        description: An item under a requirement.
+    }
+
+    class "System" {
+        name: System
+        description: The system that meets the requirements.
+    }
+
+    class "Application" {
+        name: Application
+        description: The application being developed.
+    }
+
+    class "Application Feature" {
+        name: Application Feature
+        description: A feature of the application.
+    }
+
+    class "Feature" {
+        name: Feature
+        description: A component or functionality of the application.
+    }
+
+    class "Feature Type" {
+        name: Feature Type
+        description: A category of a feature (e.g., Data, User Interface).
+    }
+
+    class "Requirement Type" {
+        name: Requirement Type
+        description: A type of requirement (e.g., Functional, Non-functional).
+    }
+
+    class "System Requirement" {
+        name: System Requirement
+        description: A requirement that is part of the System Requirement.
+    }
+
+    class "Requirement" {
+        name: Requirement
+        description: A requirement that needs to be satisfied by the system.
+    }
+
+    class "Requirement Item" {
+        name: Requirement Item
+        description: An item under a requirement.
+    }
+
+@enduml

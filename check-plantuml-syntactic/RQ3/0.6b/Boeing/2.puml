@@ -1,0 +1,12 @@
+@startuml
+
+classDiagram
+    [User] User
+    [Database] Database
+    [System] System
+
+    User --> Database (Connects to Database)
+    Database --> System (Queries the database)
+    System --> User (Provides system services)
+
+@enduml

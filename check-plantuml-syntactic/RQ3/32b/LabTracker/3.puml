@@ -1,0 +1,124 @@
+
+@startuml
+
+' Classes
+class Doctor {
+  - practitionerNumber: String
+  - fullName: String
+  - address: String
+  - phone: String
+  - signature: Image
+}
+
+class Patient {
+  - healthNumber: String
+  - firstName: String
+  - lastName: String
+  - dateOfBirth: Date
+  - address: String
+  - phone: String
+}
+
+class Lab {
+  - name: String
+  - registrationNumber: String
+  - address: String
+  - businessHours: Map<Date, [TimeRange]>
+  - changeCancellationFee: Double
+}
+
+class Requisition {
+  - validityDate: Date
+  - doctor: Doctor (1)
+  - patient: Patient (1)
+  - tests: List<Test> (*)
+  - repetitionPattern: RepetitionPattern (0..1)
+}
+
+class Test {
+  - name: String
+  - duration: Duration
+  - testGroup: TestGroup (1)
+  - isWalkInOnly: Boolean
+  - requiresSample: Boolean
+}
+
+class TestGroup {
+  - groupName: String
+  - type: String (e.g., "Blood", "Ultrasound")
+}
+
+class RepetitionPattern {
+  - interval: String (Weekly, Monthly, EveryHalfYear, Yearly)
+  - numberOfRepetitions: Integer
+}
+
+class Appointment {
+  - confirmationNumber: String
+  - date: Date
+  - startTime: Time
+  - endTime: Time
+  - lab: Lab (1)
+  - requisition: Requisition (1)
+}
+
+class Result {
+  - test: Test (1)
+  - resultType: String (Positive/Negative)
+  - report: String
+}
+
+class TimeRange {
+  - start: Time
+  - end: Time
+}
+
+class Duration {
+  - hours: Integer
+  - minutes: Integer
+}
+
+' Associations and Relationships
+Doctor "1" -- "1" Requisition : creates
+Doctor "1" -- "many" Test : prescribes
+Patient "1" -- "1" Requisition : assigned to
+Patient "1" -- "many" Appointment : makes
+Lab "1" -- "many" Appointment : hosts
+Test "1" -- "1" TestGroup : belongs to
+Test "1" -- "0..1" RepetitionPattern : has
+Test "1" -- "1" Duration : has
+Test "1" -- "1" Result : has
+Requisition "1" -- "0..1" RepetitionPattern : has
+Requisition "1" -- "1" Appointment : leads to (if appointment required)
+
+' Constraints
+note right of Doctor
+  Cannot prescribe tests for themselves.
+end note
+
+note right of Test
+  Can be combined only with other tests in the same group.
+end note
+
+note right of Appointment
+  Only one appointment per repeated requisition at a time.
+  Change/cancellation within 24h incurs a fee.
+end note
+
+@enduml
+
+---
+
+### ✅ Diagram Highlights:
+
+- **Doctor**: Creates requisitions and prescribes tests. Must have valid credentials.
+- **Patient**: Has a requisition assigned and can book appointments.
+- **Lab**: Offers tests and schedules appointments with fixed business hours.
+- **Test**: Defined by type, group, and duration. May require sample or walk-in.
+- **Requisition**: Links a doctor and a patient with multiple tests from the same group.
+- **Appointment**: Made by a patient at a lab for a specific test or set of tests.
+- **TestGroup**: Enforces grouping logic (e.g., all blood tests must be in one group).
+- **Result**: Captures test outcomes and reports.
+
+---
+

@@ -1,0 +1,123 @@
+
+@startuml
+
+' Main Classes
+class Customer {
+    +id: int
+    +name: string
+    +contactInfo: string
+    +assignedBroker: Broker
+    +policies: List<Policy>
+}
+
+class Broker {
+    +id: int
+    +name: string
+    +contactInfo: string
+    +customers: List<Customer>
+}
+
+class Policy {
+    +id: int
+    +type: string
+    +startDate: date
+    +endDate: date
+    +premium: double
+    +customer: Customer
+    +contract: Contract
+}
+
+class Contract {
+    +id: int
+    +offer: Offer
+    +customer: Customer
+    +policy: Policy
+    +status: string
+}
+
+class Offer {
+    +id: int
+    +type: string
+    +terms: string
+    +customer: Customer
+    +broker: Broker
+}
+
+class Claim {
+    +id: int
+    +dateSubmitted: date
+    +status: string
+    +customer: Customer
+    +relatedPolicies: List<Policy>
+}
+
+class ClaimCase {
+    +id: int
+    +claim: Claim
+    +description: string
+    +estimatedCost: double
+    +approved: boolean
+}
+
+class Estimator {
+    +id: int
+    +name: string
+    +specialization: string
+    +cases: List<ClaimCase>
+}
+
+class CompensationDecision {
+    +id: int
+    +claimCase: ClaimCase
+    +eligibleCosts: double
+    +paymentDate: date
+}
+
+class Document {
+    +id: int
+    +claimCase: ClaimCase
+    +file: string
+    +uploadedBy: string
+    +uploadDate: date
+}
+
+' Relationships
+Customer "1" -- "1" Broker : assignedTo
+Customer "1" -- "*" Policy : has
+Broker "1" -- "*" Customer : manages
+Customer "1" -- "*" Contract : has
+Contract "1" -- "1" Offer : basedOn
+Offer "1" -- "1" Customer : for
+Offer "1" -- "1" Broker : proposedBy
+Customer "1" -- "*" Claim : has
+Claim "1" -- "*" ClaimCase : has
+ClaimCase "1" -- "0..*" Estimator : assessedBy
+ClaimCase "1" -- "1" CompensationDecision : leadsTo
+ClaimCase "1" -- "*" Document : includes
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Customer**: Represents a client of Alpha Insurance. They can be new or existing.
+- **Broker**: Assigned to a customer and handles policy assessments and offers.
+- **Policy**: Type of insurance coverage (e.g., health, car, life).
+- **Contract**: Signed agreement between customer and company based on an offer.
+- **Offer**: Preliminary proposal sent by the broker before signing a contract.
+- **Claim**: A request for compensation when an insured event occurs.
+- **ClaimCase**: A detailed case file associated with a claim.
+- **Estimator**: An expert who evaluates claims based on their specialization.
+- **CompensationDecision**: Final decision on the amount of compensation.
+- **Document**: Supporting documents uploaded for a claim case.
+
+---
+
+### 📌 Notes:
+- All entities are modeled as **classes**.
+- Relationships include both **associations** and **aggregations**.
+- Some attributes like `status`, `date`, and `costs` are included for clarity.
+- This model supports the business process from **customer acquisition** to **claim resolution**.
+
+Let me know if you'd like this in a different format (e.g., UML image, Mermaid, etc.) or need further refinements!

@@ -1,0 +1,70 @@
+@startuml
+enum BookingStatus {
+  Pending
+  Confirmed
+  Cancelled
+  Refunded
+}
+enum PaymentType {
+  PrePaid
+  PostPaid
+}
+enum CancellationPolicy {
+  NoCharge
+  OneNightCharge
+}
+class Traveller {
+  name: String
+  company: String
+  address: String
+  +register(): void
+  +searchAccommodation(params: SearchCriteria): List<Offer>
+  +makeBooking(offer: Offer, payment: PaymentType): Booking
+  +getBookingHistory(): List<Booking>
+}
+class Booking {
+  bookingId: String
+  checkInDate: Date
+  checkOutDate: Date
+  roomCount: int
+  status: BookingStatus
+  paymentType: PaymentType
+  cancellationDeadline: Date
+  +confirm(): void
+  +cancel(): void
+  +getTotalCost(): int
+}
+class Offer {
+  pricePerNight: int
+  hotelRating: int
+  isSpecial: boolean
+  description: String
+  +compare(otherOffer: Offer): double
+}
+class Hotel {
+  name: String
+  address: String
+  city: String
+  chainName: String
+  +announceAvailability(roomType: String, period: DateRange): void
+  +notifyBooking(bookingId: String): void
+  +cancelBooking(bookingId: String): void
+}
+class SearchCriteria {
+  city: String
+  arrivalDate: Date
+  departureDate: Date
+  numberOfRooms: int
+  roomType: String
+  minRating: int
+  maxBudget: int
+  preferences: List<String>
+  +validate(): boolean
+}
+Traveller "1" *-- "0..*" Booking : bookings
+Booking "1" *-- "1" Offer : primaryOffer
+Booking "1" *-- "1..*" Hotel : participatingHotels
+Booking "0..*" --> "1" Traveller : requester
+SearchCriteria "1" --> "0..*" Offer : results
+Hotel "1" *-- "0..*" Offer : publishedOffers
+@enduml

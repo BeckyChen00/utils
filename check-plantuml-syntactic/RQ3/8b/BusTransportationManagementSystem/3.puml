@@ -1,0 +1,77 @@
+
+@startuml
+
+' Define classes and their attributes
+class Driver {
+  +id: int
+  +name: String
+  -isSick: boolean
+}
+
+class Bus {
+  +licencePlate: String
+  -isInRepair: boolean
+}
+
+class Route {
+  +routeNumber: int
+}
+
+class Shift {
+  +shiftType: String
+  +day: Date
+}
+
+class Assignment {
+  +bus: Bus
+  +driver: Driver
+  +route: Route
+  +shift: Shift
+}
+
+' Associations between classes
+Driver "1" -- "0..*" Assignment : assignedTo
+Bus "1" -- "0..*" Assignment : assignedTo
+Route "1" -- "0..*" Assignment : has
+Shift "1" -- "0..*" Assignment : has
+
+' Additional notes or constraints
+note right of Driver
+  Unique ID automatically generated
+  Cannot be updated, only added or deleted
+  IsSick flag affects scheduling
+end note
+
+note right of Bus
+  Licence plate up to 10 characters
+  Cannot be updated, only added or deleted
+  IsInRepair flag affects assignment
+end note
+
+note right of Route
+  Route number up to 9999
+  Assigned buses per day
+end note
+
+note right of Shift
+  Morning, Afternoon, Night
+  Day can be up to a year in advance
+end note
+
+note right of Assignment
+  Represents a driver assigned to a bus on a route for a shift
+  Driver and bus must not be on sick leave or in repair
+end note
+
+@enduml
+
+---
+
+### ✅ Summary of Key Elements:
+- **Driver**: Tracks name and unique ID. Can be marked as on sick leave.
+- **Bus**: Identified by licence plate. Can be marked as in repair.
+- **Route**: Identified by a route number (up to 9999).
+- **Shift**: Morning, afternoon, or night shift on a specific day.
+- **Assignment**: Links a driver, bus, route, and shift.
+
+This diagram supports the requirement that drivers and buses cannot be updated, only added or deleted, and includes logic for handling sick leave and repairs.

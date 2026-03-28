@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="principal" eType="#//Person" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person"/>
+  <eClassifiers xsi:type="ecore:EClass" name="School">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rooms" eType="#//Classroom" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plans" eType="#//Schedule" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Classroom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Teacher">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSchool" eType="#//School"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedGroups" eType="#//ClassGroup" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Student">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="group" eType="#//ClassGroup" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedRoom" eType="#//Classroom" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plan" eType="#//Schedule" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,17 @@
+@startuml
+    classDiagram
+
+    [System Requirements] as SystemRequirements
+        SystemRequirements -> SystemRequirements: system requirements
+
+    [Functional Requirements] as FunctionalRequirements
+        SystemRequirements --> FunctionalRequirements: functional requirements
+
+    [Non-Functional Requirements] as NonFunctionalRequirements
+        SystemRequirements --> NonFunctionalRequirements: non-functional requirements
+
+    class Diagram
+        SystemRequirements
+        FunctionalRequirements
+        NonFunctionalRequirements
+@enduml

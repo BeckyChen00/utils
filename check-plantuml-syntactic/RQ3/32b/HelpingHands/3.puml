@@ -1,0 +1,140 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Resident {
+    +String name
+    +String streetAddress
+    +String phoneNumber
+    +String email
+    +String itemDescription
+}
+
+class PickupRequest {
+    +Date pickupDate
+    +TimeWindow timeWindow
+    +Resident resident
+    +List<Item> items
+}
+
+class Item {
+    +String description
+    +double weight
+    +Dimension dimensions
+    +ItemType type  // Enum: SecondHandArticle | NonPerishableFood
+}
+
+class VolunteerDriver {
+    +String name
+    +Vehicle vehicle
+    +Set<DayOfWeek> availableDays
+}
+
+class Vehicle {
+    +int storageCapacity
+    +double maxWeight
+}
+
+class PickupRoute {
+    +Date date
+    +Vehicle vehicle
+    +VolunteerDriver driver
+    +List<PickupRequest> pickups
+}
+
+class DistributionCenter {
+    +Location location
+    +handleSecondHandArticles(): void
+}
+
+class FoodBank {
+    +Location location
+    +receiveNonPerishableFoods(): void
+}
+
+class SecondHandArticle {
+    +String RFIDTag
+    +String correctedDescription
+    +Category category
+}
+
+abstract class Category {
+    +String categoryName
+}
+
+enum ItemType {
+    SecondHandArticle
+    NonPerishableFood
+}
+
+class Client {
+    +String name
+    +String address
+    +Set<Category> interestedCategories
+}
+
+class DeliveryService {
+    +notifyClient(Client, List<SecondHandArticle>): void
+    +arrangeDelivery(Client, SecondHandArticle): void
+}
+
+class DayOfWeek {
+    +name: String
+}
+
+class TimeWindow {
+    +startTime: Time
+    +endTime: Time
+}
+
+class Dimension {
+    +double length
+    +double width
+    +double height
+}
+
+' Relationships
+Resident "1" --> "0..*" PickupRequest : places
+PickupRequest "1" --> "1" Item : contains
+Item "1" --> "1" ItemType : is of type
+PickupRequest "1" --> "1" TimeWindow : scheduled during
+
+VolunteerDriver "1" --> "1" Vehicle : owns
+VolunteerDriver "1" --> "0..*" PickupRoute : assigned to
+PickupRoute "1" --> "1" Date : scheduled for
+PickupRoute "1" --> "0..*" PickupRequest : includes
+
+PickupRequest "1" --> "1" PickupRoute : belongs to
+PickupRoute "1" --> "1" Vehicle : uses
+PickupRoute "1" --> "1" VolunteerDriver : driven by
+
+DistributionCenter "1" --> "0..*" SecondHandArticle : receives
+SecondHandArticle "1" --> "1" Category : categorized as
+
+Client "1" --> "0..*" Category : interested in
+Client "1" --> "0..*" SecondHandArticle : receives
+DeliveryService "1" --> "0..*" Client : serves
+
+DistributionCenter "1" --> "1" Location
+FoodBank "1" --> "1" Location
+
+@enduml
+
+---
+
+### 🧾 Notes on the Diagram:
+
+- **Resident**: Submits pickup requests.
+- **PickupRequest**: Links a resident to items and schedule.
+- **Item**: Can be either a `SecondHandArticle` or `NonPerishableFood`.
+- **VolunteerDriver & Vehicle**: Together form a route for pickups.
+- **PickupRoute**: A collection of pickup requests handled by a driver/vehicle on a given day.
+- **DistributionCenter & FoodBank**: Separate destinations depending on item type.
+- **SecondHandArticle**: Processed at the distribution center with RFID tagging and categorization.
+- **Client & DeliveryService**: For clients needing home delivery after receiving notifications about new items.
+
+---
+

@@ -1,0 +1,84 @@
+
+@startuml
+
+' Define Classes
+class User {
+  +username: String
+  +password: String
+  +isAdmin: Boolean
+}
+
+class Admin {
+  +createGame(): Game
+}
+
+class Player {
+  +playGame(game: Game): void
+  +pauseGame(): void
+  +resumeGame(): void
+}
+
+class Game {
+  +name: String
+  +blocks: List<Block>
+  +levels: List<Level>
+  +hallOfFame: HallOfFame
+  +minSpeed: Integer
+  +speedIncreaseFactor: Double
+  +maxPaddleLength: Integer
+  +minPaddleLength: Integer
+  +isPublished: Boolean
+}
+
+class Block {
+  +color: String
+  +points: Integer
+}
+
+class Level {
+  +levelNumber: Integer
+  +isRandom: Boolean
+  +blockPositions: Map<GridPosition, Block>
+  +numBlocksAtStart: Integer
+}
+
+class GridPosition {
+  +row: Integer
+  +column: Integer
+}
+
+class HallOfFame {
+  +entries: List<ScoreEntry>
+}
+
+class ScoreEntry {
+  +player: Player
+  +score: Integer
+  +game: Game
+  +date: Date
+}
+
+' Relationships
+User "1" -- "0..1" Admin : "is"
+User "1" -- "0..1" Player : "is"
+
+Admin "1" --> "1" Game : creates
+Player "1" --> "1" Game : plays
+
+Game "1" --> "1" HallOfFame : has
+Game "1" --> "*" Level : contains
+Level "1" --> "*" Block : uses
+Level "1" --> "1" GridPosition : positions
+
+Block "1" --> "1" GridPosition : placed at
+
+@enduml
+
+### Notes:
+- The `User` can be either a `Player` or an `Admin`, but not both in the same game.
+- A `Game` is created by an `Admin` and published for players to play.
+- Each `Game` has its own set of `Blocks`, `Levels`, and `HallOfFame`.
+- `Level` can be random or predefined with specific block arrangements.
+- `GridPosition` is used to represent where blocks are placed in a grid.
+- `HallOfFame` stores `ScoreEntry` records which track player scores per game.
+

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedReports" eType="#//ScoutingReport" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedOnAssignments" eType="#//ScoutingAssignment" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlayerProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluationReports" eType="#//ScoutingReport" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="matchingQueries" eType="#//SearchQuery" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTo" eType="#//ScoutingAssignment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SearchQuery"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingAssignment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executionSessions" eType="#//ScoutingSession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingSession"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PlayerAttribute"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Scout"/>
+</ecore:EPackage>

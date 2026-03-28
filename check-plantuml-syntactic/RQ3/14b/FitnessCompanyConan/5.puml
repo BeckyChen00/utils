@@ -1,0 +1,96 @@
+
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam classAttributeIconColor #000000
+skinparam classOperationIconColor #000000
+
+class Person {
+    +String firstName
+    +String familyName
+    +Date birthDate
+}
+
+class Trainer {
+    +String diploma
+}
+
+class Member {
+    // Inherited from Person
+}
+
+class Center {
+    +String name
+    +String address
+    +List<Room> rooms
+}
+
+class Room {
+    +int roomNumber
+    +int maxCapacity
+    +Center center
+}
+
+class Session {
+    +Date date
+    +Time startTime
+    +Center center
+    +Room room
+    +Person participant
+    +Trainer supervisor
+}
+
+class GroupSession {
+    +String type
+}
+
+class IndividualSession {
+    // No supervisor
+}
+
+class Prospect {
+    // Not yet registered as a member or trainer
+}
+
+class Intern {
+    // Not yet supervised any session
+}
+
+' Relationships
+Person <|-- Member
+Person <|-- Trainer
+Trainer <|-- Intern
+Member <|-- Prospect
+
+Center "1" *-- "0..*" Room
+Room "1" --> "1" Center
+
+Session "1" *-- "1" Center
+Session "1" *-- "1" Room
+Session "1" *-- "1" Person
+Session "0..1" *-- "1" Trainer
+
+GroupSession <|-- Session
+IndividualSession <|-- Session
+
+@enduml
+
+---
+
+### Explanation of Key Elements in the Diagram:
+
+- **`Person`**: Base class with attributes `firstName`, `familyName`, and `birthDate`.
+- **`Trainer`** and **`Member`**: Subclasses of `Person`. A person can be both a `Trainer` and a `Member`.
+- **`Prospect`** and **`Intern`**: Represent people who are not yet members or trainers but may become one.
+- **`Center`**: Has a name, address, and multiple rooms.
+- **`Room`**: Belongs to a center and has a number and capacity.
+- **`Session`**: Abstract class with fields for date, start time, center, room, participant, and optional supervisor.
+- **`GroupSession`** and **`IndividualSession`**: Subclasses of `Session`. Only `GroupSession` requires a `Trainer` as a supervisor.
+- **Multiplicity constraints**:
+  - A `Center` can have many `Rooms`.
+  - A `Room` belongs to exactly one `Center`.
+  - A `Session` must belong to one `Center` and one `Room`.
+  - A `Session` is attended by exactly one `Person`.
+  - A `GroupSession` is supervised by exactly one `Trainer`.
+
+---
+

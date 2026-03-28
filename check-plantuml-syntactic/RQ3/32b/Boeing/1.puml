@@ -1,0 +1,66 @@
+
+@startuml
+
+' Define classes
+class Contract {
+    +String id
+    +Date startDate
+    +Date endDate
+    +String termsAndConditions
+}
+
+class Acquisition {
+    +String acquisitionId
+    +int quantity
+    +Date deliveryDate
+    +double negotiatedPrice
+    +String customizations
+    +String model
+}
+
+class AirlineCompany {
+    +String name
+    +String country
+    +String contactInfo
+}
+
+class Salesperson {
+    +String employeeId
+    +String name
+    +String email
+}
+
+class AircraftModel {
+    +String modelNumber
+    +String description
+}
+
+class Relationship {
+    +String relationshipType  // e.g., "Mother-Daughter"
+    +AirlineCompany parent
+    +AirlineCompany child
+}
+
+' Associations
+Contract "1" *-- "many" Acquisition : contains
+Contract "1" --> "1..*" Salesperson : managedBy
+Acquisition "1" --> "1" AircraftModel : uses
+Acquisition "1" --> "1" AirlineCompany : soldTo
+AirlineCompany "0..*" -- "0..*" AirlineCompany : relatedVia <.. Relationship
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **`Contract`**: Represents a global agreement between Boeing and an airline company. It may include multiple `Acquisition`s.
+- **`Acquisition`**: Represents the purchase of one or more aircrafts under a contract. Each has specific details like model, price, and delivery date.
+- **`AircraftModel`**: Describes the type/model of the aircraft being acquired.
+- **`Salesperson`**: Manages contracts. One salesperson can manage many contracts.
+- **`AirlineCompany`**: The customer (airline) buying aircrafts. They can be part of a mother-daughter relationship.
+- **`Relationship`**: Tracks relationships between airline companies (e.g., mother-daughter).
+
+---
+
+Let me know if you want to add **methods**, **interfaces**, or a **component diagram** as well!

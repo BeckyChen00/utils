@@ -1,0 +1,72 @@
+
+@startuml
+
+' Classes and their attributes
+class Song {
+  -title: String
+  -year: Integer
+  -length: Integer
+  -genre: String
+}
+
+class Artist {
+  -name: String
+  -dateOfBirth: Date
+  -websiteUrl: String
+}
+
+class User {
+  -id: Integer
+  -name: String
+  -address: String
+}
+
+class BusinessUser {
+  -vatNumber: String
+}
+
+class RegularUser {
+  -albumSuggestions: List<Album>
+}
+
+class Album {
+  -title: String
+  -trackList: List<Hit>
+}
+
+class Hit {
+  -trackNumber: Integer
+}
+
+class Single {
+  -purchaseable: Boolean
+}
+
+' Associations and relationships
+Song "1" -- "1" Artist : belongs to
+User "1" -- "0..1" BusinessUser : is a
+User "1" -- "0..1" RegularUser : is a
+BusinessUser "1" -- "0..*" Song : uploads
+RegularUser "1" -- "0..*" Album : owns
+Album "1" -- "0..*" Hit : contains
+Hit "1" -- "1" Song : represents
+Single "1" -- "1" Song : represents
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Design Decisions:
+
+- **Song**: Has title, year, length, genre. Each song belongs to one artist.
+- **Artist**: Identified by name, with date of birth and URL. Songs can have same title but are unique per artist.
+- **User**: Base class for both **BusinessUser** and **RegularUser**.
+- **BusinessUser**: Extends User with VAT number and uploads songs (only singles or hits).
+- **RegularUser**: Can buy singles and receive album suggestions.
+- **Album**: Contains multiple **Hits**, each with a track number.
+- **Hit**: Represents a song in an album.
+- **Single**: A type of song that is purchaseable by regular users.
+- **Track Number**: Stored in the `Hit` class since it's part of an album structure.
+
+---
+

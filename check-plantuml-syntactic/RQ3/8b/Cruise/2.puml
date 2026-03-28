@@ -1,0 +1,93 @@
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class Provider {
+    - name: String
+    - location: String
+}
+
+class Cruise {
+    - cruiseNumber: String
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - destinationArea: String
+    - seaName: String
+    -- "has many" Employees
+    -- "has many" Guests
+    -- "has many" Shows
+    -- "has many" Tickets
+    -- "uses" Ship
+    -- "booked through" TravelAgency
+}
+
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+}
+
+class Guest {
+    - name: String
+    - isVIP: Boolean
+    -- "participates in" Cruises
+    -- "has many" Tickets
+}
+
+class Ship {
+    - name: String
+    - numberOfDecks: Integer
+    - length: Double
+    - numberOfPassengers: Integer
+    -- "used for" Cruises
+}
+
+class Booking {
+    - bookingNumber: String
+    - bookingDate: Date
+    -- "for" Cruise
+    -- "made by" TravelAgency
+}
+
+class TravelAgency {
+    - name: String
+    - address: String
+    -- "books" Cruises
+    -- "makes" Bookings
+}
+
+class Show {
+    - title: String
+    - duration: Integer
+    -- "offered on" Cruise
+}
+
+class Ticket {
+    - ticketNumber: String
+    -- "belongs to" Cruise
+    -- "belongs to" Guest
+}
+
+' Relationships
+Provider "1" -- "1" Cruise : provides
+Cruise "1" -- "0..*" Employee : employs
+Cruise "1" -- "0..*" Guest : has
+Cruise "1" -- "0..*" Show : offers
+Cruise "1" -- "0..*" Ticket : has
+Cruise "1" -- "0..*" Ship : uses
+Cruise "1" -- "0..*" Booking : bookedThrough
+Booking "1" -- "1" TravelAgency : madeBy
+TravelAgency "1" -- "0..*" Booking : makes
+Guest "1" -- "0..*" Ticket : has
+Ticket "1" -- "1" Cruise : belongsTo
+Ticket "1" -- "1" Guest : belongsTo
+Show "1" -- "1" Cruise : offeredOn
+Ship "1" -- "0..*" Cruise : usedFor
+
+@enduml
+
+### Notes:
+- The `Cruise` class contains attributes like `destinationArea` and `seaName` as described.
+- Relationships are modeled with appropriate multiplicities (e.g., `0..*` for optional or multiple relationships).
+- The `Ticket` class ensures that a guest can have only one ticket per cruise.
+

@@ -1,0 +1,90 @@
+
+@startuml
+
+' Define the classes
+class Customer {
+  + String id
+  + String name
+  + String contactInfo
+  + boolean isActive
+  + List<RefuelTurn> refuelTurns
+  + List<Invoice> invoices
+}
+
+class RefuelTurn {
+  + String id
+  + DateTime refuelDate
+  + Pump pump
+  + FuelType fuelType
+  + double amount
+  + boolean paid
+}
+
+class Invoice {
+  + String id
+  + DateTime invoiceDate
+  + Customer customer
+  + double totalAmount
+  + double discount
+  + double netAmount
+  + List<RefuelTurn> refuelTurns
+  + boolean paid
+}
+
+class FuelCard {
+  + String cardId
+  + Customer customer
+  + boolean active
+  + boolean suspended
+}
+
+class GasStation {
+  + String id
+  + String name
+  + Location location
+  + List<Pump> pumps
+}
+
+class Pump {
+  + String id
+  + GasStation gasStation
+  + FuelType fuelType
+  + double currentLevel
+  + double reorderLevel
+  + double criticalLevel
+  + boolean isBlocked
+  + List<RefuelTurn> refuelTurns
+}
+
+class FuelType {
+  + String type
+  + double pricePerLiter
+}
+
+class Location {
+  + String address
+  + String city
+  + String country
+}
+
+' Relationships
+Customer "1" -- "0..*" RefuelTurn : has
+Customer "1" -- "0..*" Invoice : has
+Customer "1" -- "1" FuelCard : has
+FuelCard "1" -- "1" Customer : belongs to
+RefuelTurn "1" -- "1" Pump : uses
+RefuelTurn "1" -- "1" Invoice : appears on
+Invoice "1" -- "1" Customer : for
+Pump "1" -- "1" GasStation : located at
+GasStation "1" -- "0..*" Pump : has
+Pump "1" -- "1" FuelType : contains
+FuelType "1" -- "0..*" Pump : used by
+
+@enduml
+
+### Notes:
+- This diagram captures the core entities (`Customer`, `RefuelTurn`, `Invoice`, `FuelCard`, `GasStation`, `Pump`, `FuelType`, `Location`) and their associations.
+- Each class includes relevant attributes and relationships that reflect the business logic described in the requirements.
+- The relationships are modeled with appropriate multiplicities (e.g., one-to-many, one-to-one).
+
+Let me know if you'd like to add more details or refine the model further!

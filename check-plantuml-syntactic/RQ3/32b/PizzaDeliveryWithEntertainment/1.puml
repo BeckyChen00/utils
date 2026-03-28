@@ -1,0 +1,97 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class User {
+    - id: int (PK)
+    - name: String
+    - birthday: Date
+    - address: String
+}
+
+class BusinessOwner {
+    - linkedin: String
+}
+
+class Restaurant {
+    - zipCode: String
+    - address: String
+    - phoneNumber: String
+    - website: String
+    - openingHours: String
+}
+
+class Pizza {
+    - name: String
+    - crustStructure: String
+    - price: float
+}
+
+class HungryCustomer {
+    - deliveryAddress: String
+}
+
+class Order {
+    - orderId: String (PK)
+    - dateTimePlaced: DateTime
+    - latestDeliveryTime: DateTime
+    - numberOfPeople: int
+}
+
+class EntertainmentOrder {
+    - typeOfEntertainment: String
+    - duration: int (minutes)
+}
+
+class Entertainer {
+    - stageName: String
+    - bio: String
+    - pricePer30Minutes: float
+}
+
+class Availability {
+    - dayOfWeek: String
+    - startTime: Time
+    - endTime: Time
+}
+
+' Inheritance relationships
+
+User <|-- BusinessOwner
+User <|-- HungryCustomer
+User <|-- Entertainer
+
+' Associations
+
+BusinessOwner "1" -- "*" Restaurant : owns
+Restaurant "1" -- "*" Pizza : offers
+HungryCustomer "1" -- "*" Order : makes
+Order "1" -- "0..1" EntertainmentOrder : has
+Entertainer "1" -- "*" Availability : has availability for
+Entertainer "1" -- "*" Restaurant : works at
+Restaurant "1" -- "*" Availability : via Entertainer's availability
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **User** is the base class, from which three types are derived:
+  - `BusinessOwner`
+  - `HungryCustomer`
+  - `Entertainer`
+  
+- A **BusinessOwner** can own multiple **Restaurants**.
+  
+- Each **Restaurant** offers many **Pizzas**, and each **Pizza** is uniquely identified by its restaurant context (even if same name/price).
+
+- A **HungryCustomer** places **Orders**, and optionally an **EntertainmentOrder**.
+
+- An **EntertainmentOrder** is a special kind of **Order** that includes entertainment details.
+
+- An **Entertainer** can work at multiple **Restaurants** and set their **Availability** per day and time.
+
+---
+

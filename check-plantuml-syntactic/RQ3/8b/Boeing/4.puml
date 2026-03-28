@@ -1,0 +1,67 @@
+
+@startuml
+
+' Define classes
+class Contract {
+  - contractID: String
+  - startDate: Date
+  - endDate: Date
+  - legalTerms: String
+  - salesperson: Salesperson
+  + addAcquisition(acquisition: Acquisition)
+}
+
+class Acquisition {
+  - acquisitionID: String
+  - model: String
+  - price: Double
+  - options: List<String>
+  - deliveryDate: Date
+  - airline: Airline
+}
+
+class Salesperson {
+  - employeeID: String
+  - name: String
+  - email: String
+  + manageContract(contract: Contract)
+}
+
+class Airline {
+  - airlineID: String
+  - name: String
+  - parentAirline: Airline
+  + isDaughter(): Boolean
+}
+
+' Relationships
+Contract "1" -- "0..*" Acquisition : consists of
+Acquisition "1" -- "1" Airline : belongs to
+Contract "1" -- "1" Salesperson : managed by
+Airline "1" -- "0..1" Airline : has parent (optional)
+Airline "0..*" -- "1" Airline : is daughter of (optional)
+
+@enduml
+
+---
+
+### ✅ Explanation of the Diagram:
+
+- **`Contract`**: Represents a sales agreement between Boeing and an airline. It contains common terms and is managed by a `Salesperson`.
+- **`Acquisition`**: Represents the purchase of a specific aircraft model under a contract. It includes details like model, price, options, and delivery date.
+- **`Salesperson`**: An employee who manages one or more contracts. They can change over time.
+- **`Airline`**: Represents an airline company. It can have a parent airline (e.g., a mother company), and it can be a daughter company of another airline.
+- **Relationships**:
+  - A `Contract` may consist of multiple `Acquisitions`.
+  - Each `Acquisition` belongs to one `Airline`.
+  - A `Contract` is managed by one `Salesperson`.
+  - An `Airline` may have a parent airline (indicating a mother-daughter relationship).
+  - Airlines can also be daughters of other airlines (bi-directional association).
+
+---
+
+### 📌 Notes:
+- The `parentAirline` field in `Airline` allows for tracking of hierarchical relationships.
+- You can expand this diagram further with additional attributes or methods if needed.
+
+Let me know if you'd like to extend this with more details!

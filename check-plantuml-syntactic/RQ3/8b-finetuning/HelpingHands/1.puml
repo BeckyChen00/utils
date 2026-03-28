@@ -1,0 +1,100 @@
+@startuml
+enum PickupCategory {
+  babyClothing
+  womenWinterBoots
+  fridge
+  microwave
+}
+enum ArticleStatus {
+  pendingInspection
+  approved
+  rejected
+}
+class Resident {
+  fullName: String
+  streetAddress: String
+  phoneNumber: String
+  emailAddress: String
+  +register(): void
+  +submitPickupRequest(items: Article, scheduledDate: Date): PickupRequest
+}
+class PickupRequest {
+  scheduledDate: Date
+  scheduledSlot: String
+  specialNotes: String
+  +schedulePickup(): boolean
+  +cancel(): void
+}
+class PickupRoute {
+  startTime: Date
+  endTime: Date
+  stopSequence: String
+  +addStopPoint(streetAddress: String): void
+  +calculateTotalDistance(): double
+}
+class Vehicle {
+  licensePlate: String
+  storageCapacity: Double
+  currentLoad: Double
+  +isAvailable(): boolean
+}
+class Article {
+  description: String
+  category: PickupCategory
+  status: ArticleStatus
+  weight: Double
+  dimensions: String
+  +updateDescription(newDesc: String): void
+  +assignCategory(cat: PickupCategory): void
+}
+class DistributionCenter {
+  centerName: String
+  phone: String
+  +collectArticles(request: PickupRequest): void
+  +forwardToFoodBank(request: PickupRequest): void
+  +dispatchArticleForDelivery(article: Article, client: Client): void
+}
+class FoodBank {
+  bankName: String
+  +receiveNonPerishables(request: PickupRequest): void
+}
+class Client {
+  fullName: String
+  phoneNumber: String
+  email: String
+  preferredCategories: String[]
+  +placeOrder(description: String, categories: String[]): Order
+  +receiveNotification(message: String): void
+}
+class Order {
+  orderDate: Date
+  status: ArticleStatus
+  +confirmDelivery(): void
+  +cancelOrder(): void
+}
+class VolunteerDriver {
+  driverName: String
+  availableDays: String[]
+  +acceptRoute(route: PickupRoute): boolean
+  +completeMileage(miles: Double): void
+}
+class H2SEmployee {
+  employeeName: String
+  clearanceLevel: String
+  +inspectArticle(article: Article): void
+  +assignCategory(article: Article, cat: ArticleStatus): void
+  +callClient(client: Client, message: String): void
+}
+Resident "1" *-- "0..*" PickupRequest : submittedRequests
+Resident "1" --> "0..*" Client : personalClient
+DistributionCenter "1" *-- "1..*" Article : storedArticles
+DistributionCenter "1" *-- "1" FoodBank : linkedFoodBank
+PickupRequest "1" *-- "0..1" Article : requestItems
+PickupRequest "1" --> "1" Vehicle : assignedVehicle 'opposite: assignedRequests
+PickupRequest "1" --> "1" VolunteerDriver : assignedDriver 'opposite: currentRoute
+DistributionCenter "1" --> "0..*" Article : receivesArticles
+Apple "1" --> "0..*" Order : fulfilledOrders
+Order "1" --> "1" Article : orderedItem
+Order "1" --> "1" Client : recipientClient
+SampleH2S "1" --> "1" Client : managedClients
+@enduml

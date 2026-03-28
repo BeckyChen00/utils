@@ -1,0 +1,48 @@
+
+@startuml
+class Customer {
+  -firstName: String
+  -lastName: String
+  +getFirstName(): String
+  +getLastName(): String
+}
+
+class Branch {
+  -name: String
+  -address: String
+  +getName(): String
+  +getAddress(): String
+}
+
+class Account {
+  -accountNumber: int
+  -balance: double
+  +getAccountNumber(): int
+  +getBalance(): double
+  +deposit(amount: double): void
+  +withdraw(amount: double): void
+}
+
+class CurrentAccount {
+  -overdraftLimit: double
+  +getOverdraftLimit(): double
+}
+
+class SavingsAccount {
+  // No additional attributes needed
+}
+
+Customer "1" *-- "1..5" Account : owns
+Account <|-- CurrentAccount
+Account <|-- SavingsAccount
+Bank "1" *-- "0..*" Customer : manages
+Bank "1" *-- "0..*" Branch : contains
+@enduml
+
+### Explanation:
+- **Customer** has a first name and last name.
+- A **Customer** can own **1 to 5** accounts.
+- An **Account** has an account number and balance. It is the base class for both **CurrentAccount** and **SavingsAccount**.
+- **CurrentAccount** extends **Account** and adds an **overdraft limit**.
+- A **Bank** manages multiple **Customers** and contains multiple **Branches**.
+

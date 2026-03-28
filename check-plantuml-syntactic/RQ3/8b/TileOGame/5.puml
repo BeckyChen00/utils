@@ -1,0 +1,88 @@
+
+---
+
+
+@startuml
+
+class Game {
+  - String name
+  - Board board
+  - List<Player> players
+  - Deck<ActionCard> actionDeck
+  - int currentPlayerIndex
+  - boolean gameEnded
+}
+
+class Board {
+  - List<Tile> tiles
+  - Tile hiddenTile
+  - List<Position> startingPositions
+}
+
+class Tile {
+  - String id
+  - String color
+  - boolean isVisited
+  - boolean isActionTile
+  - int actionDuration
+  - List<Connection> connections
+}
+
+class Connection {
+  - Tile leftTile
+  - Tile rightTile
+  - Tile topTile
+  - Tile bottomTile
+}
+
+class Player {
+  - String color
+  - Position position
+  - boolean canPlayNextTurn
+}
+
+class Position {
+  - int x
+  - int y
+}
+
+class ActionCard {
+  - String type
+  - int duration
+}
+
+class Deck {
+  - List<ActionCard> cards
+}
+
+Game "1" -- "1" Board : has
+Game "1" -- "0..4" Player : has
+Board "1" -- "0..*" Tile : contains
+Tile "1" -- "0..4" Connection : has
+Player "1" -- "1" Position : has
+Deck "1" -- "0..*" ActionCard : contains
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Classes and Relationships
+
+- **`Game`**: Represents a single game instance. It holds the board, list of players, action deck, and tracks whose turn it is.
+- **`Board`**: Contains all the tiles, the hidden tile, and the starting positions for players.
+- **`Tile`**: Each tile has an ID, color, visit status, whether it's an action tile, and how long it remains an action tile. It also connects to adjacent tiles.
+- **`Connection`**: Models the physical connection between tiles on four sides (left, right, top, bottom).
+- **`Player`**: Each player has a color and current position. They can have a flag indicating if they get an extra turn.
+- **`Position`**: Simple class to represent coordinates on the board.
+- **`ActionCard`**: Represents the different types of actions that can be triggered by landing on an action tile.
+- **`Deck`**: Holds the collection of 32 action cards, shuffled or ordered as per the game design.
+
+---
+
+### ✅ Notes:
+- The `Game` class manages the flow of turns and game state.
+- Players move through connected tiles, which change color upon being visited.
+- Action tiles trigger special effects and are only revealed when landed on.
+- The game ends immediately when a player lands on the hidden tile.
+
+Let me know if you'd like this rendered as an image or want to add more details!

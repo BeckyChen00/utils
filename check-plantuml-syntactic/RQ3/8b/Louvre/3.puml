@@ -1,0 +1,74 @@
+
+@startuml
+
+' Define the classes
+class Location {
+  +name: String
+  +id: String
+  +exhibitions: List<Exhibition>
+}
+
+class Exhibition {
+  +id: String
+  +title: String
+  +startDate: Date
+  +endDate: Date
+  +coordinator: Employee
+  +items: List<ExhibitionItem>
+}
+
+class Employee {
+  +id: String
+  +name: String
+  +coach: Employee
+  +coachees: List<Employee>
+}
+
+class ExhibitionItem {
+  +id: String
+  +title: String
+  +description: String
+  +desiredPieces: List<Piece>
+}
+
+class Piece {
+  +id: String
+  +title: String
+  +artist: String
+  +collector: Collector
+}
+
+class Collector {
+  +id: String
+  +name: String
+  +pieces: List<Piece>
+}
+
+' Relationships
+Location "1" -- "0..*" Exhibition : contains
+Exhibition "1" -- "1" Employee : has coordinator
+Employee "1" -- "0..*" Employee : has coach (coaching)
+Employee "1" -- "0..*" Employee : is coachee of
+Exhibition "1" -- "0..*" ExhibitionItem : has items
+ExhibitionItem "1" -- "0..*" Piece : requests pieces from collectors
+Piece "1" -- "1" Collector : belongs to collector
+
+@enduml
+
+### Explanation of the Classes and Relationships:
+
+- **Location**: Represents a physical area in the museum where exhibitions can be held.
+- **Exhibition**: A specific exhibition with a title, start/end dates, a coordinator, and a list of exhibition items.
+- **Employee**: An employee who may have a coach or be a coach to others. Each employee may also be the coordinator of an exhibition.
+- **ExhibitionItem**: A specific item that the exhibition requires, such as a painting or drawing.
+- **Piece**: A specific artwork that may be sourced from a collector.
+- **Collector**: A person or entity that owns one or more pieces.
+
+### Relationships:
+- A `Location` can contain multiple `Exhibitions`.
+- An `Exhibition` is coordinated by one `Employee`.
+- An `Employee` may have a `Coach` (a senior employee) and may have multiple `Coachees` (junior employees).
+- An `Exhibition` consists of multiple `ExhibitionItems`.
+- An `ExhibitionItem` may request multiple `Pieces`.
+- A `Piece` is owned by a single `Collector`.
+

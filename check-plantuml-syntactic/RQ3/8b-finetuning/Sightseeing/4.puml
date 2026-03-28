@@ -1,0 +1,54 @@
+@startuml
+enum TourCategory {
+  Cultural
+  Historical
+  Natural
+  Adventure
+  NightLife
+  FamilyFriendly
+}
+class City {
+  name: String
+  population: int
+  +getAttractions(): List<Attraction>
+}
+class Attraction {
+  name: String
+  address: String
+  openHours: String
+  +getReputationScore(): double
+}
+class Tour {
+  durationMinutes: int
+  maxCapacity: int
+  category: TourCategory
+  discountPercentage: int
+  +calculateFinalPrice(visitorCount: int, isGroup: boolean): double
+  +isAccessibleFor(visitor: Visitor): boolean
+}
+class Guide {
+  name: String
+  licenseNumber: String
+  +getQualifications(): String
+}
+class Visitor {
+  name: String
+  hasDiscount: boolean
+  +getAge(): int
+}
+class TourReservation {
+  reservationDate: Date
+  totalCost: double
+  status: String
+  +confirm(): void
+  +cancel(): void
+}
+City *-- "0..*" Attraction : attractions
+City *-- "0..*" Tour : tours
+Guide --> "0..*" Tour : scheduledTours
+Tour --> "1" Attraction : basedOnAttraction
+Tour *-- "0..*" TourReservation : reservations
+TourReservation --> "1..*" Visitor : participants
+TourReservation --> "1" Guide : assignedGuide
+Tour --> "0..1" Guide : assignedGuide
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+class diagram SystemRequirement
+
+    class SystemRequirement {
+        has requirement1, requirement2, requirement3
+    }
+
+    class Requirement {
+        name, description, priority
+    }
+
+    class Requirement1 {
+        name, description
+    }
+
+    class Requirement2 {
+        name, description
+    }
+
+    class Requirement3 {
+        name, description
+    }
+
+    # Relationships
+    relation SystemRequirement to Requirement1
+    relation SystemRequirement to Requirement2
+    relation SystemRequirement to Requirement3
+
+@enduml

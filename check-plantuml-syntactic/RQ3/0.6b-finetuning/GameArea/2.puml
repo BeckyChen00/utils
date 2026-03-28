@@ -1,0 +1,49 @@
+@startuml
+enum StatusType {
+  Pending
+  Approved
+  Rejected
+  InTransit
+  Completed
+}
+class Customer {
+  contactInfo: String
+  +requestService(serviceType: String): RequestService
+}
+class RequestService {
+  serviceCode: String
+  requiredParts: String[]
+  +submitRequest(): void
+  +cancelRequest(): void
+}
+class Order {
+  orderDate: Date
+  quantity: int
+  status: StatusType
+  +calculateTotal(): double
+  +updateStatus(newStatus: StatusType): void
+}
+class ProductLine {
+  lineCode: String
+  name: String
+  +getAvailableStock(): int
+}
+class Shipment {
+  trackingId: String
+  shipmentDate: Date
+  +generateTrackingCode(): String
+}
+class ReturnRequest {
+  returnReason: String
+  approvalStatus: StatusType
+  isUrgent: boolean
+  +submitReturn(): void
+  +approveReturn(): void
+  +rejectReturn(): void
+}
+Customer "1" --> "*" RequestService : managedRequests
+RequestService "1" *-- "*" Order : generatedOrders
+Order "1" *-- "1" Shipment : deliversTo
+Order "1" --> "1" ProductLine : correspondsToLine
+Order "1" --> "*" ReturnRequest : associatedReturns
+@enduml

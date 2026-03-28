@@ -1,0 +1,101 @@
+
+---
+
+
+@startuml
+
+class User {
+    +name: String
+    +email: String
+}
+
+class Student {
+    +name: String
+    +email: String
+    -registered: Boolean
+    -requests: List<TutoringRequest>
+    -paidSessions: List<TutoringSession>
+    -canceledSessions: List<TutoringSession>
+}
+
+class Tutor {
+    +name: String
+    +email: String
+    +bankAccount: String
+    -expertise: Map<String, String>  // subject -> expertise level
+    -hourlyPrices: Map<String, Double>  // subject -> price per hour
+    -weeklyAvailability: List<TimeSlot>
+    -sessions: List<TutoringSession>
+    -awards: List<String>
+}
+
+class Subject {
+    +name: String
+    -tutors: List<Tutor>
+}
+
+class TutoringRequest {
+    +student: Student
+    +tutor: Tutor
+    +subject: Subject
+    +level: String
+    +suggestedDateAndTime: DateAndTime
+    +status: String  // "pending", "confirmed", "rejected"
+}
+
+class TutoringSession {
+    +id: String
+    +dateAndTime: DateAndTime
+    +subject: Subject
+    +level: String
+    +tutor: Tutor
+    +student: Student
+    +price: Double
+    +paymentMethod: String  // "credit card", "wire transfer"
+    +status: String  // "scheduled", "completed", "canceled"
+    +followUpRequests: List<TutoringRequest>
+}
+
+class TimeSlot {
+    +day: String
+    +startTime: String
+    +endTime: String
+}
+
+class DateAndTime {
+    +date: Date
+    +time: String
+}
+
+' Relationships
+User <|-- Student
+User <|-- Tutor
+Student --> TutoringRequest
+Tutor --> TutoringRequest
+TutoringRequest --> Subject
+TutoringRequest --> TutoringSession
+Tutor --> Subject
+Tutor --> TutoringSession
+Student --> TutoringSession
+Tutor --> TimeSlot
+TutoringSession --> FollowUpRequest
+TutoringSession --> PaymentMethod
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **`User`** is an abstract base class for both **`Student`** and **`Tutor`**.
+- **`TutoringRequest`** represents a student's request to a tutor.
+- **`TutoringSession`** represents an actual session that has been confirmed.
+- **`TimeSlot`** captures weekly availability of tutors.
+- **`DateAndTime`** captures specific scheduling details.
+- The `Tutor` class includes maps for **expertise** and **hourly prices**, which are subject-specific.
+- **`PaymentMethod`** is modeled as an association (could be represented as an enum or separate class in more complex models).
+
+---
+
+### ✅ How to Use
+
+Let me know if you'd like a UML image or a version with more detailed associations!

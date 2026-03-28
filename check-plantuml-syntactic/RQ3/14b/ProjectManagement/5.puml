@@ -1,0 +1,77 @@
+
+@startuml
+' Define classes
+
+class ResearchGroup {
+  -id: int
+  -name: String
+  -department: Department
+}
+
+class Department {
+  -id: int
+  -name: String
+}
+
+class Researcher {
+  -id: int
+  -name: String
+  -researchGroup: ResearchGroup
+}
+
+class Project {
+  -id: int
+  -title: String
+  -startDate: Date
+  -endDate: Date
+}
+
+class WorkPackage {
+  -id: int
+  -title: String
+  -project: Project
+  -leadingResearchGroup: ResearchGroup
+}
+
+class TeamMemberAssignment {
+  -id: int
+  -researcher: Researcher
+  -workPackage: WorkPackage
+  -startDate: Date
+  -endDate: Date
+}
+
+' Define associations
+
+ResearchGroup "1" -- "0..*" Researcher : belongs to
+Department "1" -- "0..*" ResearchGroup : contains
+Project "1" -- "0..*" WorkPackage : contains
+WorkPackage "1" -- "1" ResearchGroup : led by
+WorkPackage "0..*" -- "0..*" TeamMemberAssignment : has members
+Researcher "0..*" -- "0..*" TeamMemberAssignment : assigned to
+
+' Note: The assignment is re-recorded if researcher or WP leader changes
+note right of TeamMemberAssignment
+  Service delivery is traceable.
+  When a researcher changes group, old assignments are terminated,
+  new ones created. Same when WP leadership changes.
+end note
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **ResearchGroup**: A group that belongs to a department and contains researchers.
+- **Department**: Contains multiple research groups.
+- **Researcher**: Belongs to exactly one research group at any time.
+- **Project**: Decomposed into work packages.
+- **WorkPackage (WP)**: Part of a project, led by one research group.
+- **TeamMemberAssignment**: Records a researcher being assigned to a WP. This is the link that enables tracking of **service delivery** between groups.
+
+### Important Constraints:
+- A researcher can be assigned to any WP, regardless of which RG leads it.
+- If a researcher changes their group, all existing `TeamMemberAssignment`s are **terminated**, and new ones are created to maintain accurate service delivery records.
+- Similarly, if a WP’s leading group changes, team member assignments are re-recorded accordingly.
+
+Let me know if you'd like this in a different format (e.g., with UML notation only or as an image).

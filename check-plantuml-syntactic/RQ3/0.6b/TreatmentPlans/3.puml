@@ -1,0 +1,18 @@
+@startuml
+    classDiagram
+        User --> Message [Message is a data type]
+        Message --> Text [Text is a property of Message]
+        Text --> Document [Document is a class]
+        Document --> Output [Output is a class]
+        Output --> Result [Result is a class]
+        Result --> Application [Application is a class]
+
+    message
+        user
+            messages
+                text
+                    document
+                        output
+                            result
+
+    @enduml

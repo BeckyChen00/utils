@@ -1,0 +1,80 @@
+
+@startuml
+skinparam linetype zigzag
+
+class Song {
+  -title: String
+  -year: Integer
+  -length: Integer
+  -genre: String
+  -trackNumber: Integer
+  +getDetails(): String
+}
+
+class Artist {
+  -name: String
+  -dateOfBirth: Date
+  -websiteURL: String
+  +getName(): String
+}
+
+class User {
+  -id: Integer
+  -name: String
+  -address: String
+  +getId(): Integer
+  +getName(): String
+  +getAddress(): String
+}
+
+class RegularUser <|-- User {
+}
+
+class BusinessUser <|-- User {
+  -vatNumber: String
+  +getVatNumber(): String
+}
+
+class Album {
+  -title: String
+  -trackList: List<Song>
+  +getTitle(): String
+  +addTrack(song: Song): void
+}
+
+class Single {
+  -title: String
+  -artist: Artist
+  +getTitle(): String
+  +getArtist(): Artist
+}
+
+class Hit {
+  -title: String
+  -artist: Artist
+  -trackNumber: Integer
+  +getTitle(): String
+  +getArtist(): Artist
+  +getTrackNumber(): Integer
+}
+
+Song "1" -- "1" Artist : belongs to
+User "1" -- "0..*" Song : owns
+BusinessUser "1" -- "0..*" Single : uploads
+BusinessUser "1" -- "0..*" Hit : uploads
+Album "1" -- "0..*" Hit : contains
+RegularUser "1" -- "0..*" Album : owns
+RegularUser "1" -- "0..*" Single : buys
+@enduml
+
+### Explanation of the Diagram:
+- **Song** has attributes like title, year, length, and genre. It also has a `trackNumber` if it's part of an album.
+- **Artist** has name (unique), date of birth, and a website URL.
+- **User** is the base class with `id`, `name`, and `address`.
+- **RegularUser** and **BusinessUser** are subclasses of `User`. A user can switch roles depending on context.
+- **BusinessUser** has a VAT number and can upload songs as either **Single** or **Hit**.
+- **Single** is a song that can be bought directly by regular users.
+- **Hit** is a song that can be part of an **Album**, which is composed of multiple hits. Each hit has a track number.
+- **Album** maintains a list of hits in order.
+
+Let me know if you want this exported as an image or need further refinements!

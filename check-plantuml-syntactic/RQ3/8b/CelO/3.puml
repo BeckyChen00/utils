@@ -1,0 +1,88 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Organizer {
+  - String firstName
+  - String lastName
+  - String email (username)
+  - String postalAddress
+  - String phoneNumber
+  - String password
+  + createEvent(Event)
+  + inviteAttendee(Attendee)
+  + viewInvitationStatus()
+  + manageChecklist(Task)
+}
+
+class Attendee {
+  - String firstName
+  - String lastName
+  - String email (username)
+  - String password
+  + confirmAttendance(AttendanceStatus)
+  + selectTasks(Task[])
+}
+
+class Event {
+  - String eventName
+  - DateTime startDate
+  - DateTime endDate
+  - String occasion
+  - Location location
+  + getChecklist()
+  + addTask(Task)
+  + inviteAttendees(Attendee[])
+}
+
+class Location {
+  - String name
+  - String address
+}
+
+class Task {
+  - String taskName
+  - Boolean isForAttendee
+  - List<Attendee> assignedTo
+  + markAsDone()
+  + markAsNotDone()
+  + markAsNotApplicable()
+}
+
+class AttendanceStatus {
+  - String status
+  - enum: ATTENDING, MAYBE, CANNOT_ATTEND
+}
+
+' Relationships
+Organizer --> Event
+Organizer --> Attendee
+Event --> Location
+Event --> Task
+Task --> Attendee
+Attendee --> Task
+
+@enduml
+
+---
+
+### 🧾 Explanation of Key Elements
+
+- **Organizer**: Manages events, invites attendees, and maintains checklists.
+- **Attendee**: Can confirm attendance and select tasks to bring.
+- **Event**: Has a name, date, time, occasion, location, and checklist.
+- **Location**: Contains name and address of the event venue.
+- **Task**: Checklist items that can be assigned to attendees or marked by organizers.
+- **AttendanceStatus**: Enumerates possible statuses for an attendee's response to an invitation.
+
+---
+
+### ✅ How to Use
+
+1. Save this code in a `.puml` file.
+3. The output will be a visual class diagram representing the system structure.
+
+Let me know if you'd like to include more details like associations, multiplicities, or specific behaviors!

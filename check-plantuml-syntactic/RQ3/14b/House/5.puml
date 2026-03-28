@@ -1,0 +1,80 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class House {
+  -address: String
+  -buildingMaterial: String (wood, brick, concrete)
+  -hasBasement: Boolean
+  -basement: Basement
+}
+
+class Basement {
+  -name: String
+  -size: Double
+}
+
+class EarthBasement <|-- Basement
+class ConcreteBasement <|-- Basement
+
+EarthBasement {
+  -humidityLevel: Double
+}
+
+ConcreteBasement {
+}
+
+class SemiDetachedHouse <|-- House
+SemiDetachedHouse {
+  -hasGarden: Boolean
+  -numberOfWindows: Integer
+  -parking: Parking
+}
+
+abstract class Parking {
+  -type: String
+}
+
+class Carport <|-- Parking
+class Garage <|-- Parking
+
+Carport {
+  -isDouble: Boolean
+  -hasFlatRoof: Boolean
+}
+
+Garage {
+  -hasAutomaticDoor: Boolean
+}
+
+class Company {
+  -name: String
+  -address: String
+}
+
+class JobLog {
+  -company: Company
+  -house: House
+  -hours: Integer
+  -agreedPrice: Double
+}
+
+House "1" *-- "0..*" Company : serviced by
+House "1" *-- "0..1" Basement : has
+SemiDetachedHouse "1" -- "1" Parking : has
+Company "1" *-- "0..*" JobLog : performs job at
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`House`**: Base class storing address and building material. It may have a `Basement`.
+- **`Basement`**: Abstract class with two subclasses: `EarthBasement` and `ConcreteBasement`. Only `EarthBasement` stores humidity.
+- **`SemiDetachedHouse`**: A special type of house that extends `House`, with additional attributes like garden, windows, and parking.
+- **`Parking`**: Abstract base class for `Carport` and `Garage`, each with their own specific properties.
+- **`Company`**: Stores name and address; services multiple houses.
+- **`JobLog`**: Records work done by a company on a house, including hours and price.
+
+---
+

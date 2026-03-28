@@ -1,0 +1,62 @@
+@startuml
+enum PaymentStatus {
+  Pending
+  Completed
+  Failed
+}
+enum AmendmentStatus {
+  Valid
+  Invalid
+  Verified
+  Cancelled
+}
+enum LeaseStatus {
+  Active
+  Terminated
+  Renewing
+  Suspended
+}
+class PropertyUnit {
+  address: String
+  unitHeight: int
+  unitWidth: int
+  unitFloorLevel: int
+  +calculateLiftDistance(): int
+}
+class LeaseAgreement {
+  startDate: Date
+  endDate: Date
+  isSublease: boolean
+  paymentFrequency: int
+  status: LeaseStatus
+  +initiate(leasseeName: String, changeNote: String): LeaseAgreement
+  +terminate(): void
+}
+class Reader {
+  +authorizeAgreement(agreement: LeaseAgreement): void
+}
+class AdjustmentRequest {
+  adjustmentValue: double
+  adjustmentDate: Date
+  status: AmendmentStatus
+  +submit(): void
+  +approve(): void
+  +reject(reason: String): void
+}
+class AuditLog {
+  logDate: Date
+  actionDetails: String
+  +record(action: String, details: String): void
+}
+class PricingUnit {
+  zoneType: String
+  basePricePerGigabyte: double
+  +computeUnitPrice(value: double): double
+}
+LeaseAgreement *-- "1" PropertyUnit : leasePurchased
+LeaseAgreement *-- "0..*" AdjustmentRequest : amendmentRequests
+LeaseAgreement --> "0..1" Reader : authorizedReader 'opposite: activeAgreements
+LeaseAgreement *-- "1" AuditLog : auditHistory
+LeaseAgreement *-- "1" PricingUnit : pricingUnit
+Reader --> "*" LeaseAgreement : supervisedAgreements
+@enduml

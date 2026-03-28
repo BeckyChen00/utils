@@ -1,0 +1,38 @@
+@startuml
+enum DifficultyLevel {
+  Beginner
+  Intermediate
+  Advanced
+  Expert
+  Master
+  Pro
+}
+enum ModuleType {
+  Arithmetic
+  Algebra
+  Geometry
+  Probability
+  Statistics
+}
+class Course {
+  courseName: String
+  +addModule(module: Module): void
+  +calculateTotalPoints(): int
+  +getSummary(): String
+}
+class Module {
+  moduleName: String
+  description: String
+  difficultyLevel: DifficultyLevel
+  +getDurationMinutes(): int
+  +getProgress(): double
+}
+class Lesson {
+  lessonTitle: String
+  lectureDurationMinutes: int
+  +getFinalScore(): int
+}
+Course *-- "0..*" Module : containedModules
+Module *-- "0..*" Lesson : containedLessons
+Lesson --> "1" Module : relatedModule
+@enduml

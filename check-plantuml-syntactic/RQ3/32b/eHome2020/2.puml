@@ -1,0 +1,114 @@
+
+---
+
+
+@startuml
+' Set skinparam to enhance readability
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+}
+
+' Define classes
+class Sensor {
+    -vendorId: String
+    -description: String
+    -unit: String
+    -room: Room
+    +getVendorId(): String
+    +getDescription(): String
+    +setUnit(unit: String): void
+    +getRoom(): Room
+    +setRoom(room: Room): void
+    +recordValue(value: float): void
+    +getLastValue(): Value
+    +getAllValues(): List<Value>
+}
+
+class TemperatureSensor extends Sensor {
+    -min: float
+    -max: float
+    +validateValue(value: float): boolean
+}
+
+class PowerSensor extends Sensor {
+    -totalConsumption: float
+    +incrementConsumption(amount: float): void
+    +getTotalConsumption(): float
+}
+
+class Room {
+    -description: String
+    -sensors: List<Sensor>
+    +getDescription(): String
+    +addSensor(sensor: Sensor): void
+    +removeSensor(sensor: Sensor): void
+}
+
+class Apartment {
+    -address: String
+    -rooms: List<Room>
+    -inhabitants: List<Inhabitant>
+    -email: String
+    +getAddress(): String
+    +getEmail(): String
+    +setEmail(email: String): void
+}
+
+class Inhabitant {
+    -username: String
+    -password: String
+    -isAdmin: boolean
+    +login(username: String, password: String): boolean
+    +hasAdminRights(): boolean
+}
+
+class Value {
+    -timestamp: Date
+    -value: float
+    +getTimestamp(): Date
+    +getValue(): float
+}
+
+class SensorController {
+    -apartment: Apartment
+    +login(username: String, password: String): boolean
+    +setQueryThreshold(sensor: Sensor, threshold: float): void
+    +getQueryThreshold(sensor: Sensor): float
+    +configureSensor(sensor: Sensor, description: String, room: Room): void
+}
+
+class EMonitor {
+    -checkThresholds(): void
+    +sendAlert(apartment: Apartment, sensor: Sensor, value: float): void
+}
+
+' Relationships
+Apartment "1" -- "many" Room : contains
+Room "1" -- "many" Sensor : contains
+Sensor "1" -- "many" Value : has measured values
+Apartment "1" -- "many" Inhabitant : has inhabitants
+Inhabitant "0..*" -- "1" SensorController : uses
+SensorController "1" -- "1" Apartment : manages
+EMonitor --> Sensor : monitors
+EMonitor --> Apartment : sends alerts to
+
+@enduml
+
+---
+
+### 🧩 **Explanation of Key Elements**
+
+- **Sensor**: Abstract base class for all sensors.
+  - `TemperatureSensor`: Has a valid range.
+  - `PowerSensor`: Tracks cumulative consumption.
+- **Room**: Groups sensors together with descriptions.
+- **Apartment**: Contains rooms, inhabitants, and email for alerts.
+- **Inhabitant**: Can log in and manage sensors if admin.
+- **Value**: Stores timestamped sensor readings.
+- **SensorController**: Manages user access and sensor configuration.
+- **EMonitor**: External system that checks thresholds and sends alerts.
+
+---
+
+Let me know if you want to add **interfaces**, **use cases**, or generate a **sequence diagram** for any specific part of the system!

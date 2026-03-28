@@ -1,0 +1,50 @@
+@startuml
+enum OrderStatus {
+  Pending
+  Confirmed
+  Processing
+  Shipped
+  Delivered
+}
+enum OrderPriority {
+  Low
+  Medium
+  High
+}
+class Order {
+  orderDate: Date
+  status: OrderStatus
+  priority: OrderPriority
+  +updateStatus(newStatus: OrderStatus): void
+}
+class Customer {
+  name: String
+  creditLimit: double
+  +placeOrder(items: List<CartItem>): Order
+  +viewOrderHistory(): List<Order>
+}
+class Cart {
+  cartTimestamp: Date
+  +addItem(item: Product): void
+  +removeItem(item: Product): void
+  +getTotal(): double
+}
+class Product {
+  productName: String
+  category: String
+  stockQuantity: int
+  specialInstructions: String
+  unitPrice: double
+  +getItemDescription(): String
+  +checkStock(): boolean
+}
+class CartItem {
+  quantity: int
+  specialInstructions: String
+  +calculateSubtotal(): double
+}
+Order *-- "1" Cart : orderCart
+Customer --> "0..*" Order : placedOrders 'opposite: orderedBy
+Order *-- "0..*" CartItem : orderItems
+CartItem --> "1" Product : selectedProduct
+@enduml

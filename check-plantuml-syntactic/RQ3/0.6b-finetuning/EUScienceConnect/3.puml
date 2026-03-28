@@ -1,0 +1,74 @@
+@startuml
+enum SignalQualityStatus {
+  High
+  Medium
+  Low
+  Critical
+}
+class SensorNode {
+  locationCoordinates: String
+  +updateReading(): boolean
+  +sendSignal(signal: RadioSignal): void
+}
+class SensorReading {
+  timestamp: Date
+  intensity: double
+  readMode: String
+  +calibrate(): boolean
+  +validate(): boolean
+}
+class WarningRule {
+  thresholdValue: double
+  severityLevel: String
+  description: String
+  +evaluate(reading: SensorReading): boolean
+}
+class RadioSignal {
+  carrierFrequency: String
+  phaseOffset: double
+  qualityLevel: SignalQualityStatus
+  +detect(): boolean
+  +adjust(): void
+}
+class AlertConfiguration {
+  isActive: boolean
+  thresholdLevel: int
+  +configure(message: String): void
+  +toggleVisibility(): void
+}
+class SignalAnalyzer {
+  currentQuality: SignalQualityStatus
+  +analyzeSignal(signal: RadioSignal): SignalQualityStatus
+  +detectNoise(): boolean
+}
+class DataProcessor {
+  processingTime: Date
+  +processReadings(readings: List<SensorReading>): List<SignalQualityStatus>
+  +getAverageIntensity(): double
+}
+class MonitoringSystem {
+  +startMonitoring(): void
+  +stopMonitoring(): void
+  +generateReport(): String
+  +getActiveNodes(): List<SensorNode>
+}
+class MaintenanceLog {
+  date: Date
+  technicianName: String
+  issueDescription: String
+  resolutionNotes: String
+  +logEvent(description: String): void
+  +generateSummary(): String
+}
+AlertConfiguration *-- "1" SignalAnalyzer : analyzer
+AlertConfiguration *-- "1" WarningRule : rule
+MonitoringSystem --> "*" SensorNode : monitoredNodes
+MonitoringSystem --> "*" RadioSignal : capturedSignals
+MonitoringSystem --> "*" MaintenanceLog : logHistory
+MonitoringSystem --> "1" DataProcessor : dataProcessor
+SignalAnalyzer --> "*" SensorReading : analyzedReadings
+RadioSignal --> "*" SensorReading : generatedReadings
+SensorNode --> "*" SignalReading : recordedReadings
+RadioSignal --> "*" SensorReading : combinedReadings
+SensorReading --> "*" RadioSignal : correlatedSignals
+@enduml

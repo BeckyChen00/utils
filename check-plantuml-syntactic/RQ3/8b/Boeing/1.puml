@@ -1,0 +1,61 @@
+
+@startuml
+
+' Define classes
+class Contract {
+  +id: int
+  +date: date
+  +salesperson: Salesperson
+  +airline: Airline
+  +acquisitions: List<Acquisition>
+}
+
+class Acquisition {
+  +id: int
+  +contract: Contract
+  +airplaneModel: String
+  +price: double
+  +options: List<String>
+  +deliveryDate: date
+}
+
+class Salesperson {
+  +id: int
+  +name: String
+  +contracts: List<Contract>
+}
+
+class Airline {
+  +id: int
+  +name: String
+  +parentAirline: Airline
+  +childAirlines: List<Airline>
+}
+
+class AirplaneModel {
+  +id: int
+  +modelName: String
+  +description: String
+}
+
+' Associations
+Contract "1" -- "0..*" Acquisition : has
+Contract "1" -- "1" Salesperson : managed by
+Contract "1" -- "1" Airline : associated with
+Salesperson "1" -- "0..*" Contract : manages
+Airline "1" -- "0..*" Airline : parent of (one-way)
+Airline "1" -- "0..*" Airline : child of (one-way)
+
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+
+- **`Contract`** contains multiple **`Acquisition`** entries.
+- Each **`Contract`** is managed by a **`Salesperson`**, and a **`Salesperson`** can manage multiple contracts.
+- Each **`Contract`** is associated with one **`Airline`**.
+- **`Airline`** can have a **parent airline** and may have **child airlines**, representing hierarchical relationships.
+- **`Acquisition`** includes details like airplane model, price, options, and delivery date.
+- A **`AirplaneModel`** is a reusable entity that describes the type of aircraft being sold.
+

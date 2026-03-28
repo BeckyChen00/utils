@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//UserAccount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CreditLine" eSuperTypes="#//WalletBalance"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WalletBalance"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TransactionSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentBalance" eType="#//WalletBalance" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactions" eType="#//PaymentTransaction" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operator" eType="#//User" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participant" eType="#//User" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentTransaction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rateConverter" eType="#//CurrencyConverter" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="payer" eType="#//User" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CurrencyConverter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedLines" eType="#//CreditLine" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authoredLogs" eType="#//AuditLog" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeTransactions" eType="#//PaymentTransaction" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditLog"/>
+</ecore:EPackage>

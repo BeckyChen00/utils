@@ -1,0 +1,55 @@
+
+@startuml
+
+' Define classes
+class Contract {
+  - contractID: String
+  - dateSigned: Date
+  - legalTerms: String
+  - deliveryConditions: String
+  + manageSalesperson(salesperson: Salesperson)
+  + addAcquisition(acquisition: Acquisition)
+}
+
+class Salesperson {
+  - salespersonID: String
+  - name: String
+  - contactInfo: String
+  + assignToContract(contract: Contract)
+  + changeContract(contract: Contract, newSalesperson: Salesperson)
+}
+
+class Acquisition {
+  - acquisitionID: String
+  - model: String
+  - price: Double
+  - options: String
+  - deliveryDate: Date
+  + getDetails(): String
+}
+
+class AirlineCompany {
+  - companyID: String
+  - name: String
+  - parentCompany: AirlineCompany
+  + hasDaughterCompany(): Boolean
+}
+
+' Relationships
+Contract "1" -- "0..*" Acquisition : consists of
+Contract "1" -- "1" Salesperson : managed by
+Salesperson "1" -- "0..*" Contract : manages
+AirlineCompany "1" -- "0..*" AirlineCompany : has daughter (parent-child relationship)
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **`Contract`**: Represents a contract between Boeing and an airline company. It contains general terms that apply to all acquisitions under this contract.
+- **`Salesperson`**: An employee who manages one or more contracts. A salesperson can be assigned to multiple contracts, and they may change over time.
+- **`Acquisition`**: Represents a specific airplane purchase within a contract. It includes details like model, price, options, and delivery date.
+- **`AirlineCompany`**: Represents an airline company. There's a parent-child relationship between airlines to track mother-daughter company relationships.
+
+This diagram provides a high-level view of the domain model and can be further expanded with additional attributes or methods as needed.

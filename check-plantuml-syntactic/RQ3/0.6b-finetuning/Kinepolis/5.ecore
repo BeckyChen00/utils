@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="productionLog" eType="#//ShiftLog" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShiftLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedLine" eType="#//ProductionLine" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedRequests" eType="#//MaintenanceRequest" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionLine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="safetyMonitor" eType="#//SafetyMonitor" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pendingTasks" eType="#//MaintenanceTask" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyMonitor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceRequest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceTask"/>
+</ecore:EPackage>

@@ -1,0 +1,88 @@
+
+@startuml
+' Define classes
+class Song {
+  -title: String
+  -year: int
+  -length: int (in seconds)
+  -genre: String
+  -artist: Artist
+}
+
+class Artist {
+  -name: String
+  -dateOfBirth: Date
+  -websiteURL: String
+}
+
+class User {
+  -id: String
+  -name: String
+  -address: String
+}
+
+class BusinessUser {
+  +vatNumber: String
+  -- User
+}
+
+class RegularUser {
+  -- User
+}
+
+class Single {
+  -title: String
+  -year: int
+  -length: int (in seconds)
+  -genre: String
+  -artist: Artist
+}
+
+class Hit {
+  -title: String
+  -year: int
+  -length: int (in seconds)
+  -genre: String
+  -artist: Artist
+}
+
+class Album {
+  -title: String
+  -trackList: List<Hit>
+}
+
+class Purchase {
+  -song: Song
+  -user: RegularUser
+  -date: Date
+}
+
+class AlbumSuggestion {
+  -album: Album
+  -user: RegularUser
+  -date: Date
+}
+
+' Relationships
+
+Song "1" -- "1" Artist : belongsTo
+Artist "1" -- "*" Song : hasSongs
+User <|-- BusinessUser
+User <|-- RegularUser
+BusinessUser "1" -- "*" Single : uploads
+RegularUser "1" -- "*" Single : buys
+RegularUser "1" -- "*" Album : creates
+RegularUser "1" -- "*" AlbumSuggestion : suggests
+Single "1" -- "1" Artist : belongsTo
+Hit "1" -- "1" Artist : belongsTo
+Album "1" -- "*" Hit : contains
+@enduml
+
+### Notes:
+- `Song` and `Hit` are similar, but `Hit` is part of an `Album`, while `Single` is directly purchased by regular users.
+- `Artist` is uniquely identified by name.
+- A combination of `song` and `artist` must be unique.
+- `BusinessUser` can only upload `Single`s.
+- `RegularUser` can buy `Single`s and create `Album`s.
+- `AlbumSuggestion` represents a suggestion made by a `RegularUser` to other users based on purchasing behavior.
+

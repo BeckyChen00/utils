@@ -1,0 +1,55 @@
+@startuml
+enum ReportStatus {
+  Draft
+  Checked
+  Approved
+  Archived
+}
+enum TaxationCode {
+  Stringed
+  Brass
+  Silver
+  Lead
+  Nickel
+  Copper
+  Titanium
+  CastIron
+  Quench
+}
+class JewelryItem {
+  description: String
+  weight: double
+  material: String
+  totalPrice: double
+  +validateDimensions(): boolean
+}
+class ToolItem {
+  toolType: String
+  serialNumber: String
+  isReplacement: boolean
+  +calibrate(): boolean
+}
+class JewelryReport {
+  title: String
+  status: ReportStatus
+  submissionDate: Date
+  +generateSummary(): String
+  +updateStatus(newStatus: ReportStatus): void
+}
+class StockMaster {
+  maxCapacity: int
+  isActive: boolean
+  +calculateRemaining(): int
+  +reserveItem(item: JewelryItem): boolean
+  +deductItem(item: JewelryItem): void
+}
+class Inventory {
+  +getItemCount(type: JewelryItem): int
+  +getTotalStock(): int
+  +splitItem(items: List<JewelryItem>, count: int): List<JewelryItem>
+}
+JewelryReport *-- "1" JewelryItem : sourceItem
+JewelryReport --> "1" StockMaster : targetStock
+Inventory *-- "1" JewelryItem : inventoryItemType
+Inventory *-- "1" StockMaster : rootMaster
+@enduml

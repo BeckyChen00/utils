@@ -1,0 +1,79 @@
+
+@startuml
+
+class Hospital {
+  - name: String
+  - permittedExaminations: Set<ExaminationType>
+  + applyForPermission(examinationType: ExaminationType): void
+}
+
+class Doctor {
+  - name: String
+  - hospital: Hospital
+  + diagnose(patient: Patient, problem: Problem): Diagnosis
+}
+
+class Patient {
+  - name: String
+  - problem: Problem
+  + receiveDiagnosis(diagnosis: Diagnosis): void
+}
+
+class Problem {
+  - description: String
+  + getTreatmentPlan(): TreatmentPlan
+}
+
+class TreatmentPlan {
+  - problem: Problem
+  - recommendedExaminations: Set<ExaminationType>
+  + getRecommendedExaminations(): Set<ExaminationType>
+}
+
+class ExaminationType {
+  - name: String
+  + isPermittedBy(hospital: Hospital): boolean
+}
+
+class Examination {
+  - type: ExaminationType
+  - performedAt: Hospital
+  + perform(): void
+}
+
+class Diagnosis {
+  - problem: Problem
+  - treatment: Treatment
+  + getTreatment(): Treatment
+}
+
+class Treatment {
+  - recommendedExaminations: Set<ExaminationType>
+  - additionalActions: Set<String>
+  + hasDeviationFromPlan(): boolean
+}
+
+' Associations
+
+Hospital "1" -- "0..*" Doctor : employs
+Doctor "1" -- "1" Patient : treats
+Patient "1" -- "1" Problem : has
+Problem "1" -- "1" TreatmentPlan : has
+TreatmentPlan "1" -- "0..*" ExaminationType : recommends
+Hospital "1" -- "0..*" ExaminationType : permits
+ExaminationType "1" -- "0..*" Examination : is type of
+Doctor "1" -- "1" Diagnosis : creates
+Diagnosis "1" -- "1" Treatment : defines
+Treatment "0..*" -- "0..*" Examination : includes
+Examination "1" -- "1" Hospital : performed at
+
+@enduml
+
+### Explanation of Key Relationships:
+- **Hospital** can have **Doctors**, and **Doctors** can **diagnose** patients.
+- **Patients** have a **Problem**, which maps to a **TreatmentPlan**.
+- A **TreatmentPlan** contains **recommended examinations** (types).
+- **Examinations** are of a specific **ExaminationType**, and each **Hospital** has permissions for certain **ExaminationTypes**.
+- A **Diagnosis** leads to an **Actual Treatment**, which may include **examinations** and **additional actions**.
+- The system ensures that **examinations are only performed if permitted by the hospital**.
+

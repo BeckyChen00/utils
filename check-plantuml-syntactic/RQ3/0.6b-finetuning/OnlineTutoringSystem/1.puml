@@ -1,0 +1,62 @@
+@startuml
+enum DocumentStatus {
+  Draft
+  Approved
+  Published
+  Archived
+}
+class IntellectualPropertyDocument {
+  title: String
+  contentSummary: String
+  status: DocumentStatus
+  isExemplary: boolean
+  +generateSummary(): String
+  +markAsExemplary()
+}
+class ClassifierRule {
+  ruleCriteria: String[]
+  confidenceThreshold: double
+  summary: String
+  +evaluate(inputDocument: IntellectualPropertyDocument): boolean
+}
+class ClassificationEngine {
+  currentStatus: DocumentStatus
+  maxScore: int
+  +calculateScore(document: IntellectualPropertyDocument): int
+  +processDocuments(featureVectors: Map<String, Map<String>>): Map<String, int>
+}
+class Reviewer {
+  reviewerName: String
+  assignedDocumentIds: int[]
+  +acceptReview(documentId: int): boolean
+  +updateComment(documentId: int, commentText: String)
+}
+class ReviewVault {
+  vaultName: String
+  +lookupDocument(id: int): IntellectualPropertyDocument
+}
+class ReviewRequest {
+  requestTitle: String
+  priorityLevel: int
+  +submit(): boolean
+  +cancel()
+}
+class FeedbackReport {
+  summary: String
+  qualityScore: int
+  comments: String
+  +generateReport(): String
+}
+ClassifierRule *-- "1" IntellectualPropertyDocument : appliedDocument
+ClassifierRule --> "*" ReviewRequest : triggerRequests
+ReviewRequest --> "1" Reviewer : assignedReviewer
+ReviewRequest --> "*" IntellectualPropertyDocument : referencedDocuments
+ReviewRequest *-- "1" FeedbackReport : generatedReport
+ClassificationEngine --> "*" ReviewRequest : receivedRequests
+ReviewRequest --> "*" IntellectualPropertyDocument : evaluatedDocuments
+ReviewRequest --> "1" ClassificationEngine : processingEngine
+ReviewRequest --> "*" FeedbackReport : generatedReports
+ReviewVault --> "*" ReviewRequest : storedRequests
+ReviewVault --> "*" IntellectualPropertyDocument : storedDocuments
+ReviewRequest --> "*" Reviewer : checkedReviewers
+@enduml

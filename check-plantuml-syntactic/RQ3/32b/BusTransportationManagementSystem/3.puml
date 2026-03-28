@@ -1,0 +1,97 @@
+
+---
+
+
+@startuml
+' Define classes and their attributes
+
+class Driver {
+  - driverID: String
+  - name: String
+  - isOnSickLeave: boolean
+}
+
+class Bus {
+  - licensePlate: String (1-10 chars)
+  - isInRepairShop: boolean
+}
+
+class Route {
+  - routeNumber: Integer (max 9999)
+}
+
+class Assignment {
+  - date: Date
+  - bus: Bus
+  - route: Route
+}
+
+class Shift {
+  - shiftType: String ("morning", "afternoon", "night")
+  - startTime: Time
+  - endTime: Time
+}
+
+class DriverAssignment {
+  - driver: Driver
+  - shift: Shift
+  - bus: Bus
+  - assignmentDate: Date
+}
+
+' Relationships
+
+Driver "1" -- "0..*" DriverAssignment : has
+Bus "1" -- "0..*" Assignment : assigned to
+Bus "1" -- "0..*" DriverAssignment : operated in
+Route "1" -- "0..*" Assignment : assigned to
+Shift "1" -- "0..*" DriverAssignment : covered by
+Assignment "1" -- "1" Route : for
+Assignment "1" -- "1" Bus : assigns
+Assignment "1" -- "3" Shift : includes <<morning, afternoon, night>>
+
+' Constraints
+
+note right of Assignment
+  A bus can be assigned to a route
+  multiple times per day but only once
+  per route/day.
+end note
+
+note right of DriverAssignment
+  A driver can have multiple shifts
+  per day; overlapping shifts are allowed.
+end note
+
+note left of Bus
+  License plate up to 10 characters.
+end note
+
+note left of Route
+  Route number max value 9999.
+end note
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **Driver**: Identified by a unique ID and name. Has an attribute to indicate if they're on sick leave.
+- **Bus**: Identified by its license plate (up to 10 characters). Indicates whether it's in repair.
+- **Route**: Identified by a number (max 9999).
+- **Assignment**: Links a bus to a route for a specific day. Multiple buses can be assigned to one route per day.
+- **Shift**: Each route has morning, afternoon, and night shifts. Each shift has a time range.
+- **DriverAssignment**: Connects a driver to a specific shift on a particular day and bus.
+
+---
+
+### 🛠️ Notes:
+- No updates to `Driver` or `Bus` data are supported — only adding and deleting.
+- If a driver is on sick leave or a bus is in repair, these are flagged and used for filtering in the overview.
+- Overlapping shifts for drivers are allowed.
+- An overview lists all assignments for each route per day with relevant details.
+
+---
+
+Let me know if you want this rendered as an image or exported in another format (like PNG or SVG).

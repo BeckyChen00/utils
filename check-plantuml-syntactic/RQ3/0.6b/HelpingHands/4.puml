@@ -1,0 +1,17 @@
+graph TD
+    A[System Requirement]
+    B[Requirement 1]
+    C[Requirement 2]
+    D[Requirement 3]
+    E[Requirement 4]
+
+    B --> C
+    C --> D
+    D --> E
+
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+
+This class diagram represents the System Requirement with four requirements connected in a chain.

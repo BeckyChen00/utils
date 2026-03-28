@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//Policyholder" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Policyholder"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InsuranceContract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="product" eType="#//InsuranceProduct" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryContact" eType="#//ContactPerson" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedInvoices" eType="#//Invoice" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedNotifications" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InsuranceProduct"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ContactPerson"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimCase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="insuredParty" eType="#//Policyholder" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coveredProduct" eType="#//InsuranceProduct" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentStatus" eType="#//ClaimStatus" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="riskAnalysis" eType="#//RiskAssessment" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evidenceReports" eType="#//LaborReport" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportingDocuments" eType="#//DocumentAttachment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimStatus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskAssessment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LaborReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DocumentAttachment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClaimAdjuster">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviewedCases" eType="#//ClaimCase" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Estimator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReport" eType="#//LaborReport" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemUser">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedRole" eType="#//UserRole" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supervisedCases" eType="#//ClaimCase" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedContracts" eType="#//InsuranceContract" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserRole"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentTransactions" eType="#//PaymentTransaction" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentTransaction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedMethod" eType="#//PaymentMethod" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recipient" eType="#//SystemUser" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actor" eType="#//SystemUser" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,117 @@
+
+@startuml
+
+' Entities
+class Customer {
+  -id: String
+  -name: String
+  -address: String
+  -fuelCard: FuelCard
+  -invoices: List<Invoice>
+  -paymentStatus: PaymentStatus
+}
+
+class FuelCard {
+  -cardNumber: String
+  -customer: Customer
+  -active: Boolean
+}
+
+class Invoice {
+  -id: String
+  -customer: Customer
+  -date: Date
+  -amount: Double
+  -discount: Double
+  -paid: Boolean
+  -refuelTurns: List<RefuelTurn>
+}
+
+class RefuelTurn {
+  -id: String
+  -date: Date
+  -amount: Double
+  -pump: Pump
+  -invoice: Invoice
+}
+
+class GasStation {
+  -id: String
+  -name: String
+  -location: String
+  -pumps: List<Pump>
+}
+
+class Pump {
+  -id: String
+  -gasStation: GasStation
+  -fuelType: String
+  -reservoirLevel: Double
+  -reorderingLevel: Double
+  -criticalLevel: Double
+  -blocked: Boolean
+  -refuelTurns: List<RefuelTurn>
+}
+
+class Payment {
+  -id: String
+  -invoice: Invoice
+  -amount: Double
+  -date: Date
+  -status: PaymentStatus
+}
+
+class DailyReport {
+  -id: String
+  -date: Date
+  -pumpsToRefill: List<Pump>
+  -reportDetails: Map<Pump, ReportDetail>
+}
+
+class ReportDetail {
+  -pump: Pump
+  -currentLevel: Double
+  -quantityToOrder: Double
+}
+
+' Relationships
+Customer "1" -- "1" FuelCard
+Customer "1" -- "0..*" Invoice
+Invoice "1" -- "0..*" RefuelTurn
+RefuelTurn "1" -- "1" Pump
+GasStation "1" -- "0..*" Pump
+Pump "1" -- "0..*" RefuelTurn
+Invoice "1" -- "0..*" Payment
+Payment "1" -- "1" Invoice
+
+DailyReport "1" -- "0..*" ReportDetail
+ReportDetail "1" -- "1" Pump
+
+' Enums
+enum PaymentStatus {
+  PAID
+  UNPAID
+  OVERDUE
+  BLOCKED
+}
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **Customer**: Has a fuel card, receives invoices, can be in various payment states.
+- **FuelCard**: Used to track refuel turns without immediate payment.
+- **Invoice**: Generated monthly, contains all refuel turns for that month, may include discounts.
+- **RefuelTurn**: A single act of refueling at a pump, linked to an invoice and pump.
+- **GasStation**: Manages pumps and is responsible for refilling and blocking them when needed.
+- **Pump**: Tracks gasoline levels, has a reservoir, and can be blocked if below critical level.
+- **Payment**: Represents a customer’s payment for an invoice.
+- **DailyReport**: Contains information about which pumps need refilling and how much.
+- **ReportDetail**: Holds details about each pump in the daily report.
+- **PaymentStatus**: An enumerated type used to represent the status of payments or customers.
+
+---
+
+Let me know if you want this extended with methods or UML sequence diagrams as well!

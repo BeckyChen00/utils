@@ -1,0 +1,60 @@
+@startuml
+enum PerformanceCategory {
+  ShortPlay
+  LongPlay
+  Continuum
+}
+enum ToneType {
+  Triodonal
+  Tetradional
+  Septimonal
+}
+enum InstrumentType {
+  Bass
+  Alto
+  Tenor
+  Soprano
+  Pipa
+  Violin
+  Harp
+  Mandarin
+  Electric
+}
+class PerformanceSession {
+  scheduledStartTime: Date
+  roomLocation: String
+  +confirmPresence(): boolean
+  +validateSlot(): boolean
+}
+class PerformanceSchedule {
+  +getAvailableSlots(date: Date): List<PerformanceSlot>
+}
+class PerformanceSlot {
+  slotDate: Date
+  startTime: Time
+  +isAvailable(): boolean
+}
+class Instrument {
+  type: InstrumentType
+  +getAvailableTones(): List<ToneType>
+  +isCompatible(song: String): boolean
+}
+class Performance {
+  title: String
+  duration: Duration
+  performanceDate: Date
+  +isComplete(): boolean
+  +getScoreData(): String
+}
+class Composer {
+  name: String
+  bio: String
+  +getRecommendedInstrument(): Instrument
+  +updateCreative(proposal: String): boolean
+}
+PerformanceSession *-- "1..*" PerformanceSlot : containedSlots
+PerformanceSlot --> "1" Instrument : assignedInstrument
+Composer --> "0..*" Performance : composedPerformances
+PerformanceSlot --> "0..1" Instrument : assignedInstrument
+Performance -- Composer
+@enduml

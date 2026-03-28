@@ -1,0 +1,110 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Location {
+  +String name
+  +String description
+  +int capacity
+}
+
+class Exhibition {
+  +String title
+  +Date startDate
+  +Date endDate
+  +String theme
+  +Employee coordinator
+}
+
+class Employee {
+  +String name
+  +String position
+  +String department
+  +Employee coach
+}
+
+class ExhibitionItem {
+  +String itemTitle
+  +String description
+  +String historicalPeriod
+}
+
+class ArtPiece {
+  +String title
+  +Artist artist
+  +Year createdYear
+  +String medium
+}
+
+class Collector {
+  +String name
+  +String contactInfo
+  +List<ArtPiece> pieces
+}
+
+class Artist {
+  +String name
+  +Country country
+  +Date birthDate
+  +Date deathDate
+}
+
+class Request {
+  +ExhibitionItem item
+  +Collector collector
+  +ArtPiece piece
+  +Status status
+  +Date requestedDate
+  +Date confirmedDate
+}
+
+class Coaching {
+  +Employee junior
+  +Employee senior
+  +Date startCoaching
+  +Date endCoaching
+}
+
+enum Status {
+  PENDING
+  CONFIRMED
+  REJECTED
+}
+
+' Relationships
+
+Employee "1" -- "0..*" Exhibition : coordinates
+Employee "1" -- "0..*" Coaching : coachedJunior
+Employee "1" -- "0..*" Coaching : coachSenior
+Employee "0..*" -- "0..*" Employee : coachedBy (coaching relationship)
+
+Location "1" -- "0..*" Exhibition : holds
+
+Exhibition "1" -- "1..*" ExhibitionItem : includes
+
+ExhibitionItem "1" -- "0..*" Request : hasRequests
+Request "1" -- "1" ArtPiece : requests
+Request "1" -- "1" Collector : from
+
+Collector "1" -- "0..*" ArtPiece : owns
+ArtPiece "1" -- "1" Artist : createdBy
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Location`**: Represents a space in the museum where exhibitions can be held.
+- **`Exhibition`**: An event that takes place at a location, with a start and end date, and a coordinator.
+- **`ExhibitionItem`**: A specific item or theme to be included in an exhibition.
+- **`ArtPiece`**: The actual artwork being considered for inclusion in the exhibition.
+- **`Collector`**: Individuals or institutions who own art pieces.
+- **`Artist`**: The creator of the `ArtPiece`.
+- **`Request`**: A formal request sent by the museum to a collector for a specific piece.
+- **`Employee`**: Staff members involved in managing exhibitions.
+- **`Coaching`**: Tracks mentorship between employees.
+
+---
+

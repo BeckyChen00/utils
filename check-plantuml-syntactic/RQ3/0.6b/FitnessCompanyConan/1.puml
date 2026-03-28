@@ -1,0 +1,43 @@
+@startuml
+
+class SystemRequirement {
+    name: System Requirement
+    description: "System Requirement for the application"
+}
+
+class Application {
+    name: Application
+    description: "Application that satisfies the System Requirement"
+}
+
+class Dependency {
+    name: Dependency
+    description: "Dependency required by the Application"
+}
+
+class Component {
+    name: Component
+    description: "Component of the Application"
+}
+
+class Module {
+    name: Module
+    description: "Module in the Application"
+}
+
+class Requirement {
+    name: Requirement
+    description: "Requirement specified by the System Requirement"
+}
+
+class Constraint {
+    name: Constraint
+    description: "Constraint between the Application and Dependencies"
+}
+
+class Relationship {
+    name: Relationship
+    description: "Relationship between the Application and Dependencies"
+}
+
+@enduml

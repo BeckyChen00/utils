@@ -1,0 +1,23 @@
+@startuml
+
+class diagram system-requirments
+
+participant user1 as User
+participant user2 as User
+participant user3 as User
+participant user4 as User
+participant user5 as User
+
+role user-role in user1, user2, user3, user4, user5
+role role1 in user1, user2, user3, user4, user5
+
+participation user1 -> role1
+participation user2 -> role1
+participation user3 -> role1
+participation user4 -> role1
+participation user5 -> role1
+
+role1 is an instance of Role
+role2 is an instance of Role
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml
+enum GameElementType {
+  Shape
+  Object
+  Opponent
+}
+enum LifeState {
+  Alive
+  Dead
+}
+class GameArea {
+  name: String
+  +getElements(): List<GameElement>
+  +getBoss(): Opponent
+}
+class GameElement {
+  x: long
+  y: long
+  type: GameElementType
+  isInteractive: boolean
+  +updatePosition(newX: long, newY: long): void
+  +getCoordinates(): String
+}
+class Shape {
+  fillColor: String
+  strokeColor: String
+  width: int
+  height: int
+  +draw(): void
+}
+class Object {
+  name: String
+  isCollidable: boolean
+  +getName(): String
+}
+class Opponent {
+  lives: int
+  currentState: LifeState
+  +takeDamage(amount: int): void
+  +isDefeated(): boolean
+}
+GameArea *-- "1..*" GameElement : contains
+GameElement --> "0..1" Shape : asShape
+GameElement --> "0..1" Opponent : asOpponent
+Opponent --> "0..1" Object : asObject
+@enduml

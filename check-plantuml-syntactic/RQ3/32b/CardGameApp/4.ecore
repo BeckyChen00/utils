@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="SoloRound" eSuperTypes="#//Round">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="soloType" eType="#//SoloType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="soloPlayer" eType="#//Player"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MandatorySoloRound" eSuperTypes="#//SoloRound">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SoloType">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="TRUMP"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//players"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//cards"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//rounds"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//winningPlayers"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="players"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="cards"/>
+  <eClassifiers xsi:type="ecore:EClass" name="suit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="rounds"/>
+  <eClassifiers xsi:type="ecore:EClass" name="winningPlayers"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Player"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Card"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrumpCard" eSuperTypes="#//Card"/>
+  <eClassifiers xsi:type="ecore:EClass" name="QueenCard" eSuperTypes="#//Card"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JackCard" eSuperTypes="#//Card"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Deck">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Card" upperBound="48" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Game">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Player" lowerBound="4" upperBound="4" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//Deck" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracks" eType="#//ScoringTable" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoringTable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Round" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Round"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JackRound" eSuperTypes="#//Round"/>
+</ecore:EPackage>

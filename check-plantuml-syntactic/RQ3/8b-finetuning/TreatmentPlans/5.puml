@@ -1,0 +1,63 @@
+@startuml
+enum ExaminationType {
+  cardiologicTest
+  echography
+  radiology
+  scanner
+  laboratoryTest
+  surgery
+}
+class MedicalUnit {
+  name: String
+  location: String
+}
+class ExaminationPermission {
+  grantedForTypes: List<ExaminationType>
+  activeStatus: boolean
+}
+class Doctor {
+  name: String
+  specialization: String
+}
+class Patient {
+  name: String
+  medicalRecordId: String
+}
+class ExaminationRecord {
+  examinationDate: Date
+  type: ExaminationType
+  resultDetails: String
+}
+class DiagnosticReport {
+  generationDate: Date
+  findingSummary: String
+  severityLevel: String
+  +attachEvidence(sourceRecord: ExaminationRecord): void
+}
+class TreatmentPlan {
+  description: String
+  recommendedExaminations: List<ExaminationType>
+  targetConditions: List<String>
+  +isApplicableFor(problemDescription: String): boolean
+}
+class Treatment {
+  diagnosisDate: Date
+  includesNonStandardActions: boolean
+  clinicalJustification: String
+  +defineTreatmentBy(consultantDoctor: Doctor, selectedPlan: TreatmentPlan): void
+  +addExamination(record: ExaminationRecord): void
+  +addMedicalAction(description: String): void
+}
+Doctor "1" --> "*" Patient : managedPatients
+Patient "1" *-- "*" ExaminationRecord : patientExaminations
+ExaminationRecord "0..1" --> "1" MedicalUnit : executionLocation
+ExaminationRecord "1" --> "1" Doctor : referringDoctor 'opposite: authoredRecords
+DiagnosisReport "1" --> "*" ExaminationRecord : supportingEvidence
+DiagnosisReport "1" --> "1" Patient : diagnosedPatient
+Treatment "1" *-- "*" ExaminationRecord : includedExaminations
+Treatment "1" *-- "*" String : performedMedicalActions
+Treatment "1" --> "1" Doctor : treatingDoctor
+Treatment "1" --> "1" DiagnosticReport : generatedReport
+TreatmentPlan "1" --> "*" Treatment : adheredTreatments
+MedicalUnit "1" *-- "*" ExaminationPermission : grantedPermissions
+@enduml

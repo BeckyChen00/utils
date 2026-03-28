@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTasks" eType="#//MaintenanceTask" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredParts" eType="#//TechnicalComponent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnicalComponent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSegments" eType="#//RoadSegment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="crew" eType="#//CrewMember" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceReports" eType="#//DiagnosticReport" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="installedParts" eType="#//TechnicalComponent" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownerEngineer" eType="#//ExpertEngineer" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoadSegment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CrewMember"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagnosticReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExpertEngineer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceCenter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pendingTasks" eType="#//MaintenanceTask" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="repairedVehicles" eType="#//Vehicle" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workOnTasks" eType="#//MaintenanceTask" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceSchedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetSegment" eType="#//RoadSegment" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

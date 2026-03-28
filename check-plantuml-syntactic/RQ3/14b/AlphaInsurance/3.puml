@@ -1,0 +1,117 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class Customer {
+  -id: int
+  -name: String
+  -contactInfo: String
+  -brokerId: int
+}
+
+class Broker {
+  -id: int
+  -name: String
+  -contactInfo: String
+  -assignedCustomers: List<Customer>
+}
+
+class InsurancePolicy {
+  -id: int
+  -type: String
+  -premium: double
+  -coverageDetails: String
+  -duration: String
+}
+
+class Contract {
+  -id: int
+  -customerId: int
+  -policyId: int
+  -startDate: Date
+  -endDate: Date
+  -paymentFrequency: String
+  -status: String
+  -signedDate: Date
+}
+
+class Claim {
+  -id: int
+  -customerId: int
+  -contractId: int
+  -claimDate: Date
+  -description: String
+  -status: String
+  -totalCompensation: double
+  -paidDate: Date
+}
+
+class Estimator {
+  -id: int
+  -name: String
+  -expertiseArea: String
+  -reports: List<Report>
+}
+
+class Report {
+  -id: int
+  -claimId: int
+  -estimatorId: int
+  -assessment: String
+  -dateSubmitted: Date
+  -approvalStatus: String
+}
+
+class CompensationDecision {
+  -id: int
+  -claimId: int
+  -eligibleCosts: double
+  -compensationAmount: double
+  -decisionDate: Date
+}
+
+class Invoice {
+  -id: int
+  -contractId: int
+  -amount: double
+  -dueDate: Date
+  -paymentStatus: String
+}
+
+' Relationships
+Customer "1" -- "0..*" Broker : assigned to
+Broker "1" -- "0..*" Customer : manages
+Customer "1" -- "0..*" Contract : has
+Contract "1" -- "1" InsurancePolicy : covers
+Contract "1" -- "1" Invoice : generates
+Claim "1" -- "1" Contract : relates to
+Claim "1" -- "0..*" Report : includes
+Report "1" -- "1" Estimator : submitted by
+Claim "1" -- "1" CompensationDecision : leads to
+@enduml
+
+---
+
+### 📌 Explanation of Key Entities:
+
+- **Customer**: The person or entity who takes out an insurance policy.
+- **Broker**: Assigned to each customer to manage their insurance needs.
+- **InsurancePolicy**: Different types of policies available (e.g., health, car, home).
+- **Contract**: Signed agreement between the customer and Alpha Insurance.
+- **Claim**: A request for compensation after an insured event.
+- **Estimator**: Professional who assesses claims based on expertise.
+- **Report**: Assessment made by an estimator regarding a claim.
+- **CompensationDecision**: Final decision on what amount is payable.
+- **Invoice**: Generated based on the contract and payment frequency.
+
+---
+
+### 🔄 Notes:
+- Each **Customer** is assigned to one **Broker**.
+- A **Broker** may handle multiple **Customers**.
+- A **Contract** links a **Customer** with an **InsurancePolicy**.
+- A **Claim** can involve multiple **Reports**, each from different **Estimators**.
+- **Reports** are stored for at least one year post-compensation.
+- An **Invoice** is generated periodically based on the **Contract** terms.
+
+Let me know if you'd like this exported as a PNG or need further refinements!

@@ -1,0 +1,104 @@
+
+@startuml
+
+' Set skinparam for better visibility
+skinparam class {
+    BackgroundColor #F0F8FF
+    BorderColor #4682B4
+}
+
+' Define Classes
+class User {
+    +String firstName
+    +String lastName
+    +String email (username)
+    +String password
+    +String address
+    +String phoneNumber
+}
+
+class Organizer {
+    +Date eventStartDate
+    +Date eventEndDate
+    +String occasion
+    +Location location
+    +Event event
+}
+
+class Attendee {
+    +RSVPStatus rsvpStatus
+    +List<Task> assignedTasks
+}
+
+class Event {
+    +String type
+    +String description
+    +List<Organizer> organizers
+    +List<Attendee> attendees
+    +Checklist checklist
+}
+
+class Location {
+    +String name
+    +String address
+}
+
+class Checklist {
+    +List<Task> tasks
+}
+
+class Task {
+    +String description
+    +TaskStatus status
+    +boolean isForAttendee
+    +Attendee assignee
+}
+
+enum RSVPStatus {
+    ATTENDING
+    MAYBE
+    NOT_ATTENDING
+}
+
+enum TaskStatus {
+    TODO
+    DONE
+    NOT_APPLICABLE
+}
+
+' Relationships
+User "1" -- "1" Organizer : extends
+User "1" -- "1" Attendee : extends
+
+Organizer "1" -- "*" Event : plans
+Event "1" -- "1" Checklist : has
+Event "1" -- "*" Attendee : invites
+Event "1" -- "*" Organizer : organized by
+
+Checklist "1" -- "*" Task : contains
+
+Task "1" -- "0..1" Attendee : assigned to
+Attendee "1" -- "*" Task : can select
+
+Location "1" -- "*" Event : used in
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **User**: Base class for both `Organizer` and `Attendee`.
+- **Organizer**: Manages events and checklists.
+- **Attendee**: Can RSVP and be assigned tasks.
+- **Event**: Central entity with details like type, date, location, etc.
+- **Location**: Either selected or created by user.
+- **Checklist**: Contains tasks related to an event.
+- **Task**: Can be marked as done/todo/not applicable; may be assigned to an attendee.
+- **Enums**: Used for standardized statuses (`RSVPStatus`, `TaskStatus`).
+
+---
+
+### ✅ How to Use:
+
+Let me know if you want a **sequence diagram**, **activity diagram**, or **ERD** version too!

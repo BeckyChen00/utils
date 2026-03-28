@@ -1,0 +1,121 @@
+
+---
+
+
+@startuml
+
+' Set skinparam for better visibility
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+}
+
+' Define classes and their attributes
+class Student {
+    - name: String
+    - email: String
+    + register(): void
+    + makeRequest(tutor, subject, level, date): Request
+    + payForSession(session): void
+}
+
+class Tutor {
+    - name: String
+    - email: String
+    - bankAccount: String
+    + register(): void
+    + offerTutoring(subject, level, hourlyPrice, availability): Offer
+    + confirmRequest(request): Session
+    + scheduleFollowUp(session): Session
+    + cancelSession(session): void
+}
+
+class Request {
+    - subject: Subject
+    - level: String
+    - proposedDate: DateTime
+    - student: Student
+    - tutor: Tutor
+    + submit(): void
+}
+
+class Session {
+    - date: DateTime
+    - duration: Duration
+    - confirmedByTutor: boolean
+    - status: Status
+    - student: Student
+    - tutor: Tutor
+    - subject: Subject
+    - level: String
+    + start(): void
+    + end(): void
+    + cancel(canceller): void
+    + charge(student): void
+}
+
+class Offer {
+    - subject: Subject
+    - level: String
+    - hourlyPrice: float
+    - availability: List<TimeSlot>
+    - tutor: Tutor
+}
+
+class TimeSlot {
+    - dayOfWeek: String
+    - startTime: Time
+    - endTime: Time
+}
+
+class Subject {
+    - name: String
+}
+
+class Award {
+    - month: Date
+    - subject: Subject
+    - tutor: Tutor
+    - reason: String
+}
+
+class Payment {
+    - amount: float
+    - method: String
+    - session: Session
+}
+
+' Inheritance: A tutor is also a user, so use inheritance
+Student <|-- Tutor
+
+' Associations
+Student "1" --> "0..*" Request : makes
+Tutor "1" --> "0..*" Request : receives
+Tutor "1" --> "0..*" Offer : offers
+Offer "1" --> "1" Subject : in
+Offer "1" --> "1" TimeSlot : available at
+Session "1" --> "1" Request : from
+Session "1" --> "1" Subject : in
+Session "1" --> "1" Tutor : by
+Session "1" --> "1" Student : for
+Session "1" --> "1" Payment : paid via
+Award "1" --> "1" Tutor : awarded to
+Award "1" --> "1" Subject : in subject
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **Inheritance**: `Tutor` inherits from `Student` because a tutor can also be a student.
+- **Associations**:
+  - A `Student` makes multiple `Requests`.
+  - A `Tutor` offers multiple `Offers` and may have many `Sessions`.
+  - An `Offer` is associated with a specific `Subject` and `TimeSlot`.
+  - A `Session` originates from a `Request`, involves one `Student` and one `Tutor`, and is related to a `Payment`.
+- **Awards** are given monthly per subject to the best tutor.
+- **Cancelation rules** are implemented through logic within methods (not explicitly modeled as classes).
+
+---
+
+Let me know if you want a **sequence diagram**, **ERD**, or any part of this in **draw.io format** or **mermaid.js**!

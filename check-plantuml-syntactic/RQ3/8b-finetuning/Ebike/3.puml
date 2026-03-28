@@ -1,0 +1,56 @@
+@startuml
+enum ControllerState {
+  On
+  Off
+  Charging
+  Error
+}
+enum MotorType {
+  Brushed
+  Brushless
+  HubDrive
+  MidDrive
+  ChainDrive
+  BeltDrive
+}
+class EProduct {
+  serialNumber: String
+  isActive: boolean
+  +activate()
+  +deactivate()
+}
+class EBike {
+  frameMaterial: String
+  totalWeight: double
+  +getBikeWeight(): double
+}
+class WheelUnit {
+  diameter: double
+  weight: double
+  isPunctured: boolean
+}
+class Motor {
+  type: MotorType
+  maxSpeed: double
+  powerOutput: double
+}
+class Controller {
+  currentStatus: ControllerState
+  hasDiagnosis: boolean
+  +reset()
+  +getStatus(): ControllerState
+  +setChargingMode()
+}
+class Battery {
+  capacity: double
+  storedEnergy: double
+  isCharged: boolean
+  +charge()
+  +discharge(energyRequirement: double): boolean
+}
+EBike *-- "2" WheelUnit : wheels
+EBike *-- "1" Motor : driveSystem
+EBike *-- "1" Controller : mainController
+EBike --> "1" Battery : currentBattery
+Battery -- EProduct
+@enduml

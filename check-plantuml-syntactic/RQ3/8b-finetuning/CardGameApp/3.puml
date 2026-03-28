@@ -1,0 +1,69 @@
+@startuml
+enum CardSuit {
+  diamonds
+  hearts
+  spades
+  clubs
+}
+enum CardRank {
+  two
+  three
+  four
+  five
+  six
+  seven
+  eight
+  nine
+  ten
+  jack
+  queen
+  king
+  ace
+}
+enum SoloType {
+  trump
+  jack
+  queen
+}
+class Card {
+  suit: CardSuit
+  rank: CardRank
+  rankValue: int
+  isWild: boolean
+  +compareTo(other: Card): int
+}
+class Game {
+  isStarted: boolean
+  isPaused: boolean
+  isFinished: boolean
+  +startGame(): void
+  +pauseGame(): void
+  +endGame(): void
+}
+class Player {
+  name: String
+  score: int
+  +playCard(card: Card): void
+}
+class Round {
+  roundNumber: int
+  isJackRound: boolean
+  isSoloRound: boolean
+  isMandatorySolo: boolean
+  soloType: SoloType
+  soloPlayer: Player
+  points: int
+  +getWinningPlayers(): List<Player>
+}
+class ScoringTable {
+  tableName: String
+  +addRound(round: Round): void
+  +getTotalPoints(): int
+}
+Game *-- "1" ScoringTable : scoringTable
+Game *-- "1" List<Player> : participants
+Game *-- "1" Card : deck
+Game *-- "*" Round : rounds
+ScoringTable *-- "*" Round : rounds
+Player --> "*" Card : hand
+@enduml

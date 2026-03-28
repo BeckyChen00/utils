@@ -1,0 +1,99 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Employee {
+  -id: int
+  -name: String
+  -role: String
+}
+
+class HeadCoach <<interface>> {
+  +identifyPlayerProfiles(): PlayerProfile
+  +reviewScoutingReports(): List<ScoutingReport>
+  +approveShortList(): List<Player>
+}
+
+class Director <<interface>> {
+  +makeOfficialOffer(): Offer
+}
+
+class Scout <<interface>> {
+  +notePlayerOnLongList(): Player
+  +submitScoutingReport(): ScoutingReport
+}
+
+class Player {
+  -id: int
+  -name: String
+  -position: String
+  -attributes: Map<String, Integer>
+}
+
+class PlayerProfile {
+  -targetPosition: String
+  -requiredAttributes: Map<String, Integer>
+}
+
+class ScoutingAssignment {
+  -id: int
+  -player: Player
+  -scout: Scout
+  -status: String
+}
+
+class ScoutingReport {
+  -id: int
+  -player: Player
+  -pros: List<String>
+  -cons: List<String>
+  -recommendation: String
+}
+
+class Offer {
+  -id: int
+  -player: Player
+  -club: String
+  -terms: String
+}
+
+class LongList {
+  -players: List<Player>
+}
+
+class ShortList {
+  -players: List<Player>
+}
+
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+
+HeadCoach "1" --> "0..*" PlayerProfile
+HeadCoach "1" --> "0..*" ScoutingReport
+HeadCoach "1" --> "0..*" ShortList
+
+Director "1" --> "0..*" Offer
+
+Scout "1" --> "0..*" ScoutingAssignment
+Scout "1" --> "0..*" ScoutingReport
+
+ScoutingAssignment "1" --> "1" Player
+ScoutingAssignment "1" --> "1" Scout
+
+LongList "1" --> "0..*" Player
+ShortList "1" --> "0..*" Player
+
+PlayerProfile "1" --> "0..*" Player
+@enduml
+
+### Explanation of Key Elements:
+- **Employee**: Base class for all club personnel.
+- **HeadCoach**, **Director**, **Scout**: Interfaces representing roles with specific responsibilities.
+- **Player**: Represents players being scouted, including position and attributes.
+- **PlayerProfile**: Defines the target profile for scouting.
+- **ScoutingAssignment**: Task assigned to a scout to investigate a player.
+- **ScoutingReport**: Report submitted after a scouting assignment.
+- **LongList/ShortList**: Collections of players under evaluation.
+- **Offer**: Final step made by the director if a player is approved.
+

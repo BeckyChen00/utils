@@ -1,0 +1,102 @@
+
+---
+
+
+@startuml
+
+' Game Area has a name and contains game elements and game pieces
+class GameArea {
+    name: String
+}
+
+' A GameElement has x and y coordinates
+class GameElement {
+    x: long
+    y: long
+}
+
+' Shape is a type of GameElement
+class Shape {
+}
+
+' Object is a type of GameElement
+class Object {
+}
+
+' Opponent is a type of GameElement
+class Opponent {
+    lives: int
+    kill()
+}
+
+' Boss is a specific type of Opponent
+class Boss {
+}
+
+' Relationship between GameArea and GameElement (composition)
+GameArea "1" -- "1..*" GameElement : contains
+
+' GameArea has 1..2 GamePieces (not explicitly modeled here, but can be added if needed)
+
+' GameElement inheritance
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+
+' Shape to Shape connection
+Shape "0..*" -- "0..*" Shape : connectsTo
+
+' GameArea knows one Boss
+GameArea "1" -- "1" Boss : hasBoss
+
+@enduml
+
+---
+
+### ✅ Textual Description in DEX-like Syntax
+
+Below is the textual representation of the same class diagram using the DEX-style syntax:
+
+class GameArea {
+    - name: String
+}
+
+class GameElement {
+    - x: long
+    - y: long
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+    - lives: int
+    + kill()
+}
+
+class Boss {
+}
+
+GameArea "1" -- "1..*" GameElement : contains
+
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+
+Shape "0..*" -- "0..*" Shape : connectsTo
+
+GameArea "1" -- "1" Boss : hasBoss
+
+---
+
+### 📝 Notes
+
+- **Role names** are used in associations (`hasBoss`, `connectsTo`).
+- **Inheritance** is shown using `<|--`.
+- The `GamePiece` was not fully described in the requirements, so it's omitted unless you want to include it.
+- All visibilities (public/protected/private) are ignored as per instructions.
+
+Let me know if you'd like to expand this with more details or add `GamePiece`.

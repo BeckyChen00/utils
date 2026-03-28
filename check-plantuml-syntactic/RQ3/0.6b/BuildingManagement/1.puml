@@ -1,0 +1,20 @@
+@startuml
+
+class SystemRequirement { 
+  id: "System Requirement"
+}
+  class Diagram {
+  }
+  class Requirements {
+    id: "Requirements"
+    attributes: [
+      name: "Name",
+      description: "Description of the requirement"
+    ]
+  }
+  class SystemRequirement extends Requirements {
+    id: "System Requirement"
+  }
+}
+
+@enduml

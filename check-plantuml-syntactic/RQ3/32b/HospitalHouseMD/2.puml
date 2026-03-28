@@ -1,0 +1,98 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Patient {
+  +String name
+  +int id
+  +consentGiven: boolean
+  +retractConsent(): void
+}
+
+class Doctor {
+  +String name
+  +int id
+  +makeDiagnosis(patient: Patient, illness: Illness): Diagnosis
+  +approveDiagnosis(diagnosis: Diagnosis): void
+  +changeTreatmentStage(treatment: Treatment, stage: int): void
+}
+
+class HeadDoctor extends Doctor {
+  +approveDiagnosis(diagnosis: Diagnosis): boolean
+}
+
+class Nurse {
+  +checkPatient(patient: Patient): void
+}
+
+class Illness {
+  +String name
+  +priorityScore: PriorityScore
+  +setPriorityScore(score: PriorityScore): void
+}
+
+enum PriorityScore {
+  HIGH
+  LOW
+}
+
+class Diagnosis {
+  +Illness illness
+  +approved: boolean
+  +approvedBy: Doctor
+}
+
+class Treatment {
+  +Illness illness
+  +currentStage: int
+  +patient: Patient
+  +upgradeStage(stage: int): void
+  +downgradeStage(stage: int): void
+}
+
+class ConsentForm {
+  +Patient patient
+  +signed: boolean
+  +sign(): void
+}
+
+class StageRules {
+  +canUpgrade(currentStage: int, newStage: int, consentGiven: boolean, priorityScore: PriorityScore): boolean
+  +applyStageUpgrade(treatment: Treatment, stage: int): void
+}
+
+' Relationships
+
+Patient "1" -- "0..*" Diagnosis : has
+Patient "1" -- "0..*" Treatment : receives
+Patient "1" -- "1" ConsentForm : has
+
+Doctor "0..*" -- "1" Diagnosis : makes
+HeadDoctor "1" -- "0..*" Diagnosis : approves
+
+Doctor "0..*" -- "0..*" Treatment : manages
+Nurse "0..*" -- "0..*" Patient : checks
+
+Illness "1" -- "0..*" Diagnosis : related to
+Illness "1" -- "0..*" Treatment : has possible treatments
+Illness "1" -- "1" PriorityScore : has
+
+Treatment "1" -- "1" StageRules : follows rules
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **Patient**: Central entity receiving care. Has a treatment, diagnosis, and can give/retract consent.
+- **Doctor / HeadDoctor**: Doctors make diagnoses, which must be approved by a head doctor before treatment.
+- **Nurse**: Performs follow-ups depending on the treatment stage.
+- **Illness**: Each illness has a priority score (High/Low), which affects treatment stages.
+- **Diagnosis**: Must be approved by a head doctor before treatment is allowed.
+- **Treatment**: Has a stage (1–3) and is influenced by illness priority and patient consent.
+- **ConsentForm**: Tracks whether the patient has given consent to move from stage 1 to higher stages.
+- **StageRules**: Logical component that defines how stages can be upgraded or downgraded.
+
+---
+

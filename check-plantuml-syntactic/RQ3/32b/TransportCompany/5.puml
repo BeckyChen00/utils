@@ -1,0 +1,99 @@
+
+@startuml
+
+' Define classes with attributes and associations
+
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+}
+
+class Planner extends Employee {
+    - username: String
+    - password: String
+}
+
+class AdministrativeStaff extends Employee {
+    - fieldOfActivity: String
+    - username: String
+    - password: String
+}
+
+class Customer {
+    - name: String
+    - billingAddress: String
+}
+
+class Vehicle {
+    - licensePlate: String
+    - mileage: Integer
+    + getType(): String
+}
+
+abstract class VehicleType {
+    <<abstract>>
+}
+
+class RefrigeratedTruck extends VehicleType {}
+class SmallVan extends VehicleType {}
+class LoadingPlatform extends VehicleType {}
+class BoxTruck extends VehicleType {}
+
+Vehicle "1" -- "1" : has type -->
+VehicleType "0..*" : <|-- "1"
+
+class RepairShop {
+    - name: String
+    - address: String
+}
+
+class VehicleRepair {
+    - employee: Employee
+    - duration: Duration
+    - cost: Double
+    - repairShop: RepairShop
+}
+
+class Order {
+    - comment: String
+    - startTime: DateTime
+    - endTime: DateTime
+    - pickupAddress: String
+    - deliveryAddress: String
+}
+
+class Driver extends Employee {
+}
+
+class PartnerCompany {
+    - name: String
+    - address: String
+}
+
+' Associations
+
+Planner --> Order : assigns
+Order --> Driver : assignedTo
+Order --> Vehicle : uses
+Order --> Customer : belongsTo
+Order --> Planner : assignedBy
+Order --> AdministrativeStaff : placedBy
+Order --> PartnerCompany : placedWith (optional)
+
+Vehicle --> VehicleRepair : may have
+Employee --> VehicleRepair : performed by
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Employee**, **Planner**, and **AdministrativeStaff**: Inheritance structure for staff members.
+- **Customer**, **Vehicle**, **VehicleType**, **PartnerCompany**: Entities representing business data.
+- **VehicleType** is abstract to allow multiple types of vehicles.
+- **Order** is central and connects customers, drivers, planners, vehicles, and partners.
+- **VehicleRepair** links a vehicle to its repair details and the involved employee/shop.
+
+---
+

@@ -1,0 +1,87 @@
+@startuml
+enum EquipmentState {
+  Idle
+  Active
+  Faulty
+  MaintenanceMode
+  Standby
+  Calibrating
+}
+enum VehicleType {
+  Bus
+  Truck
+  Motorcycle
+  ElectricTruck
+  Trailer
+}
+class MaintenanceTask {
+  priorityLevel: int
+  description: String
+  status: String
+  scheduledDate: Date
+  requiredTools: String[]
+  +updateStatus(newStatus: String): void
+  +addTool(tool: String): void
+}
+class TechnicalComponent {
+  componentName: String
+  serialNumber: String
+}
+class RoadSegment {
+  name: String
+  distance: double
+  isEnclosed: boolean
+  +getAvailableFuels(minQuantity: double): double
+  +getMaintenanceHazards(): List<String>
+}
+class Vehicle {
+  licensePlate: String
+  vehicleType: VehicleType
+  currentStatus: String
+  +selectRoute(targetSegment: RoadSegment): void
+  +optimizeRoute(): void
+}
+class DiagnosticReport {
+  summary: String
+  lastCheckDate: Date
+  +generateSummary(): String
+  +getCriticalIssues(): List<String>
+}
+class ExpertEngineer {
+  name: String
+  specialization: String
+  isAvailable: boolean
+  +assignRole(task: MaintenanceTask): void
+  +reviewReport(report: DiagnosticReport): void
+}
+class CrewMember {
+  name: String
+  role: String
+  isPresent: boolean
+  +performMaintenance(task: MaintenanceTask): boolean
+  +getRemainingCapacity(): double
+}
+class ServiceCenter {
+  centerName: String
+  location: String
+  +scheduleRepair(task: MaintenanceTask): void
+  +hasAvailableStaff: boolean
+}
+class MaintenanceSchedule {
+  frequency: int
+  cycleStartDate: Date
+  +generateNextSchedule(): MaintenanceSchedule
+  +getNextTarget(): RoadSegment
+}
+ExpertEngineer "1" *-- "0..*" MaintenanceTask : assignedTasks
+MaintenanceTask "1" --> "0..*" TechnicalComponent : requiredParts
+Vehicle "1" --> "0..*" RoadSegment : assignedSegments
+Vehicle "1" --> "0..*" CrewMember : crew
+Vehicle "1" *-- "0..*" DiagnosticReport : maintenanceReports
+Vehicle "1" *-- "0..*" TechnicalComponent : installedParts
+Vehicle "1" --> "1" ExpertEngineer : ownerEngineer
+ServiceCenter "1" *-- "0..*" MaintenanceTask : pendingTasks
+ServiceCenter "1" *-- "0..*" Vehicle : repairedVehicles
+ServiceCenter "1" --> "0..*" MaintenanceTask : workOnTasks
+MaintenanceSchedule "1" --> "1" RoadSegment : targetSegment
+@enduml

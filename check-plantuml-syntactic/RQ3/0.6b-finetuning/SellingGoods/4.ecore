@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedLog" eType="#//SimulationLog" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedTasks" eType="#//SimulationTask" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedParameters" eType="#//TaskParameter" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskParameter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Agent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initiatedTask" eType="#//SimulationTask"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentEnvironment" eType="#//Environment"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Environment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentChambers" eType="#//EnvironmentState" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnvironmentState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referringEnvironment" eType="#//Environment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Strategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicableAgents" eType="#//Agent" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,45 @@
+@startuml
+enum MaterialType {
+  Wood
+  Brick
+  Concrete
+}
+enum BasementType {
+  EarthBasement
+  ConcreteBasement
+}
+enum RoofType {
+  FlatRoof
+  SlopedRoof
+}
+class House {
+  address: String
+  materialType: MaterialType
+  +getAddress(): String
+}
+class SemiDetachedHouse {
+  hasGarden: boolean
+  numberOfWindows: int
+  +getHouseName(): String
+  +calculateTotalPrice(): double
+  +getConstructionCost(): double
+}
+class Basement {
+  type: BasementType
+  humidityLevel: int
+}
+class JobLog {
+  jobDate: Date
+  hoursWorked: double
+  priceAgreed: double
+  +recordJobDetails(hours: double, price: double)
+}
+class ServiceCompany {
+  companyName: String
+  address: String
+}
+House *-- "0..*" Basement : basements
+SemiDetachedHouse --|> House
+House *-- "0..*" JobLog : jobLogs
+House --> "1..*" ServiceCompany : employedCompanies
+@enduml

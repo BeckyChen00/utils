@@ -1,0 +1,29 @@
+@startuml
+
+classDiagram
+    class SystemRequirements {
+        requires user1, user2, user3, user4;
+    }
+
+    class Users {
+        users = [user1, user2, user3, user4]
+    }
+
+    class User {
+        name string;
+        email string;
+        password string;
+        role string;
+    }
+
+    class Role {
+        name string;
+    }
+
+    class SystemRequirement {
+        name string;
+        type string;
+        dependencies list;
+    }
+
+@enduml

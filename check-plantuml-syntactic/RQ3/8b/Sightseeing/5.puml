@@ -1,0 +1,49 @@
+@startuml
+
+class City {
+  -name: String
+  -inhabitants: int
+  +getAttractions(): List<Attraction>
+}
+
+class Attraction {
+  -name: String
+  -address: String
+  +getGuidedTours(): List<GuidedTour>
+}
+
+class GuidedTour {
+  -name: String
+  -duration: int
+  -tourNumber: int
+  -maxVisitors: int = 20
+  +getVisitors(): List<Visitor>
+  +getDiscounts(): List<Discount>
+  +getGuide(): Guide
+}
+
+class Visitor {
+  -name: String
+  +getDiscounts(): List<Discount>
+}
+
+class Discount {
+  -amount: double
+  -visitor: Visitor
+  -guidedTour: GuidedTour
+}
+
+class Guide {
+  -name: String
+  +getGuidedTours(): List<GuidedTour>
+}
+
+City "1" -- "0..*" Attraction : has
+Attraction "1" -- "0..*" GuidedTour : offers
+GuidedTour "1" -- "0..*" Visitor : includes
+GuidedTour "1" -- "0..1" Guide : requires
+Visitor "1" -- "0..*" Discount : has
+Discount "1" -- "1" GuidedTour : applies to
+Discount "1" -- "1" Visitor : applies to
+
+@enduml

@@ -1,0 +1,60 @@
+@startuml
+
+class Customer {
+  - String firstName
+  - String lastName
+  - Account[] accounts (1..5)
+}
+
+class Branch {
+  - int branchID
+  - String branchName
+  - Account[] accounts
+}
+
+class Account {
+  - int accountNumber
+  - double balance
+  - Customer owner
+  - Branch branch
+}
+
+class CurrentAccount {
+  - double overdraftLimit
+  -- Account
+}
+
+class SavingsAccount {
+  -- Account
+}
+
+Customer "1" -- "0..*" Account : manages
+Account "1" -- "1" Customer : owned by
+Account "1" -- "1" Branch : located in
+CurrentAccount "--" Account : inherits
+SavingsAccount "--" Account : inherits
+
+@enduml
+
+### Explanation:
+
+- **Customer** has:
+  - First name and last name as strings.
+  - A list of accounts (between 1 and 5).
+  
+- **Branch** has:
+  - A unique branch ID.
+  - A branch name.
+  - A list of accounts.
+
+- **Account** has:
+  - An account number (int).
+  - A balance (double).
+  - A reference to the customer who owns it.
+  - A reference to the branch where it is located.
+
+- **CurrentAccount** and **SavingsAccount** are subtypes of **Account** with their own specific attributes:
+  - `CurrentAccount` has an overdraft limit (double).
+  - `SavingsAccount` does not have any additional attributes beyond those of a general account.
+
+This diagram captures the relationships and constraints described in the system requirements.

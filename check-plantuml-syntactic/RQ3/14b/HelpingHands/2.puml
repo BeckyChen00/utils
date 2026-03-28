@@ -1,0 +1,124 @@
+
+@startuml
+
+' Classes involved in the Helping Hands Store (H2S) system
+class Resident {
+  - name: String
+  - streetAddress: String
+  - phoneNumber: String
+  - email: String (optional)
+  - itemDescription: String
+}
+
+class PickupRequest {
+  - pickupDate: Date
+  - pickupTime: Time
+  - status: String (e.g., scheduled, completed)
+  - resident: Resident
+  - items: List<Item>
+}
+
+class Item {
+  - description: String
+  - weight: Double
+  - dimensions: String
+  - category: Category
+}
+
+class Category {
+  - id: Integer
+  - name: String
+  - description: String
+}
+
+class Vehicle {
+  - vehicleId: Integer
+  - capacity: Double
+  - availableDays: List<Day>
+}
+
+class VolunteerDriver {
+  - driverId: Integer
+  - name: String
+  - phoneNumber: String
+  - availableDays: List<Day>
+  - assignedVehicle: Vehicle
+}
+
+class PickupRoute {
+  - routeId: Integer
+  - date: Date
+  - vehicle: Vehicle
+  - pickupRequests: List<PickupRequest>
+}
+
+class DistributionCenter {
+  - centerId: Integer
+  - address: String
+  - employee: Employee
+}
+
+class Employee {
+  - employeeId: Integer
+  - name: String
+  - role: String
+  - assignedCenter: DistributionCenter
+}
+
+class RFIDTag {
+  - tagId: String
+  - assignedItem: Item
+}
+
+class FoodBank {
+  - foodBankId: Integer
+  - address: String
+}
+
+class DeliveryRequest {
+  - deliveryDate: Date
+  - deliveryTime: Time
+  - client: Client
+  - item: Item
+  - volunteerDriver: VolunteerDriver
+}
+
+class Client {
+  - clientId: Integer
+  - name: String
+  - address: String
+  - preferredCategories: List<Category>
+}
+
+class Day {
+  - dayName: String
+}
+
+' Relationships
+Resident "1" --> "1" PickupRequest
+PickupRequest "1" --> "*" Item
+Item "1" --> "1" Category
+Vehicle "1" --> "*" PickupRequest
+VolunteerDriver "1" --> "1" Vehicle
+PickupRoute "1" --> "*" PickupRequest
+PickupRoute "1" --> "1" Vehicle
+DistributionCenter "1" --> "*" Employee
+Employee "1" --> "*" Item
+Employee "1" --> "*" RFIDTag
+Employee "1" --> "*" DeliveryRequest
+Client "1" --> "*" DeliveryRequest
+Client "1" --> "*" Category
+FoodBank "1" --> "*" Item
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The `Day` class is used to represent available days for drivers and clients.
+- The `Category` class has a list of 134 standard categories (not fully modeled here).
+- Items are categorized after being received at the distribution center.
+- RFID tags are applied to usable second-hand articles.
+- Delivery requests are made by clients who cannot visit the center directly.
+- Volunteer drivers handle both pickups and deliveries depending on their schedule.
+

@@ -1,0 +1,93 @@
+@startuml
+class Customer {
+  address: String
+  phone: String
+  +register()
+}
+class Broker {
+  name: String
+  licenseNumber: String
+  +takeOnExamination(customer: Customer)
+}
+class InsurancePolicy {
+  policyNumber: String
+  contractDate: Date
+  validityMonths: int
+  coverageType: String
+  +getCoverageDetails(): String
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  paymentStatus: String
+  +generatePDF(): String
+  +calculateTotal(): double
+  +recordPayment(amount: double)
+}
+class InsuranceClaim {
+  claimNumber: String
+  claimDate: Date
+  incidentDescription: String
+  status: String
+  +submitClaim(description: String)
+  +updateStatus(newStatus: String)
+}
+class ClaimCase {
+  caseNumber: String
+  severityLevel: int
+  estimatedCost: double
+  +addEstimator(report: EstimatorReport)
+  +approveClaim(): ApprovalDecision
+}
+class ApprovalDecision {
+  decisionDate: Date
+  approvedAmount: double
+  comments: String
+  isApproved: boolean
+  +generateSummary(): String
+}
+class EstimatorReport {
+  reportDate: Date
+  content: String
+  +addNote(note: String)
+}
+class CompensationPayment {
+  paymentDate: Date
+  amount: double
+  bankReference: String
+  +executeTransfer()
+}
+class ClaimDocument {
+  documentType: String
+  uploadDate: Date
+  +verifyDocument(): boolean
+}
+class ClaimAuditor {
+  auditorName: String
+  +conductAudit(case: ClaimCase): ApprovalDecision
+}
+class PremiumCalculator {
+  +calculatePremium(policy: InsurancePolicy): double
+  +calculateRiskScore(customer: Customer): int
+}
+class StatisticsAggregate {
+  +aggregateClaimsByMonth(year: int): Map
+  +getAverageClaimValue(): double
+}
+Customer "1" *-- "0..*" InsuranceClaim : filedClaims
+InsuranceClaim "1" *-- "1..*" ClaimCase : associatedCases
+ClaimCase "1" *-- "1..*" EstimatorReport : generatedReports
+EstimatorReport "1" *-- "0..*" ClaimDocument : attachedDocuments
+InsurancePolicy "1" *-- "0..*" Invoice : generatedInvoices
+InsurancePolicy "1" *-- "1" Customer : insuredCustomer
+Broker "1" *-- "0..*" Customer : managedCustomers
+ClaimCase "1" --> "1" ClaimAuditor : assignedAuditor
+InsurancePolicy "1" --> "1" PremiumCalculator : pricingCalculator
+InsurancePolicy "1" --> "0..*" CompensationPayment : resultingPayments
+ApprovalDecision "1" --> "1" CompensationPayment : triggeredPayment
+ClaimCase "1" --> "1" ApprovalDecision : finalDecision
+InsuranceClaim "1" --> "0..*" CompensationPayment : triggeredPayments
+StatisticsAggregate "1" --> "0..*" InsuranceClaim : aggregatedClaims
+@enduml

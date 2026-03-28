@@ -1,0 +1,122 @@
+
+---
+
+
+@startuml
+skinparam classAttributeIconSize 0
+
+' Main Classes
+class Customer {
+    +String id
+    +String name
+    +String contactInfo
+    +Broker assignedBroker
+    +List<InsurancePolicy> policies
+}
+
+class Broker {
+    +String id
+    +String name
+    +String contactInfo
+    +List<Customer> customers
+}
+
+class InsurancePolicy {
+    +String id
+    +String type
+    +Customer customer
+    +Date startDate
+    +Date endDate
+    +Boolean active
+    +Double price
+    +Frequency frequency
+}
+
+enum Frequency {
+    MONTHLY, YEARLY
+}
+
+class Claim {
+    +String id
+    +Customer customer
+    +Date submissionDate
+    +List<ClaimCase> claimCases
+}
+
+class ClaimCase {
+    +String id
+    +Claim claim
+    +Date dateReceived
+    +List<EstimatorReport> reports
+    +Boolean approved
+}
+
+class EstimatorReport {
+    +String id
+    +ClaimCase claimCase
+    +Date reportDate
+    +Double compensationAmount
+    +String notes
+}
+
+class ContractOffer {
+    +String id
+    +Customer customer
+    +InsurancePolicy policy
+    +Date offerDate
+    +Boolean accepted
+}
+
+class Contract {
+    +String id
+    +Customer customer
+    +InsurancePolicy policy
+    +Date signingDate
+    +Double totalCost
+    +Frequency frequency
+}
+
+class Invoice {
+    +String id
+    +Contract contract
+    +Date issueDate
+    +Double amountDue
+    +Status status
+}
+
+enum Status {
+    PENDING, PAID, OVERDUE
+}
+
+' Relationships
+Customer "1" -- "1" Broker : assigned to
+Customer "1" -- "0..*" InsurancePolicy : has
+Broker "1" -- "0..*" Customer : manages
+InsurancePolicy "1" -- "1" ContractOffer : related to
+ContractOffer "1" -- "1" Customer : offered to
+ContractOffer "1" -- "1" InsurancePolicy : offers
+Customer "1" -- "0..*" Contract : has
+Contract "1" -- "1" InsurancePolicy : covers
+Contract "1" -- "0..*" Invoice : generates
+Claim "1" -- "0..*" Customer : submitted by
+Claim "1" -- "0..*" List<ClaimCase> : contains
+ClaimCase "1" -- "0..*" EstimatorReport : has
+EstimatorReport "1" -- "1" ClaimCase : belongs to
+EstimatorReport "1" -- "1" ClaimCase : for
+ClaimCase "1" -- "1" Claim : part of
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The diagram models **main entities**: `Customer`, `Broker`, `InsurancePolicy`, `Claim`, `ClaimCase`, `EstimatorReport`, `ContractOffer`, `Contract`, and `Invoice`.
+- It also includes an **enum** for `Frequency` (MONTHLY/YEARLY) and `Status` (PENDING/PAID/OVERDUE).
+- Relationships are modeled with appropriate multiplicities.
+- The `EstimatorReport` is linked to a `ClaimCase` and stored for at least one year after payment (this is reflected in the model through the association).
+
+---
+
+### 🔍 How to Use:
+
+Let me know if you'd like a version with more detailed methods or interactions!

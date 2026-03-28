@@ -1,0 +1,11 @@
+@startuml
+classDiagram
+    user --> [User] (Name)
+    [User] --> [Role] (Role)
+    [Role] --> [Department] (Department)
+    [Department] --> [Location] (Location)
+    [Location] --> [City] (City)
+
+    [User] --> [Email] (Email)
+    [Email] --> [Password] (Password)
+@enduml

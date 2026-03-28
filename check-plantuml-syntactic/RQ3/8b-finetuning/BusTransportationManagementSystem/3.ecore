@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultShift" eType="#//Shift" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Shift"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusRoute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedSchedule" eType="#//ScheduleEntry" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultBus" eType="#//Bus" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScheduleEntry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedDriver" eType="#//BusDriver" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedBus" eType="#//Bus" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bus">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignments" eType="#//Schedule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusDriver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignments" eType="#//Schedule" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

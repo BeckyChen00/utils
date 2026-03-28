@@ -1,0 +1,116 @@
+
+@startuml
+' Class Diagram for Elderly Home Management System
+
+class Department {
+  -id: int
+  -name: String
+  -rooms: Set<Room>
+}
+
+class Room {
+  -id: int
+  -number: int
+  -beds: Set<Bed>
+}
+
+class Bed {
+  -id: int
+  -category: Category
+  -isOccupied: boolean
+}
+
+class Category {
+  -id: int
+  -type: String (RH, RNH, SF)
+  -pricePerDay: float
+}
+
+class Inhabitant {
+  -id: int
+  -name: String
+  -dateOfBirth: Date
+  -registrationDate: Date
+  -waitingListPosition: int
+  -stays: Set<Stay>
+}
+
+class Stay {
+  -id: int
+  -startDate: Date
+  -endDate: Date
+  -category: Category
+  -bed: Bed
+  -status: String (active, suspended, ended)
+  -invoices: Set<Invoice>
+}
+
+class WaitingList {
+  -inhabitants: List<Inhabitant>
+}
+
+class Invoice {
+  -id: int
+  -date: Date
+  -amount: float
+  -outstandingAmount: float
+  -status: String (pending, paid)
+  -stay: Stay
+}
+
+class PaymentEvent {
+  -id: int
+  -date: Date
+  -amount: float
+  -invoice: Invoice
+}
+
+class Assessment {
+  -id: int
+  -date: Date
+  -category: Category
+  -inhabitant: Inhabitant
+}
+
+class CreditNote {
+  -id: int
+  -amount: float
+  -date: Date
+  -paymentEvent: PaymentEvent
+}
+
+' Relationships
+
+Department "1" --> "0..*" Room
+Room "1" --> "0..*" Bed
+Bed "1" --> "1" Category
+Inhabitant "1" --> "0..*" Stay
+Inhabitant "1" --> "0..1" Assessment
+Stay "1" --> "1" Category
+Stay "1" --> "0..*" Invoice
+Invoice "1" --> "1" Stay
+PaymentEvent "1" --> "1" Invoice
+CreditNote "1" --> "1" PaymentEvent
+Assessment "1" --> "1" Inhabitant
+WaitingList "1" --> "0..*" Inhabitant
+@enduml
+
+---
+
+### ✅ Summary of Classes:
+
+- **Department**: Manages rooms.
+- **Room**: Contains beds.
+- **Bed**: Belongs to a category and can be occupied or not.
+- **Category**: Defines types of stays (RH, RNH, SF) with price per day.
+- **Inhabitant**: Has multiple stays and may be on a waiting list.
+- **Stay**: Represents a period in a specific category with associated invoices.
+- **Invoice**: Generated monthly, can be modified until paid.
+- **PaymentEvent**: Records payments made by inhabitants.
+- **CreditNote**: Created when an overpayment occurs.
+- **Assessment**: Determines the appropriate stay type for an inhabitant.
+- **WaitingList**: Maintains inhabitants waiting for a bed of a specific category.
+
+---
+
+Let me know if you'd like this exported as an image or expanded with more details (e.g., methods, associations, etc.)!

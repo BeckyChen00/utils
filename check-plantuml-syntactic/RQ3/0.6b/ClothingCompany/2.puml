@@ -1,0 +1,13 @@
+@startuml
+classDiagram
+
+system requirement --> class diagram
+
+[system requirement]
+    requires: 
+        [class1] -> [method1]
+        [class2] -> [method2]
+        ...
+
+
+@enduml

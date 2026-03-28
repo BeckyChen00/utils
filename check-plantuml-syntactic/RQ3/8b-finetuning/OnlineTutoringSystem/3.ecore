@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="browseOffers" eType="#//SubjectOffer" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SubjectOffer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Student">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedRequests" eType="#//Request" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participatesIn" eType="#//Confirmation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participatesInAward" eType="#//MonthlyAward" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Request"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Confirmation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Tutor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providesOffers" eType="#//SubjectOffer" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leadsSessions" eType="#//Confirmation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="respondsTo" eType="#//Request" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivesAward" eType="#//MonthlyAward" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MonthlyAward"/>
+</ecore:EPackage>

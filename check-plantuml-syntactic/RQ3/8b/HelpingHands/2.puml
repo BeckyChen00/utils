@@ -1,0 +1,119 @@
+
+@startuml
+
+' Define classes
+class Resident {
+  +name: String
+  +streetAddress: String
+  +phoneNumber: String
+  +email: String (optional)
+  +descriptionOfItems: String
+  +schedulePickup(date: Date, time: Time)
+}
+
+class Item {
+  +itemID: String
+  +description: String
+  +dimensions: Dimensions
+  +weight: Weight
+  +category: Category
+}
+
+class PickupRequest {
+  +requestID: String
+  +resident: Resident
+  +pickupDate: Date
+  +pickupTime: Time
+  +items: List<Item>
+}
+
+class Vehicle {
+  +vehicleID: String
+  +storageCapacity: Capacity
+  +driver: VolunteerDriver (optional)
+}
+
+class VolunteerDriver {
+  +driverID: String
+  +name: String
+  +availableDays: List<Date>
+  +assignToVehicle(vehicle: Vehicle)
+}
+
+class PickupRoute {
+  +routeID: String
+  +vehicle: Vehicle
+  +pickupRequests: List<PickupRequest>
+  +scheduleRoute()
+}
+
+class DistributionCenter {
+  +processItems(items: List<Item>)
+  +tagItem(item: Item)
+  +correctDescription(item: Item)
+  +assignCategory(item: Item)
+}
+
+class FoodBank {
+  +receiveNonPerishableFoods(items: List<Item>)
+}
+
+class Client {
+  +clientID: String
+  +name: String
+  +address: String
+  +preferredCategories: List<Category>
+}
+
+class ArticleDelivery {
+  +deliveryID: String
+  +client: Client
+  +item: Item
+  +deliveryTime: Time
+  +arrangeDelivery()
+}
+
+class NotificationService {
+  +notifyClient(client: Client, items: List<Item>)
+}
+
+' Associations
+
+Resident --> PickupRequest
+PickupRequest --> Item
+PickupRequest --> PickupRoute
+Vehicle --> PickupRoute
+VolunteerDriver --> Vehicle
+PickupRoute --> PickupRequest
+DistributionCenter --> Item
+FoodBank --> Item
+Client --> ArticleDelivery
+ArticleDelivery --> Item
+NotificationService --> Client
+NotificationService --> ArticleDelivery
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Entities and Relationships:
+
+- **Resident**: The person who schedules a pickup.
+- **Item**: Represents the item being picked up. Includes description, dimensions, weight, and category.
+- **PickupRequest**: A request made by a resident to schedule a pickup.
+- **Vehicle**: A pickup vehicle with storage capacity and a driver.
+- **VolunteerDriver**: A person who can drive a vehicle on certain days.
+- **PickupRoute**: A route planned for a vehicle on a specific day.
+- **DistributionCenter**: Processes items received from pickups, tags them, and assigns categories.
+- **FoodBank**: Receives non-perishable food items directly from pickups.
+- **Client**: A recipient of articles from H2S, possibly requiring delivery.
+- **ArticleDelivery**: A delivery of an item to a client.
+- **NotificationService**: Sends notifications to clients about available items.
+
+---
+
+### 📌 Notes:
+- This is a **high-level conceptual class diagram**, focusing on the main entities and their relationships.
+- You can expand this diagram further with more details like attributes, methods, or constraints if needed.
+
+Let me know if you'd like a **sequence diagram** or **state diagram** as well!

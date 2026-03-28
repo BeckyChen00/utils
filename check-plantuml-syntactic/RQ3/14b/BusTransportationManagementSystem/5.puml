@@ -1,0 +1,72 @@
+
+@startuml
+' Class Diagram for Bus Transportation Management System (BTMS)
+
+class Driver {
+  -id: String
+  -name: String
+  -isSick: Boolean
+}
+
+class Bus {
+  -licensePlate: String
+  -isInRepair: Boolean
+}
+
+class Route {
+  -routeNumber: Integer
+}
+
+class Assignment {
+  -date: Date
+  -shiftType: String (morning, afternoon, night)
+  -driverId: String
+  -busLicensePlate: String
+  -routeNumber: Integer
+}
+
+class ScheduleOverview {
+  +getRouteAssignments(date: Date): List<RouteAssignment>
+}
+
+class RouteAssignment {
+  -routeNumber: Integer
+  -licensePlate: String
+  -shifts: List<Shift>
+  -drivers: List<Driver>
+}
+
+class Shift {
+  -shiftType: String
+  -driverId: String
+}
+
+' Associations
+
+Driver "1" -- "0..*" Assignment : assigned to
+Bus "1" -- "0..*" Assignment : assigned to
+Route "1" -- "0..*" Assignment : has assignment
+
+Assignment "1" -- "1" Route : belongs to route
+Assignment "1" -- "1" Driver : involves driver
+Assignment "1" -- "1" Bus : involves bus
+
+ScheduleOverview "1" -- "0..*" RouteAssignment : displays
+RouteAssignment "1" -- "0..*" Shift : includes
+Shift "1" -- "1" Driver : assigned to
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Driver**: Holds the unique ID, name, and sick status.
+- **Bus**: Stores the license plate and repair status.
+- **Route**: Identified by a route number up to 9999.
+- **Assignment**: Represents the mapping between a **Driver**, **Bus**, **Route**, and **Date/Shift**.
+- **ScheduleOverview**: Provides an overview of assignments for a given day.
+- **RouteAssignment**: Contains all buses and drivers assigned to a specific route on a particular day.
+- **Shift**: Defines the type of shift (morning, afternoon, night) and which driver is involved.
+
+This model captures the flexibility in assigning drivers and buses to shifts and routes, while also supporting tracking of sick leaves and maintenance status.

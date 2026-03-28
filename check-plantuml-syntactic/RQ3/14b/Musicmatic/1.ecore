@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//title" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="title"/>
+  <eClassifiers xsi:type="ecore:EClass" name="year">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//genre"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="genre"/>
+  <eClassifiers xsi:type="ecore:EClass" name="trackNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//trackNumber"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//address"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="dateOfBirth">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Integer" eType="#//id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="address"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+</ecore:EPackage>

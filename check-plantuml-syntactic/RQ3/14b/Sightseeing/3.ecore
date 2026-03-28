@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Guide">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="inhabitants">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="address">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Integer_=_20" eType="#//maxVisitors" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="maxVisitors"/>
+  <eClassifiers xsi:type="ecore:EClass" name="discountAmount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="City">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Attraction" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attraction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offers" eType="#//GuidedTour" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GuidedTour">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requires" eType="#//Guide" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includes" eType="#//Visitor" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Visitor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participates_in_" eType="#//GuidedTour" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,12 @@
+@startuml
+classDiagram
+
+systemRequirement --> classDiagram
+
+# System Requirement
+systemRequirement --> component1
+systemRequirement --> component2
+component1 --> component3
+component2 --> component3
+component3 --> systemRequirement
+@enduml

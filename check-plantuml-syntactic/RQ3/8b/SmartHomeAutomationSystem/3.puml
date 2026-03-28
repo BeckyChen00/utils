@@ -1,0 +1,102 @@
+
+---
+
+
+@startuml
+skinparam classAttributeIconSize 0
+
+' Main Classes
+class SmartHome {
+    +String physicalAddress
+    +List<Room> rooms
+    +List<Device> devices
+    +List<ActivityLogEntry> activityLog
+    +List<AutomationRule> automationRules
+}
+
+class Room {
+    +String name
+    +List<Device> devices
+}
+
+class Device {
+    +String deviceId
+    +String type
+    +boolean isActive
+    +String location
+}
+
+class SensorDevice {
+    +String deviceId
+    +String type
+    +String location
+    +List<SensorReading> readings
+}
+
+class ActuatorDevice {
+    +String deviceId
+    +String type
+    +String location
+    +List<ControlCommand> commands
+}
+
+class ActivityLogEntry {
+    +Timestamp timestamp
+    +String deviceID
+    +String type (Sensor/Actuator)
+    +String value
+    +String status
+}
+
+class AutomationRule {
+    +String ruleID
+    +String description
+    +boolean isActive
+    +String precondition
+    +List<ControlCommand> actionCommands
+    +List<AutomationRule> dependentRules
+    +List<AutomationRule> conflictingRules
+}
+
+class SensorReading {
+    +Timestamp timestamp
+    +String deviceID
+    +double value
+}
+
+class ControlCommand {
+    +Timestamp timestamp
+    +String deviceID
+    +String commandType
+    +String status
+}
+
+' Relationships
+SmartHome "1" -- "0..*" Room : contains
+SmartHome "1" -- "0..*" Device : has
+Room "1" -- "0..*" Device : contains
+Device "--" SensorDevice : is-a
+Device "--" ActuatorDevice : is-a
+SmartHome "1" -- "0..*" ActivityLogEntry : logs
+SmartHome "1" -- "0..*" AutomationRule : has
+AutomationRule "1" -- "0..*" AutomationRule : dependsOn
+AutomationRule "1" -- "0..*" AutomationRule : conflictsWith
+SensorDevice "1" -- "0..*" SensorReading : generates
+ActuatorDevice "1" -- "0..*" ControlCommand : sends
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **SmartHome** manages rooms, devices, activity logs, and automation rules.
+- **Room** can contain multiple **Devices** (either **SensorDevice** or **ActuatorDevice**).
+- **Device** is an abstract class that subclasses into **SensorDevice** and **ActuatorDevice**.
+- **SensorDevice** generates **SensorReading**, while **ActuatorDevice** sends **ControlCommand**.
+- **ActivityLogEntry** records both sensor data and control commands with timestamps and statuses.
+- **AutomationRule** defines conditions (precondition) and actions (control commands), and can have dependencies or conflicts with other rules.
+- All entities are linked to **SmartHome** through its infrastructure map and log system.
+
+---
+
+### 🔍 How to Use:

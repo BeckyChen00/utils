@@ -1,0 +1,127 @@
+
+---
+
+
+@startuml
+skinparam classAttributeIconSize 0
+
+' Define classes and relationships
+
+class SmartHome {
+    - id: String
+    - address: String
+    - rooms: List<Room>
+}
+
+class Room {
+    - name: String
+    - sensors: List<SensorDevice>
+    - actuators: List<ActuatorDevice>
+}
+
+abstract class Device {
+    - deviceId: String
+    - isActive: Boolean
+}
+
+class SensorDevice extends Device {
+    - lastReading: SensorReading
+}
+
+class ActuatorDevice extends Device {
+    - lastCommand: ControlCommand
+}
+
+class SensorReading {
+    - timestamp: DateTime
+    - value: Double
+    - sensor: SensorDevice
+}
+
+class ControlCommand {
+    - timestamp: DateTime
+    - commandType: String
+    - status: CommandStatus
+    - actuator: ActuatorDevice
+}
+
+enum CommandStatus {
+    requested
+    completed
+    failed
+}
+
+class ActivityLog {
+    - logId: String
+    - readings: List<SensorReading>
+    - commands: List<ControlCommand>
+    - smartHome: SmartHome
+}
+
+class User {
+    - userId: String
+    - role: UserRole
+}
+
+enum UserRole {
+    owner
+    guest
+}
+
+class Rule {
+    - ruleId: String
+    - precondition: String
+    - action: String
+    - isActive: Boolean
+    - triggers: List<RuleTrigger>
+    - dependencies: List<Rule>
+    - conflictsWith: List<Rule>
+    - owner: User
+    - smartHome: SmartHome
+}
+
+class RuleTrigger {
+    - triggerId: String
+    - timestamp: DateTime
+    - rule: Rule
+}
+
+' Relationships
+
+SmartHome "1" -- "many" Room : contains
+Room "1" -- "many" SensorDevice : has
+Room "1" -- "many" ActuatorDevice : has
+SensorDevice "1" -- "1" SensorReading : generates
+ActuatorDevice "1" -- "1" ControlCommand : executes
+ActivityLog "1" -- "many" SensorReading : records
+ActivityLog "1" -- "many" ControlCommand : records
+SmartHome "1" -- "1" ActivityLog : maintains
+User "1" -- "many" Rule : owns
+Rule "1" -- "many" RuleTrigger : triggers
+Rule "1" -- "many" Rule : depends on
+Rule "1" -- "many" Rule : conflicts with
+
+' Note about automation rules
+note right of Rule
+    An automation rule defines:
+    - A precondition (e.g., temperature < 18 AND window closed)
+    - An action (e.g., turnOnHeating)
+end note
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **SmartHome**: Central entity that holds multiple `Room`s and an `ActivityLog`.
+- **Room**: Contains both `SensorDevice`s and `ActuatorDevice`s.
+- **Device** (abstract): Base class for all devices, including unique ID and active status.
+- **SensorDevice / ActuatorDevice**: Specific device types with reading/command tracking.
+- **SensorReading / ControlCommand**: Log data points with timestamps and statuses.
+- **ActivityLog**: Maintains historical data of readings and commands.
+- **User / UserRole**: Differentiates between users, especially for managing rules.
+- **Rule / RuleTrigger / Dependencies/Conflicts**: Captures logic and relationships between automation rules.
+
+---
+

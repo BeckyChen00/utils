@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedItems" eType="#//RentalItem" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RentalItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RentalOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedUser" eType="#//User" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentProcessor" eType="#//PaymentProcessor" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfillmentNotification" eType="#//Notification" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainComponent" eType="#//CoMPonent" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReport" eType="#//BoxOfficeRecord" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providedRating" eType="#//Rating" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="purchaseReference" eType="#//PurchaseOrder" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedFilms" eType="#//Film" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedCoupons" eType="#//Coupon" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guestReviews" eType="#//Review" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfilledNotifications" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentProcessor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedCoupon" eType="#//Coupon" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedComponent" eType="#//CoMPonent" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CoMPonent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BoxOfficeRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reporter" eType="#//User" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedFilms" eType="#//Film" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Coupon"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Rating">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviewer" eType="#//User" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedFilm" eType="#//Film" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Film"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedRating" eType="#//Rating"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookingUser" eType="#//User" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RatingQuery">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="queryAuthor" eType="#//User"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="searchedFilms" eType="#//Film" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="retrievedReviews" eType="#//Review" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="searchedReviews" eType="#//Review" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Review"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PurchaseOrder"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ist"/>
+</ecore:EPackage>

@@ -1,0 +1,104 @@
+
+@startuml
+
+' Define the main classes
+class ClubEmployee {
+    +String name
+    +String role
+}
+
+class HeadCoach extends ClubEmployee {
+    +identifyDesignatedPlayerProfile()
+}
+
+class Director extends ClubEmployee {
+    +makeOfficialOffer(Player)
+}
+
+class Scout extends ClubEmployee {
+    +submitScoutingReport(Player)
+}
+
+class DesignatedPlayerProfile {
+    +String position (e.g., GK, LB)
+    +List<PlayerAttribute> attributes
+}
+
+class PlayerAttribute {
+    +String attributeName
+    +String attributeValue
+}
+
+class Player {
+    +String name
+    +String position
+    +LongListEntry longListEntry
+    +ShortListEntry shortListEntry
+    +List<ScoutingAssignment> assignments
+    +List<ScoutingReport> reports
+}
+
+class LongListEntry {
+    +Player player
+    +DesignatedPlayerProfile profile
+    +boolean matchesProfile
+}
+
+class ShortListEntry {
+    +Player player
+    +DesignatedPlayerProfile profile
+    +int roundNumber
+}
+
+class ScoutingAssignment {
+    +Scout assignedTo
+    +Player player
+    +Date startDate
+    +Date endDate
+    +ScoutingReport report
+}
+
+class ScoutingReport {
+    +Player player
+    +String pros
+    +String cons
+    +String recommendation
+}
+
+class RecommendationType {
+    <<enumeration>>
+    KeyPlayer
+    FirstTeamPlayer
+    ReserveTeamPlayer
+    ProspectivePlayer
+    NotAGoodSigning
+}
+
+' Relationships
+HeadCoach "1" -- "0..*" DesignatedPlayerProfile : identifies
+Scout "1" -- "0..*" ScoutingAssignment : assigns
+ScoutingAssignment "1" -- "1" ScoutingReport : produces
+Player "1" -- "0..*" ScoutingAssignment : has
+Player "1" -- "0..*" ScoutingReport : has
+DesignatedPlayerProfile "1" -- "0..*" LongListEntry : matches
+DesignatedPlayerProfile "1" -- "0..*" ShortListEntry : shortlisted for
+Player "1" -- "0..1" LongListEntry : in long list
+Player "1" -- "0..1" ShortListEntry : in short list
+ScoutingReport "1" -- "1" RecommendationType : has recommendation type
+
+@enduml
+
+---
+
+### Explanation of Key Classes:
+
+- **ClubEmployee**: Abstract base class for all club personnel (HeadCoach, Director, Scout).
+- **DesignatedPlayerProfile**: Describes the ideal player profile defined by the head coach.
+- **PlayerAttribute**: A key-value pair representing a specific quality or ability of a player.
+- **Player**: Central entity being tracked; can be in the long list or short list.
+- **LongListEntry / ShortListEntry**: Represents a player's status in the respective lists.
+- **ScoutingAssignment / ScoutingReport**: Used to document scouting activities and evaluations.
+- **RecommendationType**: An enumeration for possible recommendations after scouting.
+
+---
+

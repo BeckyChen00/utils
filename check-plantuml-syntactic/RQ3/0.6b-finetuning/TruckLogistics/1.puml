@@ -1,0 +1,60 @@
+@startuml
+enum MaterialQualityLevel {
+  Excellent
+  Good
+  Fair
+  Poor
+  Defecting
+  Overheating
+  Discolored
+  Shakeup
+  SurfaceHalo
+  Cracked
+}
+enum AppealStatus {
+  PendingReview
+  Approved
+  Rejected
+  Cancelled
+}
+class Supplier {
+  name: String
+  contactInfo: String
+  +submitApplication(material: ReservaMaterial, reason: String, quality: MaterialQualityLevel): AppealApplication
+}
+class ReservaMaterial {
+  materialName: String
+  quantity: int
+  isQualityApproved: boolean
+  +checkCompatibility(targetBloom: BloomBloom): boolean
+  +validateQuality(): MaterialQualityLevel
+}
+class Bloomsupply {
+  bloomNames: List<String>
+  +getAvailableBloomCount(bloomName: String): int
+}
+class AppealApplication {
+  reason: String
+  status: AppealStatus
+  submissionDate: Date
+  +calculateFee(feeRate: double): double
+  +approve(): void
+  +reject(): void
+}
+class ApplicationRequest {
+  requestDate: Date
+  isUrgent: boolean
+  +updateStatus(newStatus: AppealStatus): void
+}
+class BloomBloom {
+  bloomName: String
+  requiredTemperature: double
+  +evaluateQuality(): MaterialQualityLevel
+  +getPerformanceProfile(): String
+}
+Supplier *-- "0..*" AppealApplication : submittedApplications
+AppealApplication --> "1" ReservaMaterial : targetMaterial
+AppealApplication --> "1" ApplicationRequest : requestFor
+ApplicationRequest --> "0..1" Bloomsupply : preferredBloomSource
+ApplicationRequest --> "1" BloomBloom : preferredBloom
+@enduml

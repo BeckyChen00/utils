@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Group"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Classroom" eSuperTypes="#//Room">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OtherRoom" eSuperTypes="#//Room">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TeachingAssignment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teacher" eType="#//Teacher"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="school" eType="#//School"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hours" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Principal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teacher" eType="#//Teacher"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="school" eType="#//School"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="principal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="firstName">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//principal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="lastName">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//email"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="School" eType="#//school"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="email"/>
+  <eClassifiers xsi:type="ecore:EClass" name="teachesAt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//firstName" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="school"/>
+  <eClassifiers xsi:type="ecore:EClass" name="enrollInClass">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="students"/>
+  <eClassifiers xsi:type="ecore:EClass" name="classroom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Classroom" eType="#//students"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="assignToClassroom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//Classroom" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//OtherRoom" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Teacher">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teaches_at" eType="#//TeachingAssignment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_assignments" eType="#//TeachingAssignment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_principal_of" eType="#//Principal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="School">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Principal" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employs" eType="#//Teacher" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Student">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attends" eType="#//School" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongs_to" eType="#//ClassGroup" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_to" eType="#//Classroom" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Student" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

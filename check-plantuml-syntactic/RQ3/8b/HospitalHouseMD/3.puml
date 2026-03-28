@@ -1,0 +1,96 @@
+
+---
+
+
+@startuml
+
+class Patient {
+  - id: int
+  - name: string
+  - consentGiven: boolean
+  - consentSignedDate: date
+}
+
+class Doctor {
+  - id: int
+  - name: string
+  - specialty: string
+}
+
+class HeadDoctor {
+  - id: int
+  - name: string
+}
+
+class Illness {
+  - id: int
+  - name: string
+  - priority: string  # "high" or "low"
+}
+
+class Treatment {
+  - id: int
+  - name: string
+  - stage: int  # 1, 2, or 3
+  - illness: Illness
+}
+
+class Diagnosis {
+  - id: int
+  - patient: Patient
+  - doctor: Doctor
+  - illness: Illness
+}
+
+class ConsentForm {
+  - id: int
+  - patient: Patient
+  - signedDate: date
+}
+
+class Nurse {
+  - id: int
+  - name: string
+}
+
+' Relationships
+
+Patient "1" -- "0..*" Doctor : assignedTo
+Doctor "1" -- "1" Diagnosis : makes
+Diagnosis "1" -- "1" Illness : diagnosedWith
+Illness "1" -- "0..*" Treatment : hasTreatments
+Treatment "1" -- "1" Patient : appliedTo
+Doctor "1" -- "1" HeadDoctor : under
+HeadDoctor "1" -- "0..*" Doctor : supervises
+Patient "1" -- "0..1" ConsentForm : hasConsent
+Nurse "1" -- "0..*" Treatment : monitors
+Treatment "1" -- "0..*" Nurse : monitoredBy
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Patient**: Represents a patient with rare symptoms. They can have one or more doctors assigned.
+- **Doctor**: A medical professional who makes diagnoses.
+- **HeadDoctor**: Supervises other doctors and must approve diagnoses before treatments begin.
+- **Illness**: A condition that can have different priority levels ("high", "low").
+- **Treatment**: A specific therapy for an illness, which can be in stages (1, 2, or 3).
+- **Diagnosis**: Links a patient to an illness via a doctor.
+- **ConsentForm**: Indicates that a patient has given consent to upgrade treatment stages.
+- **Nurse**: Monitors patients receiving stage 3 treatments.
+
+---
+
+### 📌 Notes:
+- The `priority` field in `Illness` determines whether all treatments are automatically upgraded to stage 3 if it's set to `"high"`.
+- `ConsentForm` allows patients to give consent once, enabling automatic upgrades to higher stages without re-consent.
+- Nurses are responsible for monitoring patients on stage 3.
+
+---
+
+### 🖼️ How to Use:
+- Jupyter Notebook with `jupyter_contrib_nbextensions`
+
+Let me know if you'd like the diagram exported as an image or need further refinements!

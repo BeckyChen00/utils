@@ -1,0 +1,92 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Aircraft {
+  - name: String
+  - type: String
+  - yearOfManufacture: int
+  - nextInspectionDate: Date
+}
+
+class PassengerAircraft {
+  - numberOfSeats: int
+}
+
+class SeatCategory {
+  - designation: String
+  - hasEntertainment: boolean
+  - numberOfSeats: int
+}
+
+class Flight {
+  - flightNumber: String
+  - date: Date
+}
+
+class Passenger {
+  - name: String
+  - passportNumber: String
+}
+
+class Ticket {
+  - ticketNumber: String
+  - price: double
+  - wantsUpgrade: boolean
+}
+
+class Airline {
+  - name: String
+}
+
+class FlightAttendant {
+  - name: String
+  - employmentDate: Date
+  - isChiefSteward: boolean
+}
+
+class Pilot {
+  - name: String
+  - employmentDate: Date
+  - license: String
+}
+
+class Airport {
+  - name: String
+  - address: String
+  - numberOfRunways: int
+}
+
+' Inheritance relationships
+PassengerAircraft --|> Aircraft
+
+' Associations and multiplicities
+
+Aircraft "1" *-- "many" Flight : performs
+Flight "1" *-- "many" Passenger : includes
+Flight "1" *-- "1..*" Ticket : has
+Flight "1" *-- "many" FlightAttendant : crew
+Flight "1" *-- "1" Pilot : captain
+Flight "1" *-- "0..2" Pilot : co-pilots
+Flight "1" -- "1" Airport : departure
+Flight "1" -- "1" Airport : destination
+
+PassengerAircraft "1" *-- "many" SeatCategory : has
+Ticket "1" -- "1" SeatCategory : belongs to
+
+Aircraft "0..1" -- "1" Airline : part of
+Airline "1" *-- "many" FlightAttendant : employs
+Airline "1" *-- "many" Pilot : employs
+Aircraft "0..1" -- "1" Airport : home airport
+
+@enduml
+
+---
+
+### Notes:
+- This diagram captures all main entities from the system requirement.
+- Multiplicities are included where appropriate (e.g., a flight can have multiple passengers or pilots).
+- Relationships like `has`, `performs`, `includes`, etc., clarify how objects interact.
+- Inheritance is shown for `PassengerAircraft` which extends `Aircraft`.
+

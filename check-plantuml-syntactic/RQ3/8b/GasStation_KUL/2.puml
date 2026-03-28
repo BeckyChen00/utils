@@ -1,0 +1,107 @@
+
+---
+
+
+@startuml
+skinparam classAttributeStyle rectangle
+
+class Customer {
+  - String id
+  - String name
+  - String address
+  - String phone
+  - boolean isSuspended
+  - double creditLimit
+}
+
+class RefuelCard {
+  - String cardId
+  - Customer customer
+  - double balance
+  - boolean isActive
+}
+
+class Invoice {
+  - String invoiceId
+  - Date issueDate
+  - Date dueDate
+  - Customer customer
+  - double totalAmount
+  - double discount
+  - double netAmount
+  - boolean isPaid
+}
+
+class Payment {
+  - String paymentId
+  - Date paymentDate
+  - double amount
+  - Invoice invoice
+}
+
+class GasStation {
+  - String stationId
+  - String name
+  - String location
+  - List<Pump> pumps
+}
+
+class Pump {
+  - String pumpId
+  - String typeOfGasoline
+  - double currentLevel
+  - double reorderLevel
+  - double criticalLevel
+  - boolean isBlocked
+  - GasStation gasStation
+}
+
+class RefuelTurn {
+  - String refuelId
+  - Date refuelDate
+  - double amount
+  - Customer customer
+  - Pump pump
+  - boolean isRefunded
+}
+
+class DailyReport {
+  - Date reportDate
+  - List<Pump> pumpsToRefill
+}
+
+' Relationships
+Customer "1" -- "0..*" RefuelCard : has
+Customer "1" -- "0..*" Invoice : has
+Invoice "1" -- "0..*" Payment : has
+Customer "1" -- "0..*" GasStation : visits
+GasStation "1" -- "0..*" Pump : has
+Pump "1" -- "0..*" RefuelTurn : generates
+GasStation "1" -- "0..*" DailyReport : generates
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Classes and Relationships
+
+- **Customer**: Represents a customer who can use cash, credit card, or a refuel card.
+- **RefuelCard**: A special card linked to a customer for deferred payments.
+- **Invoice**: Generated monthly for all refuel turns made with a refuel card.
+- **Payment**: Records when an invoice is paid.
+- **GasStation**: Contains multiple pumps.
+- **Pump**: Each pump has a specific type of gasoline, a current fuel level, and can be blocked for refueling.
+- **RefuelTurn**: A single refuel action at a pump.
+- **DailyReport**: A report showing which pumps need refilling and their current levels.
+
+---
+
+### 🧾 Notes
+
+- The `isBlocked` flag in `Pump` reflects whether the pump is temporarily unavailable due to low fuel or maintenance.
+- The `isSuspended` flag in `Customer` indicates if the customer is blocked due to unpaid invoices.
+- The `refuelTurn` appears only once per month on the corresponding invoice.
+- The system supports partial payment and invoicing out of order.
+
+---
+

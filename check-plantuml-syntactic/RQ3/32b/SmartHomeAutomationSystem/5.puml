@@ -1,0 +1,117 @@
+
+@startuml
+
+' Packages for better organization
+package "Smart Home Automation System" {
+    class SmartHome {
+        - id: String
+        - address: String
+        - rooms: List<Room>
+        + addRoom(room: Room): void
+        + removeRoom(room: Room): void
+    }
+
+    class Room {
+        - name: String
+        - sensors: List<SensorDevice>
+        - actuators: List<ActuatorDevice>
+        + addSensor(sensor: SensorDevice): void
+        + addActuator(actuator: ActuatorDevice): void
+    }
+
+    class Device {
+        - deviceId: String
+        - status: Boolean  // Active/Inactive
+        + activate(): void
+        + deactivate(): void
+    }
+
+    class SensorDevice extends Device {
+        - type: String  // e.g., temperature, movement
+        + getReading(): SensorReading
+    }
+
+    class ActuatorDevice extends Device {
+        - type: String  // e.g., light controller, lock controller
+        + sendCommand(command: ControlCommand): void
+    }
+
+    class SensorReading {
+        - timestamp: DateTime
+        - value: Double
+        - sensor: SensorDevice
+    }
+
+    class ControlCommand {
+        - commandType: String  // e.g., lockDoor, turnOnHeating
+        - timestamp: DateTime
+        - status: String  // requested, completed, failed
+        - actuator: ActuatorDevice
+    }
+
+    class ActivityLog {
+        - smartHome: SmartHome
+        - readings: List<SensorReading>
+        - commands: List<ControlCommand>
+        + logReading(reading: SensorReading): void
+        + logCommand(command: ControlCommand): void
+    }
+
+    class Rule {
+        - ruleId: String
+        - precondition: String  // e.g., temp < 18 AND windowClosed
+        - action: String  // e.g., turnOnHeating
+        - status: String  // active, inactive, edited
+        - owner: User
+        - triggeredTimestamps: List<DateTime>
+        + trigger(): void
+        + activate(): void
+        + deactivate(): void
+        + edit(newPrecondition: String, newAction: String): void
+    }
+
+    class RuleDependency {
+        - parentRule: Rule
+        - childRule: Rule
+    }
+
+    class RuleConflict {
+        - ruleA: Rule
+        - ruleB: Rule
+    }
+
+    class User {
+        - userId: String
+        - rules: List<Rule>
+        + createRule(rule: Rule): void
+        + manageRules(): void
+    }
+}
+
+' Relationships
+
+SmartHome "1" -- "0..*" Room : contains
+Room "1" -- "0..*" SensorDevice : has
+Room "1" -- "0..*" ActuatorDevice : has
+SensorDevice "1" -- "1" SensorReading : generates
+ActuatorDevice "1" -- "1" ControlCommand : executes
+SmartHome "1" -- "1" ActivityLog : logs
+ActivityLog "1" -- "0..*" SensorReading : records
+ActivityLog "1" -- "0..*" ControlCommand : records
+User "1" -- "0..*" Rule : owns
+Rule "0..*" -- "1" Rule : depends on
+Rule "0..*" -- "1" Rule : conflicts with
+
+@enduml
+
+---
+
+### ✅ Summary of Key Elements in the Diagram:
+- **SmartHome** manages multiple **Rooms**, each containing **Sensors** and **Actuators**.
+- **Sensors** generate **SensorReadings**, and **Actuators** receive **ControlCommands**.
+- All activity is logged in the **ActivityLog**.
+- **Users** can create and manage **Automation Rules**.
+- **Rules** have a **precondition** and an **action**, and they can be **active/inactive**, **edited**, or part of a **rule hierarchy** (dependencies/conflicts).
+
+---
+

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is" eType="#//BusinessOwner" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessOwner">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owns" eType="#//Restaurant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is" eType="#//HungryCustomer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is" eType="#//Entertainer" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HungryCustomer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="places" eType="#//Order" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entertainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfills" eType="#//EntertainmentOrder" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="worksAt" eType="#//Restaurant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Restaurant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offers" eType="#//Pizza" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pizza"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_" eType="#//EntertainmentOrder" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntertainmentOrder"/>
+</ecore:EPackage>

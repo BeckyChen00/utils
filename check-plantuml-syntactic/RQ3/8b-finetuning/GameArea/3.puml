@@ -1,0 +1,29 @@
+@startuml
+class GameArea {
+  areaName: String
+  +addElement(element: GameElement)
+  +removeElement(element: GameElement)
+}
+class GameElement {
+  xCoordinate: long
+  yCoordinate: long
+  +move(x: long, y: long)
+}
+class Shape {
+  points: int[]
+  +connectTo(shape: Shape)
+}
+class Object {
+  objectType: String
+}
+class Opponent {
+  livesLeft: int
+  isBoss: boolean
+}
+GameArea *-- "1..*" GameElement : containedElements
+GameElement --> "0..1" Object : identifiableBy
+GameElement --> "0..*" Shape : composedOf
+Object --> "0..*" Opponent : instances
+Opponent --> "1..*" GameElement : controlledBy
+Object -- GameArea
+@enduml

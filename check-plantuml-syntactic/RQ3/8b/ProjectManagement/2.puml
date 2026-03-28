@@ -1,0 +1,52 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor yellow
+
+' Entities
+class ResearchGroup {
+    +String id
+    +String name
+    +List<Researcher> researchers
+    +List<WorkPackage> workPackages
+}
+
+class Researcher {
+    +String id
+    +String name
+    +String researchGroup
+    +List<WorkPackage> workPackages
+}
+
+class Project {
+    +String id
+    +String name
+    +List<WorkPackage> workPackages
+}
+
+class WorkPackage {
+    +String id
+    +String name
+    +ResearchGroup leaderGroup
+    +List<Researcher> teamMembers
+    +Project project
+}
+
+' Relationships
+ResearchGroup "1" -- "0..*" Researcher : belongsTo
+ResearchGroup "1" -- "0..*" WorkPackage : leads
+Researcher "1" -- "0..*" WorkPackage : assignedTo
+Project "1" -- "0..*" WorkPackage : contains
+
+@enduml
+
+### Explanation of the Diagram:
+- **`ResearchGroup`** is responsible for leading one or more **`WorkPackage`**s.
+- **`Researcher`** can be part of exactly one **`ResearchGroup`**, but can be assigned to any **`WorkPackage`**, regardless of its leader group.
+- A **`WorkPackage`** has a **leader group** and a list of **team members** (researchers).
+- **`Project`** contains multiple **`WorkPackage`**s.
+
+### Notes:
+- The diagram reflects the traceability requirement by tracking which researchers are assigned to which WPs, even if they belong to different groups.
+- When a researcher changes groups or a WP leadership changes, the assignments are updated accordingly, ensuring accurate service delivery records.
+

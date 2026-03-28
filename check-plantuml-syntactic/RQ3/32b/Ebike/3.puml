@@ -1,0 +1,76 @@
+
+@startuml
+
+' Define classes and their relationships
+class EBike {
+}
+
+class Frame {
+    -material: String = "steel"
+}
+
+class DriveSystem {
+}
+
+class Motor {
+}
+
+class Controller {
+    -state: State (On, Off, Charging)
+    +controlBattery(): void
+    +commandDriveSystem(): void
+}
+
+abstract class AbstractController {
+    +setState(state: String): void
+    +getState(): String
+    +controlBattery(): void
+    +commandDriveSystem(): void
+}
+
+class BasicController {
+    +setState(state: String): void
+    +getState(): String
+    +controlBattery(): void
+    +commandDriveSystem(): void
+}
+
+class AdvancedController {
+    +setState(state: String): void
+    +getState(): String
+    +controlBattery(): void
+    +commandDriveSystem(): void
+    +estimateMaintenanceDate(): Date
+}
+
+class Battery {
+    -storedEnergy: float (Wh)
+}
+
+' Relationships
+EBike "1" -- "1" Frame : has
+EBike "1" -- "2" Wheel : has
+EBike "1" -- "1" DriveSystem : has
+DriveSystem "1" -- "1" Motor : contains
+EBike "0..1" -- "1" Battery : can have
+EBike "1" -- "1" Controller : uses
+
+AbstractController <|-- BasicController
+AbstractController <|-- AdvancedController
+Controller <|-- AbstractController
+
+@enduml
+
+---
+
+### ✅ Explanation of the Diagram:
+- **EBike** is composed of a **Frame**, two **Wheels**, a **DriveSystem**, and optionally a **Battery**.
+- The **DriveSystem** contains one **Motor**.
+- The **Controller** controls both the battery and the drive system and can be in one of three states: `On`, `Off`, or `Charging`.
+- Two controller types are defined via inheritance:
+  - `BasicController` (default behavior).
+  - `AdvancedController` (extends basic and adds `estimateMaintenanceDate()`).
+- The **Battery** stores energy measured in **Watt-hours (Wh)**.
+
+---
+

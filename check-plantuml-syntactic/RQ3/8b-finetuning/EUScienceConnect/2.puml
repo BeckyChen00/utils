@@ -1,0 +1,66 @@
+@startuml
+enum ArticleType {
+  PeerReviewed
+  TechnicalReport
+}
+enum ReviewStatus {
+  Pending
+  UnderReview
+  Accepted
+  Rejected
+}
+class Person {
+  personId: String
+  phoneNumber: String
+  keywords: String[]
+  +getFullDetails(): String
+}
+class ResearchInstitution {
+  code: String
+  name: String
+  +getInstitutionName(): String
+}
+class ScientificArticle {
+  doi: String
+  title: String
+  articleType: ArticleType
+  +isPublished(): boolean
+  +getHasAbstract(): boolean
+}
+class TechnicalReport {
+  reportNumber: String
+  +getReportNumber(): String
+}
+class Author {
+  authorIndex: int
+  +getAuthorName(): String
+}
+class Journal {
+  name: String
+  +getJournalName(): String
+}
+class Publisher {
+  name: String
+  +getPublisherName(): String
+}
+class Citation {
+  count: int
+  +getTotalCites(): int
+}
+class Review {
+  status: ReviewStatus
+  comments: String
+  +getReviewStatus(): ReviewStatus
+}
+ResearchInstitution "1" *-- "0..*" Person : members
+ScientificArticle "1" *-- "0..*" Author : authors
+ScientificArticle "1" *-- "1" Citation : citation
+TechnicalReport "1" *-- "1" ResearchInstitution : publisher
+TechnicalReport "1" *-- "0..*" Author : authors
+ScientificArticle "1" --> "1" Publisher : publisher
+ScientificArticle "1" --> "0..*" Review : reviews
+Publisher "1" *-- "0..*" Journal : journals
+Journal "1" --> "0..*" ScientificArticle : publishedArticles
+ScientificArticle "1" --> "1" Journal : sourceJournal
+ScientificArticle "1" --> "1" ResearchInstitution : affiliatedInstitution
+@enduml

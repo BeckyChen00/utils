@@ -1,0 +1,140 @@
+
+@startuml
+
+class User {
+  - id: int
+  - name: String
+  - email: String
+}
+
+class Student <<interface>> {
+  + requestTutoring(subject: String, level: String, date: Date, time: Time): void
+  + scheduleFollowUp(): void
+  + payForSession(paymentMethod: String): void
+}
+
+class Tutor <<interface>> {
+  + offerTutoring(subject: String, expertiseLevel: String, hourlyRate: Double): void
+  + setWeeklyAvailability(availability: Map<Day, List<TimeSlot>>): void
+  + confirmSession(session: Session): void
+  + suggestAlternativeSlot(session: Session, newSlot: TimeSlot): void
+}
+
+class StudentUser {
+  - user: User
+  - tutorRequests: List<Request>
+  - sessions: List<Session>
+}
+
+class TutorUser {
+  - user: User
+  - bankAccount: String
+  - subjectsOffered: Map<String, SubjectOffer>
+  - sessions: List<Session>
+}
+
+class Request {
+  - id: int
+  - student: StudentUser
+  - tutor: TutorUser
+  - subject: String
+  - level: String
+  - requestedDate: Date
+  - requestedTime: Time
+  - status: RequestStatus
+}
+
+class Session {
+  - id: int
+  - tutor: TutorUser
+  - student: StudentUser
+  - subject: String
+  - level: String
+  - date: Date
+  - time: Time
+  - price: Double
+  - paymentStatus: PaymentStatus
+  - cancellationReason: String
+}
+
+class SubjectOffer {
+  - subject: String
+  - expertiseLevel: String
+  - hourlyRate: Double
+}
+
+class TimeSlot {
+  - day: Day
+  - startTime: Time
+  - endTime: Time
+}
+
+class Award {
+  - tutor: TutorUser
+  - subject: String
+  - month: Month
+  - awardType: String
+}
+
+enum RequestStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  PARTIALLY_PAID
+}
+
+enum Day {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum Month {
+  JANUARY
+  FEBRUARY
+  MARCH
+  APRIL
+  MAY
+  JUNE
+  JULY
+  AUGUST
+  SEPTEMBER
+  OCTOBER
+  NOVEMBER
+  DECEMBER
+}
+
+' Associations
+User "1" -- "1" StudentUser : is
+User "1" -- "1" TutorUser : is
+StudentUser "1" -- "0..*" Request : makes
+TutorUser "1" -- "0..*" Request : receives
+TutorUser "1" -- "0..*" SubjectOffer : offers
+TutorUser "1" -- "0..*" Session : conducts
+StudentUser "1" -- "0..*" Session : attends
+Request "1" -- "1" Session : leadsTo
+Award "1" -- "1" TutorUser : awardedTo
+@enduml
+
+---
+
+### ✅ Summary of Classes and Relationships:
+
+- **User** is the base class for both **StudentUser** and **TutorUser**.
+- **StudentUser** implements the **Student** interface and can make **Request**s and attend **Session**s.
+- **TutorUser** implements the **Tutor** interface and can offer tutoring in various **SubjectOffer**s and conduct **Session**s.
+- A **Request** can be confirmed or canceled and leads to a **Session**.
+- A **Session** has a **price**, **date**, **time**, and a **payment status**. It may be canceled by either party with specific rules.
+- **Award** is given to **TutorUser** at the end of each month.
+
+---
+

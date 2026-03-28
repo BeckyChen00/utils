@@ -1,0 +1,100 @@
+
+@startuml
+' E-Home-2020 Class Diagram
+
+class Sensor {
+  -vendorId: String
+  -description: String
+  -unit: Unit (CELSIUS, WATT)
+  -roomId: String
+  +getLatestValue(): Value
+}
+
+class TemperatureSensor {
+  -minValue: Float
+  -maxValue: Float
+}
+
+class PowerSensor {
+  -totalConsumption: Float
+}
+
+class Room {
+  -id: String
+  -description: String
+}
+
+class Apartment {
+  -address: String
+  -rooms: Set<Room>
+  -inhabitants: Set<Inhabitant>
+  -email: String
+}
+
+class Inhabitant {
+  -username: String
+  -password: String
+  -isAdmin: Boolean
+  +login(username: String, password: String): Boolean
+  +setThreshold(sensorId: String, threshold: Float): void
+  +configureSensor(sensorId: String, roomId: String, description: String): void
+}
+
+class Value {
+  -timestamp: DateTime
+  -value: Float
+}
+
+class SensorController {
+  -sensors: Map<String, Sensor>
+  -apartments: Map<String, Apartment>
+  +addSensor(sensor: Sensor): void
+  +addApartment(apartment: Apartment): void
+  +getSensorValues(sensorId: String): List<Value>
+  +getLastValue(sensorId: String): Value
+}
+
+class EMonitor {
+  +checkThresholds(apartmentId: String): void
+  +sendAlert(email: String, message: String): void
+}
+
+' Associations and Aggregations
+
+Sensor <|-- TemperatureSensor
+Sensor <|-- PowerSensor
+
+Apartment "1" *-- "many" Room
+Apartment "1" *-- "many" Inhabitant
+
+SensorController "1" *-- "many" Sensor
+SensorController "1" *-- "many" Apartment
+
+Inhabitant --> SensorController : login
+Inhabitant --> SensorController : setThreshold
+Inhabitant --> SensorController : configureSensor
+
+SensorController --> Value : stores
+Sensor --> Value : has values
+
+SensorController --> EMonitor : notifies
+EMonitor --> SensorController : checks thresholds
+EMonitor --> Inhabitant : sends alert via email
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements in the Diagram:
+
+- **`Sensor`**: Abstract base class with common attributes like `vendorId`, `description`, `unit`, and `roomId`.
+- **`TemperatureSensor` & `PowerSensor`**: Concrete sensor types that extend `Sensor` and have their own specific attributes.
+- **`Room`**: Contains a description and is part of an apartment.
+- **`Apartment`**: Contains multiple rooms and inhabitants. It also has an optional email address for alerts.
+- **`Inhabitant`**: Users of the system who can log in, view sensor data, set thresholds, and configure sensors if they are admins.
+- **`Value`**: Represents a measured value with a timestamp and numeric value.
+- **`SensorController`**: Central component that manages sensors, apartments, and user access.
+- **`EMonitor`**: External system that monitors thresholds and sends alerts when necessary.
+
+---
+
+Let me know if you'd like to generate this as an image or refine it further!

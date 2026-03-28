@@ -1,0 +1,45 @@
+@startuml
+enum PumpType {
+  RegularService
+  SelfService
+}
+enum FuelType {
+  Premium
+  SuperPremium
+  Diesel
+  LPG
+}
+class FuelStation {
+  id: String
+  address: String
+  +getStationAddress(): String
+}
+class FuelPump {
+  pumpNumber: int
+  pumpType: PumpType
+  +getPumpDetails(): String
+}
+class Fuel {
+  fuelName: String
+  octaneRating: double
+  +checkCompatibility(): boolean
+}
+class PriceRecord {
+  pricePerLiter: double
+  recordDate: Date
+  +getFormattedPrice(): String
+}
+class PurchaseTransaction {
+  transactionId: int
+  litersDispensed: double
+  transactionTime: Date
+  +calculateTotalCost(): double
+  +generateReceipt(): String
+}
+FuelStation *-- "*" FuelPump : pumps
+FuelPump --> "*" Fuel : supportedFuels
+FuelStation --> "*" PriceRecord : priceHistory 'opposite: recordedAt
+PurchaseTransaction --> "1" FuelPump : usedPump
+PurchaseTransaction --> "1" PriceRecord : appliedPrice
+PurchaseTransaction --> "1" Fuel : purchasedFuel
+@enduml

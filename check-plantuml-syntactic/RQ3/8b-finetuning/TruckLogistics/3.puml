@@ -1,0 +1,37 @@
+@startuml
+enum VehicleType {
+  TRUCK
+  CAR
+  VAN
+}
+enum EntityState {
+  OPEN
+  CLOSED
+}
+class Location {
+  address: String
+  +getAddress(): String
+}
+class Vehicle {
+  vehicleNumber: String
+  type: VehicleType
+  maxWeight: double
+  maxSeats: int
+}
+class Driver {
+  firstName: String
+  lastName: String
+}
+class Order {
+  orderDate: Date
+  status: EntityState
+  +assignDriver(driver: Driver): void
+  +closeOrder(): void
+}
+Order *-- "1" Location : origin
+Order *-- "1" Location : destination
+Order --> "1" Driver : assignedDriver
+Vehicle --> "1" Driver : operatedBy 'opposite: assignedVehicles
+Driver --> "0..1" Vehicle : drivenVehicle
+Order --> "1..*" Vehicle : allocatedVehicles
+@enduml

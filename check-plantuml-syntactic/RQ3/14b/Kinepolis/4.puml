@@ -1,0 +1,160 @@
+
+@startuml
+skinparam linetype=cloud
+
+class Cinema {
+  -id: int
+  -name: String
+  -location: String
+  -theatres: Set<Theatre>
+}
+
+class Theatre {
+  -id: int
+  -name: String
+  -capacity: int
+  -cinema: Cinema
+  -shows: Set<Show>
+}
+
+class Movie {
+  -id: int
+  -title: String
+  -duration: int
+  -copies: Set<MovieCopy>
+}
+
+class MovieCopy {
+  -id: int
+  -movie: Movie
+  -location: Cinema
+  -available: boolean
+}
+
+class Show {
+  -id: int
+  -movie: Movie
+  -theatre: Theatre
+  -startTime: DateTime
+  -endTime: DateTime
+  -date: Date
+  -seats: Set<Seat>
+  -reservations: Set<Reservation>
+  -published: boolean
+  -cancelled: boolean
+}
+
+class Seat {
+  -id: int
+  -number: int
+  -row: int
+  -theatre: Theatre
+  -reserved: boolean
+  -reservation: Reservation
+}
+
+class Reservation {
+  -id: int
+  -customer: Customer
+  -seat: Seat
+  -show: Show
+  -bookingTime: DateTime
+  -paid: boolean
+  -cancelled: boolean
+}
+
+class Customer {
+  -id: int
+  -name: String
+  -email: String
+  -creditCard: CreditCard
+  -reservations: Set<Reservation>
+}
+
+class CreditCard {
+  -id: int
+  -cardNumber: String
+  -customer: Customer
+}
+
+class Offer {
+  -id: int
+  -reservation: Reservation
+  -newShow: Show
+  -createdAt: DateTime
+  -expired: boolean
+}
+
+class Ticket {
+  -id: int
+  -seat: Seat
+  -show: Show
+  -customer: Customer
+  -type: String // "online" or "entrance"
+  -paid: boolean
+  -refundable: boolean
+}
+
+class EntranceTicket {
+  -id: int
+  -ticket: Ticket
+  -issuedAt: DateTime
+}
+
+class OnlineTicket {
+  -id: int
+  -ticket: Ticket
+  -paymentStatus: String
+}
+
+class System {
+  +publishShows()
+  +cancelShow(show: Show)
+  +generateOffer(reservation: Reservation)
+  +sendFreeTicket(customer: Customer)
+  +checkAvailability(show: Show)
+}
+
+'Cinema' "1" *-- "0..*" Theatre
+'Theatre' "1" *-- "0..*" Show
+'Movie' "1" *-- "0..*" MovieCopy
+'MovieCopy' "1" --> "1" Cinema
+'Show' "1" *-- "0..*" Seat
+'Seat' "1" --> "0..1" Reservation
+'Reservation' "1" --> "1" Customer
+'Reservation' "1" --> "1" Show
+'Reservation' "1" --> "0..1" Offer
+'Customer' "1" --> "0..*" CreditCard
+'Offer' "1" --> "1" Show
+'Ticket' "1" --> "0..1" Customer
+'Ticket' "1" --> "1" Seat
+'Ticket' "1" --> "1" Show
+'Ticket' "1" --> "1" "OnlineTicket" or "EntranceTicket"
+'System' "1" --> "0..*" Cinema
+'System' "1" --> "0..*" Show
+'System' "1" --> "0..*" Reservation
+'System' "1" --> "0..*" Offer
+'System' "1" --> "0..*" Ticket
+
+@enduml
+
+---
+
+### Explanation of Key Classes:
+
+- **Cinema**: Represents each physical cinema location with multiple theatres.
+- **Theatre**: Each cinema has one or more theatres, which host shows.
+- **Movie**: A film that can be shown in various theatres.
+- **MovieCopy**: A physical copy of a movie, located in a specific cinema.
+- **Show**: A scheduled screening of a movie in a theatre at a specific time.
+- **Seat**: Individual seat in a theatre.
+- **Reservation**: A customer's online booking for a show.
+- **Customer**: User who makes reservations or purchases tickets.
+- **CreditCard**: Used to pay for online reservations.
+- **Offer**: An automatic replacement offer for a cancelled reservation.
+- **Ticket**: Either online or entrance ticket, with different properties.
+- **System**: Central logic for managing shows, reservations, offers, and tickets.
+
+---
+
+Let me know if you'd like a version with associations, multiplicity, or additional details like attributes or operations!

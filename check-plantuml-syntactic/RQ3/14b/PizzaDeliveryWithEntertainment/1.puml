@@ -1,0 +1,88 @@
+
+@startuml
+
+' Define classes
+class User {
+  +id: String
+  +name: String
+  +birthday: Date
+  +address: String
+}
+
+class BusinessOwner {
+  +linkedin: String
+}
+
+class PizzaRestaurant {
+  +zipCode: String
+  +address: String
+  +phoneNumber: String
+  +website: String
+  +openingHours: String
+}
+
+class Pizza {
+  +name: String
+  +crustStructure: String
+  +price: Double
+  +restaurantId: String
+}
+
+class HungryCustomer {
+  +deliveryAddress: String
+}
+
+class Order {
+  +orderId: String
+  +orderDate: DateTime
+  +deliveryDeadline: DateTime
+  +numberOfPeople: Integer
+  +pizzasOrdered: List<Pizza>
+}
+
+class EntertainmentOrder {
+  +entertainmentType: String
+  +durationMinutes: Integer
+  +entertainerId: String
+}
+
+class Entertainer {
+  +stageName: String
+  +bio: String
+  +ratePer30Min: Double
+}
+
+class RestaurantEntertainerAvailability {
+  +dayOfWeek: String
+  +isAvailable: Boolean
+}
+
+' Inheritance
+User <|-- BusinessOwner
+User <|-- HungryCustomer
+User <|-- Entertainer
+
+Order <|-- EntertainmentOrder
+
+' Associations
+BusinessOwner "1" --> "0..*" PizzaRestaurant
+PizzaRestaurant "1" --> "0..*" Pizza
+HungryCustomer "1" --> "0..*" Order
+Order "1" --> "0..*" Pizza
+Order "1" --> "0..*" EntertainmentOrder
+Entertainer "1" --> "0..*" RestaurantEntertainerAvailability
+Entertainer "1" --> "0..*" PizzaRestaurant
+
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+
+- **User** is the base class for **BusinessOwner**, **HungryCustomer**, and **Entertainer**.
+- **BusinessOwner** owns one or more **PizzaRestaurants**.
+- Each **PizzaRestaurant** offers multiple **Pizzas**, which are unique due to being associated with a specific restaurant.
+- **HungryCustomer** places **Orders**, which can be standard or **EntertainmentOrders**.
+- **EntertainmentOrder** is linked to exactly one **Entertainer**.
+- **Entertainer** has availability for each **PizzaRestaurant** they work with, per day of the week.
+

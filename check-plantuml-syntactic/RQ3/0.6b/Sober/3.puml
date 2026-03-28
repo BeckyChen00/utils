@@ -1,0 +1,27 @@
+@startuml
+class Diagram {SystemRequirement}
+    # System Requirement
+
+    class Component {
+        name: "DataProcessor"
+        description: "Process data from input and output streams."
+        attributes: [input, output, status]
+    }
+
+    class InputStream {
+        name: "InputSource"
+        description: "Source of data for processing."
+    }
+
+    class OutputStream {
+        name: "OutputSink"
+        description: "Sink for processed data."
+    }
+
+    class DataProcessor {
+        name: "DataProcessorComponent"
+        description: "Component responsible for processing data."
+        attributes: [status]
+
+    }
+@enduml

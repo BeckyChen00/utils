@@ -1,0 +1,146 @@
+@startuml
+enum PromotionStatus {
+  Active
+  Expired
+  PendingReview
+  Suspended
+  Cancelled
+}
+enum ShippingMode {
+  Road
+  Rail
+  Air
+  Water
+  Express
+}
+class Product {
+  title: String
+  sku: String
+  unitCost: double
+  +calculateTotalCost(quantity: int): double
+}
+class PromotionCampaign {
+  startDate: Date
+  endDate: Date
+  defaultMode: ShippingMode
+  +isActive(): boolean
+  +generatePromoCode(customerCode: String): String
+}
+class ProductCatalog {
+  categoryName: String
+  +addProduct(product: Product): void
+  +getProductsByCategory(categoryName: String): List<Product>
+}
+class InventoryRecord {
+  currentStockCount: int
+  reorderThreshold: int
+  +updateStock(quantity: int): void
+  +checkLowStock(): boolean
+}
+class SalesOrder {
+  confirmationCode: String
+  orderDate: Date
+  status: String
+  +confirmOrder(): void
+  +cancelOrder(): void
+}
+class SaleTransaction {
+  transactionDate: Date
+  amount: double
+  paymentStatus: String
+  +isComplete(): boolean
+  +refund(): void
+}
+class CommerceAccount {
+  accountId: String
+  currency: String
+  +createAccount(): void
+  +updateBalance(amount: double): void
+}
+class Warehouse {
+  warehouseCode: String
+  location: String
+  +assignToProduct(product: Product): void
+}
+class DeliverySchedule {
+  targetDate: Date
+  mode: ShippingMode
+  +calculateDistance(weight: double): double
+  +getEstimatedDelivery(): Date
+}
+class MarketingStrategy {
+  strategyName: String
+  targetRegion: String
+  +optimizeChannel(channel: ShippingChannel): void
+}
+class ShippingChannel {
+  channelName: String
+  serviceFeeRate: double
+  +selectBestOption(): ShippingMode
+}
+class Customer {
+  customerName: String
+  contactInfo: String
+  +requestPromotion(product: Product): PromotionCampaign
+}
+class NotificationService {
+  +sendPromotionAlert(product: Product, status: PromotionStatus): void
+  +sendOrderReminder(order: SalesOrder): void
+}
+class PromotionRule {
+  ruleName: String
+  conditionExpression: String
+  isConditional: boolean
+  +evaluateCondition(value: double): boolean
+}
+class PromotionEvent {
+  eventName: String
+  eventDate: Date
+  status: PromotionStatus
+  description: String
+  +validateConditions(): boolean
+}
+class DiscountRule {
+  discountRate: double
+  categoryType: String
+  factor: double
+  +applyDiscount(amount: double): double
+}
+class Brand {
+  brandName: String
+  logoUrl: String
+  +getBrandProfile(): String
+}
+class ShippingRate {
+  rateId: String
+  baseRate: double
+  shippingCost: double
+  isHazardous: boolean
+  +calculateCost(weight: double, distance: double): double
+}
+CommerceAccount *-- "1" ProductCatalog : productCatalog
+CommerceAccount *-- "*" InventoryRecord : inventoryRecords
+SalesOrder *-- "1" PromotionCampaign : activeCampaign
+SalesOrder *-- "1" PromotionEvent : relatedEvent
+SalesOrder *-- "*" SaleTransaction : transactionHistory
+SaleTransaction *-- "1" Product : orderedProduct
+PromotionCampaign *-- "*" Product : includedProducts
+PromotionCampaign *-- "*" PromotionRule : appliedRules
+CommerceAccount *-- "*" SalesOrder : ownedOrders
+CommerceAccount *-- "*" PromotionEvent : managedEvents
+CommerceAccount *-- "*" PromotionRule : definedRules
+CommerceAccount *-- "*" PromotionCampaign : activeCampaigns
+NotificationService --> "*" PromotionEvent : sendsAlert
+NotificationService --> "*" SalesOrder : sendsReminder
+PromotionEvent --> "*" PromotionRule : triggersRules
+PromotionEvent --> "*" Product : involvedProducts
+PromotionRule -- Product
+Product -- PromotionRule
+SalesOrder -- Brand
+PromotionRule -- Brand
+PromotionRule -- ShippingRate
+Product -- ShippingRate
+Product -- Warehouse
+SaleTransaction -- Warehouse
+NotificationService -- Warehouse
+@enduml

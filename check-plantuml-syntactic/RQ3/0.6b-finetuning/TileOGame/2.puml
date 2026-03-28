@@ -1,0 +1,41 @@
+@startuml
+class InsuredParty {
+  contactEmail: String
+  insuranceCoverageType: String
+  +verifyIdentity(): boolean
+}
+class PolicyDocument {
+  policyNumber: String
+  issueDate: Date
+  +verifyEligibility(): boolean
+}
+class Claim {
+  claimDate: Date
+  isVerified: boolean
+  totalOutstandingAmount: double
+  +calculateTotalOutstandingAmount(): double
+  +processClaim(): boolean
+}
+class Hearing {
+  hearingDate: Date
+  scheduledLocation: String
+  +registerParticipant(party: InsuredParty): HearingParticipant
+  +scheduleSession(): boolean
+}
+class HearingParticipant {
+  isPresent: boolean
+  notes: String
+  +addNotes(notes: String): void
+}
+class HearingResult {
+  wasResolved: boolean
+  decisionDate: Date
+  summary: String
+  +concludeResult(resolution: boolean, decision: String): void
+}
+InsuredParty "1" --> "*" PolicyDocument : ownedPolicies
+PolicyDocument "1" --> "*" Claim : attachedClaims
+Claim "1" *-- "1" Hearing : conductedHearing
+Hearing "1" *-- "*" HearingParticipant : participatingParticipants
+Hearing "1" --> "*" HearingResult : concludedResults
+@enduml

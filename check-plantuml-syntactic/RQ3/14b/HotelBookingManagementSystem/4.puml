@@ -1,0 +1,134 @@
+
+@startuml
+
+skinparam classAttributeIconName true
+skinparam classOperationIconName true
+
+class Traveller {
+  +name: String
+  +billingInfo: BillingInfo
+  +travelPreferences: List<TravelPreference>
+  +reliabilityRating: Double
+  +register(): void
+  +searchAccommodation(): List<Offer>
+  +createPreliminaryBooking(offer: Offer): Booking
+  +finalizeBooking(booking: Booking, creditCard: CreditCard): Booking
+  +cancelBooking(booking: Booking): void
+}
+
+class BillingInfo {
+  +companyName: String
+  +address: String
+}
+
+class TravelPreference {
+  +preferenceType: String
+  +value: String
+}
+
+class CreditCard {
+  +cardNumber: String
+  +expiryDate: Date
+  +cvv: String
+}
+
+class Hotel {
+  +hotelId: String
+  +name: String
+  +address: String
+  +city: String
+  +chain: HotelChain
+  +rating: Integer
+  +roomTypes: Map<String, Integer>
+  +sendSpecialOffer(booking: Booking): void
+  +confirmBooking(booking: Booking): void
+  +cancelBooking(booking: Booking): void
+}
+
+class HotelChain {
+  +chainId: String
+  +name: String
+}
+
+class Offer {
+  +offerId: String
+  +hotel: Hotel
+  +roomType: String
+  +pricePerNight: Double
+  +startDate: Date
+  +endDate: Date
+  +specialOffer: Boolean
+  +preferencesMatched: List<TravelPreference>
+  +bookingIdentifier: String
+}
+
+class Booking {
+  +bookingId: String
+  +traveller: Traveller
+  +hotel: Hotel
+  +roomType: String
+  +startDate: Date
+  +endDate: Date
+  +price: Double
+  +isPrepaid: Boolean
+  +confirmed: Boolean
+  +cancellationDeadline: Date
+  +finalizeBooking(creditCard: CreditCard): void
+  +cancelBooking(): void
+}
+
+class HBMS {
+  +searchAccommodation(traveller: Traveller, criteria: SearchCriteria): List<Offer>
+  +forwardPreliminaryBooking(booking: Booking): void
+  +sendBestOffers(traveller: Traveller): List<Offer>
+  +storeBooking(booking: Booking): void
+  +cancelUnconfirmedBooking(booking: Booking): void
+  +reimbursePrepaidBooking(booking: Booking): void
+}
+
+class SearchCriteria {
+  +city: String
+  +arrivalDate: Date
+  +departureDate: Date
+  +numRooms: Integer
+  +roomType: String
+  +minRating: Integer
+  +maxPricePerNight: Double
+  +preferences: List<TravelPreference>
+}
+
+Traveller "1" -- "0..*" BillingInfo : has
+Traveller "1" -- "0..*" TravelPreference : has
+Traveller "1" -- "0..*" Booking : has
+Traveller "1" -- "1" HBMS : uses
+
+Hotel "1" -- "0..*" Offer : provides
+Hotel "1" -- "0..*" Booking : has
+Hotel "1" -- "0..1" HotelChain : belongsTo
+
+HBMS "1" -- "0..*" Offer : manages
+HBMS "1" -- "0..*" Booking : manages
+HBMS "1" -- "1" Traveller : serves
+
+Booking "1" -- "1" CreditCard : requires
+Booking "1" -- "1" Traveller : belongsTo
+Booking "1" -- "1" Hotel : belongsTo
+Booking "1" -- "1" Offer : originatesFrom
+
+@enduml
+
+---
+
+### ✅ Summary of Key Classes:
+- **Traveller**: Manages user registration, search, booking, and cancellation.
+- **Hotel**: Provides room types, sends offers, confirms bookings.
+- **Offer**: Represents a hotel's offer to a traveller.
+- **Booking**: Captures all booking details, including payment method and status.
+- **HBMS**: Central system managing search, preliminary booking, finalization, and cancellation.
+- **SearchCriteria**: Used to filter accommodation search results.
+- **CreditCard**: Used for finalizing a booking.
+- **BillingInfo**, **TravelPreference**, **HotelChain**: Supporting classes with additional details.
+
+---
+
+Let me know if you'd like this rendered as an image or exported in another format (e.g., PNG, SVG).

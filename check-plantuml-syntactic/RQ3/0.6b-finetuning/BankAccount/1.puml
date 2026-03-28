@@ -1,0 +1,48 @@
+@startuml
+enum TicketType {
+  CommercialCard
+}
+enum PriorityLevel {
+  Low
+  Medium
+  High
+  Urgent
+}
+class Customer {
+  contactInfo: string
+  +register(): void
+}
+class User {
+  username: string
+  +authenticate(): boolean
+}
+class Member {
+  isPremiumMember: boolean
+  +loyaltyPoints: int
+  +getMembershipTier(): string
+}
+class CardTransaction {
+  cardNumber: string
+  expirationDate: string
+  +validate(): boolean
+}
+class Ticket {
+  ticketNumber: string
+  type: TicketType
+  isAcknowledged: boolean
+  priority: PriorityLevel
+  +confirm(): void
+  +cancel(): void
+}
+class ReservationSystem {
+  name: string
+  +createTicket(customer: Customer, type: TicketType): Ticket
+  +cancelReservation(ticket: Ticket): void
+  +processPayment(transaction: CardTransaction): boolean
+}
+CardTransaction -- Ticket
+Ticket -- Member
+ReservationSystem -- Customer
+Customer -- User
+User -- Member
+@enduml

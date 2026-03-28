@@ -1,0 +1,73 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Product {
+  +String name
+  +String description
+  +double netPrice
+  +Company manufacturer
+}
+
+class Company {
+  +String name
+  +Country country
+}
+
+class Country {
+  +String name
+  +double vatRate
+  +String currency
+  +double conversionRateToEuro
+}
+
+class Representative {
+  +String firstName
+  +String lastName
+  +String socialSecurityNumber
+  +String telephone
+  +String email
+  -Country assignedCountry
+}
+
+class Customer {
+  +String name
+  +String address
+  +String telephone
+  +String email
+  -List<Country> resellingCountries
+}
+
+class Order {
+  +String orderId
+  +Product product
+  +Customer customer
+  +Representative representative
+  +int quantity
+  +Date orderDate
+  +Date deliveryDate
+}
+
+' Define associations
+
+Product "1" *-- "0..*" Company : manufactured by
+Company "1" -- "1" Country : located in
+Representative "1" -- "1" Country : responsible for
+Customer "1" *-- "0..*" Country : resells in
+Order "1" -- "1" Product : includes
+Order "1" -- "1" Customer : placed by
+Order "1" -- "1" Representative : placed via
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Product**: Core item with unique name, description, and net price. It is manufactured by a **Company**, which is associated with a **Country**.
+- **Country**: Contains VAT rate, currency, and exchange rate to euro. Also used to determine where products are sold and who represents them.
+- **Representative**: A person responsible for a specific **Country** and handles orders for customers.
+- **Customer**: Stores contact info and the countries where they resell the products.
+- **Order**: Links a **Customer**, a **Product**, and a **Representative**. Includes order and delivery dates.
+

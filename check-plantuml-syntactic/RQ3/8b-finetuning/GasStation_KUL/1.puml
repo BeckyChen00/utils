@@ -1,0 +1,91 @@
+@startuml
+enum FuelType {
+  Premium
+  Regular
+  Diesel
+  LPG
+  Ethanol
+}
+enum InvoiceStatus {
+  Pending
+  Paid
+  Overdue
+  Suspended
+  Cancelled
+  Refunded
+}
+class GasStation {
+  name: String
+  location: String
+  +assignPump(pump: Pump): void
+  +getDailyReport(): DailyReport
+}
+class Pump {
+  fuelType: FuelType
+  currentLevel: double
+  reorderLevel: double
+  criticalLevel: double
+  isOperational: boolean
+  +startRefueling(): void
+  +stopRefueling(): void
+  +isBlocked(): boolean
+  +refill(): void
+}
+class Customer {
+  name: String
+  contactInfo: String
+  creditLimit: double
+  +registerCard(): RefuelCard
+  +getBlockStatus(): boolean
+}
+class RefuelCard {
+  cardNumber: String
+  isActive: boolean
+  +activate(): void
+  +block(): void
+  +provideTurn(turn: RefuelTurn): void
+}
+class RefuelTurn {
+  timestamp: Date
+  quantity: double
+  fuelType: FuelType
+  isPaid: boolean
+  +recordPayment(amount: double): Payment
+}
+class Invoice {
+  invoiceDate: Date
+  status: InvoiceStatus
+  totalAmount: double
+  discountRate: double
+  +calculateTotal(): double
+  +send(): void
+  +receivePayment(payment: Payment): void
+  +isOverdue(): boolean
+}
+class Payment {
+  transactionDate: Date
+  amount: double
+  method: String
+  +process(): boolean
+}
+class DailyReport {
+  reportDate: Date
+  affectedPumps: List<Pump>
+  +generate(): void
+}
+class Notification {
+  message: String
+  deliveryDate: Date
+  +send(): boolean
+}
+GasStation *-- "0..*" Pump : pumps
+GasStation *-- "0..*" DailyReport : dailyReports
+Pump *-- "0..*" RefuelTurn : refuelTurns
+Customer --> "0..*" RefuelCard : cards
+RefuelCard *-- "0..*" RefuelTurn : turns
+RefuelTurn --> "0..*" Invoice : invoices
+Invoice --> "0..*" Payment : payments
+Customer --> "0..*" Invoice : invoices 'opposite: debtor
+Pump --> "0..*" Notification : alerts
+Customer --> "0..*" Notification : alerts
+@enduml

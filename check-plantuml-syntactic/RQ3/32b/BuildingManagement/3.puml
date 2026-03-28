@@ -1,0 +1,145 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class WebPortal {
+    - version: String
+    - url: String
+}
+
+class User {
+    - username: String (unique)
+    - email: String
+    - password: String
+}
+
+class Building {
+    - id: String (unique)
+    - name: String
+    - energyClass: Char (A/B/C/D)
+    - address: String
+    - yearOfConstruction: Integer
+    - owner: User
+}
+
+class Entry {
+    - name: String
+    - isPublic: Boolean
+    + addEntry()
+}
+
+class TextualEntry extends Entry {
+    - content: String
+}
+
+class NumericEntry extends Entry {
+    - value: Float
+    - unit: String
+}
+
+class Image {
+    - filename: String
+    - isProfile: Boolean
+}
+
+class Comment {
+    - text: String
+    - author: User
+    - building: Building
+}
+
+class Administrator extends User {
+    - idCardNumber: String
+}
+
+class Search {
+    - query: String
+}
+
+' Associations
+User "1" --> "0..*" Building : owns
+Building "1" --> "0..*" Entry : has
+Building "1" --> "0..*" Image : has
+Building "1" --> "0..*" Comment : commented on
+User "1" --> "0..*" Comment : authored
+Administrator "1" --> "1" User : extends
+WebPortal "1" --> "0..*" User : contains
+WebPortal "1" --> "0..*" Building : contains
+WebPortal "1" --> "0..*" Search : provides
+
+' Use Cases
+usecase UC_Register_User as "Register User"
+usecase UC_Confirm_Email as "Confirm Email"
+usecase UC_Activate_User as "Activate User"
+usecase UC_Login as "Login"
+usecase UC_Create_Building as "Create Building"
+usecase UC_Manage_Entries as "Manage Entries"
+usecase UC_Comment_Building as "Comment on Building"
+usecase UC_Search_Buildings as "Search Buildings"
+usecase UC_Setup_User as "Setup User Account"
+usecase UC_Delete_Comment as "Delete Comment"
+
+' Actors
+actor Visitor
+actor RegisteredUser
+actor Administrator
+
+' Relationships between use cases and actors
+RegisteredUser --> UC_Register_User
+RegisteredUser --> UC_Confirm_Email
+RegisteredUser --> UC_Activate_User
+RegisteredUser --> UC_Login
+RegisteredUser --> UC_Create_Building
+RegisteredUser --> UC_Manage_Entries
+RegisteredUser --> UC_Comment_Building
+
+Visitor --> UC_Search_Buildings
+
+Administrator --> UC_Setup_User
+Administrator --> UC_Delete_Comment
+Administrator --> UC_Login
+
+UC_Register_User --> UC_Confirm_Email
+UC_Confirm_Email --> UC_Activate_User
+UC_Activate_User --> UC_Login
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements
+
+- **Generalization**: `Administrator` inherits from `User`, reflecting their role as a special type of user.
+- **Inheritance**: `TextualEntry` and `NumericEntry` inherit from the base class `Entry`.
+- **Associations**:
+  - A `User` can own multiple `Building`s.
+  - A `Building` can have multiple `Entry`s and `Image`s.
+  - A `Comment` is associated with both a `User` and a `Building`.
+- **Use Cases & Actors**:
+  - Use case generalizations like registration → confirmation → activation.
+  - Administrators have extended privileges compared to regular users.
+  - Visitors can only search for buildings.
+
+---
+
+### ✅ 10 Meaningful Use Cases with Assigned Actors
+
+| Use Case | Actor |
+|----------|-------|
+| Register User | Visitor / Potential User |
+| Confirm Email | RegisteredUser |
+| Activate User | System (implicitly) |
+| Login | RegisteredUser, Administrator |
+| Create Building | RegisteredUser |
+| Manage Entries | RegisteredUser |
+| Comment on Building | RegisteredUser |
+| Search Buildings | Visitor, RegisteredUser |
+| Setup User Account | Administrator |
+| Delete Comment | Administrator |
+
+---
+
+Let me know if you'd like this exported as a PNG or SVG, or if you want to include sequence diagrams or state machines next!

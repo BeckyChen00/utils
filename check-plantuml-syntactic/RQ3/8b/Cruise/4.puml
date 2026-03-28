@@ -1,0 +1,87 @@
+
+@startuml
+
+class Provider {
+  -name: String
+  -location: String
+}
+
+class Cruise {
+  -cruiseNumber: String
+  -cruiseName: String
+  -startDate: Date
+  -endDate: Date
+  -destinationArea: String
+  -seaName: String
+  *-..1 Employees
+  *-..* Guests
+  *-..* Tickets
+  *-..* Shows
+  *-..* Ships
+}
+
+class Employee {
+  -name: String
+  -socialSecurityNumber: String
+}
+
+class Guest {
+  -name: String
+  -isVIP: Boolean
+  *-..* Cruises
+  *-..* Tickets
+}
+
+class Ticket {
+  -ticketNumber: String
+  -bookingDate: Date
+  *-1 Cruise
+  *-1 Guest
+}
+
+class Booking {
+  -bookingNumber: String
+  -bookingDate: Date
+  *-1 TravelAgency
+  *-1 Cruise
+}
+
+class TravelAgency {
+  -name: String
+  -address: String
+}
+
+class Ship {
+  -shipName: String
+  -numDecks: Integer
+  -length: Double
+  -numPassengers: Integer
+  *-..* Cruises
+}
+
+class Show {
+  -showTitle: String
+  -duration: Integer
+  *-1 Cruise
+}
+
+' Associations
+Provider "1" -- "*" Cruise : provides
+Cruise "1" -- "*" Ship : uses
+Cruise "1" -- "*" Employee : has
+Cruise "1" -- "*" Guest : has
+Cruise "1" -- "*" Show : offers
+Cruise "1" -- "*" Ticket : has
+Booking "1" -- "1" Cruise : books
+Booking "1" -- "1" TravelAgency : made by
+Guest "1" -- "*" Ticket : owns
+Ticket "1" -- "1" Cruise : belongs to
+Ticket "1" -- "1" Guest : belongs to
+
+@enduml
+
+### Notes:
+- The `*` and `1` in the associations denote multiplicity (e.g., `*` means zero or more, `1` means exactly one).
+- This diagram includes all entities and their relationships as described in the system requirements.
+
+Let me know if you'd like a version with more details (e.g., attributes, operations, or inheritance).

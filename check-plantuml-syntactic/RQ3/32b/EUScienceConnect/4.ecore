@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_authorship_role_in" eType="#//Authorship" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Authorship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="of_article" eType="#//ScientificArticle" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScientificArticle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_either_a" eType="#//PeerReviewedPaper" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authored_by" eType="#//Person" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviewed_by" eType="#//Reviewer" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PeerReviewedPaper" eSuperTypes="#//ScientificArticle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="published_in" eType="#//Journal" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviewed_by" eType="#//Reviewer" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Reviewer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Institution">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employs" eType="#//Person" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishes" eType="#//TechnicalReport" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subscribes_to" eType="#//Subscription" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnicalReport" eSuperTypes="#//ScientificArticle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="published_by" eType="#//Institution" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Subscription"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Publisher">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishes" eType="#//Journal" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Journal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subscribed_by" eType="#//Subscription" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishes" eType="#//PeerReviewedPaper" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

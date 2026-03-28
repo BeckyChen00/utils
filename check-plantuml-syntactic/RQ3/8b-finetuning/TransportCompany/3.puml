@@ -1,0 +1,93 @@
+@startuml
+enum VehicleType {
+  RefrigeratedTruck
+  SmallVan
+  LoadingPlatform
+  BoxTruck
+  Flatbed
+  Tanker
+}
+enum OrderStatus {
+  Pending
+  InTransit
+  Completed
+  Cancelled
+}
+enum StaffRole {
+  Driver
+  Planner
+  Administrative
+}
+class Person {
+  name: String
+  socialSecurityNumber: String
+  +assignRole(role: StaffRole): void
+}
+class Employee {
+  username: String
+  passwordHash: String
+  role: StaffRole
+  +login(): boolean
+}
+class StaffMember {
+  +approveOrder(order: Order): void
+}
+class Customer {
+  name: String
+  billingAddress: String
+  +placeOrder(details: String): Order
+}
+class Vehicle {
+  licensePlate: String
+  mileage: int
+  type: VehicleType
+  +recordMileage(miles: int): void
+  +requireMaintenance(): void
+}
+class MaintenanceLog {
+  entryDate: Date
+  repairShopName: String
+  repairShopAddress: String
+  cost: double
+  duration: int
+  description: String
+  +calculateTotalCost(): double
+}
+class Order {
+  orderNumber: String
+  customer: Customer
+  isExpress: boolean
+  isRefrigerated: boolean
+  currentStatus: OrderStatus
+  remarks: String
+  +calculateTotalDistance(): int
+  +startTransport(): Date
+  +completeTransport(): Date
+}
+class OrderLine {
+  packageDescription: String
+  weight: double
+  volume: double
+  +verifyCompliance(strict: boolean): boolean
+}
+class DispatchPlan {
+  planDate: Date
+  +assignOrder(order: Order, driver: Employee, vehicle: Vehicle): void
+  +getAssignedDrivers(): List<Employee>
+}
+class Notification {
+  message: String
+  timestamp: Date
+  isRead: boolean
+  +markAsRead(): void
+}
+Employee --|> Person
+StaffMember --|> Person
+Order --> "1" Customer : client
+Order *-- "*" OrderLine : lineItems
+Order --> "1" Employee : assignedDriver 'opposite: handledOrders
+Order --> "1" Vehicle : assignedVehicle
+StaffMember --> "*" Notification : sentNotifications
+DispatchPlan --> "*" Order : includedOrders
+Vehicle *-- "*" MaintenanceLog : maintenanceHistory
+@enduml

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedAlerts" eType="#//Alert" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Alert"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommunicationIncident">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedStrategy" eType="#//RiskMitigationStrategy" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingAssessment" eType="#//CommunicationAssessment" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reportedBy" eType="#//IncidentReporter" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskMitigationStrategy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommunicationAssessment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IncidentReporter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertGenerator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedAlerts" eType="#//Alert" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeStrategies" eType="#//RiskMitigationStrategy" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

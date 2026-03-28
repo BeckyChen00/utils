@@ -1,0 +1,60 @@
+@startuml
+
+abstract class Vehicle {
+    +vehicleNumber: String
+    <<abstract>>
+}
+
+class Truck extends Vehicle {
+    +weight: int
+}
+
+class Car extends Vehicle {
+    +numberOfSeats: int
+}
+
+class Van extends Vehicle {
+}
+
+class Driver {
+    +firstName: String
+    +lastName: String
+    +vehicles: List<Vehicle>
+}
+
+class Location {
+    +address: String
+    +drivers: List<Driver>
+    +vehicles: List<Vehicle>
+}
+
+class Order {
+    +origin: Location
+    +destination: Location
+    +assignedDriver: Driver
+    +executionDate: Date
+    +currentDriver: Driver
+}
+
+Driver "1" -- "0..1" Order : carries
+Order "1" -- "1" Location : origin
+Order "1" -- "1" Location : destination
+Driver "1" -- "0..*" Vehicle : drives
+Vehicle "1" -- "1" Driver : driven by
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **Vehicle** is an abstract class with a common attribute `vehicleNumber`.
+- **Truck**, **Car**, and **Van** are concrete subclasses of `Vehicle` with their own specific attributes.
+- **Driver** has a list of vehicles they drive.
+- **Location** contains an address, and may have drivers and vehicles associated with it (though in this context, drivers and vehicles are managed separately).
+- **Order** includes origin and destination locations, an assigned driver, execution date, and optionally a current driver (for tracking active orders).
+- Relationships:
+  - A **Driver** can carry **0 or 1** **Order** at a time.
+  - An **Order** must have **1** **Driver** assigned.
+  - A **Driver** can drive **0 to many** **Vehicles**.
+  - A **Vehicle** is driven by **1** **Driver**.
+
+Let me know if you want this rendered as an image or further elaborated!

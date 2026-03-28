@@ -1,0 +1,75 @@
+@startuml
+enum PaymentMethod {
+  CreditCard
+  DebitCard
+  BankTransfer
+}
+enum AlertLevel {
+  Low
+  Medium
+  High
+  Critical
+}
+class UserAccount {
+  username: String
+  emailAddress: String
+  birthday: Date
+  +register(): void
+  +login(credentials: String): boolean
+  +updateProfile(newEmail: String, newBirthday: Date): void
+}
+class UserProfile {
+  accountStatus: String
+  +getActiveTasks(): List<Task>
+  +getPendingTasks(): List<Task>
+}
+class Task {
+  title: String
+  priority: String
+  isCompleted: boolean
+  dueDate: Date
+  +markAsCompleted(): void
+  +markAsIncomplete(): void
+  +updateStatusFlag(newFlag: boolean): void
+}
+class TaskState {
+  currentState: String
+  +transition(nextState: TaskState, duration: int): void
+  +getTransitionHistory(): List<TaskState>
+}
+class NotificationChannel {
+  channelName: String
+  priority: AlertLevel
+  isActive: boolean
+  +publish(event: AlertEvent): void
+  +revoke(): void
+}
+class AlertEvent {
+  timestamp: Date
+  messageContent: String
+  messagePriority: AlertLevel
+  +isCritical(): boolean
+  +getContent(): String
+}
+class AlertSystem {
+  systemName: String
+  +calibrateThreshold(): void
+  +generateAlert(event: AlertEvent): void
+  +checkSystemHealth(): boolean
+}
+class AlertManager {
+  currentAlertCount: int
+  +acknowledgeAlert(event: AlertEvent): void
+  +acknowledgeAllAlerts(): void
+  +scheduleAlert(event: AlertEvent, priority: AlertLevel): void
+}
+UserAccount *-- "1" UserProfile : profile
+UserAccount --> "*" NotificationChannel : assignedChannels
+UserAccount --> "*" Task : ownedTasks
+Task *-- "1" TaskState : currentState
+Task --> "1" TaskState : transitionState
+Task --> "0..1" AlertEvent : triggerAlert
+Task --> "*" NotificationChannel : triggeredChannels
+AlertSystem -- AlertManager
+AlertManager -- AlertSystem
+@enduml

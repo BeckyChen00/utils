@@ -1,0 +1,97 @@
+
+---
+
+
+@startuml
+
+' Employees
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+  + login(username: String, password: String): Boolean
+}
+
+' Administrative Staff (inherits from Employee)
+class AdministrativeStaff <|-- Employee
+
+' Planner (inherits from Employee)
+class Planner <|-- Employee
+
+' Driver (inherits from Employee)
+class Driver <|-- Employee
+
+' Customers
+class Customer {
+  - name: String
+  - billingAddress: String
+}
+
+' Vehicles
+class Vehicle {
+  - licensePlateNumber: String
+  - mileage: Integer
+  - type: String
+}
+
+' Repair
+class Repair {
+  - repairShopName: String
+  - repairShopAddress: String
+  - employee: Employee
+  - duration: Integer
+  - cost: Double
+  - vehicle: Vehicle
+}
+
+' Orders
+class Order {
+  - customer: Customer
+  - pickupAddress: String
+  - deliveryAddress: String
+  - dateStart: DateTime
+  - dateEnd: DateTime
+  - comment: String
+  - driver: Driver
+  - vehicle: Vehicle
+  - planner: Planner
+}
+
+' PartnerCompany
+class PartnerCompany {
+  - name: String
+  - address: String
+}
+
+' Associations
+Employee "1" -- "0..*" AdministrativeStaff : specializes
+Employee "1" -- "0..*" Planner : specializes
+Employee "1" -- "0..*" Driver : specializes
+
+Customer "1" -- "1" Order : has
+Driver "1" -- "0..*" Order : assignedTo
+Vehicle "1" -- "0..*" Order : usedFor
+Planner "1" -- "0..*" Order : assignedBy
+Order "1" -- "0..1" Repair : requires (optional)
+
+PartnerCompany "0..1" -- "0..*" Order : placedBy
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Relationships:
+
+- **Inheritance**: `AdministrativeStaff`, `Planner`, and `Driver` inherit from `Employee`.
+- **Associations**:
+  - A `Customer` has one `Order`.
+  - An `Order` can be assigned to a `Driver`, use a `Vehicle`, and be planned by a `Planner`.
+  - An `Order` may have a `Repair` associated with it.
+  - An `Order` can be placed by either an `AdministrativeStaff` or a `PartnerCompany`.
+
+---
+
+### 💡 Notes:
+- All classes include relevant **attributes** such as names, addresses, dates, etc.
+- The diagram is designed to support the core business processes of the transport company: managing employees, customers, vehicles, orders, and repairs.
+
+Let me know if you'd like to add more details or extend the model further!

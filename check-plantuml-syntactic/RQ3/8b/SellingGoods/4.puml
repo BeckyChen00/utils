@@ -1,0 +1,76 @@
+
+---
+
+
+@startuml
+class Customer {
+  - String name
+  - String address
+  - String vatNumber
+  + register()
+}
+
+class Product {
+  - String productName
+  - String productCode
+  - int stockLevel
+  + addStock(int quantity)
+  + reduceStock(int quantity)
+}
+
+class Order {
+  - int orderId
+  - Date paymentDate
+  - Date shippingDate
+  - boolean isPaid
+  - boolean isShipped
+  + placeOrder()
+  + markAsPaid(Date paymentDate)
+  + markAsShipped(Date shippingDate)
+}
+
+class OrderLine {
+  - int orderLineId
+  - int quantity
+  - Product product
+  - Order order
+  + updateQuantity(int newQuantity)
+}
+
+class Stock {
+  - Map<Product, Integer> stockLevels
+  + adjustStock(Map<Product, Integer> changes)
+}
+
+' Relationships
+Customer "1" -- "0..*" Order : places
+Order "1" -- "0..*" OrderLine : contains
+OrderLine "1" -- "1" Product : references
+Stock "1" -- "0..*" Product : tracks
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **Customer**: Stores customer details (name, address, VAT number) and has a method to register a new customer.
+- **Product**: Represents each product with its name, code, and current stock level. Includes methods to adjust stock levels.
+- **Order**: Represents an order with a unique ID, payment and shipping dates, and flags to indicate whether it’s paid or shipped.
+- **OrderLine**: Links an order to a specific product and records how many units were ordered.
+- **Stock**: A central repository that tracks stock levels for all products.
+- **Relationships**: 
+  - One customer can place many orders.
+  - One order contains multiple order lines.
+  - Each order line references one product.
+  - Stock keeps track of all products.
+
+---
+
+### 🔄 Notes for Future Steps (Steps 2–4)
+
+For subsequent steps, you will need to:
+- Introduce **partial shipment tracking** in Step 2 (e.g., `Shipment`, `ShipmentLine`).
+- Add **delivery status tracking** (e.g., `DeliveryStatus`, `Delivery`) in Step 4.
+- Include **invoice tracking** and **payment options** (e.g., `Invoice`, `PaymentMethod`) in Step 3.
+
+Would you like me to generate the updated class diagram for **Step 2**, **Step 3**, or **Step 4**?

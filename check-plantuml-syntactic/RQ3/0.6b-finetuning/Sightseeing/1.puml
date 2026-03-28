@@ -1,0 +1,42 @@
+@startuml
+enum PainSeverity {
+  Severe
+  Malignant
+}
+class DiagnosticReport {
+  status: String
+  severityLevel: PainSeverity
+  +generateSummary(): String
+  +verifyIntegrity(): boolean
+}
+class PainEvent {
+  eventType: String
+  occurrenceTime: Date
+  isRecurrent: boolean
+  +calculateDuration(): int
+}
+class Patient {
+  fullName: String
+  +getFullName(): String
+  +updateMedicalHistory(event: PainEvent): void
+}
+class MedicalDevice {
+  deviceIdentifier: String
+  modelNumber: String
+  calibrationStatus: boolean
+  +performCalibration(): boolean
+  +getStatusHistory(): String
+}
+class DiagnosticSession {
+  sessionId: String
+  startDate: Date
+  endDate: Date
+  bloodTension: int
+  +recordOutcome(report: DiagnosticReport): DiagnosticReport
+}
+Patient "1" *-- "0..*" DiagnosticReport : medicalHistory
+DiagnosticSession "*" --> "1" Patient : patient
+DiagnosticSession "1" *-- "0..*" PainEvent : recordedEvents
+DiagnosticSession "1" --> "1" DiagnosticReport : generatedReport
+MedicalDevice "*" --> "0..*" DiagnosticReport : generatedReports
+@enduml

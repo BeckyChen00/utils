@@ -1,0 +1,82 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Center {
+    +name: String
+    +address: String
+    +rooms: Set<Room>
+}
+
+class Room {
+    +number: Integer
+    +maxCapacity: Integer
+    +center: Center
+}
+
+class Person {
+    +firstName: String
+    +lastName: String
+    +birthDate: Date
+}
+
+class Trainer extends Person {
+    +diploma: String
+}
+
+class Session {
+    +date: Date
+    +startTime: Time
+    +room: Room
+    +type: String (optional)
+}
+
+class Participant {
+    +person: Person
+    +session: Session
+}
+
+class Supervisor {
+    +trainer: Trainer
+    +session: Session
+}
+
+' Associations
+Center "1" -- "0..*" Room : has
+Room "1" -- "1" Center : belongs to
+
+Person "1" -- "0..*" Participant : participates in
+Session "1" -- "0..*" Participant : has
+
+Trainer "1" -- "0..*" Supervisor : supervises
+Session "1" -- "0..*" Supervisor : is supervised by
+
+Session "1" -- "1" Room : takes place in
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Relationships:
+
+- **Center ↔ Room**: A center can have multiple rooms. Each room belongs to exactly one center.
+- **Person ↔ Participant**: A person can participate in multiple sessions.
+- **Session ↔ Participant**: A session can have multiple participants.
+- **Trainer ↔ Supervisor**: A trainer can supervise multiple sessions.
+- **Session ↔ Supervisor**: A session must be supervised by a single trainer (if it's a group session).
+- **Session ↔ Room**: A session takes place in exactly one room.
+- **Person ↔ Trainer**: A trainer is a type of person (inheritance relationship).
+
+---
+
+### 🧾 Notes:
+- `Participant` and `Supervisor` are used to model the roles of people in sessions (e.g., a person can be both a participant and a trainer in different sessions).
+- `type` in `Session` is optional — only relevant for group sessions.
+- The constraint that at most one session can occur in a room at the same time on the same day is enforced through the uniqueness of the combination of `date`, `startTime`, and `room`.
+
+---
+
+If you want this rendered as an image or integrated into a document, I can help you generate the PNG version or export it. Let me know!

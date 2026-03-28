@@ -1,0 +1,28 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement {
+        class Component { name: "User Interface" }
+        class Feature { name: "Authentication" }
+        class Requirement { name: "Access Control" }
+    }
+
+    class Result {
+        class ValidationResult {
+            validationStatus: "Pass"
+        }
+    }
+
+    class DiagramElement {
+        component : Component
+        feature : Feature
+        requirement : Requirement
+        result : ValidationResult
+    }
+
+    # relationships between elements
+    element[component] -> element[feature]
+    element[feature] -> element[result]
+    element[result] -> element[diagramElement]
+
+@enduml

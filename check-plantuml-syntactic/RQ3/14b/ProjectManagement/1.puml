@@ -1,0 +1,66 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class ResearchGroup {
+  -groupId: String
+  -name: String
+  -department: Department
+}
+
+class Department {
+  -departmentId: String
+  -name: String
+}
+
+class Researcher {
+  -researcherId: String
+  -name: String
+  -currentResearchGroup: ResearchGroup
+}
+
+class WorkPackage {
+  -wpId: String
+  -title: String
+  -leaderResearchGroup: ResearchGroup
+}
+
+class Project {
+  -projectId: String
+  -title: String
+  -workPackages: Set<WorkPackage>
+}
+
+class Assignment {
+  -assignmentId: String
+  -researcher: Researcher
+  -workPackage: WorkPackage
+  -startDate: Date
+  -endDate: Date
+}
+
+ResearchGroup "1" -- "0..*" Researcher : contains
+Department "1" -- "0..*" ResearchGroup : contains
+Project "1" -- "0..*" WorkPackage : contains
+WorkPackage "1" -- "1" ResearchGroup : led by
+WorkPackage "0..*" -- "0..*" Assignment : has team members
+Researcher "0..*" -- "0..*" Assignment : assigned to
+Assignment "1" -- "1" Researcher : belongs to
+Assignment "1" -- "1" WorkPackage : belongs to
+
+note right of Assignment
+  When a researcher changes groups, all assignments are terminated and re-created.
+  When WP leadership changes, assignments are re-recorded for correct service delivery tracking.
+end note
+@enduml
+
+### Explanation of Key Relationships:
+
+- **ResearchGroup** contains **Researchers** (a researcher belongs to exactly one group).
+- **Department** contains **ResearchGroups**.
+- **Project** contains multiple **WorkPackages**.
+- Each **WorkPackage** is led by exactly one **ResearchGroup**.
+- A **Researcher** can be assigned to any **WorkPackage**, regardless of which group leads it.
+- An **Assignment** links a **Researcher** to a **WorkPackage** with dates.
+- The note explains how **service delivery** is tracked via the **Assignment** class when researchers or WP leaders change.
+

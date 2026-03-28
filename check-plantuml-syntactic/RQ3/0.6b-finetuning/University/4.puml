@@ -1,0 +1,444 @@
+@startuml
+class User {
+  username: String
+  +login(): boolean
+  +logout(): void
+}
+class Room {
+  roomName: String
+  capacity: int
+  isOccupied: boolean
+  +checkAvailability(): boolean
+}
+class Player {
+  nickname: String
+  staminaLevel: int
+  healthPoints: int
+  +takeDamage(amount: int): void
+  +getHealth(): int
+}
+class Weapon {
+  name: String
+  damage: int
+  +getDamage(): int
+}
+class BattleLog {
+  description: String
+  creationDate: Date
+  +addEntry(message: String, details: String): void
+  +getEntries(): List<String>
+}
+class Campaign {
+  title: String
+  startStage: int
+  +start(): void
+  +end(): void
+}
+class Stage {
+  stageName: String
+  difficultyLevel: int
+  +getStageInfo(): String
+}
+class EquipmentSlot {
+  slotIndex: int
+  currentItem: String
+  +addItem(item: String): void
+  +removeItem(): void
+}
+class Inventory {
+  inventoryName: String
+  +addItem(item: String): void
+  +removeItem(item: String): boolean
+  +getItems(): List<String>
+}
+class Quest {
+  questName: String
+  description: String
+  +complete(): void
+}
+class Item {
+  itemName: String
+  cost: int
+  +getCost(): int
+}
+class MissionSchedule {
+  isActive: boolean
+  status: String
+  +calculateNextAvailable(): Date
+  +getNextSlot(): EquipmentSlot
+}
+class CompositeWeapon {
+  mixRatio: double
+  +activate(): void
+}
+class Phase {
+  phaseName: String
+  maxStamina: int
+  +execute(): void
+}
+class Merchant {
+  merchantName: String
+  reputation: String
+  +acceptOrder(order: CombatOrder): void
+  +rejectOrder(order: CombatOrder): void
+}
+class CombatOrder {
+  isFragile: boolean
+  isCompleted: boolean
+  +generatePlan(): String
+  +assignTo(engineer: Engineer): void
+}
+class Engineer {
+  engineerName: String
+  skillLevel: int
+  +assignTo(order: CombatOrder): void
+}
+class Npc {
+  name: String
+  type: String
+  description: String
+  +giveDamage(attacker: Player, amount: int): void
+}
+class DialogueMessage {
+  content: String
+  isTranslated: boolean
+  +translate(): String
+}
+class SecurityKey {
+  value: String
+  expirationDate: Date
+  +verify(): boolean
+}
+class ScheduleEvent {
+  eventName: String
+  startTime: Date
+  endTime: Date
+  +startsAt(): Date
+}
+class MissionResource {
+  resourceName: String
+  quantity: int
+  isAvailable: boolean
+  +updateQuantity(amount: int): void
+  +checkAvailability(): boolean
+}
+class ItemCollection {
+  itemName: String
+  quantity: int
+  +addItem(item: Item): void
+  +removeItem(item: Item): boolean
+}
+class AttackEvent {
+  attackX: int
+  attackY: int
+  attackZ: int
+  attackerName: String
+  +calculateDamage(target: Player): int
+}
+class TaskEvent {
+  taskType: String
+  requiredSkills: List<String>
+  taskDescription: String
+  +execute(): void
+}
+class MapPosition {
+  x: int
+  y: int
+  z: int
+  +isValid(): boolean
+}
+class Session {
+  startTime: Date
+  endTime: Date
+  status: String
+  +startSession(): void
+  +endSession(): void
+  +isProcessing(): boolean
+}
+class Arena {
+  arenaName: String
+  maxCapacity: int
+  +createArena(name: String): Arena
+  +getAvailableSlots(): List<Enemy>
+}
+class Enemy {
+  name: String
+  type: String
+  healthPoints: int
+  isAlive: boolean
+  +attack(attacker: Player): void
+}
+class Map {
+  +updateCoordinates(position: MapPosition): void
+}
+class StageController {
+  +generateStageCommands(): String
+  +toggleStageVisibility(stage: Stage): void
+}
+class Courier {
+  totalWeight: int
+  +transport(sorry: String): void
+  +completeDelivery(): void
+}
+class Guardian {
+  guardianName: String
+  job: String
+  +alertOfficer(officer: Officer): void
+}
+class Officer {
+  designation: String
+  +scheduleTask(task: TaskEvent): void
+}
+class AttackModule {
+  +generateAttackReport(): String
+  +triggerAttack(): void
+}
+class MapFragment {
+  fragmentName: String
+  layerIndex: int
+  +getFragmentDetails(): String
+}
+class MapData {
+  +loadData(): void
+  +saveData(): void
+}
+class CombatLog {
+  logs: List<BattleLog>
+  +addLog(log: BattleLog): void
+  +getLogs(): List<BattleLog>
+}
+class CampaignData {
+  title: String
+  description: String
+  +addStage(stage: Stage): void
+  +getTotalMissions(): List<Stage>
+}
+class MissionLog {
+  +addMissionEntry(mission: Mission): void
+  +getAllMissions(): List<Mission>
+}
+class NpcStory {
+  narrativeText: String
+  +getNarrative(): String
+}
+class QuestTracker {
+  +logQuestCompletion(quest: Quest): void
+  +getQuestProgress(quest: Quest): double
+}
+class InventoryManager {
+  +restockSlot(slot: EquipmentSlot, items: List<Item>): void
+  +clearInventory(): void
+}
+class TalkService {
+  +respondToMessage(message: DialogueMessage): DialogueMessage
+  +translateMessage(text: String): String
+}
+class RaidingGroup {
+  +generateReport(): String
+  +addMember(rider: Player): void
+}
+class Firewall {
+  +blockRequest(request: String): boolean
+  +checkBandwidth(): double
+}
+class SecurityUnit {
+  currentLevel: int
+  +monitorTraffic(): double
+  +broadcastAlarm(message: String): void
+}
+class WorldMap {
+  +getMapCoordinates(): List<MapPosition>
+}
+class MapFragment {
+  fragmentName: String
+  +isComplete(): boolean
+}
+class LocationDatabase {
+  +queryLocation(position: MapPosition): MapPosition
+  +updateLocation(position: MapPosition): void
+}
+class NotificationService {
+  +sendAlert(message: String, target: User): void
+  +sendAlert(event: String, target: User): void
+}
+class RoleModel {
+  roleName: String
+  +applyRole(player: Player): void
+  +hasRights(): boolean
+}
+class GameSession {
+  startTime: Date
+  endTime: Date
+  +enterSession(): void
+  +exitSession(): void
+}
+class GameplayRules {
+  +checkRules(attack: AttackEvent): boolean
+  +validateEntry(log: BattleLog): boolean
+}
+class Network {
+  +broadcastMessage(msg: String): void
+  +getConnectedPlayers(): List<Player>
+}
+class NetworkingClient {
+  +connect(): void
+  +disconnect(): void
+}
+class RankSystem {
+  +determineRank(player: Player): int
+  +updateRank(player: Player, score: int): void
+}
+class RankTable {
+  +getTopRankers(): List<Player>
+}
+_campaignName: String
+_campaignDescription: String
+_campaignSchedule: MissionSchedule
+_campaignResource: MissionResource
+_campgroundName: String
+_campaignNotes: String
+_campaignStage: Stage
+_campgroundDescription: String
+_campgroundLocation: MapPosition
+_campgroundCapacity: int
+_campgroundResources: List<MissionResource>
+_campgroundPath: String
+_campgroundDescription: String
+_campgroundStage: Stage
+_campgroundWeapons: List<Weapon>
+_campgroundNpcs: List<Npc>
+_campgroundNavigation: MapPosition
+_campgroundPath: String
+_campgroundMap: MapData
+_campgroundGame: GameplayRules
+_campgroundLevel: int
+_campgroundInventory: Inventory
+_campgroundCharacter: Player
+_campgroundNarrative: NpcStory
+_campgroundMap: MapFragment
+_campgroundQuest: Quest
+_campgroundEvent: AttackEvent
+_campgroundLog: CombatLog
+_campgroundSession: GameSession
+_campgroundSessionDuration: int
+_campgroundSessionStart: Date
+_campgroundSessionEnd: Date
+_campgroundSessionStatus: String
+_campgroundSessionNotes: String
+_campgroundSessionChannels: List<String>
+_campgroundSessionInfo: String
+Network.multiplayerConnection: String
+GameSession.joinSession(arena: Arena): void
+GameSession.leaveSession(): void
+GameSession.startSession(): void
+GameSession.exitSession(): void
+Campaign.fetchData(): CampaignData
+Campaign.addStage(stage: Stage): void
+Campaign.addQuest(quest: Quest): void
+Campaign.addRaidingGroup(group: RaidingGroup): void
+Campaign.addMap(map: Map): void
+Campaign.addMapMapping(source: Map, destination: Map): Map
+Campaign.addEvent(event: AttackEvent): void
+Map.terrain = "Hard Terrain"
+Map.coordinates = "0,0,0"
+Map.size = "3,3"
+Map.zones = List<MapPosition>
+Map.areas = List<MapPosition>
+Map.npcs = List<Npc>
+Map.activities = List<AttackEvent>
+Map.loading = List<Stage>
+Map.data = "Test Map Data"
+Map.fragment = MapFragment
+Map.route = "Path to Start"
+Map.mapPosition = MapPosition
+RankSystem.getTopRanks(): List<Player>
+RankSystem.updateRank(player: Player, score: int): void
+RankSystem.generateReport(): String
+RankSystem.displayStats(): String
+NpcStory.npcs = List<Npc>
+BattleLog.generateLog(): List<BattleLog>
+BattleLog.setTitle("Battle Log"): void
+BattleLog.setDescription("Details of the battle"): void
+BattleLog.addEvent(Event: AttackEvent): void
+BattleLog.addEvent(Event: TaskEvent): void
+RaidingGroup.getMembers(): List<Player>
+RaidingGroup.getSubgroups(): List<Enemy>
+RaidingGroup.getCount(): int
+RaidingGroup.getLeader(): Player
+RaidingGroup.getSubordinates(): List<Player>
+RaidingGroup.getEmployees(): List<Player>
+RaidingGroup.getTaskList(): List<TaskEvent>
+RaidingGroup.getTasks(): List<TaskEvent>
+RaidingGroup.getWeapons(): List<Weapon>
+RaidingGroup.getTeamSize(): int
+RaidingGroup.getHealthPoints(): int
+RaidingGroup.getCasualtyCount(): int
+RaidingGroup.getLeadershipLevel(): int
+RaidingGroup.getOrderStatus(): String
+RaidingGroup.getProgress(): int
+RaidingGroup.getCode(): String
+RaidingGroup.setPriority(level: int): void
+RaidingGroup.setTargetLocation(location: MapPosition): void
+RaidingGroup.addMember(player: Player): void
+RaidingGroup.removeMember(player: Player): void
+RaidingGroup.getActionList(): List<Player>
+Map.arena = Arena
+Map.generator = MapData
+Map.fragment = MapFragment
+Map.route = "Raiding Route"
+Map.location = MapPosition
+Map.npcs = List<Npc>
+Map.stats = "Statistics of the arena"
+Map.content = "The content of the arena"
+Map.terrain = "The terrain of the arena"
+Map.userAgent = "The user agent for the arena"
+Map.data = "The data structure of the arena"
+Map.fragmentId = "The identifier for the fragment"
+Map.fragmentCoordinates = "The coordinates of the fragment"
+RaidingGroup.generateReport(): String
+RaidingGroup.setTargetArea(location: MapPosition): void
+Map.getFragmentCoordinates(): MapPosition
+RaidingGroup.setDestinationPosition(location: MapPosition): void
+RaidingGroup.getDeploymentCountHistory(): List<int>
+RaidingGroup.getDeploymentHistory(): List<MapPosition>
+RaidingGroup.getNotificationList(): List<String>
+RaidingGroup.getActiveFaction(): String
+RaidingGroup.getSubordinates(): List<Player>
+RaidingGroup.setPriority(level: int): void
+RaidingGroup.activeTaskList: List<TaskEvent>
+RaidingGroup.getActiveTaskCount(): int
+RaidingGroup.setProductionVolume(volume: int): void
+RaidingGroup.setProductionLimit(limit: int): void
+RaidingGroup.setOutputSize(size: int): void
+RaidingGroup.setOutputLimit(size: int): void
+RaidingGroup.setInventory(target: Inventory): void
+RaidingGroup.setInventory(note: String): void
+RaidingGroup.getInventoryStatus(): String
+RaidingGroup.getInventoryType(): String
+RaidingGroup.getActionList(): List<Player>
+RaidingGroup.getPlayers(): List<Player>
+RaidingGroup.getPendingTasks(): List<TaskEvent>
+RaidingGroup.getStatus(): String
+Map.fragment = MapFragment
+Map.route = "Path to Start"
+Map.location = MapPosition
+Map.terrain = "The terrain of the arena"
+Map.data = "The data structure of the arena"
+Map.fragmentId = "The identifier for the fragment"
+Map.addWidget(position: MapPosition): void
+Map.addAction(position: MapPosition): void
+RaidingGroup.getActiveUsers(): List<Player>
+RaidingGroup.getActiveGroups(): List<RaidingGroup>
+RaidingGroup.getTeamSize(): int
+RaidingGroup.getCostOfWeapon(weapon: Weapon): int
+RaidingGroup.isReady(): boolean
+RaidingGroup.getVelocity(): int
+RaidingGroup.getVelocityDelta(): int
+RaidingGroup.setSpeed(speed: int): void
+RaidingGroup.setHealingRate(rate: int): void
+RaidingGroup.setDamageCalculation(calculation: int): void
+RaidingGroup.isAlive(): boolean
+RaidingGroup.getPersonality(): String
+RaidingGroup.getLifeState(): String
+Raid
+@enduml

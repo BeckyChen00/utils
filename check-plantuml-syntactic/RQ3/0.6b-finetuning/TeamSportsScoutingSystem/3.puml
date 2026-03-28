@@ -1,0 +1,171 @@
+@startuml
+enum AttendanceStatus {
+  Present
+  Absent
+  Late
+  Eligible
+}
+enum ShiftType {
+  Morning
+  Afternoon
+  Night
+  BreakTime
+  DayBreak
+}
+enum RecruitmentAgentRole {
+  AcademicStaff
+  AdministrativeStaff
+  External Recruiter
+}
+enum PaymentStatus {
+  Pending
+  Paid
+  Failed
+}
+class studentProfile {
+  name: String
+  email: String
+  isVerified: boolean
+  isPremium: boolean
+  currentStatus: AttendanceStatus
+  +updateProfile(): void
+  +calculateTotalCredits(): int
+}
+class academicGroup {
+  groupName: String
+  groupLeader: StudentProfile
+  isInvitationRequired: boolean
+  +hasMember(student: StudentProfile): boolean
+  +addMember(student: StudentProfile): void
+}
+class subject {
+  subjectCode: String
+  courseTitle: String
+  +getEnrollmentRate(): double
+}
+class courseSchedule {
+  semesterYear: int
+  semesterQuarter: String
+  +assignStudent(student: StudentProfile): void
+  +getAvailableSlots(): List<Date>
+}
+class attendanceRecord {
+  recordingDate: Date
+  status: AttendanceStatus
+  lessonCount: int
+  +recordAttendance(student: StudentProfile): void
+  +generateSummary(): String
+}
+class recruitmentOffer {
+  offerTimestamp: Date
+  type: RecruitmentAgentRole
+  isRenewable: boolean
+  requiredSkills: String[]
+  +submit(): void
+  +admitStudent(student: StudentProfile): void
+}
+class paymentTransaction {
+  amount: double
+  status: PaymentStatus
+  transactionDate: Date
+  +processPayment(): boolean
+  +recordPayment(): void
+}
+class paymentProcessor {
+  +processPayment(amount: double, transactionId: String): boolean
+  +validateReceipt(): boolean
+}
+class applicationStatus {
+  status: String
+  submissionDate: Date
+  +markAsRejected(reason: String): void
+  +markAsApproved(): void
+}
+class department {
+  departmentName: String
+  locationAddress: String
+  +assignCapacity(strategy: String): void
+  +getDepartmentNotes(): String
+}
+class administrativeRecord {
+  recordDate: Date
+  role: String
+  notes: String
+  +verifyIdentity(student: StudentProfile): boolean
+}
+class trainingProgram {
+  programTitle: String
+  durationDays: int
+  costEstimation: double
+  +getProgramDetails(): String
+}
+class assessmentCalendar {
+  year: int
+  +addItem(itemList: List<String>): void
+  +getActiveCalendars(): List<assessmentCalendar>
+}
+class assessmentMetrics {
+  successRate: double
+  averageScore: double
+  +calculateMetrics(): void
+}
+class evaluationReport {
+  reportDate: Date
+  resultsSummary: String
+  +generateReport(): void
+}
+class courseOffer {
+  offerCode: String
+  price: double
+  +validateOffer(): boolean
+  +applyToGroup(groupId: academicGroup): void
+}
+class studentApplication {
+  applicationDate: Date
+  status: String
+  +submit(): void
+  +updateStatus(newStatus: String): void
+}
+class recruitmentManager {
+  managerName: String
+  +assignRole(role: RecruitmentAgentRole, student: StudentProfile): void
+  +manageGroup(group: academicGroup): void
+  +processApplication(student: StudentProfile, offer: courseOffer): StudentApplication
+}
+academicGroup *-- "0..*" studentProfile : members
+studentProfile *-- "1" academicGroup : group
+studentProfile --> "0..*" attendanceRecord : attendanceHistory
+studentProfile --> "0..*" applicationStatus : applicationHistory
+studentProfile --> "1" department : department
+studentProfile --> "1" administrativeRecord : administrativeRecord
+studentProfile --> "1" applicationStatus : applicationStatus
+courseSchedule *-- "1" attendanceRecord : recordedTiming
+courseSchedule *-- "1" courseOffer : courseOffer
+courseSchedule *-- "1" assessmentCalendar : assessmentTimeline
+courseSchedule *-- "1" trainingProgram : trainingProgram
+courseSchedule --> "1" subject : subject
+courseSchedule --> "1" department : department
+studentProfile --> "0..*" applicationStatus : applicationStatus
+courseOffer --> "1" department : department
+recruitmentManager --> "1..*" studentProfile : managedStudents
+recruitmentManager --> "1..*" academicGroup : managedGroups
+recruitmentManager --> "1..*" courseOffer : managedOffers
+courseOffer --> "1..*" recruitmentAgent : relatedAgents
+department --> "0..*" courseSchedule : departmentalSchedules
+assessmentMetrics -- courseSchedule
+assessmentMetrics -- studentProfile
+assessmentMetrics -- recruitmentManager
+recruitmentManager -- administrativeRecord
+applicationStatus -- recruitmentManager
+applicationStatus -- studentProfile
+applicationStatus -- courseOffer
+recruitmentAgent -- assessmentCalendar
+recruitmentAgent -- studentProfile
+recruitmentAgent -- courseOffer
+courseSchedule -- assessmentCalendar
+recruitmentManager -- courseSchedule
+assessmentReport -- courseSchedule
+assessmentReport -- recruitmentManager
+courseOffer -- studentProfile
+recruitmentManager -- administrativeRecord
+@enduml

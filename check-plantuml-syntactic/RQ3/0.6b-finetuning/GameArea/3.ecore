@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessionHistory" eType="#//PlayerSession" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlayerSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePlayer" eType="#//Player" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedInstructor" eType="#//Instructor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Challenge">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="episodeSeries" eType="#//Episode" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedQuizzes" eType="#//Quiz" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Episode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Player"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Instructor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Quiz"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Game">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedEpisodes" eType="#//Episode" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="availablePlayers" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlayerProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedPlayers" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

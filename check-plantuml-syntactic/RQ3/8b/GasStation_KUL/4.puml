@@ -1,0 +1,107 @@
+
+@startuml
+
+' Define the main classes
+class Customer {
+    +String id
+    +String name
+    +String contactInfo
+    +boolean isSuspended
+    +List<RefuelTurn> refuelTurns
+    +void addRefuelTurn(RefuelTurn turn)
+    +void payInvoice(Invoice invoice)
+    +void suspend()
+    +void resume()
+}
+
+class RefuelCard {
+    +String cardId
+    +Customer customer
+    +List<Invoice> invoices
+    +void createInvoice()
+    +void sendInvoice()
+}
+
+class Invoice {
+    +String invoiceId
+    +Date month
+    +Customer customer
+    +List<RefuelTurn> refuelTurns
+    +double totalAmount
+    +double discount
+    +double finalAmount
+    +boolean isPaid
+    +void send()
+    +void markAsPaid()
+}
+
+class RefuelTurn {
+    +String turnId
+    +Customer customer
+    +Pump pump
+    +DateTime refuelTime
+    +double amount
+    +FuelType fuelType
+    +boolean isPaid
+    +void markAsPaid()
+}
+
+class Pump {
+    +String pumpId
+    +int capacity
+    +int currentLevel
+    +int reorderLevel
+    +int criticalLevel
+    +boolean isBlocked
+    +FuelType fuelType
+    +void refuel(double amount)
+    +void checkReorderLevel()
+    +void block()
+    +void unblock()
+    +void refill()
+}
+
+class FuelType {
+    +String type
+    +double pricePerLiter
+}
+
+class GasStation {
+    +String stationId
+    +String location
+    +List<Pump> pumps
+    +void generateDailyReport()
+    +void refillPump(Pump pump)
+}
+
+' Relationships
+Customer "1" -- "0..*" RefuelTurn : has
+Customer "1" -- "1" RefuelCard : owns
+RefuelCard "1" -- "0..*" Invoice : has
+Invoice "1" -- "0..*" RefuelTurn : includes
+RefuelTurn "1" -- "1" Pump : uses
+Pump "1" -- "1" FuelType : contains
+GasStation "1" -- "0..*" Pump : has
+Pump "1" -- "1" FuelType : contains
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Classes and Relationships:
+
+- **Customer**: Represents a customer with personal details, whether they're suspended, and their refueling history.
+- **RefuelCard**: A card used to accumulate refueling amounts, which are invoiced monthly.
+- **Invoice**: Generated monthly for customers who use their refuel card. Includes discounts and payment status.
+- **RefuelTurn**: Records each individual refueling event, including when it happened, how much was added, and whether it's been paid.
+- **Pump**: Each pump has its own gasoline level, reordering rules, and can be blocked or unblocked.
+- **FuelType**: Describes the type of fuel (e.g., Regular, Premium) and its price.
+- **GasStation**: Manages multiple pumps and generates daily reports on refueling needs.
+
+---
+
+### 🧠 Notes:
+- The diagram models the core entities and their interactions based on the system requirements.
+- It doesn't include all possible methods and attributes but gives a clear structure that can be extended as needed.
+
+Let me know if you'd like to expand it further or refine specific parts!

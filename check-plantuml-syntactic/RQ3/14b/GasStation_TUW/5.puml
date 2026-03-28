@@ -1,0 +1,53 @@
+
+@startuml
+' Gas Station System Class Diagram
+
+class GasStation {
+  -id: String
+  -address: String
+  -fuelPumps: List<FuelPump>
+}
+
+class FuelPump {
+  -pumpNumber: Integer
+  -isSelfService: Boolean
+  -fuelsOffered: List<Fuel>
+}
+
+class Fuel {
+  -name: String
+  -octaneRating: Integer
+}
+
+class DailyPrice {
+  -date: Date
+  -fuel: Fuel
+  -gasStation: GasStation
+  -pricePerLiter: Double
+}
+
+class FuelPurchase {
+  -purchaseId: String
+  -fuelPump: FuelPump
+  -dailyPrice: DailyPrice
+  -litersDispensed: Double
+}
+
+' Associations
+GasStation "1" -- "0..12" FuelPump : has
+FuelPump "1" -- "0..*" Fuel : offers
+DailyPrice "1" -- "1" Fuel : relates to
+DailyPrice "1" -- "1" GasStation : relates to
+FuelPurchase "1" -- "1" FuelPump : made at
+FuelPurchase "1" -- "1" DailyPrice : uses
+FuelPurchase "1" -- "1" Fuel : purchases
+
+@enduml
+
+### Explanation of Key Elements:
+- **GasStation**: Has a unique ID, address, and a list of up to 12 `FuelPump` objects.
+- **FuelPump**: Identified by a number, whether it's self-service, and which `Fuel` types are offered.
+- **Fuel**: Identified by name and octane rating.
+- **DailyPrice**: Captures fuel prices per day for a specific fuel at a specific gas station.
+- **FuelPurchase**: Records a purchase with an ID, the pump used, the daily price, and liters dispensed.
+

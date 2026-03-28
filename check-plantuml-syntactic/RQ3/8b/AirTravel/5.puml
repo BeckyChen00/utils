@@ -1,0 +1,99 @@
+
+@startuml
+
+' Aircraft Class
+class Aircraft {
+  -name: String
+  -type: String
+  -yearOfManufacture: int
+  -nextInspectionDate: Date
+  -homeAirport: Airport
+  -airline: Airline
+}
+
+' Flight Class
+class Flight {
+  -flightNumber: String
+  -date: Date
+  -departureAirport: Airport
+  -destinationAirport: Airport
+  -aircraft: Aircraft
+}
+
+' Passenger Class
+class Passenger {
+  -name: String
+  -passportNumber: String
+}
+
+' Ticket Class
+class Ticket {
+  -ticketNumber: String
+  -price: double
+  -upgradeDesired: boolean
+  -flight: Flight
+  -passenger: Passenger
+  -seatCategory: SeatCategory
+}
+
+' SeatCategory Class
+class SeatCategory {
+  -designation: String
+  -entertainmentProgram: boolean
+  -numberOfSeats: int
+  -aircraft: Aircraft
+}
+
+' PassengerAircraft Class (specialization of Aircraft)
+class PassengerAircraft <|-- Aircraft
+
+' Airline Class
+class Airline {
+  -name: String
+}
+
+' FlightAttendant Class
+class FlightAttendant {
+  -name: String
+  -dateOfEmployment: Date
+  -isChiefSteward: boolean
+  -flights: List<Flight>
+}
+
+' Pilot Class
+class Pilot {
+  -name: String
+  -dateOfEmployment: Date
+  -license: String
+  -flights: List<Flight>
+}
+
+' Airport Class
+class Airport {
+  -name: String
+  -address: String
+  -numberOfRunways: int
+}
+
+' Relationships
+Aircraft "1" -- "*" Flight : has
+Flight "1" -- "*" Passenger : has
+Flight "1" -- "*" Ticket : has
+Passenger "1" -- "*" Ticket : has
+Aircraft "1" -- "*" SeatCategory : has
+SeatCategory "1" -- "1" Ticket : for
+Aircraft "1" -- "0..1" Airline : belongs to
+Airline "1" -- "*" FlightAttendant : employs
+Airline "1" -- "*" Pilot : employs
+Flight "0..*" -- "*" FlightAttendant : has
+Flight "1" -- "1" Pilot : captain
+Flight "1" -- "0..2" Pilot : co-pilot
+Aircraft "0..1" -- "1" Airport : home
+Flight "1" -- "1" Airport : departure
+Flight "1" -- "1" Airport : destination
+
+@enduml
+
+### How to Use:
+
+Let me know if you'd like a version with associations or multiplicities in more detail!

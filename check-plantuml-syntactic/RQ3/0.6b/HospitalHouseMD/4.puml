@@ -1,0 +1,14 @@
+@startuml
+classDiagram
+
+SystemRequirement --> Requirement1
+Requirement1 --> Class1
+Class1 --> Attribute1
+Attribute1 --> SystemRequirement
+
+Requirement1 --> Requirement2
+Requirement2 --> Class2
+Class2 --> Attribute2
+Attribute2 --> SystemRequirement
+
+@enduml

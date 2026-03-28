@@ -1,0 +1,57 @@
+@startuml
+
+class GameArea {
+  -name: String
+  -gameElements: List<GameElement>
+  -gamePieces: List<GamePiece>
+}
+
+class GameElement {
+  -x: long
+  -y: long
+}
+
+class Shape : GameElement {
+  +connectsTo: List<Shape>
+}
+
+class Object : GameElement {
+}
+
+class Opponent : GameElement {
+  -lives: int
+  +isKilled(): boolean
+}
+
+class GamePiece {
+}
+
+GameArea "1" -- "0..*" GameElement : contains
+GameArea "1" -- "1..2" GamePiece : has
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+Shape "1" -- "0..*" Shape : connectsTo
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **GameArea** has:
+  - A `name` (String)
+  - A list of `GameElement`s
+  - A list of `GamePiece`s (between 1 and 2)
+
+- **GameElement** is an abstract class with:
+  - `x` (protected long)
+  - `y` (private long)
+
+- **Shape**, **Object**, and **Opponent** are subclasses of **GameElement**.
+
+- **Shape** has a bidirectional association with other **Shapes** via `connectsTo`.
+
+- **Opponent** has a `lives` field (protected int) and a method `isKilled()`.
+
+- **GamePiece** is a general class with no specific attributes or methods mentioned.
+
+This diagram captures all the relationships and constraints described in the system requirements.

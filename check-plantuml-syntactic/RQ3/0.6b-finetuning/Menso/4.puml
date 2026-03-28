@@ -1,0 +1,49 @@
+@startuml
+class Excavator {
+  modelCode: String
+  isUnderMaintenance: boolean
+  +checkEngineStatus(): boolean
+  +maintenanceMode(): boolean
+}
+class InspectionReport {
+  inspectionDate: Date
+  isCritical: boolean
+  comments: String
+  +generateSummary(): String
+}
+class MachineSpec {
+  componentName: String
+  maxLoadCapacity: double
+  isOperational: boolean
+}
+class CorrosionLog {
+  severityLevel: int
+  detectedComponents: List<MachineSpec>
+  detectionDate: Date
+  +recordDetected(component: MachineSpec): void
+  +findCriticalComponents(): List<MachineSpec>
+}
+class SafetyStatus {
+  safetyStatus: String
+  warningLevel: int
+  +verifySafety(): boolean
+}
+class MaintenanceSchedule {
+  scheduledDate: Date
+  isActive: boolean
+  technicianNotes: String
+  +assignTechnician(tech: Technician): void
+  +updateSchedule(newDate: Date, notes: String): void
+}
+class Technician {
+  name: String
+  certificationLevel: int
+  +performInspection(machine: Excavator): InspectionReport
+}
+Excavator *-- "1" SafetyStatus : currentStatus
+Excavator *-- "1" MaintenanceSchedule : maintenancePlan
+Excavator *-- "*" CorrosionLog : corrosionLogs
+InspectionReport --> "*" MachineSpec : inspectedComponents
+InspectionReport --> "0..1" SafetyStatus : confirmedStatus
+InspectionReport --> "*" Technician : performedBy
+@enduml

@@ -1,0 +1,73 @@
+@startuml
+
+class Frame {
+  -material: String
+  +insertWheel(wheel: Wheel): void
+}
+
+class Wheel {
+  +rotate(): void
+}
+
+class DriveSystem {
+  -motor: Motor
+  +drive(): void
+}
+
+class Motor {
+  +spin(): void
+}
+
+class Controller {
+  -state: State
+  +setState(state: State): void
+  +getBattery(): Battery
+  +commandDriveSystem(): void
+  +getBatteryStatus(): String
+}
+
+enum State {
+  On, Off, Charging
+}
+
+class Battery {
+  -storedEnergy: double (Wh)
+  +charge(): void
+  +discharge(): void
+  +getStoredEnergy(): double
+}
+
+class EBike {
+  -frame: Frame
+  -driveSystem: DriveSystem
+  -controller: Controller
+  -battery: Battery
+  +connectBattery(battery: Battery): void
+  +disconnectBattery(): void
+}
+
+class BasicController <|-- Controller
+class AdvancedController <|-- Controller
+
+BasicController --> Controller
+AdvancedController --> Controller
+
+AdvancedController {
+  +estimateNextInspectionDate(): Date
+}
+
+EBike --|> Frame
+EBike --|> DriveSystem
+EBike --|> Controller
+EBike "0..1" --o "1" Battery : has
+
+@enduml
+
+### Notes:
+- The `Frame` is made of **steel**, and it can insert **Wheels**.
+- The `DriveSystem` contains a **Motor**.
+- The `Controller` has three possible states (`On`, `Off`, `Charging`) and interacts with the **Battery** and **DriveSystem**.
+- There are two types of `Controller`: `BasicController` and `AdvancedController`.
+- The `AdvancedController` includes an additional method to estimate the next **inspection date**.
+- The `EBike` aggregates the `Frame`, `DriveSystem`, and `Controller`, and optionally holds a `Battery`.
+

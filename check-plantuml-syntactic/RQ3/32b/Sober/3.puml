@@ -1,0 +1,88 @@
+
+@startuml
+
+' Define package if needed
+package "Sober Taxi System" {
+  ' Core entities
+  class Customer {
+    - id: String
+    - name: String
+    - phoneNumber: String
+    - email: String
+    - rideShareCount: Integer
+  }
+
+  class Car {
+    - id: String
+    - licensePlate: String
+    - isSelfDriving: Boolean
+    - owner: Person
+    - accidents: List<Accident>
+  }
+
+  class Person {
+    - id: String
+    - name: String
+    - address: String
+    - contactInfo: String
+  }
+
+  class Ride {
+    - id: String
+    - pickupTime: DateTime
+    - dropoffTime: DateTime
+    - pickupLocation: String
+    - dropoffLocation: String
+    - duration: Duration
+    - distance: Double
+    - passengers: List<Customer>
+    - fee: Double
+  }
+
+  class RideHailing {
+    - requestType: RequestType (APP or HAND_WAVE)
+    - leadCustomer: Customer
+  }
+
+  class RideSharing {
+    - negotiatedFee: Double
+    - treePledgeEligible: Boolean
+  }
+
+  class Accident {
+    - date: DateTime
+    - location: String
+    - damageAmount: Double
+  }
+
+  enum RequestType {
+    APP
+    HAND_WAVE
+  }
+
+  ' Relationships
+  Customer "1" -- "0..*" Ride : participates in
+  Ride "1" -- "0..1" RideHailing : is a
+  Ride "1" -- "0..1" RideSharing : is a
+  Car "1" -- "0..*" Ride : assigned to
+  Car "1" -- "0..*" Accident : has
+  Person "1" -- "0..1" Car : owns
+}
+
+@enduml
+
+---
+
+### ✅ Diagram Summary:
+
+- **Customer**: Can be part of multiple rides. Tracks ride-sharing count for eco-incentives.
+- **Ride**: Abstract base class containing common attributes for both services.
+- **RideHailing & RideSharing**: Specializations of `Ride`. Each has unique attributes:
+  - **RideHailing**: Includes `requestType` (app or hand-wave) and `leadCustomer`.
+  - **RideSharing**: Includes `negotiatedFee` and tracks eligibility for tree planting.
+- **Car**: Self-driving or user-owned. Has a list of associated rides and accidents.
+- **Person**: Generic class for users (car owners, customers).
+- **Accident**: Records details about any accident involving a car.
+
+---
+

@@ -1,0 +1,96 @@
+
+@startuml
+
+' Define classes and their attributes
+class Game {
+    - id: String
+    - players: List<Player>
+    - deck: Deck
+    - scoringTable: ScoringTable
+}
+
+class Player {
+    - id: String
+}
+
+class Deck {
+    - id: String
+    - cards: List<Card>
+}
+
+class Card {
+    - id: String
+    - suit: Suit
+    - rank: String
+    + compare(other: Card): ComparisonResult
+}
+
+enum Suit {
+    DIAMONDS, HEARTS, SPADES, CLUBS
+}
+
+enum ComparisonResult {
+    LOWER, EQUAL, HIGHER
+}
+
+class ScoringTable {
+    - id: String
+    - rounds: List<Round>
+}
+
+abstract class Round {
+    - id: String
+    - winningPlayers: List<Player>
+    - points: Integer
+}
+
+class JackRound {
+    - id: String
+    - winningPlayers: List<Player>
+    - points: Integer
+}
+
+class SoloRound {
+    - id: String
+    - winningPlayers: List<Player>
+    - points: Integer
+    - soloType: SoloType
+    - soloPlayer: Player
+}
+
+class MandatorySoloRound {
+    - id: String
+    - winningPlayers: List<Player>
+    - points: Integer
+    - soloType: SoloType
+    - soloPlayer: Player
+}
+
+enum SoloType {
+    TRUMP, JACK, QUEEN
+}
+
+' Relationships
+Game "1" -- "4" Player : contains
+Game "1" -- "1" Deck : has
+Game "1" -- "1" ScoringTable : has
+Deck "1" -- "48" Card : contains
+ScoringTable "1" -- "many" Round : contains
+Round <|-- JackRound
+Round <|-- SoloRound
+SoloRound <|-- MandatorySoloRound
+
+@enduml
+
+---
+
+### ✅ Key Points Covered:
+- **Game**: Contains 4 players, a deck, and a scoring table.
+- **Deck**: Holds up to 48 `Card` objects.
+- **Card**: Has suit (from enum), rank, and a comparison method.
+- **ScoringTable**: Contains multiple `Round`s.
+- **Round** is abstract with types like `JackRound` and `SoloRound`.
+- **SoloRound** has a type (`SoloType`) and a solo player.
+- **MandatorySoloRound** is a special case of `SoloRound`.
+- Every object has a unique ID attribute.
+

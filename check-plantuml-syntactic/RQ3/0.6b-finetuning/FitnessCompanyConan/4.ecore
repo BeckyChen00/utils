@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="installedSensors" eType="#//SensorNode" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedMeterSet" eType="#//MeterSet" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="latestReading" eType="#//DataRecord" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentPollutants" eType="#//PollutionIndex" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PollutionIndex">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceEvent" eType="#//PollutionEvent" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MeterSet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalysisEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredStations" eType="#//MonitoringStation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedEvents" eType="#//PollutionEvent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PollutionEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedRecords" eType="#//DataRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referenceRecords" eType="#//CalibrationRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CalibrationRecord"/>
+</ecore:EPackage>

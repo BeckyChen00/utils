@@ -1,0 +1,49 @@
+@startuml
+enum VersionStatus {
+  Draft
+  Live
+  Archived
+  InReview
+}
+enum ContentType {
+  Text
+  Video
+  Audio
+  Image
+  Document
+  Meeting
+}
+class TimeSeries {
+  name: String
+  maxResolution: int
+  +getLatestReading(): Reading
+  +getReadingCount(): int
+}
+class Reading {
+  content: String
+  isArchived: boolean
+  status: VersionStatus
+  versionNumber: int
+  +exportResource(): String
+  +closeReading(): void
+}
+class Document {
+  title: String
+  wordCount: int
+}
+class User {
+  displayName: String
+  +getSystemCredentials(): String
+}
+class Group {
+  name: String
+}
+class Calendar {
+  theme: String
+}
+TimeSeries *-- "0..*" Reading : records
+Reading --> "1" Document : source
+Document --> "1" Group : contributor
+Group *-- "1" Calendar : calendar
+User --> "0..*" Group : membership
+@enduml

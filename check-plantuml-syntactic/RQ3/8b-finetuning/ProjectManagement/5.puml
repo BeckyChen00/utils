@@ -1,0 +1,58 @@
+@startuml
+enum ResourceType {
+  Equipment
+  Staff
+  Space
+}
+enum AssignmentStatus {
+  Active
+  Completed
+}
+class ResearchGroup {
+  groupName: String
+  departmentCode: String
+  +getMembers(): List<Researcher>
+}
+class Researcher {
+  researcherName: String
+  email: String
+  +updateContactInfo(newEmail: String): void
+}
+class ResearchProject {
+  projectName: String
+  startDate: Date
+  endDate: Date
+  +addWorkPackage(title: String, budget: double): WorkPackage
+  +getWorkPackages(): List<WorkPackage>
+}
+class WorkPackage {
+  title: String
+  allocatedBudget: double
+  currentStatus: String
+  +initiateExecution(wr: WorkReport): void
+  +getWorkReports(): List<WorkReport>
+  +assignLeader(rg: ResearchGroup): void
+  +getAssignedResearchers(): List<Researcher>
+}
+class WorkReport {
+  reportDate: Date
+  summary: String
+  +submitReport(details: String): void
+  +validateSubmission(): boolean
+}
+class ResourceAllocation {
+  resourceType: ResourceType
+  quantity: int
+  allocationDate: Date
+  +updateQuantity(newQuantity: int): void
+  +getResourceDetails(): String
+}
+ResearchGroup "1" *-- "*" Researcher : members
+ResearchProject "1" *-- "*" WorkPackage : workPackages
+WorkPackage "1" *-- "*" ResourceAllocation : resourceAllocations
+WorkPackage "1" --> "*" Researcher : teamMembers
+Researcher --> "*" WorkReport : submittedReports
+WorkPackage --> "*" WorkReport : generatedReports
+ResearchProject --> "*" Researcher : principalInvestigators
+ResearchGroup --> "*" WorkReport : submittedReports
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+class Driver {
+  firstName: String
+  lastName: String
+  isAvailable: boolean
+  +getFullname(): String
+}
+class Vehicle {
+  vehicleNumber: String
+  type: String
+  weight: double
+  seats: int
+  +getCapacity(): String
+}
+class Location {
+  address: String
+}
+class Order {
+  executionDate: Date
+  origin: Location
+  destination: Location
+  +calculateDistance(): double
+}
+Driver "1" --> "1..*" Vehicle : assignedVehicles
+Order "1" --> "1" Driver : assignedDriver
+Order "1" *-- "1" Location : origin
+Order "1" *-- "1" Location : destination
+Order "*" --> "*" Vehicle : requiredVehicles
+@enduml

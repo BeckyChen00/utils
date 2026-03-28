@@ -1,0 +1,41 @@
+@startuml
+enum BookingStatus {
+  Pending
+  Confirmed
+  Cancelled
+  Completed
+}
+class Venue {
+  venueName: String
+  location: String
+  capacity: int
+  +getAvailableSlots(): List<Booking>
+}
+class User {
+  userName: String
+  email: String
+  phoneNumber: String
+  loyaltyPoints: int
+  isPremium: boolean
+  +updateProfile(): void
+  +placeBooking(venue: Venue, durationDays: int): Booking
+}
+class Booking {
+  bookingDate: Date
+  durationDays: int
+  status: BookingStatus
+  totalCost: double
+  +confirmBooking(): void
+  +cancelBooking(): void
+  +calculateTotalCost(): double
+}
+class BookingList {
+  title: String
+  status: BookingStatus
+  +generateReport(): String
+  +addBooking(booking: Booking): void
+}
+User "1" --> "0..*" Booking : placedBookings
+Booking "1" --> "1" Venue : bookedAt
+BookingList "1" *-- "1..*" Booking : containedBookings
+@enduml

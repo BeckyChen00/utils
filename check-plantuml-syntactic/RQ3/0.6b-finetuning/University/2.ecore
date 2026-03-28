@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applications" eType="#//PermitApplication" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PermitApplication">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedCertificate" eType="#//PermitCertificate" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="amendmentRequests" eType="#//AmendmentRequest" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PermitCertificate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="licensedSubcontractor" eType="#//Subcontractor" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="licensedContractor" eType="#//Contractor"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AmendmentRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetProject" eType="#//ConstructionProject" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Subcontractor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Contractor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Witness">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedRequests" eType="#//AmendmentRequest" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstructionProject"/>
+</ecore:EPackage>

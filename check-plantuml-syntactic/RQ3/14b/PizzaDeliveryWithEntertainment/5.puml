@@ -1,0 +1,88 @@
+
+@startuml
+' UML Class Diagram for Pizza Delivery with Entertainment App
+
+class User {
+  +id: String
+  +name: String
+  +birthday: Date
+  +address: String
+}
+
+class BusinessOwner {
+  +linkedin: String
+}
+
+class Restaurant {
+  +zipCode: String
+  +address: String
+  +phoneNumber: String
+  +website: String
+  +openingHours: String
+}
+
+class Pizza {
+  +name: String
+  +crustStructure: String
+  +price: Double
+  +restaurantId: String
+}
+
+class HungryCustomer {
+  +deliveryAddress: String
+}
+
+class Order {
+  +orderId: String
+  +orderDate: DateTime
+  +latestDeliveryTime: DateTime
+  +numberOfPeople: Integer
+  +pizzas: List<Pizza>
+}
+
+class EntertainmentOrder {
+  +entertainmentType: String
+  +duration: Integer ' in minutes
+  +entertainerId: String
+}
+
+class Entertainer {
+  +stageName: String
+  +bio: String
+  +pricePer30Minutes: Double
+  +restaurants: List<Restaurant>
+  +availabilityByDay: Map<String, Boolean>
+}
+
+' Associations
+User "1" -- "1" BusinessOwner : is
+User "1" -- "1" HungryCustomer : is
+User "1" -- "1" Entertainer : is
+
+BusinessOwner "1" -- "*" Restaurant : owns
+
+Restaurant "1" -- "*" Pizza : offers
+
+HungryCustomer "1" -- "1" Order : places
+
+Order "1" -- "1" EntertainmentOrder : is (optional)
+
+Entertainer "1" -- "1" EntertainmentOrder : fulfills
+
+Entertainer "1" -- "*" Restaurant : worksAt
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+- **User** is the base class for all users (BusinessOwner, HungryCustomer, Entertainer).
+- **BusinessOwner** has a LinkedIn account and can own multiple **Restaurants**.
+- **Restaurant** holds details like address, phone number, etc., and offers many **Pizzas**.
+- **Pizza** must be uniquely identified by its restaurant context, even if the name and price are the same as another pizza from a different restaurant.
+- **HungryCustomer** places **Orders**, which may be regular or **EntertainmentOrders**.
+- **EntertainmentOrder** contains entertainment type, duration, and links to an **Entertainer**.
+- **Entertainer** has availability per day and can work at multiple restaurants.
+
+---
+
+Let me know if you'd like to generate a visual image of this diagram or extend it further!

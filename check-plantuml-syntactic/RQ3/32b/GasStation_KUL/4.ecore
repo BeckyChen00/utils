@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owns" eType="#//FuelCard" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FuelCard"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owns" eType="#//CreditCard" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receives" eType="#//Invoice" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="makes" eType="#//RefuelTurn" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreditCard"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sent_to" eType="#//Customer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includes" eType="#//RefuelTurn" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RefuelTurn">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//PaymentMethod" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="at" eType="#//Pump" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appears_in" eType="#//Invoice"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Pump">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Tank" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="used_by" eType="#//RefuelTurn" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dispenses" eType="#//GasType" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tank">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reported_in" eType="#//DailyReport"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GasType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DailyReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GasStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Pump" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serves" eType="#//Customer" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issues" eType="#//Invoice" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generates" eType="#//DailyReport" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,130 @@
+
+@startuml
+
+' Classes
+class Customer {
+  -id: int
+  -name: String
+  -address: String
+  -status: String (Active, Suspended)
+  -fuelCard: FuelCard
+}
+
+class FuelCard {
+  -cardNumber: String
+  -customer: Customer
+  -transactions: List<Transaction>
+}
+
+class Transaction {
+  -id: int
+  -date: Date
+  -amount: double
+  -pump: Pump
+  -invoice: Invoice
+}
+
+class Invoice {
+  -id: int
+  -month: Date
+  -customer: Customer
+  -totalAmount: double
+  -discount: double
+  -paid: boolean
+  -transactions: List<Transaction>
+}
+
+class Payment {
+  -id: int
+  -date: Date
+  -amount: double
+  -invoice: Invoice
+}
+
+class GasStation {
+  -id: int
+  -name: String
+  -location: String
+  -pumps: List<Pump>
+}
+
+class Pump {
+  -id: int
+  -type: String (e.g., Regular, Diesel)
+  -gasLevel: double
+  -reorderLevel: double
+  -criticalLevel: double
+  -reservoir: Reservoir
+  -status: String (Available, Blocked, Refilling)
+  -refillRequests: List<RefillRequest>
+  -transactions: List<Transaction>
+}
+
+class Reservoir {
+  -id: int
+  -capacity: double
+  -currentLevel: double
+}
+
+class RefillRequest {
+  -id: int
+  -pump: Pump
+  -requestDate: Date
+  -quantityToOrder: double
+}
+
+class DailyReport {
+  -id: int
+  -reportDate: Date
+  -refillRequests: List<RefillRequest>
+}
+
+' Relationships
+Customer "1" -- "1" FuelCard : owns
+FuelCard "1" -- "*" Transaction : has
+Transaction "1" -- "0..1" Invoice : belongs to
+Invoice "1" -- "*" Payment : can have multiple
+GasStation "1" -- "*" Pump : contains
+Pump "1" -- "1" Reservoir : has
+Pump "1" -- "*" RefillRequest : generates
+Pump "1" -- "*" Transaction : processes
+DailyReport "1" -- "*" RefillRequest : includes
+
+' Inheritance or association notes
+note right of Invoice
+  An invoice is sent once per month.
+  Discounts are applied based on customer's turnover.
+  A customer can receive multiple invoices before paying.
+end note
+
+note right of Pump
+  When gas level drops below reorderLevel, a refill request is generated.
+  If gas level drops below criticalLevel, pump is blocked.
+  After refill, pump is temporarily blocked for ~1 hour.
+end note
+
+note right of Customer
+  Customers can be suspended if they fail to pay two consecutive invoices.
+  Slack is given based on customer history.
+end note
+
+@enduml
+
+---
+
+### 📌 Summary of Key Entities:
+
+- **Customer**: Owns a fuel card and may be active or suspended.
+- **FuelCard**: Used to make refuel transactions without immediate payment.
+- **Transaction**: Represents a single refueling event at a pump.
+- **Invoice**: Monthly billing for all refuel transactions made with a fuel card.
+- **Payment**: Records when an invoice is paid.
+- **GasStation**: Manages pumps and generates reports.
+- **Pump**: Handles refueling and tracks gasoline levels.
+- **Reservoir**: Contains fuel for a specific pump.
+- **RefillRequest**: Generated when fuel needs to be replenished.
+- **DailyReport**: Aggregates all refill requests for daily monitoring.
+
+---
+
+Let me know if you'd like to add more details, such as methods or associations between other components like `Employee` or `Supplier`.

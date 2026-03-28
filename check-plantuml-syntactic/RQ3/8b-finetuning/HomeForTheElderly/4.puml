@@ -1,0 +1,113 @@
+@startuml
+enum StayType {
+  RestHome
+  RestAndNursingHome
+  ServiceFlat
+}
+enum PaymentStatus {
+  Pending
+  Paid
+  Overpaid
+  NotPaid
+}
+class Person {
+  identificationNumber: String
+  fullName: String
+  registrationDate: Date
+  +register(): void
+  +assessNeeds(): StayType
+}
+class StayAbilityAssessment {
+  assessmentDate: Date
+  activityLevel: String
+  requiresMedicalCare: boolean
+  +validateForStays(type: StayType): boolean
+  +reAssess(): void
+}
+class Department {
+  departmentName: String
+  +getRooms(): List<Room>
+}
+class Room {
+  roomNumber: String
+  capacity: int
+  +getAvailableBeds(): List<Bed>
+}
+class Bed {
+  bedNumber: String
+  category: StayType
+  pricePerDay: double
+  +assignToInhabitant(person: Person, stayType: StayType): Stay
+  +release(): void
+}
+class Inhabitant {
+  +requestStay(type: StayType): void
+  +acceptProposal(proposal: Proposal): void
+  +rejectProposal(proposal: Proposal): void
+}
+class Proposal {
+  proposalDate: Date
+  isAccepted: boolean
+  +generate(inhabitant: Inhabitant, type: StayType): void
+  +invalidate(reason: String): void
+}
+class WaitingList {
+  +addProposal(proposal: Proposal): void
+  +getTopProposal(): Proposal
+  +removeProposal(proposal: Proposal): void
+}
+class Stay {
+  startDate: Date
+  endDate: Date
+  type: StayType
+  isActive: boolean
+  +calculateDuration(): int
+  +suspend(): void
+  +terminate(reason: String): void
+}
+class Invoice {
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  paymentStatus: PaymentStatus
+  +calculateTotal(): double
+  +receivePayment(amount: double): void
+  +markAsPaid(): void
+  +generateCreditNote(excess: double): CreditNote
+}
+class PaymentRecord {
+  paymentDate: Date
+  amount: double
+  confirmationReference: String
+  +confirm(): void
+}
+class CreditNote {
+  issueDate: Date
+  amountToRefund: double
+  +processRefund(): void
+}
+class Department {
+  +assignBed(person: Person, category: StayType): Bed
+  +createInvoice(stay: Stay): Invoice
+}
+class InvoiceManager {
+  +calculateInvoice(stay: Stay, category: StayType): Invoice
+  +processPayment(record: PaymentRecord, invoice: Invoice): void
+}
+Person *-- "1" StayAbilityAssessment : abilityAssessment
+Inhabitant --> "0..1" Proposal : ongoingProposal
+Proposal --> "1" WaitingList : pendingIn
+WaitingList *-- "0..*" Proposal : proposals
+Person *-- "0..*" Stay : stays
+Stay --> "1" Bed : assignedBed
+Stay --> "1" Department : housingDepartment
+Proposal --> "1" Person : targetInhabitant
+Proposal --> "1" Department : targetDepartment
+Department *-- "0..*" Room : rooms
+Room *-- "0..*" Bed : beds
+Invoice *-- "0..*" PaymentRecord : payments
+Invoice *-- "0..*" CreditNote : credits
+Invoice --> "1" Stay : coveredStay
+Inhabitant --> "0..*" Invoice : outstandingInvoices
+InvoiceManager --> "0..*" Invoice : managedInvoices
+@enduml

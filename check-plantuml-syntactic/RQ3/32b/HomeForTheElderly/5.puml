@@ -1,0 +1,150 @@
+
+---
+
+
+@startuml
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+}
+
+' Entities
+class Inhabitant {
+    + String name
+    + Date birthDate
+    + Boolean active
+    + register()
+    + assessAbilities()
+    + acceptProposal()
+    + refuseProposal()
+    + reAssessAbilities()
+    + endStay()
+}
+
+class Department {
+    + String name
+    + addRoom()
+    + removeRoom()
+}
+
+class Room {
+    + int number
+    + List<Bed> beds
+    + addBed()
+    + removeBed()
+}
+
+class Bed {
+    + int bedNumber
+    + Stay currentStay
+    + Category category
+    + isAvailable()
+    + assignToStay()
+    + releaseFromStay()
+}
+
+abstract class Category {
+    + String type
+    + Decimal price
+    + calculateDiscount(stay: Stay)
+}
+
+class RestHomeCategory extends Category {}
+class RestNursingHomeCategory extends Category {}
+class ServiceFlatCategory extends Category {}
+
+class Stay {
+    + StartDate dateOfIntake
+    + EndDate endDate
+    + Inhabitant inhabitant
+    + Bed bed
+    + Category category
+    + Status status (active, suspended, ended)
+    + suspend()
+    + resume()
+    + end()
+    + invoice()
+}
+
+class WaitingListEntry {
+    + Inhabitant inhabitant
+    + Category requestedCategory
+    + RegistrationDate registrationDate
+    + Position position
+    + isProposed()
+    + updatePosition()
+}
+
+class Proposal {
+    + WaitingListEntry entry
+    + Bed bed
+    + Date proposalDate
+    + Status status (pending, accepted, refused, invalidated)
+    + sendProposal()
+    + accept()
+    + refuse()
+    + invalidate()
+}
+
+class Invoice {
+    + Stay stay
+    + Date issueDate
+    + Decimal totalAmount
+    + Decimal outstandingAmount
+    + Status status (open, paid)
+    + generate()
+    + modify()
+    + registerPayment(payment: Payment)
+}
+
+class Payment {
+    + Invoice invoice
+    + Date paymentDate
+    + Decimal amount
+    + registerRefund()
+}
+
+class CreditNote {
+    + Payment overpayment
+    + Date issueDate
+    + Decimal refundAmount
+}
+
+' Associations and Relationships
+
+Inhabitant "1" --> "many" Stay : has
+Stay "1" --> "1" Bed : occupies
+Stay "1" --> "1" Category : belongs to
+Inhabitant "1" --> "many" WaitingListEntry : in
+WaitingListEntry "1" --> "1" Category : for
+Proposal "1" --> "1" WaitingListEntry : for
+Proposal "1" --> "1" Bed : offers
+Stay "1" --> "many" Invoice : generates
+Invoice "1" --> "many" Payment : receives
+Payment "1" --> "0..1" CreditNote : creates
+
+Department "1" --> "many" Room : contains
+Room "1" --> "many" Bed : contains
+
+' Inheritance
+Category <|-- RestHomeCategory
+Category <|-- RestNursingHomeCategory
+Category <|-- ServiceFlatCategory
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **Inhabitant**: Central entity that can have multiple `Stay` records.
+- **Stay**: Represents an actual stay in a specific category (e.g., RH, RNH).
+- **Bed**: Physical unit assigned to a `Stay`.
+- **Category**: Abstract class with three types defining different pricing models.
+- **WaitingListEntry**: Manages the waiting list based on registration date.
+- **Proposal**: Links waiting list entries to available beds.
+- **Invoice & Payment**: Handles billing logic and payment processing.
+- **CreditNote**: For refunds due to overpayments.
+
+---
+

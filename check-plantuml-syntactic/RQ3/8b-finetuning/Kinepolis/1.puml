@@ -1,0 +1,74 @@
+@startuml
+enum Status {
+  available
+  occupied
+  reserved
+}
+class Show {
+  showDate: Date
+  startTime: Time
+  endTime: Time
+  currentStatus: Status
+  +assignSeat(seatNumber: int): void
+  +releaseSeat(): void
+}
+class Cinema {
+  name: string
+  address: string
+  +getTheatres(): List<Theatre>
+}
+class Theatre {
+  name: string
+  capacity: int
+  +getAvailableSeats(): int
+}
+class Film {
+  title: string
+  duration: int
+  +getCopies(): List<MovieCopy>
+}
+class MovieCopy {
+  copyNumber: int
+  availableStatus: Status
+  location: String
+  +updateLocation(newLocation: String): void
+}
+class OnLineReservation {
+  reservationTime: Date
+  isPrePaid: boolean
+  status: Status
+  +cancelReservation(): void
+  +confirmReservation(): void
+}
+class Ticket {
+  issueTime: Date
+  isPaid: boolean
+  ticketType: String
+  +verify(): boolean
+}
+class Customer {
+  name: string
+  email: string
+  membershipLevel: String
+  +makeReservation(show: Show, seat: int): OnLineReservation
+  +buyTicket(show: Show, seat: int): Ticket
+}
+class ReservationSystem {
+  +publishProgram(cinema: Cinema): void
+  +processCancellation(reservation: OnLineReservation): void
+  +reallocateReservation(reservation: OnLineReservation, newShow: Show): void
+  +generateTicket(reservation: OnLineReservation): Ticket
+}
+Show --> "1" Film : movie
+Show --> "1" Theatre : venue
+Show --> "1" Cinema : premise
+Show *-- "*" Ticket : tickets
+OnLineReservation --> "1" Show : reservedShow
+Customer --> "*" Show : attendedShows
+Customer --> "*" OnLineReservation : reservations
+Customer --> "*" Ticket : ownedTickets
+MovieCopy --> "1" Film : content
+MovieCopy --> "1" Cinema : storedIn
+ReservationSystem --> "*" Cinema : managedCinemas
+ReservationSystem --> "*" Film : catalogedFilms
+@enduml

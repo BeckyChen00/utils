@@ -1,0 +1,60 @@
+@startuml
+class Customer {
+  +name: String
+  +contactInfo: String
+  +getContactInfo(): String
+}
+class ServiceRequest {
+  requestStatus: String
+  priority: int
+  +createRequest(description: String, address: String): void
+  +updateStatus(newStatus: String): void
+}
+class WorkOrder {
+  orderDate: Date
+  description: String
+  +addTask(task: ServiceTask): void
+  +closeOrder(): void
+}
+class ServiceTask {
+  taskDescription: String
+  estimatedDuration: double
+  workloadPercentage: double
+  +updateStatus(newStatus: String): void
+  +assignTechnician(tech: Technician): void
+}
+class Technician {
+  employmentStatus: String
+  specialization: String
+  +assignToTask(task: ServiceTask): void
+}
+class RepairRecord {
+  repairDate: Date
+  estimatedCost: double
+  actualCost: double
+  notes: String
+  +calculateEstimatedCost(): double
+  +updateStatus(newStatus: String): void
+}
+class Payment {
+  amount: double
+  paymentDate: Date
+  isPaid: boolean
+  +processPayment(): void
+  +markAsPaid(): void
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  totalAmount: double
+  +generateInvoice(): void
+  +printInvoice(): String
+}
+Customer "1" --> "*" ServiceRequest : placedRequests
+ServiceRequest "1" *-- "0..1" WorkOrder : resultingOrder
+WorkOrder "1" *-- "*" ServiceTask : containedTasks
+ServiceTask "1" --> "*" Technician : assignedTechnicians
+ServiceTask "1" *-- "0..1" RepairRecord : generatedRecord
+WorkOrder "1" --> "*" Payment : relatedPayments
+Invoice "1" --> "1" WorkOrder : linkedOrder
+@enduml

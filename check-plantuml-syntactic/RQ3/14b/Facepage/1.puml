@@ -1,0 +1,68 @@
+
+@startuml
+
+' Define classes
+class User {
+  -id: String
+  -name: String
+  -email: String
+  -dateOfBirth: Date
+}
+
+class Account {
+  -accountNumber: String
+  -accountType: String (Personal / Business)
+  +createPage(pageName: String): Page
+}
+
+class PersonalAccount {
+  +sendFriendRequest(toUser: User): void
+  +acceptFriendRequest(fromUser: User): void
+}
+
+class BusinessAccount {
+  -monthlyFee: Double
+  +createAdPage(pageName: String): AdPage
+}
+
+class Page {
+  -pageName: String
+  -visits: Integer
+  +grantPrivileges(account: Account): void
+}
+
+class AdPage extends Page {
+  -bounceRate: Double
+  -clickThroughRate: Double
+  -conversionRate: Double
+}
+
+' Relationships
+User "1" -- "1" Account : creates
+Account "1" -- "0..*" Page : owns
+Page "1" -- "1" Account : administeredBy
+Account "1" -- "0..*" AdPage : creates (only BusinessAccount)
+
+' Inheritance
+PersonalAccount <|-- Account
+BusinessAccount <|-- Account
+AdPage <|-- Page
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **User**: Represents individuals who register with Facepage. Each user has a unique ID and personal information.
+- **Account**: Abstract class that represents either a **PersonalAccount** or **BusinessAccount**. It has an account number and type, and can create pages.
+- **PersonalAccount**: Extends `Account` and allows users to send/receive friend requests.
+- **BusinessAccount**: Extends `Account`, includes a monthly fee, and can create special **AdPages**.
+- **Page**: Represents any page on Facepage. Each page is owned by one account, and has a name and visit count.
+- **AdPage**: Extends `Page` and adds metrics like bounce rate, click-through rate, and conversion rate.
+
+This diagram reflects the constraints such as:
+- A user can only have one account.
+- Users cannot maintain multiple accounts.
+- Only personal accounts can send/receive friend requests.
+- Business accounts can create ad pages with specific analytics.
+
+Let me know if you want this exported as a PNG image or extended with more features!

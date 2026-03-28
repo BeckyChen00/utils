@@ -1,0 +1,19 @@
+@startuml
+
+class Diagram {
+  class SystemRequirement {
+    string name
+    string description
+  }
+
+    class diagrams {
+      system requirement { name: "System Requirement", description: "This is a system requirement." }
+    }
+  }
+
+  class diagram SystemRequirement {
+    name: "System Requirement"
+    description: "This is a system requirement."
+  }
+
+@enduml

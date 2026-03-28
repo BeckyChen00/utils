@@ -1,0 +1,135 @@
+
+@startuml
+
+' Aircraft
+class Aircraft {
+  -name: String
+  -type: String
+  -yearOfManufacture: int
+  -nextInspectionDate: Date
+  -homeAirport: Airport
+  -airline: Airline
+}
+
+' Flight
+class Flight {
+  -flightNumber: String
+  -flightDate: Date
+  -departureAirport: Airport
+  -destinationAirport: Airport
+  -aircraft: Aircraft
+}
+
+' Passenger
+class Passenger {
+  -name: String
+  -passportNumber: String
+}
+
+' Ticket
+class Ticket {
+  -ticketNumber: String
+  -price: double
+  -upgradeDesired: boolean
+  -passenger: Passenger
+  -flight: Flight
+  -seatCategory: SeatCategory
+}
+
+' SeatCategory
+class SeatCategory {
+  -designation: String
+  -entertainmentProgram: boolean
+  -numberOfSeats: int
+  -aircraft: Aircraft
+}
+
+' PassengerAircraft
+class PassengerAircraft <|-- Aircraft {
+  -numberOfSeats: int
+}
+
+' Airline
+class Airline {
+  -name: String
+  -flights: List<Flight>
+  -flightAttendants: List<FlightAttendant>
+  -pilots: List<Pilot>
+}
+
+' FlightAttendant
+class FlightAttendant {
+  -name: String
+  -dateOfEmployment: Date
+  -isChiefSteward: boolean
+  -flights: List<Flight>
+}
+
+' Pilot
+class Pilot {
+  -name: String
+  -dateOfEmployment: Date
+  -license: String
+  -flights: List<Flight>
+}
+
+' Airport
+class Airport {
+  -name: String
+  -address: String
+  -numberOfWorkingRunways: int
+}
+
+' Relationships
+
+'Aircraft has a home airport
+Aircraft --> Airport
+
+'Aircraft can be part of an airline
+Aircraft --> Airline
+
+'Flight is associated with an aircraft
+Flight --> Aircraft
+
+'Flight has departure and destination airports
+Flight --> Airport : departureAirport
+Flight --> Airport : destinationAirport
+
+'Flight has passengers
+Flight --> Passenger
+
+'Flight has tickets
+Flight --> Ticket
+
+'Passenger has tickets
+Passenger --> Ticket
+
+'Ticket is for a seat category
+Ticket --> SeatCategory
+
+'SeatCategory belongs to a passenger aircraft
+SeatCategory --> PassengerAircraft
+
+'Airline employs flight attendants
+Airline --> FlightAttendant
+
+'Airline employs pilots
+Airline --> Pilot
+
+'Flight has flight attendants
+Flight --> FlightAttendant
+
+'Flight has pilots (one captain, one or two co-pilots)
+Flight --> Pilot
+
+@enduml
+
+---
+
+### ✅ Notes:
+- The diagram uses **association** and **aggregation** relationships where appropriate.
+- All attributes are included as per the system requirements.
+- `PassengerAircraft` is a **specialization** of `Aircraft`.
+- The relationship between `Flight` and `Pilot` reflects that a flight has **one captain** and **one or two co-pilots**.
+- The `SeatCategory` is linked to a specific `PassengerAircraft`.
+

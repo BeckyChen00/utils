@@ -1,0 +1,127 @@
+
+---
+
+
+@startuml
+
+' Classes
+
+class Sensor {
+    +String vendorId
+    +String description
+    +Unit unit
+    +Room room
+    +List<Measurement> measurements
+    +float getLastValue()
+}
+
+abstract class AbstractSensor {
+    +String vendorId
+    +String description
+    +Unit unit
+    +Room room
+    +List<Measurement> measurements
+}
+
+class TemperatureSensor {
+    -float min
+    -float max
+}
+
+class PowerSensor {
+    -float totalConsumption
+}
+
+class Measurement {
+    +Timestamp timestamp
+    +float value
+}
+
+class Room {
+    +String description
+    +Apartment apartment
+}
+
+class Apartment {
+    +Address address
+    +List<Room> rooms
+    +List<Inhabitant> inhabitants
+    +String email
+}
+
+class Inhabitant {
+    +String username
+    +String password
+    +Apartment apartment
+    +boolean isAdmin
+}
+
+class SensorController {
+    +Apartment apartment
+    +List<Sensor> sensors
+    +Map<String, Threshold> thresholds
+    +login(username: String, password: String): boolean
+    +querySensor(sensorId: String): List<Measurement>
+    +getLastValue(sensorId: String): float
+    +setThreshold(sensorId: String, threshold: float)
+}
+
+class Threshold {
+    +float value
+    +Sensor sensor
+}
+
+class EMonitor {
+    +checkThresholds(): void
+    +sendAlert(email: String, message: String): void
+}
+
+' Interfaces
+
+interface Unit {
+    +String getSymbol()
+}
+
+enum UnitType implements Unit {
+    CELSIUS
+    WATT
+}
+
+' Relationships
+
+AbstractSensor <|-- TemperatureSensor
+AbstractSensor <|-- PowerSensor
+Sensor <|-- AbstractSensor
+
+Sensor "1" -- "1" Room : assigned to
+Room "1" -- "*" Sensor : contains
+Room "1" -- "1" Apartment : part of
+
+Apartment "1" -- "*" Inhabitant : has
+Inhabitant "1" -- "1" Apartment : belongs to
+Apartment "1" -- "1" SensorController : uses
+SensorController "1" -- "*" Sensor : controls
+SensorController "1" -- "*" Threshold : maintains
+
+Sensor "1" -- "*" Measurement : has
+Measurement "1" -- "1" Sensor : belongs to
+
+EMonitor ..> SensorController : uses
+EMonitor ..> Apartment : sends alerts to
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **Sensor** is an abstract class with two concrete types: `TemperatureSensor` and `PowerSensor`.
+- Each **Sensor** has a unique `vendorId`, a `description`, and is associated with one **Room**.
+- A **Room** can belong to only one **Apartment**, but each **Apartment** can have multiple **Rooms**.
+- **Inhabitants** are linked to an **Apartment**, and one can be marked as an **Admin** to perform configuration tasks.
+- The **SensorController** handles authentication, querying data, and setting thresholds.
+- **EMonitor** is an external system that checks thresholds and sends alerts via the **SensorController** if configured.
+
+---
+
+Let me know if you'd like this exported as an image or want to add use cases or sequence diagrams next!

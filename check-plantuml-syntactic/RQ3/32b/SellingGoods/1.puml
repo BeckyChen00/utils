@@ -1,0 +1,116 @@
+
+---
+
+
+@startuml
+
+' Define classes with attributes and relationships
+
+class Product {
+    - id: int
+    - name: string
+    - description: string
+    - unitPrice: decimal
+    - stockLevel: int
+}
+
+class Customer {
+    - id: int
+    - name: string
+    - address: string
+    - vatNumber: string
+    - headOfficeAddress: string
+}
+
+class Order {
+    - id: int
+    - customer: Customer
+    - orderDate: datetime
+    - paymentDate: datetime (optional)
+    - totalAmount: decimal
+    - status: enum { Created, Paid, PartiallyShipped, FullyShipped }
+}
+
+class OrderLine {
+    - id: int
+    - order: Order
+    - product: Product
+    - quantityOrdered: int
+    - quantityShipped: int
+    - status: enum { Pending, Shipped }
+}
+
+class ShipmentGroup {
+    - id: int
+    - shipmentLines: list<ShipmentLine>
+    - shipmentDate: datetime
+    - deliveryStatus: enum { Packed, InTransit, Delivered, Damaged, Lost }
+}
+
+class ShipmentLine {
+    - id: int
+    - shipmentGroup: ShipmentGroup
+    - orderLine: OrderLine
+    - shippedQuantity: int
+    - packedDate: datetime
+    - shippedDate: datetime
+    - receivedDate: datetime
+}
+
+class Invoice {
+    - id: int
+    - order: Order
+    - invoiceDate: datetime
+    - dueDate: datetime
+    - amount: decimal
+    - paymentMethod: enum { Prepaid, PostPaid }
+    - status: enum { Issued, Paid }
+}
+
+class Address {
+    - id: int
+    - street: string
+    - city: string
+    - postalCode: string
+    - country: string
+}
+
+' Relationships
+
+Customer "1" -- "many" Order : places
+Order "1" -- "many" OrderLine : contains
+OrderLine "1" -- "1" Product : for
+Product "1" -- "many" OrderLine : in
+Order "1" -- "0..1" Invoice : has
+OrderLine "1" -- "many" ShipmentLine : can be split into
+ShipmentGroup "1" -- "many" ShipmentLine : includes
+ShipmentLine "1" -- "1" OrderLine : relates to
+Customer "1" -- "1" Address : has head office
+Customer "1" -- "many" Address : has delivery addresses
+
+@enduml
+
+---
+
+### 🔍 **Explanation of Key Elements**
+
+- **Product**: Tracks available products and their current stock.
+- **Customer**: Stores basic info like VAT number and addresses. Includes a head office and multiple delivery addresses for larger customers.
+- **Order**: Contains one or more `OrderLine`s and tracks when it's paid and shipped.
+- **OrderLine**: Represents a specific product quantity ordered. Can be partially or fully shipped.
+- **ShipmentGroup**: Introduced in Step 4 to group lines that are shipped together.
+- **ShipmentLine**: Captures individual shipments of order lines, tracking status (packed, shipped, etc.) and timestamps.
+- **Invoice**: Added in Step 3 to allow billing after or before shipping. Tracks payment method and status.
+- **Address**: Allows multiple delivery locations per customer.
+
+---
+
+### 🔄 Iterative Design Notes
+
+- **Step 1**: Simple model with `Product`, `Customer`, `Order`, and `OrderLine`.
+- **Step 2**: Introduce partial shipments → `OrderLine.status` and `quantityShipped`.
+- **Step 3**: Add multiple delivery addresses and invoicing → `Address`, `Invoice`.
+- **Step 4**: Group order lines into shipments and track detailed delivery statuses → `ShipmentGroup`, `ShipmentLine`.
+
+---
+

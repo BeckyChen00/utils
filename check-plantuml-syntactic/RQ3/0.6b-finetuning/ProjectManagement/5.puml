@@ -1,0 +1,67 @@
+@startuml
+enum OccupationType {
+  Student
+  Parent
+  Teacher
+  Volunteer
+}
+enum BankLocation {
+  NewYork
+  San Antonio
+  WinstonChurchill
+  Houston
+  Dallas
+}
+class Employer {
+  employmentStatus: String
+  +getActiveEmployees(): List<Employee>
+  +updateStatus(newStatus: String): void
+}
+class Employee {
+  hireDate: Date
+  occupation: OccupationType
+  +getJobDescription(): String
+  +assignToDepartment(direction: String): void
+}
+class Department {
+  departmentName: String
+  +getDepartmentMembers(): List<Employee>
+}
+class Location {
+  locationName: String
+  address: String
+  +getLocationDescription(): String
+  +findResident(resident: Resident): Location
+}
+class Resident {
+  residencyDate: Date
+  contactInfo: String
+  +verifyIdentity(): boolean
+}
+class AnnualReport {
+  generationDate: Date
+  reportContent: String
+  +generateReport(): void
+  +finalizeReport(): void
+}
+class FinancialStatement {
+  statementDate: Date
+  balance: double
+  +calculateTotal(): double
+  +confirmBalance(): boolean
+}
+class AuditLog {
+  logEntry: String
+  timestamp: Date
+  severityLevel: String
+  +recordEntry(details: String): void
+}
+Employer *-- "*" Employee : managedEmployees
+Employee --> "1" Department : assignedDepartment
+Department *-- "*" Location : locatedLocations
+Location --> "*" Resident : residentPopulation
+AnnualReport -- Employee
+Employee -- FinancialStatement
+FinancialStatement -- AuditLog
+Employee -- Resident
+@enduml

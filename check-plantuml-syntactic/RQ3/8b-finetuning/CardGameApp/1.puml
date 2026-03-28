@@ -1,0 +1,47 @@
+@startuml
+enum CardSuit {
+  Diamonds
+  Hearts
+  Spades
+  Clubs
+}
+enum SoloType {
+  TrumpSolo
+  JackSolo
+  QueenSolo
+}
+class Game {
+  isStarted: boolean
+  +startGame(): void
+  +checkGameStatus(): boolean
+}
+class Deck {
+  cardCount: int
+  +getCardCount(): int
+  +shuffle(): void
+  +drawCard(): Card
+}
+class Card {
+  rankValue: int
+  suit: CardSuit
+  +compareHeight(other: Card): int
+  +toString(): String
+}
+class ScoringTable {
+  +addRound(playerIds: int[], score: int, isJackRound: boolean, isSoloRound: boolean, soloType: SoloType, soloPlayerId: int): void
+  +getRoundHistory(): List<RoundEvent>
+}
+class RoundEvent {
+  roundIndex: int
+  playerIds: int[]
+  score: int
+  isJackRound: boolean
+  isSoloRound: boolean
+  soloType: SoloType
+  soloPlayerId: int
+}
+Game *-- "1" Deck : ownedDeck
+Game *-- "1" ScoringTable : scoringTable
+ScoringTable *-- "0..*" RoundEvent : recordedRounds
+Deck *-- "0..*" Card : cards
+@enduml

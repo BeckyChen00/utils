@@ -1,0 +1,118 @@
+
+---
+
+
+@startuml
+
+class Customer {
+  +String id
+  +String name
+  +String contactInfo
+  +List<InsurancePolicy> policies
+  +List<Claim> claims
+}
+
+class Broker {
+  +String id
+  +String name
+  +String contactInfo
+  +List<Customer> customers
+}
+
+class InsurancePolicy {
+  +String id
+  +String type
+  +Date startDate
+  +Date endDate
+  +Double price
+  +Customer customer
+  +List<Claim> claims
+}
+
+class Claim {
+  +String id
+  +Date submissionDate
+  +String description
+  +Status status
+  +Customer customer
+  +List<EstimatorReport> reports
+}
+
+enum Status {
+  PENDING, APPROVED, REJECTED
+}
+
+class EstimatorReport {
+  +String id
+  +Date reportDate
+  +String content
+  +Double compensationAmount
+  +Claim claim
+}
+
+class Offer {
+  +String id
+  +Date offerDate
+  +Double amount
+  +Customer customer
+  +InsurancePolicy policy
+}
+
+class Contract {
+  +String id
+  +Date signingDate
+  +Customer customer
+  +InsurancePolicy policy
+}
+
+class Invoice {
+  +String id
+  +Date issueDate
+  +Double amount
+  +Customer customer
+  +InsurancePolicy policy
+}
+
+' Relationships
+Customer "1" -- "0..*" Broker : assignedTo
+Broker "1" -- "0..*" Customer : manages
+Customer "1" -- "0..*" InsurancePolicy : has
+InsurancePolicy "1" -- "0..*" Claim : coveredBy
+Customer "1" -- "0..*" Claim : submits
+Claim "1" -- "0..*" EstimatorReport : has
+EstimatorReport "1" -- "1" Claim : belongsTo
+Customer "1" -- "0..*" Offer : receives
+Offer "1" -- "1" InsurancePolicy : relatedTo
+Offer "1" -- "1" Customer : relatedTo
+InsurancePolicy "1" -- "1" Contract : basedOn
+Contract "1" -- "1" Customer : signedBy
+Contract "1" -- "1" InsurancePolicy : covers
+InsurancePolicy "1" -- "0..*" Invoice : generates
+Invoice "1" -- "1" Customer : issuedTo
+Invoice "1" -- "1" InsurancePolicy : relatedTo
+
+@enduml
+
+---
+
+### ✅ Explanation of Classes and Relationships:
+
+- **Customer**: Represents a client who interacts with Alpha Insurance.
+- **Broker**: A registered employee assigned to manage a customer's file.
+- **InsurancePolicy**: A type of insurance contract signed by the customer.
+- **Claim**: A request for compensation when an insured event occurs.
+- **EstimatorReport**: A detailed report from an estimator assessing a claim.
+- **Offer**: A preliminary proposal made to the customer before signing a contract.
+- **Contract**: The final agreement between the customer and the insurance company.
+- **Invoice**: A bill generated based on the insurance policy terms.
+
+---
+
+### 📝 Notes:
+- Relationships are modeled using standard UML syntax (`--`, `-->`, etc.).
+- Enum `Status` is used to represent the current state of a claim.
+- All entities are interconnected to reflect the flow of data and interactions within the system.
+
+---
+
+Let me know if you want this rendered as an image or need it in another format!

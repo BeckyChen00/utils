@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//TaxiCar"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TaxiCar">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accidentRecord" eType="#//AccidentRecord" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RideHailingRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedRide" eType="#//Ride" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestedByOwner" eType="#//CarOwner"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ride">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedCar" eType="#//TaxiCar" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="passengers" eType="#//Customer" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RideSharingRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledRides" eType="#//Ride" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usageHistory" eType="#//UsageHistory" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accessibilityProfile" eType="#//AccessibilityProfile" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UsageHistory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AccessibilityProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CarOwner">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredCars" eType="#//TaxiCar" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AccidentRecord"/>
+</ecore:EPackage>

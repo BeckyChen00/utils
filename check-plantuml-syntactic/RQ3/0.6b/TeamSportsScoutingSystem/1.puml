@@ -1,0 +1,95 @@
+@startuml
+
+class Diagram {
+  class SystemRequirement {
+    name: "System Requirement"
+    description: "This is a system requirement for the application."
+    required_features: [1, 2, 3]
+  }
+
+  class Application {
+    name: "Application"
+    description: "The application that meets the system requirements."
+  }
+
+  class User {
+    name: "User"
+    description: "A user who interacts with the application."
+  }
+
+  class Feature {
+    name: "Feature"
+    description: "A component or functionality of the application."
+  }
+
+  class Requirement {
+    name: "Requirement"
+    description: "A specific requirement related to the application."
+  }
+
+  class Dependency {
+    name: "Dependency"
+    description: "A dependency between features and the application."
+  }
+
+  class Connection {
+    name: "Connection"
+    description: "A connection between the application and a dependency."
+  }
+
+  class Relationship {
+    name: "Relationship"
+    description: "A relationship between two entities."
+  }
+
+  class Module {
+    name: "Module"
+    description: "A module within the application."
+  }
+
+  class ModuleDependency {
+    name: "ModuleDependency"
+    description: "A dependency on a module."
+  }
+
+  class ModuleRequirement {
+    name: "ModuleRequirement"
+    description: "A requirement for a module."
+  }
+
+  class ModuleRequirementRelationship {
+    name: "ModuleRequirementRelationship"
+    description: "A relationship between a module requirement and a module."
+  }
+
+  class ModuleRequirementDependency {
+    name: "ModuleRequirementDependency"
+    description: "A dependency on a module requirement."
+  }
+
+  class ModuleRequirementDependencyRelationship {
+    name: "ModuleRequirementDependencyRelationship"
+    description: "A relationship between a module requirement and its dependency."
+  }
+
+  class ModuleRequirementDependency {
+    name: "ModuleRequirementDependency"
+    description: "A dependency on a module requirement."
+  }
+
+  class ModuleRequirementDependencyRelationship {
+    name: "ModuleRequirementDependencyRelationship"
+    description: "A relationship between a module requirement and its dependency."
+  }
+
+  class ModuleRequirement {
+    name: "ModuleRequirement"
+    description: "A requirement for a module."
+  }
+
+  class Module {
+    name: "Module"
+    description: "A module in the application."
+  }
+
+@enduml

@@ -1,0 +1,124 @@
+
+@startuml
+' Class Diagram for De Lijn's MENSO System
+
+class Bus {
+  +id: String
+  +lineNumber: String
+  +currentTrajectory: Trajectory
+}
+
+class Line {
+  +id: String
+  +lineNumber: String
+  +name: String
+  +trajectories: Set<Trajectory>
+}
+
+class Trajectory {
+  +id: String
+  +name: String
+  +status: Status
+  +approvalHistory: List<Approval>
+  +startDate: Date
+  +endDate: Date
+}
+
+enum Status {
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+}
+
+class Approval {
+  +id: String
+  +date: Date
+  +decision: Decision
+  +notes: String
+}
+
+enum Decision {
+  APPROVED
+  REJECTED
+  MODIFIED
+}
+
+class User {
+  +id: String
+  +name: String
+  +homeAddress: String
+  +officeAddress: String
+  +workingHours: String
+  +mensoCard: MensoCard
+}
+
+class MensoCard {
+  +id: String
+  +userId: String
+  +trips: List<Trip>
+}
+
+class Trip {
+  +id: String
+  +date: Date
+  +time: Time
+  +lineId: String
+  +categoryId: String
+}
+
+class Category {
+  +id: String
+  +name: String
+  +pricePerKm: Double
+}
+
+class Invoice {
+  +id: String
+  +userId: String
+  +month: Month
+  +totalAmount: Double
+  +discount: Double
+  +trips: List<Trip>
+}
+
+class Payment {
+  +id: String
+  +invoiceId: String
+  +amountPaid: Double
+  +paymentDate: Date
+}
+
+' Relationships
+
+Bus --> Line : belongs to
+Line --> Trajectory : contains
+Trajectory --> Approval : has
+Trajectory --> Status : has status
+User --> MensoCard : owns
+MensoCard --> Trip : records
+Trip --> Line : belongs to
+Trip --> Category : relates to
+User --> Invoice : receives
+Invoice --> Trip : includes
+Invoice --> Payment : may have
+@enduml
+
+---
+
+### Explanation of Key Classes and Relationships:
+
+- **`Bus`**: Each bus is associated with a `Line`.
+- **`Line`**: Groups multiple `Trajectory` objects, which can be overlapping or variant.
+- **`Trajectory`**: Represents a specific route. It has an approval history and a status (active, suspended, cancelled).
+- **`Status`**: An enumerated type indicating the current status of a trajectory.
+- **`Approval`**: Tracks the approval process by authorities. Can be approved, rejected, or modified.
+- **`User`**: A user who subscribes to the MENSO card and provides personal data.
+- **`MensoCard`**: Contains trip records for a user.
+- **`Trip`**: Records the date, time, line, and category of each trip made using the MENSO card.
+- **`Category`**: Defines pricing rules based on the line category.
+- **`Invoice`**: Generated monthly, based on trips and discounts.
+- **`Payment`**: Represents a payment made by the user for an invoice.
+
+---
+
+Let me know if you'd like this exported as a PNG image or extended with more details like associations, multiplicity, or stereotypes!

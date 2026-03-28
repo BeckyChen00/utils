@@ -1,0 +1,98 @@
+
+---
+
+
+@startuml
+
+' Define classes and their attributes and methods
+
+class User {
+    +String name
+    +String email
+}
+
+class Student {
+    +makeRequest()
+    +browseTutoringOffers()
+    +payForSession()
+}
+
+class Tutor {
+    +String bankAccount
+    +offerTutoring()
+    +updateAvailability()
+    +confirmOrRescheduleSession()
+    +receivePayment()
+}
+
+class Session {
+    +DateTime scheduledTime
+    +float price
+    +String subject
+    +int level
+    +boolean confirmed
+    +scheduleFollowUp()
+    +cancelSession()
+}
+
+class Subject {
+    +String name
+}
+
+class Level {
+    +String description // e.g., "Primary School", "High School"
+}
+
+class Availability {
+    +Day day
+    +Time startTime
+    +Time endTime
+}
+
+class Payment {
+    +String method // e.g., Credit Card, Wire Transfer
+    +processPayment()
+}
+
+class Award {
+    +Date awardMonth
+    +Subject subject
+    +Tutor tutor
+}
+
+' Inheritance
+User <|-- Student
+User <|-- Tutor
+
+' Associations
+Tutor "1" --> "many" Subject : offers tutoring in
+Tutor "1" --> "many" Availability : has availability
+Tutor "1" --> "many" Session : conducts session
+Student "1" --> "many" Session : attends session
+Session "1" --> "1" Subject : related to
+Session "1" --> "1" Level : at level
+Session "1" --> "1" Payment : payment for
+Tutor "1" --> "many" Award : awarded as tutor of the month
+
+' Additional associations
+Student "1" --> "many" Session : makes requests for
+Tutor "1" --> "many" Session : receives requests for
+
+@enduml
+
+---
+
+### 🔍 Notes on the Diagram:
+
+- **User** is an abstract base class from which **Student** and **Tutor** inherit.
+- **Tutor** can offer tutoring in multiple subjects at different levels with specific hourly rates.
+- **Student** can make requests and browse available sessions.
+- **Session** connects a **Student** and a **Tutor**, includes scheduling, pricing, and cancellation logic.
+- **Availability** defines when a tutor is available.
+- **Payment** handles how students pay after the session.
+- **Award** tracks monthly best tutors per subject.
+
+---
+
+
+Let me know if you'd like a version with **multiplicity**, **constraints**, or **use case integration**!

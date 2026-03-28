@@ -1,0 +1,68 @@
+@startuml
+class User {
+  isValid: boolean
+  email: String
+  +register(): void
+  +login(): boolean
+}
+class Subscription {
+  startDate: Date
+  expirationDate: Date
+  basePrice: double
+  +isActive(): boolean
+  +calculateTotal(): double
+}
+class MembershipPlan {
+  tierLevel: String
+  discountRate: double
+  maxUsersPerTier: int
+  +getBasePrice(): double
+}
+class Course {
+  courseCode: String
+  title: String
+  description: String
+  +getDurationHours(): int
+}
+class Chapter {
+  chapterTitle: String
+  chapterNumber: int
+  contentDetails: String
+}
+class ProgressReport {
+  generationDate: Date
+  completionScore: int
+  summaryContent: String
+}
+class StudySession {
+  startTime: Date
+  endTime: Date
+  notes: String
+  sessionTitle: String
+}
+class Feedback {
+  commentText: String
+  isAnonymous: boolean
+  ratingScore: int
+  submissionDate: Date
+}
+class UserAccount {
+  accountStatus: String
+  +resetPassword(): void
+}
+User *-- "1" Subscription : subscribedSubscription
+User *-- "1" UserAccount : ownAccount
+User --> "*" Subscription : activeSubscriptions
+Subscription *-- "*" MembershipPlan : activePlans
+MembershipPlan *-- "*" Course : offeredCourses
+Course *-- "*" Chapter : chapters
+Course *-- "*" ProgressReport : generatedReports
+Course *-- "*" StudySession : studySessions
+StudySession *-- "1" Chapter : currentChapter
+StudySession --> "1" User : enrolledUser
+ProgressReport *-- "*" Feedback : submittedFeedback
+Chapter --> "1" Course : sourceCourse
+User --> "*" StudySession : attendedSessions
+ProgressReport --> "*" StudySession : coveredSessions
+MembershipPlan --> "*" StudySession : recommendedSessions
+@enduml

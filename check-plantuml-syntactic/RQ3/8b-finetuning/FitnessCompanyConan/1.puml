@@ -1,0 +1,48 @@
+@startuml
+class Person {
+  firstName: String
+  lastName: String
+  birthDate: Date
+  +toString(): String
+}
+class Trainer {
+  diploma: String
+  +superviseSession(session: GroupSession): void
+}
+class Member {
+  +registerForSession(session: Session): void
+  +getSessions(): List<Session>
+}
+class Address {
+  street: String
+  city: String
+  postalCode: String
+  +getFullAddress(): String
+}
+class Center {
+  name: String
+  +addRoom(room: Room): void
+  +getRooms(): List<Room>
+}
+class Room {
+  roomNumber: int
+  maxCapacity: int
+  +checkAvailability(date: Date, time: Time): boolean
+}
+class Session {
+  date: Date
+  startTime: Time
+  durationInMinutes: int
+  +getSessionIdentifier(): String
+  +getParticipants(): List<Member>
+}
+class GroupSession {
+  type: String
+  +assignTrainer(trainer: Trainer): void
+}
+Person -- Center
+Center -- Address
+Room -- Center
+GroupSession -- Trainer
+Session -- Member
+@enduml

@@ -1,0 +1,119 @@
+
+@startuml
+' Define classes
+
+class Bus {
+  -id: int
+  -lineNumber: String
+  -currentTrajectory: Trajectory
+}
+
+class Line {
+  -id: int
+  -name: String
+  -category: Category
+  -trajectories: Set<Trajectory>
+}
+
+class Trajectory {
+  -id: int
+  -name: String
+  -status: Status (approved, suspended, cancelled)
+  -approvalHistory: List<ApprovalRequest>
+  -startDate: Date
+  -endDate: Date
+}
+
+class ApprovalRequest {
+  -id: int
+  -requestDate: Date
+  -status: Status (pending, approved, rejected)
+  -trajectory: Trajectory
+}
+
+class Category {
+  -id: int
+  -name: String
+  -priceFactor: float
+}
+
+class MENSOUser {
+  -id: int
+  -name: String
+  -homeAddress: String
+  -officeAddress: String
+  -workingHours: String
+  -mensocardId: String
+}
+
+class Trip {
+  -id: int
+  -date: Date
+  -time: Time
+  -line: Line
+  -user: MENSOUser
+}
+
+class Invoice {
+  -id: int
+  -month: Date
+  -totalAmount: float
+  -discount: float
+  -user: MENSOUser
+  -trips: List<Trip>
+}
+
+class Payment {
+  -id: int
+  -amount: float
+  -date: Date
+  -invoice: Invoice
+}
+
+' Define associations and multiplicity
+
+Bus "1" --> "1" Line
+Line "1" --> "*" Trajectory
+Trajectory "1" --> "*" ApprovalRequest
+Trajectory "1" --> "0..1" Bus
+
+MENSOUser "1" --> "*" Trip
+Trip "1" --> "1" Line
+Trip "1" --> "1" MENSOUser
+
+Invoice "1" --> "*" Trip
+Invoice "1" --> "0..1" Payment
+Payment "1" --> "1" Invoice
+
+' Define enums
+
+enum Status {
+  approved
+  suspended
+  cancelled
+  pending
+  rejected
+}
+
+enum CategoryType {
+  local
+  regional
+  intercity
+}
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+- **`Bus`** has a line number and can be assigned to a trajectory.
+- **`Line`** groups multiple `Trajectory` objects and belongs to a `Category`.
+- **`Trajectory`** can go through an approval process and may be in various statuses (`approved`, `suspended`, `cancelled`).
+- **`ApprovalRequest`** tracks each request made by the company to the town authorities.
+- **`Category`** determines the pricing factor used for the MENSO ticket.
+- **`MENSOUser`** holds personal data and is linked to trips and invoices.
+- **`Trip`** records the use of the MENSO card and links to both a user and a line.
+- **`Invoice`** is generated monthly based on trips and applies a possible discount.
+- **`Payment`** is associated with an invoice and represents payment made.
+
+---
+

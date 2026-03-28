@@ -1,0 +1,62 @@
+@startuml
+enum TargetPosition {
+  GK
+  LB
+  CB
+  RB
+  RWB
+  CM
+}
+enum RecommendationStatus {
+  KEYP
+  FT
+  RES
+  PROS
+  NOTA
+}
+class PlayerProfile {
+  isVerified: boolean
+  isVerifiedStrength: boolean
+  name: String
+  age: int
+  targetPosition: TargetPosition
+  +updatePlayerProfile(newName: String, newAge: int): void
+}
+class ScoutingAssignment {
+  isComplete: boolean
+  completionDate: Date
+  +completeAssignment(): void
+}
+class ScoutingReport {
+  prosAndCons: String
+  recommendation: RecommendationStatus
+  +generateSummary(): String
+}
+class ScoutingDirector {
+  name: String
+  +makeOffer(playerProfile: PlayerProfile): void
+}
+class SquadMember {
+  squadName: String
+  +addPlayer(playerProfile: PlayerProfile): void
+}
+class ScoutingCoach {
+  name: String
+  +submitReport(playerProfile: PlayerProfile, reportText: String): ScoutingReport
+  +assignAssignment(teamMember: SquadMember, assignment: ScoutingAssignment): void
+}
+class StaffMember {
+  name: String
+  role: String
+}
+PlayerProfile "1" --> "*" ScoutingAssignment : scouting assignments
+PlayerProfile "1" --> "*" ScoutingReport : scouting reports
+ScoutingDirector "1" --> "*" ScoutingAssignment : managed assignments
+ScoutingDirector "1" --> "*" PlayerProfile : target players
+ScoutingDirector "1" --> "*" SquadMember : managed squads
+StaffMember "1" --> "*" ScoutingAssignment : assigned assignments
+StaffMember "1" --> "*" ScoutingReport : authored reports
+ScoutingCoach "1" --> "*" ScoutingAssignment : assigned assignments
+ScoutingCoach "1" --> "*" ScoutingReport : authored reports
+ScoutingCoach "1" --> "*" SquadMember : managed squads
+@enduml

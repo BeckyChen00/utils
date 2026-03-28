@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Doctor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isHeadDoctor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="makes" eType="#//Diagnosis" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applies_or_changes_stage" eType="#//Treatment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="approves_" eType="#//Doctor" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Illness">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priorityScore" eType="#//PriorityScore"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="of" eType="#//Diagnosis" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applied_to" eType="#//Treatment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PriorityScore">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="High"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Low" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Diagnosis">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="illness" eType="#//Illness"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="doctor" eType="#//Doctor"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="approvedByHeadDoctor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leads_to" eType="#//Treatment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Treatment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stage" eType="#//Stage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagnosis" eType="#//Diagnosis"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patient" eType="#//Patient"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Stage">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Stage1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Stage2" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Stage3" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConsentForm">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patient" eType="#//Patient"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signedAt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="retracted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Nurse">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitors" eType="#//Treatment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolean" eType="#//consentGiven"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="consentGiven"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="signs" eType="#//ConsentForm" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Treatment" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_diagnosed_with" eType="#//Diagnosis" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

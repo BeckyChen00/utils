@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingAssignment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="player" eType="#//Player"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scout" eType="#//Scout"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateAssigned" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_to" eType="#//Player" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_by" eType="#//Scout" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="player" eType="#//Player"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pros" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cons" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommendation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="about" eType="#//Player" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShortList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="players" eType="#//Player" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="role" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Coach" eSuperTypes="#//Employee">
+    <eOperations xsi:type="ecore:EOperation" name="identifyPlayerProfiles" eType="#//PlayerProfile"/>
+    <eOperations xsi:type="ecore:EOperation" name="reviewScoutingReports"/>
+    <eOperations xsi:type="ecore:EOperation" name="selectShortListPlayers"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviews" eType="#//ScoutingReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Scout" eSuperTypes="#//Employee">
+    <eOperations xsi:type="ecore:EOperation" name="notePlayerOnLongList">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="assignScoutingTask">
+      <eParameters xsi:type="ecore:EParameter" name="assignment" eType="#//ScoutingAssignment"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="submitScoutingReport">
+      <eParameters xsi:type="ecore:EParameter" name="report" eType="#//ScoutingReport"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Director" eSuperTypes="#//Employee">
+    <eOperations xsi:type="ecore:EOperation" name="makeOfficialOffer">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offers" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeadCoach" eSuperTypes="#//Coach">
+    <eOperations xsi:type="ecore:EOperation" name="defineTargetProfiles" eType="#//PlayerProfile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeadScout" eSuperTypes="#//Scout">
+    <eOperations xsi:type="ecore:EOperation" name="evaluateLongList"/>
+    <eOperations xsi:type="ecore:EOperation" name="createScoutingAssignments" eType="#//ScoutingAssignment"/>
+    <eOperations xsi:type="ecore:EOperation" name="submitFinalRecommendations" eType="#//ScoutingReport"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creates" eType="#//ScoutingAssignment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//position" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="position"/>
+  <eClassifiers xsi:type="ecore:EClass" name="attributes"/>
+  <eClassifiers xsi:type="ecore:EClass" name="id">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//attributes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//currentClub"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="currentClub"/>
+  <eClassifiers xsi:type="ecore:EClass" name="age">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Player&gt;" eType="#//players" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="players"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Player"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PlayerProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="matches" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LongList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

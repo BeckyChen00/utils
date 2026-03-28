@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedEvent" eType="#//SystemEvent" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedProfile" eType="#//IncidentProfile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicablePlans" eType="#//ResponsePlan" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluatedRules" eType="#//AlertRule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manager" eType="#//IncidentManager" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IncidentProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResponsePlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedProfiles" eType="#//IncidentProfile" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedExecutor" eType="#//ResponseExecutor" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IncidentManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedEvents" eType="#//WatchlistEvent" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuredTriggers" eType="#//AlertTrigger" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedResponses" eType="#//ResponsePlan" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintainedRecords" eType="#//ComplianceRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WatchlistEvent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertTrigger"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResponseExecutor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedProfiles" eType="#//IncidentProfile" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimelineSegment"/>
+</ecore:EPackage>

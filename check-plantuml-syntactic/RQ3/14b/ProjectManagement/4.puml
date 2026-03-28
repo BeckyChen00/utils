@@ -1,0 +1,79 @@
+
+@startuml
+skinparam linetype zigzag
+
+class ResearchGroup {
+  -groupId: int
+  -name: String
+  -department: Department
+  +addResearcher(researcher: Researcher): void
+  +removeResearcher(researcher: Researcher): void
+}
+
+class Department {
+  -departmentId: int
+  -name: String
+  +getResearchGroups(): List<ResearchGroup>
+}
+
+class Researcher {
+  -researcherId: int
+  -name: String
+  -currentResearchGroup: ResearchGroup
+  +assignToWP(wp: WorkPackage): void
+  +unassignFromWP(wp: WorkPackage): void
+}
+
+class WorkPackage {
+  -wpId: int
+  -title: String
+  -leaderResearchGroup: ResearchGroup
+  -teamMembers: List<Researcher>
+  +assignResearcher(researcher: Researcher): void
+  +unassignResearcher(researcher: Researcher): void
+}
+
+class ResearchProject {
+  -projectId: int
+  -title: String
+  -workPackages: List<WorkPackage>
+  +addWorkPackage(wp: WorkPackage): void
+  +removeWorkPackage(wp: WorkPackage): void
+}
+
+class ServiceDeliveryRecord {
+  -recordId: int
+  -researcher: Researcher
+  -workPackage: WorkPackage
+  -fromGroup: ResearchGroup
+  -toGroup: ResearchGroup
+  -dateAssigned: Date
+  -dateTerminated: Date (optional)
+}
+
+' Associations
+ResearchGroup "1" -- "0..*" Department : belongs to
+Researcher "1" -- "1" ResearchGroup : belongs to
+WorkPackage "1" -- "1" ResearchGroup : led by
+WorkPackage "1" -- "0..*" Researcher : has team members
+ResearchProject "1" -- "0..*" WorkPackage : contains
+Researcher "1" -- "0..*" ServiceDeliveryRecord : has records
+WorkPackage "1" -- "0..*" ServiceDeliveryRecord : has records
+ResearchGroup "1" -- "0..*" ServiceDeliveryRecord : provides service to
+
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+
+- **`ResearchGroup`** belongs to exactly one **`Department`**, but a department can have many research groups.
+- Each **`Researcher`** belongs to exactly one **`ResearchGroup`**.
+- A **`WorkPackage`** is led by exactly one **`ResearchGroup`**.
+- A **`WorkPackage`** may have multiple **`Researcher`** team members.
+- **`ResearchProject`** consists of multiple **`WorkPackage`**s.
+- **`ServiceDeliveryRecord`** tracks when a researcher from one group works on a WP led by another group. It ensures traceability of service delivery.
+- When a researcher changes group or WP leadership changes, new `ServiceDeliveryRecord` entries are created to maintain correct tracing.
+
+---
+

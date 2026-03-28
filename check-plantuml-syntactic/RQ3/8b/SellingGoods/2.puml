@@ -1,0 +1,96 @@
+
+---
+
+
+@startuml
+' STEP 1: Core Entities
+
+class Customer {
+    +String name
+    +String address
+    +String VATNumber
+    +List<Order> orders
+}
+
+class Product {
+    +String productName
+    +String productCode
+    +int stockLevel
+    +List<OrderLine> orderLines
+}
+
+class Order {
+    +String orderId
+    +Date orderDate
+    +Customer customer
+    +List<OrderLine> orderLines
+    +boolean isPaid
+    +boolean isShipped
+    +Date paymentDate
+    +Date shippingDate
+}
+
+class OrderLine {
+    +String orderLineId
+    +Product product
+    +int quantityOrdered
+    +int quantityShipped
+    +Order order
+}
+
+' Relationships
+
+Customer "1" -- "0..*" Order : places
+Order "1" -- "0..*" OrderLine : contains
+OrderLine "1" -- "1" Product : references
+Product "1" -- "0..*" OrderLine : has
+
+@enduml
+
+---
+
+### 📌 **Explanation of Elements**
+
+#### **Classes**
+- **Customer**: Represents a customer with personal details (name, address, VAT number) and a list of their orders.
+- **Product**: Represents a product with its name, code, and current stock level. It also tracks which order lines reference it.
+- **Order**: Represents an order placed by a customer. It includes payment and shipping status, along with dates.
+- **OrderLine**: Represents a single item in an order, including the quantity ordered and shipped.
+
+#### **Attributes**
+- All classes have relevant attributes to capture business logic and data.
+- `isPaid` and `isShipped` are boolean flags to track the state of the order.
+- `paymentDate` and `shippingDate` are used to record when these events occur.
+
+#### **Relationships**
+- A **Customer** can place multiple **Orders**.
+- An **Order** consists of multiple **OrderLines**.
+- Each **OrderLine** references a specific **Product**.
+
+#### **Constraints & FSMs**
+- **Non-default FSM for Orders**:
+  - **State**: Unpaid → Paid → Shipped
+  - **Transitions**:
+    - Paid → Shipped only if all order lines are shipped.
+    - Shipping happens after full payment.
+  - Constraints:
+    - An order must be fully paid before being shipped.
+    - Once shipped, it cannot be unshipped.
+
+- **Non-default FSM for OrderLine**:
+  - **State**: Unshipped → Partially Shipped → Fully Shipped
+  - **Transitions**:
+    - Quantity shipped can increase up to the ordered quantity.
+    - Fully shipped means quantity shipped equals quantity ordered.
+
+---
+
+### 🔁 **Next Steps for Later Steps (STEP 2–4)**
+
+The above model is suitable for **STEP 1**, but for **STEP 2–4**, you'll need to:
+- Introduce **Delivery** and **Invoice** classes.
+- Add **partial shipment tracking** using **Delivery** as a container for **OrderLines**.
+- Introduce **Payment Methods** (e.g., pre-paid or post-delivery).
+- Track **delivery status** (e.g., packed, shipped, received, damaged).
+
+Would you like me to generate the updated class diagrams for **STEP 2**, **STEP 3**, or **STEP 4** as well?

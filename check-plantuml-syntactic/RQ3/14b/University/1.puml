@@ -1,0 +1,85 @@
+
+@startuml
+' Class Diagram for University System
+
+class University {
+  -faculties: List<Faculty>
+  -totalEmployees: int
+}
+
+class Faculty {
+  -name: String
+  -institutes: List<Institute>
+  -dean: Dean
+}
+
+class Institute {
+  -name: String
+  -address: String
+  -ras: List<ResearchAssistant>
+}
+
+class Employee {
+  -socialSecurityNumber: String
+  -name: String
+  -email: String
+}
+
+class Dean <<interface>> {
+  +manageFaculty(): void
+}
+
+class ResearchAssistant {
+  -fieldOfResearch: String
+  -projects: List<Project>
+  -coursesTaught: List<Course>
+}
+
+class Project {
+  -name: String
+  -startDate: Date
+  -endDate: Date
+  -hours: int
+}
+
+class Course {
+  -id: String
+  -name: String
+  -weeklyDuration: int
+}
+
+class Lecturer <<interface>> {
+  +teachCourse(course: Course): void
+}
+
+' Inheritance and Associations
+
+Employee <|-- Dean
+Employee <|-- ResearchAssistant
+
+ResearchAssistant "1" *-- "0..*" Project
+ResearchAssistant "1" *-- "0..*" Course
+
+Institute "1" *-- "0..*" ResearchAssistant
+
+Faculty "1" -- "1" Dean
+Faculty "1" *-- "0..*" Institute
+
+University "1" *-- "0..*" Faculty
+
+ResearchAssistant <|-- Lecturer
+@enduml
+
+---
+
+### Explanation of the Diagram:
+- **University** has a list of **Faculties** and knows the total number of **Employees**.
+- Each **Faculty** has a name, a list of **Institutes**, and a **Dean** (which is an `Employee`).
+- Each **Institute** has a name, address, and can have multiple **Research Assistants** (RAs).
+- **Employee** is a base class with fields like social security number, name, and email.
+- **Dean** is an interface implemented by an employee who manages a faculty.
+- **ResearchAssistant** is a type of **Employee**, and they can be involved in **Projects** and may also **Teach Courses**.
+- A **Project** has a name, start date, end date, and hours.
+- **Courses** have a unique ID, name, and weekly duration.
+- **Lecturer** is an interface that a **ResearchAssistant** can implement if they teach courses.
+

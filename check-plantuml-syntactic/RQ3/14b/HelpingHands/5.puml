@@ -1,0 +1,134 @@
+
+@startuml
+
+' Classes involved in the Helping Hands Store system
+
+class Resident {
+  - name: String
+  - streetAddress: String
+  - phoneNumber: String
+  - email: String (optional)
+  - itemsDescription: String
+}
+
+class PickupRequest {
+  - id: Integer
+  - pickupTime: Time (8:00 to 14:00)
+  - status: String (e.g., scheduled, completed)
+  - resident: Resident
+  - pickupDate: Date
+}
+
+class VolunteerDriver {
+  - id: Integer
+  - name: String
+  - availableDays: List<Date>
+  - vehicle: PickupVehicle
+}
+
+class PickupVehicle {
+  - id: Integer
+  - licensePlate: String
+  - storageCapacity: Integer (in kg)
+  - currentLoad: Integer (in kg)
+  - route: Route
+}
+
+class Route {
+  - id: Integer
+  - pickupRequests: List<PickupRequest>
+  - startTime: Time
+  - endTime: Time
+  - driver: VolunteerDriver
+}
+
+class DistributionCenter {
+  - id: Integer
+  - address: String
+  - employees: List<Employee>
+}
+
+class Employee {
+  - id: Integer
+  - name: String
+  - role: String (e.g., inventory manager, delivery assistant)
+  - distributionCenter: DistributionCenter
+}
+
+class SecondHandItem {
+  - id: Integer
+  - description: String
+  - category: String (from list of 134 categories)
+  - rfidTagId: String
+  - condition: String (e.g., good, damaged)
+  - pickupRequest: PickupRequest
+}
+
+class FoodItem {
+  - id: Integer
+  - description: String
+  - pickupRequest: PickupRequest
+}
+
+class FoodBank {
+  - id: Integer
+  - name: String
+  - address: String
+}
+
+class DeliveryRequest {
+  - id: Integer
+  - client: Client
+  - item: SecondHandItem
+  - deliveryDate: Date
+  - deliveryTime: Time
+  - status: String (e.g., pending, delivered)
+}
+
+class Client {
+  - id: Integer
+  - name: String
+  - address: String
+  - preferredCategories: List<String>
+  - distributionCenter: DistributionCenter
+}
+
+' Relationships
+
+Resident "1" --> "0..*" PickupRequest : submits
+PickupRequest "1" --> "1" VolunteerDriver : assigned to
+VolunteerDriver "1" --> "1" PickupVehicle : drives
+PickupVehicle "1" --> "1" Route : has
+Route "1" --> "0..*" PickupRequest : includes
+PickupRequest "1" --> "1" SecondHandItem : generates
+PickupRequest "1" --> "1" FoodItem : generates
+
+DistributionCenter "1" --> "0..*" Employee : employs
+Employee "1" --> "0..*" SecondHandItem : inspects and tags
+Employee "1" --> "0..*" DeliveryRequest : handles
+
+SecondHandItem "1" --> "1" DistributionCenter : stored at
+FoodItem "1" --> "1" FoodBank : delivered to
+
+Client "1" --> "0..*" DeliveryRequest : receives
+Client "1" --> "1" DistributionCenter : registered with
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Resident**: The person requesting a pickup.
+- **PickupRequest**: Represents a request for a pickup by a resident.
+- **VolunteerDriver & PickupVehicle**: Volunteers who drive vehicles to collect items.
+- **Route**: A sequence of pickups for a given day and vehicle.
+- **DistributionCenter**: Where second-hand items are processed.
+- **Employee**: Handles quality checks, tagging, and delivery arrangements.
+- **SecondHandItem & FoodItem**: Types of collected items.
+- **FoodBank**: Where food items are dropped off.
+- **Client**: Individuals receiving second-hand items via delivery.
+- **DeliveryRequest**: Manages delivery requests for clients unable to visit.
+
+---
+

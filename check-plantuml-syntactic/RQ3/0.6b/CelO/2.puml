@@ -1,0 +1,16 @@
+@startuml
+
+classDiagram
+
+User --> UserLoginForm
+UserLoginForm --> UserPasswordInput
+UserPasswordInput --> UserPassword
+
+UserPassword --> UserAccountInfo
+UserAccountInfo --> UserEmail
+UserAccountInfo --> UserPhone
+
+User --> UserDashboard
+UserDashboard --> DashboardPage
+
+@enduml

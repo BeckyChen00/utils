@@ -1,0 +1,130 @@
+@startuml
+enum ClaimStatus {
+  PendingAssessment
+  UnderInvestigation
+  Approved
+  Rejected
+}
+enum ContractStatus {
+  Draft
+  Signed
+  Active
+  Suspended
+  Cancelled
+}
+class Policyholder {
+  name: String
+  contactInfo: String
+}
+class ContactPerson {
+  fullName: String
+  role: String
+  isPrimary: boolean
+}
+class InsuranceContract {
+  contractNumber: String
+  startDate: Date
+  endDate: Date
+  contractStatus: ContractStatus
+  +getActiveMonths(): int
+}
+class InsuranceProduct {
+  productName: String
+  basePrice: double
+  coverageDescription: String
+  isRenewable: boolean
+  +calculatePremium(durationMonths: int): double
+}
+class ClaimCase {
+  caseNumber: String
+  submissionDate: Date
+  description: String
+  currentStatus: ClaimStatus
+  +validateSubmission(): boolean
+  +assessRisk(): RiskAssessment
+}
+class RiskAssessment {
+  severityLevel: String
+  notes: String
+  assessmentDate: Date
+}
+class Estimator {
+  fullName: String
+  specialization: String
+  +conductEstimation(case: ClaimCase): LaborReport
+}
+class LaborReport {
+  estimatedCost: double
+  completionDate: Date
+  isVerified: boolean
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  isPaid: boolean
+  +generatePdf(): String
+}
+class PaymentTransaction {
+  transactionDate: Date
+  amount: double
+  method: String
+  isSuccess: boolean
+}
+class PaymentMethod {
+  methodName: String
+  limitAmount: double
+}
+class ClaimAdjuster {
+  fullName: String
+  licenseNumber: String
+  +assignCase(case: ClaimCase): void
+}
+class DocumentAttachment {
+  fileName: String
+  uploadDate: Date
+  contentType: String
+  contentHash: String
+}
+class SystemUser {
+  username: String
+  isActive: boolean
+}
+class UserRole {
+  roleTitle: String
+  permissions: String[]
+}
+class AuditLog {
+  action: String
+  timestamp: Date
+  details: String
+}
+class Notification {
+  subject: String
+  body: String
+  isRead: boolean
+  recipientId: String
+  +send(): boolean
+}
+InsuranceContract --> "1" Policyholder : owner
+InsuranceContract --> "1" InsuranceProduct : product
+InsuranceContract --> "1" ContactPerson : primaryContact
+ClaimCase --> "1" Policyholder : insuredParty
+ClaimCase --> "1" InsuranceProduct : coveredProduct
+ClaimCase *-- "1" ClaimStatus : currentStatus
+ClaimCase *-- "1" RiskAssessment : riskAnalysis
+ClaimCase *-- "0..*" LaborReport : evidenceReports
+ClaimCase --> "0..*" DocumentAttachment : supportingDocuments
+ClaimAdjuster --> "0..*" ClaimCase : reviewedCases
+Estimator --> "1" LaborReport : generatedReport
+SystemUser --> "1" UserRole : assignedRole
+SystemUser --> "0..*" ClaimCase : supervisedCases
+SystemUser --> "0..*" InsuranceContract : managedContracts
+InsuranceContract --> "0..*" Invoice : issuedInvoices
+Invoice --> "1..*" PaymentTransaction : paymentTransactions
+PaymentTransaction --> "1" PaymentMethod : usedMethod
+InsuranceContract --> "0..*" Notification : relatedNotifications
+Notification --> "1" SystemUser : recipient
+AuditLog --> "1" SystemUser : actor
+@enduml

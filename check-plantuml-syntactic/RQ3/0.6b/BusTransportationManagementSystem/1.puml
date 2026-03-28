@@ -1,0 +1,59 @@
+@startuml
+
+class systemRequirement {name: "System Requirement", type: "SystemRequirement"}
+
+class requirement {
+    name: "Requirement Name",
+    description: "Requirement Description"
+}
+
+class user {
+    name: "User Name",
+    email: "Email Address"
+}
+
+class project {
+    name: "Project Name",
+    description: "Project Description"
+}
+
+class resource {
+    name: "Resource Name",
+    description: "Resource Description"
+}
+
+class system {
+    name: "System Name",
+    description: "System Description"
+}
+
+class dependency {
+    name: "Dependency Name",
+    description: "Dependency Description"
+}
+
+class relation {
+    from: system,
+    to: project,
+    type: "requirement"
+}
+
+class constraint {
+    from: project,
+    to: resource,
+    type: "dependency"
+}
+
+class relationship {
+    from: system,
+    to: requirement,
+    type: "systemRequirement"
+}
+
+class link {
+    from: systemRequirement,
+    to: dependency,
+    type: "constraint"
+}
+
+@enduml

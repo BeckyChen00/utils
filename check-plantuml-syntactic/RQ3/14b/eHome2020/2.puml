@@ -1,0 +1,90 @@
+
+@startuml
+' E-Home-2020 System Class Diagram
+
+class Sensor {
+  +vendorId: String
+  +description: String
+  +unit: Unit
+  +roomId: String
+  +getLatestValue(): Value
+  +addValue(value: Value): void
+}
+
+enum Unit {
+  CELSIUS
+  WATT
+}
+
+class TemperatureSensor {
+  +minValue: float
+  +maxValue: float
+}
+
+class PowerSensor {
+  +totalConsumption: float
+}
+
+class Room {
+  +id: String
+  +description: String
+  +getSensors(): List<Sensor>
+  +addSensor(sensor: Sensor): void
+}
+
+class Apartment {
+  +address: String
+  +email: String
+  +rooms: List<Room>
+  +getRoomById(id: String): Room
+  +addRoom(room: Room): void
+}
+
+class SensorController {
+  +login(username: String, password: String): boolean
+  +getSensorValues(sensorId: String): List<Value>
+  +setThreshold(sensorId: String, threshold: float): void
+  +getApartment(): Apartment
+  +configureSensor(sensorId: String, newRoomId: String, description: String): void
+}
+
+class Value {
+  +timestamp: DateTime
+  +value: float
+}
+
+class User {
+  +username: String
+  +password: String
+  +isAdmin: boolean
+  +login(): boolean
+  +configureSensor(sensorId: String, newRoomId: String, description: String): void
+}
+
+class EMonitor {
+  +checkThresholds(apartment: Apartment): void
+  +sendAlert(email: String, message: String): void
+}
+
+' Associations and Inheritance
+Sensor <|-- TemperatureSensor
+Sensor <|-- PowerSensor
+Apartment "1" *-- "n" Room
+Room "1" *-- "n" Sensor
+Sensor "1" *-- "n" Value
+User "1" -- "1" SensorController
+SensorController "1" -- "1" Apartment
+SensorController "1" -- "n" Sensor
+SensorController "1" -- "n" Value
+SensorController "1" -- "n" User
+EMonitor --> SensorController
+@enduml
+
+---
+
+### 📌 Notes:
+- The `User` class is assumed to be part of the `SensorController` logic (e.g., users are managed internally).
+- The `EMonitor` system is modeled as a separate class that interacts with the `SensorController`.
+- `Value` is a base class or structure that holds sensor data over time.
+- `Unit` is an enumerated type with two possible values: `CELSIUS` and `WATT`.
+

@@ -1,0 +1,19 @@
+@startuml
+
+class SystemRequirement {
+    class SystemRequirement {
+        name : String;
+        description : String;
+        constraints : List<String>;
+    }
+}
+
+class SystemRequirement {
+    class SystemRequirement {
+        name : String;
+        description : String;
+        constraints : List<String>;
+    }
+}
+
+@enduml

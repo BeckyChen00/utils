@@ -1,0 +1,82 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteAlign center
+
+class Driver {
+  - String name
+  - int id
+  - boolean isOnSickLeave
+}
+
+class Bus {
+  - String licencePlate
+  - boolean isInRepairShop
+}
+
+class Route {
+  - int routeNumber
+}
+
+class Shift {
+  - String shiftType
+  - Date date
+}
+
+class Assignment {
+  - Driver driver
+  - Bus bus
+  - Route route
+  - Shift shift
+  - boolean isValid
+}
+
+class ScheduleOverview {
+  + showOverview()
+  - generateOverviewData()
+}
+
+Driver "1" -- "*" Assignment : assignedTo
+Bus "1" -- "*" Assignment : assignedTo
+Route "1" -- "*" Assignment : assignedTo
+Shift "1" -- "*" Assignment : partOf
+Assignment --> ScheduleOverview : usedIn
+
+@enduml
+
+---
+
+### ✅ Explanation of the Classes and Relationships:
+
+- **Driver**
+  - Attributes: `name`, `id`, `isOnSickLeave`
+  - A driver can be assigned to multiple shifts on different days.
+
+- **Bus**
+  - Attributes: `licencePlate`, `isInRepairShop`
+  - A bus can be assigned to multiple routes on different days.
+
+- **Route**
+  - Attribute: `routeNumber`
+  - Identified by a unique number up to 9999.
+
+- **Shift**
+  - Attributes: `shiftType` (morning, afternoon, night), `date`
+  - Each route has three types of shifts per day.
+
+- **Assignment**
+  - Represents the relationship between a driver, a bus, a route, and a shift.
+  - Contains a flag `isValid` to indicate whether the assignment is valid (i.e., not involving a sick driver or a broken bus).
+
+- **ScheduleOverview**
+  - A helper class that generates an overview of all assignments for a given day.
+  - It uses the `Assignment` class to display data in the UI.
+
+---
+
+### 📌 Notes:
+- The system does **not support updates**, only **additions and deletions** for drivers and buses.
+- Sick leave status and repair shop status are tracked to prevent invalid assignments.
+- The overview highlights invalid entries (sick drivers or broken buses) in the UI.
+
+Let me know if you'd like to add more details or make it more complex!

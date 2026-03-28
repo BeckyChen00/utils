@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//TestBatch"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TestBatch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedUnits" eType="#//ProcessingUnit" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definingMaterial" eType="#//IndustrialMaterial" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedLogs" eType="#//DataLog" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessingUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedSensor" eType="#//TemperatureSensor" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="planningEngine" eType="#//RouteOptimizer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TemperatureSensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteOptimizer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IndustrialMaterial"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BenchmarkResult">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceBatch" eType="#//TestBatch" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="benchmarkedMaterial" eType="#//IndustrialMaterial" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedBy" eType="#//Researcher" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Researcher"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductionRun">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedBatches" eType="#//TestBatch" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

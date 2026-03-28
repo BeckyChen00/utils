@@ -1,0 +1,133 @@
+
+@startuml
+skinparam classAttributeIconSize 0
+
+' Main classes
+class Resident {
+    +name: String
+    +streetAddress: String
+    +phoneNumber: String
+    +emailAddress: String (optional)
+    +itemDescription: String
+    +schedulePickup(date: Date, time: Time)
+}
+
+class PickupRequest {
+    +id: String
+    +date: Date
+    +time: Time
+    +streetAddress: String
+    +itemDescription: String
+    +resident: Resident
+    +isConfirmed: Boolean
+}
+
+class VolunteerDriver {
+    +name: String
+    +phoneNumber: String
+    +emailAddress: String
+    +availableDays: List<Date>
+}
+
+class PickupVehicle {
+    +id: String
+    +capacity: int (weight in kg)
+    +dimensions: Dimension
+    +currentRoute: Route
+    +pickupRequests: List<PickupRequest>
+}
+
+class Route {
+    +id: String
+    +date: Date
+    +vehicle: PickupVehicle
+    +pickupPoints: List<StreetAddress>
+}
+
+class StreetAddress {
+    +street: String
+    +city: String
+    +zipCode: String
+}
+
+class Item {
+    +id: String
+    +description: String
+    +category: Category
+    +weight: double
+    +dimensions: Dimension
+    +isUsable: Boolean
+}
+
+class Category {
+    +id: String
+    +name: String
+}
+
+class DistributionCenter {
+    +processItems(items: List<Item>)
+    +assignCategory(item: Item, category: Category)
+    +checkItemQuality(item: Item): Boolean
+}
+
+class FoodBank {
+    +receiveNonPerishables(items: List<Item>)
+}
+
+class Client {
+    +name: String
+    +address: String
+    +preferredCategories: List<Category>
+    +needsDelivery: Boolean
+}
+
+class DeliveryRequest {
+    +id: String
+    +client: Client
+    +item: Item
+    +deliveryAddress: String
+    +deliveryTime: Time
+}
+
+class H2SEmployee {
+    +processIncomingItems(items: List<Item>)
+    +notifyClient(client: Client, items: List<Item>)
+    +arrangeDelivery(deliveryRequest: DeliveryRequest)
+}
+
+' Relationships
+Resident --> PickupRequest
+PickupRequest --> VolunteerDriver
+PickupRequest --> PickupVehicle
+PickupVehicle --> Route
+Route --> StreetAddress
+StreetAddress --> PickupRequest
+PickupRequest --> Item
+Item --> Category
+DistributionCenter --> Item
+FoodBank --> Item
+Client --> DeliveryRequest
+DeliveryRequest --> Item
+H2SEmployee --> Item
+H2SEmployee --> Client
+H2SEmployee --> DeliveryRequest
+
+@enduml
+
+---
+
+### ✅ Summary of Key Entities and Relationships:
+- **Resident**: Schedules pickups.
+- **PickupRequest**: Represents a pickup request with details like date, address, and item description.
+- **VolunteerDriver**: Provides availability and drives vehicles.
+- **PickupVehicle**: Has capacity and follows routes to collect items.
+- **Route**: Defines the sequence of pickup points for a vehicle on a day.
+- **Item**: Represents the items being picked up or delivered.
+- **Category**: Classification system for items.
+- **DistributionCenter**: Processes and categorizes items.
+- **FoodBank**: Handles non-perishable food items.
+- **Client**: Receives items via delivery if needed.
+- **DeliveryRequest**: For delivering items to clients.
+- **HEmployee**: Manages all operations including notifications and deliveries.
+
+Let me know if you'd like this rendered as an image or want it formatted for a specific tool!

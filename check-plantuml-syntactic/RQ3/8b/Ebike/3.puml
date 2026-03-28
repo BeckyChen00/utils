@@ -1,0 +1,72 @@
+@startuml
+class Frame {
+  +material: String
+  +insertWheel(wheel: Wheel): void
+}
+
+class Wheel {
+  +rotate(): void
+}
+
+class DriveSystem {
+  +motor: Motor
+}
+
+class Motor {
+  +spin(): void
+}
+
+class Controller {
+  +state: State
+  +setState(state: State): void
+  +controlBattery(battery: Battery): void
+  +commandDriveSystem(driveSystem: DriveSystem): void
+}
+
+enum State {
+  On, Off, Charging
+}
+
+class Battery {
+  +storedEnergy: int (Wh)
+  +charge(): void
+  +discharge(): void
+}
+
+class EBike {
+  -frame: Frame
+  -driveSystem: DriveSystem
+  -controller: Controller
+  -battery: Battery
+  +connectBattery(battery: Battery): void
+  +disconnectBattery(): void
+}
+
+class BasicController <|-- Controller
+class AdvancedController <|-- Controller
+
+BasicController {
+  +estimateNextInspectionDate(): Date
+}
+
+AdvancedController {
+  +estimateNextInspectionDate(): Date
+}
+
+EBike "1" -- "1" Frame : has
+EBike "1" -- "1" DriveSystem : has
+EBike "1" -- "1" Controller : has
+EBike "1" -- "0..1" Battery : may have
+
+Frame "1" -- "2" Wheel : has
+@enduml
+
+### Explanation:
+- **Frame** holds the material and can insert wheels.
+- **Wheel** is a simple class with a `rotate()` method.
+- **DriveSystem** contains a **Motor** which spins.
+- **Controller** manages the state and interacts with battery and drive system. It has three possible states (`On`, `Off`, `Charging`).
+- **Battery** stores energy in Wh and supports charging and discharging.
+- **EBike** is composed of Frame, DriveSystem, Controller, and optionally a Battery.
+- **BasicController** and **AdvancedController** are subclasses of `Controller`. The advanced one adds the ability to estimate the next inspection date.
+

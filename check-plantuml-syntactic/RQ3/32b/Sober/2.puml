@@ -1,0 +1,104 @@
+
+---
+
+
+@startuml
+' Define classes based on the system requirement
+
+class User {
+    +String id
+    +String name
+    +String contactInfo
+}
+
+class Customer extends User {
+    +int rideShareCount
+    +void incrementRideShareCount()
+}
+
+class Driver extends User {
+    +String licenseNumber
+    +Car assignedCar
+}
+
+class Car {
+    +String id
+    +String model
+    +Driver owner
+    +List<Accident> accidents
+    +void addAccident(Accident)
+}
+
+class Accident {
+    +Date date
+    +Location location
+    +double damageAmount
+}
+
+abstract class Ride {
+    +Date pickupTime
+    +Date dropoffTime
+    +Location pickupLocation
+    +Location dropoffLocation
+    +double duration
+    +double distance
+    +int passengerCount
+    +double fee
+    +RequestType requestType
+}
+
+enum RequestType {
+    APP
+    HAND_WAVE
+}
+
+class RideHail extends Ride {
+    +Customer leadCustomer
+    +int maxPassengers = 6
+}
+
+class RideShare extends Ride {
+    +List<Customer> customers
+    +double negotiatedFee
+    +int maxPassengers = 10
+}
+
+class Location {
+    +String address
+    +double latitude
+    +double longitude
+}
+
+class SoberApp {
+    +void hailRide(RideHail)
+    +void bookRideShare(RideShare)
+    +void notifyArrival()
+    +void calculateEstimatedWait()
+}
+
+' Relationships
+User "1" -- "many" {Customer}
+User "1" -- "many" {Driver}
+Driver "1" -- "1" Car
+Car "1" -- "many" Accident
+Ride "1" -- "1" Location : pickupLocation
+Ride "1" -- "1" Location : dropoffLocation
+RideHail "1" -- "1" Customer : leadCustomer
+RideShare "1" -- "many" Customer
+RideHail "1" -- "1" RequestType
+RideShare "1" -- "1" RequestType
+SoberApp "1" -- "many" RideHail
+SoberApp "1" -- "many" RideShare
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **Inheritance**: `Ride` is an abstract base class from which `RideHail` and `RideShare` inherit.
+- **Polymorphism**: Both types of rides store similar data but differ in maximum passengers, customer handling, and fee calculation.
+- **Encapsulation**: Each entity has its own attributes and methods relevant to the domain.
+
+---
+
+Let me know if you want this extended with **sequence diagrams**, **use cases**, or **database ERD**!

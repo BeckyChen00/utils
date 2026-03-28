@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensors" eType="#//Sensor" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actuators" eType="#//Actuator" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Device">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deviceId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor" eSuperTypes="#//Device">
+    <eOperations xsi:type="ecore:EOperation" name="provideReading" eType="#//Reading"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Actuator" eSuperTypes="#//Device">
+    <eOperations xsi:type="ecore:EOperation" name="sendCommand" eType="#//Status">
+      <eParameters xsi:type="ecore:EParameter" name="command" eType="#//Command"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reading">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sensorId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Command">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="commandType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetDeviceId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//CommandStatus"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CommandStatus">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="REQUESTED"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="COMPLETED" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="FAILED" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActivityLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" eType="#//Entry" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="logEntry">
+      <eParameters xsi:type="ecore:EParameter" name="entry" eType="#//Entry"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entry">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorReadingEntry" eSuperTypes="#//Entry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reading" eType="#//Reading"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CommandEntry" eSuperTypes="#//Entry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="command" eType="#//Command"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AutomationRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="precondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="#//Command" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDeactivated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" eType="#//AutomationRule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conflicts" eType="#//AutomationRule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleTriggerEvent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ruleId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Owner">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="username" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" eType="#//AutomationRule" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="createRule">
+      <eParameters xsi:type="ecore:EParameter" name="rule" eType="#//AutomationRule"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="editRule">
+      <eParameters xsi:type="ecore:EParameter" name="rule" eType="#//AutomationRule"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="activateRule">
+      <eParameters xsi:type="ecore:EParameter" name="rule" eType="#//AutomationRule"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="deactivateRule">
+      <eParameters xsi:type="ecore:EParameter" name="rule" eType="#//AutomationRule"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SHAS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="smartHomes" eType="#//SmartHome" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activityLogs" eType="#//ActivityLog" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" eType="#//AutomationRule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggerEvents" eType="#//RuleTriggerEvent" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="updateInfrastructureMap">
+      <eParameters xsi:type="ecore:EParameter" name="device" eType="#//Device"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="processSensorReading">
+      <eParameters xsi:type="ecore:EParameter" name="reading" eType="#//Reading"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="processCommand">
+      <eParameters xsi:type="ecore:EParameter" name="command" eType="#//Command"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="evaluateRules"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//physicalAddress" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="physicalAddress"/>
+  <eClassifiers xsi:type="ecore:EClass" name="rooms"/>
+  <eClassifiers xsi:type="ecore:EClass" name="infrastructureMap">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Map&lt;String,_Device&gt;" eType="#//rooms"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Status"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SmartHome"/>
+</ecore:EPackage>

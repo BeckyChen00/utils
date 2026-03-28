@@ -1,0 +1,37 @@
+@startuml
+enum AccountType {
+  Personal
+  Business
+}
+class User {
+  id: String
+  name: String
+  email: String
+  dateOfBirth: Date
+  +register(type: AccountType): Account
+}
+class Account {
+  accountNumber: String
+  accountType: AccountType
+  isVerified: boolean
+  +isActiveAccount(): boolean
+  +createPage(name: String): Page
+  +grantPrivileges(page: Page, role: String): void
+}
+class Page {
+  pageName: String
+  totalVisits: int
+  bounceRate: double
+  clickThroughRate: double
+  conversionRate: double
+  +updateMetrics(bounce: double, click: double, convert: double): void
+}
+class AdvertisementPage {
+  companyName: String
+  +calculateROI(): double
+}
+User "1" *-- "0..*" Account : ownedAccounts
+Account "1" *-- "0..*" Page : ownedPages
+Account "0..*" --> "0..*" Page : grantedPrivileges
+AdvertisementPage --|> Page
+@enduml

@@ -1,0 +1,92 @@
+
+@startuml
+skinparam linetype=cloud
+
+class Organizer {
+  - firstName: String
+  - lastName: String
+  - email: String
+  - postalAddress: String
+  - phoneNumber: String
+  - password: String
+  - isAttending: Boolean
+}
+
+class Attendee {
+  - firstName: String
+  - lastName: String
+  - email: String
+  - password: String
+  - attendanceStatus: String // "will attend", "maybe", "cannot attend"
+}
+
+class Event {
+  - name: String
+  - startDate: DateTime
+  - endDate: DateTime
+  - occasion: String
+  - location: Location
+  - organizers: List<Organizer>
+  - attendees: List<Attendee>
+  - checklist: Checklist
+}
+
+class Location {
+  - name: String
+  - address: String
+}
+
+class Checklist {
+  - tasks: List<Task>
+}
+
+class Task {
+  - description: String
+  - status: String // "needs to be done", "done", "not applicable"
+  - assignedTo: Attendee
+}
+
+class EventType {
+  - name: String
+}
+
+class EventCategory {
+  - name: String
+  - events: List<Event>
+}
+
+class Invitation {
+  - sender: Organizer
+  - recipient: Attendee
+  - event: Event
+  - status: String // "pending", "accepted", "declined", "maybe"
+}
+
+Organizer "1" -- "0..*" Event : organizes
+Event "1" -- "1" Location : has
+Event "1" -- "1" EventType : type
+Event "1" -- "0..*" Invitation : sends
+Invitation "1" -- "1" Attendee : sent to
+Event "1" -- "1" Checklist : has
+Checklist "1" -- "0..*" Task : contains
+Task "0..1" -- "1" Attendee : assigned to
+Organizer "1" -- "0..*" Invitation : sends
+Attendee "1" -- "0..*" Invitation : receives
+@enduml
+
+---
+
+### 📌 Explanation of Classes and Relationships:
+
+- **`Organizer`**: Manages events, can attend or not, has personal details.
+- **`Attendee`**: Can receive invitations, respond to them, and take on tasks if assigned.
+- **`Event`**: Central entity with start/end times, location, occasion, etc. Has a list of organizers and attendees.
+- **`Location`**: Stores the name and address of an event location.
+- **`EventType`**: Represents types of events like birthday party, graduation, etc.
+- **`Checklist`**: Contains a list of `Task`s for an event.
+- **`Task`**: Describes a task that needs to be completed, optionally assigned to an attendee.
+- **`Invitation`**: Represents the invitation sent from an organizer to an attendee.
+
+---
+
+Let me know if you'd like this rendered as an image or extended with more features!

@@ -1,0 +1,71 @@
+
+@startuml
+
+' Define classes
+class School {
+  -name: String
+  -principal: Teacher
+  -rooms: List<Room>
+}
+
+class Teacher {
+  -firstName: String
+  -lastName: String
+  -email: String
+  -teachingRelationships: List<TeachingRelationship>
+}
+
+class Student {
+  -firstName: String
+  -lastName: String
+  -classGroup: ClassGroup
+}
+
+class ClassGroup {
+  -name: String
+  -students: List<Student>
+  -classroom: Classroom
+}
+
+class Classroom {
+  -name: String
+  -capacity: Integer
+  -classGroup: ClassGroup
+}
+
+class Room {
+  -name: String
+  -size: Double
+}
+
+class TeachingRelationship {
+  -hours: Integer
+  -teacher: Teacher
+  -school: School
+}
+
+' Associations
+School "1" -- "0..*" Teacher : has
+Teacher "1" -- "1..3" School : teaches at
+Teacher "1" -- "1" School : is principal of
+Student "1" -- "1" ClassGroup : belongs to
+ClassGroup "1" -- "1" Classroom : is assigned to
+Classroom "1" -- "1" ClassGroup : contains
+Room "1" -- "1" School : is part of
+Teacher "1" -- "1" TeachingRelationship : has
+School "1" -- "1" TeachingRelationship : has
+TeachingRelationship "1" -- "1" Teacher : involves
+TeachingRelationship "1" -- "1" School : involves
+
+@enduml
+
+### Explanation:
+- **School** has a name, a principal (which is a `Teacher`), and multiple rooms.
+- **Teacher** has first and last names, an email, and may be involved in multiple teaching relationships (up to 3 schools).
+- **Student** has first and last names and belongs to exactly one class group.
+- **ClassGroup** has a name, contains students, and is assigned to exactly one classroom.
+- **Classroom** is a type of room with capacity and is assigned to exactly one class group.
+- **Room** is a general class that includes both classrooms and other types of rooms (e.g., gym).
+- **TeachingRelationship** links a teacher to a school and specifies the number of hours they teach there.
+
+Let me know if you'd like to add more details or modify the diagram further!

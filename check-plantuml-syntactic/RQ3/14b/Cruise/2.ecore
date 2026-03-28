@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="TravelAgency">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bookingNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bookingDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DestinationArea">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="areaName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="seaName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Show">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ticketId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guest" eType="#//Guest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cruise" eType="#//Cruise"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CruiseShipAssociation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cruise" eType="#//Cruise"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ship" eType="#//Ship"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CruiseDestination">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cruise" eType="#//Cruise"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destinationArea" eType="#//DestinationArea"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GuestCruiseAssociation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guest" eType="#//Guest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cruise" eType="#//Cruise"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CruiseBookingAssociation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cruise" eType="#//Cruise"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="booking" eType="#//Booking"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GuestTicketAssociation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guest" eType="#//Guest"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ticket" eType="#//Ticket"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CruiseShowAssociation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cruise" eType="#//Cruise"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="show" eType="#//Show"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="location">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//cruiseNumber"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="cruiseNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="cruiseName">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Date" eType="#//startDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="startDate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="endDate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="socialSecurityNumber">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="isVIP">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//shipName" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="shipName"/>
+  <eClassifiers xsi:type="ecore:EClass" name="numberOfDecks">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Integer" eType="#//passengerCapacity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="passengerCapacity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Guest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Cruise"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ship"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Provider"/>
+</ecore:EPackage>

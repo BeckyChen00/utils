@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedAttractions" eType="#//Attraction" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attraction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offeredTours" eType="#//Tour" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tour">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedSchedules" eType="#//Schedule" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedGuide" eType="#//TourGuide" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookedReservations" eType="#//Reservation" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TourGuide"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Reservation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredVisitor" eType="#//Visitor" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="confirmedTour" eType="#//Tour" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Visitor"/>
+</ecore:EPackage>

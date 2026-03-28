@@ -1,0 +1,15 @@
+graph TD
+    A[System Requirement]
+    B[Requirement 1]
+    C[Requirement 2]
+    D[Requirement 3]
+    E[Requirement 4]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+
+    E --> A
+
+This is a simple class diagram based on the given `System Requirement` with four requirements. Each requirement points to the next in the chain, and there's a loop between them.

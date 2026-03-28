@@ -1,0 +1,192 @@
+@startuml
+enum EmotionalState {
+  Happy
+  Sad
+  Angry
+  Disappointed
+  Frustrated
+}
+enum UserDataCategory {
+  General
+  Recurring
+  Juvenile
+  MallCentral
+  Referred
+  Elderly
+}
+enum PollinationMethod {
+  Natural
+  InsectPestControl
+  PollinatorAttract
+  Mechanical
+  Broadcast
+}
+enum ScanResultStatus {
+  Pending
+  Completed
+  Failed
+}
+class UserData {
+  userDataCategory: UserDataCategory
+  displayName: String
+  isVerified: boolean
+  birthYear: int
+  +calculateLifetimeValue(): int
+  +updateContactInfo(newContactInfo: String): void
+}
+class ObservationRecord {
+  captureTimestamp: Date
+  overallEmotionSummary: String
+  overallEmotionState: EmotionalState
+  +generateSummary(): String
+}
+class PollinationAssessment {
+  pollinationMethod: PollinationMethod
+  isSuccessful: boolean
+  assessmentDate: Date
+  +generateReport(): String
+  +getSuccessRate(): double
+}
+class AffiliationProfile {
+  isVerified: boolean
+  userAffiliation: String
+  +calculateAffiliationScore(): int
+}
+class AgeGroup {
+  ageRange: String
+}
+class Location {
+  regionCode: String
+  locationDetails: String
+  +getRegionCode(): String
+}
+class TimeWindow {
+  startTime: Date
+  endTime: Date
+  +getDuration(): int
+}
+class ResponsiveStrategy {
+  strategyName: String
+  isActive: boolean
+  +evaluateLatency(currentTimestamp: Date): boolean
+}
+class AlertRule {
+  isActive: boolean
+  triggerCondition: String
+  +evaluateCondition(currentEvent: String): boolean
+}
+class BullyBullet {
+  severityLevel: int
+  isAcknowledged: boolean
+  +acknowledgeStatus(): boolean
+}
+class DatabaseSnapshot {
+  snapshotTimestamp: Date
+  +recordChange(user: UserData): void
+  +getChanges(): List<ObservationRecord>
+}
+class DataProcessingEngine {
+  +executeSnapshot(context: String): DatabaseSnapshot
+  +generateReport(includeRules: boolean): String
+}
+class BehavioralAnalysis {
+  isRealTime: boolean
+  +analyzeUser(user: UserData): BehavioralProfile
+  +captureBehavior(user: UserData): ObservationRecord
+}
+class StatisticalModel {
+  modelVersion: String
+  +computeWeightedAverage(record: ObservationRecord): double
+  +predictSuccess rate(targetDate: Date): double
+}
+class PredictionModel {
+  +predictResult(record: ObservationRecord): PollinationAssessment
+}
+class BehavioralProfile {
+  profileVersion: String
+  +createConsistencyCheck(region: Location): boolean
+}
+class IntelligenceProvider {
+  +giveFeedback(user: UserData, message: String): void
+  +sendNotification(user: UserData, content: String): void
+}
+class SafetyBag {
+  actionLog: List<String>
+  +lockTogether(): void
+  +unlockTogether(): void
+}
+class SurveillanceManifest {
+  scanDate: Date
+  scanStatus: ScanResultStatus
+  +getScanSummary(): String
+  +recordEvent(record: ObservationRecord): void
+}
+class MobileDevice {
+  deviceType: String
+  +detectLocation(): Location
+}
+class SensorModule {
+  batteryLevel: int
+  lastReading: Date
+  +readSensorData(): double
+}
+class IncidentLog {
+  incidentTime: Date
+  isResolved: boolean
+  description: String
+  +resolveIncident(): void
+}
+UserData *-- "1" AffiliationProfile : affiliation
+UserData *-- "1" Location : residence
+UserData --> "*" ObservationRecord : eventHistory
+ObservationRecord --> "1" Location : sourceLocation
+ObservationRecord --> "*" BullyBullet : implicatedBullets
+ObservationRecord --> "1" UserData : subjectUser
+BullyBullet *-- "1" Amount : severityLevel
+DataProcessingEngine --> "*" DatabaseSnapshot : managedSnapshots
+DataProcessingEngine --> "1" BehavioralAnalysis : performedAnalysis
+DataProcessingEngine --> "1" StatisticalModel : appliedModel
+DataProcessingEngine --> "*" AlertRule : monitoredRules
+IntelligenceProvider --> "*" UserData : managedUsers
+SentimentAnalysis --> "*" UserData : analyzedUsers
+PredictionModel --> "*" ObservationRecord : analyzedRecords
+AffiliationProfile --> "*" AgeGroup : servedGroups
+DataProcessingEngine --> "*" AgeGroup : handledGroups
+IncidentLog --> "*" UserData : affectedUsers
+IncidentLog --> "*" BullyBullet : includedBullets
+IncidentLog --> "*" MobileDevice : involvedDevices
+BullyBullet --> "*" SensorModule : trackedModules
+TemporalFilter --> "*" TimeWindow : examinedWindows
+TemporalFilter --> "*" UserData : filteredUsers
+SensorModule --> "*" ObservationRecord : recordedRecords
+WarningRule --> "*" AlertRule : definedRules
+AlertRule --> "1" SensorModule : monitoredSensor
+SensorModule --> "*" PredictionModel : integratedModels
+IncidentLog --> "*" PredictionModel : reliedOnModels
+IncidentLog --> "*" MapMarker : reportedCoordinates
+IncidentLog --> "*" AlertRule : triggeredRules
+EventLog --> "*" UserData : documentedUsers
+IncidentLog --> "*" UserData : associatedUsers
+IncidentLog --> "*" BullyBullet : includedBullets
+IncidentLog --> "*" MobileDevice : involvedDevices
+IncidentLog --> "*" Location : associatedLocations
+IncidentLog --> "*" TeamMember : linkedMembers
+IncidentLog --> "*" SurveillanceManifest : generatedManifests
+IncidentLog --> "*" PredictionModel : appliedPredictions
+BullyBullet --> "*" UserData : blamedUsers
+AffiliationProfile --> "*" UserData : categorizedUsers
+PredictModel --> "*" UserData : analyzedUsers
+IntelligenceProvider --> "*" UserData : managedUsers
+User --> "*" PredictionModel : consultedModels
+User --> "*" FirestoreDocument : storedDocuments
+User --> "*" ObservationRecord : processedRecords
+IntelligenceProvider --> "*" UserData : managedUsers
+User --> "*" IncidentLog : filedLogs
+User --> "*" BullyBullet : recordedBullets
+User --> "*" PredictionModel : consultedModels
+IncidentLog --> "*" SurveillanceManifest : generatedManifests
+IncidentLog --> "*" MobileDevice : involvedDevices
+IncidentLog --> "*" Location : associatedLocations
+IncidentLog --> "*" UserProfile : viewedProfiles
+PredictionModel -- System
+@enduml

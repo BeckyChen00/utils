@@ -1,0 +1,60 @@
+@startuml
+class Patient {
+  name: String
+  currentWeight: double
+  +getActiveTreatments(): List<Treatment>
+}
+class Doctor {
+  name: String
+  specialization: String
+  +makeDiagnosis(patient: Patient, illness: Illness): Diagnosis
+  +approveDiagnosis(diagnosis: Diagnosis): boolean
+}
+class Illness {
+  name: String
+  priorityScore: int
+  +getSeverity(): int
+}
+class Diagnosis {
+  description: String
+  isApproved: boolean
+  +getTreatmentStages(): List<TreatmentStage>
+}
+class TreatmentStage {
+  stageNumber: int
+  description: String
+  +isAllowedToProceed(): boolean
+}
+class Treatment {
+  treatmentName: String
+  currentStage: int
+  +upgradeStage(): boolean
+  +downgradeStage(): boolean
+  +getCurrentStage(): TreatmentStage
+}
+class Consent {
+  timestamp: Date
+  +isValid(): boolean
+}
+class TimeSlot {
+  startHour: int
+  endHour: int
+  isAvailable: boolean
+  +getDurationMinutes(): int
+}
+class Nurse {
+  name: String
+  +assignToSlot(slot: TimeSlot): void
+  +monitorPatient(patient: Patient): void
+}
+Patient "1" *-- "0..*" Treatment : activeTreatments
+Doctor "1" --> "0..*" Diagnosis : madeDiagnoses
+Doctor "1" --> "0..*" Treatment : authorizedTreatments
+Diagnosis "1" --> "1" Illness : diagnosedIllness
+Diagnosis "1" --> "1..*" TreatmentStage : recommendedStages
+Treatment "*" --> "1" Illness : treatsIllness
+Treatment "1" --> "0..*" Consent : requiresConsent
+Nurse "1" --> "1..*" TimeSlot : assignedSlots
+Nurse "1" --> "0..*" Patient : monitoredPatients
+Illness "1" --> "0..*" TimeSlot : prioritizedSlots
+@enduml

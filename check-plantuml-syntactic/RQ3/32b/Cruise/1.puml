@@ -1,0 +1,90 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Provider {
+    - name: String
+    - location: String
+}
+
+class Cruise {
+    - cruiseNumber: Integer
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - destinationArea: DestinationArea
+}
+
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+}
+
+class Guest {
+    - name: String
+    - isVIP: Boolean
+}
+
+class Ship {
+    - name: String
+    - numberOfDecks: Integer
+    - length: Double
+    - maxPassengers: Integer
+}
+
+class TravelAgency {
+    - name: String
+    - address: String
+}
+
+class Booking {
+    - bookingNumber: String
+    - bookingDate: Date
+}
+
+class DestinationArea {
+    - name: String
+    - seaName: String
+}
+
+class Show {
+    - title: String
+    - duration: Integer // in minutes
+}
+
+class Ticket {
+    - cruise: Cruise
+    - guest: Guest
+}
+
+' Relationships
+
+Provider "1" -- "0..*" Cruise : organizes
+Cruise "1" -- "1" Ship : uses
+Cruise "1" -- "0..*" Employee : employs
+Cruise "1" -- "0..*" Guest : has participants
+Cruise "1" -- "0..*" Show : offers
+Cruise "1" -- "1" DestinationArea : heads to
+TravelAgency "1" -- "0..*" Booking : creates
+Booking "1" -- "1" Cruise : for
+Booking "1" -- "1" Guest : by
+Guest "1" -- "0..*" Ticket : owns
+Ticket "1" -- "1" Cruise : belongs to
+
+' Unidirectional associations (no return arrow)
+
+Guest "0..*" --> "1" Cruise : participates in
+Cruise "1" --> "0..*" Ticket : issues
+
+@enduml
+
+---
+
+### Explanation of Key Points:
+
+- **One-to-many** relationships are indicated with `0..*`.
+- **Mandatory one** is shown as `1`.
+- Each class includes only relevant attributes.
+- The `Ticket` class ensures that a guest can have multiple tickets but only **one ticket per cruise**, and each ticket is linked to exactly one cruise.
+

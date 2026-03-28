@@ -1,0 +1,18 @@
+@startuml
+
+classDiagram
+
+SystemRequirement --> SystemRequirement
+    SystemRequirement has [SystemRequirement]
+    SystemRequirement --> systemRequirement
+
+systemRequirement --> component1
+component1 has [Component1]
+
+component1 --> component2
+component2 has [Component2]
+
+component2 --> component3
+component3 has [Component3]
+
+@enduml

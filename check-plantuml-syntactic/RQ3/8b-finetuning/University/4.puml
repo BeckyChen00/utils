@@ -1,0 +1,56 @@
+@startuml
+enum StaffType {
+  Research
+  Administrative
+}
+enum CourseStatus {
+  Enrolled
+  Completed
+  Withdrawn
+}
+class University {
+  name: String
+  +getTotalEmployeeCount(): int
+}
+class Faculty {
+  name: String
+  +getInstitutes(): List<Institute>
+}
+class Institute {
+  name: String
+  address: String
+  +getEmployees(): List<Employee>
+}
+class Employee {
+  socialSecurityNumber: String
+  fullName: String
+  email: String
+  isFullTime: boolean
+  staffType: StaffType
+  +calculateSalary(): double
+  +generateWorkReport(): String
+}
+class ResearchAssistant {
+  +getActiveProjects(): List<Project>
+  +teachCourses(): List<Course>
+}
+class Project {
+  name: String
+  startDate: Date
+  endDate: Date
+  totalHours: int
+  +calculateDuration(): int
+}
+class Course {
+  courseCode: String
+  courseName: String
+  weeklyHours: int
+  status: CourseStatus
+}
+University *-- "1..*" Faculty : faculties
+Faculty --> "1..*" Institute : institutes
+Institute --> "1..*" Employee : employees
+Employee --> "0..1" Faculty : head
+ResearchAssistant --> "0..*" Project : projects 'opposite: participants
+ResearchAssistant --> "0..*" Course : taughtCourses
+@enduml

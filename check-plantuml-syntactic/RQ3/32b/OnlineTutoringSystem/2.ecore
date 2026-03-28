@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Level"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Availability"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Day"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeRange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Time"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TutoringOffer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TutoringRequest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Session"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CancellationPolicy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="PaymentMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Award"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Month"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here"/>
+</ecore:EPackage>

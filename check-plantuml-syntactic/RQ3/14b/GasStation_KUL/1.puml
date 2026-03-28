@@ -1,0 +1,128 @@
+
+@startuml
+
+' Entities related to customers, invoices, payments, and refuel cards
+class Customer {
+  -id: int
+  -name: String
+  -status: String (active, suspended)
+  -creditLimit: double
+}
+
+class RefuelCard {
+  -cardNumber: String
+  -customerId: int
+  -isActive: boolean
+  -balance: double
+}
+
+class Invoice {
+  -invoiceId: int
+  -customerId: int
+  -issueDate: Date
+  -dueDate: Date
+  -totalAmount: double
+  -discountApplied: double
+  -isPaid: boolean
+}
+
+class Payment {
+  -paymentId: int
+  -invoiceId: int
+  -amount: double
+  -paymentDate: Date
+  -paymentMethod: String
+}
+
+class RefuelTurn {
+  -refuelId: int
+  -pumpId: int
+  -customerId: int
+  -startTime: DateTime
+  -endTime: DateTime
+  -quantity: double
+  -pricePerLiter: double
+  -totalAmount: double
+}
+
+class GasStation {
+  -stationId: int
+  -name: String
+  -location: String
+}
+
+class Pump {
+  -pumpId: int
+  -gasStationId: int
+  -fuelType: String
+  -currentFuelLevel: double
+  -reorderLevel: double
+  -criticalLevel: double
+  -isBlocked: boolean
+  -isAvailable: boolean
+}
+
+class FuelTank {
+  -tankId: int
+  -pumpId: int
+  -capacity: double
+  -currentVolume: double
+}
+
+class RefillOrder {
+  -orderId: int
+  -pumpId: int
+  -requestedQuantity: double
+  -orderDate: Date
+  -status: String (pending, completed)
+}
+
+class DailyReport {
+  -reportId: int
+  -date: Date
+  -pumpId: int
+  -currentFuelLevel: double
+  -quantityToOrder: double
+  -isCritical: boolean
+}
+
+' Relationships
+Customer "1" -- "0..*" RefuelCard : holds
+RefuelCard "1" -- "0..*" RefuelTurn : used for
+RefuelTurn "1" -- "1" Invoice : included in
+Invoice "1" -- "0..*" Payment : paid by
+Customer "1" -- "0..*" Invoice : receives
+Customer "1" -- "0..*" Payment : makes
+
+GasStation "1" -- "0..*" Pump : contains
+Pump "1" -- "1" FuelTank : has
+Pump "1" -- "0..*" RefuelTurn : provides
+Pump "1" -- "0..*" RefillOrder : needs
+Pump "1" -- "1" DailyReport : generates report for
+
+@enduml
+
+---
+
+### Explanation of Key Classes:
+
+- **Customer**: Represents individuals who can use refuel cards or pay directly.
+- **RefuelCard**: A card used for deferred payment; each customer may have one or more.
+- **Invoice**: Generated monthly with total refuel costs and discounts applied.
+- **Payment**: Records when an invoice is paid.
+- **RefuelTurn**: A single instance of refueling at a pump.
+- **GasStation**: Contains multiple pumps.
+- **Pump**: Manages refueling operations and fuel levels.
+- **FuelTank**: Represents the tank associated with a pump.
+- **RefillOrder**: Orders for refilling the fuel tanks.
+- **DailyReport**: Reports generated daily about fuel levels and refill needs.
+
+---
+
+### Notes:
+- The **Customer** can be in different states (`active`, `suspended`), and this state affects whether they can use their card.
+- The **Invoice** can be paid at any time after being sent.
+- **Pumps** are blocked under certain conditions (low fuel or during refills).
+- **RefuelTurn** is always associated with a specific month and appears only on that month's invoice.
+
+Let me know if you'd like this exported as an image or need additional refinements!

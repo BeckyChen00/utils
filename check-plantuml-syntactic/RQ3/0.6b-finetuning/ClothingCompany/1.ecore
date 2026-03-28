@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorReading">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="readings" eType="#//plantuml"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedAlarm" eType="#//AlarmRecord" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SmartMeter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logs" eType="#//DataLog" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlarmRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemAlarms" eType="#//AlarmRecord" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedMeter" eType="#//SmartMeter" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedUnit" eType="#//ControlUnit" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeAlarms" eType="#//AlarmRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemLogs" eType="#//DataLog" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

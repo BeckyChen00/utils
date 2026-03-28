@@ -1,0 +1,119 @@
+
+---
+
+
+@startuml
+
+' Define the main classes
+class Doctor {
+    - name: String
+    - address: String
+    - phone: String
+    - practitionerNumber: Integer
+    - signature: Image
+}
+
+class Patient {
+    - healthNumber: String
+    - firstName: String
+    - lastName: String
+    - dateOfBirth: Date
+    - address: String
+    - phone: String
+}
+
+class Requisition {
+    - validityDate: Date
+    - tests: List<Test>
+    - repetitionInterval: IntervalType
+    - repetitionCount: Integer
+}
+
+class Test {
+    - name: String
+    - testGroup: TestGroup
+    - duration: Duration
+    - isWalkInOnly: Boolean
+    - isSampleDropOff: Boolean
+}
+
+class Lab {
+    - name: String
+    - registrationNumber: String
+    - address: String
+    - businessHours: BusinessHours
+    - changeCancellationFee: Double
+}
+
+class Appointment {
+    - confirmationNumber: String
+    - date: Date
+    - startTime: Time
+    - endTime: Time
+    - lab: Lab
+    - requisition: Requisition
+}
+
+class Result {
+    - test: Test
+    - resultStatus: ResultStatus (Positive/Negative)
+    - report: String
+}
+
+class IntervalType {
+    <<enumeration>>
+    Weekly, Monthly, HalfYearly, Yearly
+}
+
+class TestGroup {
+    <<enumeration>>
+    BloodTest, Ultrasound, XRay, UrineTest, StoolTest
+}
+
+class Duration {
+    - hours: Integer
+}
+
+class BusinessHours {
+    - start: Time
+    - end: Time
+}
+
+class ResultStatus {
+    <<enumeration>>
+    Positive, Negative
+}
+
+' Associations
+Doctor "1" -- "0..*" Requisition : creates
+Requisition "1" -- "1" Doctor : signedBy
+Requisition "1" -- "1" Patient : forPatient
+Requisition "1" -- "0..*" Test : includes
+Test "1" -- "1" TestGroup : belongsTo
+Test "1" -- "1" Duration : hasDuration
+Appointment "1" -- "1" Lab : atLab
+Appointment "1" -- "1" Requisition : forRequisition
+Test "1" -- "0..*" Result : hasResult
+Patient "1" -- "0..*" Appointment : makesAppointments
+Lab "1" -- "1" BusinessHours : hasBusinessHours
+Lab "1" -- "0..*" Appointment : hostsAppointments
+@enduml
+
+---
+
+### 📌 Notes on the Diagram:
+
+- **Doctor**: Can create multiple requisitions. Must provide identity info and digital signature.
+- **Patient**: Has a unique health number and can be assigned requisitions by doctors.
+- **Requisition**: A group of tests from the same `TestGroup`. Can have a repetition pattern.
+- **Test**: Defined by lab, grouped into categories like blood, x-ray, etc.
+- **Lab**: Provides location and scheduling info. All labs are always open with fixed hours.
+- **Appointment**: One-time only for repeated requisitions. Confirmed with lab details.
+- **Result**: Each test has one or more results (e.g., positive/negative) and reports.
+- **Enumerations**: Used for intervals, test groups, and result statuses for consistency.
+
+---
+
+### ✅ How to Use:
+
+Would you like me to also generate a **sequence diagram** for one of the core use cases (e.g., making an appointment)?

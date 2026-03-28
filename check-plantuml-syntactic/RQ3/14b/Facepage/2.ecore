@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//email"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="email"/>
+  <eClassifiers xsi:type="ecore:EClass" name="dateOfBirth">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//accountNumber" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="accountNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="accountType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Double" eType="#//monthlyFee" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="monthlyFee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="createAdPage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="pageName">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//createAdPage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="visits">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Double" eType="#//bounceRate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="bounceRate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="clickThroughRate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Double" eType="#//conversionRate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="conversionRate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Account"/>
+</ecore:EPackage>

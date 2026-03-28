@@ -1,0 +1,60 @@
+
+@startuml
+
+' Define classes and their relationships
+class Location {
+    - address: String
+}
+
+class Driver {
+    - firstName: String
+    - lastName: String
+}
+
+class Vehicle {
+    - vehicleNumber: String
+}
+
+class Truck {
+    - weight: Double
+}
+
+class Car {
+    - numberOfSeats: Integer
+}
+
+class Van {
+}
+
+class Order {
+    - originLocation: Location
+    - destinationLocation: Location
+    - executionDate: Date
+}
+
+' Inheritance for Vehicle types
+Vehicle <|-- Truck
+Vehicle <|-- Car
+Vehicle <|-- Van
+
+' Relationships
+Driver "1" --> "0..1" Vehicle : drives
+Driver "1" --> "1" Order : carries out
+Order "1" --> "1" Driver : assigned to
+Order "1" --> "1" Location : origin
+Order "1" --> "1" Location : destination
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+- **`Location`**: Has an address.
+- **`Driver`**: Has first and last name. Can drive at most one `Vehicle`, and can carry out one `Order` at a time.
+- **`Vehicle`**: Base class with a `vehicleNumber`. Three subclasses: `Truck`, `Car`, and `Van`.
+  - `Truck` has a `weight`.
+  - `Car` has a `numberOfSeats`.
+  - `Van` has no additional attributes.
+- **`Order`**: Contains origin and destination locations, execution date, and is carried out by exactly one driver.
+
+Let me know if you'd like to generate a visual version or add more features (e.g., associations with multiplicity, roles).

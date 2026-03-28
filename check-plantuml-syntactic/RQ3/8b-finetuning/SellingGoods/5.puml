@@ -1,0 +1,106 @@
+@startuml
+enum OrderStatus {
+  Pending
+  Completed
+  Cancelled
+  Failed
+}
+enum ShipmentStatus {
+  InProgress
+  Delivered
+  InTransit
+  Cancelled
+  Returned
+  Lost
+}
+class Customer {
+  name: String
+  address: String
+  vatNumber: String
+  +register(): void
+  +placeOrder(items: Product[], shippingAddress: Address): Order
+}
+class Order {
+  orderDate: Date
+  isUrgent: boolean
+  totalAmount: double
+  status: OrderStatus
+  +calculateTotal(): double
+  +updateStatus(newStatus: OrderStatus): void
+  +confirmPayment(): void
+}
+class OrderLine {
+  quantity: int
+  unitPrice: double
+  isAvailable: boolean
+  +calculateLineTotal(): double
+}
+class Product {
+  sku: String
+  description: String
+  weight: double
+  +getDetails(): String
+}
+class Stock {
+  currentQuantity: int
+  reorderLevel: int
+  +checkAvailability(productId: String): boolean
+  +updateQuantity(amount: int): void
+}
+class Delivery {
+  scheduledDate: Date
+  actualDate: Date
+  status: ShipmentStatus
+  trackingCode: String
+  +generateTrackingCode(): String
+  +updateStatus(newStatus: ShipmentStatus): void
+  +recordIncident(description: String): void
+}
+class Warehouse {
+  location: String
+  capacity: int
+  +reserveSpace(size: double): boolean
+  +releaseSpace(size: double): void
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  +generatePdf(): void
+  +markAsPaid(): void
+}
+class PaymentMethod {
+  methodName: String
+  lastFourDigits: String
+  +isValid(): boolean
+}
+class Address {
+  street: String
+  city: String
+  zipCode: String
+  country: String
+  +getFullAddress(): String
+}
+class ShipmentGroup {
+  creationDate: Date
+  +addDelivery(delivery: Delivery): void
+  +getTotalWeight(): double
+  +getStatus(): ShipmentStatus
+}
+Customer *-- "0..*" Order : placedOrders
+Order *-- "1..*" OrderLine : orderLines
+Order --> "1..*" Product : orderedProducts
+Order --> "1" PaymentMethod : paymentMethod
+Order --> "1" Address : shippingAddress
+Order --> "1" Invoice : generatedInvoice
+Invoice --> "1" Customer : billedCustomer
+Invoice --> "1" PaymentMethod : usedPaymentMethod
+Delivery --> "1" Address : deliveryAddress
+Delivery --> "0..*" OrderLine : containedOrderLines
+Delivery --> "1" Warehouse : originWarehouse
+Delivery --> "1" ShipmentGroup : groupedInto
+ShipmentGroup --> "1" Warehouse : managedBy
+Stock --> "1..*" Product : managedProducts
+Warehouse --> "1..*" Product : storedProducts
+@enduml

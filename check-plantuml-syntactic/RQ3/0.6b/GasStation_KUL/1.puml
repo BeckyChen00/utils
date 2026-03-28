@@ -1,0 +1,9 @@
+@startuml
+classDiagram
+    [System Requirements] SystemRequirements
+        system requirements
+
+    class Diagram
+        SystemRequirements --> SystemRequirements
+
+@enduml

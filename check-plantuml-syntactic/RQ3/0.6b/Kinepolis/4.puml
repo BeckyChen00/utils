@@ -1,0 +1,27 @@
+@startuml
+
+class Diagram {
+  # System Requirement
+  # Output
+
+  # Define the entities and relationships
+  entity Entities {
+    name: "System Requirement"
+    attributes:
+      - required: boolean
+      - optional: boolean
+  }
+
+  # Relationships
+  relation Entity1 to Entities.required {
+    description: "Required attribute for an entity"
+  }
+
+  relation Entity2 to Entities.optional {
+    description: "Optional attribute for an entity"
+  }
+
+  # Add more relations as needed
+}
+
+@enduml

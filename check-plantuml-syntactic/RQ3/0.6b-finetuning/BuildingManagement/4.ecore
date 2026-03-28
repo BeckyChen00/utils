@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedOrders" eType="#//Order" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsItems" eType="#//OrderItem" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shipsTo" eType="#//Shipment"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="completedBy" eType="#//Transaction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencesProduct" eType="#//Product" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Product"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Shipment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="addresses" eType="#//DeliveryAddress" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeliveryAddress"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Transaction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeTransactions" eType="#//Transaction" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedShipments" eType="#//Shipment" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

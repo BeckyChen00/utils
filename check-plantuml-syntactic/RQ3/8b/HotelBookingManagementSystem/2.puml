@@ -1,0 +1,148 @@
+
+---
+
+
+@startuml
+
+' Define the main classes
+class Traveler {
+  +name: String
+  +billingInfo: BillingInfo
+  +travelPreferences: List<TravelPreference>
+  +reliabilityRating: Double
+}
+
+class BillingInfo {
+  +companyName: String
+  +address: String
+  +creditCardDetails: String
+}
+
+class TravelPreference {
+  +preferenceType: String
+  +value: String
+}
+
+class AccommodationSearch {
+  +city: String
+  +arrivalDate: Date
+  +departureDate: Date
+  +numRooms: Int
+  +roomType: String
+  +minRating: Int
+  +budgetPerNight: Double
+  +preferences: List<TravelPreference>
+}
+
+class Hotel {
+  +name: String
+  +address: String
+  +city: String
+  +hotelChain: String
+  +roomsAvailable: Map<String, RoomAvailability>
+}
+
+class RoomAvailability {
+  +roomType: String
+  +availabilityStatus: Boolean
+  +pricePerNight: Double
+}
+
+class Booking {
+  +bookingId: String
+  +traveler: Traveler
+  +accommodationSearch: AccommodationSearch
+  +hotel: Hotel
+  +roomType: String
+  +totalPrice: Double
+  +paymentType: PaymentType
+  +confirmationStatus: ConfirmationStatus
+  +cancellationDeadline: Date
+}
+
+enum PaymentType {
+  PREPAID, PAY_AT_HOTEL
+}
+
+enum ConfirmationStatus {
+  PENDING, CONFIRMED, CANCELLED
+}
+
+class PreliminaryBooking {
+  +bookingId: String
+  +traveler: Traveler
+  +accommodationSearch: AccommodationSearch
+  +hotel: Hotel
+  +preferredRooms: Int
+  +preferences: List<TravelPreference>
+  +reliabilityRating: Double
+}
+
+class SpecialOffer {
+  +offerId: String
+  +hotel: Hotel
+  +roomType: String
+  +pricePerNight: Double
+  +rating: Int
+  +validUntil: Date
+}
+
+class HBMS {
+  +searchAccommodation(search: AccommodationSearch): List<SpecialOffer>
+  +createPreliminaryBooking(preliminaryBooking: PreliminaryBooking): String
+  +finalizeBooking(booking: Booking): Boolean
+  +cancelBooking(booking: Booking): Boolean
+  +notifyHotels(booking: PreliminaryBooking): Void
+  +handleConfirmation(booking: Booking): Void
+  +calculateReliabilityRating(traveler: Traveler): Double
+}
+
+' Relationships
+Traveler --> BillingInfo
+Traveler --> TravelPreference
+Traveler --> Booking
+Traveler --> PreliminaryBooking
+
+AccommodationSearch --> TravelPreference
+
+Hotel --> RoomAvailability
+
+Booking --> Traveler
+Booking --> AccommodationSearch
+Booking --> Hotel
+Booking --> PaymentType
+Booking --> ConfirmationStatus
+
+PreliminaryBooking --> Traveler
+PreliminaryBooking --> AccommodationSearch
+PreliminaryBooking --> Hotel
+PreliminaryBooking --> TravelPreference
+
+SpecialOffer --> Hotel
+
+HBMS --> Traveler
+HBMS --> Hotel
+HBMS --> Booking
+HBMS --> PreliminaryBooking
+HBMS --> SpecialOffer
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **Enums** are used for `PaymentType` and `ConfirmationStatus`.
+- The system includes both **regular bookings** and **preliminary bookings**.
+- **HBMS** acts as the central system that manages interactions between **Travelers**, **Hotels**, and **Bookings**.
+- **Reliability rating** is calculated based on past booking behavior.
+- **Hotels** can update room availability and respond to special offers.
+
+---
+
+### 🔍 How to Use
+
+To render this diagram:
+1. Save the code in a file with a `.puml` extension (e.g., `hbms.uml`)
+
+Let me know if you'd like a version with UML stereotypes, associations, or more detailed methods!

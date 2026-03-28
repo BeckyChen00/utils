@@ -1,0 +1,87 @@
+
+@startuml
+' Class Diagram for German Card Game App
+
+class Game {
+  -id: String
+  -players: List<Player>
+  -deck: Deck
+  -scoringTable: ScoringTable
+}
+
+class Player {
+  -id: String
+  -name: String
+}
+
+class Deck {
+  -id: String
+  -cards: List<Card>
+}
+
+class Card {
+  -id: String
+  -suit: Suit
+  -rank: Integer
+  +compare(other: Card): Comparison
+}
+
+enum Suit {
+  DIAMONDS
+  HEARTS
+  SPADES
+  CLUBS
+}
+
+enum Comparison {
+  LOWER
+  EQUAL
+  HIGHER
+}
+
+class ScoringTable {
+  -id: String
+  -rounds: List<Round>
+}
+
+class Round {
+  -id: String
+  -winningPlayers: List<Player>
+  -points: Integer
+  -type: RoundType
+}
+
+enum RoundType {
+  JACK_ROUND
+  SOLO_ROUND
+  MANDATORY_SOLO_ROUND
+}
+
+class SoloRound {
+  -id: String
+  -soloType: SoloType
+  -soloPlayer: Player
+}
+
+enum SoloType {
+  TRUMP
+  JACK
+  QUEEN
+}
+
+' Inheritance and associations
+Game "1" *-- "4" Player
+Deck "1" *-- "0..48" Card
+ScoringTable "1" *-- "0..*" Round
+Round <|-- SoloRound
+SoloRound "1" --> "1" Player
+@enduml
+
+### Explanation of Key Elements:
+- `Game` contains 4 players, a deck, and a scoring table.
+- `Deck` holds up to 48 `Card`s.
+- `Card` has a `compare` method that returns one of three values from the `Comparison` enum.
+- `ScoringTable` maintains a list of `Round`s.
+- `Round` can be of type `JACK_ROUND`, `SOLO_ROUND`, or `MANDATORY_SOLO_ROUND`.
+- `SoloRound` extends `Round` and includes a solo type and a single solo player.
+

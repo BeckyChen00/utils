@@ -1,0 +1,51 @@
+@startuml
+class Company {
+  companyName: String
+}
+class Traveler {
+  travelerName: String
+  reliabilityRating: int
+  +register(): void
+}
+class Hotel {
+  hotelName: String
+  city: String
+  +announceRoomAvailability(roomType: String, start: Date, end: Date): void
+  +cancelBooking(bookingId: String): void
+}
+class Booking {
+  bookingDate: Date
+  arrivalDate: Date
+  departureDate: Date
+  roomType: String
+  numberOfRooms: int
+  totalPrice: double
+  status: String
+  +finaliseBooking(): void
+  +cancelBooking(): void
+  +confirmBooking(): void
+}
+class PreliminaryBooking {
+  deadline: Date
+  tentativeBudget: double
+  +generateOffer(): void
+}
+class CreditCard {
+  cardNumber: String
+  expirationDate: Date
+  +validate(): boolean
+}
+class SearchCriteria {
+  minRating: int
+  maxPricePerNight: double
+  city: String
+  arrival: Date
+  departure: Date
+}
+Traveler --> "0..*" Booking : userBookings
+Traveler --> "0..1" CreditCard : linkedCreditCard
+Booking --> "1" Hotel : confirmedHotel
+Booking -- PreliminaryBooking
+PreliminaryBooking -- SearchCriteria
+SearchCriteria -- Hotel
+@enduml

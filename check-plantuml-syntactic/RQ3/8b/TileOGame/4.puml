@@ -1,0 +1,100 @@
+
+---
+
+
+@startuml
+
+' Game Design and Management
+class Game {
+    +String name
+    +int numPlayers
+    +Board board
+    +Deck actionDeck
+    +List<Player> players
+    +Tile hiddenTile
+    +boolean gameOver
+}
+
+' Board Layout and Tiles
+class Board {
+    +List<Tile> tiles
+    +List<ConnectionPiece> connectionPieces
+}
+
+class Tile {
+    +String id
+    +Point position
+    +boolean isHidden
+    +boolean isActionTile
+    +int turnsAsActionTile
+    +Color color
+    +boolean isVisited
+}
+
+class ConnectionPiece {
+    +String id
+    +Tile leftTile
+    +Tile rightTile
+    +Tile topTile
+    +Tile bottomTile
+}
+
+' Player and Game Actions
+class Player {
+    +String name
+    +Color color
+    +Tile currentTile
+    +int turnCount
+}
+
+class Die {
+    +int sides
+    +int roll()
+}
+
+class ActionCard {
+    +String type
+    +int effectDuration
+    +String description
+}
+
+' Game Logic and Actions
+class GameLogic {
+    +void startGame(Game game)
+    +void takeTurn(Player player)
+    +void handleActionCard(ActionCard card, Player player)
+    +void checkForWin(Game game)
+}
+
+' Helper Classes
+class Point {
+    +int x
+    +int y
+}
+
+class Color {
+    +String value
+}
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **Game** manages the overall game state, including the board, players, and action deck.
+- **Board** contains the list of tiles and connection pieces that define the layout.
+- **Tile** represents a single tile on the board with properties like position, color, and whether it's an action tile or hidden.
+- **ConnectionPiece** connects two tiles on adjacent sides (top, bottom, left, right).
+- **Player** has a color, current tile, and keeps track of their turns.
+- **Die** is used to generate random numbers for movement.
+- **ActionCard** defines different types of actions that can be triggered when landing on an action tile.
+- **GameLogic** handles the core game mechanics like taking turns, applying action cards, and checking for a win.
+- **Point** and **Color** are helper classes for representing coordinates and colors.
+
+---
+
+### 🧾 How to Use:
+
+- [https://www.planttext.com/](https://www.planttext.com/)
+
+Let me know if you'd like a **UML image** generated or want to add more details!

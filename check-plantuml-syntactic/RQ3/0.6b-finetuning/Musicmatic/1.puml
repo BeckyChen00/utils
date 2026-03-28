@@ -1,0 +1,94 @@
+@startuml
+enum RiskLevel {
+  low
+  medium
+  high
+}
+enum TransactionType {
+  cashOut
+  cashIn
+  loanAuction
+}
+enum SessionState {
+  initializing
+  active
+  paused
+  ended
+}
+class UserAccount {
+  isActive: boolean
+  +register(): void
+  +login(credential: Credential): boolean
+}
+class PaymentTransaction {
+  timestamp: Date
+  amount: double
+  type: TransactionType
+  isProcessed: boolean
+  status: RiskLevel
+  +validate(): boolean
+  +calculateTotal(): double
+  +markAsCompleted(): void
+}
+class AuditLog {
+  creationDate: Date
+  description: String
+  +recordAction(action: String): void
+}
+class WalletBalance {
+  currentBalance: double
+  lastSyncDate: Date
+  +checkStatus(): RiskLevel
+  +deposit(amount: double): void
+  +withdraw(amount: double): boolean
+  +getBalance(): double
+}
+class CreditLine {
+  creatorId: String
+  description: String
+  limit: double
+  +getServiceDescription(): String
+}
+class TransactionProcessor {
+  +processTransaction(transaction: PaymentTransaction): void
+  +verifyCredentials(user: UserAccount, credential: Credential): boolean
+}
+class TransactionSession {
+  currentState: SessionState
+  startTime: Date
+  endTime: Date
+  +startSession(): void
+  +endSession(): void
+  +pause(): void
+  +resume(): void
+}
+class LoanRecord {
+  loanAmount: double
+  interestRate: double
+  dueDate: Date
+  +calculateDueDate(): Date
+  +isValid(): boolean
+}
+class User {
+  emailAddress: String
+  +verifyIdentity(credential: Credential): boolean
+  +getProfileSummary(): String
+}
+class CurrencyConverter {
+  currencyCode: String
+  currentRate: double
+  baseCurrency: String
+  +convert(amount: double, target: String): double
+}
+User --|> UserAccount
+CreditLine --|> WalletBalance
+TransactionSession *-- "1" WalletBalance : currentBalance
+TransactionSession *-- "*" PaymentTransaction : transactions
+PaymentTransaction "1" --> "1" CurrencyConverter : rateConverter
+PaymentTransaction "1" --> "1" User : payer
+User "1" --> "*" CreditLine : ownedLines
+TransactionSession "1" --> "1" User : operator
+TransactionSession "1" --> "1" User : participant
+User "1" --> "*" AuditLog : authoredLogs
+User "1" --> "*" PaymentTransaction : madeTransactions
+@enduml

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authoredRequisitions" eType="#//Requisition" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Requisition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constituentTests" eType="#//Test" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetPatient" eType="#//Patient" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Test">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performedAtLab" eType="#//Lab"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Lab">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedAppointments" eType="#//Appointment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Appointment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondsTo" eType="#//Requisition" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Result">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongsTo" eType="#//Patient" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documentedBy" eType="#//Doctor" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Doctor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalysisReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedOn" eType="#//Requisition" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,96 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class University {
+    +String name
+}
+
+class Faculty {
+    +String name
+}
+
+class Institute {
+    +String name
+    +String address
+}
+
+class Employee {
+    +int socialSecurityNumber
+    +String name
+    +String email
+    +static int totalEmployees
+}
+
+abstract class Staff {
+}
+
+class ResearchStaff {
+    +String fieldOfResearch
+}
+
+class AdministrativeStaff {
+}
+
+class ResearchAssistant {
+    +List<Institute> assignedInstitutes
+    +List<Project> involvedProjects
+    +List<Course> taughtCourses
+}
+
+class Project {
+    +String name
+    +Date startDate
+    +Date endDate
+    +int hours
+}
+
+class Course {
+    +int id
+    +String name
+    +int weeklyDuration
+}
+
+class Lecturer {
+}
+
+' Define associations and relationships
+
+University "1" *-- "many" Faculty : has
+Faculty "1" *-- "many" Institute : has
+Faculty "1" --> "1" Dean : headed by
+Employee "1" --> "1" Dean : is a
+
+Employee "1" --|> Staff
+Staff <|-- ResearchStaff
+Staff <|-- AdministrativeStaff
+
+Employee "1" ^-- "many" ResearchAssistant : is an
+ResearchAssistant "1" *-- "many" Institute : assigned to
+ResearchAssistant "1" *-- "many" Project : involved in
+ResearchAssistant "1" *-- "many" Course : teaches (as)
+
+Project "1" --> "many" ResearchAssistant : involves
+
+Course "1" *-- "1" Lecturer : is taught by (optional)
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **University** contains multiple **Faculties**.
+- Each **Faculty** contains multiple **Institutes** and is led by a **Dean**, who is also an **Employee**.
+- **Institute** has a known **address**.
+- **Employee** is a base class with SSN, name, and email. It tracks the **total number of employees** as a static attribute.
+- **Staff** is an abstract class with two types: **ResearchStaff** and **AdministrativeStaff**.
+- **ResearchAssistant** is a specific type of **Employee** who:
+  - Is assigned to one or more **Institutes**.
+  - Can be involved in **Projects** for certain hours.
+  - May also be a **Lecturer** and teach **Courses**.
+- **Project** includes a name, start/end date, and number of hours.
+- **Course** is uniquely identified by an ID, has a name and weekly duration.
+- A **Lecturer** is used optionally to indicate when a **ResearchAssistant** is teaching.
+

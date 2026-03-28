@@ -1,0 +1,71 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Driver {
+  - driverID: int
+  - name: String
+  - isOnSickLeave: boolean
+}
+
+class Bus {
+  - licensePlate: String (max 10 characters)
+  - isInRepairShop: boolean
+}
+
+class Route {
+  - routeNumber: int (max 9999)
+}
+
+class Assignment {
+  - date: Date
+  - route: Route
+  - bus: Bus
+}
+
+class Shift {
+  - shiftType: String (morning, afternoon, night)
+  - date: Date
+  - driver: Driver
+  - bus: Bus
+  - route: Route
+}
+
+Driver "1" --> "*" Shift : can be assigned to
+Bus "1" --> "*" Assignment : assigned to route
+Route "1" --> "*" Assignment : has buses
+Route "1" --> "*" Shift : has shifts
+
+note right of Assignment
+  A bus may be assigned to multiple routes per day.
+end note
+
+note right of Shift
+  A driver may be assigned to multiple shifts on the same day.
+end note
+
+note right of Route
+  Each route has morning, afternoon, and night shifts.
+end note
+@enduml
+
+---
+
+### 📌 Explanation:
+
+- **Driver**: Has a unique ID, name, and a flag indicating if they're on sick leave.
+- **Bus**: Identified by its license plate (up to 10 characters) and has a flag for being in repair.
+- **Route**: Identified by a number up to 9999.
+- **Assignment**: Represents the assignment of a **bus to a route** for a specific **date**.
+- **Shift**: Represents the **driver**, **bus**, and **route** assigned to a particular **shift type** (morning, afternoon, or night) on a specific **date**.
+
+---
+
+### ✅ Constraints:
+- A **bus** can be assigned to **multiple routes** on the **same day** via `Assignment`.
+- A **driver** can be assigned to **multiple shifts** on the **same day** via `Shift`.
+- **Buses** and **drivers** cannot be scheduled if they are in **repair** or on **sick leave**, respectively.
+
+---
+
+Let me know if you want a **UML diagram image** generated from this or any additional refinements!

@@ -1,0 +1,83 @@
+
+---
+
+
+@startuml
+
+' GameArea has a name
+class GameArea {
+    name : String
+}
+
+' GameElement has x and y values
+class GameElement {
+    x : long
+    y : long
+}
+
+' Shape can connect to other Shapes
+class Shape {
+}
+
+' Object (note: renamed from 'object' to avoid keyword)
+class GameObject {
+}
+
+' Opponent has lives and can be killed
+class Opponent {
+    lives : int
+    +kill()
+}
+
+' Boss is a special Opponent known by GameArea
+class Boss {
+}
+
+' Relationships
+
+GameArea "1" -- "1..*" GameElement : contains
+GameArea "1" -- "1" Boss : knows #boss
+GameElement <|-- Shape
+GameElement <|-- GameObject
+GameElement <|-- Opponent
+Shape "0..*" -- "0..*" Shape : connectsTo #connection
+Opponent <|-- Boss
+
+@enduml
+
+---
+
+### 📄 Textual Class Diagram Syntax (as per DEX tool):
+
+class GameArea {
+    - name: String
+}
+class GameElement {
+    - x: long
+    - y: long
+}
+class Shape {}
+class GameObject {}
+class Opponent {
+    - lives: int
+    + kill()
+}
+class Boss {}
+
+GameArea 1 -- * GameElement : contains
+GameArea 1 -- 1 Boss : knows #boss
+GameElement <|-- Shape
+GameElement <|-- GameObject
+GameElement <|-- Opponent
+Shape 0..* -- 0..* Shape : connectsTo #connection
+Opponent <|-- Boss
+
+---
+
+### 🔍 Notes:
+- `#boss` and `#connection` are **role names**.
+- `contains` and `connectsTo` are **association names**.
+- Inheritance (`<|--`) is used for polymorphism among game elements.
+- Visibility modifiers are omitted as per instruction.
+
+Let me know if you'd like to add methods or extend the model further!

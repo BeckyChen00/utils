@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//Person"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Person"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invoices" eType="#//Invoice" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="traveledLines" eType="#//BusLine" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeCard" eType="#//MensoCard"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includes" eType="#//TripRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BusLine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definitions" eType="#//Trajectory" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MensoCard"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Trajectory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TripRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="line" eType="#//BusLine" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,83 @@
+
+@startuml
+
+' Classes
+class Person {
+  +String firstName
+  +String familyName
+  +Date birthDate
+}
+
+class Trainer {
+  +String diploma
+}
+
+class Member {
+  -Person person
+}
+
+class Center {
+  +String name
+  +String address
+  +List<Room> rooms
+}
+
+class Room {
+  +int roomNumber
+  +int maxCapacity
+  -Center center
+}
+
+class Session {
+  +Date date
+  +Time startTime
+  +String type
+  -Center center
+  -Room room
+  -Trainer trainer
+}
+
+class GroupSession {
+  +String type
+}
+
+class IndividualSession {
+}
+
+class Prospect {
+  -Person person
+}
+
+class InternTrainer {
+  -Trainer trainer
+}
+
+' Associations
+Person "1" -- "0..*" Session : participates in
+Person "1" -- "0..1" Trainer : is a
+Person "1" -- "0..1" Prospect : is a prospect
+Person "1" -- "0..1" InternTrainer : is an intern
+
+Trainer "1" -- "0..*" Session : supervises (for group sessions)
+
+Center "1" -- "0..*" Room : contains
+Room "1" -- "0..1" Center : belongs to
+
+Session "1" -- "0..1" GroupSession : is a
+Session "1" -- "0..1" IndividualSession : is a
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Person**: Base class with first name, family name, and birth date.
+- **Trainer** and **Member** are subclasses of **Person**, but since you can be both a member and a trainer, we use **associations** instead of inheritance.
+- **Prospect** and **InternTrainer** represent people not yet participating or supervising any session, respectively.
+- **Center** has multiple **Rooms**, each with a unique number and capacity.
+- **Session** is the base class for **GroupSession** and **IndividualSession**.
+- **GroupSession** includes a session **type** and must have one **Trainer**.
+- **IndividualSession** does not require a **Trainer**.
+
+Let me know if you'd like this exported as an image or want to refine it further!

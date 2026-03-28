@@ -1,0 +1,43 @@
+@startuml
+enum AccountType {
+  CURRENT_ACCOUNT
+  SAVINGS_ACCOUNT
+}
+enum TransactionCategory {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+  PAYMENT
+  INTEREST_DEBIT
+}
+class Customer {
+  customerFirstName: String
+  customerLastName: String
+}
+class Branch {
+  branchName: String
+}
+class Account {
+  accountNumber: int
+  balance: double
+  accountType: AccountType
+  overdraftLimit: double
+  +deposit(amount: double): boolean
+  +withdraw(amount: double): boolean
+  +transfer(amount: double, targetAccount: Account): boolean
+  +processInterest(): void
+}
+class Transaction {
+  transactionDate: Date
+  amount: double
+  category: TransactionCategory
+}
+class Bank {
+  bankName: String
+  headquarters: String
+}
+Bank *-- "1..*" Branch : branches
+Branch *-- "0..*" Account : accounts
+Account *-- "1..*" Transaction : transactions
+Customer --> "1..*" Account : accounts
+@enduml

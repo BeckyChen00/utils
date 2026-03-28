@@ -1,0 +1,60 @@
+@startuml
+
+class GameArea {
+  -name: String
+  -gameElements: List<GameElement>
+  -gamePieces: List<GamePiece>
+}
+
+class GameElement {
+  -x: long
+  -y: long
+}
+
+class Shape {
+  +connectsTo: List<Shape>
+}
+
+class Object {
+}
+
+class Opponent {
+  -lives: int
+  +isKilled(): boolean
+}
+
+class GamePiece {
+}
+
+GameArea "1" -- "0..*" GameElement : consists of
+GameArea "1" -- "1..2" GamePiece : consists of
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+Shape "1" -- "0..*" Shape : connectsTo
+
+@enduml
+
+### Explanation:
+
+- **GameArea** contains:
+  - A `name` (String).
+  - A list of `GameElement`s.
+  - A list of `GamePiece`s (1 to 2).
+
+- **GameElement** is an abstract class with:
+  - `x` (protected long)
+  - `y` (private long)
+
+- **GameElement** is extended by:
+  - **Shape**: has a list of connected shapes.
+  - **Object**: no additional properties.
+  - **Opponent**: has `lives` (int) and can be killed.
+
+- **GamePiece** is a separate class that is part of the game area but not directly related to `GameElement`.
+
+- Relationships:
+  - `GameArea` has a one-to-many relationship with `GameElement`.
+  - `GameArea` has a one-to-two relationship with `GamePiece`.
+  - `Shape` has a many-to-many self-relationship via `connectsTo`.
+  - All subclasses of `GameElement` are shown as inheritance relationships.

@@ -1,0 +1,83 @@
+
+---
+
+
+@startuml
+
+' Customer Class
+class Customer {
+    +String name
+    +String address
+    +String VATNumber
+    +List<Order> orders
+}
+
+' Product Class
+class Product {
+    +String productID
+    +String description
+    +int price
+    +int stockLevel
+}
+
+' Order Class
+class Order {
+    +String orderID
+    +Date orderDate
+    +Customer customer
+    +List<OrderLine> orderLines
+    +boolean isPaid
+    +boolean isShipped
+    +Date paidDate
+    +Date shippedDate
+}
+
+' OrderLine Class
+class OrderLine {
+    +String orderLineID
+    +Product product
+    +int quantity
+    +boolean isShipped
+}
+
+' State Machine for Order
+state "Order" as OrderState {
+    [*] --> WaitingForPayment
+    WaitingForPayment --> Paid : pay()
+    Paid --> WaitingForShipping
+    WaitingForShipping --> Shipped : ship()
+    Shipped --> [*]
+}
+
+' Relationships
+Customer "1" -- "0..*" Order : places
+Order "1" -- "0..*" OrderLine : contains
+OrderLine "1" -- "1" Product : refers to
+
+@enduml
+
+---
+
+### 🔍 Explanation of the Model
+
+- **Customer**: Stores personal information and references to all orders placed.
+- **Product**: Tracks product details and current stock levels.
+- **Order**: Represents an order with status tracking (`WaitingForPayment`, `Paid`, `WaitingForShipping`, `Shipped`).
+- **OrderLine**: Represents each item within an order and tracks whether it has been shipped.
+- **State Machines (FSM)**: A simple FSM for the `Order` class shows how the order progresses from being created to being fully processed.
+
+---
+
+### 📌 Notes on Future Steps (for reference)
+
+You can expand this model for **STEP 2**, **STEP 3**, and **STEP 4** by:
+
+- Adding **Delivery** and **Invoice** classes for STEP 3.
+- Introducing **DeliveryGroup** and **DeliveryStatus** for STEP 4.
+- Enhancing the FSMs for **OrderLine**, **Delivery**, and **Invoice**.
+- Adding constraints such as:
+  - Orders must be fully paid before shipping.
+  - Stock levels must not go below zero.
+  - Each delivery may consist of multiple order lines.
+
+Would you like me to generate the updated models for **STEP 2**, **STEP 3**, or **STEP 4** next?

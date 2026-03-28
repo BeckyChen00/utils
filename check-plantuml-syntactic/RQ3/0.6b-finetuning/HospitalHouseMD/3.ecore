@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedOrders" eType="#//Order" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lineItems" eType="#//OrderLineItem" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedItem" eType="#//InventoryItem" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedWarehouse" eType="#//WarehouseLocation" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deliverySchedule" eType="#//DeliverySchedule" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedDispatchCenter" eType="#//DispatchCenter" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notificationHistory" eType="#//AlertNotification" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destinationWarehouse" eType="#//Warehouse" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Supplier">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedOrders" eType="#//Order" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderLineItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InventoryItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WarehouseLocation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedParcel" eType="#//Parcel" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeliverySchedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DispatchCenter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedOrders" eType="#//Order" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertNotification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Warehouse">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedItems" eType="#//InventoryItem" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parcel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PackagingOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedSupplier" eType="#//Supplier" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShipmentPlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shippedParcels" eType="#//Parcel" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedLocation" eType="#//WarehouseLocation" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

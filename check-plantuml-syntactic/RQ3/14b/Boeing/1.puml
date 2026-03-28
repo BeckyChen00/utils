@@ -1,0 +1,87 @@
+
+@startuml
+' Class Diagram for Boeing Aircraft Sales System
+
+class Contract {
+  -contractId: String
+  -startDate: Date
+  -endDate: Date
+  -deliveryConditions: String
+  -legalTerms: String
+}
+
+class Acquisition {
+  -acquisitionId: String
+  -model: String
+  -negotiatedPrice: Double
+  -deliveryDate: Date
+  -options: List<String>
+  -customizations: List<String>
+}
+
+class Airline {
+  -airlineId: String
+  -name: String
+  -type: String (e.g., main, low-cost)
+  -parentAirline: Airline
+}
+
+class Salesperson {
+  -salespersonId: String
+  -name: String
+  -email: String
+}
+
+class Employee {
+  -employeeId: String
+  -name: String
+  -role: String
+}
+
+' Relationships
+
+Contract "1" --> "0..*" Acquisition : contains
+Contract "1" --> "1" Salesperson : managedBy
+Salesperson "1" --> "0..*" Contract : manages
+Employee "1" --> "0..*" Salesperson : is
+Airline "0..1" --> "0..1" Airline : parentOf
+Airline "1" --> "0..*" Contract : has
+
+@enduml
+
+---
+
+### Explanation of Classes and Relationships:
+
+- **`Contract`**:
+  - Represents a global sales agreement with an airline.
+  - Contains multiple `Acquisition`s.
+  - Has a `Salesperson` managing it.
+
+- **`Acquisition`**:
+  - Represents a specific airplane purchase within a contract.
+  - Contains details like model, price, delivery date, options, etc.
+
+- **`Airline`**:
+  - Represents an airline company.
+  - May have a parent airline (mother-daughter relationship).
+  - May have one or more contracts.
+
+- **`Salesperson`**:
+  - Manages one or more contracts.
+  - Is an employee.
+
+- **`Employee`**:
+  - General class for all employees at Boeing.
+  - Can be a salesperson.
+
+- **Relationships**:
+  - A `Contract` can contain many `Acquisition`s.
+  - A `Contract` is managed by exactly one `Salesperson`.
+  - A `Salesperson` can manage multiple `Contracts`.
+  - An `Employee` can be a `Salesperson`.
+  - An `Airline` can have a parent `Airline`.
+
+---
+
+Let me know if you'd like to include any additional features such as associations for tracking aircraft delivery status, payment terms, or custom fields.

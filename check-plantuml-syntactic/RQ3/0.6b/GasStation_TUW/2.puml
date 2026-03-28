@@ -1,0 +1,45 @@
+@startuml
+
+class SystemRequirement { name: "System Requirement" }
+
+class Module {
+    name: "UserInterface"
+    has: [Input, Output]
+}
+
+class Component {
+    name: "DataStorage"
+    has: [Data]
+}
+
+class Service {
+    name: "Service1"
+    has: [Method1, Method2]
+}
+
+class Dependency {
+    name: "Dependency1"
+    has: [Dependency2]
+}
+
+class Result {
+    name: "Result"
+    has: [Processed, Failed]
+}
+
+class Flow {
+    name: "Flow"
+    has: [Component, Service, Result]
+}
+
+class User {
+    name: "User"
+    has: [Username, Password]
+}
+
+class System {
+    name: "System"
+    has: [Module, Component, Service, Dependency, Result, User]
+}
+
+@enduml

@@ -1,0 +1,70 @@
+@startuml
+enum OrderStatus {
+  Pending
+  Processing
+  ReadyForPickup
+  Delivered
+  Cancelled
+}
+enum CatalogItemCategory {
+  DietaryRestriction
+  SensoryPreference
+}
+class CustomerProfile {
+  firstName: String
+  lastName: String
+  emailAddress: String
+  +updateContactInfo(newEmail: String): void
+}
+class Order {
+  orderDate: Date
+  status: OrderStatus
+  +calculateTotal(): double
+}
+class MenuItem {
+  name: String
+  description: String
+  category: CatalogItemCategory
+  restaurantNumber: int
+  +checkAvailability(): boolean
+}
+class OrderItem {
+  quantity: int
+  +generateItemLabel(): String
+}
+class PaymentMethod {
+  cardNumber: String
+  expiryDate: Date
+  expirationMonth: int
+  +validateSecurity(): boolean
+}
+class DeliveryOrder {
+  deliveryAddress: String
+  pickupDate: Date
+  +getTrackingStatus(): String
+}
+class PickupRecord {
+  timestamp: Date
+  passengerName: String
+  isConfirmed: boolean
+}
+class Notification {
+  messageContent: String
+  deliveryDate: Date
+  +sendContent(): void
+}
+class NotificationService {
+  +sendOrderNotification(order: DeliveryOrder): Notification
+  +sendPickupStatusMessage(record: PickupRecord): Notification
+}
+Order *-- "0..*" OrderItem : orderItems
+Order --> "0..1" PaymentMethod : paymentMethod
+Order --> "0..1" DeliveryOrder : finalDelivery
+DeliveryOrder *-- "0..*" PickupRecord : pickupRecords
+DeliveryOrder --> "1" Notification : notification
+Notification --> "0..*" PickupRecord : linkedRecords
+CustomerProfile --> "0..*" DeliveryOrder : placedOrders 'opposite: assignedCustomer
+MenuItem --> "1" CustomerProfile : creatorProfile
+CustomerProfile --> "0..*" Order : placedOrders 'opposite: placedBy
+Notification --> "1" Order : associatedOrder
+@enduml

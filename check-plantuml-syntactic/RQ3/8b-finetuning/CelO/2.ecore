@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="organizedEvents" eType="#//Event" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventCategory" eType="#//EventType" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventInvitation" eType="#//Invitation" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventChecklist" eType="#//Checklist" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invitation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Checklist">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="checklistTasks" eType="#//Task" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Organizer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedAttendees" eType="#//Attendee" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attendee"/>
+</ecore:EPackage>

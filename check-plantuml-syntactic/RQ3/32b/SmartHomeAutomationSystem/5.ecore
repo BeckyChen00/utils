@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="ControlCommand">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="commandType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actuator" eType="#//ActuatorDevice"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActivityLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="smartHome" eType="#//SmartHome"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="readings" eType="#//SensorReading" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commands" eType="#//ControlCommand" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="records" eType="#//SensorReading" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="records" eType="#//ControlCommand" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="logReading">
+      <eParameters xsi:type="ecore:EParameter" name="reading" eType="#//SensorReading"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="logCommand">
+      <eParameters xsi:type="ecore:EParameter" name="command" eType="#//ControlCommand"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ruleId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="precondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//User"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="triggeredTimestamps" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="depends_on" eType="#//Rule" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conflicts_with" eType="#//Rule" lowerBound="1"/>
+    <eOperations xsi:type="ecore:EOperation" name="trigger"/>
+    <eOperations xsi:type="ecore:EOperation" name="activate"/>
+    <eOperations xsi:type="ecore:EOperation" name="deactivate"/>
+    <eOperations xsi:type="ecore:EOperation" name="edit">
+      <eParameters xsi:type="ecore:EParameter" name="newPrecondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters xsi:type="ecore:EParameter" name="newAction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleDependency">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRule" eType="#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="childRule" eType="#//Rule"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleConflict">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleA" eType="#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleB" eType="#//Rule"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" eType="#//Rule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owns" eType="#//Rule" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="createRule">
+      <eParameters xsi:type="ecore:EParameter" name="rule" eType="#//Rule"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="manageRules"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="address">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="sensors"/>
+  <eClassifiers xsi:type="ecore:EClass" name="actuators">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;ActuatorDevice&gt;" eType="#//sensors"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="addSensor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Boolean" eType="#//status" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="status"/>
+  <eClassifiers xsi:type="ecore:EClass" name="activate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//activate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//getReading"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="getReading"/>
+  <eClassifiers xsi:type="ecore:EClass" name="sendCommand">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DateTime" eType="#//timestamp" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="timestamp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="value">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="SensorDevice" eType="#//sensor" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="sensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActuatorDevice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executes" eType="#//ControlCommand" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SmartHome">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Room" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logs" eType="#//ActivityLog" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorReading"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//SensorDevice" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//ActuatorDevice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorDevice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generates" eType="#//SensorReading" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

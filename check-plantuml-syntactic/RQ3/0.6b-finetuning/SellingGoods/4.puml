@@ -1,0 +1,60 @@
+@startuml
+enum TaskState {
+  Pending
+  InProgress
+  Completed
+}
+class SimulationEngine {
+  +runSimulation(): SimulationLog
+  +getActiveTasks(): List<SimulationTask>
+}
+class SimulationTask {
+  description: String
+  currentState: TaskState
+  priority: int
+  executionTime: Date
+  +executeTask(): void
+  +cancelTask(): void
+}
+class TaskParameter {
+  targetState: TaskState
+  requiredResources: List<String>
+  weightFactor: double
+  +calculateWeight(): double
+}
+class SimulationLog {
+  isAnalyzed: boolean
+  logEntries: String[]
+  +generateReport(): String
+  +getTotalProgress(): double
+}
+class Agent {
+  name: String
+  isHuman: boolean
+  +performAction(task: SimulationTask, parameters: TaskParameter): void
+  +adoptStrategy(strategy: Strategy): void
+}
+class Environment {
+  chamberName: String
+  +createSimulationSession(agent: Agent): SimulationEngine
+}
+class EnvironmentState {
+  chamberName: String
+  passageDepth: double
+  occupancyRate: double
+  +isValid(): boolean
+}
+class Strategy {
+  strategyName: String
+  implementationDetails: String
+  +isValidFor(task: SimulationTask): boolean
+}
+SimulationEngine *-- "1" SimulationLog : generatedLog
+SimulationEngine *-- "*" SimulationTask : managedTasks
+SimulationTask *-- "*" TaskParameter : definedParameters
+Agent --> "0..1" SimulationTask : initiatedTask 'opposite: initiatedByAgent
+Agent --> "0..1" Environment : currentEnvironment 'opposite: residentAgents
+Environment --> "*" EnvironmentState : currentChambers
+Strategy --> "*" Agent : applicableAgents
+EnvironmentState --> "1" Environment : referringEnvironment
+@enduml

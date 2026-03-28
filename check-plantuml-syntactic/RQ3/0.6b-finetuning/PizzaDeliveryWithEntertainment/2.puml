@@ -1,0 +1,102 @@
+@startuml
+enum EngagementStatus {
+  Active
+  Suspended
+}
+class Player {
+  nickname: String
+  isVerified: boolean
+  currentStatus: EngagementStatus
+  +updateStatus(newStatus: EngagementStatus): void
+  +getProfileSummary(): String
+}
+class Tournament {
+  name: String
+  startDate: Date
+  endDate: Date
+  +addRound(round: Round): void
+  +removeRound(round: Round): void
+}
+class Round {
+  roundNumber: int
+  maxPlayers: int
+  +generateTournamentStatus(): string
+}
+class Draw {
+  drawNumber: int
+  maxPlayers: int
+  +getDrawStatus(): EngagementStatus
+}
+class Invitation {
+  invitationCode: String
+  isPrimary: boolean
+  invitationDate: Date
+  +validate(): boolean
+  +generateCode(): String
+}
+class Stakeholder {
+  stakeName: String
+  stakeType: String
+  +calculateDeposit(): double
+}
+class Game {
+  startTime: Date
+  endTime: Date
+  isFinished: boolean
+  +activate(): void
+  +deactivate(): void
+}
+class Match {
+  matchName: String
+  startTime: Date
+  endTime: Date
+  +startMatch(): boolean
+  +endMatch(): void
+}
+class MatchResult {
+  winner: String
+  points: int
+  analysisData: String
+  +calculateWinLoss(): void
+}
+class PlayerProfile {
+  fullName: String
+  contactEmail: String
+  +updateContactInfo(email: String): void
+  +getActiveMatches(): List<Match>
+}
+class TournamentManager {
+  +initTournament(name: String, startDate: Date, endDate: Date): Tournament
+  +assignPlayerToTournament(tournament: Tournament, player: Player): void
+  +generateInvitationKey(player: Player): Invitation
+}
+class StakeholderService {
+  +manageStakeholders(toWho: Stakeholder[]): void
+  +allocateStakeToMatch(match: Match): Stakeholder
+}
+class MatchEngine {
+  +optimizeMatch(match: Match): void
+  +simulateRound(match: Match): Round
+}
+class StakeholderRepository {
+  +findStakeholdersByCriteria(name: String, tier: String): List<Stakeholder>
+}
+class TournamentReport {
+  title: String
+  summary: String
+  +addMatchResult(match: Match, result: MatchResult): void
+  +exportReport(format: String): void
+}
+Tournament *-- "1..*" Round : containedRounds
+Round --> "1" Game : controlledGame
+Match --> "1" Game : matchInGame
+Match -- Stakeholder
+Tournament -- StakeholderRepository
+Match -- Stakeholder
+Player -- Stakeholder
+TournamentManager -- StakeholderService -- StakeholderRepository -- Stakeholder
+MatchEngine -- StakeholderRepository
+StakeholderRepository -- Stakeholder
+Stakeholder -- StakeholderRepository
+MatchReport -- StakeholderRepository
+@enduml

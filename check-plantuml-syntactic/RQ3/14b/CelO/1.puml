@@ -1,0 +1,83 @@
+
+@startuml
+
+' Classes
+class Organizer {
+  - firstName: String
+  - lastName: String
+  - email: String
+  - postalAddress: String
+  - phoneNumber: String
+  - password: String
+  - isAttending: Boolean
+}
+
+class Attendee {
+  - firstName: String
+  - lastName: String
+  - email: String
+  - password: String
+  - attendanceStatus: String ' e.g., "Confirmed", "Maybe", "Declined"
+}
+
+class Event {
+  - name: String
+  - startDate: DateTime
+  - endDate: DateTime
+  - occasion: String
+  - location: Location
+  - eventKind: EventKind
+  - organizers: List<Organizer>
+}
+
+class Location {
+  - name: String
+  - address: String
+}
+
+class EventKind {
+  - name: String
+}
+
+class Checklist {
+  - tasks: List<Task>
+}
+
+class Task {
+  - description: String
+  - status: String ' e.g., "To Do", "Done", "Not Applicable"
+  - assignedToAttendee: Boolean
+}
+
+class Invitation {
+  - attendee: Attendee
+  - event: Event
+  - status: String ' e.g., "Pending", "Confirmed", "Declined"
+}
+
+' Associations
+Organizer "1" --> "0..*" Event : organizes
+Event "1" --> "1" Location : has
+Event "1" --> "1" EventKind : type of
+Event "1" --> "1" Checklist : has
+Checklist "1" --> "0..*" Task : contains
+Task "1" --> "0..1" Attendee : assigned to
+Event "1" --> "0..*" Invitation : has invitations
+Invitation "1" --> "1" Attendee : sent to
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Organizer**: Manages events, can be one or more per event. Can also be an attendee.
+- **Attendee**: Can accept, maybe attend, or decline. Has a checklist of tasks if assigned.
+- **Event**: Has a start and end time, occasion, location, kind, and multiple organizers.
+- **Location** and **EventKind**: Both are either selected from a list or created by the organizer.
+- **Checklist**: Contains tasks that apply to the event.
+- **Task**: Each task can be marked as done, not applicable, or assigned to attendees.
+- **Invitation**: Sent to attendees; tracks their response status.
+
+---
+

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="DriveSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Motor" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Motor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Controller">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="#//State"/>
+    <eOperations xsi:type="ecore:EOperation" name="controlBattery"/>
+    <eOperations xsi:type="ecore:EOperation" name="commandDriveSystem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractController" eSuperTypes="#//Controller">
+    <eOperations xsi:type="ecore:EOperation" name="setState">
+      <eParameters xsi:type="ecore:EParameter" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="getState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="controlBattery"/>
+    <eOperations xsi:type="ecore:EOperation" name="commandDriveSystem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicController" eSuperTypes="#//AbstractController">
+    <eOperations xsi:type="ecore:EOperation" name="setState">
+      <eParameters xsi:type="ecore:EParameter" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="getState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="controlBattery"/>
+    <eOperations xsi:type="ecore:EOperation" name="commandDriveSystem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AdvancedController" eSuperTypes="#//AbstractController">
+    <eOperations xsi:type="ecore:EOperation" name="setState">
+      <eParameters xsi:type="ecore:EParameter" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="getState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="controlBattery"/>
+    <eOperations xsi:type="ecore:EOperation" name="commandDriveSystem"/>
+    <eOperations xsi:type="ecore:EOperation" name="estimateMaintenanceDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Battery">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="storedEnergy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String_=_&quot;steel&quot;" eType="#//material" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="material"/>
+  <eClassifiers xsi:type="ecore:EClass" name="State"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EBike">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Frame" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Wheel" lowerBound="2" upperBound="2"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//DriveSystem" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="can_have" eType="#//Battery" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//Controller" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Frame"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Wheel"/>
+</ecore:EPackage>

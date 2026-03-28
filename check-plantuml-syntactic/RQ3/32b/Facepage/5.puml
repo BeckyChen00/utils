@@ -1,0 +1,104 @@
+
+This diagram captures:
+
+- Users and their relationship with accounts.
+- The two types of accounts: `PersonalAccount` and `BusinessAccount`.
+- The concept of `Page`, including the special type `AdvertisementPage`.
+- Relationships between users, accounts, and pages.
+- Constraints like one user per account and one admin per page.
+
+---
+
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class User {
+    - id : String (Unique)
+    - name : String
+    - email : String
+    - dateOfBirth : Date
+}
+
+class Account {
+    - accountNumber : String (Auto-generated)
+    + createPage(name : String) : Page
+    + grantPrivileges(user : User, page : Page) : void
+}
+
+abstract class AccountType {
+    # monthlyFee : Boolean
+    <<abstract>>
+}
+
+class PersonalAccount extends AccountType {
+    # canSendFriendRequests() : Boolean
+}
+
+class BusinessAccount extends AccountType {
+    - companyName : String
+    # hasMonthlyFee : Boolean = true
+}
+
+class Page {
+    - name : String
+    - visits : Integer
+    - admin : Account
+    <<unique name per account>>
+}
+
+class AdvertisementPage extends Page {
+    - bounceRate : Double
+    - clickThroughRate : Double
+    - conversionRate : Double
+}
+
+class FriendRequest {
+    - sender : User
+    - receiver : User
+    - status : StatusEnum
+}
+
+enum StatusEnum {
+    PENDING
+    ACCEPTED
+    REJECTED
+}
+
+' Relationships
+User "1" -- "1" Account
+Account "1" -- "0..*" Page
+AccountType "1" ..|> Account
+User "0..*" -- "0..*" FriendRequest
+User "0..*" -- "0..*" FriendRequest : reverse
+
+Page "1" -- "1" Account : administered by
+
+' Note about constraints
+note right of User
+    A user can only have one account.
+    No multiple accounts allowed.
+end note
+
+note right of Account
+    An account is uniquely identified by an auto-generated account number.
+    Each account can create multiple pages.
+end note
+
+note right of Page
+    Each page must be administered by exactly one account.
+    No two pages with the same name under the same account.
+end note
+
+@enduml
+
+---
+
+### 📌 Notes:
+- `<<unique name per account>>` in the `Page` class indicates that within a single account, no two pages can share the same name.
+- `AccountType` is abstract and serves as a base for both `PersonalAccount` and `BusinessAccount`.
+- `FriendRequest` is a separate entity to model interactions between users (only for personal accounts).
+- Constraints are noted directly in the diagram using `note` blocks.
+
+---
+

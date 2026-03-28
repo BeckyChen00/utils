@@ -1,0 +1,70 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Driver {
+  -id: String
+  -name: String
+  -isSick: Boolean
+}
+
+class Bus {
+  -licensePlate: String
+  -inRepair: Boolean
+}
+
+class Route {
+  -routeNumber: Integer
+  -maxRouteNumber: Integer = 9999
+}
+
+class Assignment {
+  -date: Date
+  -bus: Bus
+  -route: Route
+}
+
+class Shift {
+  -shiftType: String (morning, afternoon, night)
+  -driver: Driver
+  -assignment: Assignment
+}
+
+class Schedule {
+  -date: Date
+  -shifts: Set<Shift>
+}
+
+class Overview {
+  -route: Route
+  -assignedBuses: Set<Bus>
+  -assignedShifts: Set<Shift>
+  -drivers: Set<Driver>
+}
+
+Driver "1" -- "0..*" Shift : assigned to
+Bus "1" -- "0..*" Assignment : assigned to
+Route "1" -- "0..*" Assignment : has
+Assignment "1" -- "1" Shift : contains
+Assignment "1" -- "1" Schedule : belongs to
+Shift "1" -- "1" Schedule : part of
+Schedule "1" -- "1" Overview : displayed in
+Overview "1" -- "1" Route : related to
+Overview "1" -- "1" Bus : includes
+Overview "1" -- "1" Driver : includes
+@enduml
+
+---
+
+### Explanation of Key Classes:
+
+- **Driver**: Stores driver information including ID, name, and whether they are on sick leave.
+- **Bus**: Represents a bus with its license plate and status (in repair or not).
+- **Route**: Identified by a route number (up to 9999).
+- **Assignment**: Links a bus to a route on a specific date.
+- **Shift**: A shift on a route, associated with a driver and an assignment.
+- **Schedule**: Contains shifts for a given day.
+- **Overview**: Displays route assignments, buses, and drivers for a given day, highlighting those that are unavailable due to sickness or repair.
+
+---
+

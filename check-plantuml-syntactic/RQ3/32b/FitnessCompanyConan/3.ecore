@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_a" eType="#//Trainer" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Person"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Participant" eSuperTypes="#//Person"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Center">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Room" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="can_host" eType="#//Session" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Session"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IndividualSession" eSuperTypes="#//Session">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attended_by" eType="#//Participant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_a" eType="#//Session" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GroupSession" eSuperTypes="#//Session">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supervised_by" eType="#//Trainer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attended_by" eType="#//Participant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_a" eType="#//Session" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

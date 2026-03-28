@@ -1,0 +1,96 @@
+
+@startuml
+enum SeatCategoryType {
+  Economy
+  Business
+  FirstClass
+}
+enum FlightRole {
+  Captain
+  CoPilot
+}
+enum AircraftType {
+  Passenger
+  Cargo
+  Helicopter
+}
+class Aircraft {
+  aircraftName: String
+  aircraftType: AircraftType
+  manufactureYear: int
+  nextInspectionDate: Date
+  totalSeats: int
+  +calculateTotalCapacity(): int
+}
+class PassengerAircraft extends Aircraft {
+  homeAirportCode: String
+  +getAvailableSeatCategories(): List<SeatCategory>
+}
+class SeatCategory {
+  categoryType: SeatCategoryType
+  categoryName: String
+  seatCount: int
+  entertainmentAvailable: boolean
+  basePrice: double
+}
+class Flight {
+  flightCode: String
+  departureTime: Date
+  arrivalTime: Date
+  departureAirport: Airport
+  destinationAirport: Airport
+  +assignCrew(captain: Pilot, coPilots: List<Pilot>, crewMembers: List<FlightAttendant>): void
+  +isOverbooked(): boolean
+}
+class FlightAttendant {
+  name: String
+  isChiefSteward: boolean
+  isStewardess: boolean
+  employmentDate: Date
+  +checkAvailability(): boolean
+}
+class Pilot {
+  name: String
+  licenseNumber: String
+  employmentDate: Date
+  +getExperienceYears(): int
+}
+class Ticket {
+  ticketNumber: String
+  price: double
+  issueDate: Date
+  isUpgraded: boolean
+  upgradeDecisionDate: Date
+  +generateTicketCode(): String
+  +confirmUpgrade(): void
+}
+class Passenger {
+  name: String
+  passportNumber: String
+  +getFullName(): String
+}
+class Airline {
+  airlineName: String
+  +getTotalFlights(): int
+}
+class Airport {
+  airportName: String
+  address: String
+  runwayCount: int
+}
+PassengerAircraft *-- "1" Aircraft : baseAircraft
+PassengerAircraft *-- "*" SeatCategory : categoryDefinitions
+Aircraft --> "*" Flight : operatedFlights
+Flight --> "1" PassengerAircraft : assignedAircraft
+Airline *-- "*" Flight : operatedFlights
+Airline *-- "*" PassengerAircraft : ownedAircraft
+Airline --> "*" Pilot : employedPilots
+Airline --> "*" FlightAttendant : employedCrew
+Flight --> "*" FlightAttendant : assignedCrew
+Flight --> "*" Pilot : assignedPilots
+Flight --> "*" Passenger : bookedPassengers
+Passenger *-- "*" Ticket : ownedTickets
+Ticket --> "1" Flight : associatedFlight
+Flight --> "1" Airport : departureAirport
+Flight --> "1" Airport : destinationAirport
+@enduml

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affiliations" eType="#//Member" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeRanking" eType="#//GamingRanking"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notifications" eType="#//Notification" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="payments" eType="#//Payment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnonymousUser" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notifications" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Member"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GamingRanking">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessions" eType="#//GamingSession" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GamingSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="messages" eType="#//Message" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="challenges" eType="#//Challenge" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Message"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Challenge"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+</ecore:EPackage>

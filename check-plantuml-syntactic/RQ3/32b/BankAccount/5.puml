@@ -1,0 +1,60 @@
+
+@startuml
+
+' Define classes and their attributes and relationships
+
+class Bank {
+    +String name
+    +addCustomer(Customer): void
+    +addBranch(Branch): void
+}
+
+class Customer {
+    +String firstName
+    +String lastName
+    +openAccount(Account): void
+    +getAccounts(): List<Account>
+}
+
+class Branch {
+    +String address
+    +manageAccounts(Account): void
+}
+
+abstract class Account {
+    +int accountNumber
+    +double balance
+    +Customer owner
+    +deposit(double amount): void
+    +withdraw(double amount): void
+}
+
+class CurrentAccount {
+    +double overdraftLimit
+}
+
+class SavingsAccount {
+    +double interestRate
+}
+
+' Relationships
+
+Bank "1" *-- "many" Customer : manages
+Bank "1" *-- "many" Branch : consists of
+
+Customer "1" *-- "1..5" Account : owns
+
+Account <|-- CurrentAccount
+Account <|-- SavingsAccount
+
+@enduml
+
+---
+
+### Explanation:
+- **Bank** manages multiple **Customers** and has multiple **Branches**.
+- Each **Customer** can have 1 to 5 **Accounts**, which are either **CurrentAccount** or **SavingsAccount**.
+- **Account** is an abstract class with common attributes like `accountNumber`, `balance`, and `owner`.
+- **CurrentAccount** extends **Account** and adds an `overdraftLimit` attribute.
+- **SavingsAccount** extends **Account** and can optionally include an `interestRate`.
+

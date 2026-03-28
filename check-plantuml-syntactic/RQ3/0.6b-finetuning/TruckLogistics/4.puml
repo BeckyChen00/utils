@@ -1,0 +1,88 @@
+@startuml
+enum DistrictType {
+  TaxPrimary
+  TaxSecondary
+  TaxFinal
+  TaxLocal
+  TaxInterstate
+}
+enum PaymentMethod {
+  DirectDeposit
+  WireTransfer
+  Check
+  Cash
+}
+enum TaxCategory {
+  SalesTax
+  PropertyTax
+  FuelTax
+  AgricultureTax
+  IncomeTax
+  SalesTaxBonus
+}
+enum RevenueLevel {
+  Low
+  Moderate
+  High
+}
+class TaxCalculationRule {
+  ruleName: String
+  calculationType: String
+  priority: int
+  +validateRule(): boolean
+}
+class TaxAdjustmentRule {
+  adjustmentAmount: double
+  effectMultiplier: double
+  +calculateAdjustment(benefitLabel: String): double
+}
+class TaxBracket {
+  bracketName: String
+  upperLimit: double
+  lowerLimit: double
+  taxRate: double
+  +calculateBasis(amount: double): double
+}
+class Contract {
+  contractNumber: String
+  startDate: Date
+  endDate: Date
+  status: String
+  +isActive(): boolean
+  +getTotalProjectedSales(): double
+  +generateInvoice(includeTax: boolean): String
+}
+class RevenueReport {
+  reportDate: Date
+  totalRevenue: double
+  applicableBrackets: TaxBracket[]
+  status: String
+  +exportSummary(): String
+  +getTotalSales(): double
+}
+class PaymentRecord {
+  paymentDate: Date
+  amount: double
+  paymentMethod: PaymentMethod
+  isRefunded: boolean
+  transactionReference: String
+  +verify(): boolean
+  +getPaymentStatus(): String
+}
+class RevenueReportGenerator {
+  +generateReport(contract: Contract, jurisdiction: DistrictType): RevenueReport
+  +exportReport(contract: Contract, jurisdiction: DistrictType): String
+}
+Contract *-- "1" RevenueReport : revenueReport
+RevenueReport *-- "0..*" TaxAdjustmentRule : appliedRules
+Contract --> "1..*" TaxCalculationRule : appliedRules 'opposite: definedContract
+RevenueReport --> "0..*" TaxBracket : includedBrackets
+TaxBracket --> "0..*" TaxAdjustmentRule : designatedRules
+RevenueReport --> "1" Contract : reportTarget
+RevenueReportGenerator --> "0..*" TaxBracket : filteredBrackets
+TaxAdjustmentRule --> "0..*" TaxBracket : appliedToBrackets
+TaxAdjustmentRule --> "1" TaxCategory : categorizedTax
+TaxBracket --> "0..*" TaxCalculationRule : definedRules
+TaxCalculationRule --> "1" RevenueLevel : definedLevel
+TaxCalculationRule --> "0..*" TaxBracket : applicableBrackets
+@enduml

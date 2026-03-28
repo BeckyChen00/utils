@@ -1,0 +1,14 @@
+@startuml
+    classDiagram
+        [User] User
+        [Server] Server
+        [Database] Database
+
+        User --> Server
+        Server --> Database
+        Database --> User
+
+        Server connects to the database, which stores user data.
+
+        connect(Server, Database)
+@enduml

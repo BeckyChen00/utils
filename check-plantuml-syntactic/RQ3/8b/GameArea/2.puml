@@ -1,0 +1,80 @@
+
+---
+
+
+@startuml
+skinparam monochrome true
+skinparam noteStyle rectangle
+
+class GameArea {
+  - String name
+  + GameElement[] gameElements
+  + GamePiece[] gamePieces
+}
+
+class GameElement {
+  - long x
+  - long y
+}
+
+class Shape : GameElement {
+  + connectTo(Shape)
+}
+
+class Object : GameElement {
+}
+
+class Opponent : GameElement {
+  - int lives
+  + kill()
+}
+
+class GamePiece {
+}
+
+GameArea "1" -- "many" GameElement : contains
+GameElement "1" -- "many" Shape : connectedTo (role: connectedTo)
+GameArea "1" -- "1" Opponent : hasBoss
+GameArea "1" -- "many" GamePiece : hasPieces
+@enduml
+
+---
+
+### 🔍 Explanation of Relationships:
+
+- **`GameArea` contains `GameElement`**: This is a composition relationship, as a `GameArea` consists of multiple `GameElement`s.
+- **`GameElement` connected to `Shape`**: The `Shape` class inherits from `GameElement` and has a method `connectTo(Shape)`. This indicates a many-to-many association with itself, where a shape can be connected to any number of other shapes.
+- **`GameArea` has a boss `Opponent`**: A specific `Opponent` is known as the boss in the game area.
+- **`GameArea` has `GamePiece`**: A `GameArea` may contain one or two `GamePiece`s.
+
+---
+
+### 📝 Classes & Relationships (Textual Syntax for DEX Tool)
+
+- **Class: GameArea**
+  - Attributes: name (String)
+  - Associations:
+    - contains GameElement (multiplicity: 1..*)
+    - hasPieces GamePiece (multiplicity: 1..2)
+    - hasBoss Opponent (multiplicity: 0..1)
+
+- **Class: GameElement**
+  - Attributes: x (long), y (long)
+  - Associations:
+    - connectedTo Shape (multiplicity: 0..*)
+
+- **Class: Shape**
+  - Inheritance: GameElement
+  - Methods: connectTo(Shape)
+
+- **Class: Object**
+  - Inheritance: GameElement
+
+- **Class: Opponent**
+  - Inheritance: GameElement
+  - Attributes: lives (int)
+  - Methods: kill()
+
+---
+
+Let me know if you'd like this exported as an image or want to add more details!

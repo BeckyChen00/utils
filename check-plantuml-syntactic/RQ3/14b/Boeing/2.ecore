@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="```plantuml" eType="#//This" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="This"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//contractId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="contractId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startDate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Date" eType="#//endDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="endDate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="globalTerms">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//acquisitionId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="acquisitionId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="model">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Double" eType="#//price"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="price"/>
+  <eClassifiers xsi:type="ecore:EClass" name="deliveryDate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ptions">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;String&gt;" eType="#//deliveryDate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="customizations"/>
+  <eClassifiers xsi:type="ecore:EClass" name="employeeId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//customizations"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//email"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="email"/>
+  <eClassifiers xsi:type="ecore:EClass" name="manageContract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//airlineId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="airlineId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="hasDaughter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="parentId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//hasDaughter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="childId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Acquisition" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Acquisition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Contract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBy" eType="#//Salesperson" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Salesperson"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Airline">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentOf" eType="#//Airline" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//MotherDaughterRelationship"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isChildOf" eType="#//MotherDaughterRelationship"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MotherDaughterRelationship"/>
+</ecore:EPackage>

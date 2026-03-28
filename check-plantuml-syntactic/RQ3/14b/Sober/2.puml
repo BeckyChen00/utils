@@ -1,0 +1,107 @@
+
+@startuml
+skinparam classAttributeFieldsUnderlined true
+
+class Customer {
+  -id: int
+  -name: String
+  -email: String
+  -phoneNumber: String
+}
+
+class CarOwner {
+  -id: int
+  -name: String
+  -contactInfo: String
+  -carRegistrationNumber: String
+}
+
+class SelfDrivingCar {
+  -id: int
+  -licensePlate: String
+  -model: String
+  -status: String (Available/Busy/UnderMaintenance)
+  -lastMaintenanceDate: Date
+  -accidents: List<Accident>
+}
+
+class Accident {
+  -id: int
+  -date: Date
+  -location: String
+  -damageAmount: double
+}
+
+class RideService {
+  -id: int
+  -pickupTime: DateTime
+  -dropoffTime: DateTime
+  -pickupLocation: String
+  -dropoffLocation: String
+  -rideDuration: int
+  -distance: double
+  -fee: double
+  -requestType: String (App/HandWave)
+  -leadCustomer: Customer
+}
+
+class RideHailing extends RideService {
+  -numPassengers: int (max 6)
+}
+
+class RideSharing extends RideService {
+  -numPassengers: int (max 10)
+  -customers: List<Customer>
+  -negotiatedFeePerCustomer: double
+  -treesPlanted: boolean
+}
+
+class SoberApp {
+  -id: int
+  -version: String
+  -registeredUsers: List<Customer>
+  -activeRequests: List<RideHailing>
+}
+
+class ImageRecognitionSystem {
+  -id: int
+  -accuracyRate: double
+  -detectedRequests: List<RideHailing>
+}
+
+class SoberSystem {
+  -id: int
+  -registeredCarOwners: List<CarOwner>
+  -registeredCars: List<SelfDrivingCar>
+  -registeredCustomers: List<Customer>
+  -totalRides: int
+  -totalTreesPlanted: int
+}
+
+Customer "1" -- "0..*" RideHailing : uses
+Customer "1" -- "0..*" RideSharing : participates in
+RideHailing "1" -- "1" SelfDrivingCar : assigned to
+RideSharing "1" -- "1" SelfDrivingCar : assigned to
+SelfDrivingCar "1" -- "0..*" Accident : has
+CarOwner "1" -- "1" SelfDrivingCar : owns
+SoberApp "1" -- "1" ImageRecognitionSystem : integrates with
+SoberSystem "1" -- "1" SoberApp : contains
+SoberSystem "1" -- "1" ImageRecognitionSystem : contains
+SoberSystem "1" -- "0..*" RideService : manages
+SoberSystem "1" -- "0..*" Customer : manages
+SoberSystem "1" -- "0..*" CarOwner : manages
+SoberSystem "1" -- "0..*" SelfDrivingCar : manages
+@enduml
+
+### Explanation of Key Classes:
+- **Customer**: Represents any user who can request a ride.
+- **CarOwner**: A person who registers their car as a Sober cab.
+- **SelfDrivingCar**: The vehicle used for either ride-hailing or ride-sharing.
+- **Accident**: Tracks accidents involving a self-driving car.
+- **RideService**: Base class for both `RideHailing` and `RideSharing`.
+- **RideHailing**: A one-way, on-demand ride with up to 6 passengers.
+- **RideSharing**: A shared ride with up to 10 passengers and negotiated pricing.
+- **SoberApp**: The mobile application used by customers to hail cabs.
+- **ImageRecognitionSystem**: Detects hand-waving gestures from users.
+- **SoberSystem**: Central system that manages all operations, users, cars, and services.
+

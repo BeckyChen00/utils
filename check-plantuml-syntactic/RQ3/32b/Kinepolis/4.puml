@@ -1,0 +1,141 @@
+
+@startuml
+
+' Entities involved in the system
+class Cinema {
+    - id: int
+    - name: string
+    - town: string
+}
+
+class Theatre {
+    - id: int
+    - name: string
+    - capacity: int
+    - cinema: Cinema
+}
+
+class Movie {
+    - id: int
+    - title: string
+    - duration: int (minutes)
+    - releaseDate: date
+}
+
+class Copy {
+    - id: int
+    - movie: Movie
+    - cinema: Cinema
+    - status: string (e.g., "available", "in use")
+}
+
+class Show {
+    - id: int
+    - startTime: datetime
+    - endTime: datetime
+    - theatre: Theatre
+    - copy: Copy
+    - publishedDate: date
+    - isCancelled: boolean
+}
+
+class Seat {
+    - id: int
+    - row: int
+    - number: int
+    - theatre: Theatre
+}
+
+class Customer {
+    - id: int
+    - name: string
+    - email: string
+    - creditCard: CreditCard
+}
+
+class CreditCard {
+    - id: int
+    - number: string
+    - expiryDate: date
+    - customer: Customer
+}
+
+class Reservation {
+    - id: int
+    - show: Show
+    - seat: Seat
+    - customer: Customer
+    - reservationTime: datetime
+    - isCancelled: boolean
+    - paymentProcessed: boolean
+}
+
+class Ticket {
+    - id: int
+    - show: Show
+    - seat: Seat
+    - customer: Customer (optional)
+    - issuedAtEntrance: boolean
+    - issueTime: datetime
+}
+
+class Offer {
+    - id: int
+    - reservation: Reservation
+    - newShow: Show
+    - newSeat: Seat
+    - expiresAt: datetime
+    - accepted: boolean
+}
+
+class FreeTicket {
+    - id: int
+    - reservation: Reservation
+    - sentToCustomer: boolean
+    - sendDate: date
+}
+
+class Display {
+    - theatre: Theatre
+    - availableSeats: int
+    - show: Show
+}
+
+' Relationships
+Cinema "1" -- "many" Theatre
+Theatre "1" -- "many" Seat
+Theatre "1" -- "many" Show
+Show "1" -- "1" Copy
+Copy "1" -- "1" Movie
+Show "1" -- "many" Reservation
+Reservation "1" -- "1" Seat
+Reservation "1" -- "1" Customer
+Customer "1" -- "1" CreditCard
+Show "1" -- "many" Ticket
+Ticket "0..1" -- "1" Customer
+Offer "1" -- "1" Reservation
+Offer "1" -- "1" NewShow
+Offer "1" -- "1" NewSeat
+FreeTicket "1" -- "1" Reservation
+Display "1" -- "1" Theatre
+Display "1" -- "1" Show
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Cinema**: Owns theatres and stores copies of movies.
+- **Theatre**: Located within a cinema and has seats and shows.
+- **Movie & Copy**: A copy is a physical instance of a movie used for showing in a specific cinema.
+- **Show**: Represents a scheduled screening of a movie in a theatre using a copy.
+- **Reservation**: Made online by customers before the 24-hour cancellation window.
+- **CreditCard**: Used for online payments.
+- **Ticket**: Assigned to a seat; can be from online reservation or at the entrance.
+- **Offer**: Generated when a show is cancelled, offering an alternative seat/reservation.
+- **FreeTicket**: Sent to customers if no alternatives are available after cancellation.
+- **Display**: Shows available seats at the ticketing desk.
+
+---
+

@@ -1,0 +1,66 @@
+@startuml
+enum CommandStatus {
+  Requested
+  Completed
+  Failed
+}
+enum BooleanOperator {
+  AND
+  OR
+  NOT
+}
+class SmartHome {
+  address: String
+  +addRoom(room: Room): void
+  +removeRoom(room: Room): void
+}
+class Room {
+  roomName: String
+  +addDevice(device: Device): void
+  +removeDevice(device: Device): void
+}
+class Device {
+  deviceIdentifier: String
+  deviceType: String
+  isActive: boolean
+  +updateStatus(active: boolean): void
+  +getIdentifier(): String
+}
+class SensorDevice {
+  sensorType: String
+  +generateReading(value: double, timestamp: Date, isCalibrated: boolean): SensorReading
+}
+class ActuatorDevice {
+  actuatorType: String
+  +executeCommand(command: ControlCommand, status: CommandStatus): void
+}
+class SensorReading {
+  value: double
+  timestamp: Date
+  isCalibrated: boolean
+  +getValue(): double
+}
+class ControlCommand {
+  commandType: String
+  status: CommandStatus
+  timestamp: Date
+  +execute(status: CommandStatus): void
+}
+class AutomationRule {
+  ruleName: String
+  isActive: boolean
+  conditionExpression: String
+  actionCommands: ControlCommand[]
+  +evaluate(currentReadings: List<SensorReading>): boolean
+  +executeAction(): void
+  +activate(): void
+  +deactivate(): void
+}
+SmartHome *-- "0..*" Room : rooms
+Room *-- "0..*" Device : containedDevices
+SensorDevice --> "0..*" SensorReading : generatedReadings
+ActuatorDevice --> "0..*" ControlCommand : executedCommands
+SmartHome *-- "0..*" AutomationRule : ownedRules
+AutomationRule -- SensorReading
+AutomationRule -- ControlCommand
+@enduml

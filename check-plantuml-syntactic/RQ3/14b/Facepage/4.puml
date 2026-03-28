@@ -1,0 +1,80 @@
+
+@startuml
+
+' Define classes
+class User {
+  -id: String
+  -name: String
+  -email: String
+  -dateOfBirth: Date
+}
+
+class Account {
+  -accountNumber: String
+  -type: Enum (Personal, Business)
+  +createPage(): Page
+}
+
+class PersonalAccount {
+  +sendFriendRequest(toUser: User): void
+  +acceptFriendRequest(fromUser: User): void
+}
+
+class BusinessAccount {
+  -monthlyFee: Double
+  +createAdvertisementPage(): AdvertisementPage
+}
+
+class Page {
+  -name: String
+  -visits: Integer
+  +grantPrivilege(toAccount: Account): void
+}
+
+class AdvertisementPage {
+  -bounceRate: Double
+  -clickThroughRate: Double
+  -conversionRate: Double
+}
+
+' Inheritance
+Account <|-- PersonalAccount
+Account <|-- BusinessAccount
+Page <|-- AdvertisementPage
+
+' Associations
+User "1" --> "1" Account
+Account "1" --> "0..*" Page
+Page "1" --> "1" Account : administeredBy
+Account "1" --> "0..*" AdvertisementPage
+
+' Constraints
+note right of User
+  A user can only have one account (either personal or business).
+end note
+
+note right of Account
+  An account must be either Personal or Business.
+end note
+
+note right of Page
+  No two pages under the same account can have the same name.
+end note
+
+@enduml
+
+### Explanation:
+
+- **User**: Represents a person who wants to join Facepage. They fill in personal details like ID, name, email, and date of birth.
+- **Account**: Base class for both `PersonalAccount` and `BusinessAccount`. It has an automatically generated `accountNumber`.
+- **PersonalAccount**: Allows sending/receiving friend requests.
+- **BusinessAccount**: Has a monthly fee and allows creating advertisement pages.
+- **Page**: Base class for all pages. Each page is administered by exactly one account and has a unique name within that account.
+- **AdvertisementPage**: Special type of page with metrics like bounce rate, click-through rate, and conversion rate.
+- **Relationships**:
+  - A `User` can have **only one** `Account`.
+  - An `Account` can create multiple `Pages`.
+  - A `Page` is administered by exactly one `Account`.
+  - A `BusinessAccount` can create `AdvertisementPages`.
+
+This diagram follows the **system requirements** and enforces constraints such as no duplicate accounts or pages per user/account.

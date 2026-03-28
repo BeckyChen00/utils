@@ -1,0 +1,7 @@
+@startuml
+classDiagram
+
+User --> SystemRequirement with Name "System Requirement" and Description "This is a system requirement for the application."
+SystemRequirement --> [User]
+[User] --> [SystemRequirement]
+@enduml

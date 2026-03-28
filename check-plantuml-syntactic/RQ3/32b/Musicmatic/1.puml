@@ -1,0 +1,103 @@
+
+@startuml
+
+' Define classes with attributes and relationships
+
+class Song {
+  - title: String
+  - year: int
+  - length: float
+  - genre: String
+}
+
+class Artist {
+  - name: String (PK)
+  - dateOfBirth: Date
+  - url: String
+}
+
+class User {
+  - id: String (PK)
+  - name: String
+  - address: String
+}
+
+class BusinessUser {
+  - vatNumber: String
+}
+
+class RegularUser {
+  - hasDownloadedSingles: Set<Song>
+  - hasDownloadedAlbums: Set<Album>
+  - hasSimilarUsers: Set<RegularUser>
+}
+
+class Album {
+  - title: String
+  - trackList: List<Hit>
+}
+
+class Hit {
+  - positionInAlbum: int
+}
+
+class Single {}
+
+class Upload {
+  - uploadDate: Date
+}
+
+' Inheritance
+User <|-- BusinessUser
+User <|-- RegularUser
+Song <|-- Single
+Song <|-- Hit
+
+' Associations
+Artist "1" --> "many" Song : creates
+BusinessUser "1" --> "many" Upload : uploads
+Upload "1" --> "1" Song : contains
+Song "0..1" --> "1" Album : part of (if it's a Hit)
+Album "1" --> "many" Hit : includes
+RegularUser "many" --> "many" RegularUser : suggestedTo
+
+' Notes
+note right of Artist
+  An artist is uniquely identified by their name.
+end note
+
+note right of Song
+  A song can have the same title if from different artists.
+  Only (song + artist) combination is unique.
+end note
+
+note right of BusinessUser
+  Business users can only upload individual songs,
+  which are either Singles or Hits.
+end note
+
+note right of Album
+  Albums consist only of Hits.
+  Each hit has a track number in the album.
+end note
+
+note right of RegularUser
+  Regular users can buy Singles directly or albums.
+  They can also be suggested to other regular users.
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Song`**: Base class for both `Single` and `Hit`. Contains common properties like title, year, etc.
+- **`Artist`**: Identified by name; one-to-many relationship with `Song`.
+- **`User`**: Abstract base class for `BusinessUser` and `RegularUser`.
+- **`BusinessUser`**: Has a VAT number and uploads songs as `Upload`.
+- **`RegularUser`**: Can download singles and albums. Also involved in user suggestions.
+- **`Album`**: Contains a list of `Hit`s, each with a track number.
+- **`Upload`**: Represents the act of uploading a song by a business user.
+
+This UML class diagram captures all the specified entities and relationships from the system requirement document. Let me know if you want a version with multiplicities, constraints, or generated image output!

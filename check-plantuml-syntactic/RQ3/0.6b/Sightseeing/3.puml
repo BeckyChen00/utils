@@ -1,0 +1,9 @@
+@startuml
+    classDiagram
+        user --> model1 { name: "User" }
+        model1 --> model2 { name: "Model 2" }
+        model2 --> model3 { name: "Model 3" }
+        model3 --> model4 { name: "Model 4" }
+        model4 --> user { name: "User" }
+    # End of class diagram
+@enduml

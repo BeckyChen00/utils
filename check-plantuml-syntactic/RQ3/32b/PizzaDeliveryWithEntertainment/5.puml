@@ -1,0 +1,102 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class User {
+    - id: int
+    - name: string
+    - birthday: date
+    - address: string
+}
+
+class BusinessOwner {
+    - linkedin: string
+}
+
+class PizzaRestaurant {
+    - zipcode: string
+    - address: string
+    - phone: string
+    - website: string
+    - openingHours: string
+}
+
+class Pizza {
+    - name: string
+    - crustStructure: string
+    - price: float
+}
+
+class Order {
+    - orderId: int
+    - dateTimePlaced: datetime
+    - deliveryTimeLatest: datetime
+    - numberOfPeople: int
+}
+
+class EntertainmentOrder {
+    - typeOfEntertainment: string
+    - duration: int  // in minutes
+}
+
+class Entertainer {
+    - stageName: string
+    - bio: string
+    - pricePer30Min: float
+}
+
+class HungryCustomer {
+    - deliveryAddress: string
+}
+
+' Relationships
+
+User <|-- BusinessOwner
+User <|-- HungryCustomer
+User <|-- Entertainer
+
+BusinessOwner "1" -- "0..*" PizzaRestaurant : owns
+
+PizzaRestaurant "1" -- "0..*" Pizza : offers
+
+HungryCustomer "1" -- "0..*" Order : makes
+
+Order "1" -- "0..1" EntertainmentOrder : can be an
+Order "1" -- "1" PizzaRestaurant : belongs to
+Order "1" -- "1..*" Pizza : contains
+
+Entertainer "1" -- "0..*" PizzaRestaurant : works at
+Entertainer "*" -- "1" EntertainmentOrder : fulfills
+
+PizzaRestaurant "*" -- "0..*" Entertainer : has
+
+PizzaRestaurant "1" -- "1" Address : located at
+
+note right of PizzaRestaurant
+    Each pizza restaurant must have a unique combination of address and zip code.
+end note
+
+note right of Pizza
+    Pizzas are uniquely identified by the restaurant they belong to, even if names or prices are the same elsewhere.
+end note
+
+@enduml
+
+---
+
+### 🧾 Explanation of Key Elements:
+
+- **User** is the base class from which `BusinessOwner`, `HungryCustomer`, and `Entertainer` inherit.
+- **BusinessOwner** links to one or more **PizzaRestaurant** instances.
+- **PizzaRestaurant** offers multiple **Pizza** items and may employ multiple **Entertainers**.
+- **HungryCustomer** places **Order(s)**, each possibly containing multiple **Pizza** items.
+- An **Order** can optionally be an **EntertainmentOrder**, which adds entertainment details and links to one **Entertainer**.
+- **Entertainer** defines their availability per day for each **PizzaRestaurant** they work at.
+
+---
+
+
+Let me know if you'd like to include methods or add constraints such as primary keys!

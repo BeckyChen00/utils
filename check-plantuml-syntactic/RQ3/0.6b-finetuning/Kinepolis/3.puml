@@ -1,0 +1,56 @@
+@startuml
+enum DamageType {
+  MechanicalFailure
+  ElectricalOverload
+  PhysicalImpact
+  ChemicalReaction
+}
+enum TrafficState {
+  Available
+  Occupied
+  Maintenance
+  Closed
+}
+class MaintenanceQueue {
+  +createQueue(): boolean
+  +terminateQueue(): void
+}
+class Vehicle {
+  licensePlate: String
+  yearOfPurchase: int
+  currentLocation: String
+  +calculateEstimatedRemoval: int
+  +registerVehicle(): void
+}
+class MaintenanceTask {
+  description: String
+  scheduledDate: Date
+  currentState: TrafficState
+  +estimateDuration(minutes: int): int
+  +updateState(newState: TrafficState): void
+}
+class RepairTask {
+  componentName: String
+  damageType: DamageType
+  requiredParts: String[]
+  +checkAvailability(): boolean
+}
+class ServiceRecord {
+  serviceDate: Date
+  inspectionNotes: String
+  technicianName: String
+  +generateReport(): String
+}
+class RepairTimeEstimate {
+  estimatedHours: int
+  estimatedCost: double
+  +calculateTotalCost(): double
+}
+MaintenanceQueue *-- "0..*" RepairTask : containedTasks
+Vehicle *-- "1..*" ServiceRecord : maintenanceRecords
+Vehicle --> "0..1" RepairTimeEstimate : currentEstimate
+ServiceRecord --> "1..*" RepairTask : relatedTasks
+RepairTask --> "1..*" RepairTimeEstimate : generatedEstimates
+MaintenanceQueue --> "1..*" Vehicle : managedVehicles
+MaintenanceQueue --> "0..*" RepairTask : queuedTasks
+@enduml

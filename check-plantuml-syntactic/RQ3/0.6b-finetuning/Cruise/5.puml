@@ -1,0 +1,39 @@
+@startuml
+enum SessionStatus {
+  Open
+  Closed
+}
+enum OutcomeType {
+  Success
+  Fail
+}
+class PolicyRule {
+  ruleDescription: String
+  priorityLevel: int
+  +evaluate(params: Map<String, Object>): OutcomeType
+}
+class Agent {
+  agentName: String
+  agentVersion: String
+  +updateState(newState: String): void
+}
+class AgentSession {
+  currentStatus: SessionStatus
+  +startSession(): void
+  +endSession(): void
+  +getSessionSummary(): String
+}
+class BehaviorCluster {
+  clusterIdentifier: String
+  clusterDescription: String
+  +generateClusterReport(): String
+}
+class AgentFactory {
+  +createAgent(name: String, version: String): Agent
+  +createSession(agent: Agent, cluster: BehaviorCluster): AgentSession
+}
+BehaviorCluster *-- "0..*" Agent : agents
+AgentSession --> "1" Agent : activeAgent
+AgentSession --> "1" AgentFactory : factory
+AgentFactory --> "0..*" PolicyRule : definedRules
+@enduml

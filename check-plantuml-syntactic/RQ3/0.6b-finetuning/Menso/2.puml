@@ -1,0 +1,49 @@
+@startuml
+enum CalibrationStatus {
+  Pending
+  Running
+  Completed
+  Error
+}
+enum FaultSeverity {
+  Critical
+  High
+  Medium
+  Low
+  Info
+}
+class Calibrator {
+  isAvailable: boolean
+  calibrationStatus: CalibrationStatus
+  +performCalibration(temperature: double): CalibrationRecord
+  +getStatus(): CalibrationStatus
+}
+class CalibrationRecord {
+  calibrationTime: Date
+  temperatureReading: double
+  status: CalibrationStatus
+  +validateData(): boolean
+}
+class FaultReport {
+  description: String
+  severity: FaultSeverity
+  detectedTime: Date
+  +analyzeFault(): FaultSeverity
+  +generateSummary(): String
+}
+class SensorUnit {
+  unitType: String
+  currentTemperature: double
+  +readTemperature(): double
+  +getAmbientTemp(): double
+}
+class SensorNetwork {
+  networkLabel: String
+  isActive: boolean
+  +updateConfiguration(newLabel: String): boolean
+  +getNodeStatus(unit: SensorUnit): CalibrationStatus
+}
+Calibrator --> "0..*" CalibrationRecord : generatedRecords
+SensorUnit -- FaultReport
+SensorNetwork *-- "1..*" SensorUnit : connectedUnits
+@enduml

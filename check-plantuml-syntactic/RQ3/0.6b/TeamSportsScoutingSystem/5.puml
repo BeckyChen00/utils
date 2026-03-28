@@ -1,0 +1,13 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement {
+        class Element { name: "System Requirement", type: "system" }
+    }
+
+    }
+
+    element { name: "SystemRequirement", type: "SystemRequirement" }
+    element { name: "Element", type: "Element" }
+
+@enduml

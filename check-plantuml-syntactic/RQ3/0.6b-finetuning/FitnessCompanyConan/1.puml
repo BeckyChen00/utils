@@ -1,0 +1,143 @@
+@startuml
+class User {
+  +register()
+  +login()
+}
+class SystemUser {
+  isEnabled: boolean
+}
+class Goal {
+  isAchieved: boolean
+  +updateLikeCount()
+}
+class NotificationRule {
+  condition: boolean
+  +evaluate(userState: boolean): boolean
+}
+class GoalMarker {
+  priority: int
+  +activate()
+}
+class WorkflowStep {
+  +calculateScore(currentState: boolean): int
+  +generateStepPreset()
+}
+class ProgressReporter {
+  +generateReport(totalProgress: int, emphasisLevel: int): String
+  +updateStepProgress(stepId: int, progress: int)
+}
+class Campaign {
+  launchDate: Date
+  +launch()
+}
+class CampaignCampaign {
+  +updateCampaign(state: string)
+}
+class ProgressState {
+  progressPercent: int
+  completedStepCount: int
+  +checkCompletion()
+}
+class EventLog {
+  +logEvent(message: String, timestamp: Date)
+}
+class TaskRecord {
+  taskDescription: String
+  estimatedDuration: double
+  +scheduleTask(priority: String)
+}
+class TaskManager {
+  +registerTask(task: TaskRecord)
+  +removeTask(task: TaskRecord)
+}
+class SkillSet {
+  name: String
+  skillLevel: int
+  +getSkillInfo(): String
+}
+class JobScheduler {
+  +triggerJob(job: TaskRecord)
+  +pauseJob()
+  +resumeJob()
+}
+class ProcessRecord {
+  +recordProcess(result: String, duration: double): void
+}
+class WorkflowEngine {
+  +executeWorkflow(batchSize: int, parallelism: int)
+  +generateExecutionReport(): String
+  +reproduceBatch()
+}
+class CampaignExecutor {
+  +executeCampaign(campaign: Campaign)
+  +finalizeExecution()
+  +generateReport(): String
+}
+class ReportGenerator {
+  +formatReport(formatType: String): String
+}
+class AnalyticsEngine {
+  systemTimestamp: Date
+  +exportSummary(): String
+  +analyzePerformance()
+}
+class NotificationChannel {
+  channelType: String
+  +sendNotification(message: String, formatType: String)
+  +getChannelMetadata(): String
+}
+class AuditLog {
+  +captureEvent(event: String)
+  +recordAction(action: String, user: User)
+}
+class AuditService {
+  +generateAuditReport()
+  +trackUserActivity(user: User)
+}
+class ComplianceChecker {
+  +verifyProgressState(state: ProgressState): boolean
+  +checkAlerts(policy: NotificationRule): boolean
+}
+Campaign *-- "0..*" CampaignCampaign : containedCampaigns
+Campaign *-- "1" ProgressState : currentState
+Campaign *-- "0..1" TaskManager : assignedTaskManager
+TaskManager *-- "0..*" TaskRecord : managedTasks
+ProgressReporter --> "0..*" ProgressState : trackedStates
+EventLog *-- "0..*" EventRecord : recordedEvents
+ProgressState *-- "0..*" GoalMarker : trackedGoals
+JobScheduler *-- "0..*" TaskRecord : scheduledTasks
+TaskRecord --> "1" SkillSet : requiredSkill
+WorkflowEngine *-- "0..*" ProcessRecord : executedProcesses
+WorkflowEngine --> "1" TaskManager : taskManager
+CampaignExecutor --> "0..*" Campaign : managedCampaigns
+CampaignExecutor *-- "1" ActionTrail : actionTrail
+AnalyticsEngine --> "0..*" AnalyticsData : generatedAnalytics
+AnalyticsData *-- "0..*" ProgressState : analyzedState
+AnalyticsData *-- "0..*" Metrics : generatedMetrics
+AuditService --> "0..*" AuditLog : managedLogs
+AuditLog *-- "0..*" EventRecord : capturedEvents
+TaskManager --> "0..*" User : managedUsers
+User --> "0..*" NotificationChannel : subscribedChannels
+NotificationChannel --> "0..*" NotificationRule : configuredRules
+ProgressReporter --> "1" User : targetedUser
+SafetyValidator --> "0..*" SafetyRule : definedRules
+User --> "0..*" ComplianceChecker : supervisedByChecker
+WorkflowEngine --> "1" ProcessRecord : activeProcess
+ProgressState --> "0..*" GoalMarker : trackedGoals
+ProgressReport --> "0..*" ReportGenerator : includedGenerators
+CampaignCampaign --> "1" ComplianceChecker : enforcedCompliance
+RankingSystem --> "0..*" Ranker : rankingsByUser
+SafetyValidator --> "0..*" ComplianceChecker : validatedCheckers
+AnalyticsEngine --> "0..*" CampaignCampaign : analyzedCampaigns
+AnalyticsEngine --> "0..*" ReportingSystem : generatedReports
+AnalyticsEngine --> "0..*" SkillSet : analyzedSkills
+AnalyticsEngine --> "0..*" ProgressState : trackedStates
+AnalyticsEngine --> "0..*" AnalyticsData : generatedMetrics
+ProgressState --> "0..*" GoalMarker : fulfilledGoals
+ProgressState --> "0..*" EventLog : recordedEvents
+CampaignExecutor --> "1" Campaign : managedCampaign
+CampaignExecutor --> "1" ComplianceChecker : enforcedCompliance
+ReportGenerator --> "1" AnalyticsEngine : sourceAnalytics
+AnalyticsEngine --> "1" TaskManager : taskManager
+AnalyticsEngine --> "1" User : trackedUser
+@enduml

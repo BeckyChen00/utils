@@ -1,0 +1,86 @@
+@startuml
+class ExaminationType {
+  typeName: String
+  +validateAccess(permissionSet: PermissionSet): boolean
+}
+class Hospital {
+  hospitalName: String
+  +hasPermission(type: ExaminationType): boolean
+  +applyPermission(type: ExaminationType): void
+}
+class PermissionSet {
+  grantedExaminationTypes: ExaminationType[]
+  +checkAccess(requestedType: ExaminationType): boolean
+}
+class Patient {
+  patientName: String
+  +getMedicalHistory(): String
+}
+class DiagnosisRecord {
+  diagnosisDate: Date
+  symptomsDescription: String
+  problemCode: String
+  +isComplete(): boolean
+}
+class TreatmentPlan {
+  planDescription: String
+  creationDate: Date
+  +getRecommendedExaminations(): ExaminationType[]
+}
+class ActualTreatment {
+  treatmentDate: Date
+  deviationNotes: String
+  +recordExamResult(exam: ExaminationResult): void
+  +recordMedicalAction(action: String): void
+  +isSuccessful(): boolean
+}
+class ExaminationResult {
+  resultValue: String
+  resultDate: Date
+  +getValue(): String
+}
+class Doctor {
+  doctorName: String
+  specialty: String
+  +createDiagnosis(p: Patient, notes: String): DiagnosisRecord
+  +defineTreatment(d: DiagnosisRecord, plan: TreatmentPlan): ActualTreatment
+}
+class ExaminationSession {
+  sessionStartTime: Date
+  sessionEndTime: Date
+  location: String
+  +cancelSession(): void
+  +finalizeSession(): void
+}
+class ExaminationKit {
+  kitCode: String
+  contents: String
+  +checkContent(): boolean
+}
+class MedicalAction {
+  actionDescription: String
+  actionDate: Date
+  performedBy: String
+  +recordAction(details: String): void
+}
+class UrgencyLevel {
+  levelName: String
+  priorityValue: int
+  +getPriorityValue(): int
+}
+Hospital "1" *-- "1" PermissionSet : configuredPermissions
+Hospital "1" --> "*" Doctor : employsDoctors
+Doctor "1" --> "*" DiagnosisRecord : makesDiagnoses
+DiagnosisRecord "1" --> "1" ExaminationType : identifiesProblem
+DiagnosisRecord "1" --> "1" TreatmentPlan : referencesPlan
+DiagnosisRecord "1" --> "*" MedicalAction : prescribesActions
+ActualTreatment "1" *-- "*" ExaminationResult : includesResults
+ActualTreatment "1" *-- "*" MedicalAction : includesActions
+Doctor "1" --> "*" ActualTreatment : performsTreatments
+ExaminationResult "1" --> "1" ExaminationType : resultsFromType
+ExaminationSession "1" *-- "1" ExaminationResult : producesResult
+ExaminationSession "1" --> "1" ExaminationKit : usesKit
+ExaminationSession "1" --> "1" Patient : treatsPatient
+ExaminationSession "1" --> "1" Doctor : conductedBy
+ExaminationSession "1" --> "1" Hospital : heldAt
+@enduml

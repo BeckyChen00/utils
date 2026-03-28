@@ -1,0 +1,42 @@
+@startuml
+enum BookingStatus {
+  Pending
+  Confirmed
+  Cancelled
+  Expired
+}
+class Traveler {
+  name: String
+  contactEmail: String
+  +register(): void
+  +calculateReliabilityScore(): int
+}
+class Hotel {
+  name: String
+  address: String
+  chainName: String
+  +announceAvailability(roomType: String, dates: DateRange): void
+  +cancelBooking(bookingId: String): boolean
+}
+class Booking {
+  bookingDate: Date
+  status: BookingStatus
+  totalRooms: int
+  requestedRoomTypes: String[]
+  minimumRating: int
+  budgetLimit: double
+  +finalize(creditCardInfo: String): boolean
+  +cancel(): boolean
+  +confirm(): boolean
+}
+class SpecialOffer {
+  offerPrice: double
+  specialFeatures: String[]
+  validityEndDate: Date
+  +isValid(): boolean
+}
+Traveler --> "0..*" Booking : bookings
+Hotel --> "0..*" Booking : guestBookings
+Booking --> "0..1" SpecialOffer : selectedOffer
+HBMS --> "0..*" Hotel : registeredHotels
+@enduml

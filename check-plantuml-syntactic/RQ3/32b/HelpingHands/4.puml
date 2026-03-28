@@ -1,0 +1,142 @@
+
+---
+
+
+@startuml
+skinparam classAttributeIconSize 0
+
+' Define classes with relevant attributes and relationships
+
+class Resident {
+    +String name
+    +String streetAddress
+    +String phoneNumber
+    +String email (optional)
+    +String itemDescription
+}
+
+class PickupRequest {
+    +Date pickupDate
+    +TimeWindow timeWindow (8:00 - 14:00)
+    +Resident resident
+    +List<Item> items
+}
+
+class Item {
+    +String description
+    +float weight
+    +Dimension dimensions
+    +ItemType type
+}
+
+enum ItemType {
+    SECOND_HAND_ARTICLE
+    NON_PERISHABLE_FOOD
+}
+
+class VolunteerDriver {
+    +String name
+    +Vehicle vehicle
+    +Set<DayOfWeek> availableDays
+}
+
+class Vehicle {
+    +int capacity (storage space)
+    +Location location
+}
+
+class PickupRoute {
+    +Date date
+    +List<PickupRequest> pickups
+    +VolunteerDriver driver
+    +calculateRoute()
+}
+
+class DistributionCenter {
+    +Location location
+    +processSecondHandArticles()
+    +notifyClients()
+}
+
+class FoodBank {
+    +Location location
+    +receiveNonPerishableFoods()
+}
+
+class Employee {
+    +String name
+    +DistributionCenter distributionCenter
+    +inspectAndTagArticle(Item)
+    +assignCategoryToItem(Item, Category)
+}
+
+class Category {
+    +int id
+    +String name (e.g., "Baby Clothing", "Microwave")
+}
+
+class Client {
+    +String name
+    +String homeAddress
+    +Set<Category> preferredCategories
+}
+
+class DeliveryService {
+    +deliverItem(Client, Item)
+    +scheduleDelivery()
+}
+
+class RFIDTag {
+    +UUID tagID
+    +Item item
+}
+
+' Associations and Relationships
+
+Resident --> PickupRequest : places
+PickupRequest --> Item : contains
+PickupRequest --> Resident : belongs to
+
+VolunteerDriver --> PickupRoute : drives
+VolunteerDriver --> Vehicle : owns
+
+PickupRoute --> PickupRequest : includes
+PickupRoute --> VolunteerDriver : assigned to
+PickupRoute --> Vehicle : uses
+
+Item --> ItemType : has type
+Item --> RFIDTag : may have
+RFIDTag --> Item : tags
+
+Employee --> DistributionCenter : works at
+Employee --> Item : inspects and tags
+Employee --> Category : assigns
+Item --> Category : categorized as
+
+DistributionCenter --> FoodBank : sends non-perishables to
+DistributionCenter --> Client : notifies
+Client --> Category : prefers
+Client --> DeliveryService : receives via
+
+DeliveryService --> VolunteerDriver : uses
+DeliveryService --> Client : delivers to
+DeliveryService --> Item : delivers
+
+FoodBank --> Item : receives non-perishables from
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- The `PickupRequest` represents a scheduled pickup made by a `Resident`.
+- `Item` can be either a `SECOND_HAND_ARTICLE` or `NON_PERISHABLE_FOOD`, which determines its handling path.
+- A `VolunteerDriver` manages a `Vehicle` and participates in `PickupRoute`s when available.
+- An `Employee` processes `Item`s at the `DistributionCenter`, including tagging and categorizing.
+- The `DistributionCenter` may offer a `DeliveryService` to clients who request it.
+- The `Category` list is fixed and standardized across all H2S locations.
+
+---
+
+Let me know if you want a version with more detailed methods or specific constraints like one-to-many or many-to-many relationships!

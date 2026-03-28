@@ -1,0 +1,74 @@
+
+@startuml
+
+' Define classes and their attributes
+class BTMS {
+}
+
+class Driver {
+    - id: String (auto-generated)
+    - name: String
+    - isOnSickLeave: boolean
+}
+
+class Bus {
+    - licensePlate: String (max 10 chars)
+    - isInRepairShop: boolean
+}
+
+class Route {
+    - routeNumber: Integer (max 9999)
+}
+
+class Assignment {
+    - day: Date
+    - shiftType: ShiftType
+    - bus: Bus
+    - driver: Driver
+    - route: Route
+}
+
+enum ShiftType {
+    Morning
+    Afternoon
+    Night
+}
+
+' Associations and relationships
+
+Driver "1" -- "many" Assignment : assigned to
+Bus "1" -- "many" Assignment : assigned to
+Route "1" -- "many" Assignment : assigned to
+Assignment "1" -- "1" ShiftType : has
+
+' Multiplicities for associations
+Driver "0..*" -- "1" Assignment : can be in multiple shifts
+Bus "0..*" -- "1" Assignment : can be assigned to multiple routes
+Route "1" -- "*" Assignment : has multiple assignments per day
+
+' Highlight constraints
+note right of Driver
+    - Only adding/deleting supported
+    - Sick drivers cannot be scheduled
+end note
+
+note right of Bus
+    - Only adding/deleting supported
+    - Buses in repair cannot be assigned
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Driver`**: Has a unique ID, name, and sick leave status. Drivers can be assigned to any number of shifts (including overlapping ones).
+- **`Bus`**: Identified by a license plate (up to 10 characters). It can be in repair or not.
+- **`Route`**: Identified by a number (up to 9999).
+- **`Assignment`**: The central class linking a **Driver**, **Bus**, and **Route** on a specific **Day** and **Shift**. This represents the actual assignment/scheduling entry.
+- **`ShiftType`**: An enum with three values (Morning, Afternoon, Night) for each assignment.
+
+---
+
+This diagram captures the structure and relationships described in the system requirements while adhering to the constraints like no updates for drivers and buses, support for sick leave and repairs, and flexible scheduling.

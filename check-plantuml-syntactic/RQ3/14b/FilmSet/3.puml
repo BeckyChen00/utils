@@ -1,0 +1,83 @@
+
+@startuml
+
+' Define classes
+class Employee {
+  -name: String
+  -socialSecurityNumber: String
+}
+
+class CreativeEmployee <|-- Employee
+class Director <|-- CreativeEmployee
+class Actor <|-- CreativeEmployee
+
+class Technician <|-- Employee {
+  -fieldOfActivity: String
+}
+
+class FilmSet {
+  -location: String
+}
+
+class Film {
+  -title: String
+  -yearOfRelease: Integer
+  -genre: String (Thriller, Action, Horror, Comedy)
+}
+
+class Screenwriter {
+  -name: String
+  -mostSuccessfulFilm: String
+}
+
+class Screenplay {
+  -title: String
+  -version: String
+  -date: Date
+  -numberOfScenes: Integer
+  -plot: String
+}
+
+class Novel {
+  -title: String
+  -author: String
+}
+
+class Concept {
+  -title: String
+}
+
+' Define associations
+Employee "1" -- "0..*" Film : worksOn
+Director "1" -- "1" Film : directs
+Actor "0..*" -- "1" Film : actsIn
+Technician "0..*" -- "1" Film : worksOn
+
+FilmSet "1" -- "0..*" Film : usedFor
+Screenwriter "1" -- "0..*" Screenplay : creates
+Screenplay "1" -- "1" Film : basedOn
+Screenplay "1" -- "1" (Novel or Concept) : basedOn
+
+Director "1" -- "1" String : assistantName
+Actor "1" -- "1" Boolean : hasOscar
+Director "1" -- "1" Boolean : hasOscar
+
+@enduml
+
+---
+
+### Explanation:
+
+- **Employee** is the base class for all people involved.
+- **CreativeEmployee** is a subclass of `Employee`, with **Director** and **Actor** as subclasses.
+- **Technician** is another subclass of `Employee` with an additional attribute `fieldOfActivity`.
+- **FilmSet** has a location and can be used by multiple films.
+- **Film** has a title, year, genre, and is associated with film sets, directors, actors, and technicians.
+- **Screenwriter** has a name and most successful film and creates screenplays.
+- **Screenplay** includes details like title, version, date, scenes, plot, and is based on either a **Novel** or **Concept**.
+- Associations:
+  - A film is directed by one director, acted by many actors, and worked on by technicians.
+  - A screenplay is written by exactly one screenwriter and used by exactly one film.
+  - A film uses multiple film sets.
+  - An actor and director may have an Oscar status.
+

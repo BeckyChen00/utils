@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackingSystem" eType="#//StatusTracker" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatusTracker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrainingProgram">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="schedule" eType="#//TrainingSchedule" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activities" eType="#//TrainingActivity" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessions" eType="#//TrainingSession" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leadingParticipants" eType="#//LeadParticipant" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="complianceCheck" eType="#//ComplianceCheck" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextSteps" eType="#//FollowUpPlan"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredGuardian" eType="#//Guardian" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ledAuthority" eType="#//InstitutionalAuthority" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedMetrics" eType="#//EvaluationMetric" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//EvaluationReport" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gatheredFeedbacks" eType="#//TrainingFeedback" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedSessions" eType="#//TrainingSession" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="organizedUnits" eType="#//TrainingUnit" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyGraph" eType="#//DependencyGraph" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requisitionedResources" eType="#//ResourceAllocation" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrainingSchedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrainingActivity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrainingSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="#//TrainingActivity" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedMetrics" eType="#//EvaluationMetric" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedFeedbacks" eType="#//TrainingFeedback" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedContent" eType="#//ContentPackage" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involvedStakeholders" eType="#//Stakeholder" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LeadParticipant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceCheck">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="checkedStakeholders" eType="#//Stakeholder" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FollowUpPlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Guardian">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supervisedParticipants" eType="#//Participant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InstitutionalAuthority">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sanctionedStakeholders" eType="#//Stakeholder" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Participant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="program" eType="#//TrainingProgram" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participatedActivities" eType="#//TrainingActivity" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedGoal" eType="#//TrainingGoal" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledSessions" eType="#//TrainingSession" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedFeedbacks" eType="#//TrainingFeedback" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrainingGoal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrainingFeedback"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EvaluationMetric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrainingUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedProgram" eType="#//TrainingProgram" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedActivity" eType="#//TrainingActivity" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedSessions" eType="#//TrainingSession" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedResources" eType="#//ResourceAllocation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedPlans" eType="#//FollowUpPlan" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceAllocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ContentPackage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Stakeholder"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EvaluationSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluator" eType="#//Stakeholder" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EvaluationReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DependencyGraph"/>
+</ecore:EPackage>

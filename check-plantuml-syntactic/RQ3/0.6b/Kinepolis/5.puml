@@ -1,0 +1,34 @@
+@startuml
+classDiagram
+
+    class SystemRequirement {
+        name: "System Requirement"
+        description: "Specifies the requirements for a system to be implemented."
+    }
+
+    class RequirementItem {
+        name: "Feature"
+        description: "A specific requirement of the system."
+    }
+
+    class Feature {
+        name: "User Interface"
+        description: "The user interface of the system."
+    }
+
+    class User {
+        name: "User"
+        description: "Person or entity using the system."
+    }
+
+    class System {
+        name: "MySystem"
+        description: "The system that meets the requirements."
+    }
+
+    relationship from SystemRequirement to RequirementItem;
+    relationship from RequirementItem to Feature;
+    relationship from Feature to User;
+    relationship from User to System;
+
+@enduml

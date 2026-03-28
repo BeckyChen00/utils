@@ -1,0 +1,83 @@
+
+---
+
+
+@startuml
+
+' Set skinparam for better readability
+skinparam class {
+    BackgroundColor white
+    BorderColor black
+    ArrowColor black
+}
+
+' Define classes
+class User {
+    - id: String (unique)
+    - name: String
+    - email: String
+    - dateOfBirth: Date
+    + createAccount(accountType: String): Account
+}
+
+class Account {
+    - accountNumber: String (auto-generated, unique)
+    - accountType: String (Personal or Business)
+    - user: User (1-1)
+    + createPage(name: String): Page
+    + grantPrivilege(page: Page, otherAccount: PersonalAccount): void
+}
+
+class PersonalAccount extends Account {
+    + sendFriendRequest(toUser: User): void
+    + receiveFriendRequest(fromUser: User): void
+}
+
+class BusinessAccount extends Account {
+    - companyName: String
+    - monthlyFee: Decimal
+}
+
+class Page {
+    - pageName: String
+    - visits: Integer
+    - adminAccount: Account (1-1)
+    + updateVisits(): void
+}
+
+class AdvertisementPage extends Page {
+    - bounceRate: Double
+    - clickThroughRate: Double
+    - conversionRate: Double
+}
+
+' Associations and Relationships
+User "1" -- "0..*" Account : owns
+Account "1" -- "0..*" Page : creates
+Page "1" -- "0..*" AdvertisementPage : extends
+Account "1" -- "0..1" PersonalAccount : if type == "Personal"
+Account "1" -- "0..1" BusinessAccount : if type == "Business"
+
+' Note about multiple accounts restriction
+note right of User
+    A user cannot have more than one account (either personal or business).
+end note
+
+@enduml
+
+---
+
+### 📌 Key Points Captured in the Diagram:
+
+- **User** has a unique ID and can create only **one** account.
+- **Account** is identified by an auto-generated number and is linked to a **User**.
+- Two types of accounts:
+  - **PersonalAccount**: Can send/receive friend requests.
+  - **BusinessAccount**: Has company name and monthly fee.
+- **Page** is managed by exactly one **Account**, and each **Account** can't have duplicate page names.
+- **AdvertisementPage** is a special type of **Page** with metrics like bounce rate, CTR, and conversion rate.
+- **Privileges** can be granted between **PersonalAccounts** and **Pages**.
+- **Multiple accounts per user is not allowed**, enforced via a note.
+
+---
+

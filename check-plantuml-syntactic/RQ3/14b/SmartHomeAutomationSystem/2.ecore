@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//physicalAddress" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="physicalAddress"/>
+  <eClassifiers xsi:type="ecore:EClass" name="rooms"/>
+  <eClassifiers xsi:type="ecore:EClass" name="infrastructureMap">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Map&lt;DeviceId,_Device&gt;" eType="#//rooms"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="addRoom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="sensors"/>
+  <eClassifiers xsi:type="ecore:EClass" name="actuators">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Actuator&gt;" eType="#//sensors"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="addSensor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//status" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="status"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="value">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Double" eType="#//getId"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="timestamp">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//sensorId"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//status"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DateTime" eType="#//logReading"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="DateTime" eType="#//commands"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="sensorId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getValue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="commandType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//getValue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="actuatorId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Entry&gt;" eType="#//entries" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="entries"/>
+  <eClassifiers xsi:type="ecore:EClass" name="logReading"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getTimestamp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="command">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Command" eType="#//getTimestamp"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="getCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="precondition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="BooleanExpression" eType="#//getCommand"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="action"/>
+  <eClassifiers xsi:type="ecore:EClass" name="isActive">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Boolean" eType="#//action"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ruleId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="evaluate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Map&lt;String,_Reading&gt;" eType="#//sensorReadings" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="sensorReadings"/>
+  <eClassifiers xsi:type="ecore:EClass" name="commands"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getRuleId"/>
+</ecore:EPackage>

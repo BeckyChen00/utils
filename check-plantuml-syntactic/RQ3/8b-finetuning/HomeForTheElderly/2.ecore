@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registrationData" eType="#//RegistrationData" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegistrationData">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="waitListEntry" eType="#//WaitListEntry" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="latestAssessment" eType="#//MedicalAssessment" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MedicalAssessment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WaitListEntry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedProposals" eType="#//Proposal" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Proposal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="proposedTo" eType="#//Person" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingStay" eType="#//Stay" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Stay">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inhabitedBy" eType="#//Person" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="category" eType="#//BedCategory" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedInvoices" eType="#//Invoice" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BedCategory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paymentHistory" eType="#//PaymentRecord" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentRecord"/>
+</ecore:EPackage>

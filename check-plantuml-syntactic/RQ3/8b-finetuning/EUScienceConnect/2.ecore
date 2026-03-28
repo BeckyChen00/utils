@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" eType="#//Person" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScientificArticle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authors" eType="#//Author" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="citation" eType="#//Citation" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publisher" eType="#//Publisher" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviews" eType="#//Review" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceJournal" eType="#//Journal" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affiliatedInstitution" eType="#//ResearchInstitution" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Author"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Citation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnicalReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publisher" eType="#//ResearchInstitution" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authors" eType="#//Author" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResearchInstitution"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Publisher">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="journals" eType="#//Journal" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Review"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Journal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishedArticles" eType="#//ScientificArticle" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

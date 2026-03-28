@@ -1,0 +1,14 @@
+@startuml
+class Diagram {
+    class SystemRequirement {
+        #System Requirement
+        has "System" as a property,
+        has "Requirement" as a property,
+        has "Version" as a property,
+        has "Description" as a property
+    }
+}
+
+# Output
+... 
+@enduml

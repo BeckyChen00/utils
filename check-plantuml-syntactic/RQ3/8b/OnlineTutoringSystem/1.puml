@@ -1,0 +1,97 @@
+
+@startuml
+
+class Student {
+  - name: String
+  - email: String
+  + browseTutoringOffers(subject: String)
+  + makeRequest(tutor: Tutor, subject: String, level: String, date: Date, time: Time)
+}
+
+class Tutor {
+  - name: String
+  - email: String
+  - bankAccount: String
+  + offerTutoring(subject: String, level: String, hourlyPrice: Double)
+  + specifyAvailability(availability: Availability)
+  + confirmRequest(request: Request)
+  + cancelSession(session: Session)
+}
+
+class Availability {
+  - daysOfWeek: List<String>
+  - startTime: Time
+  - endTime: Time
+}
+
+class TutoringOffer {
+  - subject: String
+  - level: String
+  - hourlyPrice: Double
+  - availability: Availability
+  + findMatches(student: Student)
+}
+
+class Request {
+  - student: Student
+  - tutor: Tutor
+  - subject: String
+  - level: String
+  - suggestedDate: Date
+  - suggestedTime: Time
+  + confirm()
+  + reschedule(date: Date, time: Time)
+}
+
+class Session {
+  - id: String
+  - date: Date
+  - time: Time
+  - tutor: Tutor
+  - student: Student
+  - subject: String
+  - level: String
+  - price: Double
+  + scheduleFollowUp()
+  + pay(price: Double, paymentMethod: PaymentMethod)
+  + cancel(canceller: User)
+}
+
+class PaymentMethod {
+  - type: String (e.g., CreditCard, WireTransfer)
+  - details: String
+}
+
+class User {
+  - name: String
+  - email: String
+}
+
+' Inheritance relationships
+Student --|> User
+Tutor --|> User
+
+' Associations
+Student "1" -- "0..*" Request : makes
+Tutor "1" -- "0..*" Request : receives
+Tutor "1" -- "0..*" TutoringOffer : offers
+Request "1" -- "1" Session : leads to
+Tutor "1" -- "0..*" Session : conducts
+Student "1" -- "1" Session : attends
+Session "1" -- "1" PaymentMethod : uses
+
+@enduml
+
+---
+
+### ✅ Summary of Key Entities:
+- **Student**: Can browse tutoring offers, make requests, attend sessions.
+- **Tutor**: Offers tutoring, specifies availability, confirms or reschedules requests, handles cancellations.
+- **Availability**: Specifies when a tutor is available.
+- **TutoringOffer**: A specific tutoring service offered by a tutor in a subject and level.
+- **Request**: A request made by a student for a session with a tutor.
+- **Session**: An actual tutoring session between a student and a tutor.
+- **PaymentMethod**: How a student pays for a session.
+- **User**: Base class for both students and tutors.
+
+Let me know if you'd like a UML image generated from this code or further refinements!

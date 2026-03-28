@@ -1,0 +1,58 @@
+
+@startuml
+
+class User {
+  +id: String (unique)
+  +name: String
+  +email: String
+  +dateOfBirth: Date
+  -account: Account
+}
+
+class Account {
+  +accountNumber: String (unique)
+  +type: String ("personal" | "business")
+  -user: User
+  -pages: Set<Page>
+}
+
+class Page {
+  +name: String (unique per account)
+  +visitCount: Integer
+  -account: Account
+  -type: String ("normal" | "advertisement")
+  -adPageFeatures: Map<String, Double> (if type is advertisement)
+}
+
+class AdvertisementPage {
+  +bounceRate: Double
+  +clickThroughRate: Double
+  +conversionRate: Double
+  -page: Page
+}
+
+User "1" -- "1" Account : has
+Account "1" -- "0..*" Page : manages
+Page "1" -- "1" Account : belongs to
+Page "1" -- "1" AdvertisementPage : is a type of (if applicable)
+
+@enduml
+
+---
+
+### ✅ Explanation:
+
+- **User**: Represents a user who signs up with personal details. Each user has exactly one `Account`.
+- **Account**: Can be either a `personal` or `business` type. It is uniquely identified by an `accountNumber`. Each `Account` can manage multiple `Pages`.
+- **Page**: A page created by an account. Each page must have a unique name within the same account. Pages can be of type `normal` or `advertisement`.
+- **AdvertisementPage**: A special type of `Page` that includes metrics like bounce rate, click-through rate, and conversion rate.
+
+---
+
+### 📌 Notes:
+- The relationship between `User` and `Account` is **one-to-one**.
+- The relationship between `Account` and `Page` is **one-to-many**.
+- The `Page` class has a **composition** relationship with `AdvertisementPage` (only if it's an ad page).
+- The `name` attribute in `Page` is **unique per account**, not globally.
+
+Let me know if you'd like this rendered as an image or want to add more features!

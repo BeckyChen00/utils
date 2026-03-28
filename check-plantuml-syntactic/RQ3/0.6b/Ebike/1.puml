@@ -1,0 +1,41 @@
+@startuml
+
+class diagram: System Requirements
+
+    class: Requirement1
+        name: Requirement 1
+        description: A requirement that specifies a certain feature or function.
+
+    class: Requirement2
+        name: Requirement 2
+        description: Another requirement specifying another feature.
+
+    class: Requirement3
+        name: Requirement 3
+        description: Third requirement.
+
+    class: Feature1
+        name: Feature 1
+        description: An essential functionality.
+
+    class: Feature2
+        name: Feature 2
+        description: A secondary functionality.
+
+    class: Feature3
+        name: Feature 3
+        description: A third functionality.
+
+    relationship: Relationship1
+        start from Requirement1
+        end at Feature1
+
+    relationship: Relationship2
+        start from Requirement2
+        end at Feature2
+
+    relationship: Relationship3
+        start from Requirement3
+        end at Feature3
+
+@enduml

@@ -1,0 +1,102 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteAlign center
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class CreativeEmployee {
+  + isOscarWinner: Boolean
+}
+
+class Director extends CreativeEmployee {
+  - assistantName: String
+}
+
+class Actor extends CreativeEmployee {
+  - education: String
+}
+
+class Technician {
+  - fieldOfActivity: String
+}
+
+class FilmSet {
+  - location: String
+  - films: List<Film>
+}
+
+class Film {
+  - title: String
+  - yearOfRelease: Integer
+  - genre: String
+  - filmSets: List<FilmSet>
+}
+
+class Screenwriter {
+  - name: String
+  - mostSuccessfulFilm: String
+  - screenplays: List<Screenplay>
+}
+
+class Screenplay {
+  - title: String
+  - version: Integer
+  - date: Date
+  - numberOfScenes: Integer
+  - plot: String
+  - basis: String
+  - novel: Novel or Concept
+  - film: Film
+}
+
+class Novel {
+  - title: String
+  - author: String
+}
+
+class Concept {
+  - description: String
+}
+
+Employee <|-- CreativeEmployee
+CreativeEmployee <|-- Director
+CreativeEmployee <|-- Actor
+Employee <|-- Technician
+
+FilmSet "0..*" -- "1..*" Film: uses
+Film "1..*" -- "0..*" FilmSet: shotAt
+
+Screenwriter "1" -- "0..*" Screenplay: writes
+Screenplay "1" -- "1" Film: basedOn
+Screenplay "1" -- "0..*" Novel: basedOnNovel
+Screenplay "1" -- "0..*" Concept: basedOnConcept
+
+note right of Screenplay
+  basis can be either "novel" or "concept"
+end note
+
+@enduml
+
+---
+
+### ✅ Summary of Classes and Relationships:
+
+- **Employee**: Base class for all employees.
+- **CreativeEmployee**: Subclass of `Employee`, including `Director` and `Actor`.
+- **Director**: Has an assistant's name and can be an Oscar winner.
+- **Actor**: Has education details and can be an Oscar winner.
+- **Technician**: Has a field of activity.
+- **FilmSet**: Has a location and is used by multiple films.
+- **Film**: Has title, release year, genre, and is shot at multiple film sets.
+- **Screenwriter**: Creates screenplays and has a most successful film.
+- **Screenplay**: Based on a novel or concept, linked to a film and a screenwriter.
+- **Novel**: Title and author.
+- **Concept**: Description (optional).
+
+---
+
+Let me know if you'd like this rendered as an image or want to export it to another format!

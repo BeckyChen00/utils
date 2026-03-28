@@ -1,0 +1,94 @@
+
+- `Hospital`
+- `Doctor`
+- `Patient`
+- `ExaminationType`
+- `Examination`
+- `Problem`
+- `TreatmentPlan`
+- `ActualTreatment`
+
+---
+
+
+@startuml
+
+class Hospital {
+  -id: int
+  -name: String
+  -allowedExaminationTypes: Set<ExaminationType>
+}
+
+class Doctor {
+  -id: int
+  -name: String
+  -affiliatedHospital: Hospital
+}
+
+class Patient {
+  -id: int
+  -name: String
+  -currentProblem: Problem
+}
+
+class ExaminationType {
+  -id: int
+  -name: String
+}
+
+class Examination {
+  -id: int
+  -type: ExaminationType
+  -hospital: Hospital
+  -patient: Patient
+}
+
+class Problem {
+  -id: int
+  -description: String
+}
+
+class TreatmentPlan {
+  -id: int
+  -problem: Problem
+  -advisedExaminations: Set<ExaminationType>
+}
+
+class ActualTreatment {
+  -id: int
+  -doctor: Doctor
+  -patient: Patient
+  -treatmentPlan: TreatmentPlan
+  -examinations: Set<Examination>
+  -additionalActions: String
+}
+
+' Relationships
+
+Hospital "1" --> "0..*" ExaminationType : allows
+Doctor "1" --> "0..*" ActualTreatment : creates
+Patient "1" --> "0..1" Problem : has
+Examination "1" --> "1" ExaminationType : of type
+Examination "1" --> "1" Hospital : performed at
+Examination "1" --> "1" Patient : for
+TreatmentPlan "1" --> "1" Problem : for
+ActualTreatment "1" --> "1" TreatmentPlan : based on
+ActualTreatment "1" --> "0..*" Examination : includes
+ActualTreatment "1" --> "0..1" String : additional actions
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Relationships:
+
+- A `Hospital` can allow multiple `ExaminationType`s.
+- A `Doctor` is affiliated with one `Hospital` and may create multiple `ActualTreatment`s.
+- A `Patient` has one current `Problem`.
+- An `Examination` is of one `ExaminationType`, is performed by a `Hospital`, and is done for a `Patient`.
+- A `TreatmentPlan` is defined for a specific `Problem` and lists advised `ExaminationType`s.
+- An `ActualTreatment` is based on a `TreatmentPlan`, includes some or all of the advised examinations, and may include additional medical actions.
+
+---
+
+Let me know if you'd like to extend this with associations like "a doctor prescribes an examination" or "a patient receives an actual treatment".

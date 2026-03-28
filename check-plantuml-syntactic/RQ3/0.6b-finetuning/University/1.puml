@@ -1,0 +1,80 @@
+@startuml
+enum PlacementStrategy {
+  ColumnPlacement
+  RowPlacement
+  TogglePlacement
+  HybridMode
+}
+class Room {
+  roomId: String
+  description: String
+  +getAvailablePlacements(): PlacementOption[]
+}
+class Customer {
+  contactInfo: String
+  +placeOrder(item: Product, quantity: int): Order
+}
+class Order {
+  orderDate: Date
+  totalAmount: double
+  +calculateTotal(): double
+  +confirm(): void
+}
+class OrderItem {
+  quantity: int
+  unitPrice: double
+  +getSubtotal(): double
+}
+class Product {
+  productName: String
+  stockLevel: int
+  +checkAvailability(quantity: int): boolean
+}
+class ProductCategory {
+  categoryName: String
+  +getSubcategories(): Product[]
+}
+class PlacementStrategy {
+  strategyName: String
+  isOptimized: boolean
+  +evaluate(room: Room): PlacementOption
+  +applyTo(item: OrderItem): PlacementOption
+}
+class PlacementOption {
+  placementStrategy: PlacementStrategy
+  isFlexible: boolean
+  bestCoordinates: String
+  +isCompatible(room: Room): boolean
+}
+class Configuration {
+  settings: Map<String, String>
+  enabledFeatures: String[]
+  +getEnabledFeatures(): String[]
+}
+class SensorDevice {
+  location: String
+  isActive: boolean
+  +getData(): double[]
+}
+class LayoutEngine {
+  +generateLayout(room: Room, plan: Configuration): PlacementOption
+  +validateLayout(config: Configuration): boolean
+}
+class ComplianceChecker {
+  +isCompliant(order: Order, rules: String[]): boolean
+}
+Order *-- "1..*" OrderItem : items
+Room *-- "1" ProductCategory : category
+OrderItem *-- "1" Product : product
+Product *-- "0..*" OrderItem : orderedItems
+Customer --> "0..*" Order : placedOrders
+Order *-- "1" Configuration : applicationConfig
+Configuration --> "1" LayoutEngine : layoutEngine
+PlaceOrderStrategy --> "1" PlacementStrategy : selectedStrategy
+PlaceOrderStrategy --> "0..*" PlacementOption : availableOptions
+OrderItem --> "1" PlacementOption : targetOption
+SensorDevice --> "1" Order : sensedEvent
+LayoutEngine --> "1" PlacementOption : generatedOption
+PlaceOrderStrategy --> "0..*" PlacementOption : definedOptions
+ComplianceChecker --> "0..*" Order : verifiedOrders
+@enduml

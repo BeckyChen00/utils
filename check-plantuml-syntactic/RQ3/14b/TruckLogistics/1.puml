@@ -1,0 +1,67 @@
+
+@startuml
+' Class Diagram for the Transportation Management System
+
+class Location {
+  -address: String
+}
+
+class Driver {
+  -firstName: String
+  -lastName: String
+  +assignOrder(order: Order): void
+  +unassignOrder(): void
+}
+
+class Vehicle {
+  -vehicleNumber: String
+  +assignDriver(driver: Driver): void
+  +unassignDriver(): void
+}
+
+class Truck extends Vehicle {
+  -weight: Double
+}
+
+class Car extends Vehicle {
+  -seats: Integer
+}
+
+class Van extends Vehicle {
+  -capacity: Integer
+}
+
+class Order {
+  -origin: Location
+  -destination: Location
+  -date: Date
+  -driver: Driver
+  +assignDriver(driver: Driver): void
+}
+
+' Associations
+
+Location "1" *-- "0..*" Driver : "has"
+Location "1" *-- "0..*" Vehicle : "has"
+
+Driver "1" *-- "0..1" Order : "carries"
+Driver "0..1" *-- "1" Vehicle : "drives"
+
+Vehicle "1" *-- "0..1" Driver : "driven by"
+
+Truck <|-- Vehicle
+Car <|-- Vehicle
+Van <|-- Vehicle
+@enduml
+
+### Explanation of Key Elements:
+- **Location**: Has an address and is associated with multiple drivers and vehicles.
+- **Driver**: Has a first and last name, can be assigned to one order at a time, and may drive one vehicle.
+- **Vehicle**: Base class with `vehicleNumber`. Subclasses are `Truck`, `Car`, and `Van` with specific attributes.
+- **Order**: Has origin and destination locations, a date, and is assigned to one driver.
+- **Associations**:
+  - A `Location` has many `Drivers` and `Vehicles`.
+  - A `Driver` can carry out at most one `Order` at a time.
+  - A `Driver` can drive at most one `Vehicle`.
+  - An `Order` is assigned to exactly one `Driver`.
+

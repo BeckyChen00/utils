@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="levels" eType="#//GameLevel" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameLevel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="blocks" eType="#//Block" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Block"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GameSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeLevel" eType="#//GameLevel" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Player">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessions" eType="#//GameSession" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hallOfFame" eType="#//HallOfFame" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HallOfFame"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GameDesign">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedHallOfFame" eType="#//HallOfFame" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

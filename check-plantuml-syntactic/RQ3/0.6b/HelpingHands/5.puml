@@ -1,0 +1,107 @@
+@startuml
+    classDiagram
+
+    [System Requirement]
+    class SystemRequirement {
+        member {
+            name: "System Requirement"
+            description: "The system requirement for the application."
+        }
+    }
+
+    class Application {
+        member {
+            name: "Application"
+            description: "The application that satisfies the system requirements."
+        }
+    }
+
+    class Requirement {
+        member {
+            name: "Requirement"
+            description: "A requirement defined by the system requirement."
+        }
+    }
+
+    class Constraint {
+        member {
+            name: "Constraint"
+            description: "A constraint that must be satisfied by the application."
+        }
+    }
+
+    class Dependency {
+        member {
+            name: "Dependency"
+            description: "A dependency between the application and other components."
+        }
+    }
+
+    class Component {
+        member {
+            name: "Component"
+            description: "A component that provides a functionality."
+        }
+    }
+
+    class Module {
+        member {
+            name: "Module"
+            description: "A module that implements a specific functionality."
+        }
+    }
+
+    class Interface {
+        member {
+            name: "Interface"
+            description: "An interface that defines a set of operations."
+        }
+    }
+
+    class Operation {
+        member {
+            name: "Operation"
+            description: "An operation that is executed on the interface."
+        }
+    }
+
+    class Relationship {
+        member {
+            name: "Relationship"
+            description: "A relationship between two entities."
+        }
+    }
+
+    class Diagram {
+        member {
+            name: "Diagrams"
+            description: "The diagrams representing the system structure."
+        }
+    }
+
+    # Relationships
+    relationship(
+        Component to Interface,
+        Interface to Operation,
+        Operation to Relationship
+    )
+
+    # Dependencies
+    dependency(
+        Application to Component,
+        Component to Dependency
+    )
+
+    # Requirements
+    requirement(
+        SystemRequirement to Requirement,
+        Requirement to Constraint
+    )
+
+    # Modules
+    module(
+        Module to Interface,
+        Interface to Operation,
+        Operation to Relationship
+    )
+@enduml

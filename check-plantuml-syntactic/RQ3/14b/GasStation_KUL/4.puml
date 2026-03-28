@@ -1,0 +1,136 @@
+
+@startuml
+' Class Diagram for Oil Company Gas Station System
+
+class Customer {
+  -id: int
+  -name: String
+  -address: String
+  -fuelCard: FuelCard
+  -invoices: List<Invoice>
+  -status: CustomerStatus
+}
+
+enum CustomerStatus {
+  ACTIVE
+  SUSPENDED
+  BLOCKED
+}
+
+class FuelCard {
+  -cardNumber: String
+  -customer: Customer
+  -refuelTurns: List<RefuelTurn>
+}
+
+class RefuelTurn {
+  -id: int
+  -date: Date
+  -amount: double
+  -pump: Pump
+  -invoice: Invoice
+}
+
+class Invoice {
+  -id: int
+  -month: Month
+  -customer: Customer
+  -refuelTurns: List<RefuelTurn>
+  -totalAmount: double
+  -discount: double
+  -isPaid: boolean
+}
+
+class Payment {
+  -id: int
+  -invoice: Invoice
+  -amount: double
+  -date: Date
+}
+
+class Pump {
+  -id: int
+  -gasStation: GasStation
+  -fuelType: FuelType
+  -reservoirLevel: double
+  -reorderLevel: double
+  -criticalLevel: double
+  -isBlocked: boolean
+  -refuelTurns: List<RefuelTurn>
+}
+
+class GasStation {
+  -id: int
+  -name: String
+  -location: String
+  -pumps: List<Pump>
+  -dailyReport: DailyReport
+}
+
+class DailyReport {
+  -reportDate: Date
+  -pumpsToRefill: List<Pump>
+  -currentLevels: Map<Pump, double>
+  -quantitiesToOrder: Map<Pump, double>
+}
+
+class FuelType {
+  -id: int
+  -name: String
+  -description: String
+}
+
+class Refill {
+  -id: int
+  -pump: Pump
+  -quantityAdded: double
+  -date: Date
+  -initiatedBy: GasStation
+}
+
+class BlockEvent {
+  -id: int
+  -pump: Pump
+  -reason: String
+  -startDate: Date
+  -endDate: Date
+}
+
+' Relationships
+
+Customer "1" -- "1" FuelCard : owns
+FuelCard "1" -- "*" RefuelTurn : contains
+RefuelTurn "1" -- "1" Invoice : belongs to
+Invoice "1" -- "*" RefuelTurn : includes
+Invoice "1" -- "*" Payment : has payments
+Customer "1" -- "*" Invoice : receives
+Customer "1" -- "*" Payment : makes
+
+GasStation "1" -- "*" Pump : contains
+Pump "1" -- "1" FuelType : uses
+Pump "1" -- "*" RefuelTurn : handles
+Pump "1" -- "0..1" BlockEvent : is blocked by
+Pump "1" -- "*" Refill : refilled with
+
+GasStation "1" -- "1" DailyReport : generates daily
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **Customer**: Holds a fuel card and receives invoices. Can be in various states (Active, Suspended, Blocked).
+- **FuelCard**: Used to track refuel turns without immediate payment.
+- **RefuelTurn**: Represents each individual refueling event at a pump.
+- **Invoice**: Generated monthly, includes all refuel turns from that month and applies discounts based on turnover.
+- **Payment**: A record of a customer paying an invoice.
+- **Pump**: Has a reservoir, can be blocked if below critical level or during refill.
+- **GasStation**: Manages pumps and generates daily reports about fuel levels.
+- **DailyReport**: Contains data about which pumps need refilling and how much fuel to order.
+- **Refill**: Records when and how much fuel was added to a pump.
+- **BlockEvent**: Tracks when a pump is temporarily blocked due to maintenance or safety reasons.
+
+---
+
+Let me know if you'd like this exported as a PNG or further refined!

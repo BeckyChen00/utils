@@ -1,0 +1,90 @@
+
+@startuml
+
+' Class Definitions
+
+class Song {
+  -title: String
+  -year: Integer
+  -length: Integer
+  -genre: String
+  -trackNumber: Integer
+}
+
+class Artist {
+  -name: String
+  -dateOfBirth: Date
+  -websiteUrl: String
+}
+
+class User {
+  -id: Integer
+  -name: String
+  -address: String
+}
+
+class RegularUser {
+  -canBuySingles: Boolean
+  -canBuyAlbums: Boolean
+}
+
+class BusinessUser {
+  -vatNumber: String
+  -canUploadSongs: Boolean
+}
+
+class Album {
+  -title: String
+  -trackList: List<Song>
+}
+
+class Single {
+  -title: String
+}
+
+class Hit {
+  -title: String
+  -trackNumber: Integer
+}
+
+' Associations and Relationships
+
+Song "1" -- "1" Artist : belongsTo
+Artist "1" -- "*" Song : has
+
+User "1" -- "*" Song : owns (as BusinessUser)
+User "1" -- "*" Album : owns (as BusinessUser)
+
+User "1" -- "*" Single : buys (as RegularUser)
+User "1" -- "*" Album : buys (as RegularUser)
+
+BusinessUser "1" -- "*" Song : uploads
+BusinessUser "1" -- "*" Album : creates
+
+Album "1" -- "*" Hit : contains
+Hit "1" -- "1" Song : isA
+
+RegularUser <|-- User
+BusinessUser <|-- User
+
+Single <|-- Song
+Hit <|-- Song
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **Song** contains title, year, length, genre, and track number. It can be either a **Single** or a **Hit**.
+- **Artist** has name, date of birth, and a website URL. Each artist is uniquely identified by their name.
+- **User** is the base class with `id`, `name`, and `address`. Two subclasses:
+  - **RegularUser**: Can buy singles and albums.
+  - **BusinessUser**: Can upload songs and create albums; also has a VAT number.
+- **Album** consists of multiple **Hits**, each with a track number.
+- **Single** is a type of song that can be bought directly.
+- **Hit** is a type of song that appears in an album.
+
+---
+
+Let me know if you'd like this converted to a visual image or want to add more features!

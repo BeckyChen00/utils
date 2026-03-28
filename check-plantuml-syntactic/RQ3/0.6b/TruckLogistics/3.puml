@@ -1,0 +1,71 @@
+@startuml
+
+class diagram -1 systemRequirement
+
+role class SystemRequirement {
+    role: system requirement
+    name: System Requirement
+}
+
+role class Module {
+    role: module
+    name: Module
+}
+
+role class Component {
+    role: component
+    name: Component
+}
+
+role class Service {
+    role: service
+    name: Service
+}
+
+role class BusinessProcess {
+    role: business process
+    name: Business Process
+}
+
+role class DataStore {
+    role: data store
+    name: Data Store
+}
+
+role class User {
+    role: user
+    name: User
+}
+
+role class RoleAssignment {
+    role: role assignment
+    name: Role Assignment
+}
+
+role class Connection {
+    role: connection
+    name: Connection
+}
+
+role class Relationship {
+    role: relationship
+    name: Relationship
+}
+
+role class Dependency {
+    role: dependency
+    name: Dependency
+}
+
+component SystemRequirement -> Module
+Component -> SystemRequirement
+Service -> SystemRequirement
+BusinessProcess -> SystemRequirement
+DataStore -> SystemRequirement
+User -> SystemRequirement
+RoleAssignment -> SystemRequirement
+Connection -> SystemRequirement
+Relationship -> SystemRequirement
+Dependency -> SystemRequirement
+
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+enum ShiftType {
+  Morning
+  Afternoon
+  Night
+  Weekend
+}
+class City {
+  cityName: String
+}
+class Bus {
+  licencePlate: String
+  isUnderRepair: boolean
+  +getDetails(): String
+}
+class Driver {
+  name: String
+  isOnSickLeave: boolean
+  +updateAvailability(isOnLeave: boolean): void
+}
+class Route {
+  routeNumber: int
+  operatorName: String
+}
+class Schedule {
+  scheduledDate: Date
+  +getAssignedBuses(): List<Bus>
+  +getAssignedDrivers(): List<Driver>
+}
+class Shift {
+  shiftType: ShiftType
+  durationHours: float
+  +getShiftDetails(): String
+}
+City *-- "*" Route : managedRoutes
+City *-- "*" Schedule : managedSchedules
+Route *-- "*" Shift : definedShifts
+Route --> "*" Bus : assignedBuses
+Schedule *-- "*" Shift : scheduledShifts
+Schedule --> "*" Bus : assignedBuses
+Schedule --> "*" Driver : assignedDrivers
+Bus --> "*" Driver : assignedDrivers
+@enduml

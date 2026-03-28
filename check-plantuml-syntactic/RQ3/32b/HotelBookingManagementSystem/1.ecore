@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="CreditCard">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expiryDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cvv" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TravelPreference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SearchRequest">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="city" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrivalDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="departureDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfRooms" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="roomType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minHotelRating" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxCostPerNight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preferences" eType="#//TravelPreference" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includes" eType="#//TravelPreference" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generates" eType="#//Offer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Hotel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="address" eType="#//Address"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rating" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="chain" eType="#//HotelChain"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="located_at" eType="#//Address" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongs_to" eType="#//HotelChain"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offers" eType="#//RoomType" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="provides" eType="#//Offer" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="handles" eType="#//Booking" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sends" eType="#//SpecialOffer" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="announceRoomAvailability">
+      <eParameters xsi:type="ecore:EParameter" name="period" eType="#//Period"/>
+      <eParameters xsi:type="ecore:EParameter" name="roomType" eType="#//RoomType"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="confirmBooking">
+      <eParameters xsi:type="ecore:EParameter" name="booking" eType="#//Booking"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="sendSpecialOffer" eType="#//SpecialOffer">
+      <eParameters xsi:type="ecore:EParameter" name="traveller" eType="#//Traveller"/>
+      <eParameters xsi:type="ecore:EParameter" name="request" eType="#//SearchRequest"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Address">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="street" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="city" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="postalCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="country" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HotelChain">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hotels" eType="#//Hotel" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoomType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Period">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Offer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hotel" eType="#//Hotel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roomType" eType="#//RoomType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="period" eType="#//Period"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pricePerNight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="includesBreakfast" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasFreeWifi" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="has247FrontDesk" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations xsi:type="ecore:EOperation" name="getSummary" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PreliminaryBooking">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="traveller" eType="#//Traveller"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offer" eType="#//Offer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="based_on" eType="#//Offer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receives" eType="#//SpecialOffer" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="forwardToCompetitors"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecialOffer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hotel" eType="#//Hotel"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pricePerNight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="additionalBenefits" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="compare" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eParameters xsi:type="ecore:EParameter" name="other" eType="#//SpecialOffer"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="traveller" eType="#//Traveller"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hotel" eType="#//Hotel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="roomType" eType="#//RoomType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="period" eType="#//Period"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalPrice" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paymentMethod" eType="#//PaymentMethod"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="confirmed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cancellationDeadline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//BookingStatus"/>
+    <eOperations xsi:type="ecore:EOperation" name="finalize"/>
+    <eOperations xsi:type="ecore:EOperation" name="confirm"/>
+    <eOperations xsi:type="ecore:EOperation" name="cancel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PaymentMethod">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="PrePaid"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="PaidAtHotel" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="BookingStatus">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Pending"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Confirmed" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Cancelled" value="2"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Completed" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="BillingInformation" eType="#//billingInfo"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="billingInfo"/>
+  <eClassifiers xsi:type="ecore:EClass" name="travelPreferences"/>
+  <eClassifiers xsi:type="ecore:EClass" name="companyName">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//travelPreferences"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="address">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CreditCard" eType="#//creditCardDetails"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="creditCardDetails"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Traveller">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//BillingInformation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//TravelPreference" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Booking" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//PreliminaryBooking" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BillingInformation"/>
+</ecore:EPackage>

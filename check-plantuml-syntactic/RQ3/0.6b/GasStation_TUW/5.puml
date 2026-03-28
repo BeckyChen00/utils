@@ -1,0 +1,47 @@
+@startuml
+
+class SystemRequirement {id, name, description}
+
+class Requirement {id, name, description, systemRequirement}
+
+class SystemDiagram {
+  class Diagram {
+    class SystemRequirement {
+      id: String,
+      name: String,
+      description: String
+    }
+    
+    class Requirement {
+      id: String,
+      name: String,
+      description: String,
+      systemRequirement: Reference(SystemRequirement)
+    }
+
+    class SystemDiagram {
+      Diagram {
+        SystemRequirement {
+          id: "1",
+          name: "System Requirement 1",
+          description: "This is a basic requirement for the system."
+        }
+        
+        Requirement {
+          id: "2",
+          name: "Feature A",
+          description: "The application should have feature A.",
+          systemRequirement: Reference("1")
+        }
+        
+        Requirement {
+          id: "3",
+          name: "Feature B",
+          description: "The application should have feature B.",
+          systemRequirement: Reference("1")
+        }
+      }
+    }
+  }
+}
+@enduml

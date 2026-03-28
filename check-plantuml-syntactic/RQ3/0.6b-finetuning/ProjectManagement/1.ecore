@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="schedule" eType="#//Schedule" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sessions" eType="#//Session" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Session">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookings" eType="#//Booking" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="speaker" eType="#//Instructor" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ticket" eType="#//Ticket" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="venue" eType="#//Location" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notificationChairs" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Instructor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBookings" eType="#//Booking" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sentNotifications" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="audienceSegments" eType="#//AudienceSegment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mediaAssets" eType="#//MediaAsset" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="venue" eType="#//Location" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AudienceSegment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MediaAsset"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Location">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locations" eType="#//Room" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Platform">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedRooms" eType="#//Room" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeSchedules" eType="#//Schedule" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedEvents" eType="#//Event" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+</ecore:EPackage>

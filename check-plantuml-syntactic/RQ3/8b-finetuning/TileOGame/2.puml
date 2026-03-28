@@ -1,0 +1,90 @@
+@startuml
+class GameDesigner {
+  +defineGame(name: String): void
+  +createTileSet(): TileSet
+  +registerActionCard(card: ActionCard): void
+}
+class TileSet {
+  -totalTiles: int
+  -boardWidth: int
+  -boardHeight: int
+  +isComplete(): boolean
+  +getTileAt(x: int, y: int): Tile
+}
+class Tile {
+  -color: Color
+  -isHidden: boolean
+  -isActionTile: boolean
+  -hasVisited: boolean
+  -unknownCount: int
+  -tilesToConnect: int
+  +connectTo(tile: Tile, side: Side): boolean
+  +deriveConnectionState(): boolean
+  +isAdjacentTo(tile: Tile): boolean
+  +reveal(): void
+  +getColor(): Color
+}
+class ConnectionPiece {
+  -length: int
+  -isBroken: boolean
+  +break(): void
+  +reconnect(): void
+}
+enum Side {
+  TOP
+  RIGHT
+  BOTTOM
+  LEFT
+}
+enum Color {
+  RED
+  GREEN
+  BLUE
+  YELLOW
+  BLACK
+  WHITE
+  GRAY
+}
+class Player {
+  -playerName: String
+  -currentColor: Color
+  -isHuman: boolean
+  -active: boolean
+  +takeTurn(): boolean
+  +moveTo(newTile: Tile): void
+  +rollDie(): int
+}
+class GameSession {
+  -gameName: String
+  -currentTurn: int
+  -isGameOver: boolean
+  +startGame(): void
+  +endGame(winner: Player): void
+  +updateTurn(): void
+}
+class ActionCard {
+  -cardType: ActionType
+  -description: String
+  +execute(): void
+}
+enum ActionType {
+  EXTRA_TURN
+  PLACE_CONNECTION
+  REMOVE_CONNECTION
+  TELEPORT
+  LOSE_TURN
+}
+GameDesigner "1" *-- "1" TileSet : designedTileSet
+GameDesigner "1" *-- "1" ConnectionPiece : spareConnection
+GameDesigner "1" *-- "*" ActionCard : definedCards
+Player "1" --> "*" Tile : ownedPieces
+GameSession "1" *-- "1" TileSet : activeBoard
+GameSession "1" *-- "1" ConnectionPiece : activeSpare
+GameSession "1" *-- "*" ActionCard : activeDeck
+GameSession "1" *-- "*" Player : registeredPlayers
+Player "1" --> "*" Tile : occupiedTiles
+TileSet "1" *-- "*" Tile : containedTiles
+TileSet "1" *-- "*" ConnectionPiece : containedConnections
+Tile "1" --> "*" ConnectionPiece : adjacentConnections
+GameSession "1" --> "1" TileSet : currentBoard
+@enduml

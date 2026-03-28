@@ -1,0 +1,23 @@
+@startuml
+
+classDiagram
+    [System Requirement] 
+    user --> system requirement
+    system requirement --> data
+    data --> table1
+    table1 --> row1
+    row1 --> item1
+    item1 --> product
+    product --> category
+    category --> sales
+    sales --> order
+    order --> customer
+    customer --> payment
+    payment --> transaction
+    transaction --> sale
+    sale --> item1
+    item1 --> row1
+    row1 --> table1
+    table1 --> system requirement
+
+@enduml

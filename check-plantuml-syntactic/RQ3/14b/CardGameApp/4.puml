@@ -1,0 +1,83 @@
+
+@startuml
+' Class Diagram for German Clubs Card Game App
+
+class Game {
+  -id: String
+  -players: List<Player>
+  -deck: Deck
+  -scoringTable: ScoringTable
+}
+
+class Player {
+  -id: String
+  -name: String
+}
+
+class Deck {
+  -id: String
+  -cards: List<Card>
+}
+
+class Card {
+  -id: String
+  -suit: Suit
+  -rank: Integer
+  +compare(other: Card): Comparison
+}
+
+enum Suit {
+  DIAMONDS
+  HEARTS
+  SPADES
+  CLUBS
+}
+
+enum Comparison {
+  LOWER
+  EQUAL
+  HIGHER
+}
+
+class ScoringTable {
+  -id: String
+  -rounds: List<Round>
+}
+
+abstract class Round {
+  -id: String
+  -winningPlayers: List<Player>
+  -points: Integer
+}
+
+class JackRound <|-- Round
+class SoloRound <|-- Round
+class MandatorySoloRound <|-- SoloRound
+
+class SoloRound {
+  -soloType: SoloType
+  -soloPlayer: Player
+}
+
+enum SoloType {
+  TRUMP
+  JACK
+  QUEEN
+}
+
+@enduml
+
+### Explanation:
+
+- **Game**: Represents a game session with players, a deck, and a scoring table.
+- **Player**: Each player has an ID and name.
+- **Deck**: Contains up to 48 `Card` objects.
+- **Card**: Has a suit (from the `Suit` enum), rank, and can compare itself to another card (`compare()` method).
+- **ScoringTable**: Keeps track of all rounds played in the game.
+- **Round**: Abstract base class for different types of rounds.
+  - **JackRound**: A specific type of round.
+  - **SoloRound**: A round with a solo player and a solo type.
+    - **MandatorySoloRound**: Special case of `SoloRound`.
+- **Enums**: Used for fixed values like `Suit`, `Comparison`, and `SoloType`.
+
+This structure ensures that each object has a unique ID as required, and supports the rules of the game including comparisons between cards and tracking of scores across different types of rounds.

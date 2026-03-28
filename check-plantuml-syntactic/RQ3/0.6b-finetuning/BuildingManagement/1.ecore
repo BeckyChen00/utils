@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="message" eType="#//AlertMessage" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertMessage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityAlert">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredRules" eType="#//AlertRule" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceVulnerability" eType="#//Vulnerability" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="userExecutor" eType="#//UserSession" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReport" eType="#//ThreatReport" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Vulnerability"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedUserAgent" eType="#//UserAgent" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePolicyEngine" eType="#//PolicyEngine" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="savedProfiles" eType="#//UserProfile" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThreatReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemPolicy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="verifiedProvider" eType="#//SecurityProvider" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedPlans" eType="#//MitigationPlan" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="identifiedRoots" eType="#//RootCause" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicableRules" eType="#//Rule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="poweredBy" eType="#//GradingSystem" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlsAlerts" eType="#//AlertsController" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offersPlans" eType="#//MitigationPlan" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatesSummary" eType="#//Report" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specifiesProtocol" eType="#//UserAgent" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityProvider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providesServices" eType="#//UserSession" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MitigationPlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steps" eType="#//MitigationAction" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RootCause"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VulnerabilityScan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetPolicy" eType="#//SystemPolicy" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collectors" eType="#//Reader" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="determinedLevels" eType="#//RiskLevel" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capturedMetrics" eType="#//MeasurementResult" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reader"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskLevel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendedPlans" eType="#//MitigationPlan" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MeasurementResult"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MitigationAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedAlerts" eType="#//AlertMessage" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EscalationPolicy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governedBy" eType="#//AlertRule" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definesEscalation" eType="#//AlertMessage" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAgent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actsOn" eType="#//UserSession" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedLoggers" eType="#//Logger" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PolicyEngine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GradingSystem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertsController"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReportGenerator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="createsReport" eType="#//Report" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedReports" eType="#//ReportingService" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Report"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReportingService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledFactories" eType="#//ReportGeneratorFactory" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deliversReports" eType="#//AlertMessage" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="retrievesReports" eType="#//Report" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReportGeneratorFactory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatesReports" eType="#//Report" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="createsMessage" eType="#//AlertMessage" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Logger"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PeriodicSchedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledMigration" eType="#//AutomatedMigration" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AutomatedMigration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsAlerts" eType="#//SecurityAlert" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetExecutor" eType="#//UserSession" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="levelSystem" eType="#//GradingSystem" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatesAlerts" eType="#//AlertMessage" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providesReports" eType="#//ReportingService" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definesRules" eType="#//AlertRule" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

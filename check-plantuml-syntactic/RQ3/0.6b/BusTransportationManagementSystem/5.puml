@@ -1,0 +1,8 @@
+@startuml
+classDiagram
+    person1 <| person2
+
+    person1 --> person2
+    person2 --> person1
+
+@enduml

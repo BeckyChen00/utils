@@ -1,0 +1,88 @@
+
+@startuml
+' Class Diagram for Aircraft Management System
+
+class Aircraft {
+  +name: String
+  +type: String
+  +yearOfManufacture: Integer
+  +nextInspectionDate: Date
+}
+
+class Flight {
+  +flightNumber: String
+  +date: Date
+}
+
+class Passenger {
+  +name: String
+  +passportNumber: String
+}
+
+class Ticket {
+  +ticketNumber: String
+  +price: Double
+  +upgradeDesired: Boolean
+}
+
+class PassengerAircraft {
+  +numberOfSeats: Integer
+}
+
+class SeatCategory {
+  +categoryDesignation: String
+  +hasEntertainment: Boolean
+  +numberOfSeats: Integer
+}
+
+class Airline {
+  +name: String
+}
+
+class FlightAttendant {
+  +name: String
+  +dateOfEmployment: Date
+  +isChiefSteward: Boolean
+}
+
+class Pilot {
+  +name: String
+  +dateOfEmployment: Date
+  +license: String
+}
+
+class Airport {
+  +name: String
+  +address: String
+  +numberOfRunways: Integer
+}
+
+' Associations and relationships
+
+Aircraft "1" -- "0..*" Flight : performs
+Flight "1" -- "0..*" Passenger : includes
+Passenger "1" -- "1" Ticket : has
+Flight "1" -- "1" Ticket : has
+PassengerAircraft "1" -- "1" Aircraft : is a
+PassengerAircraft "1" -- "0..*" SeatCategory : has
+SeatCategory "1" -- "1" Ticket : assigned to
+Ticket "1" -- "1" SeatCategory : belongs to
+Aircraft "1" -- "1" Airline : belongs to
+Airline "1" -- "0..*" FlightAttendant : employs
+Airline "1" -- "0..*" Pilot : employs
+Flight "1" -- "0..*" FlightAttendant : staffs
+Flight "1" -- "1" Pilot : has captain
+Flight "1" -- "0..2" Pilot : has co-pilots
+Aircraft "0..1" -- "1" Airport : home airport
+Flight "1" -- "1" Airport : departure airport
+Flight "1" -- "1" Airport : destination airport
+
+@enduml
+
+### Notes:
+- The diagram uses UML standard notation with associations, multiplicity, and inheritance.
+- `PassengerAircraft` inherits from `Aircraft`.
+- Each `Flight` can have multiple `Passengers`, each of whom has a `Ticket`.
+- `SeatCategory` defines seat types on a `PassengerAircraft`, and `Ticket` belongs to one such category.
+- `Pilot` and `FlightAttendant` are employed by an `Airline`, and work on `Flights`.
+

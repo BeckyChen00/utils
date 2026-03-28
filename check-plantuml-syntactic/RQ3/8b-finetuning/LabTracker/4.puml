@@ -1,0 +1,100 @@
+@startuml
+enum TestCategory {
+  BloodTest
+  Ultrasound
+  Xray
+  UrineTest
+  StoolTest
+}
+enum AppointmentStatus {
+  Scheduled
+  Completed
+  Cancelled
+  NoShow
+  Rescheduled
+}
+enum ShiftType {
+  Morning
+  Evening
+  Night
+}
+class Patient {
+  healthNumber: String
+  firstName: String
+  lastName: String
+  dateOfBirth: Date
+  address: String
+  phoneNumber: String
+}
+class Doctor {
+  practitionerNumber: String
+  fullName: String
+  specialization: String
+}
+class TestDefinition {
+  testName: String
+  category: TestCategory
+  durationMinute: int
+  isAppointmentRequired: boolean
+  +getRequiredDuration(): int
+}
+class TestGroup {
+  groupName: String
+  allowedCategories: TestCategory[]
+  defaultDuration: int
+}
+class Appointment {
+  appointmentDate: Date
+  startTime: Time
+  endTime: Time
+  status: AppointmentStatus
+  confirmationNumber: String
+  notes: String
+  +confirm(): boolean
+  +cancel(): boolean
+  +reschedule(newDate: Date): boolean
+}
+class Lab {
+  labCode: String
+  labName: String
+  address: String
+  businessHours: TimeRange
+  feeChangeFlag: boolean
+  +getAvailableTimeSlots(): TimeRange[]
+  +getLabRegistrationNumber(): String
+}
+class LabStaff {
+  fullName: String
+  role: String
+  +isAvailable(): boolean
+}
+class Requisition {
+  requisitionDate: Date
+  validityDays: int
+  isUrgent: boolean
+  +addTest(test: TestDefinition): boolean
+  +validate(): boolean
+}
+class ScheduleManager {
+  +bookAppointment(requisition: Requisition, lab: Lab, preferredTime: Time): Appointment
+  +findAvailableSlots(lab: Lab, date: Date): TimeRange[]
+}
+class NotificationService {
+  +sendConfirmation(appointment: Appointment): boolean
+  +sendReminder(appointment: Appointment): boolean
+}
+Patient "1" *-- "0..*" Requisition : medicalHistory
+Doctor "1" --> "0..*" Requisition : authoredRequisitions
+Requisition "1" *-- "1..*" TestDefinition : containedTests
+Requisition "0..*" --> "1..*" TestDefinition : groupedBy
+Requisition "0..*" --> "1" Patient : targetPatient
+Appointment "0..*" --> "1" Requisition : fulfilledBy
+Appointment "0..*" --> "1" Lab : hostedAt
+Lab "1" *-- "1..*" LabStaff : assignedStaff
+Lab "1" *-- "1" ScheduleManager : managesSchedule
+Lab "1" *-- "0..*" Requisition : pendingRequisitions
+Appointment "0..*" --> "1" LabStaff : assignedStaff
+Appointment "0..*" --> "1" Patient : registeredPatient
+Patient "1" --> "0..*" Lab : preferredLabs
+NotificationService -- Lab
+@enduml

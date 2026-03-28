@@ -1,0 +1,185 @@
+@startuml
+enum SeatState {
+  Reserved
+  Available
+}
+enum PriorityLevel {
+  Low
+  Medium
+  High
+  Critical
+  Emergency
+}
+class Passenger {
+  name: String
+  contactInfo: String
+  +registerPassenger(): void
+}
+class TransportationService {
+  serviceName: String
+  maxCapacity: int
+  +assignService(serviceName: String, passenger: Passenger): void
+  +getAvailableSeats(seatType: String): int
+  +getTotalSeats(): int
+}
+class Route {
+  routeCode: String
+  destinationName: String
+  +addStop(stops: List<Station>): void
+  +getTotalDistance(): double
+}
+class Station {
+  stationName: String
+  address: String
+  +getStationsByPriority(level: PriorityLevel): List<Station>
+}
+class Ticket {
+  ticketNumber: String
+  issueDate: Date
+  +isValid(): boolean
+  +isValidFor(service: TransportationService): boolean
+}
+class Seat {
+  seatNumber: String
+  seatState: SeatState
+  seatType: String
+  +updateState(newState: SeatState): void
+  +getSeatLabel(): String
+}
+class Booking {
+  bookingReference: String
+  bookingDate: Date
+  +confirmBooking(): void
+  +cancelBooking(): void
+  +getStatus(): String
+}
+class Reservation {
+  reservationReference: String
+  creationDate: Date
+  +confirmReservation(): void
+  +getReservationDetails(): String
+}
+class User {
+  username: String
+  isActive: boolean
+  +login(): boolean
+  +logout(): void
+}
+class TimeSlot {
+  startTime: Date
+  endTime: Date
+  +isAvailable(): boolean
+}
+class Calendar {
+  month: String
+  year: int
+  +addDate(date: Date): void
+  +getToday(): Date
+}
+class MapProvider {
+  providerName: String
+  +getCoordinate(station: Station): Map<Station, double[]> 
+}
+class Plan {
+  planCode: String
+  +calculateCost(): double
+  +getPlanSummary(): String
+}
+class RouteOptimizer {
+  +optimizePlan(route: Route, plan: Plan): Plan
+}
+class RoutePlan {
+  planCode: String
+  estimatedDuration: double
+  +getRouteDetails(): String
+}
+class TicketingSystem {
+  +generateTicket(seat: Seat, passenger: Passenger): Ticket
+  +trackTicket(ticket: Ticket): Date
+}
+class BookingSystem {
+  +generateConfirmation(bookingReference: String): String
+  +processBooking(booking: Booking): void
+}
+class NotificationService {
+  +sendConfirmation(purchase: Ticket): void
+  +sendAcknowledgment(booking: Booking): void
+}
+class Notification {
+  message: String
+  timestamp: Date
+  priority: PriorityLevel
+  +acknowledge(): void
+}
+class TicketingSession {
+  ticketCount: int
+  +reserveSeats(passenger: Passenger, seats: List<Seat>): void
+  +processPayment(ticket: Ticket): boolean
+}
+class BookingManager {
+  +processBookingRequest(purchase: Ticket): boolean
+  +manageSeatAllocation(booking: Booking): void
+}
+class StationManager {
+  +getStationCount(): int
+  +listStationCrew(): List<Station>
+}
+class CrewMember {
+  name: String
+  role: String
+  +assignToStation(station: Station): void
+}
+class SystemAdministrator {
+  +manageSystem(purchase: Ticket): void
+  +configureService(service: TransportationService): void
+}
+class RevenueMonitor {
+  +calculateRevenue(): double
+  +generateReport(): String
+}
+class PassengerProfile {
+  BMI: double
+  isPremiumMember: boolean
+  +calculateFare(): double
+}
+class Vehicle {
+  id: String
+  model: String
+  +updateStatus(): void
+}
+BookingSystem *-- "*" Ticket : generatedTickets
+BookingSystem *-- "1" NotificationService : notificationService
+TicketingSystem --> "*" Ticket : issuedTickets
+NotificationService --> "*" Notification : sentNotifications
+BookingSystem --> "*" Booking : processedBookings
+TicketingSession --> "1" Ticket : allocatedTicket
+Booking --> "1" Reservation : createdReservation
+Reservation --> "1" Passenger : claimedPassenger
+Reservation --> "1" TimeSlot : selectedSlot
+Reservation --> "1" Vehicle : assignedVehicle
+Vehicle --> "*" Station : operatesAt
+Station --> "*" Station : connectedStations
+Station --> "*" CrewMember : assignedStaff
+Booking --> "*" Customer : bookedPassangers
+BookingSystem --> "*" User : authorizedUsers
+StationManager --> "*" Station : managedStations
+SystemAdministrator --> "*" TransportationService : managedServices
+SystemAdministrator --> "*" TicketingSystem : managedSystems
+RevenueMonitor --> "*" Ticket : recordedTransactions
+TicketingSession --> "*" Seat : allocatedSeats
+BookingSystem --> "*" RevenueMonitor : revenueMonitor
+Station --> "*" PassengerProfile : visitedPassengers
+Vehicle --> "*" Seat : assignedSeats
+PassengerProfile --> "*" Ticket : purchasedTickets
+TimeSlot --> "*" Station : servedBy
+Station --> "*" Station : adjacentStations
+Travelers --> "1" Station : requestedStation
+Station --> "*" User : registeredUsers
+BookingSystem --> "*" Station : servedStations
+BookingSystem --> "*" Route : managedRouts
+RoutePreparedStatement --> "*" Plan : definedPlans
+TicketingSession --> "1" Route : referencedRoute
+RoutePreparedStatement --> "*" Route : definedRoutes
+TicketingSession --> "1" Plan : createdPlan
+TicketingSession --> "1" Route : optimizedRoute
+@enduml

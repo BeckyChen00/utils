@@ -1,0 +1,106 @@
+
+---
+
+@startuml
+' Class Diagram for Kinepolis Cinema System
+
+class Cinema {
+  +String name
+  +List<Theatre> theatres
+  +List<MovieCopy> movieCopies
+}
+
+class Theatre {
+  +String id
+  +String name
+  +int capacity
+  +List<Show> shows
+}
+
+class Movie {
+  +String title
+  +String genre
+  +int duration
+}
+
+class MovieCopy {
+  +String id
+  +Movie movie
+  +Cinema currentCinema
+}
+
+class Show {
+  +String id
+  +DateTime startTime
+  +DateTime endTime
+  +Theatre theatre
+  +Movie movie
+  +List<SeatReservation> reservations
+  +boolean published
+}
+
+class SeatReservation {
+  +String id
+  +Customer customer
+  +Show show
+  +Seat seat
+  +DateTime reservationTime
+  +boolean cancelled
+}
+
+class Customer {
+  +String id
+  +String name
+  +String email
+  +String creditCardNumber
+}
+
+class Offer {
+  +String id
+  +Show originalShow
+  +Show newShow
+  +DateTime expirationTime
+  +boolean accepted
+}
+
+class Ticket {
+  +String id
+  +Customer customer
+  +Show show
+  +Seat seat
+  +boolean isReserved
+  +boolean isAnonymous
+}
+
+class Seat {
+  +String id
+  +Theatre theatre
+  +boolean isAvailable
+}
+
+' Relationships
+
+Cinema "1" -- "0..*" Theatre: has
+Theatre "1" -- "1" Show: has
+Show "1" -- "1" Movie: uses
+Show "1" -- "1" Theatre: located in
+Movie "1" -- "0..*" MovieCopy: has
+MovieCopy "1" -- "1" Cinema: belongs to
+Show "1" -- "0..*" SeatReservation: has
+Customer "1" -- "0..*" SeatReservation: made by
+Show "1" -- "0..*" Offer: related to
+Show "1" -- "0..*" Ticket: issued for
+Theatre "1" -- "0..*" Seat: has
+Seat "1" -- "0..*" Show: assigned to
+
+@enduml
+
+---
+
+### Notes:
+- The diagram captures all the entities and relationships described in the system requirement.
+- `Show` is linked to both a `Theatre` and a `Movie`, indicating that it is a program of a specific movie in a specific theatre.
+- `SeatReservation` is tied to a `Customer`, a `Show`, and a `Seat`.
+- `Offer` is created when a `Show` is cancelled and offers a new seat in another theatre.
+- `Ticket` can be either reserved or anonymous (for walk-ins), and is linked to a `Show`.
+

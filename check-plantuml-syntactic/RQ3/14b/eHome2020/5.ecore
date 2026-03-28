@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Apartment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rooms" eType="#//Room" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="email" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inhabitants" eType="#//Inhabitant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Inhabitant">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="username" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isAdmin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensors" eType="#//Sensor" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="apartments" eType="#//Apartment" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="addSensor">
+      <eParameters xsi:type="ecore:EParameter" name="sensor" eType="#//Sensor"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="removeSensor">
+      <eParameters xsi:type="ecore:EParameter" name="sensor" eType="#//Sensor"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="login" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters xsi:type="ecore:EParameter" name="username" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters xsi:type="ecore:EParameter" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="querySensorValues" eType="#//Value" upperBound="-1">
+      <eParameters xsi:type="ecore:EParameter" name="sensorId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="setThreshold">
+      <eParameters xsi:type="ecore:EParameter" name="sensorId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters xsi:type="ecore:EParameter" name="threshold" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="configureSensor">
+      <eParameters xsi:type="ecore:EParameter" name="sensorId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters xsi:type="ecore:EParameter" name="newRoomId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters xsi:type="ecore:EParameter" name="newDescription" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Value">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EMonitor">
+    <eOperations xsi:type="ecore:EOperation" name="checkThresholds">
+      <eParameters xsi:type="ecore:EParameter" name="apartment" eType="#//Apartment"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="sendAlert">
+      <eParameters xsi:type="ecore:EParameter" name="email" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters xsi:type="ecore:EParameter" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="System">
+    <eOperations xsi:type="ecore:EOperation" name="start"/>
+    <eOperations xsi:type="ecore:EOperation" name="stop"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="```plantuml" eType="#//Home" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Home"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//vendorId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="vendorId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="description">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//roomId"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="roomId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getLatestValue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="minValue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Float" eType="#//getLatestValue"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="maxValue">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Float" eType="#//totalConsumption" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="totalConsumption"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TemperatureSensor" eSuperTypes="#//Sensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerSensor" eSuperTypes="#//Sensor"/>
+</ecore:EPackage>

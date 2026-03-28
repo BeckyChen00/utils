@@ -1,0 +1,39 @@
+@startuml
+enum DiscountType {
+  Student
+  SeniorCitizen
+  GroupBuy
+  FirstTime
+  Seasonal
+  NoDiscount
+}
+enum GuideType {
+  Local
+  International
+}
+class City {
+  cityName: String
+  populationCount: int
+}
+class TouristAttraction {
+  attractionName: String
+  address: String
+}
+class GuidedTour {
+  tourDuration: int
+  maximumCapacity: int
+  currentCapacity: int
+  discountType: DiscountType
+  discountAmount: int
+  +checkAvailability(visitorCount: int): boolean
+  +allocateGuide(guide: Guide): void
+}
+class Person {
+  personName: String
+}
+City "1" *-- "0..*" TouristAttraction : containsAttractions
+TouristAttraction "1" --> "0..*" GuidedTour : offersTours
+GuidedTour "1" *-- "1" Person : requiresGuide
+GuidedTour "1" --> "0..*" Person : accommodatesVisitors
+City "1" --> "0..*" Person : locatedInCity
+@enduml

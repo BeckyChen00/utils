@@ -1,0 +1,33 @@
+@startuml
+class School {
+  name: String
+  +getPrincipal(): Teacher
+}
+class Teacher {
+  firstName: String
+  lastName: String
+  email: String
+  +teachAt(school: School, hours: int): void
+  +assignToClass(classGroup: ClassGroup): void
+}
+class Student {
+  firstName: String
+  lastName: String
+  +enrollIn(classGroup: ClassGroup): void
+}
+class Room {
+  name: String
+  capacity: int
+  +isClassroom(): boolean
+  +isGym(): boolean
+}
+class ClassGroup {
+  groupName: String
+  +assignToRoom(room: Room): void
+}
+School "1" *-- "*" Teacher : staff
+School "1" *-- "*" Student : students
+Teacher "0..3" --> "*" School : teachesAt
+Student "1" --> "1" ClassGroup : belongsTo
+ClassGroup "1" *-- "1" Room : assignedRoom
+@enduml

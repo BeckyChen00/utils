@@ -1,0 +1,10 @@
+@startuml
+
+class SystemRequirement {
+  member: [name, description]
+}
+
+  systemRequirement
+}
+
+@enduml

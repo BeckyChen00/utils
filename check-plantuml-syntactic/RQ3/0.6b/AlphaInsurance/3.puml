@@ -1,0 +1,12 @@
+@startuml
+class Diagram {
+    class SystemRequirement {
+        # of requirements
+        require {
+            "System Requirement 1"
+            "System Requirement 2"
+            ...
+        }
+    }
+}
+@enduml

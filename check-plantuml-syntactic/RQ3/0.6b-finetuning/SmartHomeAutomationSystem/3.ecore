@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//DamagedPart"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DamagedPart"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorNode" eSuperTypes="#//DamagerNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedDamager" eType="#//DamagerDefinition" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeAlert" eType="#//DamagerAlert" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachedZone" eType="#//SafetyZone" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DamagerNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DamagerDefinition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DamagerAlert">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredDefinition" eType="#//DamagerDefinition" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyZone"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorChain"/>
+</ecore:EPackage>

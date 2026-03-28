@@ -1,0 +1,54 @@
+@startuml
+class Hospital {
+  name: String
+  +addPermittedExamination(type: ExaminationType): void
+  +getPermittedExaminations(): List<ExaminationType>
+}
+class Patient {
+  name: String
+  dateOfBirth: Date
+}
+class Doctor {
+  name: String
+  specialization: String
+}
+class ExaminationType {
+  typeName: String
+  description: String
+}
+class Examination {
+  scheduledDate: Date
+  locationCode: String
+  +execute(): void
+  +recordResult(): void
+}
+class Diagnosis {
+  description: String
+  diagnosedDate: Date
+  isConfirmed: boolean
+  +confirm(): void
+}
+class TreatmentPlan {
+  version: int
+  description: String
+  +addExaminationType(type: ExaminationType): void
+  +getRequiredExaminations(): List<ExaminationType>
+  +getStatus(): String
+}
+class TreatmentInstance {
+  startDate: Date
+  +addExamination(exam: Examination): void
+  +addMedicalAction(action: String): void
+  +calculateDeviationPercentage(): double
+}
+Hospital *-- "0..*" Doctor : staffMembers
+Hospital *-- "1" List<ExaminationType> : permittedExaminations
+Doctor *-- "0..*" Patient : managedPatients
+Doctor --> "0..*" Diagnosis : issuedDiagnoses 'opposite: conferringDoctor
+Diagnosis *-- "0..1" TreatmentPlan : definedPlan
+Patient --> "0..*" Diagnosis : receivedDiagnoses
+TreatmentInstance --> "1" Diagnosis : basedOn Diagnosis
+TreatmentInstance --> "0..*" Examination : includedExaminations
+TreatmentInstance --> "0..*" String : executedMedicalActions
+Examination -- ExaminationType
+@enduml

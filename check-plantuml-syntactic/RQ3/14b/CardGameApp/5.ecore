@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Player">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Deck">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cards" eType="#//Card" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Card">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="suit" eType="#//Suit"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations xsi:type="ecore:EOperation" name="compare" eType="#//ComparisonResult">
+      <eParameters xsi:type="ecore:EParameter" name="other" eType="#//Card"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComparisonResult">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="LOWER"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="EQUAL" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="HIGHER" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoringTable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rounds" eType="#//Round" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Round">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="winningPlayers" eType="#//Player" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pointValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JackRound" eSuperTypes="#//Round"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SoloRound" eSuperTypes="#//Round">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="soloType" eType="#//SoloType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="soloPlayer" eType="#//Player"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MandatorySoloRound" eSuperTypes="#//SoloRound"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="SoloType">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="TRUMP"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="JACK" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="QUEEN" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="players"/>
+  <eClassifiers xsi:type="ecore:EClass" name="scoringTable">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ScoringTable" eType="#//players"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Suit"/>
+</ecore:EPackage>

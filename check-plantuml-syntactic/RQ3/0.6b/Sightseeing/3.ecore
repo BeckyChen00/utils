@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="&quot;User&quot;_}" eType="#//model1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="model1">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="&quot;Model_2&quot;_}" eType="#//model2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="model2">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="&quot;Model_3&quot;_}" eType="#//model3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="model3">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="&quot;Model_4&quot;_}" eType="#//model4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="model4">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="&quot;User&quot;_}" eType="#//user"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="user"/>
+</ecore:EPackage>

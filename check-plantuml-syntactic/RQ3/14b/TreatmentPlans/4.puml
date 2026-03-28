@@ -1,0 +1,92 @@
+
+@startuml
+skinparam linetype zigzag
+
+class Hospital {
+  -id: int
+  -name: String
+  -allowedExaminationTypes: List<ExaminationType>
+}
+
+class ExaminationType {
+  -id: int
+  -name: String
+  -description: String
+}
+
+class Doctor {
+  -id: int
+  -name: String
+  -affiliatedHospital: Hospital
+}
+
+class Patient {
+  -id: int
+  -name: String
+}
+
+class Problem {
+  -id: int
+  -name: String
+  -description: String
+}
+
+class TreatmentPlan {
+  -id: int
+  -problem: Problem
+  -advisedExaminations: List<ExaminationType>
+}
+
+class ActualTreatment {
+  -id: int
+  -patient: Patient
+  -doctor: Doctor
+  -treatmentPlan: TreatmentPlan
+  -examinations: List<Examination>
+  -additionalActions: List<String>
+}
+
+class Examination {
+  -id: int
+  -type: ExaminationType
+  -hospital: Hospital
+  -date: Date
+}
+
+class PermissionRequest {
+  -id: int
+  -hospital: Hospital
+  -examinationType: ExaminationType
+  -status: String
+}
+
+' Associations
+Hospital "1" -- "0..*" PermissionRequest : applies for
+Hospital "1" -- "0..*" ExaminationType : allows
+Doctor "1" -- "0..*" Patient : treats
+Doctor "1" -- "0..*" ActualTreatment : creates
+Problem "1" -- "1" TreatmentPlan : has
+TreatmentPlan "1" -- "0..*" ExaminationType : advises
+ActualTreatment "1" -- "0..*" ExaminationType : includes (via examinations)
+ActualTreatment "1" -- "0..*" String : additional actions
+Examination "1" -- "1" ExaminationType : of type
+Examination "1" -- "1" Hospital : performed at
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **`Hospital`**: Has allowed examination types and can apply for permissions.
+- **`ExaminationType`**: Represents types like "cardiologic test", "NMR scan", etc.
+- **`Doctor`**: Is affiliated with a hospital and may create actual treatments.
+- **`Patient`**: Undergoes treatment and may have their exams done at different hospitals.
+- **`Problem`**: A condition or issue a patient presents with.
+- **`TreatmentPlan`**: Defines advised examinations per problem.
+- **`ActualTreatment`**: The real treatment applied, which may differ from the plan.
+- **`Examination`**: An instance of an exam, associated with a type and a hospital.
+- **`PermissionRequest`**: A request by a hospital to allow a specific exam type.
+
+---
+
+Let me know if you'd like this diagram rendered as an image or need any refinements!

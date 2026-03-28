@@ -1,0 +1,49 @@
+@startuml
+enum ErrorStatus {
+  Success
+  Fail
+}
+enum NotificationPriority {
+  Low
+  Medium
+}
+enum StatusType {
+  Pending
+  Completed
+  Failed
+}
+class Event {
+  name: String
+  description: String
+  message: String
+  +createNotification(): Notification
+}
+class Project {
+  title: String
+  status: StatusType
+  +updateProjectStatus(newStatus: StatusType): void
+}
+class Notification {
+  content: String
+  priority: NotificationPriority
+  createdDate: Date
+  +markAsRead(): void
+}
+class UserAccount {
+  username: String
+  email: String
+  role: String
+  +authenticate(): boolean
+  +updateProfile(newEmail: String): void
+}
+class TeamProject {
+  projectAlias: String
+  teamName: String
+  +assignMember(account: UserAccount): void
+  +getTeamMembers(): List<UserAccount>
+}
+TeamProject --|> Project
+Project *-- "0..*" Event : containedEvents
+Event *-- "0..*" Notification : generatedNotifications
+UserAccount -- TeamProject
+@enduml

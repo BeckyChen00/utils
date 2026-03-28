@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creates" eType="#//PlayerProfile" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlayerProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defines" eType="#//Player"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HeadCoach" eSuperTypes="#//Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Director" eSuperTypes="#//Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Scout" eSuperTypes="#//Employee">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manages" eType="#//ScoutingAssignment"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Player">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//ScoutingReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoutingAssignment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generates" eType="#//ScoutingReport"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_to" eType="#//Player"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_to" eType="#//Scout"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LongList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Player"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ShortList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Player"/>
+  </eClassifiers>
+</ecore:EPackage>

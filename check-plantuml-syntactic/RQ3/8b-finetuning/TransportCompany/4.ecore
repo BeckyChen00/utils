@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee" eSuperTypes="#//Customer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestedBy" eType="#//Customer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executionTask" eType="#//TransportTask" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedVehicle" eType="#//Vehicle"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="createdBy" eType="#//DispatchPlanner"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedDriver" eType="#//Driver" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="utilizedVehicles" eType="#//Vehicle" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="category" eType="#//VehicleType" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Driver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DispatchPlanner"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VehicleType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servicedVehicle" eType="#//Vehicle" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performedBy" eType="#//Driver" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,31 @@
+@startuml
+
+class diagram -System Requirement
+
+- class SystemRequirement as a system requirement
+
+- class Module1 : SystemRequirement
+  - class Module1Name : String
+    - attribute Module1Name : "Module1"
+  - class Module1Description : String
+    - attribute Module1Description : "This is a sample module for the system requirement."
+  - class Module1Code : String
+    - attribute Module1Code : "1.0"
+
+- class Module2 : SystemRequirement
+  - class Module2Name : String
+    - attribute Module2Name : "Module2"
+  - class Module2Description : String
+    - attribute Module2Description : "This is another sample module for the system requirement."
+  - class Module2Code : String
+    - attribute Module2Code : "2.0"
+
+- class Module3 : SystemRequirement
+  - class Module3Name : String
+    - attribute Module3Name : "Module3"
+  - class Module3Description : String
+    - attribute Module3Description : "This is a third module for the system requirement."
+  - class Module3Code : String
+    - attribute Module3Code : "3.0"
+
+@enduml

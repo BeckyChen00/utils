@@ -1,0 +1,126 @@
+
+---
+
+
+@startuml
+
+class Song {
+  -title: String
+  -year: int
+  -length: int
+  -genre: String
+  -artist: Artist
+  -id: String
+}
+
+class Artist {
+  -name: String
+  -dateOfBirth: Date
+  -websiteURL: String
+  -id: String
+}
+
+class User {
+  -id: String
+  -name: String
+  -address: String
+  -type: UserType
+}
+
+enum UserType {
+  REGULAR
+  BUSINESS
+}
+
+class BusinessUser {
+  -vatNumber: String
+  -user: User
+}
+
+class RegularUser {
+  -user: User
+}
+
+class MusicItem {
+  -title: String
+  -artist: Artist
+  -id: String
+}
+
+class Single {
+  -type: "SINGLE"
+  -musicItem: MusicItem
+}
+
+class Hit {
+  -type: "HIT"
+  -musicItem: MusicItem
+  -trackNumber: int
+}
+
+class Album {
+  -title: String
+  -hits: List<Hit>
+  -id: String
+}
+
+class Purchase {
+  -user: RegularUser
+  -item: MusicItem
+  -purchaseDate: Date
+}
+
+class Suggestion {
+  -fromUser: RegularUser
+  -toUser: RegularUser
+  -album: Album
+  -suggestionDate: Date
+}
+
+' Relationships
+
+Song "1" -- "1" Artist : belongsTo
+User "1" -- "1" BusinessUser : isA
+User "1" -- "1" RegularUser : isA
+BusinessUser "1" -- "1" Single : canUpload
+RegularUser "1" -- "1" Single : canBuy
+RegularUser "1" -- "1" Album : canBuy
+Album "1" -- "1" Hit : contains
+Hit "1" -- "1" Song : isA
+Single "1" -- "1" Song : isA
+Purchase "1" -- "1" RegularUser : madeBy
+Purchase "1" -- "1" MusicItem : purchased
+Suggestion "1" -- "1" RegularUser : from
+Suggestion "1" -- "1" RegularUser : to
+Suggestion "1" -- "1" Album : suggests
+
+@enduml
+
+---
+
+### 📌 **Explanation of Key Elements**
+
+- **Song**: Represents a song with title, year, length, genre, and artist.
+- **Artist**: Contains name, date of birth, and website URL.
+- **User**: Base class for users with ID, name, address, and type (regular or business).
+- **UserType**: An `enum` defining two user types.
+- **BusinessUser**: Extends `User` and adds VAT number.
+- **RegularUser**: Extends `User`.
+- **MusicItem**: Base class for items that can be bought or uploaded.
+- **Single & Hit**: Subclasses of `MusicItem`, representing different types of songs.
+- **Album**: A collection of hits (not singles), with track numbers.
+- **Purchase**: Records when a regular user buys a music item.
+- **Suggestion**: Allows regular users to suggest albums to others based on behavior.
+
+---
+
+### 📝 Notes:
+- All relationships are modeled using associations.
+- The diagram supports inheritance (e.g., `BusinessUser` and `RegularUser` extend `User`).
+- It reflects the requirement that **a song must belong to exactly one artist**, and **the combination of song and artist is unique**.
+- **Business users can only upload singles**, while **regular users can buy both singles and albums**.
+- **Suggestions are made by regular users to other regular users** based on similar behavior.
+
+---
+
+Let me know if you'd like this exported as an image or need further refinements!

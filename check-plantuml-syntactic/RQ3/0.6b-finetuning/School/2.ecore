@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="root" eType="#//ProjectRoot" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProjectRoot"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Project">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tasks" eType="#//Task" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeWorkflow" eType="#//Workbench" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="files" eType="#//File" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedIn" eType="#//Repository" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Workbench">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBy" eType="#//User" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedTasks" eType="#//Task" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedFiles" eType="#//File" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetVault" eType="#//Repository" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="File"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Repository">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedDocuments" eType="#//Document" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Folder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongsTo" eType="#//Project"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="directory" eType="#//Project" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Document">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owns" eType="#//Project" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedResearchers" eType="#//User" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//File" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sharesWith" eType="#//ContentStream" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContentStream">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consumedBy" eType="#//User" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

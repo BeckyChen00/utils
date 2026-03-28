@@ -1,0 +1,53 @@
+@startuml
+class City {
+  -name: String
+  -inhabitants: int
+  +getAttractions(): List<Attraction>
+}
+
+class Attraction {
+  -name: String
+  -address: String
+  +getGuidedTours(): List<GuidedTour>
+}
+
+class GuidedTour {
+  -name: String
+  -duration: int
+  -numberOfVisitors: int
+  -maxVisitors: int = 20
+  +getDiscounts(): List<Discount>
+  +getGuide(): Guide
+  +setGuide(guide: Guide)
+}
+
+class Discount {
+  -visitor: Visitor
+  -amount: double
+}
+
+class Guide {
+  -name: String
+  +getGuidedTours(): List<GuidedTour>
+}
+
+class Visitor {
+  -name: String
+  +getDiscounts(): List<Discount>
+}
+
+City "1" -- "0..*" Attraction : has
+Attraction "1" -- "0..*" GuidedTour : offers
+GuidedTour "1" -- "1" Guide : requires
+GuidedTour "1" -- "0..*" Discount : has
+Visitor "1" -- "0..*" Discount : has
+@enduml
+
+### Explanation of Relationships:
+
+- **City** has multiple **Attractions**.
+- **Attraction** offers multiple **Guided Tours**.
+- Each **Guided Tour** is led by a single **Guide**.
+- A **Guided Tour** can have multiple **Discounts**, each associated with a **Visitor**.
+- **Visitor** may have multiple **Discounts** for different tours.
+

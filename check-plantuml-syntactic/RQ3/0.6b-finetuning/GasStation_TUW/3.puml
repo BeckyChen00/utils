@@ -1,0 +1,41 @@
+@startuml
+enum SemesterType {
+  Fall
+  Winter
+}
+class Student {
+  studentName: String
+  +register(course: Course): boolean
+}
+class Course {
+  courseCode: String
+  subjectName: String
+  semesterType: SemesterType
+  +getTotalCredits(): int
+}
+class Grade {
+  gradeLevel: int
+  semester: SemesterType
+  score: int
+  +calculatePercentage(): double
+}
+class ExaminationSchedule {
+  startDate: Date
+  endDate: Date
+  +selectExams(): List<Course>
+}
+class EvaluationSession {
+  durationHours: int
+  sessionDate: Date
+  +validateSession(): boolean
+}
+class Department {
+  departmentName: String
+  +addCourse(course: Course): boolean
+}
+Student "0..*" --> "0..*" Course : enrolledCourses
+Course "0..*" --> "0..*" Grade : assignedGrades
+Course "1" --> "0..*" ExaminationSchedule : examSchedules
+EvaluationSession "1" --> "0..*" ExaminationSchedule : includedSchedules
+Department "0..*" --> "0..*" Course : managedCourses
+@enduml

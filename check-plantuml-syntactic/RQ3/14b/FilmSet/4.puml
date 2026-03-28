@@ -1,0 +1,81 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class CreativeEmployee <|-- Employee
+class Director <|-- CreativeEmployee
+class Actor <|-- CreativeEmployee
+
+class Technician <|-- Employee
+- fieldOfActivity: String
+
+class FilmSet {
+  - location: String
+}
+
+class Film {
+  - title: String
+  - yearOfRelease: Integer
+  - genre: String (enum: thriller, action, horror, comedy)
+}
+
+class Screenwriter {
+  - name: String
+  - mostSuccessfulFilm: String
+}
+
+class Screenplay {
+  - title: String
+  - version: Integer
+  - date: Date
+  - numberOfScenes: Integer
+  - plot: String
+  - basedOn: String (enum: novel, concept)
+}
+
+class Novel {
+  - title: String
+  - author: String
+}
+
+' Relationships
+Employee "1" *-- "0..*" Film: worksOn
+Director "1" -- "1" Film: directs
+Actor "1" -- "0..*" Film: actsIn
+Technician "1" -- "0..*" Film: worksOn
+
+FilmSet "1" -- "0..*" Film: usedFor
+Screenwriter "1" -- "0..*" Screenplay: writes
+Screenplay "1" -- "1" Film: usedFor
+Screenplay "1" -- "0..1" Novel: basedOn
+
+Actor "1" -- "1" OscarWinner: hasOscar
+Director "1" -- "1" OscarWinner: hasOscar
+
+class OscarWinner {
+  - hasOscar: Boolean
+}
+@enduml
+
+### Explanation of Key Elements:
+
+- **Employee** is a base class with common attributes (`name`, `socialSecurityNumber`).
+- **CreativeEmployee** inherits from `Employee`. It includes **Director** and **Actor**.
+- **Actor** has an attribute for education and a reference to their **Oscar status**.
+- **Director** has an assistant's name as an attribute.
+- **Technician** is another type of employee with a `fieldOfActivity`.
+- **FilmSet** has a location and can be used for multiple **Films**.
+- **Film** has a title, release year, and genre.
+- **Screenwriter** stores their name and most successful film.
+- **Screenplay** has details like title, version, scenes, etc., and it's linked to one **Novel** or **Concept**.
+- **Screenplay** is used by exactly one **Film**.
+- **OscarWinner** is a helper class that holds whether a person has won an Oscar.
+
+---
+
+Let me know if you want this rendered into an image or need a UML version in another format!

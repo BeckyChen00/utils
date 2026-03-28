@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedRequests" eType="#//RequestService" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RequestService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedOrders" eType="#//Order" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deliversTo" eType="#//Shipment" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondsToLine" eType="#//ProductLine" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedReturns" eType="#//ReturnRequest" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Shipment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductLine"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReturnRequest"/>
+</ecore:EPackage>

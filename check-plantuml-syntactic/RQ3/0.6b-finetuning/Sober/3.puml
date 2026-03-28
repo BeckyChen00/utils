@@ -1,0 +1,61 @@
+@startuml
+enum ChatRole {
+  System
+  Assistant
+  User
+  Moderator
+}
+enum DatabaseSchema {
+  SocialMediaTimeline
+  CompanyProfile
+  PersonProfile
+  IndustryStanding
+}
+enum PresenceState {
+  Online
+  Away
+  Offline
+}
+class UserAccount {
+  username: String
+  emailAddress: String
+  preferredRoles: ChatRole[]
+  currentPresenceStatus: PresenceState
+  +updatePresenceState(newStatus: PresenceState): void
+  +getActiveRole(): ChatRole
+}
+class ConversationHistory {
+  historyEntries: String[]
+  +addEntry(message: String): void
+  +getEvidenceCount(): int
+}
+class MessageEntry {
+  content: String
+  timestamp: Date
+  messageStatus: PresenceState
+  +markAsRead(): void
+}
+class OrganizationProfile {
+  industryStanding: DatabaseSchema
+  description: String
+  +getProfileSummary(): String
+}
+class PlatformInstance {
+  instanceName: String
+  region: String
+  +getCurrentSchema(): DatabaseSchema
+}
+class RoleAssignment {
+  assignedRole: ChatRole
+  isAutomated: boolean
+  +calculatePriority(roleLevel: int): int
+}
+UserAccount *-- "1" ConversationHistory : history
+UserAccount *-- "*" RoleAssignment : roleAssignments
+ConversationHistory *-- "*" MessageEntry : messageHistory
+MessageEntry --> "1" OrganizationProfile : sourceProfile
+ConversationHistory --> "1" PlatformInstance : containerInstance
+PlatformInstance --> "*" OrganizationProfile : managedProfiles
+RoleAssignment --> "1" OrganizationProfile : targetProfile
+UserAccount --> "*" RoleAssignment : assignedRoles
+@enduml

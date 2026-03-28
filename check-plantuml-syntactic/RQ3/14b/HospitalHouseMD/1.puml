@@ -1,0 +1,95 @@
+
+@startuml
+
+class Patient {
+  -patientId: int
+  -name: String
+  -consentGiven: boolean
+}
+
+class Doctor {
+  -doctorId: int
+  -name: String
+  -specialization: String
+}
+
+class HeadDoctor {
+  -headDoctorId: int
+  -name: String
+}
+
+class Diagnosis {
+  -diagnosisId: int
+  -description: String
+  -doctorId: int
+  -approved: boolean
+}
+
+class Treatment {
+  -treatmentId: int
+  -stage: int (1, 2, or 3)
+  -illnessId: int
+  -patientId: int
+}
+
+class Illness {
+  -illnessId: int
+  -name: String
+  -priorityScore: String ("high" or "low")
+}
+
+class ConsentForm {
+  -formId: int
+  -patientId: int
+  -signedDate: Date
+}
+
+class FollowUp {
+  -followUpId: int
+  -patientId: int
+  -doctorId: int
+  -nurseId: int
+  -date: Date
+  -notes: String
+}
+
+class Nurse {
+  -nurseId: int
+  -name: String
+}
+
+Patient "1" -- "0..*" Doctor : treated by
+Doctor "1" -- "0..*" Diagnosis : makes diagnosis
+Diagnosis "1" -- "1" HeadDoctor : approved by
+HeadDoctor "1" -- "0..*" Diagnosis : approves
+
+Diagnosis "1" -- "1" Illness : relates to
+Illness "1" -- "0..*" Treatment : has treatments
+
+Treatment "1" -- "1" Illness : belongs to
+Treatment "1" -- "1" Patient : applied to
+
+Patient "1" -- "0..*" ConsentForm : signs
+ConsentForm "1" -- "1" Patient : signed by
+
+Treatment "1" -- "0..*" FollowUp : requires follow-up
+FollowUp "1" -- "1" Doctor : performed by
+FollowUp "1" -- "1" Nurse : assisted by
+
+@enduml
+
+---
+
+### ✅ Summary of Key Relationships:
+
+- A **Patient** can be treated by multiple **Doctors**.
+- A **Doctor** can make multiple **Diagnoses**, which must be **approved** by a **HeadDoctor**.
+- Each **Diagnosis** is associated with one **Illness**.
+- An **Illness** has a **Priority Score** that affects the **Stage** of **Treatments**.
+- **Treatments** are applied to **Patients**, and can be upgraded or downgraded based on **ConsentForms** and **Priority Scores**.
+- **ConsentForm** allows **Treatments** to be upgraded without further consent once given.
+- **FollowUp** records nurse and doctor visits, especially important for **Stage 3** treatments.
+
+---
+
+Let me know if you want this exported as an image or extended with methods/operations!

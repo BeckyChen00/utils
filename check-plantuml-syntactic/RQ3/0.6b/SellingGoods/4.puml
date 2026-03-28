@@ -1,0 +1,38 @@
+@startuml
+
+class diagram -System Requirement
+
+    class SystemRequirement {
+        id SystemRequirement;
+        name String;
+        description String;
+        requirements List<Requirement>;
+    }
+
+    class Requirement {
+        id Requirement;
+        name String;
+        description String;
+        dependencies List<Dependency>;
+    }
+
+    class Dependency {
+        id Dependency;
+        name String;
+        source Source;
+        target Target;
+    }
+
+    class Source {
+        id Source;
+        name String;
+        description String;
+    }
+
+    class Target {
+        id Target;
+        name String;
+        description String;
+    }
+
+@enduml

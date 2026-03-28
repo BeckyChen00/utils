@@ -1,0 +1,89 @@
+
+@startuml
+' Class Diagram for Aircraft Management System
+
+class Aircraft {
+  -name: String
+  -type: String
+  -yearOfManufacture: Integer
+  -nextInspectionDate: Date
+}
+
+class Flight {
+  -flightNumber: String
+  -date: Date
+}
+
+class Passenger {
+  -name: String
+  -passportNumber: String
+}
+
+class Ticket {
+  -ticketNumber: String
+  -price: Double
+  -upgradeDesired: Boolean
+}
+
+class PassengerAircraft {
+  -numberOfSeats: Integer
+}
+
+class SeatCategory {
+  -designation: String
+  -hasEntertainment: Boolean
+  -numberOfSeats: Integer
+}
+
+class Airline {
+  -name: String
+}
+
+class FlightAttendant {
+  -name: String
+  -dateOfEmployment: Date
+  -isChiefSteward: Boolean
+}
+
+class Pilot {
+  -name: String
+  -dateOfEmployment: Date
+  -license: String
+}
+
+class Airport {
+  -name: String
+  -address: String
+  -numberOfRunways: Integer
+}
+
+' Associations
+Aircraft "1" -- "0..*" Flight : hasFlights
+Flight "1" -- "0..*" Passenger : hasPassengers
+Passenger "1" -- "1" Ticket : hasTicket
+Flight "1" -- "1" Ticket : hasTicket
+
+Aircraft "1" -- "1" PassengerAircraft : isA
+PassengerAircraft "1" -- "0..*" SeatCategory : hasSeatCategories
+Ticket "1" -- "1" SeatCategory : belongsTo
+
+Aircraft "1" -- "1" Airline : belongsTo
+Airline "1" -- "0..*" FlightAttendant : employs
+Airline "1" -- "0..*" Pilot : employs
+
+Flight "1" -- "0..*" FlightAttendant : hasCrew
+Flight "1" -- "1" Pilot : hasCaptain
+Flight "1" -- "0..2" Pilot : hasCoPilots
+
+Aircraft "1" -- "0..1" Airport : hasHomeAirport
+Flight "1" -- "1" Airport : departureFrom
+Flight "1" -- "1" Airport : arrivesAt
+@enduml
+
+### Notes:
+- The `PassengerAircraft` is a subclass of `Aircraft`.
+- Each `Flight` can have multiple `Passengers`, each with one `Ticket`.
+- Each `Ticket` is associated with a specific `SeatCategory`.
+- A `Flight` has one `Pilot` as captain, and optionally up to two co-pilots.
+- An `Aircraft` has a home airport, while a `Flight` has a departure and destination airport.
+

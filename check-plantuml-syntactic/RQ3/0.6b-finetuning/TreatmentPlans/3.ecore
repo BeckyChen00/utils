@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedCenter" eType="#//DispatchCenter" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DispatchCenter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EmergencyResponseCommand">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSeats" eType="#//Seat" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedAlert" eType="#//Alert" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedStatement" eType="#//Statement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedLog" eType="#//EventLog" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Seat"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Alert">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeringCommand" eType="#//EmergencyResponseCommand" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Statement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EventLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Passenger">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="occupiedSeat" eType="#//Seat" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationChannel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetPassenger" eType="#//Passenger" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

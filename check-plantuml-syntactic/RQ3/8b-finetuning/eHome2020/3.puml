@@ -1,0 +1,51 @@
+@startuml
+enum SensorType {
+  TEMPERATURE
+  POWER
+}
+enum UnitType {
+  CELSIUS
+  WATT
+}
+class SensorController {
+  +login(username: String, password: String): boolean
+  +getRoomDescriptions(): String[]
+  +logOut(): void
+}
+class SensorDevice {
+  description: String
+  isRunning: boolean
+  sensorType: SensorType
+  unit: UnitType
+  +configureDevice(newDescription: String): void
+  +getMeasurements(): Measurement[]
+  +updateState(isRunning: boolean): void
+}
+class Measurement {
+  timestamp: Date
+  value: double
+  +isValid(): boolean
+}
+class Room {
+  description: String
+  +getRoomDescription(): String
+}
+class Apartment {
+  address: String
+  +getRoomDescriptions(): String[]
+}
+class AlertMessage {
+  timestamp: Date
+  content: String
+  +isValid(): boolean
+}
+class EMonitor {
+  +checkThresholds(): AlertMessage[]
+}
+Apartment *-- "1..*" Room : rooms
+Room *-- "0..*" SensorDevice : sensors
+SensorDevice *-- "0..*" Measurement : measurements
+SensorController --> "1" Apartment : managedApartment
+EMonitor --> "1" SensorController : monitoredController
+SensorController --> "0..*" AlertMessage : generatedAlerts
+@enduml

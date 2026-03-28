@@ -1,0 +1,100 @@
+@startuml
+enum BedCategory {
+  RestHome
+  RestNursingHome
+  ServiceFlat
+  SpecialCare
+  PalliativeCare
+  EmergencyConsortium
+  PremiumRoom
+  GroupLivingSpace
+}
+enum StayStatus {
+  Active
+  Suspended
+  Completed
+  Cancelled
+}
+enum PaymentStatus {
+  Pending
+  Paid
+  PartlyPaid
+  Overpaid
+  Refunded
+  Disputed
+}
+enum RegistrationStatus {
+  Pending
+  Completed
+}
+class Person {
+  name: String
+  dateOfBirth: Date
+  healthConditionNotes: String
+  +register(registrationData: RegistrationData): Person
+  +updateHealthCondition(notes: String): void
+}
+class RegistrationData {
+  addressLine1: String
+  addressLine2: String
+  postalCode: String
+  phoneNumber: String
+  registrationDate: Date
+  status: RegistrationStatus
+  +getContactInfo(): String
+}
+class MedicalAssessment {
+  assessmentDate: Date
+  requiredCareLevel: String
+  +calculateCareLevel(answers: List<String>): String
+}
+class WaitListEntry {
+  waitListPosition: int
+  requestDate: Date
+  targetCategory: BedCategory
+  +getRequestDate(): Date
+}
+class Proposal {
+  proposalDate: Date
+  expirationDays: int
+  isAccepted: boolean
+  isInvalidated: boolean
+  +validate(): boolean
+  +accept(): void
+  +reject(): void
+}
+class Stay {
+  intakeDate: Date
+  endDate: Date
+  durationDays: int
+  status: StayStatus
+  +calculateDuration(): int
+  +suspend(): void
+}
+class Invoice {
+  invoiceDate: Date
+  totalAmount: double
+  remainingAmount: double
+  paymentStatus: PaymentStatus
+  +generateInvoice(): void
+  +receivePayment(amount: double): void
+  +processPayment(): PaymentStatus
+  +getOutstandingAmount(): double
+}
+class PaymentRecord {
+  paymentDate: Date
+  amount: double
+  paymentMethod: String
+  +recordPayment(): void
+}
+Person *-- "1" RegistrationData : registrationData
+Person *-- "1" MedicalAssessment : latestAssessment
+RegistrationData --> "1" WaitListEntry : waitListEntry 'opposite: owner
+WaitListEntry --> "*" Proposal : generatedProposals
+Proposal --> "1" Person : proposedTo
+Proposal --> "1" Stay : resultingStay 'opposite: initiatingProposal
+Stay --> "1" Person : inhabitedBy
+Stay --> "1" BedCategory : category
+Stay *-- "*" Invoice : generatedInvoices
+Invoice *-- "*" PaymentRecord : paymentHistory
+@enduml

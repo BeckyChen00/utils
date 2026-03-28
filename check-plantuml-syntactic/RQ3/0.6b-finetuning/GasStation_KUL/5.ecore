@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedAlerts" eType="#//Alert" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Alert">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetedRoute" eType="#//Route" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Route">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatedByAgency" eType="#//TransitAgency" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransitAgency"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteOptimizer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedAgency" eType="#//TransitAgency" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedRoute" eType="#//Route" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Passenger">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookedSchedules" eType="#//Schedule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedAlerts" eType="#//Alert" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationManager"/>
+</ecore:EPackage>

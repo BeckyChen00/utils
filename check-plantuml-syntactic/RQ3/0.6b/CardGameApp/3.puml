@@ -1,0 +1,53 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement { 
+        name: "System Requirement"
+    }
+}
+
+class User {
+    id: 1
+    name: "John Doe"
+    email: "john.doe@example.com"
+}
+
+class Module {
+    id: 1
+    name: "Data Processing Module"
+    description: "Processes data from input sources"
+}
+
+class Component {
+    id: 1
+    name: "Database"
+    description: "Stores and retrieves data"
+}
+
+class Service {
+    id: 1
+    name: "DataService"
+    description: "Handles data processing tasks"
+}
+
+class Connection {
+    id: 1
+    source: "Database"
+    destination: "DataProcessingModule"
+    type: "Input"
+}
+
+class DataFlow {
+    id: 1
+    component: "Database"
+    service: "DataService"
+    connection: "Database->DataProcessingModule"
+}
+
+class Usage {
+    id: 1
+    module: "DataProcessingModule"
+    component: "Database"
+}
+
+@enduml

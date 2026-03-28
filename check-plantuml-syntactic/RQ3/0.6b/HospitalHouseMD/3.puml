@@ -1,0 +1,35 @@
+@startuml
+
+class Diagram {
+  class "System Requirements" {
+    class "Functional Requirements"
+    class "Non-Functional Requirements"
+  }
+
+  class "System Requirements" {
+    class "System Name"
+    class "Application Type"
+    class "Database"
+    class "User Interface"
+    class "Security"
+    class "Performance"
+    class "Usability"
+    class "Compatibility"
+  }
+
+  class "Functional Requirements" {
+    class "Features Implemented"
+    class "Functionality"
+    class "Constraints"
+    class "Requirements"
+  }
+
+  class "Non-Functional Requirements" {
+    class "Performance"
+    class "Usability"
+    class "Security"
+    class "Compatibility"
+    class "Cost"
+  }
+
+@enduml

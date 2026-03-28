@@ -1,0 +1,17 @@
+graph TD
+    A[System Requirement]
+    B[Requirement 1]
+    C[Requirement 2]
+    D[Requirement 3]
+    E[Requirement 4]
+
+    B --> C
+    C --> D
+    D --> E
+
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+
+Let me know if you need a more detailed diagram or additional components!

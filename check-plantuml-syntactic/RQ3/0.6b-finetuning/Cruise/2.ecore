@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="productCatalog" eType="#//ProductCatalog" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProductCatalog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommerceAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inventoryRecords" eType="#//InventoryRecord" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedOrders" eType="#//SalesOrder" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedEvents" eType="#//PromotionEvent" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedRules" eType="#//PromotionRule" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeCampaigns" eType="#//PromotionCampaign" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InventoryRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SalesOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeCampaign" eType="#//PromotionCampaign" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedEvent" eType="#//PromotionEvent" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactionHistory" eType="#//SaleTransaction" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionCampaign">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedProducts" eType="#//Product" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedRules" eType="#//PromotionRule" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggersRules" eType="#//PromotionRule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involvedProducts" eType="#//Product" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SaleTransaction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedProduct" eType="#//Product" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Product"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sendsAlert" eType="#//PromotionEvent" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sendsReminder" eType="#//SalesOrder" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

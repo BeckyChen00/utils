@@ -1,0 +1,534 @@
+@startuml
+enum MiseStyle {
+  French
+  Spanish
+  Portuguese
+  Japanese
+  NativeAmerican
+  Celtic
+  MexicanAmerican
+  Russian
+}
+enum Season {
+  Spring
+  Summer
+  Autumn
+  Winter
+}
+enum ExecutionMethod {
+  Scissors
+  MetalShears
+  BoneShears
+  ViolinBreak
+}
+class Tactician {
+  name: String
+  expertise: String
+}
+class Member {
+  name: String
+  contactEmail: String
+  +getContactEmail(): String
+}
+class CateringGroup {
+  name: String
+  location: String
+}
+class Session {
+  title: String
+  durationHours: double
+  isOnline: boolean
+  currentStatus: String
+  +startSession(): void
+  +endSession(): void
+  +updateStatus(newStatus: String): void
+}
+class Instruction {
+  description: String
+  +formatDescription(): String
+}
+class PracticalWork {
+  workType: String
+  startPos: int
+  endPos: int
+  +generateWorkReport(): String
+}
+class TechnicalSkill {
+  skillName: String
+  isOperational: boolean
+  +calculateEfficiency(): double
+}
+class Schedule {
+  isConfirmed: boolean
+  confirmedDate: Date
+  dueDate: Date
+  +addSession(session: Session): void
+  +confirm(): void
+  +cancel(): void
+}
+class PerformanceEvent {
+  eventName: String
+  eventDate: Date
+  eventLocation: String
+  +initiate(): void
+  +close(): void
+}
+class Registration {
+  registrationDate: Date
+  status: String
+  +registerUser(member: Member): void
+  +validateCredentials(): boolean
+}
+class Equipment {
+  name: String
+  model: String
+  capacity: int
+  +checkAvailability(): boolean
+}
+class EducationProgram {
+  programName: String
+  targetStudents: String
+  +registerStudent(member: Member): void
+  +getProgramSummary(): String
+}
+class Venue {
+  venueName: String
+  locationDescription: String
+  capacity: int
+  +verifyCapacity(requiredCapacity: int): boolean
+}
+class PerformanceRecord {
+  recordTitle: String
+  recordingTime: Date
+  highestScore: double
+  +generateReport(): String
+}
+class DeliveryOrder {
+  orderDate: Date
+  totalAmount: double
+  +calculateTotal(): double
+  +updateStatus(status: String): void
+}
+class Payment {
+  paymentDate: Date
+  amountPaid: double
+  +processPayment(): boolean
+  +generateReceipt(): String
+}
+class Review {
+  rating: int
+  comment: String
+  +evaluatePerformance(): void
+  +sendFeedback(reviewer: Member): void
+}
+class Collaboration {
+  frequency: double
+  +shareSession(session: Session): void
+  +updateCollaboratorCount(): void
+}
+class Scenario {
+  scenarioTitle: String
+  description: String
+  difficultyLevel: String
+  +createScenario(theme: String): void
+  +getScenarioSummary(): String
+}
+class TrainingRecord {
+  recordDate: Date
+  durationMinutes: int
+  +getRecordHistory(): List<TrainingRecord>
+}
+class Notification {
+  message: String
+  deliveryStatus: String
+  +sendNotification(recipient: Member): boolean
+}
+class PaymentRequest {
+  requestDate: Date
+  amount: double
+  isVerified: boolean
+  +approveRequest(): boolean
+  +rejectRequest(reason: String): void
+}
+class Customization {
+  customizationCode: String
+  recipeName: String
+  desiredStyle: MiseStyle
+  +applyToSession(session: Session): void
+}
+class BudgetPlan {
+  isActive: boolean
+  totalAmount: double
+  +allocateResource(item: ResourceItem): void
+  +validateBudget(): boolean
+}
+class ResourceItem {
+  itemName: String
+  capacity: int
+  type: String
+}
+class Department {
+  departmentName: String
+  jurisdictionCode: String
+  +assignMember(member: Member): void
+  +getDepartmentHistory(): List<Department>
+}
+class Report {
+  reportTitle: String
+  generationDate: Date
+  +generateSummary(): String
+}
+class Compliance {
+  regulationCode: String
+  startDate: Date
+  endDate: Date
+  +checkCompliance(): boolean
+}
+class Certification {
+  certificateName: String
+  issueDate: Date
+  expirationDate: Date
+  +issueCertificate(): void
+}
+class SkillSet {
+  setCode: String
+  skillLevels: List<String>
+  +isSkillRequired(skillName: String): boolean
+}
+class Inventory {
+  stockLevel: int
+  +restockItem(item: ResourceItem, quantity: int): void
+  +restockItem(item: ResourceItem, quantity: int): void
+}
+class ConstraintRule {
+  ruleName: String
+  condition: String
+  +checkConstraintLevel(level: int): boolean
+}
+class Performance {
+  performanceDate: Date
+  score: double
+  isFailed: boolean
+  +validatePerformance(): boolean
+}
+class Feedback {
+  feedbackDate: Date
+  comments: String
+  +formatFeedback(): String
+}
+class ScheduleItem {
+  sortOrder: int
+  description: String
+  +getOrder(): int
+}
+class Attendance {
+  attendanceDate: Date
+  status: String
+  +recordEntry(): void
+  +confirmEntry(): void
+}
+class SessionVerification {
+  verificationDate: Date
+  isVerified: boolean
+  +generateVerificationReport(): String
+}
+class Booking {
+  bookingDate: Date
+  bookingId: String
+  +confirmBooking(): void
+  +cancelBooking(): void
+}
+class Workshop {
+  workshopName: String
+  startHour: int
+  endHour: int
+  +startWorkshop(): void
+  +closeWorkshop(): void
+}
+class CurriculumModule {
+  moduleTitle: String
+  difficultyLevel: String
+  +getModuleDescription(): String
+}
+class TrainingRecord {
+  recordDate: Date
+  durationMinutes: int
+  +getRecordHistory(): List<TrainingRecord>
+}
+class Announcement {
+  announcementTitle: String
+  status: String
+  +publishMessage(): void
+}
+class Event {
+  eventName: String
+  eventDate: Date
+  isPublic: boolean
+  +createEventDetails(): String
+}
+class ReportTemplate {
+  templateName: String
+  formatType: String
+  +exportReport(): String
+}
+class SessionReport {
+  reportTitle: String
+  generationDate: Date
+  summaryContent: String
+  +generateReport(): void
+}
+class Bookkeeping {
+  bookkeepingDate: Date
+  +calculateTotalBalance(): double
+  +finalizeBookkeeping(): void
+}
+class AuditLog {
+  logDate: Date
+  actionDescription: String
+  +generateAuditTrail(): String
+}
+class NotificationService {
+  +sendNotification(recipient: Member, content: String): boolean
+}
+class PerformanceMockup {
+  simulationStart: Date
+  simulationEnd: Date
+  +startSimulation(): void
+  +stopSimulation(): void
+}
+class CustomizationManager {
+  +applyCustomization(session: Session, custom: Customization): void
+}
+class ProjectManager {
+  projectTitle: String
+  startDate: Date
+  +initiateProject(): void
+  +closeProject(): void
+}
+class DataAnalyzer {
+  +calculateAverageScore(session: Session): double
+  +detectPerformanceIssues(session: Session): List<Performance>
+}
+class MonitoringAgent {
+  +monitorSession(session: Session): void
+  +detectStorms(durationHours: double): List<Performance>
+}
+class Customer {
+  name: String
+  contactInfo: String
+  +requestBooking(items: List<ResourceItem>): Booking
+}
+class ScheduleManager {
+  +createScheduleGroup(groupType: String, startDate: Date): Schedule
+}
+class PaymentGate {
+  +processPayment(request: PaymentRequest): boolean
+  +refundRequest(request: PaymentRequest): boolean
+}
+class Reminder {
+  reminderDate: Date
+  priorityLevel: String
+  +scheduleReminder(schedule: Schedule): void
+}
+class Notification {
+  message: String
+  deliveryDate: Date
+  status: String
+  +sendNotification(recipient: Member): boolean
+}
+class Reimbursement {
+  reimbursementDate: Date
+  amount: double
+  +processReimbursement(): boolean
+}
+class ReportGenerator {
+  +generateReport(formatType: String): String
+  +exportReport(formatType: String): String
+}
+class NotificationSystem {
+  +sendNotification(target: Member, content: String): boolean
+  +sendAlert(message: String): void
+}
+class InspectionReport {
+  inspectionDate: Date
+  inspectorName: String
+  findingsSummary: String
+  +getInspectionDetails(): String
+}
+class OrderProcessor {
+  +processOrder(order: DeliveryOrder): boolean
+  +getOrderDetails(): String
+}
+class Coverage {
+  coverageType: String
+  coverageArea: String
+  targetRegion: String
+}
+class SafetyInspector {
+  +inspectSession(session: Session): void
+  +verifySafetyCode(code: String): boolean
+}
+class ComplianceChecker {
+  +validateCompliance(responsibility: String): boolean
+  +verifyMiseStyle(style: MiseStyle): boolean
+}
+class BudgetController {
+  +allocateResources(item: ResourceItem, quantity: int): void
+  +allocateResources(item: ResourceItem, quantity: int): void
+  +calculateRemainingBudget(): double
+}
+class BudgetProfile {
+  profileName: String
+  totalSpent: double
+  +trackSpentRecord(record: Performance): void
+}
+class ComplianceRule {
+  ruleName: String
+  description: String
+  +evaluate complianceLevel(item: ResourceItem): String
+}
+class NotificationChannel {
+  channelType: String
+  isImmediate: boolean
+  +sendNotification(recipient: Member, content: String): boolean
+}
+class ReminderService {
+  +scheduleReminder(event: Event, durationHours: double): Date
+  +cancelReminder(event: Event): void
+}
+class EventLog {
+  eventDate: Date
+  eventDetails: String
+  +archiveEventLog(): void
+}
+class AuditReportGenerator {
+  +generateAuditReport(startDate: Date, endDate: Date): String
+  +exportAuditDetails(): String
+}
+class PerformanceTracker {
+  +logPerformanceScore(score: double, date: Date): void
+  +getPerformanceHistory(year: int): List<Performance>
+}
+class AttendanceManager {
+  +assignAttendance(item: ResourceItem, date: Date): int
+  +calculateAttendances(group: Group): int
+}
+class ResourceManager {
+  +getAvailableStock(items: List<ResourceItem>): List<ResourceItem>
+  +restockStock(items: List<ResourceItem>, quantities: Map<String, int>): List<ResourceItem>
+}
+class Group {
+  groupName: String
+  leaderName: String
+  +assignLeader(member: Member): void
+  +getGroupMembers(): List<Member>
+}
+class Invoice {
+  invoiceId: String
+  issueDate: Date
+  totalAmount: double
+  +generateInvoice(): void
+  +markAsPaid(): void
+}
+class InvoiceService {
+  +processInvoice(item: ResourceItem): Invoice
+  +generateInvoiceDetails(item: ResourceItem): String
+}
+class InventoryManager {
+  +getStockCount(item: ResourceItem): int
+  +restockStock(items: List<ResourceItem>, quantities: Map<String, int>): void
+}
+class ComplianceValidator {
+  +checkCompliance(profile: BudgetProfile): boolean
+  +checkCompliance(context: String): boolean
+}
+class AuditLogEntity {
+  logCreationDate: Date
+  actionDescription: String
+  +recordAction(action: String): void
+}
+class CollaborationEngine {
+  +sendReport(report: PerformanceRecord): void
+  +shareSession(session: Session): void
+  +collaborateGroup(group: Group): void
+}
+class CostCalculator {
+  +calculateTotalCost(items: List<ResourceItem>): double
+  +calculateTotalCost(items: List<ResourceItem>): double
+}
+class Documentation {
+  +createDocumentation(module: CurriculumModule): String
+  +storeDocumentation(module: CurriculumModule): void
+}
+class PolicyManager {
+  +applyPolicy(reason: String): void
+  +regulatePerformance(record: Performance): void
+}
+class CompliancePolicy {
+  policyName: String
+  description: String
+  +checkGivenCondition(item: ResourceItem): boolean
+}
+class PerformanceEvaluation {
+  evaluationDate: Date
+  finalScore: int
+  +evaluateSession(session: Session): void
+  +getFinalScore(): int
+}
+class PerformanceMetrics {
+  metricName: String
+  metricValue: double
+  +calculateMetrics(data: String): void
+}
+class SecurityVault {
+  +lockStorage(item: ResourceItem): void
+  +unlockStorage(item: ResourceItem): void
+}
+class TechnicalSupportTeam {
+  teamName: String
+  +resolveTechnicalIssue(issue: String): void
+  +resolveTechnicalIssue(issue: String): void
+}
+class SystemAdmin {
+  adminName: String
+  +manageGroups(groups: List<Group>): void
+  +monitorPerformanceSession(session: Session): void
+  +configureSystem(policy: CompliancePolicy): void
+}
+class PerformanceData {
+  dataDate: Date
+  averageScore: double
+  strongPerformanceNotes: List<String>
+  +generateDataSummary(): String
+}
+class GoalManager {
+  targetDate: Date
+  goalDescription: String
+  +updateGoal(description: String): void
+  +getGoalDetails(): String
+}
+class PerformanceCoach {
+  coachName: String
+  +assignCoach(member: Member): void
+  +reviewSession(session: Session): void
+}
+class PerformanceEventManager {
+  +createEvent(event: PerformanceEvent): void
+  +generateEventReport(): String
+}
+class PerformanceAnalysisReport {
+  reportDate: Date
+  analysisSummary: String
+  +calculatePerformanceSummary(): String
+}
+class ContactInfo {
+  email: String
+  phoneNumber: String
+}
+class RefundRequest {
+  requestDate: Date
+  amount: double
+  requestStatus: String
+  +requestRefund(): boolean
+ 
+@enduml

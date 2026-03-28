@@ -1,0 +1,48 @@
+@startuml
+
+class Diagram {
+  class SystemRequirement { 
+    text "System Requirement" 
+  }
+
+  class Component { 
+    text "Component"
+  }
+
+  class Service { 
+    text "Service"
+  }
+
+  class Module { 
+    text "Module"
+  }
+
+  class Interface { 
+    text "Interface"
+  }
+
+  class Dependency { 
+    text "Dependency"
+  }
+
+  class Requirement { 
+    text "Requirement"
+  }
+
+  class Relation { 
+    text "Relation"
+  }
+
+  class Relationship {
+    relation from Diagram to SystemRequirement
+    relation from SystemRequirement to Component
+    relation from Component to Service
+    relation from Service to Module
+    relation from Module to Interface
+    relation from Interface to Dependency
+    relation from Dependency to Requirement
+  }
+
+}
+
+@enduml

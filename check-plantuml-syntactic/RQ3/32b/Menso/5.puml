@@ -1,0 +1,110 @@
+
+@startuml
+
+' Define classes and their attributes and methods
+
+class Bus {
+    -id: int
+    -lineNumber: int
+}
+
+class Line {
+    -id: int
+    -name: String
+    -category: String
+    +containsTrajectories(): List<Trajectory>
+}
+
+class Trajectory {
+    -id: int
+    -routeDescription: String
+    -status: Status (e.g., approved, suspended, cancelled)
+    -approvalRequests: List<ApprovalRequest>
+}
+
+class ApprovalRequest {
+    -id: int
+    -dateSubmitted: Date
+    -response: Response (approved, rejected, modified)
+    -trajectory: Trajectory
+}
+
+class MENSO {
+    -id: int
+    -customerId: int
+    -startDate: Date
+    -endDate: Date
+    -trips: List<Trip>
+    -invoices: List<Invoice>
+}
+
+class Customer {
+    -id: int
+    -name: String
+    -homeAddress: Address
+    -workAddress: Address
+    -workingHours: String
+    -mensoAccount: MENSO
+}
+
+class Trip {
+    -id: int
+    -date: Date
+    -time: Time
+    -lineId: int
+    -customerId: int
+    -amountDue: float
+}
+
+class Invoice {
+    -id: int
+    -month: Month
+    -year: int
+    -totalAmount: float
+    -discountApplied: float
+    -paymentStatus: PaymentStatus (unpaid, paid)
+    -trips: List<Trip>
+    -mensoId: int
+}
+
+class Address {
+    -street: String
+    -city: String
+    -postalCode: String
+}
+
+class ApprovalAuthority {
+    -authorityName: String
+    -approve(trajectory: Trajectory): Response
+    -reject(trajectory: Trajectory): Response
+    -requestModification(trajectory: Trajectory): void
+}
+
+' Relationships
+
+Bus --> Line : assigned to
+Line --> "1..*" Trajectory : contains
+Trajectory --> "0..*" ApprovalRequest : has
+ApprovalRequest --> Trajectory : for
+ApprovalRequest --> ApprovalAuthority : submitted to
+MENSO --> Customer : belongs to
+Customer --> MENSO : subscribes to
+MENSO --> "0..*" Trip : records
+Trip --> MENSO : part of
+Trip --> Customer : by
+Trip --> Line : on
+MENSO --> "0..*" Invoice : generates
+Invoice --> "0..*" Trip : includes
+Invoice --> MENSO : for
+
+@enduml
+
+---
+
+### Notes:
+- The `Trajectory` class has a lifecycle (`approved`, `suspended`, `cancelled`) that reflects its status in the approval process.
+- The `ApprovalRequest` class models the iterative approval process with possible rejections or modifications.
+- The `MENSO` class links trips to customers and invoices, enabling usage tracking and invoicing.
+- The `Invoice` can be generated before payment is made, and discounts are applied depending on total usage.
+- Personal data is collected from `Customer` to support analysis of travel patterns.
+

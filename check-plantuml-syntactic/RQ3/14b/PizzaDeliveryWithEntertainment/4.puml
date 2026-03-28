@@ -1,0 +1,90 @@
+
+@startuml
+' Class Diagram for Pizza Delivery with Entertainment App
+
+class User {
+  +id: String
+  +name: String
+  +birthday: Date
+  +address: String
+}
+
+class BusinessOwner {
+  +linkedin: String
+}
+
+class Restaurant {
+  +zipCode: String
+  +address: String
+  +phoneNumber: String
+  +website: String
+  +openingHours: String
+}
+
+class Pizza {
+  +name: String
+  +crustStructure: String
+  +price: Double
+  +restaurantId: String
+}
+
+class HungryCustomer {
+  +deliveryAddress: String
+}
+
+class Order {
+  +orderId: String
+  +orderDate: DateTime
+  +deliveryTime: DateTime
+  +peopleCount: Integer
+  +restaurantId: String
+  +pizzaIds: List<String>
+}
+
+class EntertainmentOrder {
+  +entertainmentType: String
+  +durationMinutes: Integer
+  +entertainerId: String
+}
+
+class Entertainer {
+  +stageName: String
+  +bio: String
+  +ratePer30Minutes: Double
+}
+
+class Availability {
+  +dayOfWeek: String
+  +isAvailable: Boolean
+}
+
+' Inheritance and Associations
+User <|-- BusinessOwner
+User <|-- HungryCustomer
+User <|-- Entertainer
+
+BusinessOwner "1" --> "0..*" Restaurant
+Restaurant "1" --> "0..*" Pizza
+
+HungryCustomer "1" --> "0..*" Order
+Order "1" --> "0..*" EntertainmentOrder
+
+Entertainer "1" --> "0..*" Availability
+Entertainer "1" --> "0..*" Restaurant
+
+Pizza "1" --> Restaurant
+Order "1" --> Pizza
+EntertainmentOrder "1" --> Order
+Entertainer "1" --> EntertainmentOrder
+@enduml
+
+### Explanation of Key Relationships:
+
+- **User** is a base class, with three subtypes: `BusinessOwner`, `HungryCustomer`, and `Entertainer`.
+- A `BusinessOwner` can manage multiple `Restaurant`s.
+- Each `Restaurant` offers many `Pizza`s, which are unique due to being associated with the restaurant.
+- A `HungryCustomer` places one or more `Order`s.
+- An `Order` can be an `EntertainmentOrder`, which includes entertainment details and links to an `Entertainer`.
+- An `Entertainer` can work at multiple `Restaurant`s and has an `Availability` schedule per day.
+- The `Pizza` class ensures uniqueness by tying it to a specific `Restaurant`.
+

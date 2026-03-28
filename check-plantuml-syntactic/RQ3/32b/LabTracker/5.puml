@@ -1,0 +1,140 @@
+
+@startuml
+
+' Define classes
+class Doctor {
+    +String fullName
+    +String address
+    +String phoneNumber
+    +int practitionerNumber
+    +Image signature
+    +Date validFrom
+}
+
+class Patient {
+    +String firstName
+    +String lastName
+    +Date dateOfBirth
+    +String address
+    +String phoneNumber
+    +String healthNumber
+}
+
+class Requisition {
+    +Doctor doctor
+    +Patient patient
+    +Date issuedDate
+    +TestGroup testGroup
+    +List<Test> tests
+    +RepeatSchedule repeatSchedule
+}
+
+class Test {
+    +String name
+    +Duration duration
+    +boolean requiresAppointment
+    +TestGroup testGroup
+    +Result result
+    +Report report
+}
+
+class TestGroup {
+    +String groupName
+}
+
+class RepeatSchedule {
+    +int repetitions
+    +Interval interval
+}
+
+enum Interval {
+    WEEKLY
+    MONTHLY
+    HALF_YEARLY
+    YEARLY
+}
+
+class Appointment {
+    +Requisition requisition
+    +Lab lab
+    +Date date
+    +Time startTime
+    +Time endTime
+    +String confirmationNumber
+    +double cancellationFee
+}
+
+class Lab {
+    +String name
+    +String address
+    +String registrationNumber
+    +Time startBusinessHour
+    +Time endBusinessHour
+    +Map<Date, List<TimeSlot>> timeSlots
+}
+
+class Result {
+    +String outcome (e.g., "Positive", "Negative")
+}
+
+class Report {
+    +String content
+}
+
+class Duration {
+    +int minutes
+}
+
+class TimeSlot {
+    +Time startTime
+    +Time endTime
+}
+
+' Associations
+Doctor --> Requisition : issues
+Patient --> Requisition : isSubjectOf
+Requisition --> TestGroup : belongsTo
+TestGroup --> Test : contains
+Test --> TestGroup : inGroup
+Requisition --> RepeatSchedule : has
+Requisition --> Appointment : mayHave
+Appointment --> Lab : at
+Lab --> Appointment : offers
+Test --> Result : has
+Test --> Report : has
+Lab --> TimeSlot : provides
+
+' Constraints
+note right of Doctor
+    A doctor cannot prescribe a test for themselves.
+end note
+
+note right of Test
+    Some tests can be grouped together if they are in the same TestGroup.
+end note
+
+note right of Appointment
+    Patients can only book one appointment at a time for repeated tests.
+    Changes within 24 hours incur a fee.
+end note
+
+@enduml
+
+---
+
+### ✅ Key Features Captured:
+
+- **Doctor**: Issues requisitions with required information including digital signature and practitioner number.
+- **Patient**: Has personal info and health number; uses requisition to make appointments.
+- **Requisition**: Links doctor and patient; includes a group of tests from the same category.
+- **TestGroup**: Ensures only compatible tests are grouped together.
+- **Test**: Can have duration, result, and report. May require an appointment or not.
+- **RepeatSchedule**: Defines repetition rules for tests.
+- **Appointment**: Booked by patients; tied to a specific lab and time slot.
+- **Lab**: Provides tests and has fixed business hours; charges for late cancellations.
+- **Result & Report**: Attached to each test.
+- **TimeSlot**: Used for managing available appointment slots.
+
+---
+
+Let me know if you want this exported as a PNG image or need a version that supports UML 2.5 notation!

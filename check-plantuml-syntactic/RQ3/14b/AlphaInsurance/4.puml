@@ -1,0 +1,140 @@
+
+@startuml
+skinparam classAttributeIconName false
+
+class Customer {
+  -id: int
+  -name: String
+  -contactInfo: String
+  -brokerId: int
+  -insurancePolicies: List<InsurancePolicy>
+}
+
+class Broker {
+  -id: int
+  -name: String
+  -contactInfo: String
+  -assignedCustomers: List<Customer>
+  -submittedFiles: List<InsuranceFile>
+}
+
+class InsurancePolicy {
+  -id: int
+  -type: String
+  -price: double
+  -coverageDetails: String
+  -contractStatus: String
+  -customer: Customer
+  -contract: Contract
+}
+
+class InsuranceFile {
+  -id: int
+  -customerId: int
+  -fileData: String
+  -assessmentStatus: String
+  -assessedBy: Estimator
+}
+
+class Contract {
+  -id: int
+  -policyId: int
+  -startDate: Date
+  -endDate: Date
+  -paymentFrequency: String
+  -signedDate: Date
+  -customer: Customer
+  -broker: Broker
+}
+
+class Claim {
+  -id: int
+  -customerId: int
+  -claimType: String
+  -claimDate: Date
+  -status: String
+  -totalCompensation: double
+  -customer: Customer
+  -claimCases: List<ClaimCase>
+}
+
+class ClaimCase {
+  -id: int
+  -claimId: int
+  -caseType: String
+  -description: String
+  -status: String
+  -estimators: List<Estimator>
+  -compensationDecision: CompensationDecision
+}
+
+class Estimator {
+  -id: int
+  -name: String
+  -expertiseArea: String
+  -report: Report
+  -processedClaims: List<ClaimCase>
+}
+
+class Report {
+  -id: int
+  -caseId: int
+  -content: String
+  -dateSubmitted: Date
+  -estimator: Estimator
+  -approved: boolean
+}
+
+class CompensationDecision {
+  -id: int
+  -claimCaseId: int
+  -eligibleCosts: double
+  -approvalDate: Date
+  -claimCase: ClaimCase
+}
+
+class Invoice {
+  -id: int
+  -customerId: int
+  -amountDue: double
+  -dueDate: Date
+  -paymentStatus: String
+  -customer: Customer
+  -policy: InsurancePolicy
+}
+
+' Relationships
+Customer "1" -- "0..*" Broker : assigned to
+Broker "1" -- "0..*" Customer : manages
+Customer "1" -- "0..*" InsurancePolicy : has
+Broker "1" -- "0..*" InsuranceFile : submits
+InsurancePolicy "1" -- "1" Contract : associated with
+Customer "1" -- "0..*" Claim : files
+Claim "1" -- "1..*" ClaimCase : contains
+ClaimCase "1" -- "1" CompensationDecision : results in
+ClaimCase "1" -- "1..*" Estimator : assessed by
+Estimator "1" -- "0..*" Report : produces
+Report "1" -- "1" ClaimCase : belongs to
+Contract "1" -- "1" Invoice : generates
+InsurancePolicy "1" -- "1" Invoice : related to
+@enduml
+
+---
+
+### ✅ Explanation of Key Entities:
+
+- **Customer**: Represents individuals who have insurance policies.
+- **Broker**: Assigned to customers and helps them choose policies.
+- **InsurancePolicy**: Different types of insurance products offered.
+- **InsuranceFile**: A file submitted for assessment by the head office.
+- **Contract**: Signed between customer and company after approval.
+- **Claim**: Request made by customer for compensation.
+- **ClaimCase**: Specific claims (e.g., material damage, physical damage).
+- **Estimator**: Evaluates claim cases and provides reports.
+- **Report**: Assessment result from an estimator.
+- **CompensationDecision**: Final decision on eligible costs.
+- **Invoice**: Generated for payment based on contract terms.
+
+---
+
+Let me know if you want this converted into a PNG image or need further refinements!

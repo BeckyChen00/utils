@@ -1,0 +1,63 @@
+@startuml
+class Organizer {
+  firstName: String
+  lastName: String
+  emailAddress: String
+  phoneNumber: String
+  password: String
+  isManagingEvent: boolean
+  isAttendingEvent: boolean
+  +createAccount(email: String, password: String): void
+  +inviteAttendee(name: String, email: String): Invitation
+  +manageChecklist(event: Event): Checklist
+}
+class Event {
+  eventName: String
+  occurrenceDate: Date
+  startTime: Time
+  endTime: Time
+  occasion: String
+  locationName: String
+  locationAddress: String
+  +schedule(eventType: EventType): void
+  +getInvitationStatus(): InvitationStatus
+}
+class EventType {
+  typeName: String
+}
+class Invitation {
+  invitationCode: String
+  status: String
+  +confirmAttendance(): void
+  +declineAttendance(): void
+}
+class Attendee {
+  firstName: String
+  lastName: String
+  emailAddress: String
+  confirmedAttendance: boolean
+  +register(): void
+}
+class Participant {
+  role: String
+}
+class Checklist {
+  checklistName: String
+  +addTask(task: Task): void
+  +removeTask(taskId: String): void
+}
+class Task {
+  taskDescription: String
+  taskStatus: String
+  requiresCompletionByAttendee: boolean
+  +markComplete(): void
+  +markIncomplete(): void
+}
+Organizer *-- "0..*" Event : organizedEvents
+Event *-- "1" EventType : eventCategory
+Event *-- "1" Invitation : eventInvitation
+Event *-- "1" Checklist : eventChecklist
+Checklist *-- "1..*" Task : checklistTasks
+Organizer "1" --> "0..*" Attendee : managedAttendees
+Attendee -- EventType
+@enduml

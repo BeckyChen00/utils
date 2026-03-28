@@ -1,0 +1,103 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Customer {
+    +String name
+    +String contactInfo
+    +List<Car> registeredCars
+    +List<RideHail> rideHails
+    +List<RideShare> rideShares
+}
+
+class Car {
+    +String licensePlate
+    +String make
+    +String model
+    +int year
+    +boolean isSelfDriving
+    +List<Customer> carOwners
+    +List<RideHail> rideHails
+    +List<RideShare> rideShares
+    +List<Accident> accidents
+}
+
+class RideHail {
+    +DateTime pickupTime
+    +DateTime dropoffTime
+    +Location pickupLocation
+    +Location dropoffLocation
+    +Duration duration
+    +Distance distance
+    +int numPassengers
+    +double fee
+    +String requestType (App / Wave)
+    +Customer leadCustomer
+}
+
+class RideShare {
+    +DateTime pickupTime
+    +DateTime dropoffTime
+    +Location pickupLocation
+    +Location dropoffLocation
+    +Duration duration
+    +Distance distance
+    +List<Customer> customers
+    +double negotiatedFee
+}
+
+class Accident {
+    +DateTime date
+    +Location location
+    +double damageAmount
+    +Car involvedCar
+}
+
+class Location {
+    +String address
+    +double latitude
+    +double longitude
+}
+
+' Relationships
+Customer "1" -- "0..*" Car : registers
+Car "1" -- "0..*" Customer : ownedBy
+Customer "1" -- "0..*" RideHail : uses
+Customer "1" -- "0..*" RideShare : uses
+Car "1" -- "0..*" RideHail : provides
+Car "1" -- "0..*" RideShare : provides
+Car "1" -- "0..*" Accident : has
+RideHail --> Location : pickupLocation
+RideHail --> Location : dropoffLocation
+RideShare --> Location : pickupLocation
+RideShare --> Location : dropoffLocation
+
+@enduml
+
+---
+
+### 🔍 Explanation of Classes and Relationships:
+
+- **Customer**: Represents users of the Sober app or registered car owners. They can hail rides via the app or by hand-waving, and they may register their own cars.
+  
+- **Car**: Represents both self-driving cabs and user-registered cars. Each car can have multiple owners and be involved in multiple rides and accidents.
+
+- **RideHail**: Represents individual ride-hailing trips. Includes details like time, location, passengers, and payment information.
+
+- **RideShare**: Represents shared rides with multiple passengers. Includes negotiated pricing and list of all passengers.
+
+- **Accident**: Stores information about any accident involving a car, including date, location, and damage amount.
+
+- **Location**: A simple class to store geographic coordinates for pickup and drop-off locations.
+
+---
+
+### 📌 Notes:
+- All classes are defined with basic attributes relevant to the system requirements.
+- Relationships are modeled as associations using UML syntax.
+- This diagram assumes that `Location`, `Duration`, and `Distance` are either value objects or simple types used within other classes.
+
+Let me know if you'd like this rendered as an image or want to extend it with more details!

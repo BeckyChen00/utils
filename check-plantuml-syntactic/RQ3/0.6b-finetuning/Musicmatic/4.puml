@@ -1,0 +1,52 @@
+@startuml
+enum MemoryRegion {
+  Global
+  Local
+  Stack
+  Heap
+  Reserved
+  Extra
+}
+enum MemoryStatus {
+  Available
+  Occupied
+  UnderMaintenance
+}
+class MemorySegment {
+  regionName: String
+  memoryStatus: MemoryStatus
+  capacityMb: int
+  +getFeatures(): String
+}
+class MemoryManager {
+  +allocateSegment(region: MemoryRegion, size: int): MemorySegment
+  +releaseSegment(segment: MemorySegment): void
+  +getStatus(logLevel: String): String
+}
+class AllocationRequest {
+  priority: int
+  requestTimestamp: Date
+  +submit(): boolean
+}
+class MemorySnapshot {
+  timestamp: Date
+  version: String
+  contents: String
+  +getFullDescription(): String
+}
+class MemoryDevice {
+  deviceType: String
+  basePath: String
+  +getDevicePath(): String
+}
+class AllocationJob {
+  failureReason: String
+  successCount: int
+  +execute(): boolean
+}
+MemoryManager *-- "*" MemorySegment : managedSegments
+MemoryManager --> "0..1" MemoryDevice : targetDevice
+MemoryManager --> "*" AllocationRequest : pendingRequests
+AllocationJob --> "1" AllocationRequest : sourceRequest
+MemorySnapshot -- MemorySegment
+@enduml

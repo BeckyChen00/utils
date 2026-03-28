@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="homeArena" eType="#//Arena" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Arena"/>
+  <eClassifiers xsi:type="ecore:EClass" name="League">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedGames" eType="#//Game" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePromo" eType="#//Promotion" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Game">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedTickets" eType="#//Ticket" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredItems" eType="#//Item" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tournament">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="organizedSchedules" eType="#//SeasonSchedule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledEvents" eType="#//Event" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SeasonSchedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedAt" eType="#//Arena" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="revenueRecords" eType="#//RevenueRecord" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="soldTickets" eType="#//Ticket" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Promotion">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coveredItems" eType="#//Item" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePlayers" eType="#//Player" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedTickets" eType="#//Ticket" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eligiblePlayers" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Item">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="soldTickets" eType="#//Ticket" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedPromotions" eType="#//Promotion" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Team">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedMembers" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Player"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Inventory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackedPlayers" eType="#//Player" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackedItems" eType="#//Item" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SalesOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedTickets" eType="#//Ticket" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RevenueRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Synchronization">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedPlayer" eType="#//Player" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Market">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackedItems" eType="#//Item" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventSchedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedTeam" eType="#//Team" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InventoryService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedPlayers" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedGames" eType="#//Game" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

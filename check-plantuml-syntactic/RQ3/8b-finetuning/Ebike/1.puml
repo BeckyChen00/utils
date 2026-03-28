@@ -1,0 +1,36 @@
+@startuml
+enum ControllerState {
+  On
+  Off
+  Charging
+}
+class Battery {
+  storedEnergy: double
+  +determineRemainingRange(): double
+}
+class EBike {
+  frameMaterial: String
+  isFoldable: boolean
+  +assemble(): void
+}
+class Wheel {
+  diameter: double
+  width: double
+  +rotate(): void
+}
+class DriveSystem {
+  motorType: String
+  +getMotorPower(): int
+}
+class Controller {
+  currentState: ControllerState
+  firmwareVersion: String
+  +calculateNextMaintenanceDate(): Date
+  +toggleState(): void
+  +connectBattery(battery: Battery): void
+}
+EBike "1" *-- "1" DriveSystem : driveSystem
+EBike "1" *-- "1" Controller : controller
+Controller "1" *-- "0..1" Battery : connectedBattery
+EBike "1" *-- "2" Wheel : wheels
+@enduml

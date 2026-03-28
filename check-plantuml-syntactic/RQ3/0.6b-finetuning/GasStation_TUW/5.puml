@@ -1,0 +1,172 @@
+@startuml
+enum OrderStatus {
+  Pending
+  Confirmed
+  Processing
+  Shipped
+  Delivered
+  Failed
+}
+enum Genre {
+  Action
+  Adventure
+  SciFi
+  Fantasy
+  Romance
+  Mystery
+  Comedy
+  Historical
+  Drama
+  Thriller
+}
+enum GenreType {
+  Fantasy
+  Drama
+  Mystery
+  Action
+  Comedy
+  Thriller
+  Historical
+  SciFi
+}
+enum ReviewStatus {
+  Draft
+  InReview
+  Approved
+  Rejected
+  Archived
+}
+class User {
+  +name: String
+  +email: String
+  +getProfileSummary(): String
+}
+class Review {
+  +bodyText: String
+  +ratingScore: int
+  +reviewStatus: ReviewStatus
+  +isAnonymous: boolean
+  +save(): void
+}
+class Film {
+  +title: String
+  +genre: Genre
+  +releaseYear: int
+  +getFilmDescription(): String
+}
+class RentalOrder {
+  +orderDate: Date
+  +status: OrderStatus
+  +totalAmount: double
+  +calculateTotal(): double
+  +getFilmList(): List<Review>
+}
+class RentalItem {
+  +quantity: int
+  +price: double
+  +getTotalPrice(): double
+}
+class PurchaseOrder {
+  +orderDate: Date
+  +status: OrderStatus
+  +shippingAddress: String
+  +requiresCoach: boolean
+  +calculateTotal(): double
+}
+class Notification {
+  +messageText: String
+  +isRead: boolean
+  +sentDate: Date
+}
+class Reimbursement {
+  +amount: double
+  +reimbursementDate: Date
+  +discountRate: double
+  +isPaid: boolean
+  +process(): void
+}
+class Fulfillment {
+  +fulfillmentDate: Date
+  +itemBackpack: List<String>
+  +processPackaging(): void
+}
+class BoxOfficeRecord {
+  +region: String
+  +dateRange: DateTime
+  +totalSales: double
+  +salesData: Map<String, double>
+}
+class Rating {
+  +scoreValue: int
+  +averageScore: int
+  +isReviewActive: boolean
+  +generateSummary(): String
+}
+class Booking {
+  +startTime: DateTime
+  +endTime: DateTime
+  +isConfirmed: boolean
+  +updateStatus(): void
+}
+class ReviewPage {
+  +numStars: int
+  +pageNumber: int
+}
+class RatingQuery {
+  +queryType: String
+  +startTime: DateTime
+  +endTime: DateTime
+  +filterGenre: Genre
+  +getAverageRating(): double
+  +runSearch(): List<Review>
+}
+class PaymentProcessor {
+  +currencyCode: String
+  +processPayment(amount: double, transactionId: String): String
+  +validateSecurityToken(token: String): boolean
+}
+class Coupon {
+  +discountCode: String
+  +validUntil: Date
+  +hasUsed: boolean
+  +applyToOrder(order: RentalOrder): Reimbursement
+  +isPromoValid(): boolean
+}
+class Coach {
+  +coachId: String
+  +isAvailable: boolean
+  +assignToOrder(order: RentalOrder): void
+}
+RentalOrder *-- "1..*" RentalItem : containedItems
+RentalOrder --> "1" User : assignedUser
+RentalOrder *-- "1" PaymentProcessor : paymentProcessor
+RentalOrder *-- "1" Notification : fulfillmentNotification
+RentalOrder --> "0..1" CoMPonent : mainComponent
+RentalOrder --> "1" BoxOfficeRecord : generatedReport
+PaymentProcessor --> "1" Coupon : usedCoupon
+PaymentProcessor --> "1" CoMPonent : usedComponent
+RentalOrder --> "1" CoMPonent : mainComponent
+RentalOrder --> "1" Rating : providedRating
+Rating --> "1" User : reviewer
+Rating --> "1" Film : referencedFilm
+Booking --> "0..1" Rating : assignedRating
+Booking --> "1" User : bookingUser
+RatingQuery --> "1" User : queryAuthor
+RatingQuery --> "*" Film : searchedFilms
+RatingQuery --> "0..1" User : queryAuthor
+RatingQuery --> "0..*" Review : retrievedReviews
+RentalOrder --> "1" PurchaseOrder : purchaseReference
+BoxOfficeRecord --> "1" User : reporter
+BoxOfficeRecord --> "*" Film : recordedFilms
+RatingQuery --> "*" Film : searchedFilms
+RatingQuery --> "*" Review : searchedReviews
+RentalOrder --> "*" Film : orderedFilms
+RentalOrder --> "*" Coupon : appliedCoupons
+RentalOrder --> "*" Review : guestReviews
+RentalOrder --> "*" Notification : fulfilledNotifications
+List<Review> -- RentalItem
+RentalOrder -- Payment
+RentalOrder -- CoMPonent
+BoxOfficeRecord -- Rating
+Rating -- Film
+@enduml

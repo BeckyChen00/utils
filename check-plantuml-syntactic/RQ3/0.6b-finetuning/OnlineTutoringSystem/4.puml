@@ -1,0 +1,43 @@
+@startuml
+class TemperatureSensor {
+  calibrationCodes: String[]
+  measurementUnit: String
+  +initializeCalibration(): boolean
+  +getCurrentReading(): double
+}
+class TemporalPattern {
+  patternId: String
+  patternType: String
+  durationSeconds: int
+  +validatePattern(): boolean
+}
+class ThermalModel {
+  modelName: String
+  accuracyCoefficient: double
+  +calculateResponse(timePoint: double): double
+}
+class LightSourceConfiguration {
+  intensityLevel: int
+  colorModel: String
+}
+class SolarHVACSystem {
+  isAutomaticMode: boolean
+  currentTemperature: double
+  +configureSystem(targetTemperature: double): void
+  +startSystem(): void
+  +shutdownSystem(): void
+  +getStatusReport(): String
+}
+class ClimateController {
+  driftCorrectionMode: String
+  +getSystemStatus(): String
+  +adjustTemperature(target: double): void
+}
+SolarHVACSystem *-- "1" ClimateController : systemController
+ClimateController --> "1" ThermalModel : activeModel
+SolarHVACSystem *-- "1" TemperatureSensor : temperatureSensor
+SolarHVACSystem *-- "1" TemporalPattern : activePattern
+ThermalModel --> "0..*" TemporalPattern : modeledPatterns
+ClimateController --> "1..*" TemporalPattern : monitoredPatterns
+ClimateController --> "1" LightSourceConfiguration : activeLighting
+@enduml

@@ -1,0 +1,72 @@
+@startuml
+enum BlockColor {
+  RED
+  GREEN
+  BLUE
+  YELLOW
+  PURPLE
+  ORANGE
+  CYAN
+}
+enum PaddleDirection {
+  LEFT
+  RIGHT
+  NONE
+}
+enum GameStatus {
+  CREATED
+  PUBLISHED
+  PLAYED
+  COMPLETED
+  PAUSED
+  ARCHIVED
+  DEACTIVATED
+}
+class User {
+  username: String
+  password: String
+  +login(mode: String): boolean
+  +playGame(game: Game): GameSession
+}
+class Game {
+  name: String
+  status: GameStatus
+  admin: User
+  +designBlocks(blocks: Block[]): void
+  +defineLevels(blocks: Block[], levelCount: int): void
+  +createHallOfFame(): HallOfFame
+}
+class GameSession {
+  currentLevel: int
+  score: int
+  lives: int
+  status: GameStatus
+  +start(): void
+  +pause(): void
+  +resume(): void
+  +end(): void
+  +updatePosition(x: int, y: int): void
+}
+class Block {
+  color: BlockColor
+  value: int
+  +isVisible(): boolean
+}
+class HallOfFame {
+  entries: ScoreEntry[]
+  +addEntry(player: User, score: int): void
+  +getTopPlayers(): List<User>
+}
+class ScoreEntry {
+  playerName: String
+  score: int
+  timestamp: Date
+}
+Game "1" *-- "1" HallOfFame : hallOfFame
+Game "1" *-- "*" Block : definedBlocks
+Game "1" *-- "*" LevelDefinition : levelDefinitions
+User "1" --> "*" GameSession : gameSessions
+GameSession "1" *-- "0..*" Block : activeBlocks
+GameSession "1" *-- "1" Block : targetBlock
+User "1" --> "*" ScoreEntry : scoreHistory
+@enduml

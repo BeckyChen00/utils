@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedCards" eType="#//UserCard" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserCard"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomerProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedInvoices" eType="#//Invoice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lineItems" eType="#//TripRecord" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TripRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="traversedLine" eType="#//BusLine" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedSchedule" eType="#//BusSchedule" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BusLine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coveredStops" eType="#//BusStop" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definesTrajectories" eType="#//Trajectory" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BusSchedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BusStop"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Trajectory"/>
+</ecore:EPackage>

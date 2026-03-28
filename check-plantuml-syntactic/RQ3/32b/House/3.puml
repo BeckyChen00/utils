@@ -1,0 +1,77 @@
+
+@startuml
+
+' Define classes and their relationships based on the system requirements
+
+class House {
+  - address: String
+  - buildingMaterial: String (wood, brick, concrete)
+}
+
+class Basement {
+  - size: int
+  - name: String
+}
+
+class EarthBasement {
+  - humidityLevel: float
+}
+
+class ConcreteBasement {
+  ' No additional attributes specified
+}
+
+class SemiDetachedHouse {
+  - hasOwnGarden: boolean
+  - numberOfWindows: int
+}
+
+class Carport {
+  - isDouble: boolean
+  - hasFlatRoof: boolean
+}
+
+class Garage {
+  - hasAutomaticDoor: boolean
+}
+
+class Company {
+  - name: String
+  - address: String
+}
+
+class JobLog {
+  - hoursWorked: int
+  - agreedPrice: float
+}
+
+' Inheritance relationships
+EarthBasement <|-- Basement
+ConcreteBasement <|-- Basement
+SemiDetachedHouse <|-- House
+
+' Association between House and Basement
+House "0..1" -- "1" Basement : has
+
+' Semi-detached house can have either two carports or one garage
+SemiDetachedHouse "0..2" -- "0..2" Carport : mayHave
+SemiDetachedHouse "0..1" -- "0..1" Garage : mayHave
+
+' Each house is serviced by several companies
+House "1" -- "0..*" Company : isServicedBy
+
+' Each job log entry is for a specific company and house
+Company "1" -- "0..*" JobLog : performs
+House "1" -- "0..*" JobLog : hasJobLogEntry
+
+@enduml
+
+---
+
+### Notes:
+- The `House` class is the base class with attributes like `address` and `buildingMaterial`.
+- The `Basement` class has two subclasses: `EarthBasement` (with humidity level) and `ConcreteBasement`.
+- `SemiDetachedHouse` extends `House` and includes extra fields.
+- A semi-detached house can have **either** two `Carport`s **or** one `Garage`, modeled as optional associations.
+- `Company` services `House` via multiple `JobLog` entries, capturing hours and price per job.
+

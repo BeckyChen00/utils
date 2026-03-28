@@ -1,0 +1,108 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class User {
+    +String name
+    +String email
+}
+
+class Student {
+    +register()
+    +browseTutoringOffers(subject: String)
+    +makeRequest(tutor: Tutor, subject: String, level: String, date: DateTime)
+    +cancelSession(session: Session)
+    +payForSession(session: Session)
+}
+
+class Tutor {
+    +String bankAccount
+    +int hourlyPrice(subject: String)
+    +String expertiseLevel(subject: String)
+    +setAvailability(availability: Availability)
+    +offerTutoring(subject: String, level: String, price: int)
+    +confirmSession(request: Request)
+    +suggestAlternativeSlot(request: Request, newSlot: DateTime)
+    +cancelSession(session: Session)
+}
+
+class Subject {
+    +String name
+}
+
+class Level {
+    +String description (e.g., "Primary", "High School", "University")
+}
+
+class Availability {
+    +DateTime startTime
+    +DateTime endTime
+    +DayOfWeek day
+}
+
+class Request {
+    +Student student
+    +Tutor tutor
+    +Subject subject
+    +Level level
+    +DateTime requestedTime
+}
+
+class Session {
+    +Student student
+    +Tutor tutor
+    +Subject subject
+    +Level level
+    +DateTime scheduledTime
+    +boolean confirmed
+    +float totalPrice
+    +cancel()
+    +scheduleFollowUp()
+    +markAsCompleted()
+}
+
+class Payment {
+    +Student student
+    +Tutor tutor
+    +Session session
+    +DateTime paymentDate
+    +float amount
+    +PaymentMethod method (e.g., CreditCard, WireTransfer)
+}
+
+class Award {
+    +Tutor tutor
+    +Subject subject
+    +DateTime monthAwarded
+}
+
+' Inheritance relationships
+User <|-- Student
+User <|-- Tutor
+
+' Associations
+Student "1" -- "0..*" Request : makes
+Tutor "1" -- "0..*" Request : receives
+Tutor "1" -- "0..*" Session : participates in
+Student "1" -- "0..*" Session : participates in
+Session "1" -- "1" Payment : paid for
+Session "1" -- "0..1" Request : originates from
+Tutor "1" -- "0..*" Award : awarded
+Award "1" -- "1" Subject : for subject
+
+Tutor "1" -- "0..*" Subject : offers tutoring in
+Tutor "1" -- "0..*" Level : has expertise in
+Tutor "1" -- "0..*" Availability : sets availability for
+
+@enduml
+
+---
+
+### ✅ Notes:
+- The `User` class is abstract in this context and serves as a base class for both `Student` and `Tutor`.
+- A `Tutor` can be a `Student` at the same time (as per requirement).
+- The `Request` and `Session` are separate to reflect the state transition from request to confirmed session.
+- `Payment` captures the financial aspect after a session.
+- `Award` is used to track monthly awards given to top tutors per subject.
+

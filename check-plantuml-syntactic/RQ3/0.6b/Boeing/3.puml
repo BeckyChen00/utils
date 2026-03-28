@@ -1,0 +1,30 @@
+@startuml
+
+class diagram UserLoginSystem
+
+    user1 << login
+    user2 << login
+    user3 << login
+
+    class Login {
+        text "User Login"
+        field username(String) [required]
+        field password(String) [required]
+        button "Login" (login)
+    }
+
+    class Result {
+        text "Login Result"
+        field success(boolean) [default: false]
+        field error(String) [default: null]
+    }
+
+    class ResultHandler {
+        message("Result")
+    }
+
+    class LoginUI {
+        button("Login", Login, resultHandler)
+    }
+
+@enduml

@@ -1,0 +1,60 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Bank {
+  +String name
+}
+
+class Branch {
+  +String branchName
+  +String location
+}
+
+class Customer {
+  +String firstName
+  +String lastName
+}
+
+class Account {
+  +int accountNumber
+  +double balance
+}
+
+class CurrentAccount {
+  +double overdraftLimit
+}
+
+class SavingsAccount {}
+
+' Define associations and relationships
+
+Bank "1" *-- "many" Branch : contains
+Bank "1" *-- "many" Customer : manages
+Customer "1" --> "1..5" Account : has
+Account "1" ^-- "1" CurrentAccount : extends
+Account "1" ^-- "1" SavingsAccount : extends
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **`Bank`**:
+  - Manages multiple `Customer`s.
+  - Has multiple `Branch`es.
+
+- **`Customer`**:
+  - Has between 1 and 5 `Account`s.
+  - Each customer has a first and last name.
+
+- **`Account`**:
+  - Abstract base class with common properties: `accountNumber`, `balance`.
+  - Extended by `CurrentAccount` and `SavingsAccount`.
+
+- **`CurrentAccount`**:
+  - Has an additional attribute: `overdraftLimit`.
+
+- **`SavingsAccount`**:
+  - No extra attributes beyond those in `Account`.
+

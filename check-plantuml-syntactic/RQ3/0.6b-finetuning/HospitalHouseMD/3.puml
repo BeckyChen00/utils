@@ -1,0 +1,100 @@
+@startuml
+enum OrderStatus {
+  Pending
+  Processing
+  Delivered
+  Cancelled
+}
+enum OrderPriority {
+  Low
+  Medium
+  High
+  Urgent
+}
+class Order {
+  orderDate: Date
+  priority: OrderPriority
+  +calculateTotalCost(): double
+  +enqueue(): void
+}
+class Customer {
+  name: String
+  contactInfo: String
+  +placeOrder(): Order
+}
+class Supplier {
+  name: String
+  contactInfo: String
+  +requestOrder(): Order
+}
+class InventoryItem {
+  sku: String
+  quantityOnHand: int
+  reorderLevel: int
+  +checkStockIntegrity(): boolean
+  +adjustStock(amount: int): void
+}
+class OrderLineItem {
+  quantity: int
+  unitPrice: double
+  +calculateSubtotal(): double
+}
+class DeliverySchedule {
+  scheduledDate: Date
+  routeDescription: String
+  +validateAvailability(): boolean
+  +optimizeRoute(): void
+}
+class Warehouse {
+  location: String
+  +updateStock(item: InventoryItem, amount: int): void
+  +generateMaterialList(): String
+}
+class WarehouseLocation {
+  isExpress: boolean
+  +getDistanceTo(other: Warehouse): double
+}
+class ShipmentPlan {
+  carrierName: String
+  fulfillmentDate: Date
+  +createPlan(deliveryDate: Date, targetArea: String): void
+  +updateShipmentStatus(status: String): void
+}
+class AlertNotification {
+  message: String
+  sendTime: Date
+  +send(): void
+}
+class DispatchCenter {
+  centerId: String
+  +assignOrder(order: Order): void
+  +assignSuppliers(order: Order): void
+}
+class PackagingOrder {
+  packagingType: String
+  isHazardous: boolean
+  +definePackagingSpecs(): void
+}
+class Parcel {
+  trackingNumber: String
+  isUrgent: boolean
+  currentStatus: String
+  +verifyDeviceRecall(): boolean
+  +updateStatus(newStatus: String): void
+}
+Customer "1" --> "*" Order : placedOrders
+Supplier "1" --> "*" Order : placedOrders
+Order "1" *-- "*" OrderLineItem : lineItems
+Order "1" *-- "1" InventoryItem : orderedItem
+Order "1" *-- "1" WarehouseLocation : assignedWarehouse
+Order "1" *-- "1" DeliverySchedule : deliverySchedule
+Order "1" *-- "1" DispatchCenter : assignedDispatchCenter
+Order "1" *-- "*" AlertNotification : notificationHistory
+Order "1" --> "1" Warehouse : destinationWarehouse
+Warehouse "1" --> "*" InventoryItem : storedItems
+WarehouseLocation "1" --> "1" Parcel : assignedParcel
+DispatchCenter "1" --> "*" Order : managedOrders
+PackagingOrder "1" --> "1" Supplier : orderedSupplier
+ShipmentPlan "1" *-- "*" Parcel : shippedParcels
+ShipmentPlan "1" --> "1" WarehouseLocation : assignedLocation
+@enduml

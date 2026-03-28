@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Bed"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="StayCategory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Inhabitant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RegistrationProcess"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicData"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbilitiesAssessment"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="AbilityLevel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WaitingList"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Stay"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="StayStatus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="InvoiceStatus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CreditNote"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DiscountPolicy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here"/>
+  <eClassifiers xsi:type="ecore:EClass" name="The"/>
+</ecore:EPackage>

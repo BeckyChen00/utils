@@ -1,0 +1,153 @@
+
+---
+
+
+@startuml
+
+' Classes for core entities
+class Customer {
+    +id: int
+    +name: String
+    +headOfficeAddress: Address
+    +paymentMethod: PaymentMethod
+}
+
+class Address {
+    +street: String
+    +city: String
+    +zipCode: String
+    +country: String
+}
+
+class Product {
+    +id: int
+    +name: String
+    +description: String
+    +stockLevel: int
+}
+
+class Order {
+    +id: int
+    +customer: Customer
+    +orderDate: Date
+    +totalAmount: double
+    +paymentStatus: PaymentStatus
+    +shippingStatus: ShippingStatus
+    +isFullyShipped(): boolean
+}
+
+class OrderLine {
+    +id: int
+    +order: Order
+    +product: Product
+    +quantityOrdered: int
+    +quantityShipped: int
+    +shippingStatus: ShippingStatus
+}
+
+class Shipment {
+    +id: int
+    +shipmentDate: Date
+    +deliveryService: String
+    +status: DeliveryStatus
+    +trackingNumber: String
+}
+
+class Delivery {
+    +id: int
+    +shipment: Shipment
+    +address: Address
+    +deliveredAt: Date
+    +receivedBy: String
+}
+
+class Invoice {
+    +id: int
+    +order: Order
+    +invoiceDate: Date
+    +dueDate: Date
+    +amount: double
+    +paymentStatus: PaymentStatus
+}
+
+' Enums
+enum PaymentMethod {
+    PAY_UPFRONT
+    PAY_AFTER_DELIVERY
+}
+
+enum PaymentStatus {
+    UNPAID
+    PAID
+}
+
+enum ShippingStatus {
+    NOT_SHIPPED
+    PARTIALLY_SHIPPED
+    FULLY_SHIPPED
+}
+
+enum DeliveryStatus {
+    PACKED
+    SHIPPED
+    IN_TRANSIT
+    DELIVERED
+    DAMAGED
+    LOST
+}
+
+' Relationships
+Customer "1" -- "0..*" Order : places
+Order "1" -- "1..*" OrderLine : contains
+OrderLine "1" -- "1" Product : orders
+Order "1" -- "1" Invoice : generates
+Order "1" -- "1..*" Shipment : shipped via
+Shipment "1" -- "1..*" Delivery : delivers to
+Delivery "1" -- "1" Address : delivered to
+Product "1" -- "0..*" OrderLine : ordered in
+
+' Constraints
+note right of Order
+    An order must be fully paid before being shipped.
+    It can be partially or fully shipped.
+end note
+
+note right of OrderLine
+    Each line can have a different shipping status.
+    Partial shipments are allowed.
+end note
+
+note right of Shipment
+    A shipment may contain multiple order lines.
+    Track delivery status for quality control.
+end note
+
+note right of Delivery
+    Used to track where each shipment goes.
+    Helps identify issues with delivery services.
+end note
+
+@enduml
+
+---
+
+### 🧠 Explanation of Key Features
+
+- **Customer**: Has a head office address and payment preference (`PAY_UPFRONT` or `PAY_AFTER_DELIVERY`).  
+- **Order**: Can be paid at any time and is marked with overall shipping status.  
+- **OrderLine**: Tracks how much of a product has been shipped vs. ordered, allowing partial fulfillment.  
+- **Shipment**: Groups multiple order lines for efficient tracking and delivery.  
+- **Delivery**: Tracks individual deliveries to specific addresses (e.g., warehouses).  
+- **Invoice**: Generated per order and linked to payment status.  
+- **Enums**: Provide clear state management for payment, shipping, and delivery statuses.  
+
+---
+
+This model supports:
+- Full lifecycle tracking of orders and products.
+- Flexible payment timing.
+- Partial and full shipment tracking.
+- Multi-address delivery for large customers.
+- Quality control through detailed delivery logs.
+
+Let me know if you'd like this as an image or want to see it evolve step by step!

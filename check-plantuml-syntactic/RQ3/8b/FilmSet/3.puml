@@ -1,0 +1,100 @@
+
+@startuml
+
+' Define the classes and their attributes and relationships
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class CreativeEmployee {
+  + isOscarWinner: Boolean
+}
+
+class Director extends CreativeEmployee {
+  - assistantName: String
+}
+
+class Actor extends CreativeEmployee {
+  - education: String
+}
+
+class Technician {
+  - fieldOfActivity: String
+}
+
+class FilmSet {
+  - location: String
+  * films: List<Film>
+}
+
+class Film {
+  - title: String
+  - yearOfRelease: int
+  - genre: Genre
+  * filmSets: List<FilmSet>
+  * screenplay: Screenplay
+  * employees: List<Employee>
+}
+
+class Genre {
+  - name: String
+  * films: List<Film>
+}
+
+enum GenreType {
+  Thriller, Action, Horror, Comedy
+}
+
+class Screenwriter {
+  - name: String
+  - mostSuccessfulFilm: String
+  * screenplays: List<Screenplay>
+}
+
+class Screenplay {
+  - title: String
+  - version: String
+  - date: Date
+  - numberOfScenes: int
+  - plot: String
+  - basis: BasisType
+  * novel: Novel
+  * film: Film
+}
+
+enum BasisType {
+  Novel, Concept
+}
+
+class Novel {
+  - title: String
+  - author: String
+  * screenplay: Screenplay
+}
+
+' Relationships
+
+Employee <|-- Director
+Employee <|-- Actor
+Employee <|-- Technician
+
+FilmSet "0..*" -- "1..*" Film: uses
+Film "0..*" -- "1..*" FilmSet: shotAt
+
+Film "1" -- "1" Screenplay: basedOn
+Screenplay "1" -- "0..1" Novel: basedOnNovel
+
+Screenwriter "1" -- "0..*" Screenplay: writes
+
+Actor "1" -- "1" Film: appearsIn
+Director "1" -- "1" Film: directs
+
+@enduml
+
+### Notes:
+- The `Genre` class is modeled as a separate entity with an enum for the types (Thriller, Action, Horror, Comedy).
+- The `BasisType` is also modeled as an enum to represent whether a screenplay is based on a novel or a concept.
+- Relationships like "uses", "shotAt", "basedOn", "appearsIn", and "directs" are defined using appropriate multiplicity.
+

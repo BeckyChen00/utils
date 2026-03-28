@@ -1,0 +1,56 @@
+@startuml
+enum ContentStatus {
+  Draft
+  Published
+}
+enum AudienceSegment {
+  GeneralPublic
+  BusinessPeople
+  Investors
+  EducationStudents
+  GovernmentOfficial
+}
+class NewsContent {
+  title: String
+  description: String
+  startDate: Date
+  endDate: Date
+  contentStatus: ContentStatus
+  +getHashtagCount(): int
+}
+class TopicAnalyzer {
+  keywordList: String[]
+  +analyzeClearness(): boolean
+  +analyzeRelevance(): double
+}
+class NewsTopic {
+  category: String
+  keywords: String[]
+  +isRelevant(queryText: String): boolean
+}
+class PlatformUser {
+  username: String
+  bio: String
+  isVerified: boolean
+  +createProfile(bio: String): void
+  +getProfileSummary(): String
+  +getFollowersCount(): int
+}
+class TimeSeriesData {
+  timestampRange: Date[]
+  valueAggregated: double[]
+  +calculateWeightedAverage(): double
+  +getMeanValue(): double
+}
+class AudienceSegment {
+  segmentType: AudienceSegment
+  segmentCriteria: String
+  targetAudience: AudienceSegment
+  +determineTargetBias(): boolean
+}
+PlatformUser "1" --> "0..*" NewsTopic : publishedTopics
+NewsContent "1" --> "1" TopicAnalyzer : headlineAnalyzer
+NewsContent "1" --> "1" TimeSeriesData : currentReadingData
+TimeSeriesData "1" --> "1" PlatformUser : creator
+NewsContent "1" --> "1" AudienceSegment : categoryTarget
+@enduml

@@ -1,0 +1,94 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Song {
+    -title: String
+    -year: int
+    -length: int
+    -genre: String
+    +getUniqueKey(): String
+}
+
+class Artist {
+    -name: String (unique)
+    -dateOfBirth: Date
+    -websiteURL: String
+}
+
+class User {
+    -id: String (unique)
+    -name: String
+    -address: String
+}
+
+class BusinessUser {
+    -vatNumber: String
+}
+
+class RegularUser {
+    -purchaseHistory: List<Purchase>
+    -suggestedAlbums: List<Album>
+}
+
+class Purchase {
+    -song: Song
+    -user: RegularUser
+    -purchaseDate: Date
+}
+
+class Album {
+    -title: String
+    -trackList: List<Hit>
+    -suggestedToUsers: List<RegularUser>
+}
+
+class Upload {
+    -song: Song
+    -businessUser: BusinessUser
+    -uploadDate: Date
+}
+
+class Single {}
+
+class Hit {
+    -trackNumber: int
+}
+
+' Relationships
+
+Artist "1" -- "many" Song : creates
+Song "1" -- "1" Artist : belongs to
+Song "1" -- "1" Upload : uploaded via
+
+User <|-- BusinessUser
+User <|-- RegularUser
+
+BusinessUser "1" -- "many" Upload : uploads
+
+Song <|-- Single
+Song <|-- Hit
+
+Album "1" -- "many" Hit : contains
+Hit "1" -- "1" Album : part of
+
+RegularUser "1" -- "many" Purchase : buys
+Purchase "1" -- "1" RegularUser : buyer
+Purchase "1" -- "1" Single : purchased song
+
+Album "1" -- "many" RegularUser : suggested to
+
+@enduml
+
+---
+
+### Explanation of Key Design Decisions:
+- **Inheritance** is used for `User` → `BusinessUser` and `User` → `RegularUser`.
+- **Composition/Aggregation** is used for collections like `trackList`, `purchaseHistory`, etc.
+- **Generalization/Specialization** is used for `Song` → `Single` and `Song` → `Hit`.
+- Each **Song** is associated with exactly one **Artist**, and each **Upload** is done by a **BusinessUser**.
+- An **Album** is composed of multiple **Hits** with a defined **track number**.
+- A **Purchase** links a **RegularUser** to a **Single** they bought.
+- The **SuggestedAlbums** list allows Musicmatic to recommend albums to users.
+

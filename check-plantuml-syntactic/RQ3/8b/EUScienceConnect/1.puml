@@ -1,0 +1,71 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteStyle rectangle
+
+' Define classes and their attributes
+class Person {
+  +personID: String
+  +phone: String
+  +keywords: List<String>
+  +institutionCode: String
+}
+
+class Institution {
+  +institutionCode: String
+  +name: String
+}
+
+class Article {
+  +doi: String
+  +title: String
+  +authors: List<Person>
+  +authorPositions: List<Integer>
+  +isPeerReviewed: Boolean
+}
+
+class PeerReviewedArticle extends Article {
+  +citationCount: Integer
+  +reviewers: List<Person>
+}
+
+class TechnicalReport extends Article {
+  +publisher: Institution
+}
+
+class Publisher {
+  +name: String
+  +journals: List<Journal>
+}
+
+class Journal {
+  +name: String
+  +impactFactor: Double
+  +publisher: Publisher
+}
+
+' Relationships
+Person --|> Institution : worksFor (1 to 1)
+Article "1" --o"*" Person : authoredBy (1 to many)
+Article "1" --o"*" Person : reviewedBy (only for peer-reviewed articles)
+Institution --|> TechnicalReport : publishedBy (1 to many)
+Publisher --|> Journal : publishes (1 to many)
+Journal --|> PeerReviewedArticle : contains (1 to many)
+
+note right of Article
+  Articles can be either
+  PeerReviewedArticle or
+  TechnicalReport
+end note
+
+@enduml
+
+### Explanation:
+- **Person**: Represents a researcher. Attributes include `personID`, `phone`, `keywords`, and `institutionCode`.
+- **Institution**: Represents a research institution. Each has an `institutionCode` and a `name`.
+- **Article**: Base class for all scientific articles. Has a `doi`, `title`, list of authors, author positions, and a flag indicating if it's peer-reviewed.
+- **PeerReviewedArticle**: Subclass of `Article`. Has `citationCount` and a list of `reviewers`.
+- **TechnicalReport**: Subclass of `Article`. Is always published by one `Institution`.
+- **Publisher**: Stores information about publishers (e.g., Elsevier). Can have multiple `Journals`.
+- **Journal**: Contains a name, impact factor, and is associated with a `Publisher`. Only contains `PeerReviewedArticle`s.
+

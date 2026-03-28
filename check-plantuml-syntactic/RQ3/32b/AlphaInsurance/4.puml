@@ -1,0 +1,134 @@
+
+@startuml
+
+' Define classes and their attributes and methods
+class Customer {
+  +int id
+  +String name
+  +String contactInfo
+  +assignBroker()
+  +submitClaim()
+}
+
+class Broker {
+  +int id
+  +String name
+  +String email
+  +assessCustomerProfile()
+  +sendFileForAnalysis()
+  +makeOffer()
+}
+
+class PolicyType {
+  +String type
+  +double basePrice
+  +getCoverageDetails()
+}
+
+class Contract {
+  +int contractId
+  +Date startDate
+  +Date endDate
+  +double price
+  +PolicyType policyType
+  +Customer customer
+  +Broker broker
+  +signContract()
+  +generateInvoice()
+}
+
+class Invoice {
+  +int invoiceId
+  +Date dueDate
+  +double amount
+  +Contract contract
+  +sendInvoice()
+  +markAsPaid()
+}
+
+class Claim {
+  +int claimId
+  +Date submissionDate
+  +Status status
+  +Customer customer
+  +List<ClaimCase> cases
+  +submitClaim()
+  +addCase()
+}
+
+class ClaimCase {
+  +int caseId
+  +Description description
+  +Estimator estimator
+  +Report report
+  +assessCase()
+}
+
+class Estimator {
+  +int id
+  +String name
+  +Specialization specialization
+  +generateReport()
+}
+
+class Report {
+  +int reportId
+  +Date date
+  +String findings
+  +boolean approved
+  +ClaimCase claimCase
+  +saveToDatabase()
+}
+
+class CompensationDecision {
+  +int decisionId
+  +Date date
+  +double amount
+  +ClaimCase claimCase
+  +approveCompensation()
+  +calculateEligibleCosts()
+}
+
+class HeadOffice {
+  +analyzeCustomerFile()
+}
+
+' Relationships
+Customer "1" -- "1" : hasAssignedBroker
+Customer "1" -- "*" : submitsClaims
+Customer "1" -- "1" : hasContract
+
+Broker "1" -- "*" : handlesContracts
+Broker "1" -- "*" : makesOffers
+
+Contract "1" -- "1" : hasPolicyType
+Contract "1" -- "1" : generatesInvoice
+
+Invoice "1" -- "1" : relatesToContract
+
+Claim "1" -- "*" : containsCases
+Claim "1" -- "1" : submittedByCustomer
+
+ClaimCase "1" -- "1" : assessedByEstimator
+ClaimCase "1" -- "1" : hasReport
+
+Estimator "1" -- "*" : providesReports
+
+Report "1" -- "1" : relatesToCase
+Report "1" -- "1" : savedUntilLegalPeriod
+
+CompensationDecision "1" -- "1" : relatesToCase
+
+HeadOffice "1" -- "*" : analyzesFilesFromBrokers
+
+@enduml
+
+---
+
+### ✅ Notes:
+- The **classes** represent core entities in the system.
+- Each class includes relevant **attributes** (e.g., `id`, `name`, `date`) and **methods** that reflect business logic.
+- **Relationships** are defined using UML syntax to show associations, such as one-to-one or one-to-many relationships.
+- **Multiplicity** is included where appropriate (e.g., a `Customer` can submit many `Claim`s).
+- The system includes support for **claims**, **claim cases**, **estimators**, and **compensation decisions**, all of which are essential post-contract processes.
+

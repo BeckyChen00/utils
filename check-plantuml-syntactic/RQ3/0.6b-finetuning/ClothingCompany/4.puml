@@ -1,0 +1,171 @@
+@startuml
+enum RarityLevel {
+  Standard
+  High
+  Ultra
+  Wonder
+}
+enum GameStatus {
+  Draft
+  Reserved
+  BattleReady
+  Active
+  SoldOut
+  Retired
+}
+class Player {
+  nickname: String
+  +requestLoan(items: List<Item>): LoanRequest
+  +getLoanStatus(requestId: String): GameStatus
+  +getProfileSummary(): String
+}
+class League {
+  leagueName: String
+  +getLeagueRules(): String
+  +addSeasonYear(year: int): void
+}
+class Team {
+  teamName: String
+  currentSeason: int
+  +getTeamMembers(): List<Player>
+  +isOverdue(): boolean
+}
+class Arena {
+  arenaName: String
+  capacity: int
+  +getArenaDetails(): String
+}
+class Tournament {
+  tournamentName: String
+  startDate: Date
+  endDate: Date
+  +addSeasonYear(year: int): void
+  +getTournamentRules(): String
+}
+class Game {
+  gameCode: String
+  status: GameStatus
+  requiredInventory: List<Item>
+  +auction(): Auction
+  +reservePlayer(player: Player): void
+  +isActive(): boolean
+}
+class Auction {
+  startDate: Date
+  endDate: Date
+  +feesPayback(): boolean
+  +sellItem(target: Item, price: double): boolean
+}
+class SeasonSchedule {
+  scheduledDates: List<Date>
+  +findNextAvailableDate(range: int): Date
+  +addSeasonYear(year: int): void
+}
+class Item {
+  itemName: String
+  description: String
+  acquisitionPrice: double
+  specialConditionNotes: String
+  isCollectible: boolean
+  +updateCondition(newCondition: String): void
+}
+class Inventory {
+  totalBalance: double
+  +addToPlayer(player: Player, item: Item): void
+  +removeFromPlayer(player: Player, item: Item): boolean
+  +getRemainingBalance(): double
+}
+class Ticket {
+  ticketCode: String
+  isReserve: boolean
+  price: double
+  isAvailable: boolean
+  +reserve(fullName: String): void
+  +release(): void
+}
+class PromotionalCampaign {
+  campaignName: String
+  startDate: Date
+  endDate: Date
+  targetEngagement: int
+  +initiateCampaign(): void
+  +generateReport(): String
+}
+class Event {
+  eventName: String
+  startTime: Date
+  cityName: String
+  venue: Arena
+  +registerPlayers(players: List<Player>): void
+  +checkAvailableSlots(): int
+}
+class RevenueRecord {
+  revenueAmount: double
+  category: String
+  transactionDate: Date
+  +recordTransaction(amount: double): void
+}
+class SalesOrder {
+  orderDate: Date
+  totalAmount: double
+  status: String
+  +placeOrder(items: List<Item>): void
+  +processPayment(): boolean
+}
+class Promotion {
+  promotionCode: String
+  description: String
+  discountRate: double
+  activationDate: Date
+  +applyToItem(item: Item): void
+}
+class Market {
+  marketName: String
+  currentPrice: double
+  +updatePrice(item: Item, price: double): void
+}
+class EventSchedule {
+  +generateTicketCount(): int
+}
+class Synchronization {
+  +syncData(player: Player, source: Player): void
+}
+class InventoryService {
+  +calculateRemainingBalance(player: Player): double
+  +checkStock(item: Item): boolean
+}
+class Donation {
+  donationAmount: double
+  category: String
+  +recordDonation(): void
+}
+class SystemLog {
+  +logEvent(description: String): void
+}
+Team "1" --> "1" Arena : homeArena
+League "1" --> "*" Game : hostedGames
+Tournament "1" --> "*" SeasonSchedule : organizedSchedules
+Tournament "1" *-- "*" Event : scheduledEvents
+League "1" *-- "*" Promotion : activePromo
+Promotion "1" *-- "*" Item : coveredItems
+Game "1" *-- "*" Ticket : issuedTickets
+Game "1" *-- "*" Item : requiredItems
+Team "1" --> "*" Player : ownedMembers
+Inventory "1" *-- "*" Player : trackedPlayers
+Inventory "1" *-- "*" Item : trackedItems
+Item "1" *-- "*" Ticket : soldTickets
+Item "1" *-- "*" Promotion : relatedPromotions
+Event "1" --> "1" Arena : hostedAt
+Promotion "1" --> "*" Player : activePlayers
+Promotion "1" --> "*" Ticket : generatedTickets
+SalesOrder "1" *-- "*" Ticket : placedTickets
+Event "1" *-- "*" RevenueRecord : revenueRecords
+Event "1" *-- "*" Ticket : soldTickets
+Synchronization "1" --> "1" Player : managedPlayer
+Market "1" --> "*" Item : trackedItems
+Promotion "1" --> "*" Player : eligiblePlayers
+EventSchedule "1" --> "1" Team : managedTeam
+InventoryService "1" --> "*" Player : managedPlayers
+SystemLog "1" --> "*" Game : recordedGames
+Promotion "1" --> "*" Player : eligiblePlayers
+@enduml

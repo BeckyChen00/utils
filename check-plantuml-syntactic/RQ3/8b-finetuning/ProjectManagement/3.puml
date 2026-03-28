@@ -1,0 +1,33 @@
+@startuml
+enum ResearcherPosition {
+  TeamMember
+  Subcontractor
+  VisitingScholar
+  Adjunct
+}
+class ResearchGroup {
+  groupName: String
+}
+class ResearchProject {
+  projectName: String
+  startDate: Date
+  endDate: Date
+  +getProjectDuration(): int
+}
+class WorkPackage {
+  packageCode: String
+  title: String
+  +getAssignedResearchers(): List<Researcher>
+  +getLedByGroup(): ResearchGroup
+}
+class Researcher {
+  fullName: String
+  position: ResearcherPosition
+  +changeGroup(newGroup: ResearchGroup): void
+  +getAssignedPackages(): List<WorkPackage>
+}
+ResearchGroup *-- "*" Researcher : members
+ResearchProject *-- "*" WorkPackage : packages
+WorkPackage --> "1" ResearchGroup : leadGroup
+Researcher --> "*" WorkPackage : assignments
+@enduml

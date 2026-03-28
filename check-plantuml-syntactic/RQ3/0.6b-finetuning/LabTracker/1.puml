@@ -1,0 +1,70 @@
+@startuml
+enum TokenType {
+  Integer
+  Boolean
+  String
+  Float
+  Decimal
+  Array
+}
+enum AlertStatus {
+  Active
+  Deactivated
+}
+enum SessionType {
+  Public
+  Private
+}
+enum UserRole {
+  Admin
+  Member
+  Guest
+  Authority
+}
+class User {
+  fullName: String
+  emailAddress: String
+  role: UserRole
+  +isLoggedIn(): boolean
+  +verifyCredentials(key: String): boolean
+}
+class Session {
+  startTime: Date
+  endTime: Date
+  sessionStatus: AlertStatus
+  +terminate(): void
+}
+class ActivityLog {
+  timestamp: Date
+  description: String
+  type: TokenType
+  +getDetails(): String
+}
+class Notification {
+  messageContent: String
+  isRead: boolean
+  status: AlertStatus
+  sendDate: Date
+  +markAsRead(): void
+  +markAsUnread(): void
+}
+class Application {
+  name: String
+  version: String
+  +updateVersion(newVersion: String): boolean
+}
+class CloudServer {
+  serverName: String
+  ipAddress: String
+  +validateConnection(): boolean
+}
+User *-- "0..*" Session : activeSessions
+User *-- "0..*" Notification : sentNotifications
+User --> "0..*" ActivityLog : loggedActivities
+ActivityLog *-- "1..*" Notification : relatedNotifications
+Application --> "0..*" Notification : deliveredNotifications
+Application --> "0..*" User : registeredCompanions
+Notification --> "1" User : recipient
+Notification --> "0..1" CloudServer : sentToServer
+Application --> "1" CloudServer : targetServer
+@enduml

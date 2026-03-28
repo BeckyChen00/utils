@@ -1,0 +1,36 @@
+@startuml
+enum AccountType {
+  Personal
+  Business
+}
+enum PageStatus {
+  Active
+  Archived
+}
+class UserAccount {
+  id: int
+  accountNumber: int
+  accountType: AccountType
+  companyName: String
+  emailAddress: String
+  isVerified: boolean
+  creationDate: Date
+  +createPage(pageName: String, isBusinessPage: boolean): Page
+  +sendFriendRequest(targetAccount: UserAccount): void
+}
+class Page {
+  pageName: String
+  status: PageStatus
+  creationDate: Date
+  +updateStatus(newStatus: PageStatus): void
+  +publishContent(contentText: String): void
+}
+class AdPage {
+  bounceRate: double
+  clickThroughRate: double
+  conversionRate: double
+  +calculatePerformanceMetrics(): void
+}
+UserAccount *-- "0..*" Page : ownedPages
+AdPage --|> Page
+@enduml

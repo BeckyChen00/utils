@@ -1,0 +1,72 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Driver {
+  - driverID: String
+  - name: String
+  - isOnSickLeave: Boolean
+}
+
+class Bus {
+  - licensePlate: String
+  - isInRepairShop: Boolean
+}
+
+class Route {
+  - routeNumber: Integer
+  - maxRouteNumber: Integer = 9999
+}
+
+class Assignment {
+  - date: Date
+  - bus: Bus
+  - route: Route
+}
+
+class Shift {
+  - shiftType: String (morning, afternoon, night)
+  - driver: Driver
+  - bus: Bus
+  - route: Route
+  - date: Date
+}
+
+class ScheduleOverview {
+  - routeNumber: Integer
+  - licensePlate: String
+  - shiftType: String
+  - driverID: String
+  - driverName: String
+  - isDriverSick: Boolean
+  - isBusInRepair: Boolean
+}
+
+Driver "1" --> "*" Shift : assigned to
+Bus "1" --> "*" Assignment : assigned to
+Route "1" --> "*" Assignment : has
+Assignment "1" --> "1" Bus : assigned
+Assignment "1" --> "1" Route : assigned to
+Shift "1" --> "1" Bus : used in
+Shift "1" --> "1" Route : for
+Shift "1" --> "1" Driver : assigned to
+ScheduleOverview "1" --> "*" Shift : displays
+ScheduleOverview "1" --> "*" Assignment : displays
+ScheduleOverview "1" --> "*" Driver : displays
+ScheduleOverview "1" --> "*" Bus : displays
+@enduml
+
+### Explanation of Key Elements:
+
+- **Driver**: Stores basic information about a driver and whether they are on sick leave.
+- **Bus**: Stores the license plate and whether it is in the repair shop.
+- **Route**: Identified by a unique number (up to 9999).
+- **Assignment**: Links buses to routes on specific days.
+- **Shift**: Represents a time slot (morning, afternoon, or night) with a specific bus, driver, and route on a given day.
+- **ScheduleOverview**: Provides an overview of all scheduled shifts, buses, drivers, and their statuses for a given day.
+
+### Notes:
+- The `maxRouteNumber` is defined as a constant within the `Route` class.
+- A `Driver` can be assigned to multiple `Shifts` on the same day, and even multiple at the same time (as per the requirement).
+- The system does not allow updating existing entries (only add/delete), but supports marking a driver or bus as unavailable (sick/repair).
+

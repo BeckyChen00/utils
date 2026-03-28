@@ -1,0 +1,17 @@
+@startuml
+
+class diagram SystemRequirement
+
+    class SystemRequirement {
+        identifier: SystemRequirement
+        component:
+            - Component1
+            - Component2
+            - Component3
+        requirements:
+            - req1
+            - req2
+            - req3
+    }
+
+@enduml

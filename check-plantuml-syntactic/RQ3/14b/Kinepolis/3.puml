@@ -1,0 +1,150 @@
+
+@startuml
+skinparam linetype ortho
+
+class Cinema {
+  -id: int
+  -name: String
+  -location: String
+  -theatres: List<Theatre>
+}
+
+class Theatre {
+  -id: int
+  -name: String
+  -capacity: int
+  -cinema: Cinema
+  -shows: List<Show>
+}
+
+class Movie {
+  -id: int
+  -title: String
+  -duration: int
+  -copies: List<MovieCopy>
+}
+
+class MovieCopy {
+  -id: int
+  -movie: Movie
+  -location: Cinema
+  -status: String // e.g., "Available", "InUse"
+}
+
+class Show {
+  -id: int
+  -movie: Movie
+  -theatre: Theatre
+  -startTime: DateTime
+  -endTime: DateTime
+  -date: Date
+  -seats: List<Seat>
+  -reservations: List<Reservation>
+  -published: boolean
+  -cancelled: boolean
+}
+
+class Seat {
+  -id: int
+  -number: int
+  -row: int
+  -theatre: Theatre
+  -reserved: boolean
+  -reservation: Reservation
+}
+
+class Reservation {
+  -id: int
+  -customer: Customer
+  -show: Show
+  -seat: Seat
+  -reservationTime: DateTime
+  -paymentStatus: String // e.g., "Pending", "Paid"
+  -cancellationTime: DateTime
+}
+
+class Customer {
+  -id: int
+  -name: String
+  -email: String
+  -creditCard: String
+  -reservations: List<Reservation>
+}
+
+class Offer {
+  -id: int
+  -show: Show
+  -alternativeShow: Show
+  -expirationTime: DateTime
+  -accepted: boolean
+}
+
+class Ticket {
+  -id: int
+  -show: Show
+  -seat: Seat
+  -customer: Customer
+  -type: String // e.g., "Online", "AtEntrance"
+  -paid: boolean
+  -cancellable: boolean
+}
+
+class EntranceTicket {
+  -id: int
+  -ticket: Ticket
+  -issuedAt: DateTime
+}
+
+class OnlineReservation {
+  -id: int
+  -reservation: Reservation
+  -payment: Payment
+}
+
+class Payment {
+  -id: int
+  -amount: double
+  -date: DateTime
+  -status: String // e.g., "Completed", "Failed"
+  -cardDetails: String
+}
+
+class Display {
+  -id: int
+  -location: String
+  -show: Show
+  -availableSeats: int
+}
+
+' Associations
+Cinema "1" *-- "0..*" Theatre : contains
+Movie "1" *-- "0..*" MovieCopy : has
+Theatre "1" *-- "0..*" Show : hosts
+Show "1" *-- "0..*" Seat : uses
+Show "1" *-- "0..*" Reservation : has
+Customer "1" *-- "0..*" Reservation : makes
+Show "1" *-- "0..*" Offer : may have
+Reservation "1" *-- "1" Seat : reserves
+Reservation "1" *-- "1" Show : is for
+Reservation "1" *-- "1" Customer : belongs to
+Show "1" *-- "0..*" Ticket : has
+Ticket "1" *-- "1" Seat : assigned to
+Ticket "1" *-- "1" Show : for
+Ticket "1" *-- "0..1" Customer : belongs to
+Display "1" *-- "1" Show : displays
+Payment "1" *-- "1" Reservation : pays for
+OnlineReservation "1" *-- "1" Reservation : is
+OnlineReservation "1" *-- "1" Payment : includes
+@enduml
+
+---
+
+### 📌 Notes:
+- The `Offer` class represents the offer made to a customer when a show is cancelled.
+- `EntranceTicket` is used to differentiate between tickets bought online and at the entrance.
+- `Display` represents the device at the ticket desk that shows available seats.
+- Relationships are modeled with multiplicity where possible.
+- The `MovieCopy` can be moved between cinemas, hence it has a `location` field pointing to a `Cinema`.
+
+---
+

@@ -1,0 +1,102 @@
+
+---
+
+
+@startuml
+
+' Define package
+package "E-Home-2020 System" {
+
+    ' Core Entities
+    class Sensor {
+        +String vendorId
+        +String description
+        +String unit
+        +Room room
+        +List<Measurement> measurements
+        +float getLastValue()
+        +void addMeasurement(Measurement m)
+    }
+
+    class TemperatureSensor extends Sensor {
+        +float min
+        +float max
+    }
+
+    class PowerSensor extends Sensor {
+        +float totalConsumption
+    }
+
+    class Measurement {
+        +Timestamp timestamp
+        +float value
+    }
+
+    class Room {
+        +String description
+        +List<Sensor> sensors
+    }
+
+    class Apartment {
+        +String address
+        +List<Room> rooms
+        +List<Inhabitant> inhabitants
+        +String email
+    }
+
+    class Inhabitant {
+        +String username
+        +String password
+        +Boolean isAdmin
+        +Apartment apartment
+        +void querySensorData(Sensor s)
+        +void setThreshold(Sensor s, float threshold)
+    }
+
+    class SensorController {
+        +List<Apartment> apartments
+        +List<Sensor> sensors
+        +void authenticateUser(String username, String password)
+        +void storeApartment(Apartment a)
+        +void assignSensorToRoom(Sensor s, Room r)
+    }
+
+    class EMonitor {
+        +void checkThresholds()
+        +void sendAlertEmail(String email, String message)
+    }
+
+}
+
+' Relationships
+
+Apartment "1" -- "many" Room : contains
+Room "1" -- "many" Sensor : contains
+Apartment "1" -- "many" Inhabitant : has
+SensorController "1" -- "many" Apartment : manages
+SensorController "1" -- "many" Sensor : manages
+Inhabitant "1" -- "1" Apartment : belongs to
+EMonitor ..> SensorController : uses
+EMonitor ..> Inhabitant : sends alerts to
+
+@enduml
+
+---
+
+### 📌 Notes on the Diagram:
+
+- **Inheritance**: `TemperatureSensor` and `PowerSensor` inherit from the base class `Sensor`.
+- **Aggregation/Composition**:
+  - An `Apartment` contains multiple `Room`s.
+  - A `Room` contains multiple `Sensor`s.
+  - A `Sensor` has multiple `Measurement`s.
+- **Associations**:
+  - The `SensorController` manages `Sensors` and `Apartments`.
+  - `Inhabitants` belong to an `Apartment`.
+  - `EMonitor` interacts with the `SensorController` to monitor thresholds and send alerts.
+- **Dependencies**:
+  - `EMonitor` depends on `Inhabitant` to send alert emails if an email is available.
+
+---
+
+Would you like this diagram rendered as an image or exported in another format (e.g., PNG via online tool)?

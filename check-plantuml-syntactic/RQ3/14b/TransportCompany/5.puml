@@ -1,0 +1,101 @@
+
+@startuml
+' Define classes and their attributes
+
+class Employee {
+  +name: String
+  +socialSecurityNumber: String
+}
+
+class Planner extends Employee {
+  +username: String
+  +password: String
+  +fieldOfActivity: String
+}
+
+class AdministrativeStaff extends Employee {
+  +username: String
+  +password: String
+}
+
+class Customer {
+  +name: String
+  +billingAddress: String
+}
+
+class PartnerCompany {
+  +name: String
+  +address: String
+}
+
+class Vehicle {
+  +licensePlateNumber: String
+  +mileage: Integer
+}
+
+class RefrigeratedTruck extends Vehicle {
+}
+
+class SmallVan extends Vehicle {
+}
+
+class LoadingPlatform extends Vehicle {
+}
+
+class BoxTruck extends Vehicle {
+}
+
+class Repair {
+  +repairShopName: String
+  +repairShopAddress: String
+  +employeeResponsible: Employee
+  +duration: Integer
+  +cost: Double
+}
+
+class Order {
+  +pickupAddress: String
+  +deliveryAddress: String
+  +comment: String
+  +startDate: Date
+  +endDate: Date
+  +customer: Customer
+  +partnerCompany: PartnerCompany
+  +planner: Planner
+  +driver: Driver
+  +vehicle: Vehicle
+}
+
+class Driver extends Employee {
+}
+
+' Define associations
+
+Employee "1" -- "0..*" Repair : performed
+Employee "1" -- "0..*" Order : assigned
+Order "1" -- "1" Customer : belongs to
+Order "1" -- "0..1" PartnerCompany : placed by
+Order "1" -- "1" Planner : assigned by
+Order "1" -- "1" Driver : executed by
+Order "1" -- "1" Vehicle : uses
+Vehicle "1" -- "0..*" Repair : requires
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **Employee** is the base class for both **Planner** and **AdministrativeStaff**, with common fields like `name` and `socialSecurityNumber`.
+- **Planner** and **AdministrativeStaff** have login credentials (`username`, `password`) and are specialized roles.
+- **Customer** and **PartnerCompany** store contact details.
+- **Vehicle** is a base class with specific subclasses like **RefrigeratedTruck**, **SmallVan**, etc.
+- **Repair** records details about vehicle repairs, including which employee was responsible.
+- **Order** has links to:
+  - The customer (or partner company) it belongs to,
+  - The planner who assigned it,
+  - The driver who executed it,
+  - The vehicle used,
+  - And stores pickup/delivery addresses, dates, and comments.
+
+---
+

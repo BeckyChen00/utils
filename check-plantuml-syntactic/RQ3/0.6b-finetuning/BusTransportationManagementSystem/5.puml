@@ -1,0 +1,39 @@
+@startuml
+enum RequestStatus {
+  Pending
+  Confirmed
+  Approved
+  OutForService
+  InService
+  Cancelled
+}
+enum VehicleType {
+  Standard
+  Military
+  Emergency
+  Commercial
+  General
+}
+class RegistrationRecord {
+  registrationNumber: String
+  licensePlate: String
+  vehicleType: VehicleType
+  licenseNumber: String
+  expiryDate: Date
+  +getRemainingDays(): int
+  +updateStatus(newStatus: RequestStatus): void
+  +calculateTotalExpense(): double
+}
+class MaintenanceRequest {
+  description: String
+  priorityLevel: int
+  scheduledDate: Date
+  status: RequestStatus
+  estimatedCost: double
+  +confirm(): void
+  +cancel(): void
+  +adjustPriority(newPriority: int): void
+}
+RegistrationRecord "1" --> "1" VehicleType : vehicleType
+MaintenanceRequest -- RegistrationRecord
+@enduml

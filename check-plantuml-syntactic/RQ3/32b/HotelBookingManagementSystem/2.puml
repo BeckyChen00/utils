@@ -1,0 +1,172 @@
+
+@startuml
+
+' Entities and classes
+class Traveller {
+    +String name
+    +String billingAddress
+    +String companyName
+    +TravelPreferences preferences
+    +ReliabilityRating reliabilityRating
+    +List<Booking> pastBookings
+}
+
+class TravelPreferences {
+    +boolean breakfastIncluded
+    +boolean freeWifi
+    +boolean twentyFourSevenFrontDesk
+    +List<String> additionalPreferences
+}
+
+class Hotel {
+    +String name
+    +String address
+    +City city
+    +int rating (stars)
+    +HotelChain? chain
+    +Map<DateRange, List<RoomType>> availableRooms
+}
+
+class HotelChain {
+    +String name
+    +List<Hotel> hotels
+}
+
+class RoomType {
+    +String type (e.g., single, double, twin)
+    +int capacity
+    +double basePrice
+}
+
+class DateRange {
+    +Date startDate
+    +Date endDate
+}
+
+class Booking {
+    +String bookingId
+    +Traveller traveller
+    +Hotel hotel
+    +RoomType roomType
+    +DateRange dateRange
+    +int numberOfRooms
+    +double totalPrice
+    +PaymentMethod paymentMethod
+    +boolean isPrepaid
+    +DateTime confirmationDeadline
+    +DateTime cancellationDeadline
+    +Status status
+}
+
+enum Status {
+    Preliminary,
+    Confirmed,
+    Cancelled,
+    Completed,
+    Rejected
+}
+
+class PaymentMethod {
+    +String creditCardNumber
+    +String expiryDate
+    +String cardholderName
+}
+
+class SpecialOffer {
+    +String offerId
+    +Hotel hotel
+    +RoomType roomType
+    +DateRange dateRange
+    +int numberOfRooms
+    +double pricePerNight
+    +List<String> benefits
+    +DateTime submissionTime
+}
+
+class PreliminaryBookingRequest {
+    +String requestID
+    +Traveller traveller
+    +City city
+    +DateRange dateRange
+    +int numberOfRooms
+    +RoomType roomType
+    +int minRating
+    +double maxBudget
+    +TravelPreferences preferences
+    +ReliabilityRating reliabilityRating
+}
+
+class SearchCriteria {
+    +City city
+    +DateRange dateRange
+    +int numberOfRooms
+    +RoomType roomType
+    +int minRating
+    +double maxBudget
+    +TravelPreferences preferences
+}
+
+class HBMS {
+    +List<Hotel> hotels
+    +List<Traveller> travellers
+    +Map<PreliminaryBookingRequest, List<SpecialOffer>> offers
+    +List<Booking> bookings
+    +search(SearchCriteria criteria): List<Hotel>
+    +submitPreliminaryBooking(PreliminaryBookingRequest request): String
+    +finalizeBooking(Booking booking): void
+    +sendConfirmation(Booking booking): void
+    +processCancellation(Booking booking): void
+    +calculateReliabilityRating(Traveller traveller): ReliabilityRating
+}
+
+class ReliabilityRating {
+    +double score
+    +List<Booking> history
+}
+
+class City {
+    +String name
+    +Country country
+}
+
+class Country {
+    +String name
+}
+
+' Relationships
+Traveller "1" -- "many" Booking : has
+Traveller "1" -- "1" TravelPreferences : has
+Traveller "1" -- "many" PastBooking : has
+Hotel "1" -- "many" RoomType : offers
+Hotel "1" -- "many" Booking : has
+Hotel "1" -- "1" City : locatedIn
+Hotel "0..*" -- "1" HotelChain : belongsTo
+Hotel "1" -- "many" SpecialOffer : provides
+PreliminaryBookingRequest "1" -- "many" SpecialOffer : receives
+HBMS "1" -- "many" Hotel : manages
+HBMS "1" -- "many" Traveller : manages
+HBMS "1" -- "many" Booking : processes
+HBMS "1" -- "many" SpecialOffer : collects
+HBMS "1" -- "many" PreliminaryBookingRequest : handles
+SearchCriteria "1" -- "many" Hotel : filters
+ReliabilityRating "1" -- "many" Booking : calculated from
+City "1" -- "many" Hotel : contains
+City "1" -- "1" Country : locatedIn
+
+@enduml
+
+---
+
+### ✅ Key Points Captured in the Diagram:
+
+- **Traveller**: Core user with billing info and preferences.
+- **Hotel**: Offers rooms in specific cities; may be part of a chain.
+- **Booking**: Central entity for both completed and preliminary bookings.
+- **SpecialOffer**: Used in competitive bidding after a preliminary booking.
+- **HBMS**: The central system that manages search, booking, and communication with hotels.
+- **ReliabilityRating**: Derived from a traveler’s booking history.
+- **Relationships**: Clearly defined associations between classes (e.g., `Traveller` to `Booking`, `Hotel` to `RoomType`, etc.).
+
+---
+
+Let me know if you want the **sequence diagrams** or **use case diagrams** next!

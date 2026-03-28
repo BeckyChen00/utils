@@ -1,0 +1,115 @@
+
+@startuml
+
+' Define package
+package "PizzaDeliveryApp" {
+
+    ' User is the base class
+    class User {
+        - userId: String
+        - name: String
+        - birthday: Date
+        - address: String
+    }
+
+    ' BusinessOwner extends User
+    class BusinessOwner {
+        - linkedIn: String
+    }
+    BusinessOwner --|> User
+
+    ' Restaurant is owned by BusinessOwner
+    class Restaurant {
+        - restaurantId: String
+        - zipCode: String
+        - phone: String
+        - website: String
+        - openingHours: Map<String, String>
+    }
+    BusinessOwner "1" --> "0..*" Restaurant : owns
+
+    ' Pizza is part of Restaurant
+    class Pizza {
+        - pizzaId: String
+        - name: String
+        - crustType: String
+        - price: Double
+    }
+    Restaurant "1" --> "0..*" Pizza : offers
+
+    ' AppUser is the base class for user roles
+    class AppUser {
+    }
+    AppUser --|> User
+
+    ' HungryCustomer extends AppUser
+    class HungryCustomer {
+        - deliveryAddress: String
+    }
+    HungryCustomer --|> AppUser
+
+    ' Order belongs to HungryCustomer
+    class Order {
+        - orderId: String
+        - orderDate: DateTime
+        - deliveryTime: DateTime
+        - numberOfPeople: Integer
+    }
+    HungryCustomer "1" --> "0..*" Order : makes
+
+    ' PizzaOrderItem links Order and Pizza
+    class PizzaOrderItem {
+        - quantity: Integer
+    }
+    Order "1" --> "0..*" PizzaOrderItem : contains
+    PizzaOrderItem "1" --> "1" Pizza : for
+
+    ' EntertainmentOrder extends Order
+    class EntertainmentOrder {
+        - entertainmentType: String
+        - duration: Integer  // in minutes
+    }
+    EntertainmentOrder --|> Order
+
+    ' Entertainer extends AppUser
+    class Entertainer {
+        - stageName: String
+        - bio: String
+        - ratePer30Min: Double
+    }
+    Entertainer --|> AppUser
+
+    ' Association between Entertainer and Restaurant
+    class EntertainerRestaurantAvailability {
+        - dayOfWeek: String
+        - availableFrom: Time
+        - availableTo: Time
+    }
+    Entertainer "1" --> "0..*" EntertainerRestaurantAvailability : has availability for
+    EntertainerRestaurantAvailability "1" --> "1" Restaurant : at
+
+    ' Linking Entertainer to EntertainmentOrder
+    EntertainmentOrder "1" --> "1" Entertainer : fulfilled by
+
+}
+
+@enduml
+
+---
+
+### ✅ Key Features Covered:
+- **Users** can be `BusinessOwner`, `HungryCustomer`, or `Entertainer`.
+- Each user has unique identifiers (e.g., `userId`).
+- A `BusinessOwner` can own multiple `Restaurant`s.
+- Each `Restaurant` serves multiple `Pizza`s.
+- `Pizza`s are uniquely identifiable even if they share the same name.
+- `HungryCustomer` can place one or more `Order`s, each containing one or more `Pizza`s.
+- An `Order` can optionally be an `EntertainmentOrder`.
+- An `EntertainmentOrder` must be fulfilled by exactly one `Entertainer`.
+- `Entertainers` can work with multiple `Restaurants`, specifying their availability per day.
+
+---
+
+### 📌 How to Use This
+
+Let me know if you'd like a version with associations labeled or in another format (e.g., PNG).

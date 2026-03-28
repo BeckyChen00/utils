@@ -1,0 +1,37 @@
+@startuml
+classDiagram
+    user --> classDiagram
+    classDiagram
+        User
+            name: User
+            email: email@example.com
+            password: password123
+            role: admin
+
+        classDiagram
+            SystemRequirement
+                name: "System Requirement"
+                description: "This is the system requirement for the application."
+                requirements:
+                    - User
+                    - Database
+                    - Software
+                    - License
+
+        componentDiagram
+            User
+                name: User
+                email: email@example.com
+                password: password123
+                role: admin
+
+            SystemRequirement
+                name: "System Requirement"
+                description: "This is the system requirement for the application."
+                requirements:
+                    - User
+                    - Database
+                    - Software
+                    - License
+
+@enduml

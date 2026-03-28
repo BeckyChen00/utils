@@ -1,0 +1,93 @@
+
+@startuml
+' Class Diagram for Conan Fitness Company
+
+class Person {
+  +firstName: String
+  +familyName: String
+  +birthDate: Date
+}
+
+class Trainer {
+  +diploma: String
+}
+
+class Member {
+  +memberId: Integer
+}
+
+class Prospect {
+  +prospectId: Integer
+}
+
+class Center {
+  +name: String
+  +address: String
+  +rooms: List<Room>
+}
+
+class Room {
+  +roomNumber: Integer
+  +maxCapacity: Integer
+}
+
+class Session {
+  +date: Date
+  +startTime: Time
+  +room: Room
+  +center: Center
+}
+
+class GroupSession {
+  +sessionType: String
+  +trainer: Trainer
+}
+
+class IndividualSession {
+}
+
+class Intern {
+  +internId: Integer
+}
+
+' Inheritance and Associations
+Person <|-- Member
+Person <|-- Trainer
+Person <|-- Prospect
+Trainer <|-- Intern
+
+Center "1" *-- "0..*" Room
+
+Session <|-- GroupSession
+Session <|-- IndividualSession
+
+GroupSession "1" --> "1" Trainer
+Session "1" --> "1" Room
+Session "1" --> "1" Center
+
+Person "0..*" --> "0..*" Session
+Trainer "0..*" --> "0..*" GroupSession
+Intern "0..*" --> "0..*" GroupSession
+
+@enduml
+
+### Explanation of Key Relationships:
+
+- **`Person`** is a base class with subclasses:
+  - `Member`
+  - `Trainer`
+  - `Prospect`
+
+- **`Trainer`** has a subclass `Intern`.
+
+- A **`Center`** has many **`Room`**s.
+
+- A **`Session`** can be either a **`GroupSession`** or an **`IndividualSession`**.
+
+- Each **`GroupSession`** must be supervised by one **`Trainer`**.
+
+- Each **`Session`** must be associated with one **`Room`** and one **`Center`**.
+
+- A **`Person`** (including `Member`, `Trainer`, `Prospect`) can participate in zero or more **`Sessions`**.
+
+This model ensures that all the requirements are captured, including people who have not participated yet and trainers who have not supervised any session.

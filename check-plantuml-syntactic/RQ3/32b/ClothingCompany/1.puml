@@ -1,0 +1,73 @@
+
+@startuml
+
+' Define classes and attributes
+class Product {
+    - name: String
+    - description: String
+    - netPrice: Double
+    + calculateGrossPrice(country: Country): Double
+}
+
+class Manufacturer {
+    - name: String
+    - country: String
+}
+
+class Country {
+    - name: String
+    - vatRate: Double
+    - currency: String
+    - exchangeRateToEuro: Double
+}
+
+class Representative {
+    - firstName: String
+    - lastName: String
+    - ssn: String
+    - phoneNumber: String
+    - email: String
+    - assignedCountry: Country
+}
+
+class Customer {
+    - name: String
+    - address: String
+    - phoneNumber: String
+    - email: String
+    - resellingCountries: List<Country>
+}
+
+class Order {
+    - id: String
+    - product: Product
+    - quantity: Integer
+    - orderDate: Date
+    - deliveryDate: Date
+    - representative: Representative
+    - customer: Customer
+}
+
+' Relationships
+
+Product "1" -- "1" Manufacturer : manufacturedBy
+Product "0..*" -- "1" Country : availableIn
+Product "1" -- "1" Country : vatBasedOn
+
+Representative "1" -- "1" Country : responsibleFor
+
+Order "1" -- "1" Product : contains
+Order "1" -- "1" Representative : placedBy
+Order "1" -- "1" Customer : placedFor
+
+@enduml
+
+---
+
+### Notes:
+- Each `Product` has one `Manufacturer`.
+- A `Product` can be available in multiple `Countries`, but VAT and gross price calculation depend on the specific `Country`.
+- A `Representative` is assigned to exactly one `Country`.
+- An `Order` is linked to a single `Product`, placed by a `Representative`, and made by a `Customer`.
+
+This class diagram provides a solid foundation for the object-oriented design of your application. Let me know if you'd like it extended with methods, interfaces, or more detailed associations.

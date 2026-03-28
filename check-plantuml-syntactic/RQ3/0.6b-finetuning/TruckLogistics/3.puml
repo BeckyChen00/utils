@@ -1,0 +1,64 @@
+@startuml
+enum ColorBrand {
+  amber
+  cobalt
+  crimson
+  gold
+}
+enum CompositionStatus {
+  unpainted
+  semiGilded
+  gilded
+  true
+}
+enum MaterialType {
+  silver
+  gold
+  leather
+}
+class JewelryItem {
+  itemName: String
+  serialNumber: String
+  listedPrice: double
+  +addItem(description: String, quantity: int, price: double): void
+  +getItemDetails(): String
+  +getItemStatus(): CompositionStatus
+}
+class HandmadePiece {
+  estimatedCompletionDate: Date
+  +getEstimatedDate(): Date
+}
+class DesignerProfile {
+  name: String
+  licenseNumber: String
+  +addEspeciation(description: String, quantity: int): void
+}
+class BudgetAllocation {
+  budgetName: String
+  targetAmount: double
+  currencyCode: String
+  +calculateRemaining(): double
+  +allocate(amount: double): void
+}
+class ColorPalette {
+  paletteName: String
+  isMonochrome: boolean
+  +configure(element: String): void
+}
+class MaterialSpecification {
+  materialType: MaterialType
+  quantityPerPiece: int
+  +getQuantity(): int
+}
+class SafetyRating {
+  ratingLevel: int
+  isApproved: boolean
+  +checkCompliance(): boolean
+}
+HandmadePiece --|> JewelryItem
+JewelryItem *-- "1" MaterialSpecification : materialType
+JewelryItem *-- "1" ColorPalette : colorPalette
+JewelryItem *-- "1" BudgetAllocation : allocatedBudget
+JewelryItem --> "1" DesignerProfile : designerProfile
+JewelryItem --> "0..1" SafetyRating : safetyRating
+@enduml

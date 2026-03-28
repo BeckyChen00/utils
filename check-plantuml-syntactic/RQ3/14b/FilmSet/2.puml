@@ -1,0 +1,84 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class CreativeEmployee <|-- Employee
+class Director <|-- CreativeEmployee
+class Actor <|-- CreativeEmployee
+
+class Technician <|-- Employee {
+  - fieldOfActivity: String
+}
+
+class FilmSet {
+  - location: String
+}
+
+class Film {
+  - title: String
+  - releaseYear: Integer
+  - genre: String (enum: thriller, action, horror, comedy)
+}
+
+class Screenwriter {
+  - name: String
+  - mostSuccessfulFilm: String
+}
+
+class Screenplay {
+  - title: String
+  - version: String
+  - date: Date
+  - numberOfScenes: Integer
+  - plot: String
+}
+
+class Novel {
+  - title: String
+  - author: String
+}
+
+class Concept {
+  - description: String
+}
+
+class OscarWinner {
+  - hasOscar: Boolean
+}
+
+Director <|-- OscarWinner
+Actor <|-- OscarWinner
+
+Employee "1" *-- "0..*" Film : worksOn
+CreativeEmployee "1" *-- "0..*" Film : directs / actsIn
+Technician "1" *-- "0..*" Film : worksOn
+
+FilmSet "1" *-- "0..*" Film : usedFor
+Film "1" *-- "0..*" FilmSet : shotAt
+
+Screenwriter "1" *-- "0..*" Screenplay : creates
+Screenplay "1" --> "1" Film : basedOn
+Screenplay "1" --> "1" (Novel or Concept) : basedOn
+
+Actor "1" *-- "0..*" Film : appearsIn
+Director "1" *-- "1" Film : directs
+
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+- `Employee` is the base class for all roles.
+- `CreativeEmployee` is a subclass with `Director` and `Actor` as subclasses.
+- `Technician` is another subclass of `Employee`.
+- `FilmSet` can be used by multiple `Film`s, and a `Film` can be shot at multiple `FilmSet`s.
+- A `Screenplay` is written by exactly one `Screenwriter`, and used by exactly one `Film`.
+- A `Screenplay` may be based on either a `Novel` or a `Concept`.
+- An `Actor` or `Director` can be an `OscarWinner`.
+
+Let me know if you'd like to generate a visual image from this or add more details!

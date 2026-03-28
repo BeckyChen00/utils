@@ -1,0 +1,142 @@
+
+---
+
+
+@startuml
+skinparam linetype ortho
+
+' Actors
+actor "Visitor" as Visitor
+actor "User" as User
+actor "Administrator" as Admin
+
+' Classes
+class WebPortal {
+    +version: String
+    +url: String
+    +catalog: Set<Building>
+}
+
+class Building {
+    +id: String
+    +name: String
+    +energyClass: String (A/B/C/D)
+    +address: String
+    +constructionYear: Integer
+    +owner: User
+    +images: Set<Image>
+    +profilePhoto: Image
+    +additionalEntries: Set<AdditionalEntry>
+}
+
+class Image {
+    +fileName: String
+}
+
+class AdditionalEntry {
+    +name: String
+    +content: Object
+    +isPublic: Boolean
+    +unit: String
+}
+
+class User {
+    +username: String
+    +email: String
+    +password: String
+    +buildings: Set<Building>
+    +comments: Set<Comment>
+}
+
+class Comment {
+    +text: String
+    +user: User
+    +building: Building
+    +timestamp: DateTime
+}
+
+class Administrator extends User {
+    +idCardNumber: String
+}
+
+' Relationships
+WebPortal --> "1..*" Building : has
+Building --> User : owner
+Building --> "0..*" AdditionalEntry : has
+Building --> "0..*" Image : has
+User --> "0..*" Comment : creates
+User --> "0..*" Building : creates
+User --> "0..*" AdditionalEntry : manages
+Administrator --> User : manages
+Administrator --> Comment : deletes
+
+' Use Cases
+usecase "Register" as UC_Register for Visitor
+usecase "Confirm Email" as UC_ConfirmEmail for Visitor
+usecase "Create Building" as UC_CreateBuilding for User
+usecase "Manage Entries" as UC_ManageEntries for User
+usecase "Comment on Building" as UC_CommentBuilding for User
+usecase "Search Buildings" as UC_SearchBuildings for Visitor
+usecase "Activate Account" as UC_ActivateAccount for Admin
+usecase "Setup User" as UC_SetupUser for Admin
+usecase "Delete Comment" as UC_DeleteComment for Admin
+usecase "Release Entry Publicly" as UC_ReleaseEntry for User
+
+' Associations between use cases and actors
+Visitor --> UC_Register
+Visitor --> UC_ConfirmEmail
+Visitor --> UC_SearchBuildings
+User --> UC_CreateBuilding
+User --> UC_ManageEntries
+User --> UC_CommentBuilding
+User --> UC_ReleaseEntry
+Admin --> UC_ActivateAccount
+Admin --> UC_SetupUser
+Admin --> UC_DeleteComment
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements
+
+- **Actors**: `Visitor`, `User`, and `Administrator` are the main actors interacting with the system.
+- **Classes**:
+  - `WebPortal`: Represents the web portal with its version and URL, and maintains a catalog of buildings.
+  - `Building`: Contains details like name, energy class, address, etc., and is linked to an owner user.
+  - `Image`: Stores image file names, including the profile photo.
+  - `AdditionalEntry`: Holds textual or numeric data with optional public visibility.
+  - `User`: Regular users who can create buildings, manage entries, and comment.
+  - `Comment`: A comment made by a user on a building.
+  - `Administrator`: Special type of user with additional administrative functions.
+- **Relationships**:
+  - One-to-many relationships between `WebPortal` and `Building`.
+  - One-to-many relationships between `User` and `Building`, `Comment`, and `AdditionalEntry`.
+  - `Administrator` inherits from `User`.
+
+---
+
+### ✅ 10 Meaningful Use Cases
+
+| Use Case Name               | Actor     | Description                                                                 |
+|----------------------------|-----------|-----------------------------------------------------------------------------|
+| Register                   | Visitor   | Visitor registers with a username, email, and password.                    |
+| Confirm Email              | Visitor   | Visitor confirms their email via a link sent after registration.          |
+| Create Building            | User      | User creates a new building in the system.                                 |
+| Manage Entries             | User      | User adds, edits, or deletes additional entries for a building.           |
+| Comment on Building        | User      | User comments on another user's building.                                  |
+| Search Buildings           | Visitor   | Visitor searches for buildings using full-text search.                     |
+| Activate Account           | Administrator | Administrator activates a user account after setup.                      |
+| Setup User                 | Administrator | Administrator sets up a new user account.                                |
+| Delete Comment             | Administrator | Administrator deletes a comment from a building.                          |
+| Release Entry Publicly     | User      | User makes an additional entry publicly accessible.                        |
+
+---
+
+### 🧠 Notes
+
+- The diagram uses **generalization** (`Administrator extends User`) to show that administrators are a special type of user.
+- Relationships like `has`, `creates`, and `manages` are modeled to reflect business logic.
+- The `AdditionalEntry` class supports both text and numeric values, with optional unit and public visibility.
+
+Let me know if you'd like this exported as a PNG or SVG!

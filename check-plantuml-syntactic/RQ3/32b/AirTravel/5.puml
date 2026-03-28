@@ -1,0 +1,89 @@
+
+@startuml
+
+' Aircraft-related classes
+class Aircraft {
+  - name: String
+  - type: String
+  - yearOfManufacture: int
+  - nextInspectionDate: Date
+}
+
+class PassengerAircraft {
+  - numberOfSeats: int
+}
+
+class SeatCategory {
+  - designation: String
+  - hasEntertainment: boolean
+  - numberOfSeats: int
+}
+
+class Flight {
+  - flightNumber: String
+  - date: Date
+  - departureAirport: Airport
+  - destinationAirport: Airport
+}
+
+class Ticket {
+  - ticketNumber: String
+  - price: double
+  - upgradeDesired: boolean
+}
+
+class Passenger {
+  - name: String
+  - passportNumber: String
+}
+
+class Airline {
+  - name: String
+}
+
+class FlightAttendant {
+  - name: String
+  - employmentDate: Date
+  - isChiefSteward: boolean
+}
+
+class Pilot {
+  - name: String
+  - employmentDate: Date
+  - license: String
+}
+
+class Airport {
+  - name: String
+  - address: String
+  - numberOfRunways: int
+}
+
+' Inheritance
+PassengerAircraft <|-- Aircraft
+
+' Associations
+Aircraft "1" *-- "many" Flight : performs
+Flight "1" *-- "many" Passenger : has passengers
+Flight "1" *-- "many" Ticket : has tickets
+Flight "1" *-- "1" PassengerAircraft : uses aircraft
+Flight "1" *-- "many" FlightAttendant : crew
+Flight "1" *-- "1..2" Pilot : co-pilots
+Flight "1" *-- "1" Pilot : captain
+Aircraft "0..1" -- "1" Airline : belongs to
+PassengerAircraft "1" *-- "many" SeatCategory : has seat categories
+Ticket "1" -- "1" SeatCategory : belongs to
+Passenger "1" *-- "many" Ticket : owns
+Aircraft "0..1" -- "1" Airport : home airport
+
+@enduml
+
+---
+
+### Notes:
+- The diagram models all key entities: `Aircraft`, `PassengerAircraft`, `SeatCategory`, `Flight`, `Ticket`, `Passenger`, `Airline`, `FlightAttendant`, `Pilot`, and `Airport`.
+- Relationships reflect the cardinality (e.g., one flight can have many passengers, an aircraft can perform many flights).
+- Inheritance is used for `PassengerAircraft` extending `Aircraft`.
+- Multiplicities are shown where appropriate.
+
+Let me know if you'd like a version with additional constraints (like methods, visibility, etc.) or in another format (e.g., UML image).

@@ -1,0 +1,61 @@
+
+@startuml
+
+' Define classes and their attributes
+class School {
+    - name: String
+}
+
+class Teacher {
+    - firstName: String
+    - lastName: String
+    - email: String
+}
+
+class Student {
+    - firstName: String
+    - lastName: String
+}
+
+class Principal {
+}
+
+class Room {
+    - name: String
+}
+
+class Classroom extends Room {
+    - capacity: int
+}
+
+class Gym extends Room {
+    - sizeInSquareMeters: double
+}
+
+class ClassGroup {
+    - name: String
+}
+
+' Associations and relationships
+School "1" -- "1..*" : has <|-- Teacher : teaches at
+School "1" -- "1" : has --> Principal : is principal of
+School "1" -- "1..*" : has --> Room : contains
+ClassGroup "1" -- "1" : assigned to --> Classroom
+ClassGroup "1" -- "10..31" : consists of --> Student
+Teacher "1" -- "1" : is --> Principal
+Teacher "0..3" -- "1" : teaches at --> School
+Student "1" -- "1" : attends --> School
+Student "1" -- "1" : is in --> ClassGroup
+
+@enduml
+
+---
+
+### Notes on the Diagram:
+- **Generalization** is used for `Classroom` and `Gym` extending from `Room`.
+- **Composition/aggregation** is implied where appropriate (e.g., a school *has* rooms).
+- Multiplicity constraints are added as per the requirement:
+  - A `ClassGroup` must have between 10 and 31 `Students`.
+  - A `Teacher` can teach at up to 3 `Schools`, but only be a `Principal` of one.
+  - A `Student` belongs to exactly one `School` and one `ClassGroup`.
+

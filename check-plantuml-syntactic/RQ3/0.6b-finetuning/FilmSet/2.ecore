@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedOrders" eType="#//PatrolOrder" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatrolOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetSchedule" eType="#//PatrolSchedule" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedNotifications" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatrolSchedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeOrders" eType="#//PatrolOrder" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collectedData" eType="#//SensorData" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedData" eType="#//DataSeries" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="emittedNotifications" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorData"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataSeries"/>
+</ecore:EPackage>

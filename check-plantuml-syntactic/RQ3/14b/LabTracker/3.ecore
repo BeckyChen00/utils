@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//practitionerNumber" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="practitionerNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="fullName">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//address"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="address">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//phoneNumber"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TimeRange" eType="#//businessHours"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="phoneNumber">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Image" eType="#//signature"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="signature"/>
+  <eClassifiers xsi:type="ecore:EClass" name="prescribeTest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//healthNumber" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="healthNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="firstName">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Date" eType="#//dateOfBirth"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="dateOfBirth"/>
+  <eClassifiers xsi:type="ecore:EClass" name="bookAppointment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Doctor" eType="#//doctor" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="doctor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="patient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Date" eType="#//validFrom"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Lab" eType="#//lab"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="validFrom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="tests"/>
+  <eClassifiers xsi:type="ecore:EClass" name="repetitionInterval">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="IntervalType" eType="#//tests"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="addTest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="testName">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//addTest"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="duration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TestGroup" eType="#//testGroup" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="testGroup"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getDuration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="groupName">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//getDuration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//tests"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="businessHours"/>
+  <eClassifiers xsi:type="ecore:EClass" name="registrationNumber">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Double" eType="#//cancellationFee"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="cancellationFee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="getAvailableAppointments"/>
+  <eClassifiers xsi:type="ecore:EClass" name="appointmentId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//getAvailableAppointments"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="lab"/>
+  <eClassifiers xsi:type="ecore:EClass" name="endTime">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//confirmationNumber"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="confirmationNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="changeAppointment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="g"/>
+</ecore:EPackage>

@@ -1,0 +1,128 @@
+
+@startuml
+' Class Diagram for Helping Hands Store (H2S)
+
+class Resident {
+  - name: String
+  - streetAddress: String
+  - phoneNumber: String
+  - email: String (optional)
+  - itemsDescription: String
+}
+
+class PickupRequest {
+  - pickupDate: Date
+  - pickupTime: Time
+  - status: String (e.g., scheduled, completed)
+  - resident: Resident
+  - vehicle: PickupVehicle
+}
+
+class PickupVehicle {
+  - licensePlate: String
+  - storageCapacity: Integer
+  - currentLoadWeight: Integer
+  - currentLoadDimensions: String
+}
+
+class VolunteerDriver {
+  - name: String
+  - contactInfo: String
+  - availableDays: List<Date>
+  - assignedVehicle: PickupVehicle
+}
+
+class PickupRoute {
+  - routeId: Integer
+  - date: Date
+  - vehicle: PickupVehicle
+  - pickupRequests: List<PickupRequest>
+}
+
+class DistributionCenter {
+  - address: String
+  - employee: H2SEmployee
+}
+
+class H2SEmployee {
+  - name: String
+  - employeeId: Integer
+  - role: String (e.g., qualitychecker, deliveryarranger)
+}
+
+class SecondHandArticle {
+  - articleId: Integer
+  - description: String
+  - category: String (from 134 categories)
+  - rfidTagId: String
+  - qualityStatus: String (e.g., good, damaged)
+}
+
+class FoodItem {
+  - foodId: Integer
+  - description: String
+  - quantity: Integer
+}
+
+class FoodBank {
+  - name: String
+  - address: String
+}
+
+class Client {
+  - name: String
+  - address: String
+  - contactInfo: String
+  - preferredCategories: List<String>
+}
+
+class DeliveryRequest {
+  - requestId: Integer
+  - client: Client
+  - article: SecondHandArticle
+  - deliveryDate: Date
+  - deliveryTime: Time
+  - driver: VolunteerDriver
+}
+
+' Relationships
+
+Resident "1" --> "0..*" PickupRequest
+PickupRequest "1" --> "1" PickupVehicle
+PickupVehicle "1" --> "1" VolunteerDriver
+VolunteerDriver "1" --> "0..*" PickupRoute
+PickupRoute "1" --> "0..*" PickupRequest
+
+PickupRequest "1" --> "1" DistributionCenter
+DistributionCenter "1" --> "0..*" SecondHandArticle
+DistributionCenter "1" --> "0..*" FoodItem
+FoodItem "1" --> "1" FoodBank
+
+DistributionCenter "1" --> "1" H2SEmployee
+H2SEmployee "1" --> "0..*" SecondHandArticle
+H2SEmployee "1" --> "0..*" DeliveryRequest
+
+Client "1" --> "0..*" DeliveryRequest
+DeliveryRequest "1" --> "1" VolunteerDriver
+@enduml
+
+---
+
+### Summary of Key Entities:
+
+- **Resident**: Places a pickup request.
+- **PickupRequest**: Represents a scheduled pickup.
+- **PickupVehicle**: A vehicle used for pickups; has capacity constraints.
+- **VolunteerDriver**: Drives the pickup vehicles and has availability.
+- **PickupRoute**: A daily plan for a volunteer driver with multiple requests.
+- **DistributionCenter**: Where second-hand articles are processed.
+- **H2SEmployee**: Handles quality checks and delivery arrangements.
+- **SecondHandArticle**: Articles received from residents, tagged and categorized.
+- **FoodItem**: Non-perishable items sent directly to the food bank.
+- **FoodBank**: Receives non-perishable items.
+- **Client**: A person who receives second-hand articles via delivery.
+- **DeliveryRequest**: Arranged by H2S employees when a client needs an item delivered.
+
+---
+
+Let me know if you'd like this in a more detailed format (e.g., with associations, multiplicity, or inheritance) or want it rendered as an image!

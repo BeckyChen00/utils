@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Module">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="id" eType="#//1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="name" eType="#//&quot;Data Processing Module&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="description" eType="#//&quot;Processes data from input sources&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Component">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="id" eType="#//1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="name" eType="#//&quot;Database&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="description" eType="#//&quot;Stores and retrieves data&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="id" eType="#//1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="name" eType="#//&quot;DataService&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="description" eType="#//&quot;Handles data processing tasks&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="id" eType="#//1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//&quot;Database&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destination" eType="#//&quot;DataProcessingModule&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//&quot;Input&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataFlow">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="id" eType="#//1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="#//&quot;Database&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="service" eType="#//&quot;DataService&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connection" eType="#//&quot;Database-&gt;DataProcessingModule&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Usage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="id" eType="#//1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="module" eType="#//&quot;DataProcessingModule&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="#//&quot;Database&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml"/>
+  <eClassifiers xsi:type="ecore:EClass" name="1"/>
+  <eClassifiers xsi:type="ecore:EClass" name="&quot;Data Processing Module&quot;"/>
+  <eClassifiers xsi:type="ecore:EClass" name="&quot;Processes data from input sources&quot;"/>
+  <eClassifiers xsi:type="ecore:EClass" name="&quot;Database&quot;"/>
+  <eClassifiers xsi:type="ecore:EClass" name="&quot;Stores and retrieves data&quot;"/>
+  <eClassifiers xsi:type="ecore:EClass" name="&quot;DataService&quot;"/>
+  <eClassifiers xsi:type="ecore:EClass" name="&quot;Handles data processing tasks&quot;"/>
+  <eClassifiers xsi:type="ecore:EClass" name="&quot;DataProcessingModule&quot;"/>
+  <eClassifiers xsi:type="ecore:EClass" name="&quot;Input&quot;"/>
+  <eClassifiers xsi:type="ecore:EClass" name="&quot;Database-&gt;DataProcessingModule&quot;"/>
+</ecore:EPackage>

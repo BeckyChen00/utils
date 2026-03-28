@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedStations" eType="#//Station" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Station">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedStops" eType="#//Stop" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servingNode" eType="#//Node" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="childNodes" eType="#//Node" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Stop"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Node"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Graph">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graphNodes" eType="#//Node" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graphEdges" eType="#//Edge" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Edge"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RestSystemGraph">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedPaths" eType="#//Path" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Path"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportationPlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryRoute" eType="#//Route" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedSegments" eType="#//RouteSegment" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Route">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="underlyingGraph" eType="#//Graph" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteSegment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalStop" eType="#//Node" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedStops" eType="#//Station" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

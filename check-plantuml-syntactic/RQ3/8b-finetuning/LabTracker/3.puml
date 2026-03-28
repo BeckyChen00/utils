@@ -1,0 +1,79 @@
+@startuml
+enum TestType {
+  BloodTest
+  UrineTest
+  StoolTest
+  Ultrasound
+  XRay
+  Electrocardiogram
+}
+enum AppointmentStatus {
+  Pending
+  Confirmed
+  Cancelled
+}
+class Patient {
+  healthNumber: String
+  firstName: String
+  lastName: String
+  dateOfBirth: Date
+  address: String
+  phoneNumber: String
+  +createRequisition(doctor: Doctor, tests: List<Test>): Requisition
+  +bookAppointment(requisition: Requisition, lab: Lab): Appointment
+}
+class Doctor {
+  practitionerNumber: String
+  fullName: String
+  address: String
+  phoneNumber: String
+  signature: String
+  +verifySignature(): boolean
+  +prescribeTests(patient: Patient, tests: List<Test>): Requisition
+}
+class Lab {
+  labName: String
+  address: String
+  businessHours: String
+  +getLabHours(): String
+  +checkAvailability(timeSlot: Date): boolean
+}
+class Requisition {
+  validityDate: Date
+  requiredTests: List<Test>
+  repetitionInterval: String
+  repetitionCount: int
+  isRepeated: boolean
+  +addTest(test: Test): void
+  +validateGroup(): boolean
+}
+class Test {
+  testName: String
+  testType: TestType
+  durationMinutes: int
+  isWalkInOnly: boolean
+  requiresAppointment: boolean
+}
+class Appointment {
+  appointmentDate: Date
+  startTime: Time
+  endTime: Time
+  status: AppointmentStatus
+  confirmationNumber: String
+  +confirm(): void
+  +cancel(): void
+  +changeDate(newDate: Date): void
+}
+class LabNetwork {
+  networkName: String
+  +registerLab(lab: Lab): void
+  +findLabByAddress(address: String): List<Lab>
+}
+LabNetwork *-- "1..*" Lab : registeredLabs
+Patient --> "0..*" Requisition : patientsRequisitions
+Doctor --> "0..*" Requisition : prescribedRequisitions
+Requisition --> "0..*" Test : includedTests
+Patient --> "0..*" Appointment : bookedAppointments
+Appointment --> "1" Lab : assignedLab
+Appointment --> "1" Requisition : coveredRequisition
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+    classDiagram
+        user -> model1 : model1
+
+        model1 --> user
+    end
+
+This is a simple class diagram representing the relationship between a `user` and a `model1`. You can expand this further by adding more classes, relationships, and attributes as needed based on your specific system requirement.
+@enduml

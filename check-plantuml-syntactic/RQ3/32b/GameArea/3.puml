@@ -1,0 +1,85 @@
+
+---
+
+
+@startuml
+
+' GameArea has a name and contains GameElements and GamePieces
+class GameArea {
+    name: String
+}
+
+' GameElement has x and y coordinates
+class GameElement {
+    x: long
+    y: long
+}
+
+' Shape extends GameElement
+class Shape {}
+
+' Object extends GameElement
+class Object {}
+
+' Opponent extends GameElement
+class Opponent {
+    lives: int
+    kill()
+}
+
+' Boss is a special type of Opponent known to GameArea
+class Boss {
+    lives: int
+    kill()
+}
+
+' GamePiece is not detailed in inheritance, just used for composition
+class GamePiece {}
+
+' Relationships
+
+' A GameArea consists of multiple GameElements (1 or more)
+GameArea "1" o-- "1..*" GameElement : contains
+
+' A GameArea consists of 1 or 2 GamePieces
+GameArea "1" o-- "1..2" GamePiece : contains
+
+' A GameElement can be a Shape, Object, or Opponent
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+
+' An Opponent can be a Boss (only one per GameArea)
+GameArea "1" --> "1" Boss : knowsAsBoss
+
+' Shapes can be connected to any number of other Shapes
+Shape "0..*" -- "0..*" Shape : connectsTo
+
+@enduml
+
+---
+
+### 🧾 Explanation of Key Elements:
+
+- **`GameArea`**:
+  - Has a `name`.
+  - Composes at least one `GameElement` and 1–2 `GamePiece`s.
+  - Knows exactly one `Boss`.
+
+- **`GameElement`**:
+  - Base class with `x` and `y` position values.
+  - Extended by `Shape`, `Object`, and `Opponent`.
+
+- **`Shape`**:
+  - Can connect to zero or more other shapes via an association.
+
+- **`Opponent`**:
+  - Has `lives` and a `kill()` method.
+  - Specialized as `Boss` in the `GameArea`.
+
+- **`GamePiece`**:
+  - Not extended; simply part of the game area’s composition.
+
+---
+
+Let me know if you'd like to include methods, visibility modifiers, or further details!

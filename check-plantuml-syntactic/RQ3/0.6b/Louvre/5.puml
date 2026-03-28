@@ -1,0 +1,8 @@
+@startuml
+classDiagram
+    user --> request for data
+    request --> database connection
+    database --> query execution
+    query --> result processing
+    result --> output to screen
+@enduml

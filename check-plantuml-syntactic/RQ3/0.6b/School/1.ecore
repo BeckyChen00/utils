@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="&quot;User_Module&quot;,_id:2)" eType="#//module" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="module"/>
+  <eClassifiers xsi:type="ecore:EClass" name="relationship">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="3)" eType="#//user" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="&quot;Sample_Module&quot;,_id:4)" eType="#//module" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="&quot;Sample_Requirement&quot;)" eType="#//requirement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="user"/>
+  <eClassifiers xsi:type="ecore:EClass" name="requirement"/>
+</ecore:EPackage>

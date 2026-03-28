@@ -1,0 +1,108 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Employee {
+  - name: String
+  - role: String
+}
+
+class HeadCoach {
+  - name: String
+  - role: String
+  + identifyPlayerProfiles(): void
+  + updateShortList(): void
+}
+
+class Director {
+  - name: String
+  - role: String
+  + makeOffer(player: Player): void
+}
+
+class Scout {
+  - name: String
+  - role: String
+  + notePlayerOnLongList(player: Player): void
+  + submitScoutingReport(report: ScoutingReport): void
+}
+
+class HeadScout {
+  - name: String
+  - role: String
+  + evaluateLongList(): void
+  + assignScoutingAssignments(): void
+}
+
+class PlayerProfile {
+  - id: int
+  - targetPosition: String
+  + addAttribute(name: String, value: String): void
+}
+
+class Player {
+  - id: int
+  - name: String
+  - position: String
+}
+
+class ScoutingReport {
+  - id: int
+  - player: Player
+  - pros: List<String>
+  - cons: List<String>
+  - recommendation: String
+}
+
+class ScoutingAssignment {
+  - id: int
+  - scout: Scout
+  - player: Player
+  - report: ScoutingReport
+}
+
+' Relationships
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+Employee <|-- HeadScout
+
+HeadCoach "1" -- "0..*" PlayerProfile : identifies
+HeadScout "1" -- "0..*" ScoutingAssignment : assigns
+Scout "1" -- "0..*" ScoutingAssignment : performs
+Scout "1" -- "0..*" Player : notes on long list
+ScoutingAssignment "1" -- "1" ScoutingReport : generates
+PlayerProfile "1" -- "0..*" Player : matches (optional)
+Player "1" -- "0..*" ScoutingReport : has
+ScoutingReport "1" -- "1" Player : about
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Classes and Relationships:
+
+- **Employee**: Base class representing all club employees.
+- **HeadCoach**: Manages player profiles and updates the short list.
+- **Director**: Makes official offers to players.
+- **Scout**: Notes players on the long list and submits reports.
+- **HeadScout**: Evaluates the long list and assigns scouting tasks.
+- **PlayerProfile**: Defines the target positions and attributes for a player.
+- **Player**: Represents an actual player with name and position.
+- **ScoutingReport**: Contains pros, cons, and recommendation for a player.
+- **ScoutingAssignment**: Links a scout to a player and a report.
+- **Relationships**:
+  - A `HeadCoach` can identify multiple `PlayerProfile`s.
+  - A `HeadScout` assigns multiple `ScoutingAssignment`s.
+  - A `Scout` may perform multiple `ScoutingAssignment`s.
+  - A `ScoutingAssignment` generates one `ScoutingReport`.
+  - A `ScoutingReport` is about one `Player`.
+
+---
+
+### 💡 To Use:
+
+Let me know if you'd like a version with more detailed attributes or associations!

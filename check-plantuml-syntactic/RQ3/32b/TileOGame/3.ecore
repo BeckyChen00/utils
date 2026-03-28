@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Board">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tiles" eType="#//Map_Position_Tile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hiddenTile" eType="#//Tile"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startingPositions" eType="#//Map_Player_Position"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="spareConnectionPieces" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visited" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isActionTile" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connections" eType="#//Map_Direction_Tile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Direction">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="TOP"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="BOTTOM" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="LEFT" value="2"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="RIGHT" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Position">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Player">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="color" eType="#//Color"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hasExtraTurn" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nextTurnLost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionCardDeck">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cards" eType="#//ActionCard" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionCard">
+    <eOperations xsi:type="ecore:EOperation" name="execute">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RollDieExtraTurnCard">
+    <eOperations xsi:type="ecore:EOperation" name="execute">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectTilesCard">
+    <eOperations xsi:type="ecore:EOperation" name="execute">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RemoveConnectionCard">
+    <eOperations xsi:type="ecore:EOperation" name="execute">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MoveToAnyTileCard">
+    <eOperations xsi:type="ecore:EOperation" name="execute">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LoseNextTurnCard">
+    <eOperations xsi:type="ecore:EOperation" name="execute">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Designer">
+    <eOperations xsi:type="ecore:EOperation" name="createGame" eType="#//Game"/>
+    <eOperations xsi:type="ecore:EOperation" name="defineBoardLayout">
+      <eParameters xsi:type="ecore:EParameter" name="board" eType="#//Board"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="setConnections">
+      <eParameters xsi:type="ecore:EParameter" name="tile" eType="#//Tile"/>
+      <eParameters xsi:type="ecore:EParameter" name="direction" eType="#//Direction"/>
+      <eParameters xsi:type="ecore:EParameter" name="connectedTile" eType="#//Tile"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="```plantuml" eType="#//O" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="O"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Player" eType="#//currentPlayer" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="currentPlayer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="players"/>
+  <eClassifiers xsi:type="ecore:EClass" name="board">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Board" eType="#//players"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="actionCardDeck">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolean" eType="#//isGameOver" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="isGameOver"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_Position_Tile"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_Player_Position"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_Direction_Tile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Color"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Game"/>
+</ecore:EPackage>

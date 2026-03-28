@@ -1,0 +1,64 @@
+@startuml
+enum ApprovalStatus {
+  Pending
+  Approved
+  Rejected
+  Cancelled
+}
+enum TicketCategory {
+  Standard
+  Premium
+}
+class BusCompany {
+  +name: String
+  +hasMENSOProgram: boolean
+  +getCompanyStatus(): ApprovalStatus
+}
+class BusLine {
+  +lineNumber: String
+  +category: TicketCategory
+  +activeStatus: boolean
+  +getLineDescription(): String
+}
+class Trajectory {
+  +trajectoryCode: String
+  +status: ApprovalStatus
+  +description: String
+  +isApproved(): boolean
+  +suspend()
+  +cancel()
+}
+class TripRecord {
+  +recordTime: Date
+  +lineNumber: String
+  +category: TicketCategory
+  +generateReport(): String
+}
+class Customer {
+  +homeAddress: String
+  +officeAddress: String
+  +workHours: String
+  +subscribeToMENSO()
+  +getSubscriptionStatus(): boolean
+}
+class MENSOCard {
+  +cardNumber: String
+  +isActivated: boolean
+  +activate()
+  +deactivate()
+}
+class Invoice {
+  +issueDate: Date
+  +totalAmount: double
+  +discountPercentage: double
+  +calculateFinalAmount(): double
+  +isPaid(): boolean
+}
+BusCompany "1" *-- "*" Trajectory : managedTrajectories
+BusCompany "1" *-- "*" BusLine : managedLines
+Customer "1" *-- "*" MENSOCard : ownedCards
+Customer "1" --> "*" TripRecord : generatedRecords
+TripRecord "1" --> "1" BusLine : recordedLine
+Invoice "1" *-- "*" TripRecord : includedRecords
+Invoice "1" --> "1" Customer : billedCustomer
+@enduml

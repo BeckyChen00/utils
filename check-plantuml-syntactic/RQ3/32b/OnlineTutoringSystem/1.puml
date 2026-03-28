@@ -1,0 +1,131 @@
+
+@startuml
+
+' Define classes and their attributes/relationships
+
+class User {
+    +String name
+    +String email
+}
+
+class Student {
+    +String name
+    +String email
+}
+
+class Tutor {
+    +String name
+    +String email
+    +String bankAccount
+}
+
+class Subject {
+    +String name
+}
+
+class ExpertiseLevel {
+    +String level (e.g., primary, high school, university)
+}
+
+class TutorOffer {
+    +Tutor tutor
+    +Subject subject
+    +ExpertiseLevel expertiseLevel
+    +double hourlyPrice
+    +List<AvailabilitySlot> availabilitySlots
+}
+
+class AvailabilitySlot {
+    +DayOfWeek day
+    +Time startTime
+    +Time endTime
+}
+
+class TutoringRequest {
+    +Student student
+    +Tutor tutor
+    +Subject subject
+    +ExpertiseLevel requestedLevel
+    +DateTime proposedSessionTime
+    +DateTime confirmedSessionTime
+}
+
+class TutoringSession {
+    +Student student
+    +Tutor tutor
+    +Subject subject
+    +ExpertiseLevel level
+    +DateTime sessionTime
+    +double price
+    +boolean isConfirmed
+    +boolean isCancelled
+    +DateTime cancellationTime
+    +Payment payment
+    +List<TutoringSession> followUpSessions
+}
+
+class Payment {
+    +double amount
+    +PaymentMethod method (credit card, wire transfer)
+    +DateTime timestamp
+}
+
+class TutorOfTheMonth {
+    +Tutor tutor
+    +Subject subject
+    +int month
+    +int year
+}
+
+' Relationships
+
+User <|-- Student
+User <|-- Tutor
+
+Tutor "1" --> "many" TutorOffer : offers
+TutorOffer "1" --> "1" Subject : in subject
+TutorOffer "1" --> "1" ExpertiseLevel : at level
+TutorOffer "1" --> "many" AvailabilitySlot : has
+
+Student "1" --> "many" TutoringRequest : makes
+TutoringRequest "1" --> "1" TutorOffer : for offer
+TutoringRequest "1" --> "1" Student : from
+TutoringRequest "1" --> "1" Tutor : to
+
+TutoringSession "1" --> "1" TutoringRequest : initiated by
+TutoringSession "1" --> "1" Tutor : with
+TutoringSession "1" --> "1" Student : with
+TutoringSession "1" --> "1" Payment : paid with
+TutoringSession "1" --> "many" TutoringSession : follow-ups
+
+Tutor "1" --> "many" TutorOfTheMonth : awarded as
+TutorOfTheMonth "1" --> "1" Subject : in subject
+
+enum DayOfWeek {
+    Monday
+    Tuesday
+    Wednesday
+    Thursday
+    Friday
+    Saturday
+    Sunday
+}
+
+enum PaymentMethod {
+    CreditCard
+    WireTransfer
+}
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+- **User**: Abstract base class for both `Student` and `Tutor`.
+- **Tutor**: Has additional fields like `bankAccount`.
+- **TutorOffer**: Represents a tutoring service offered by a tutor in a specific subject and level.
+- **TutoringRequest**: A request made by a student to a tutor for a session.
+- **TutoringSession**: Once a request is confirmed, it becomes a session. Handles scheduling, payments, and cancellations.
+- **Cancellation Policy**: Handled via logic in `TutoringSession` and `Payment`.
+- **TutorOfTheMonth**: Monthly award given to top tutors per subject.
+

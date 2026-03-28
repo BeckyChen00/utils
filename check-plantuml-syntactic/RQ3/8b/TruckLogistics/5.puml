@@ -1,0 +1,80 @@
+@startuml
+
+abstract class Location {
+  - String address
+  - Driver[] drivers
+  - Vehicle[] vehicles
+}
+
+class Driver {
+  - String firstName
+  - String lastName
+  - Vehicle[] assignedVehicles
+  - Order currentOrder
+}
+
+abstract class Vehicle {
+  - String vehicleNumber
+}
+
+class Truck extends Vehicle {
+  - int weight
+}
+
+class Car extends Vehicle {
+  - int numberOfSeats
+}
+
+class Van extends Vehicle {
+  - int capacity
+}
+
+class Order {
+  - Location origin
+  - Location destination
+  - Driver[] assignedDrivers
+  - Date executionDate
+}
+
+Location "1" -- "0..*" Driver : has
+Driver "1" -- "0..*" Vehicle : drives
+Vehicle "1" -- "1" Driver : is driven by
+Driver "1" -- "1" Order : carries
+Order "1" -- "1" Driver : is carried by
+Location "1" -- "1" Order : origin
+Location "1" -- "1" Order : destination
+
+@enduml
+
+### Explanation:
+
+- **`Location`** is the main entity that contains:
+  - An address.
+  - A list of **drivers** who are associated with it.
+  - A list of **vehicles** located at the location.
+
+- **`Driver`** has:
+  - First and last name.
+  - A list of **vehicles** they drive.
+  - A reference to their **current order** (at most one at a time).
+
+- **`Vehicle`** is an abstract class, with:
+  - A `vehicleNumber`.
+  
+- Three **concrete classes** inherit from `Vehicle`:
+  - **`Truck`**: Has a `weight`.
+  - **`Car`**: Has a `numberOfSeats`.
+  - **`Van`**: Has a `capacity`.
+
+- **`Order`** includes:
+  - An **origin** and **destination** (both are `Location`).
+  - A list of **assigned drivers**.
+  - A **date of execution**.
+
+- Relationships:
+  - A `Location` can have **multiple drivers**, but a driver can be associated with **only one location** (optional).
+  - A `Driver` can drive **multiple vehicles**, but each vehicle is driven by **one driver**.
+  - A `Driver` can carry **one order at a time**, and an order can be assigned to **multiple drivers**.
+  - An `Order` must have **one origin and one destination**.
+
+Let me know if you want this rendered as an image or need further refinements!

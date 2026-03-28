@@ -1,0 +1,20 @@
+@startuml
+    classDiagram
+        user -> systemRequirement
+            systemRequirement: system requirement
+            systemRequirement: requirement for the system
+
+    componentDiagram
+        systemRequirement as systemRequirement
+        systemRequirement: system requirements
+        systemRequirement: system requirement
+
+    packageDiagram
+        systemRequirement as systemRequirement
+        systemRequirement: system requirement
+
+    viewDiagram
+        systemRequirement
+        systemRequirement: system requirement
+        systemRequirement: system requirement
+@enduml

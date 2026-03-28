@@ -1,0 +1,58 @@
+@startuml
+
+class Diagram {Diagram}
+
+class SystemRequirement {
+  class SystemRequirement {
+
+    property id: integer
+    property name: string
+    property description: string
+  }
+}
+
+class Component {
+  property name: string
+  property type: string
+  property dependencies: list of SystemRequirement
+  property implementation: string
+}
+
+class Module {
+  property name: string
+  property dependencies: list of Component
+  property implementation: string
+}
+
+class User {
+  property name: string
+  property role: string
+  property permissions: list of Module
+}
+
+class Test {
+  property name: string
+  property description: string
+  property testCases: list of TestCase
+}
+
+class TestCase {
+  property name: string
+  property expectedResult: string
+  property actualResult: string
+}
+
+class TestCaseResult {
+  property testName: string
+  property expectedResult: string
+  property actualResult: string
+  property result: string
+}
+
+class Test {
+  property name: string
+  property description: string
+  property testCases: list of TestCase
+}
+
+@enduml

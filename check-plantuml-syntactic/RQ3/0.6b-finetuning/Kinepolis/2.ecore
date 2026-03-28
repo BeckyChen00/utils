@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="structures" eType="#//NeighborhoodStructure" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NeighborhoodStructure">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="units" eType="#//NeighborhoodUnit" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResidentialCommunity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="residents" eType="#//Person" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="units" eType="#//NeighborhoodUnit" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="licenses" eType="#//LicenseHistory" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NeighborhoodUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedAlerts" eType="#//Alert" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incidentLogs" eType="#//IncidentLog" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceTasks" eType="#//MaintenanceTask" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="policyResolution" eType="#//PolicyIssue" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accessLogs" eType="#//AccessLog" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LicenseHistory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Alert"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IncidentLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affectedPerson" eType="#//Person" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredRule" eType="#//SafetyRule" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="baseLicense" eType="#//LicenseHistory" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resolvedIssue" eType="#//PolicyIssue"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involvedPowers" eType="#//Person" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceTask"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PolicyIssue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AccessLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resolvedIssues" eType="#//PolicyIssue" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reportedAlerts" eType="#//Alert" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

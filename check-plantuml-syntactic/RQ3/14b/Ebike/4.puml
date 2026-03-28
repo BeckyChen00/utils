@@ -1,0 +1,67 @@
+
+@startuml
+class EBike {
+  -frame: Frame
+  -driveSystem: DriveSystem
+  -controller: Controller
+  -battery: Battery (optional)
+}
+
+class Frame {
+  -material: String = "steel"
+}
+
+class DriveSystem {
+  -motor: Motor
+}
+
+class Motor {
+  // No specific attributes or operations defined
+}
+
+class Battery {
+  -energyStored: Double // in Watt-hours (Wh)
+}
+
+abstract class Controller {
+  +setState(state: State): void
+  +getState(): State
+  +controlBattery()
+  +commandDriveSystem()
+}
+
+enum State {
+  On
+  Off
+  Charging
+}
+
+class BasicController extends Controller {
+  // No additional attributes or operations
+}
+
+class AdvancedController extends Controller {
+  -nextInspectionDate: Date
+  +estimateNextInspectionDate(): Date
+}
+
+EBike "1" -- "1" Frame
+EBike "1" -- "1" DriveSystem
+EBike "1" -- "1" Controller
+EBike "0..1" -- "1" Battery
+
+Controller "1" -- "0..1" Battery
+Controller "1" -- "1" DriveSystem
+@enduml
+
+### Explanation of the Diagram:
+- **EBike** is composed of a **Frame**, **DriveSystem**, and **Controller**, and optionally a **Battery**.
+- The **Frame** has a material attribute, set to "steel".
+- The **DriveSystem** contains a **Motor**.
+- The **Battery** stores energy in **Watt-hours (Wh)**.
+- **Controller** is an abstract class with two variants:
+  - **BasicController**: Has no special features.
+  - **AdvancedController**: Can estimate the next inspection date.
+- **Controller** can be in one of three states: `On`, `Off`, or `Charging`.
+- The **Controller** controls both the **Battery** and **DriveSystem**.
+

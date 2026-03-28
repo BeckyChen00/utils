@@ -1,0 +1,97 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Patient {
+    +String name
+    +int id
+    +consentGiven: boolean
+    +retractConsent()
+    +giveConsent()
+}
+
+class Doctor {
+    +String name
+    +int id
+    +makeDiagnosis(patient: Patient, illness: Illness)
+    +approveDiagnosis(diagnosis: Diagnosis)
+}
+
+class HeadDoctor extends Doctor {
+    +approveDiagnosis(diagnosis: Diagnosis)
+}
+
+class Nurse {
+    +monitorPatient(patient: Patient)
+    +checkTreatment(treatment: Treatment)
+}
+
+class Illness {
+    +String name
+    +PriorityScore priorityScore
+    +updatePriorityScore(score: PriorityScore)
+}
+
+enum PriorityScore {
+    High
+    Low
+}
+
+class Diagnosis {
+    +Illness illness
+    +Doctor doctor
+    +boolean approved
+    +approve()
+}
+
+class Treatment {
+    +int stage: 1..3
+    +Illness illness
+    +upgradeStage(stage: int)
+    +downgradeStage(stage: int)
+    +applyTo(patient: Patient)
+}
+
+class ConsentForm {
+    +Patient patient
+    +Date dateSigned
+    +submit()
+}
+
+class StageRule {
+    +canUpgrade(fromStage: int, toStage: int): boolean
+    +canDowngrade(fromStage: int, toStage: int): boolean
+}
+
+' Relationships
+
+Patient "1" --> "0..*" Diagnosis : has
+Patient "1" --> "0..*" Treatment : has
+Patient "1" --> "1" ConsentForm : signs
+
+Doctor "0..*" --> "0..*" Diagnosis : makes
+HeadDoctor "1" --> "0..*" Diagnosis : approves
+
+Diagnosis "1" --> "1" Illness : for
+Diagnosis "1" --> "1" Doctor : made by
+
+Treatment "1" --> "1" Illness : for
+Treatment "1" --> "1" StageRule : follows
+
+Illness "1" --> "1" PriorityScore : has
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Patient**: Has a treatment and diagnosis. Can give/retract consent.
+- **Doctor / HeadDoctor**: Makes diagnoses; only head doctors can approve them.
+- **Diagnosis**: Must be approved before any treatment is applied.
+- **Treatment**: Can be in stages (1–3), with rules about upgrading/downgrading based on consent and priority score.
+- **ConsentForm**: Signed by the patient to allow higher treatment stages.
+- **PriorityScore**: Influences whether treatments are forced into stage 3.
+- **StageRule**: Defines logic for valid transitions between stages.
+

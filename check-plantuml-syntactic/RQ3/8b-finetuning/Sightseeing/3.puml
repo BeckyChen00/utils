@@ -1,0 +1,47 @@
+@startuml
+enum DiscountType {
+  Student
+  Senior
+  Group
+  EarlyBird
+  EveningSpecial
+  Disabled
+  Child
+}
+class City {
+  cityName: String
+  populationCount: int
+  +getAttractions(): List<TouristAttraction>
+}
+class TouristAttraction {
+  attractionName: String
+  address: String
+  +organizeTour(tour: GuidedTour, guide: Guide): void
+  +getGuidedTours(): List<GuidedTour>
+}
+class GuidedTour {
+  durationMinutes: int
+  maxCapacity: int
+  currentParticipants: int
+  discountType: DiscountType
+  discountAmount: double
+  tourDate: Date
+  +calculateFinalPrice(basePrice: double): double
+  +registerParticipant(visitor: Visitor): boolean
+  +confirmTourDetails(): boolean
+}
+class Guide {
+  guideName: String
+  isCertified: boolean
+  +isAvailable(date: Date): boolean
+}
+class Visitor {
+  visitorName: String
+  memberStatus: boolean
+  +checkEligibilityForDiscount(tour: GuidedTour): boolean
+}
+City "1" *-- "*" TouristAttraction : attractions
+TouristAttraction "1" --> "*" GuidedTour : organizedTours
+GuidedTour "1" --> "1" Guide : leadGuide
+GuidedTour "1" --> "*" Visitor : participants
+@enduml

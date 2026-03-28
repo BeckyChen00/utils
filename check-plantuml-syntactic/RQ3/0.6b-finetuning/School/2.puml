@@ -1,0 +1,79 @@
+@startuml
+enum MetaStatus {
+  Active
+  Inactive
+}
+class Project {
+  title: String
+  description: String
+  +addTask(task: Task): void
+  +getTasks(): List<Task>
+}
+class Task {
+  title: String
+  status: MetaStatus
+  +assignTo(project: Project): void
+  +markAsCompleted(): void
+}
+class User {
+  userName: String
+  email: String
+  +login(): boolean
+  +logout(): void
+}
+class Repository {
+  repoName: String
+  isActive: boolean
+  +addFile(content: String): void
+  +upload(content: String): void
+  +checkAccess(user: User): boolean
+}
+class File {
+  content: String
+  timestamp: Date
+  +download(): ContentStream
+}
+class Document {
+  title: String
+  authorName: String
+  formatType: String
+  +export(): String
+}
+class ContentStream {
+  startTime: Date
+  endTime: Date
+  isStreaming: boolean
+  +getCurrentPosition(): int
+}
+class Workbench {
+  +startWorkflow(user: User, project: Project, task: Task): void
+  +getWorkflowState(): String
+}
+class Folder {
+  folderName: String
+  +createSubfolder(name: String): void
+  +getRelativePath(projectRoot: Project): String
+}
+class ProjectRoot {
+  rootName: String
+  +listRootFolders(): List<String>
+}
+Project *-- "1" ProjectRoot : root
+Project *-- "*" Task : tasks
+Project *-- "0..1" Workbench : activeWorkflow
+Project *-- "*" File : files
+Project *-- "*" Task : tasks
+Project *-- "1" Repository : storedIn
+Folder --> "0..1" Project : belongsTo
+Folder --> "1" Project : directory
+Workbench --> "*" User : managedBy
+Workbench --> "*" Task : hostedTasks
+Workbench --> "*" File : generatedFiles
+Workbench --> "1" Repository : targetVault
+Document --> "1" Project : owns
+Document --> "*" User : associatedResearchers
+Document --> "*" File : contains
+Repository --> "*" Document : hostedDocuments
+Document --> "*" ContentStream : sharesWith
+ContentStream --> "*" User : consumedBy
+@enduml

@@ -1,0 +1,55 @@
+@startuml
+enum OrderState {
+  pending
+  paid
+}
+enum StockLevel {
+  inStock
+  notInStock
+}
+enum ShipmentStatus {
+  pending
+  inTransit
+  delivered
+  returned
+}
+class Customer {
+  vatNumber: String
+  email: String
+  +register()
+}
+class Product {
+  name: String
+  unitPrice: double
+  +getDetails(): String
+}
+class StockItem {
+  quantity: int
+  +updateQuantity(amount: int)
+  +getLevel(): StockLevel
+}
+class Order {
+  orderDate: Date
+  +calculateTotal(): double
+  +validatePayment(): boolean
+  +generateInvoice(): String
+}
+class OrderLine {
+  quantityOrdered: int
+  unitPrice: double
+  +calculateLineTotal(): double
+}
+class Shipment {
+  trackingNumber: String
+  shipmentDate: Date
+  +track(): ShipmentStatus
+  +estimateArrival(): Date
+}
+Customer *-- "0..*" Order : placedOrders
+Order *-- "1..*" OrderLine : orderLines
+OrderLine *-- "1" Product : orderedProduct
+OrderLine *-- "0..1" StockItem : reservedStock
+OrderLine *-- "0..1" Shipment : shippedIn
+Shipment *-- "1..*" OrderLine : containedLines
+OrderLine --> "1" StockItem : reservedStockItem
+@enduml

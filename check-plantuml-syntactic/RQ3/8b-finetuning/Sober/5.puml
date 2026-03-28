@@ -1,0 +1,119 @@
+@startuml
+enum RequestType {
+  SoberApp
+  HandWave
+  AutomatedPickup
+  SchedulerRequest
+}
+enum RideType {
+  RideHail
+  RideShare
+}
+enum AccidentSeverity {
+  Minor
+  Major
+  Critical
+  Fatal
+}
+class Customer {
+  name: String
+  contactInfo: String
+}
+class Driver {
+  name: String
+  licenseNumber: String
+  isCertified: boolean
+}
+class Car {
+  licensePlate: String
+  vehicleModel: String
+  isSelfDriving: boolean
+  +registerCar(): void
+  +generateReport(): String
+}
+class TripRecord {
+  startTime: Date
+  endTime: Date
+  pickupLocation: String
+  dropoffLocation: String
+  rideType: RideType
+  isRushHour: boolean
+  insuranceCovered: boolean
+  fareAmount: int
+  numberOfPassengers: int
+  +calculateFare(): int
+  +getSummary(): String
+}
+class ServiceRequest {
+  requestType: RequestType
+  isExpress: boolean
+  requestedTime: Date
+  +processRequest(): TripRecord
+}
+class MaintenanceLog {
+  inspectionDate: Date
+  description: String
+  isPassed: boolean
+  +addEntry(): void
+}
+class AccidentReport {
+  severity: AccidentSeverity
+  description: String
+  occurrenceDate: Date
+  damageAmount: int
+  +generateReport(): String
+}
+class CarOwner {
+  name: String
+  contactInfo: String
+}
+class SafetyRule {
+  description: String
+  isActive: boolean
+  +checkCompliance(): boolean
+}
+class Regulation {
+  name: String
+  description: String
+  isActive: boolean
+}
+class PricingStrategy {
+  baseFare: int
+  ratePerKm: int
+  ratePerMin: int
+  +calculateTotal(distance: int, duration: int): int
+}
+class FleetManager {
+  +assignTrip(car: Car, request: ServiceRequest): TripRecord
+  +assignDriver(car: Car, driver: Driver): void
+  +monitorPerformance(): void
+}
+class RoutePlanner {
+  +findOptimalRoute(pickup: String, dropoff: String): String
+}
+class AnalyticsEngine {
+  +analyzeTrips(records: List<TripRecord>): double
+  +calculateFeedBackScore(records: List<TripRecord>): int
+}
+class NotificationService {
+  +sendConfirmation(trip: TripRecord): void
+  +sendAlert(accident: AccidentReport): void
+}
+Car *-- "0..*" CarOwner : registeredOwners
+TripRecord *-- "1" PricingStrategy : appliedStrategy
+TripRecord *-- "1" Customer : leadCustomer
+TripRecord *-- "1" Car : operatedBy
+TripRecord --> "1" ServiceRequest : originRequest
+ServiceRequest --> "0..*" RoutePlanner : generatedRoutes
+Car --> "0..*" SafetyRule : configuredRules
+Car --> "0..*" MaintenanceLog : maintenanceLogs
+Car --> "0..*" AccidentReport : incidentReports
+TripRecord --> "0..*" AccidentReport : relatedAccidents
+Driver --> "0..*" Car : operatedCars
+FleetManager --> "0..*" Car : managedFleet
+FleetManager --> "0..*" TripRecord : processedTrips
+AnalyticsEngine --> "0..*" TripRecord : analyzedRecords
+NotificationService --> "0..*" TripRecord : notifiedTrips
+NotificationService --> "0..*" AccidentReport : alertedAccidents
+PricingStrategy --> "1..*" Regulation : governedBy
+@enduml

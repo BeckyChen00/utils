@@ -1,0 +1,72 @@
+
+@startuml
+
+' Define classes and their attributes/relationships
+
+class EBike {
+  - frame: Frame
+  - driveSystem: DriveSystem
+  - controller: Controller
+  - battery: Battery (optional)
+}
+
+class Frame {
+  + material: String = "steel"
+}
+
+class Wheel {
+  ' No special attributes required
+}
+
+class DriveSystem {
+  - motor: Motor
+}
+
+class Motor {
+  ' No special attributes required
+}
+
+class Battery {
+  + energyStored: float <Wh>
+}
+
+abstract class Controller {
+  + state: State [On, Off, Charging]
+  + controlBattery(battery: Battery): void
+  + commandDriveSystem(driveSystem: DriveSystem): void
+}
+
+class BasicController {
+  + controlBattery(battery: Battery): void
+  + commandDriveSystem(driveSystem: DriveSystem): void
+}
+
+class AdvancedController {
+  + controlBattery(battery: Battery): void
+  + commandDriveSystem(driveSystem: DriveSystem): void
+  + estimateNextInspectionDate(): Date
+}
+
+' Relationships
+
+EBike --> Frame : composed of
+EBike --> DriveSystem : composed of
+EBike --> Controller : has a
+EBike --> "0..1" Battery : connected to
+
+Frame --> "2" Wheel : holds
+DriveSystem --> Motor : composed of
+
+Controller <|-- BasicController
+Controller <|-- AdvancedController
+
+@enduml
+
+---
+
+### Explanation:
+- **Composition** (`-->`) is used for parts that are essential and exist only as part of the whole.
+- **Aggregation** or **association** is shown where appropriate (e.g., optional battery).
+- The `Controller` is abstract with two concrete implementations: `BasicController` and `AdvancedController`.
+- The `AdvancedController` adds the ability to estimate the next maintenance date.
+

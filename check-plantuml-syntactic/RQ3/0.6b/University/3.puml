@@ -1,0 +1,14 @@
+@startuml
+    class Diagram {
+        $systemRequirement = [System Requirement]
+
+        # Each system requirement is a separate class with its attributes and relationships.
+        class SystemRequirement {
+            string name
+            list<Attribute> attributes
+        }
+
+        # Relationships between system requirements
+        relation SystemRequirement -> SystemRequirement (name, attributes)
+    }
+@enduml

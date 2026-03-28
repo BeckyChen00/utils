@@ -1,0 +1,66 @@
+
+@startuml
+
+' Define classes
+class Faculty {
+  +name: String
+  +institutes: Set<Institute>
+  +dean: Employee
+  +totalEmployees: int
+}
+
+class Institute {
+  +name: String
+  +address: String
+  +researchAssistants: Set<ResearchAssistant>
+}
+
+class Employee {
+  +socialSecurityNumber: String
+  +name: String
+  +email: String
+  +type: String
+}
+
+class ResearchAssistant extends Employee {
+  +fieldOfResearch: String
+  +projects: Set<Project>
+}
+
+class Project {
+  +name: String
+  +startDate: Date
+  +endDate: Date
+  +hours: int
+}
+
+class Lecturer extends ResearchAssistant {
+  +coursesTaught: Set<Course>
+}
+
+class Course {
+  +id: String
+  +name: String
+  +weeklyDuration: int
+}
+
+' Associations
+Faculty "1" -- "0..*" Institute : consists of
+Faculty "1" -- "1" Dean : has
+Institute "1" -- "0..*" ResearchAssistant : contains
+ResearchAssistant "1" -- "0..*" Project : involved in
+ResearchAssistant "1" -- "0..*" Lecturer : is a
+Lecturer "1" -- "0..*" Course : teaches
+Employee <|-- ResearchAssistant : is a type of
+Employee <|-- Lecturer : is a type of
+
+@enduml
+
+### Notes:
+- `Faculty` has a `dean`, which is an `Employee`.
+- `Institute` has a name and address, and contains `ResearchAssistant`s.
+- `Employee` is an abstract class with common attributes for all employees (SSN, name, email).
+- `ResearchAssistant` is a subclass of `Employee` and can be involved in `Project`s.
+- `Lecturer` is a subclass of `ResearchAssistant` and teaches `Course`s.
+- `Course` has a unique ID, name, and weekly duration.
+

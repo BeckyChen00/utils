@@ -1,0 +1,47 @@
+@startuml
+class SocialMediaPost {
+  postContent: String
+  isVerified: boolean
+  isActive: boolean
+  +validateContent(): boolean
+  +getFullDescription(): String
+}
+class SocialMediaPostContent {
+  contentDetails: String
+  +validateContent(): boolean
+  +getContentTemplate(): String
+}
+class Message {
+  contentText: String
+  +validateMessage(): boolean
+}
+class BounceablePost {
+  campaignName: String
+  triggerCriteria: String
+  isRepeatable: boolean
+  +validateTrigger(): boolean
+}
+class UserAccount {
+  username: String
+  email: String
+  +updateProfile(data: Map<String, Object>): void
+  +getProfileBalance(): double
+}
+class EngagementData {
+  viewCount: int
+  shareCount: int
+  likesCount: int
+  +generateReport(): String
+}
+class AnalyticsReport {
+  reportTitle: String
+  generatedDate: Date
+  +exportReport(format: String): String
+}
+BounceablePost --|> SocialMediaPost
+Message --|> SocialMediaPost
+UserAccount --> "1" SocialMediaPost : profilePlaylists
+UserAccount --> "*" EngagementData : engagementHistory
+AnalyticsReport *-- "1..*" EngagementData : includedData
+AnalyticsReport --> "1" UserAccount : analyzedBy
+@enduml

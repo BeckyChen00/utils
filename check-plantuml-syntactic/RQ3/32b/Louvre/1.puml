@@ -1,0 +1,90 @@
+
+@startuml
+
+' Define classes
+class Location {
+  +id: int
+  +name: String
+  +capacity: int
+}
+
+class Exhibition {
+  +id: int
+  +title: String
+  +startDate: Date
+  +endDate: Date
+  +description: String
+}
+
+class Employee {
+  +id: int
+  +name: String
+  +position: String
+  +email: String
+}
+
+class ExhibitionItem {
+  +id: int
+  +name: String
+  +description: String
+  +required: boolean
+}
+
+class ArtPiece {
+  +id: int
+  +title: String
+  +artist: String
+  +yearCreated: int
+  +medium: String
+}
+
+class Collector {
+  +id: int
+  +name: String
+  +contactInfo: String
+}
+
+class Request {
+  +id: int
+  +status: String
+  +requestDate: Date
+  +approvedDate: Date (optional)
+}
+
+class CoachingRelationship {
+  +startDate: Date
+  +endDate: Date (optional)
+}
+
+' Relationships
+
+Employee "1" -- "many" Exhibition : coordinates
+Employee "1" -- "1" Employee : is coached by (via CoachingRelationship)
+
+Exhibition "1" -- "many" ExhibitionItem : includes
+ExhibitionItem "1" -- "many" Request : has
+Request "1" -- "1" ArtPiece : requests
+ArtPiece "1" -- "1" Collector : owned by
+
+Location "1" -- "many" Exhibition : hosts
+
+CoachingRelationship "1" -- "1" Employee : coach
+CoachingRelationship "1" -- "1" Employee : junior
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Location**: Represents areas in the museum where exhibitions can be hosted.
+- **Exhibition**: A planned event at a location with a start/end date and items.
+- **Employee**: Museum staff, including coordinators and coaches.
+- **ExhibitionItem**: Required artifacts or themes for an exhibition.
+- **ArtPiece**: Specific artwork requested from collectors.
+- **Collector**: Individuals or institutions owning art pieces.
+- **Request**: Link between an `ExhibitionItem` and a `Collector` to request an `ArtPiece`.
+- **CoachingRelationship**: Tracks mentorship between senior and junior employees.
+
+---
+

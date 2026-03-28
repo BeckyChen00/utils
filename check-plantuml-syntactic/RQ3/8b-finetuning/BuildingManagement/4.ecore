@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBuildings" eType="#//Building" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Building">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="images" eType="#//Image" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" eType="#//AdditionalEntry" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//User" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WebPortal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedEntries" eType="#//AdditionalEntryDefinition" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accessRules" eType="#//AccessRule" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredUsers" eType="#//User" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AdditionalEntryDefinition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataType" eType="#//EntryType" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AccessRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTasks" eType="#//ApprovalTask" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditLogs" eType="#//AuditLog" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notifications" eType="#//Notification" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="homePortal" eType="#//WebPortal" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Image"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AdditionalEntry"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Comment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="author" eType="#//User" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commentedBuilding" eType="#//Building" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accessRule" eType="#//AccessRule" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ApprovalTask"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EntryType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SearchQuery">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activatedUser" eType="#//User" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="results" eType="#//Building" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

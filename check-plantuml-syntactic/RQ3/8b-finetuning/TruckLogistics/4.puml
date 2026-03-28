@@ -1,0 +1,44 @@
+@startuml
+enum VehicleType {
+  truck
+  car
+  van
+}
+enum OrderStatus {
+  pending
+  active
+  completed
+  cancelled
+}
+class Location {
+  address: String
+  +getAddress(): String
+}
+class Driver {
+  firstName: String
+  lastName: String
+  licenseNumber: String
+  isAvailable: boolean
+  +updateAvailability(status: boolean): void
+  +getFullName(): String
+}
+class Vehicle {
+  vehicleNumber: String
+  type: VehicleType
+  weight: int
+  capacity: int
+  +getSpecifications(): String
+}
+class Order {
+  orderDate: Date
+  status: OrderStatus
+  +assignDriver(driver: Driver): void
+  +completeOrder(): void
+  +cancelOrder(): void
+}
+Order "1" --> "1" Driver : assignedDriver 'opposite: activeOrders
+Order "1" --> "2" Vehicle : assignedVehicles
+Order "1" --> "2" Location : originAndDestination
+Driver "1" --> "0..1" Vehicle : currentVehicle
+Vehicle -- Location
+@enduml

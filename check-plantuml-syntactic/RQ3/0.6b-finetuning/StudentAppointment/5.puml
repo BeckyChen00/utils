@@ -1,0 +1,41 @@
+@startuml
+enum ServiceType {
+  Wedding
+  BirthdayParty
+  BirthdayEvent
+  BirthdayLegacy
+  BirthdayPinkDay
+}
+enum PartySize {
+  Small
+  Medium
+  Large
+  Exclusive
+}
+enum EventStatus {
+  Scheduled
+  InProgress
+  Cancelled
+}
+class PartyEvent {
+  eventName: String
+  serviceType: ServiceType
+  requiredGuestCount: int
+  locationDescription: String
+  status: EventStatus
+  +registerPartySize(size: PartySize): void
+  +updateStatus(newStatus: EventStatus): void
+}
+class GuestRegistration {
+  contactInfo: String
+  birthdayDate: Date
+  +confirmRegistration(): boolean
+}
+class PartyCalendar {
+  maxCapacity: int
+  +addEvent(event: PartyEvent): void
+  +calculateTotalAdvance(): double
+}
+PartyCalendar *-- "0..1" PartyEvent : latestEvent
+PartyEvent --> "0..*" GuestRegistration : guestList
+@enduml

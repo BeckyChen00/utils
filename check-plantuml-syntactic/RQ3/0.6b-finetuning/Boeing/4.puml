@@ -1,0 +1,43 @@
+@startuml
+enum EquipmentStatus {
+  Operational
+  UnderMaintenance
+  OutOfService
+  CriticalFailure
+  ScheduledMaintenance
+  Unknown
+}
+enum RequestPriority {
+  low
+  medium
+  high
+  urgent
+}
+class MaintenanceService {
+  serviceFee: double
+  description: String
+  +calculateFee(hours: int): double
+  +isAvailable(location: String): boolean
+}
+class EmergencyRequest {
+  priority: RequestPriority
+  description: String
+  +validateRequest(): boolean
+  +resolveRequest(): void
+}
+class Equipment {
+  serialNumber: String
+  model: String
+  status: EquipmentStatus
+  +getStatus(): EquipmentStatus
+}
+class MaintenanceLog {
+  logDate: Date
+  description: String
+  technicianNotes: String
+  +generateReport(): String
+}
+MaintenanceService --> "0..*" EmergencyRequest : managedRequests
+EmergencyRequest --> "1" Equipment : targetEquipment
+Equipment *-- "0..*" MaintenanceLog : maintenanceHistory
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+enum VisibilityStatus {
+  Hidden
+  Visible
+}
+class GameElement {
+  +getZIndex(): int
+  +moveTo(x: long, y: long): void
+}
+class GameArea {
+  +getName(): String
+  +getBoss(): Opponent
+}
+class Opponent {
+  lives: int
+  +kill(): void
+}
+class Shape {
+  isVisible: VisibilityStatus
+  +connectTo(shape: Shape): void
+}
+class Object {
+  description: String
+}
+GameArea *-- "0..*" GameElement : contains
+Object --> "0..*" Shape : composedOf
+GameElement --> "0..*" Object : references
+GameArea --> "1" Opponent : boss
+@enduml

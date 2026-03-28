@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedTasks" eType="#//CompileTask" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompileTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetToolchain" eType="#//Toolchain" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Toolchain"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExecutionTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedJob" eType="#//CompetitionJob" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompetitionJob"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DeploymentTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetScript" eType="#//Script" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Script"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompilingTask"/>
+</ecore:EPackage>

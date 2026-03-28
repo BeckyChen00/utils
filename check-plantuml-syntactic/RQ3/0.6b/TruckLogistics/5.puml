@@ -1,0 +1,40 @@
+@startuml
+
+class Diagram {Diagram}
+class SystemRequirement {SystemRequirement}
+
+class User {
+  Name, Email
+}
+
+class Task {
+  Title, Description
+}
+
+class Requirement {
+  Reference, Type, Priority
+}
+
+class Dependency {
+  From, To
+}
+
+class Relationship {
+  Between, Type
+}
+
+class System {
+  Components, Dependencies
+}
+
+  Diagram as Diagram
+  SystemRequirement as SystemRequirement
+  System as System
+  User as User
+  Task as Task
+  Requirement as Requirement
+  Dependency as Dependency
+  Relationship as Relationship
+}
+
+@enduml

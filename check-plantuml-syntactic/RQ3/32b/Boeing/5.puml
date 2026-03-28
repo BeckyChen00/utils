@@ -1,0 +1,70 @@
+
+---
+
+
+@startuml
+
+' Entities
+class Contract {
+    +id: String
+    +startDate: Date
+    +endDate: Date
+    +deliveryConditions: String
+    +legalTerms: String
+}
+
+class Acquisition {
+    +id: String
+    +model: String
+    +price: Double
+    +customizations: List<String>
+    +deliveryDate: Date
+}
+
+class Aircraft {
+    +serialNumber: String
+    +model: String
+    +status: String (e.g., "built", "in-production")
+}
+
+class AirlineCompany {
+    +name: String
+    +country: String
+    +isMainCompany: Boolean
+}
+
+class Salesperson {
+    +id: String
+    +name: String
+    +department: String
+}
+
+class CompanyRelationship {
+    +parentId: String
+    +childId: String
+    +relationshipType: String (e.g., "mother-daughter")
+}
+
+' Relationships
+Contract "1" -- "0..*" Acquisition : contains
+Contract "1" -- "1" Salesperson : managed by
+Acquisition "1" -- "1" Aircraft : builds
+AirlineCompany "1" -- "0..*" Acquisition : purchases
+AirlineCompany "1" -- "0..*" CompanyRelationship : has relationship
+AirlineCompany "1" -- "0..*" AirlineCompany : related to (via CompanyRelationship)
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **`Contract`**: A high-level agreement between Boeing and an airline company. Contains shared terms.
+- **`Acquisition`**: Represents the purchase of a specific aircraft under a contract. Has unique details like model, price, delivery date.
+- **`Aircraft`**: The actual plane being built or delivered.
+- **`AirlineCompany`**: The buyer. Can have multiple acquisitions and can be part of a parent/child relationship.
+- **`Salesperson`**: Manages contracts; one person may manage multiple contracts.
+- **`CompanyRelationship`**: Tracks mother-daughter or partner relationships between airlines.
+
+---
+

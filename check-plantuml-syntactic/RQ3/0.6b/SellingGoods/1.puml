@@ -1,0 +1,64 @@
+@startuml
+class Diagram {SystemRequirement}
+class SystemRequirement {
+  name: "System Requirement"
+  description: "System requirement for the application."
+}
+
+class Application {
+  component: "Application"
+  dependency: [SystemRequirement]
+}
+
+class Module {
+  name: "Module A"
+  description: "A module responsible for some functionality."
+  dependencies: [Application, SystemRequirement]
+}
+
+class Function {
+  name: "Function1"
+  description: "A function that performs a task."
+  dependencies: [Module]
+}
+
+class Input {
+  name: "Input1"
+  description: "An input source for the function."
+  dependencies: [Function]
+}
+
+class Output {
+  name: "Output1"
+  description: "An output destination for the function."
+  dependencies: [Function]
+}
+
+class Dependency {
+  name: "Dependency1"
+  description: "A dependency that must be present for the function."
+  dependencies: [Input, Output]
+}
+
+class Component {
+  name: "Component A"
+  description: "A component that can have multiple dependencies."
+  dependencies: [Dependency1]
+}
+
+class DependencyGraph {
+  nodes: [
+    Node(Component A),
+    Node(Function1),
+    Node(Input1),
+    Node(Output1)
+  ]
+  edges: [
+    Edge(Component A, Dependency1),
+    Edge(Function1, Input1),
+    Edge(Function1, Output1)
+  ]
+}
+
+Diagram --> DependencyGraph
+@enduml

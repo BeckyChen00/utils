@@ -1,0 +1,21 @@
+@startuml
+
+class Diagram {SystemRequirement}
+
+class SystemRequirement {
+  component name "System Requirement"
+  has attribute [name, description, version] as String
+  has constraint [required_component]
+}
+
+class Component {
+  has attribute [name, description] as String
+  has constraint [must_be_in_system_requirement]
+}
+
+class RequiredComponent {
+  has attribute [name, description] as String
+  has constraint [is_required_in_system_requirement]
+}
+
+@enduml

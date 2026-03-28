@@ -1,0 +1,104 @@
+
+---
+
+
+@startuml
+
+' Main Classes
+class Bus {
+    +String busId
+    +String lineNumber
+    +boolean isOperational
+    +List<Trajectory> trajectories
+}
+
+class Trajectory {
+    +String trajectoryId
+    +String routeDescription
+    +String status (approved, pending, suspended, cancelled)
+    +Date approvalDate
+    +Date cancellationDate
+    +List<Line> relatedLines
+}
+
+class Line {
+    +String lineId
+    +String name
+    +List<Trajectory> trajectories
+    +String category
+}
+
+class MENSOUser {
+    +String userId
+    +String cardId
+    +String homeAddress
+    +String officeAddress
+    +Time workingHours
+    +List<Trip> trips
+}
+
+class Trip {
+    +Date date
+    +Time time
+    +String lineId
+    +String userId
+    +float price
+    +boolean isPaid
+}
+
+class Invoice {
+    +String invoiceId
+    +Date month
+    +String userId
+    +float totalAmount
+    +float discount
+    +float finalAmount
+    +List<Trip> trips
+}
+
+class DiscountPolicy {
+    +float maxDiscountPercentage
+    +float minInvoiceAmountForDiscount
+}
+
+class Payment {
+    +String paymentId
+    +Date date
+    +float amount
+    +String userId
+    +String invoiceId
+}
+
+' Associations
+Bus --> Trajectory : "is assigned to" 
+Trajectory --> Line : "part of"
+Line --> Trajectory : "related to"
+Line --> Category : "has"
+MENSOUser --> Trip : "made"
+Trip --> Line : "on"
+Trip --> Invoice : "included in"
+Invoice --> Payment : "related to"
+Invoice --> DiscountPolicy : "applies"
+MENSOUser --> DiscountPolicy : "uses"
+
+@enduml
+
+---
+
+### 📝 Explanation of Key Relationships:
+
+- **Bus** can be assigned to one or more **Trajectories**.
+- A **Trajectory** may belong to multiple **Lines**, but each **Line** is associated with one or more **Trajectories**.
+- **Lines** are categorized under a **Category** (e.g., "urban", "suburban", etc.), which affects the **price** of a trip.
+- **MENSOUsers** have a **card ID** and can make **Trips** using their card.
+- Each **Trip** is linked to a **Line** and contributes to an **Invoice**.
+- **Invoices** can be paid via **Payments**, and discounts are applied based on the **DiscountPolicy**.
+- **DiscountPolicy** defines rules for discounts (e.g., up to 20% if total > X).
+
+---
+
+### ✅ How to Use This in Your Project:
+
+1. Save the above code into a `.puml` file.
+
+Let me know if you want this rendered as an image or further customized!

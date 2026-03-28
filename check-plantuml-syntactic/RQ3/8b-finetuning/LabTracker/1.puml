@@ -1,0 +1,91 @@
+@startuml
+enum TestType {
+  BLOOD_TEST
+  ULTRASOUND_EXAMINATION
+}
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+enum RepetitionInterval {
+  WEEKLY
+  MONTHLY
+  SEMI_ANNUALLY
+  YEARLY
+  NEVER
+  ONCE
+}
+class Appointment {
+  status: AppointmentStatus
+  scheduledDate: Date
+  startTime: Time
+  endTime: Time
+  confirmationNumber: String
+  +confirm(): void
+  +cancel(): void
+  +updateStatus(newStatus: AppointmentStatus): void
+}
+class Doctor {
+  practitionerNumber: String
+  fullName: String
+  phone: String
+  address: String
+  +validatePractitioner(): boolean
+}
+class Patient {
+  healthNumber: String
+  firstName: String
+  lastName: String
+  dateOfBirth: Date
+  address: String
+  phone: String
+  +getFullName(): String
+}
+class Requisition {
+  validityStartDate: Date
+  requiresSignature: boolean
+  repetitionInterval: RepetitionInterval
+  repetitionCount: int
+  +addTest(test: Test): void
+  +validate(): boolean
+}
+class Test {
+  name: String
+  type: TestType
+  durationMinutes: int
+  requiresAppointment: boolean
+  +getDescription(): String
+}
+class Lab {
+  name: String
+  address: String
+  businessHoursStart: Time
+  businessHoursEnd: Time
+  registrationNumber: String
+  +isOpenOn(date: Date): boolean
+}
+class Result {
+  value: String
+  unit: String
+  reportText: String
+  +getValue(): String
+}
+class AnalysisReport {
+  executiveSummary: String
+  findings: String
+  conclusion: String
+  +generateSummary(): String
+}
+Doctor *-- "0..*" Requisition : authoredRequisitions
+Requisition *-- "1..*" Test : constituentTests
+Requisition --> "1" Patient : targetPatient
+Test --> "0..1" Lab : performedAtLab
+Lab --> "0..*" Appointment : hostedAppointments
+Appointment --> "1" Requisition : correspondsTo
+Result --> "1" Patient : belongsTo
+Result --> "1" Doctor : documentedBy
+AnalysisReport --> "1" Requisition : basedOn
+AnalysisReport -- Patient
+@enduml

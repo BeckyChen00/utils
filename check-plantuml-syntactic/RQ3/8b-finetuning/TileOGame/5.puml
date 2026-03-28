@@ -1,0 +1,79 @@
+@startuml
+enum ColorType {
+  Red
+  Blue
+}
+enum TileState {
+  White
+  Black
+}
+class GameDesigner {
+  designerName: String
+  +createBoard(width: int, height: int): GameBoard
+  +defineGameMode(puzzleLevel: int, isTimed: boolean, maxPlayers: int): GameMode
+  +defineActionDeck(): ActionDeck
+  +placeTile(tile: GameTile, x: int, y: int): void
+}
+class GameBoard {
+  width: int
+  height: int
+  +isValidPosition(x: int, y: int): boolean
+  +getTileAt(x: int, y: int): GameTile
+}
+class GameTile {
+  state: TileState
+  color: ColorType
+  isActionTile: boolean
+  durationMultiplier: int
+  +isConnected(direction: int): boolean
+  +markVisited(): void
+  +resetState(): void
+}
+class ConnectionPiece {
+  +isValid(): boolean
+}
+class GameMode {
+  puzzleLevel: int
+  isTimed: boolean
+  maxPlayers: int
+  +isWinningConditionMet(): boolean
+}
+class Player {
+  playerName: String
+  color: ColorType
+  +getNextMove(): Movement
+}
+class ActionDeck {
+  cards: List<ActionCard>
+  +drawCard(): ActionCard
+}
+class ActionCard {
+  actionType: String
+  description: String
+  duration: int
+}
+class Movement {
+  dieRoll: int
+  targetTile: GameTile
+  +execute(): void
+}
+class GameSession {
+  gameStatus: String
+  currentRound: int
+  +startGame(): void
+  +endGame(winningPlayer: Player): void
+  +getCurrentPlayer(): Player
+}
+GameDesigner "1" *-- "1" GameBoard : designedBoard
+GameDesigner "1" *-- "1" GameMode : definedMode
+GameDesigner "1" *-- "1" ActionDeck : createdDeck
+GameBoard "1" *-- "*" GameTile : composedTiles
+GameTile "1" *-- "*" ConnectionPiece : connectedPieces
+GameSession "1" *-- "1" GameBoard : activeBoard
+GameSession "1" *-- "1" ActionDeck : activeDeck
+GameSession "1" *-- "1" GameMode : activeMode
+GameSession "1" *-- "*" Player : participatingPlayers
+Player "1" --> "*" GameTile : occupiedTiles
+Movement "1" --> "1" Player : originatingPlayer
+Movement "1" --> "1" GameTile : landingTile
+@enduml

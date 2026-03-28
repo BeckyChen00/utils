@@ -1,0 +1,81 @@
+
+@startuml
+skinparam monochrome true
+skinparam notebackground yellow
+skinparam classAttributeIconSize 0
+
+class Center {
+    +name: String
+    +address: String
+    +rooms: List<Room>
+}
+
+class Room {
+    +roomNumber: int
+    +maxCapacity: int
+    -center: Center
+}
+
+class Person {
+    +firstName: String
+    +lastName: String
+    +birthDate: Date
+    +sessions: List<Session>
+}
+
+class Trainer extends Person {
+    +diploma: String
+}
+
+class Session {
+    +date: Date
+    +startTime: Time
+    +type: String (optional)
+    -room: Room
+    -center: Center
+    +participants: List<Person>
+    +supervisor: Trainer (optional)
+}
+
+class Prospect extends Person {
+    #hasParticipated: boolean
+}
+
+class InternTrainer extends Trainer {
+    #hasSupervised: boolean
+}
+
+' Association between Center and Room
+Center "1" -- "0..*" Room : has
+
+' Association between Room and Session
+Room "1" -- "1" Session : contains
+
+' Association between Person and Session
+Person "1" -- "1..*" Session : participates in
+
+' Association between Trainer and Session
+Trainer "1" -- "0..1" Session : supervises
+
+' Inheritance from Person to Trainer
+Person <|-- Trainer
+
+' Inheritance from Person to Prospect
+Person <|-- Prospect
+
+' Inheritance from Trainer to InternTrainer
+Trainer <|-- InternTrainer
+
+@enduml
+
+---
+
+### Notes:
+- The `Person` class is the base class, with inheritance to `Trainer`, `Prospect`, and `InternTrainer`.
+- A `Session` can be either individual or group. For group sessions, a `type` is stored.
+- A `Session` has a `room` and `center` to determine its location.
+- A `Trainer` may supervise one or more group sessions.
+- A `Prospect` is a person who hasn't participated in any session yet.
+- An `InternTrainer` is a trainer who hasn't supervised any session yet.
+- All associations are modeled with appropriate multiplicities.
+

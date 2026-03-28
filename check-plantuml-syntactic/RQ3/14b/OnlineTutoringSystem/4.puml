@@ -1,0 +1,86 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Student {
+  - name: String
+  - email: String
+  + requestTutoring(subject: String, level: String, dateTime: DateTime): TutoringRequest
+  + payForSession(session: TutoringSession): void
+}
+
+class Tutor {
+  - name: String
+  - email: String
+  - bankAccount: String
+  + offerTutoring(subject: String, expertiseLevel: String, hourlyRate: Double): void
+  + setWeeklyAvailability(availability: Map<DayOfWeek, List<TimeRange>>): void
+  + confirmTutoringRequest(request: TutoringRequest): void
+  + suggestAlternativeSlot(request: TutoringRequest, newDateTime: DateTime): void
+}
+
+class TutoringRequest {
+  - student: Student
+  - tutor: Tutor
+  - subject: String
+  - level: String
+  - requestedDateTime: DateTime
+  + acceptRequest(): void
+  + declineRequest(): void
+}
+
+class TutoringSession {
+  - tutor: Tutor
+  - student: Student
+  - subject: String
+  - level: String
+  - dateTime: DateTime
+  - price: Double
+  + scheduleFollowUp(): void
+  + cancelSession(by: String): void
+  + calculateRefundPercentage(cancellationTime: DateTime): Double
+}
+
+class Payment {
+  - session: TutoringSession
+  - paymentMethod: String (e.g., "credit card", "wire transfer")
+  - amount: Double
+  - status: String (e.g., "pending", "completed")
+  + processPayment(): void
+}
+
+class TutorOfTheMonthAward {
+  - tutor: Tutor
+  - subject: String
+  - month: String
+  - awardDate: Date
+}
+
+Student "1" -- "0..*" TutoringRequest : makes
+Tutor "1" -- "0..*" TutoringRequest : receives
+TutoringRequest "1" -- "1" TutoringSession : leads to
+TutoringSession "1" -- "1" Payment : is paid for
+TutoringSession "1" -- "0..1" TutorOfTheMonthAward : may receive
+
+note right of TutoringSession
+  Cancellation policy:
+  - If student cancels <24h before: 75% charge
+  - If tutor cancels <24h before: 25% discount on next session
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Student`**: Represents registered students with basic info and can make tutoring requests.
+- **`Tutor`**: A tutor can be a student too. They provide personal details, set availability, and offer subjects with expertise levels and rates.
+- **`TutoringRequest`**: A request made by a student to a tutor, specifying the subject, level, and desired date/time.
+- **`TutoringSession`**: Once a request is confirmed, it becomes a session with a specific time, subject, and price. It also handles cancellations and refund policies.
+- **`Payment`**: Captures how the student pays for the session.
+- **`TutorOfTheMonthAward`**: Recognizes top tutors each month per subject.
+
+---
+
+Let me know if you'd like this diagram exported as an image or further extended with more detailed associations or methods!

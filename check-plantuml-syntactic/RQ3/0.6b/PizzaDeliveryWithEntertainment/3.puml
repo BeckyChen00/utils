@@ -1,0 +1,55 @@
+@startuml
+class Diagram {
+    class SystemRequirement {
+        #system requirement
+        string name;
+        #required components
+        string component1;
+        string component2;
+    }
+
+    class Component {
+        #component
+        string name;
+        #dependencies
+        string dependency1;
+        string dependency2;
+    }
+
+    class Dependency {
+        #dependency
+        string name;
+        #required components
+        string component1;
+        string component2;
+    }
+
+    class Requirement {
+        #requirement
+        string name;
+        #components
+        string component1;
+        string component2;
+    }
+
+    class ComponentSet {
+        #component set
+        string name;
+        #components
+        string component1;
+        string component2;
+    }
+
+    class ComponentGraph {
+        #graph
+        graph component1 -> component2;
+    }
+
+    #relationships
+    component1 --> component2;
+    component2 --> component3;
+    component3 --> component4;
+
+    #SystemRequirement --> ComponentSet;
+    #ComponentSet --> ComponentGraph;
+@enduml

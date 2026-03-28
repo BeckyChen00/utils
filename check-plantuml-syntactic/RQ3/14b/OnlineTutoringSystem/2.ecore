@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Award">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="awardId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tutorId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="month" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="email">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//bankAccount"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="bankAccount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="offerTutoring">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//subject" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="subject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="level">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Time" eType="#//requestedTime"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="requestedTime"/>
+  <eClassifiers xsi:type="ecore:EClass" name="status">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//tutorId"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//paymentId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="tutorId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//studentId"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="studentId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//sessionId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="sessionId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Double" eType="#//amount"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="time">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Double" eType="#//price"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="price"/>
+  <eClassifiers xsi:type="ecore:EClass" name="paymentId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="amount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="method">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Date" eType="#//timestamp"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="timestamp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Student">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creates" eType="#//TutoringRequest" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TutoringRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leadsTo" eType="#//TutoringSession" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tutor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receives" eType="#//TutoringRequest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receives" eType="#//Award" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TutoringSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generates" eType="#//Payment" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatesTo_" eType="#//Award" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+</ecore:EPackage>

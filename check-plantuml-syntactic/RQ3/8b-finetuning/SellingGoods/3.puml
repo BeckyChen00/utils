@@ -1,0 +1,82 @@
+@startuml
+enum OrderStatus {
+  Pending
+  PartiallyShipped
+  FullyShipped
+  Cancelled
+}
+enum DeliveryStatus {
+  Scheduled
+  InTransit
+  Delivered
+  Returned
+  Lost
+}
+class Customer {
+  customerName: String
+  vatNumber: String
+  shippingAddresses: List<Address>
+  +registerContact(contactInfo: String): void
+}
+class Address {
+  street: String
+  city: String
+  zipCode: String
+  country: String
+  +getFullAddress(): String
+}
+class Product {
+  productName: String
+  currentStockLevel: int
+  +checkAvailability(quantity: int): boolean
+}
+class Order {
+  orderDate: Date
+  totalAmount: double
+  taxRate: double
+  +validateOrder(): boolean
+  +applyDiscount(discountPercentage: double): void
+}
+class OrderItem {
+  product: Product
+  quantityRequested: int
+  quantityConfirmed: int
+  unitPrice: double
+}
+class Shipment {
+  shippingDate: Date
+  trackingCode: String
+  +packItems(items: List<OrderItem>): void
+  +submitForDelivery(): void
+}
+class Delivery {
+  destinationAddress: Address
+  deliveryStatus: DeliveryStatus
+  notes: String
+  +updateStatus(newStatus: DeliveryStatus): void
+  +recordReceipt(): void
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  totalAmount: double
+  +calculateTax(): double
+  +generateDocument(): String
+}
+class StockAdjustment {
+  adjustmentDate: Date
+  reason: String
+  +recordAdjustment(product: Product, quantity: int): void
+}
+Customer *-- "0..*" Address : shippingAddresses
+Customer --> "0..*" Order : placedOrders
+Order *-- "1..*" OrderItem : orderLines
+OrderItem --> "1" Product : orderedProduct
+OrderItem --> "0..1" Delivery : deliveredIn
+StockAdjustment --> "1..*" Product : adjustedProducts
+Customer --> "0..*" Invoice : receivedInvoices
+Invoice --> "1" Order : relatedOrder
+Shipment *-- "1..*" OrderItem : containedItems
+Shipment --> "1" Invoice : generatedInvoice
+Delivery --> "1" Shipment : trackedShipment
+@enduml

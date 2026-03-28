@@ -1,0 +1,81 @@
+@startuml
+enum PizzaCrustType {
+  ClassicItalian
+  DeepDish
+  CheeseCrust
+  ThinCrust
+  GlutenFree
+  StuffedCrust
+}
+enum OrderStatus {
+  Pending
+  InProgress
+  Completed
+}
+class User {
+  name: String
+  email: String
+  +createAccount(name: String, email: String): void
+  +updateProfile(newInfo: Map): void
+}
+class AppUser {
+  birthday: Date
+  address: String
+  +registerAccount(): void
+}
+class BusinessOwner {
+  linkedInProfileUrl: String
+  +registerRestaurants(restaurants: List<PizzaRestaurant>): void
+}
+class PizzaRestaurant {
+  name: String
+  zipCode: String
+  address: String
+  phoneNumber: String
+  website: String
+  openingHours: String
+  +addPizza(pizza: Pizza): void
+  +removePizza(pizza: Pizza): void
+}
+class Pizza {
+  name: String
+  crustType: PizzaCrustType
+  price: double
+  +getDescription(): String
+}
+class Order {
+  orderDate: Date
+  isEntertainmentOrder: boolean
+  requestedDurationMinutes: int
+  +placeOrder(pizzas: List<Pizza>, deliveryAddress: String): void
+  +cancelOrder(): void
+  +calculateTotalCost(): double
+}
+class DeliveryPerson {
+  isOnBreak: boolean
+  +assignOrder(order: Order): void
+  +completeDelivery(): void
+}
+class EntertainmentOrder {
+  entertainmentType: String
+  durationMinutes: int
+  +validateEntertainmentRequest(request: String): boolean
+}
+class Entertainer {
+  stageName: String
+  bio: String
+  pricePer30Minutes: double
+  +updateBio(newBio: String): void
+  +acceptAssignment(order: EntertainmentOrder): void
+  +rejectAssignment(): void
+}
+BusinessOwner --|> AppUser
+AppUser *-- "0..*" PizzaRestaurant : ownedRestaurants
+PizzaRestaurant *-- "0..*" Pizza : menuItems
+AppUser --> "0..*" Order : placedOrders
+Order --> "0..1" PizzaRestaurant : deliveredBy
+EntertainmentOrder --|> Order
+EntertainmentOrder *-- "1..*" Entertainer : assignedEntertainers
+Order --> "0..1" DeliveryPerson : assignedDriver
+PizzaRestaurant --> "0..*" Entertainer : hiredEntertainers
+@enduml

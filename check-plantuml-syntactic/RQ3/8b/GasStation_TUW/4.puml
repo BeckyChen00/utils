@@ -1,0 +1,50 @@
+
+@startuml
+class GasStation {
+  -id: int
+  -address: string
+  -fuelPumps: List<FuelPump>
+  +getFuelPumps(): List<FuelPump>
+}
+
+class FuelPump {
+  -id: int
+  -isSelfService: boolean
+  -fuels: List<Fuel>
+  +getFuels(): List<Fuel>
+}
+
+class Fuel {
+  -name: string
+  -octaneRating: double
+}
+
+class DailyFuelPrice {
+  -date: Date
+  -gasStation: GasStation
+  -fuel: Fuel
+  -pricePerLiter: double
+}
+
+class FuelPurchase {
+  -id: int
+  -fuelPump: FuelPump
+  -fuel: Fuel
+  -dailyFuelPrice: DailyFuelPrice
+  -litersDispensed: double
+}
+
+GasStation "1" -- "0..*" FuelPump : has
+FuelPump "1" -- "0..*" Fuel : offers
+GasStation "1" -- "0..*" DailyFuelPrice : archives
+Fuel "1" -- "0..*" DailyFuelPrice : applies to
+FuelPump "1" -- "0..*" FuelPurchase : is used for
+DailyFuelPrice "1" -- "0..*" FuelPurchase : is associated with
+@enduml
+
+### Explanation of Relationships:
+- **GasStation** contains multiple **FuelPumps**.
+- Each **FuelPump** can offer multiple **Fuels**.
+- A **DailyFuelPrice** is associated with a specific **GasStation** and a specific **Fuel**.
+- A **FuelPurchase** is made at a **FuelPump**, involves a **Fuel**, and is associated with a **DailyFuelPrice**.
+

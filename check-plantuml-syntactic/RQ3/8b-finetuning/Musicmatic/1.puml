@@ -1,0 +1,56 @@
+@startuml
+enum Genre {
+  Pop
+  Rock
+  HipHop
+}
+enum UserRole {
+  RegularUser
+  BusinessUser
+}
+enum SongType {
+  Single
+  Hit
+}
+class Song {
+  title: String
+  releaseYear: int
+  length: double
+  genre: Genre
+  +getDetails(): String
+}
+class Artist {
+  name: String
+  dateOfBirth: Date
+  websiteUrl: String
+  +getBiography(): String
+}
+class MusicCatalog {
+  catalogName: String
+  +addSong(song: Song, artist: Artist): boolean
+  +removeSong(songId: String): boolean
+}
+class User {
+  id: String
+  name: String
+  address: String
+  role: UserRole
+  +updateAddress(newAddress: String): void
+  +getPurchases(): List<Song>
+}
+class RegularUser {
+  +purchaseSong(songId: String, quantity: int): boolean
+  +requestAlbum(albumName: String, requestedType: SongType): boolean
+}
+class BusinessUser {
+  vatNumber: String
+  +uploadSong(song: Song): boolean
+  +getVatDetails(): String
+}
+RegularUser --|> User
+BusinessUser --|> User
+User --> "0..*" Song : purchases
+Song --> "1" Artist : primaryArtist
+MusicCatalog *-- "0..*" Song : collection
+RegularUser --> "0..*" Song : favorites
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+enum TravelStatus {
+  Planned
+  InProgress
+  AtHome
+  Expired
+}
+enum BookingStatus {
+  Confirmed
+  Cancelled
+  Paid
+}
+class Traveler {
+  travelerName: String
+  contactInfo: String
+  isActiveProfile: boolean
+  +updateContactInfo(newInfo: String): void
+  +cancelBooking(booking: Booking): void
+}
+class Booking {
+  bookingDate: String
+  startTime: String
+  endTime: String
+  status: BookingStatus
+  +confirmBooking(): void
+  +cancelBooking(): void
+  +calculateDuration(): int
+}
+class Trip {
+  tripName: String
+  destination: String
+  requiredStatuses: TravelStatus[]
+  +activateTrip(): void
+  +deactivateTrip(): void
+}
+class JourneySegment {
+  segmentName: String
+  departureTime: String
+  durationHours: int
+  waypoints: String[]
+  +getWaypointInfo(): String
+}
+class ReservationSystem {
+  systemName: String
+  +createBooking(traveler: Traveler, trip: Trip, dates: String): Booking
+  +manageBookings(bookings: Booking[]): void
+}
+class Cabin {
+  cabinId: String
+  cabinType: String
+  isAvailable: boolean
+  +assignToBooking(booking: Booking): void
+  +reserveCabin(booking: Booking, duration: int): boolean
+}
+Traveler "1" --> "*" Booking : bookings
+Booking "1" *-- "*" JourneySegment : segments
+JourneySegment "1" --> "1" Cabin : assignedCabin
+Booking "1" --> "1" Trip : targetTrip
+ReservationSystem "1" *-- "*" Booking : managedBookings
+ReservationSystem "1" *-- "*" Cabin : managedCabin
+@enduml

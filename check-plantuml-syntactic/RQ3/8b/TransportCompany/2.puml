@@ -1,0 +1,106 @@
+
+---
+
+
+@startuml
+
+' Entities
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+    + login(username: String, password: String): Boolean
+}
+
+class Planner extends Employee {
+    - fieldOfActivity: String
+}
+
+class AdministrativeStaff extends Employee {
+    - username: String
+    - password: String
+}
+
+class Customer {
+    - name: String
+    - billingAddress: String
+}
+
+class Vehicle {
+    - licensePlateNumber: String
+    - mileage: Integer
+    - type: String
+}
+
+class Repair {
+    - repairShopName: String
+    - repairShopAddress: String
+    - employee: Employee
+    - duration: Integer
+    - cost: Double
+}
+
+class Order {
+    - customer: Customer
+    - pickupAddress: String
+    - deliveryAddress: String
+    - comment: String
+    - startTime: DateTime
+    - endTime: DateTime
+    - assignedDriver: Driver
+    - assignedVehicle: Vehicle
+    - assignedPlanner: Planner
+}
+
+class Driver extends Employee {
+    - vehicle: Vehicle
+}
+
+class PartnerCompany {
+    - name: String
+    - address: String
+}
+
+' Relationships
+Employee <|-- Planner
+Employee <|-- AdministrativeStaff
+Employee <|-- Driver
+
+Customer "1" -- "1" Order : has
+Order "1" -- "1" Customer : belongs to
+Order "1" -- "1" Driver : assigned to
+Order "1" -- "1" Vehicle : uses
+Order "1" -- "1" Planner : assigned by
+Order "1" -- "1" Repair : may have
+PartnerCompany "1" -- "1" Order : may be from
+
+@enduml
+
+---
+
+### 📌 Explanation of the Diagram:
+
+- **Employees** are a base class with common attributes (`name`, `socialSecurityNumber`).
+  - **Planners** and **AdministrativeStaff** inherit from `Employee`.
+  - **Drivers** also inherit from `Employee` and have a relationship with `Vehicle`.
+
+- **Customers** have details like `name` and `billingAddress`.
+
+- **Vehicles** are categorized by type and have attributes like `licensePlateNumber` and `mileage`.
+
+- **Repairs** are associated with a vehicle, a repair shop, an employee, and have cost and duration.
+
+- **Orders** are central to the system and link:
+  - To a **customer**
+  - To a **driver**
+  - To a **vehicle**
+  - To a **planner**
+  - May have a **repair**
+
+- **PartnerCompanies** can place orders as well.
+
+---
+
+### 🔧 How to Use
+
+
+Let me know if you'd like a visual image of this diagram!

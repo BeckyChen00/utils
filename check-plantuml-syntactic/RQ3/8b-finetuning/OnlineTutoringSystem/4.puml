@@ -1,0 +1,47 @@
+@startuml
+enum SessionStatus {
+  Scheduled
+  InProgress
+  Completed
+  Cancelled
+}
+class User {
+  name: String
+  email: String
+  +register(): void
+}
+class Tutor {
+  hourlyRates: double[]
+  subjectExpertises: String[]
+  weeklyAvailability: Date[]
+  +validateRatings(ratingCount: int, averageScore: double): boolean
+  +isAvailable(timeSlot: Date): boolean
+}
+class Student {
+  +requestTutoring(budget: double, subject: String): void
+}
+class TutoringSession {
+  subject: String
+  startDate: Date
+  status: SessionStatus
+  +updateStatus(newStatus: SessionStatus): void
+  +cancelSession(cancellationReason: String): void
+  +generateInvoice(): Invoice
+}
+class Invoice {
+  totalAmount: double
+  paymentMethod: String
+  +processPayment(): boolean
+}
+class BankingAccount {
+  balance: double
+  +verifyBalance(): boolean
+  +transferFunds(amount: double): boolean
+}
+Tutor --|> User
+Student --|> User
+Tutor *-- "0..*" TutoringSession : offeredSessions
+TutoringSession *-- "1" Invoice : generatedInvoice
+Tutor *-- "1" BankingAccount : linkedBankAccount
+Student --> "0..*" TutoringSession : enrolledSessions
+@enduml

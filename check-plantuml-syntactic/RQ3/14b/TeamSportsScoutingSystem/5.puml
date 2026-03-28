@@ -1,0 +1,100 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Player {
+  -id: int
+  -name: String
+  -position: String (e.g., GK, LB)
+  -attributes: Map<String, Integer>
+}
+
+class PlayerProfile {
+  -id: int
+  -targetPosition: String
+  -requiredAttributes: Map<String, Integer>
+}
+
+class Scout {
+  -id: int
+  -name: String
+  -role: String
+}
+
+class HeadScout {
+  -id: int
+  -name: String
+}
+
+class HeadCoach {
+  -id: int
+  -name: String
+}
+
+class Director {
+  -id: int
+  -name: String
+}
+
+class ScoutingAssignment {
+  -id: int
+  -player: Player
+  -scout: Scout
+  -dateAssigned: Date
+  -status: String (e.g., pending, completed)
+}
+
+class ScoutingReport {
+  -id: int
+  -player: Player
+  -scout: Scout
+  -pros: String
+  -cons: String
+  -recommendation: String (e.g., key player, not a good signing)
+  -dateSubmitted: Date
+}
+
+class LongList {
+  -id: int
+  -players: List<Player>
+}
+
+class ShortList {
+  -id: int
+  -players: List<Player>
+}
+
+class Offer {
+  -id: int
+  -player: Player
+  -director: Director
+  -status: String (e.g., made, accepted, rejected)
+  -dateMade: Date
+}
+
+Player "1" --> "0..*" ScoutingAssignment : assigned to
+Player "1" --> "0..*" ScoutingReport : reported by
+PlayerProfile "1" --> "0..*" Player : matches profile
+Scout "1" --> "0..*" ScoutingAssignment : performs
+Scout "1" --> "0..*" ScoutingReport : submits
+HeadScout "1" --> "1" ScoutingAssignment : assigns
+HeadCoach "1" --> "0..*" PlayerProfile : creates
+HeadCoach "1" --> "0..*" ShortList : manages
+Director "1" --> "0..*" Offer : makes
+LongList "1" --> "0..*" Player : contains
+ShortList "1" --> "0..*" Player : contains
+ScoutingAssignment "1" --> "1" ScoutingReport : results in
+@enduml
+
+---
+
+### 📌 Explanation of Key Relationships:
+
+- A **Player** can be assigned multiple **ScoutingAssignments**.
+- A **Scout** can submit multiple **ScoutingReports**.
+- A **PlayerProfile** may match multiple **Players**.
+- A **HeadCoach** creates **PlayerProfiles** and manages the **ShortList**.
+- A **HeadScout** assigns **ScoutingAssignments** and submits **ScoutingReports**.
+- A **Director** makes **Offers** for players who are recommended for signing.
+- A **LongList** contains multiple **Players**, which are later moved to the **ShortList** after evaluation.
+

@@ -1,0 +1,34 @@
+@startuml
+enum LifeStage {
+  Juvenile
+  Fruitarian
+  Adolescence
+  Ophiopogon
+  Decapodellidae
+  Pteropod
+  Coelenterate
+  Benthic
+  Zooplankton
+  Chelopod
+  Cnidarian
+  Mollusca
+}
+enum LifeCyclePhase {
+  Emergence
+  EarlyMictichytosis
+  Migration
+  Feeding
+  Reproduction
+  Aquatic
+  Sedentary
+}
+class MarineLifeEntity {
+  name: String
+  lifeStage: LifeStage
+  currentLifeCyclePhases: LifeCyclePhase[]
+  +getUniqueIdentifier(): String
+  +updateStage(phase: LifeCyclePhase): void
+  +getLifeCycleSummary(): String
+}
+MarineLifeEntity "1" *-- "1" LifeCyclePhase : currentLifeCyclePhase
+@enduml

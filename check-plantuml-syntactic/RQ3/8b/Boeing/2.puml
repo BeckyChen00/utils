@@ -1,0 +1,60 @@
+
+@startuml
+
+' Define classes
+class Contract {
+  +id: int
+  +date: date
+  +salesperson: Salesperson
+  +acquisitions: List<Acquisition>
+  +relatedAirline: Airline
+}
+
+class Acquisition {
+  +id: int
+  +contract: Contract
+  +airplaneModel: String
+  +price: double
+  +options: List<String>
+  +deliveryDate: date
+}
+
+class Salesperson {
+  +id: int
+  +name: String
+  +contracts: List<Contract>
+}
+
+class Airline {
+  +id: int
+  +name: String
+  +parentAirline: Airline
+  +childrenAirlines: List<Airline>
+}
+
+class Airplane {
+  +id: int
+  +model: String
+  +description: String
+}
+
+' Relationships
+Contract "1" -- "0..*" Acquisition : consists of
+Contract "1" -- "1" Salesperson : managed by
+Salesperson "1" -- "0..*" Contract : manages
+Airline "1" -- "0..*" Airline : parent-child (one-way)
+Airline "1" -- "0..*" Acquisition : buyer of
+Acquisition "1" -- "1" Airplane : specifies model
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **`Contract`**: Represents a sales contract between Boeing and an airline. It contains multiple acquisitions, a salesperson, and optionally a related airline.
+- **`Acquisition`**: Represents a specific airplane purchase under a contract. It includes details like model, price, options, and delivery date.
+- **`Salesperson`**: Manages one or more contracts. A salesperson may change over time but is always assigned to a contract.
+- **`Airline`**: Represents an airline company. It has a parent-child relationship with other airlines to track ownership structures.
+- **`Airplane`**: Represents the model of the aircraft being sold.
+

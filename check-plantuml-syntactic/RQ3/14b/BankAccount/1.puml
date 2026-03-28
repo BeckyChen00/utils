@@ -1,0 +1,43 @@
+
+@startuml
+class Customer {
+  - firstName: String
+  - lastName: String
+  + addAccount(account: Account): void
+  + removeAccount(account: Account): void
+}
+
+class Branch {
+  - name: String
+  - address: String
+}
+
+class Account {
+  - accountNumber: int
+  - balance: double
+  + deposit(amount: double): void
+  + withdraw(amount: double): void
+}
+
+class CurrentAccount {
+  - overdraftLimit: double
+  + applyOverdraft(): void
+}
+
+class SavingsAccount {
+  + calculateInterest(): double
+}
+
+Customer "1" *-- "1..5" Account : owns
+Branch "1" *-- "*" Account : contains
+Account <|-- CurrentAccount
+Account <|-- SavingsAccount
+@enduml
+
+### Explanation:
+- **Customer** has a first and last name, and can have between 1 to 5 accounts.
+- **Branch** holds multiple accounts.
+- **Account** is the base class with common attributes like `accountNumber` and `balance`, along with basic operations like `deposit` and `withdraw`.
+- **CurrentAccount** and **SavingsAccount** are subclasses of **Account**, each with their own specific behavior (e.g., `overdraftLimit` for current accounts and `calculateInterest` for savings accounts).
+- The multiplicity between `Customer` and `Account` is `1..5`, meaning a customer must have at least one and no more than five accounts.
+

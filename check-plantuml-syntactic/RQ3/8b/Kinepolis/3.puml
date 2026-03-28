@@ -1,0 +1,100 @@
+
+@startuml
+
+class Cinema {
+  - name: String
+  - address: String
+  - copies: Set<MovieCopy>
+}
+
+class Theatre {
+  - name: String
+  - cinema: Cinema
+  - seats: Integer
+}
+
+class Movie {
+  - title: String
+  - duration: Integer
+}
+
+class MovieCopy {
+  - id: String
+  - movie: Movie
+  - cinema: Cinema
+  - currentTheatre: Theatre
+}
+
+class Show {
+  - id: String
+  - startTime: DateTime
+  - endTime: DateTime
+  - movieCopy: MovieCopy
+  - theatre: Theatre
+  - isPublished: Boolean
+}
+
+class Reservation {
+  - id: String
+  - show: Show
+  - customer: Customer
+  - seatNumber: Integer
+  - isCancelled: Boolean
+  - reservationTime: DateTime
+}
+
+class Offer {
+  - id: String
+  - show: Show
+  - newShow: Show
+  - offerTime: DateTime
+  - expirationTime: DateTime
+  - status: Enum("Pending", "Accepted", "Declined", "Expired")
+}
+
+class Customer {
+  - id: String
+  - name: String
+  - email: String
+  - creditCard: CreditCard
+}
+
+class CreditCard {
+  - cardNumber: String
+  - expiryDate: Date
+  - cvv: String
+}
+
+class Ticket {
+  - id: String
+  - show: Show
+  - customer: Customer
+  - seatNumber: Integer
+  - isAnonymous: Boolean
+  - isRefundable: Boolean
+}
+
+' Associations
+
+Cinema "1" -- "0..*" Cinema : has
+Cinema "1" -- "1..*" Theatre : has
+Theatre "1" -- "1" MovieCopy : uses
+Movie "1" -- "0..*" MovieCopy : has
+MovieCopy "1" -- "1" Show : has
+Show "1" -- "0..*" Reservation : has
+Show "1" -- "0..*" Offer : can offer
+Customer "1" -- "0..*" Reservation : makes
+Customer "1" -- "0..*" Ticket : buys
+Show "1" -- "0..*" Ticket : has
+Ticket "1" -- "1" Show : belongs to
+
+@enduml
+
+### Explanation of Key Relationships:
+- A **Cinema** owns multiple **Theatres**, and each **Theatre** has a certain number of **seats**.
+- A **MovieCopy** is tied to a specific **Movie** and located in a **Cinema**. It can be moved between theatres.
+- A **Show** is associated with one **MovieCopy** and takes place in a specific **Theatre**.
+- A **Reservation** is made by a **Customer** for a specific **Show** and includes a **seat number**.
+- If a **Show** is cancelled, an **Offer** may be created for another **Show** (same movie, different theatre).
+- **Tickets** can be issued either via **online reservations** or at the **ticketing desk**, and they are assigned a **seat number**.
+

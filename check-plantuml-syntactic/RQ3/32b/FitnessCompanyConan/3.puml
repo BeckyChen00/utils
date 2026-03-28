@@ -1,0 +1,80 @@
+
+@startuml
+
+' Define classes and their attributes
+class Person {
+    +firstName: String
+    +lastName: String
+    +birthDate: Date
+}
+
+class Center {
+    +name: String (unique)
+    +address: String
+}
+
+class Room {
+    +number: Integer
+    +maxCapacity: Integer
+}
+
+class Session {
+    +date: Date
+    +startTime: Time
+}
+
+class GroupSession {
+    +type: String
+}
+
+class IndividualSession {}
+
+class Trainer {
+    +diploma: String
+}
+
+class Participant {}
+
+' Associations and relationships
+
+Person <|-- Trainer : is a
+Person <|-- Participant : is a
+
+Center "1" *-- "many" Room : has
+Room "1" *-- "many" Session : can host
+
+Session <|-- IndividualSession
+Session <|-- GroupSession
+
+GroupSession "1" --> "1" Trainer : supervised by
+IndividualSession "0..*" --> "1" Participant : attended by
+GroupSession "0..*" --> "1" Participant : attended by
+GroupSession "0..*" --> "1" Session : is a
+IndividualSession "0..*" --> "1" Session : is a
+
+' Note about unique constraints and rules
+note right of Person
+  - Combination of firstName, lastName, and birthDate is unique.
+end note
+
+note right of Session
+  - At most one session per room per start time in a center.
+  - Sessions can have same date/time in different rooms or centers.
+end note
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Person`**: Base class for all people. Attributes include name and birth date.
+- **`Trainer` / `Participant`**: Specializations of `Person`. A person can be both a trainer and participant.
+- **`Center` / `Room`**: Centers contain rooms. Rooms have a number and capacity.
+- **`Session`**: Abstract base class with date and start time.
+- **`IndividualSession` / `GroupSession`**: Two types of sessions. Only group sessions require a trainer.
+- **Relationships**:
+  - A `Room` hosts multiple `Session`s.
+  - A `GroupSession` has exactly one `Trainer`.
+  - A `Session` can have many `Participants`.
+

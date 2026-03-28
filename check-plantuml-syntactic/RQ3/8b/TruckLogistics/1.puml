@@ -1,0 +1,80 @@
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class Location {
+  - String address
+  * Driver driver
+  * Vehicle vehicle
+}
+
+class Driver {
+  - String firstName
+  - String lastName
+  * List<Order> orders
+  * Vehicle vehicle
+}
+
+class Vehicle {
+  - String vehicleNumber
+  * Driver driver
+  + Truck truck
+  + Car car
+  + Van van
+}
+
+class Order {
+  - Date executionDate
+  - Location origin
+  - Location destination
+  * List<Driver> drivers
+}
+
+class Truck {
+  - int weight
+}
+
+class Car {
+  - int numberOfSeats
+}
+
+class Van {
+  - int capacity
+}
+
+' Association between Location and Driver
+Location "1" -- "1" Driver : has
+
+' Association between Location and Vehicle
+Location "1" -- "1" Vehicle : has
+
+' Association between Driver and Vehicle
+Driver "1" -- "1" Vehicle : drives
+
+' Association between Driver and Order
+Driver "1" -- "1" Order : carries
+
+' Association between Order and Location
+Order "1" -- "1" Location : origin
+
+Order "1" -- "1" Location : destination
+
+' Association between Order and Driver (many to many)
+Order "1" -- "0..*" Driver : assigned to
+
+' Inheritance for Vehicles
+Vehicle <|-- Truck
+Vehicle <|-- Car
+Vehicle <|-- Van
+
+@enduml
+
+### Explanation:
+- `Location` contains an address, a driver, and a vehicle.
+- `Driver` has first and last names, a list of orders, and a vehicle.
+- `Vehicle` is abstract with a vehicle number and can be a `Truck`, `Car`, or `Van`.
+- `Order` has an execution date, origin, destination, and one or more drivers.
+- Each `Driver` can carry at most one order at a time.
+- A vehicle can be driven by up to one driver.
+- The associations reflect the constraints described in the system requirements.
+

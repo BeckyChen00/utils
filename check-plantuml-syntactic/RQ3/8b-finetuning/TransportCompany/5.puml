@@ -1,0 +1,73 @@
+@startuml
+enum VehicleType {
+  REFRIGERATED
+  SMALL_VAN
+  LOADING_PLATFORM
+  BOX_TRUCK
+}
+enum OrderStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+class Person {
+  name: String
+  socialSecurityNumber: String
+  +calculateAge(): int
+}
+class Employee {
+  isAvailable: boolean
+  +login(username: String, password: String): boolean
+}
+class Planner {
+  specialization: String
+}
+class AdministrativeStaff {
+  role: String
+}
+class Driver {
+  +completeOrder(order: Order): void
+}
+class Customer {
+  name: String
+  billingAddress: String
+}
+class Vehicle {
+  licensePlateNumber: String
+  mileage: int
+  type: VehicleType
+  +recordMileage(km: int): void
+}
+class RepairJob {
+  repairDescription: String
+  shopName: String
+  shopAddress: String
+  durationHours: int
+  cost: double
+  technicianName: String
+  +estimateCost(): double
+}
+class Order {
+  orderDate: Date
+  status: OrderStatus
+  comment: String
+  +assignDriver(driver: Driver): void
+  +getStartTimestamp(): Date
+  +getEndTimestamp(): Date
+}
+class OrderItem {
+  weightKg: int
+  isFragile: boolean
+  +getItemDescription(): String
+}
+Customer *-- "0..*" Order : placedOrders
+Customer --> "0..*" Vehicle : assignedVehicles
+Driver --> "0..*" Order : executedOrders
+Planner --> "0..*" Order : plannedOrders
+Order *-- "1..*" OrderItem : includesItems
+Order --> "1..*" Vehicle : assignedVehicles
+Order --> "0..1" RepairJob : requiresRepair
+Planner --> "1" Employee : supervisedBy
+AdministrativeStaff -- Person
+@enduml

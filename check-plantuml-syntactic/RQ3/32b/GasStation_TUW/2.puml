@@ -1,0 +1,56 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class GasStation {
+    - id: String (unique)
+    - address: String
+}
+
+class FuelPump {
+    - number: Integer
+    - isSelfService: Boolean
+}
+
+class Fuel {
+    - name: String (unique)
+    - octaneRating: Double
+}
+
+class DailyPrice {
+    - date: Date
+    - pricePerLiter: Double
+}
+
+class FuelPurchase {
+    - id: String (unique)
+    - litersDispensed: Double
+}
+
+' Associations and relationships
+
+GasStation "1" *-- "0..12" FuelPump : has
+FuelPump "1" --> "1..*" Fuel : offers
+GasStation "1" --> "0..*" DailyPrice : archives
+DailyPrice "1" --> "1" Fuel : for
+DailyPrice "1" --> "1" GasStation : at
+FuelPurchase "1" --> "1" FuelPump : at
+FuelPurchase "1" --> "1" Fuel : of
+FuelPurchase "1" --> "1" DailyPrice : with
+FuelPurchase "1" --> "1" GasStation : in
+
+@enduml
+
+---
+
+### Explanation:
+
+- **GasStation**: Represents a single gas station with a unique ID and address.
+- **FuelPump**: Each pump has a number and is marked as self-service or not. A gas station can have up to 12 fuel pumps.
+- **Fuel**: Describes the type of fuel by name and octane rating.
+- **DailyPrice**: Tracks the price per liter of a specific fuel at a specific gas station on a specific date.
+- **FuelPurchase**: Records a purchase including which fuel was bought at which pump, using which daily price, and how many liters were dispensed.
+
+---
+

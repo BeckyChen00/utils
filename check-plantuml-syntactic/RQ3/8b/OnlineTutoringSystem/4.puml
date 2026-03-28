@@ -1,0 +1,99 @@
+
+---
+
+
+@startuml
+skinparam monochrome true
+skinparam noteStyle rectangle
+skinparam classAttributeIconSize 0
+
+' Entities
+class Student {
+    +name: String
+    +email: String
+    -creditCardDetails: String
+    -wireTransferDetails: String
+    +browseTutoringOffers(subject: String)
+    +makeRequest(tutor: Tutor, subject: String, level: String, date: Date, time: Time)
+    +payForSession(price: Double)
+}
+
+class Tutor {
+    +name: String
+    +email: String
+    +bankAccount: String
+    +subjects: List<String>
+    +expertiseLevel: String
+    +hourlyPrice: Double
+    +weeklyAvailability: List<TimeSlot>
+    +confirmRequest(request: Request)
+    +cancelSession(session: Session)
+    +offerDiscountToStudent(student: Student, discountPercentage: Double)
+}
+
+class TutoringOffer {
+    +subject: String
+    +level: String
+    +hourlyPrice: Double
+    +availability: List<TimeSlot>
+    +tutor: Tutor
+}
+
+class Request {
+    +student: Student
+    +tutor: Tutor
+    +subject: String
+    +level: String
+    +date: Date
+    +time: Time
+    +status: String
+}
+
+class Session {
+    +date: Date
+    +time: Time
+    +tutor: Tutor
+    +student: Student
+    +subject: String
+    +level: String
+    +price: Double
+    +status: String
+}
+
+class TimeSlot {
+    +startTime: Time
+    +endTime: Time
+    +dayOfWeek: String
+}
+
+' Relationships
+Student --> TutoringOffer : "browses"
+Student --> Request : "makes"
+Student --> Session : "participates in"
+Tutor --> TutoringOffer : "offers"
+Tutor --> Request : "responds to"
+Tutor --> Session : "conducts"
+Request --> Session : "results in"
+TutoringOffer --> Request : "is requested from"
+Session --> Payment : "requires"
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements
+
+- **Student**: Has personal details, can browse offers, make requests, and pay for sessions.
+- **Tutor**: Has personal details, offers tutoring in specific subjects, confirms or modifies requests, and manages session cancellations.
+- **TutoringOffer**: Represents a tutor's availability and pricing for a particular subject and level.
+- **Request**: A student’s request for a tutoring session with specific details.
+- **Session**: A confirmed tutoring session with time, participants, and price.
+- **TimeSlot**: Represents the time and day when a tutor is available.
+- **Payment**: Not explicitly modeled but implied through `Student.payForSession()`.
+
+---
+
+### 📝 Notes:
+- The diagram uses basic UML syntax. For more advanced features like inheritance, associations, or multiplicity, you can expand this further.
+
+Let me know if you'd like an extended version with more details, such as associations with payment methods or detailed multiplicities!

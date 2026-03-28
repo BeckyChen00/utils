@@ -1,0 +1,19 @@
+@startuml
+    classDiagram
+        [System Requirement]
+        User --> Service1 {Use service1 to process data}
+        Service1 --> Service2 {Service1 processes data for Service2}
+        Service2 --> Service3 {Service2 processes data for Service3}
+        Service3 --> System {Service3 provides system services}
+
+        # Relationships between classes
+        User <<Service1
+        Service1 <<Service2
+        Service2 <<Service3
+        Service3 <<System
+
+        # Dependencies and Connections
+        Service1 has Service2
+        Service2 has Service3
+        Service3 has System
+@enduml

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keyGenerator" eType="#//KeyPairGenerator" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KeyPairGenerator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EncryptionVault">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedPolicy" eType="#//SecurityPolicy" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeSession" eType="#//EncryptionSession" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedVaults" eType="#//EncryptionVault" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedSessions" eType="#//EncryptionSession" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditHistory" eType="#//AuditLog" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityPolicy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EncryptionSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoringAgent" eType="#//MonitoringAgent" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReport" eType="#//ComplianceReport" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringAgent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="auditedProcessors" eType="#//FileProcessor" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FileProcessor"/>
+</ecore:EPackage>

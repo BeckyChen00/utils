@@ -1,0 +1,43 @@
+@startuml
+enum FuelType {
+  Regular
+  Premium
+  Diesel
+  LPG
+}
+class GasStation {
+  +stationAddress: String
+  +maxPumps: int
+  +totalPumps: int
+  +isSelfService: boolean
+  +getTotalNumberPumps(): int
+}
+class FuelPump {
+  +pumpNumber: int
+  +isSelfService: boolean
+  +fuelOfferings: Set<Fuel>
+}
+class Fuel {
+  +fuelType: FuelType
+  +octaneRating: double
+}
+class DailyPrice {
+  +priceDate: Date
+  +fuel: Fuel
+  +pricePerLiter: double
+}
+class FuelPurchase {
+  +purchaseId: String
+  +litersDispensed: double
+  +purchaseTime: Date
+  +pump: FuelPump
+  +price: DailyPrice
+}
+GasStation *-- "0..*" FuelPump : pumps
+FuelPump --> "0..*" Fuel : offeredFuels
+FuelPump --> "0..*" DailyPrice : recordedPrices 'opposite: applicablePump
+FuelPurchase --> "1" FuelPump : usedPump
+FuelPurchase --> "1" DailyPrice : appliedPrice
+FuelPurchase --> "1" Fuel : purchasedFuel
+GasStation --> "0..*" DailyPrice : recordedPrices 'opposite: applicableStation
+@enduml

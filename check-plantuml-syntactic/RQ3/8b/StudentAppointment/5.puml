@@ -1,0 +1,54 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteStyle box
+
+class Student {
+  +String studentID
+  +String name
+  +List<Course> coursesRegistered
+  +requestAppointment(course: Course, date: Date, time: Time)
+}
+
+class TeachingAssistant {
+  +String taID
+  +String name
+  +List<Course> coursesTaught
+  +acceptAppointment(appointment: Appointment)
+  +rejectAppointment(appointment: Appointment)
+}
+
+class Course {
+  +String courseCode
+  +String courseName
+  +List<Student> studentsRegistered
+  +List<TeachingAssistant> teachingAssistants
+}
+
+class Appointment {
+  +String appointmentID
+  +Date date
+  +Time time
+  +Course course
+  +TeachingAssistant ta
+  +Student student
+  +boolean status // e.g., pending, accepted, rejected
+}
+
+Student "1" -- "many" Course : registeredFor
+Course "1" -- "1" TeachingAssistant : hasTA
+Course "1" -- "many" Appointment : hasAppointments
+TeachingAssistant "1" -- "many" Appointment : handles
+Student "1" -- "1" Appointment : requests
+Appointment "1" -- "1" Course : forCourse
+Appointment "1" -- "1" TeachingAssistant : withTA
+Appointment "1" -- "1" Student : byStudent
+
+@enduml
+
+### Explanation of Relationships:
+- **Student** can request an **Appointment** only if they are registered for a **Course**.
+- A **Course** has one or more **Teaching Assistants** who can handle appointments.
+- An **Appointment** is associated with exactly one **Course**, one **Teaching Assistant**, and one **Student**.
+- The **Appointment** has a status (e.g., pending, accepted, rejected) to manage the flow of requests.
+

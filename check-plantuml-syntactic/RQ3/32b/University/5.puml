@@ -1,0 +1,99 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class University {
+    +String name
+    +List<Faculty> faculties
+}
+
+class Faculty {
+    +String name
+    +Employee dean
+    +University university
+}
+
+class Institute {
+    +String name
+    +Address address
+    +Faculty faculty
+}
+
+class Address {
+    +String street
+    +String city
+    +String postalCode
+}
+
+class Employee {
+    +int ssn
+    +String name
+    +String email
+    +University university
+    +int totalEmployees
+}
+
+abstract class StaffType {
+}
+
+class ResearchStaff extends StaffType {
+}
+
+class AdministrativeStaff extends StaffType {
+}
+
+class ResearchAssistant {
+    +String fieldOfResearch
+    +List<Project> projects
+    +List<Course> coursesTaught
+    +Institute institute
+    +StaffType staffType
+}
+
+class Project {
+    +String name
+    +Date startDate
+    +Date endDate
+    +int hoursAssigned
+    +ResearchAssistant ra
+}
+
+class Course {
+    +String id
+    +String name
+    +int weeklyHours
+    +ResearchAssistant lecturer
+}
+
+' Define relationships
+
+University "1" *-- "many" Faculty : has
+Faculty "1" *-- "many" Institute : contains
+Faculty "1" --> "1" Employee : headed by
+Employee "many" ..> "1" University : belongs to
+
+Institute "1" --> "many" ResearchAssistant : assigns
+ResearchAssistant "many" ..> "1" Institute : assigned to
+
+Employee "many" ..|> "1" StaffType : has type
+ResearchAssistant "1" ..|> "1" StaffType : as
+
+ResearchAssistant "many" *-- "many" Project : involved in
+Project "many" ..> "1" ResearchAssistant : involves
+
+ResearchAssistant "many" *-- "many" Course : teaches
+Course "many" ..> "1" ResearchAssistant : taught by
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+- **University**, **Faculty**, and **Institute** form a hierarchical structure.
+- Each **Faculty** has one **Dean** (an `Employee`).
+- **Employees** are categorized into **ResearchStaff** and **AdministrativeStaff**.
+- **ResearchAssistants** can be assigned to an **Institute**, participate in **Projects**, and teach **Courses**.
+- **Courses** are uniquely identified and linked to **Lecturers** (RAs who teach).
+- The diagram uses UML syntax for inheritance (`..|>`), associations (`-->`, `*--`), and composition where appropriate.
+

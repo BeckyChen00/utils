@@ -1,0 +1,99 @@
+
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam classAttributeIconColor blue
+
+class Sensor {
+  - vendorId: String
+  - description: String
+  - unit: Unit
+  - roomId: String
+  + getLatestValue(): Value
+}
+
+enum Unit {
+  CELSIUS
+  WATT
+}
+
+class TemperatureSensor {
+  - minValue: Float
+  - maxValue: Float
+}
+
+class PowerSensor {
+  - totalConsumption: Float
+}
+
+class Room {
+  - id: String
+  - description: String
+}
+
+class Apartment {
+  - address: String
+  - rooms: List<Room>
+  - email: String
+  - inhabitants: List<Inhabitant>
+}
+
+class Inhabitant {
+  - username: String
+  - password: String
+  - isAdmin: Boolean
+}
+
+class SensorController {
+  - sensors: List<Sensor>
+  - apartments: List<Apartment>
+  + addSensor(sensor: Sensor)
+  + removeSensor(sensor: Sensor)
+  + login(username: String, password: String): Boolean
+  + querySensorValues(sensorId: String): List<Value>
+  + setThreshold(sensorId: String, threshold: Float)
+  + configureSensor(sensorId: String, newRoomId: String, newDescription: String)
+}
+
+class Value {
+  - timestamp: DateTime
+  - value: Float
+}
+
+class EMonitor {
+  + checkThresholds(apartment: Apartment)
+  + sendAlert(email: String, message: String)
+}
+
+class System {
+  + start()
+  + stop()
+}
+
+' Relationships
+Sensor <|-- TemperatureSensor
+Sensor <|-- PowerSensor
+
+Apartment "1" *-- "many" Room
+Apartment "1" *-- "many" Inhabitant
+Apartment "1" *-- "1" SensorController
+
+SensorController "1" *-- "many" Sensor
+SensorController "1" *-- "many" Apartment
+SensorController "1" *-- "many" Value
+
+Sensor "1" *-- "many" Value
+
+Inhabitant "1" *-- "many" Sensor (if admin)
+
+EMonitor --> SensorController
+@enduml
+
+---
+
+### 📌 Notes:
+- The `Inhabitant` can be associated with a `Sensor` only if they have administrative rights.
+- The `SensorController` acts as a central hub managing `Sensors`, `Apartments`, and `Values`.
+- `EMonitor` is an external system that interacts with the `SensorController` to monitor thresholds and send alerts.
+- `Value` is used to store sensor readings with timestamps.
+- `Unit` is modeled as an enum with two possible values: `CELSIUS` and `WATT`.
+

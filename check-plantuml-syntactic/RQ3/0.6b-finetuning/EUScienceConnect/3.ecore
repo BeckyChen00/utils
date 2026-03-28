@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzer" eType="#//SignalAnalyzer" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SignalAnalyzer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedReadings" eType="#//SensorReading" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="#//WarningRule" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WarningRule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredNodes" eType="#//SensorNode" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capturedSignals" eType="#//RadioSignal" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logHistory" eType="#//MaintenanceLog" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataProcessor" eType="#//DataProcessor" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedReadings" eType="#//SignalReading" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RadioSignal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReadings" eType="#//SensorReading" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="combinedReadings" eType="#//SensorReading" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataProcessor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorReading">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="correlatedSignals" eType="#//RadioSignal" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SignalReading"/>
+</ecore:EPackage>

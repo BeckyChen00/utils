@@ -1,0 +1,63 @@
+@startuml
+enum SystemType {
+  StandardStorage
+  HighCapacity
+  Refrigerated
+  VacuumSealed
+}
+enum ProductionPhase {
+  Planning
+  Manufacturing
+  Packaging
+  Shipping
+}
+enum ProductStatus {
+  Available
+  InStorage
+  PendingShipment
+  Discontinued
+}
+class CustomerOrder {
+  orderNumber: String
+  orderDate: Date
+  priorityLevel: int
+  +calculateTotalCost(): double
+  +updateStatus(newStatus: ProductStatus): void
+}
+class ProductItem {
+  itemName: String
+  skuCode: String
+  description: String
+  unitPrice: double
+  stockQuantity: int
+  reorderThreshold: int
+  currentStatus: ProductStatus
+  +increaseStock(amount: int): void
+  +decreaseStock(amount: int): void
+  +checkReorder(): boolean
+  +updateStatus(newStatus: ProductStatus): void
+}
+class Manufacturer {
+  companyName: String
+  contactEmail: String
+  +getContactDetails(): String
+  +verifySupplierName(): boolean
+}
+class ProductionBatch {
+  productionDate: Date
+  phase: ProductionPhase
+  isPending: boolean
+  +releaseBatch(): void
+  +suspendBatch(): void
+}
+class WarehouseLocation {
+  fullAddress: String
+  isAided: boolean
+  +getDeliveryAddress(): String
+  +getReceptionAddress(): String
+}
+CustomerOrder *-- "1" ProductItem : orderedProduct
+ProductItem *-- "1" Manufacturer : manufacturer
+ProductionBatch --> "1" WarehouseLocation : temporaryLocation
+ProductionBatch --> "1" ProductItem : manufacturedProduct 'opposite: manufacturingBatches
+@enduml

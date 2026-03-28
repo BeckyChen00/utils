@@ -1,0 +1,18 @@
+@startuml
+class QuerySession {
+  isActive: boolean
+  +calculateStatus(): RatingStatus
+  +getSessionId(): String
+}
+class Thought {
+  isExpressed: boolean
+  +getThoughtId(): String
+}
+class RatingStatus {
+  score: int
+  confidenceLevel: int
+  +isConfident(): boolean
+}
+QuerySession *-- "0..*" Thought : storedThoughts
+Thought --> "1" RatingStatus : currentRating
+@enduml

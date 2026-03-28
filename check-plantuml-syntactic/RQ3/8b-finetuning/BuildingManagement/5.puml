@@ -1,0 +1,62 @@
+@startuml
+enum ArchitectureStyle {
+  Modern
+  Traditional
+  Gothic
+  Industrial
+  ArtDeco
+  Rustic
+}
+class User {
+  username: String
+  email: String
+  isActive: boolean
+  +register(): void
+  +login(): boolean
+  +manageBuildings(): void
+}
+class Administrator {
+  idCardNumber: String
+  +setupUser(): void
+  +deleteComment(): void
+}
+class WebPortal {
+  portalName: String
+  versionNumber: String
+  baseUrl: String
+  +releaseEntry(entry: AdditionalEntry): void
+  +searchBuildings(queryText: String): List<Building>
+}
+class Building {
+  buildingId: String
+  name: String
+  address: String
+  constructionYear: int
+  energyClass: String
+  currentStyle: ArchitectureStyle
+  +assignOwner(user: User): void
+  +addEntry(entry: AdditionalEntry): void
+}
+class AdditionalEntry {
+  isPublic: boolean
+  entryType: String
+  content: String
+  unit: String
+  +editContent(newContent: String): void
+  +togglePublicStatus(): void
+}
+class Image {
+  fileName: String
+  isProfilePhoto: boolean
+  url: String
+}
+User --|> Administrator
+WebPortal "1" *-- "0..*" Building : managedBuildings
+Building "1" *-- "0..*" AdditionalEntry : entries
+Building "1" *-- "1..*" Image : images
+User "0..*" --> "0..*" Building : ownedBuildings
+User "0..*" --> "0..*" AdditionalEntry : managedEntries
+User "0..*" --> "0..*" Image : uploadedImages
+Administrator "1" --> "0..*" User : managedUsers
+Administrator "1" --> "0..*" AdditionalEntry : deletedEntries
+@enduml

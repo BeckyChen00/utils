@@ -1,0 +1,34 @@
+@startuml
+class diagram SystemRequirement
+
+part 1: Requirements
+
+    class "System Requirement" {
+        member : "System Requirement"
+    }
+
+    part "Requirements List" {
+        class "Requirement" {
+            member : "Name of requirement"
+        }
+    }
+
+    part "Constraints" {
+        class "Constraint" {
+            member : "Constraint name and description"
+        }
+    }
+
+    part "Dependencies" {
+        class "Dependency" {
+            member : "Dependency type and reference to another class"
+        }
+    }
+
+    part "Relationships" {
+        class "Relation" {
+            member : "Relation between classes"
+        }
+    }
+
+@enduml

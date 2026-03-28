@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="FuelPurchase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fuelPump" eType="#//FuelPump"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dailyPrice" eType="#//DailyPrice"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="at" eType="#//FuelPump" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="of" eType="#//DailyPrice" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fuel_" eType="#//Fuel" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Integer" eType="#//addFuelPump"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="address">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;FuelPump&gt;" eType="#//fuelPumps"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="fuelPumps"/>
+  <eClassifiers xsi:type="ecore:EClass" name="addFuelPump"/>
+  <eClassifiers xsi:type="ecore:EClass" name="isSelfService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Fuel&gt;" eType="#//fuels" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="fuels"/>
+  <eClassifiers xsi:type="ecore:EClass" name="addFuel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//addFuel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="octaneRating">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Fuel" eType="#//fuel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="fuel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="gasStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Double" eType="#//pricePerLiter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="pricePerLiter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FuelPump">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offers" eType="#//Fuel" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DailyPrice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GasStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//FuelPump" upperBound="12" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="archives" eType="#//DailyPrice" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Fuel"/>
+</ecore:EPackage>

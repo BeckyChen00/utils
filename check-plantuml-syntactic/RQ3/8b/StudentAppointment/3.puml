@@ -1,0 +1,56 @@
+
+@startuml
+
+class Student {
+  +id: int
+  +name: string
+  +email: string
+  +coursesRegistered: List<Course>
+  +requestAppointment(course: Course, date: Date, time: Time)
+}
+
+class TeachingAssistant {
+  +id: int
+  +name: string
+  +email: string
+  +coursesTaught: List<Course>
+  +acceptAppointment(appointment: Appointment)
+}
+
+class Course {
+  +id: int
+  +name: string
+  +description: string
+  +studentsEnrolled: List<Student>
+  +teachingAssistants: List<TeachingAssistant>
+}
+
+class Appointment {
+  +id: int
+  +student: Student
+  +ta: TeachingAssistant
+  +course: Course
+  +date: Date
+  +time: Time
+  +status: Status
+}
+
+enum Status {
+  PENDING, ACCEPTED, REJECTED, COMPLETED
+}
+
+Student "1" -- "many" Course : registeredFor
+TeachingAssistant "1" -- "many" Course : teaches
+Course "1" -- "many" Appointment : has
+Student "1" -- "1" Appointment : requests
+TeachingAssistant "1" -- "1" Appointment : handles
+
+@enduml
+
+### Explanation of Relationships:
+- A **Student** can be registered for **multiple Courses**.
+- A **Teaching Assistant** can teach **multiple Courses**.
+- A **Course** can have **multiple Appointments**.
+- Each **Appointment** is associated with one **Student**, one **Teaching Assistant**, and one **Course**.
+- The **Status** enum defines the possible states of an appointment.
+

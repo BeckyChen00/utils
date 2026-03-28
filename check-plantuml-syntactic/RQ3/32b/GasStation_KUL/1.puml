@@ -1,0 +1,126 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Customer {
+  - id: int
+  - name: String
+  - status: String (e.g., active, suspended)
+  - registrationDate: Date
+}
+
+class RefuelCard {
+  - number: String
+  - balance: double
+  - customerId: int
+  + getMonthlyInvoice(): Invoice
+}
+
+class Invoice {
+  - invoiceId: int
+  - dateIssued: Date
+  - dueDate: Date
+  - totalAmount: double
+  - paid: boolean
+  - customerId: int
+  + calculateDiscount(): double
+  + sendReminder(): void
+}
+
+class Payment {
+  - paymentId: int
+  - amount: double
+  - datePaid: Date
+  - method: String (cash, credit card, bank transfer)
+  - invoiceId: int?
+  - refuelTurnId: int?
+}
+
+class RefuelTurn {
+  - turnId: int
+  - startTime: DateTime
+  - endTime: DateTime
+  - quantity: double
+  - pricePerUnit: double
+  - totalPrice: double
+  - paymentMethod: String (cash, credit card, refuel card)
+  - pumpId: int
+  - customerId: int?
+  + getTotalPrice(): double
+}
+
+class Pump {
+  - pumpId: int
+  - type: String (e.g., gasoline, diesel)
+  - status: String (available, in use, blocked)
+  - currentLevel: double
+  - reorderLevel: double
+  - criticalLevel: double
+  + startRefueling(customer: Customer): void
+  + stopRefueling(): void
+  + checkFuelLevel(): void
+  + blockPump(): void
+  + releasePump(): void
+}
+
+class GasStation {
+  - stationId: int
+  - location: String
+  - pumps: List<Pump>
+  + generateDailyReport(): DailyReport
+}
+
+class DailyReport {
+  - reportId: int
+  - dateGenerated: Date
+  - pumpsToRefill: Map<Pump, Double>
+  - notes: String
+}
+
+class Reservoir {
+  - reservoirId: int
+  - capacity: double
+  - currentLevel: double
+  - pumpId: int
+  + refill(quantity: double): void
+  + updateLevel(level: double): void
+}
+
+' Associations
+
+Customer "1" -- "0..*" RefuelCard : owns
+Customer "1" -- "0..*" RefuelTurn : participates in
+Customer "1" -- "0..*" Invoice : receives
+Customer "1" -- "0..*" Payment : makes
+
+RefuelTurn "1" -- "1" Pump : uses
+RefuelTurn "1" -- "0..1" Payment : paid via
+RefuelTurn "1" -- "0..1" Invoice : appears in
+
+Invoice "1" -- "1" Customer : belongs to
+Invoice "1" -- "0..1" Payment : paid with
+
+Payment "1" -- "0..1" RefuelTurn : pays for
+Payment "1" -- "0..1" Invoice : pays for
+
+Pump "1" -- "1" Reservoir : has
+Pump "1" -- "1" GasStation : located at
+
+GasStation "1" -- "0..*" DailyReport : generates
+
+@enduml
+
+---
+
+### ✅ Key Concepts Modeled:
+- **Customer**: Central entity with states like active or suspended.
+- **RefuelCard**: Enables deferred billing and monthly invoicing.
+- **Invoice & Payment**: Handles delayed payments and reminders.
+- **RefuelTurn**: Captures each fueling event, including time, volume, and method.
+- **Pump & Reservoir**: Models the physical equipment with blocking logic and fuel level tracking.
+- **GasStation**: Manages multiple pumps and generates reports.
+- **DailyReport**: Tracks which pumps need refilling.
+
+---
+

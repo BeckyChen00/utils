@@ -1,0 +1,90 @@
+
+@startuml
+skinparam linetype=bold
+
+class Employee {
+  -id: int
+  -name: String
+  -socialSecurityNumber: String
+}
+
+class Planner extends Employee {
+  -username: String
+  -password: String
+}
+
+class AdministrativeStaff extends Employee {
+  -fieldOfActivity: String
+  -username: String
+  -password: String
+}
+
+class Driver extends Employee {
+  -licenseNumber: String
+}
+
+class Customer {
+  -id: int
+  -name: String
+  -billingAddress: String
+}
+
+class PartnerCompany {
+  -name: String
+  -address: String
+}
+
+class Vehicle {
+  -id: int
+  -licensePlateNumber: String
+  -mileage: double
+  -type: String
+}
+
+class Repair {
+  -id: int
+  -repairShopName: String
+  -repairShopAddress: String
+  -employeeId: int
+  -duration: String
+  -cost: double
+}
+
+class Order {
+  -id: int
+  -customerId: int
+  -partnerCompanyId: int
+  -plannerId: int
+  -driverId: int
+  -vehicleId: int
+  -pickupAddress: String
+  -deliveryAddress: String
+  -orderDate: Date
+  -startTime: Date
+  -endTime: Date
+  -comment: String
+}
+
+Employee "1" -- "0..*" Planner : "is a"
+Employee "1" -- "0..*" AdministrativeStaff : "is a"
+Employee "1" -- "0..*" Driver : "is a"
+
+Order "1" --> "1" Customer : belongs to
+Order "1" --> "1" PartnerCompany : belongs to
+Order "1" --> "1" Planner : assigned by
+Order "1" --> "1" Driver : assigned to
+Order "1" --> "1" Vehicle : uses
+
+Vehicle "1" --> "0..*" Repair : has been repaired by
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **Employee** is the base class for **Planner**, **AdministrativeStaff**, and **Driver**.
+- **Planner** and **AdministrativeStaff** have login credentials (`username`, `password`).
+- **Customer** and **PartnerCompany** are external entities that place orders.
+- **Vehicle** can be of different types (e.g., refrigerated truck, van) and may require **Repairs**.
+- **Order** contains all necessary details like pickup/delivery addresses, driver, vehicle, planner, customer, etc.
+- **Repair** includes information about the shop, employee involved, duration, and cost.
+

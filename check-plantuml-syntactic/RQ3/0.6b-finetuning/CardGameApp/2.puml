@@ -1,0 +1,63 @@
+@startuml
+enum PriorityLevel {
+  Low
+  High
+}
+enum TrafficStatus {
+  Idle
+  MovingIn
+  MovingOut
+  Blocked
+  Paused
+  Emergency
+}
+enum RouteType {
+  SingleLane
+  DoubleLane
+}
+class TrafficMonitor {
+  +initializeSystem(sourceLocation: String, targetLocation: String, priorityThreshold: int): void
+  +getActiveSegments(): List<TravelSegment>
+  +getTrafficStatus(): TrafficStatus
+}
+class TravelSegment {
+  startLocation: String
+  endLocation: String
+  durationMinutes: int
+  isClosed: boolean
+  +calculateEstimatedArrival(date: Date): Date
+  +isBlocked(): boolean
+}
+class RoutePlan {
+  routeType: RouteType
+  +createOptimizedPath(startPoint: String, endPoint: String): TravelSegment
+  +isValidPlan(): boolean
+}
+class TrafficRecord {
+  timestamp: Date
+  eventDescription: String
+  severityLevel: PriorityLevel
+  +generateReportSummary(includeHistory: boolean): String
+}
+class SimulationEngine {
+  +executeSimulation(enableGraphTraversal: boolean, targetPriority: int): List<TrafficRecord>
+  +resetSimulation(): void
+}
+class SensorNode {
+  isActive: boolean
+  +collectReading(): TrafficRecord
+  +updateStatus(isActive: boolean): void
+}
+class RouteOptimizer {
+  +calculateOptimalRoute(destination: String, type: RouteType): TravelSegment
+  +evaluateRouteSegments(records: List<TrafficRecord>): List<TravelSegment>
+}
+TrafficMonitor *-- "0..*" TravelSegment : activeSegments
+TrafficMonitor *-- "1" RoutePlan : activePlan
+TrafficMonitor *-- "0..*" TrafficRecord : generatedRecords
+TrafficMonitor *-- "1" SimulationEngine : configuredEngine
+TrafficMonitor --> "1..*" SensorNode : connectedNodes
+RouteOptimizer --> "1" RoutePlan : processedPlan
+RouteOptimizer --> "1" SimulationEngine : usedEngine
+RoutePlan --> "1..*" TravelSegment : plannedSegments
+@enduml

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EEnum" name="Role">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="LEADER"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="TEAM_MEMBER" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//ResearchGroup" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResearchGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Researcher" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leads" eType="#//WorkPackage" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Researcher">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTo" eType="#//Assignment" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkPackage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasTeamMembers" eType="#//Assignment" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isLedBy" eType="#//ResearchGroup" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assignment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasResearcher" eType="#//Researcher" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasWP" eType="#//WorkPackage" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Project">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//WorkPackage" upperBound="-1" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

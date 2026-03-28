@@ -1,0 +1,41 @@
+@startuml
+enum CommunicationProtocol {
+  MQTT
+  HTTP
+}
+enum FaultCategory {
+  HardwareFailure
+  SoftwareError
+  ExternalInterfacing
+}
+enum DeploymentStatus {
+  Pending
+  InProgress
+  Completed
+  Failed
+}
+class MaintenanceRobot {
+  workingStatus: DeploymentStatus
+  +performMaintenance(task: MaintenanceTask): void
+  +getActiveTasks(): List<MaintenanceTask>
+}
+class ServiceRequest {
+  urgencyLevel: int
+  requestedCategory: FaultCategory
+  +escalate(): void
+  +submit(): void
+}
+class MaintenanceTask {
+  isUrgent: boolean
+  estimatedDuration: int
+  +calculateSafetyZone(): boolean
+}
+class SafetyZone {
+  zoneType: String
+  isActive: boolean
+  +confirmSafety(): void
+}
+MaintenanceRobot *-- "0..*" MaintenanceTask : activeTasks
+MaintenanceRobot *-- "0..*" SafetyZone : safetyZones
+ServiceRequest --> "0..*" MaintenanceTask : associatedTasks
+@enduml

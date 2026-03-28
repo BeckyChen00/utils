@@ -1,0 +1,10 @@
+@startuml
+
+classDiagram
+    class SystemRequirements {
+        requirement1: A user needs to have access to a secure database.
+        requirement2: The system should support mobile device usage.
+        requirement3: Regular maintenance is necessary for the system's performance.
+    }
+
+@enduml

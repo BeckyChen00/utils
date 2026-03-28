@@ -1,0 +1,83 @@
+
+---
+
+
+@startuml
+
+' Define classes and their attributes
+
+class Country {
+    +String name
+    +double vatRate
+    +String currency
+    +double exchangeRateToEuro
+}
+
+class Manufacturer {
+    +String name
+    +Country country
+}
+
+class Product {
+    +String uniqueName
+    +String description
+    +double netPrice
+    +Manufacturer manufacturer
+    +List<Country> availableIn
+}
+
+class Representative {
+    +String firstName
+    +String lastName
+    +String ssn
+    +String phoneNumber
+    +String email
+    +Country assignedCountry
+}
+
+class Customer {
+    +String name
+    +String address
+    +String phoneNumber
+    +String email
+    +List<Country> resaleCountries
+    +Representative representative
+}
+
+class Order {
+    +String orderId
+    +Product product
+    +Customer customer
+    +int quantity
+    +Date orderDate
+    +Date deliveryDate
+}
+
+' Relationships
+
+Product "1" -- "0..*" AvailableIn : availableIn
+Manufacturer "1" -- "1..*" Product : manufactures
+Country "1" -- "1..*" Product : availableIn
+Country "1" -- "1" Representative : assigned to
+Representative "1" -- "1..*" Customer : serves
+Customer "1" -- "1..*" Order : places
+Product "1" -- "1..*" Order : included in
+Order "1" -- "1" Customer : placed by
+Order "1" -- "1" Product : refers to
+
+@enduml
+
+---
+
+### 🧾 Explanation of Key Elements:
+
+- **Country**: Stores VAT rate, currency, and exchange rate to Euro. Also tracks which products are available there.
+- **Manufacturer**: Each product has one manufacturer from a specific country.
+- **Product**: Has a unique name, description, net price, and links to its manufacturer and availability per country.
+- **Representative**: Assigned to one country and helps place orders for customers.
+- **Customer**: Has contact info and list of countries where they resell; must be associated with a representative.
+- **Order**: Links to a single product and customer, includes quantities and dates.
+
+---
+
+Let me know if you'd like this extended to include associations like `AvailableIn` as a separate class or support for more advanced features like inheritance or interfaces!

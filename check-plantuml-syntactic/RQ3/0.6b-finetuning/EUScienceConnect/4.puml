@@ -1,0 +1,180 @@
+@startuml
+enum MaterialCategory {
+  CarbonFiber
+  Glass
+  Composites
+  ReinforcedMaterial
+}
+enum ShipmentStatus {
+  Pending
+  InTransit
+  Delivered
+  Delayed
+  Cancelled
+}
+enum RiskLevel {
+  LowRisk
+  MediumRisk
+  HighRisk
+  CriticalRisk
+  KnownHazardousMaterial
+}
+class HazardousMaterial {
+  materialName: String
+  strictCode: String
+  category: MaterialCategory
+  +validatePresence(): boolean
+}
+class ShipmentRequest {
+  orderId: String
+  assignedStatus: ShipmentStatus
+  totalWeight: double
+  +calculateTotalWeight(): double
+  +submitForApproval(): void
+}
+class TransportOrder {
+  scheduledDate: Date
+  estimatedArrivalTime: Date
+  +updateSchedule(newDate: Date): void
+}
+class SafetyInstrument {
+  isOperational: boolean
+  instrumentType: String
+  +calibrate(): boolean
+  +checkStatus(): boolean
+}
+class Warehouse {
+  locationCode: String
+  capacity: int
+  +getCapacityNeeded(materialType: MaterialCategory): int
+}
+class ComplianceAudit {
+  auditDate: Date
+  inspectionDate: Date
+  results: String
+  +generateReport(): String
+}
+class RiskAssessment {
+  riskLevel: RiskLevel
+  assessmentDate: Date
+  +determineHighestRisk(): RiskLevel
+}
+class TransportationVessel {
+  vesselType: String
+  speedLimit: double
+  fuelType: String
+  +checkSafeHauls(): boolean
+}
+class CargoManifest {
+  totalWeight: double
+  +verifyCoordinates(targetLocation: String): boolean
+  +exportManifest(): void
+}
+class MaterialBatch {
+  batchNumber: String
+  materialTypes: MaterialCategory[]
+  +getBatchHistory(): String
+}
+class CustomsDeclaration {
+  declarationNumber: String
+  issuerName: String
+  declarationDate: Date
+  +calculateTotalWeight(): double
+  +signDeclaration(): void
+}
+class DispatchCenter {
+  centerName: String
+  +assignShipment(request: ShipmentRequest, vessel: TransportationVessel): void
+  +notifyComplianceAudit(audit: ComplianceAudit): void
+}
+class WarehouseZone {
+  zoneCode: String
+  maximumLoadCapacity: int
+  +allocateSpace(batch: MaterialBatch): boolean
+}
+class RoutingAlgorithm {
+  algorithmType: String
+  +findOptimalRoute(shipment: ShipmentRequest): String
+  +optimizePath(shipment: ShipmentRequest): void
+}
+class ShipmentRecord {
+  trackingNumber: String
+  deliveryDate: Date
+  status: ShipmentStatus
+  +addReference(reference: String): void
+}
+class TransportVehicle {
+  vehicleType: String
+  initialLoadWeight: double
+  +calculateLoadCapacity(materialType: MaterialCategory): double
+}
+class ShippingManifest {
+  manifestCode: String
+  formatType: String
+  +generateManifestData(): String
+}
+class InspectionReport {
+  inspectionDate: Date
+  inspectorName: String
+  findings: String
+  +finalizeReport(): void
+}
+class ComplianceStandards {
+  standardName: String
+  description: String
+}
+class RiskAlert {
+  alertSeverity: RiskLevel
+  triggerDate: Date
+  isAcknowledged: boolean
+  +acknowledge(): void
+}
+class CargoInventory {
+  stockCount: int
+  +updateStock(materialType: MaterialCategory, count: int): void
+}
+class TransportationVesselGroup {
+  groupSize: int
+  currentVesselCount: int
+  +reserveVessel(vessel: TransportationVessel): void
+  +releaseVessel(vessel: TransportationVessel): void
+}
+class DispatchCenterManager {
+  centerName: String
+  +dispatchOrders(batch: MaterialBatch): void
+  +generateReport(batch: MaterialBatch): String
+}
+ShipmentRequest "1" --> "1" CargoManifest : containsManifest
+ShipmentRequest "1" --> "0..1" TransportOrder : producesOrder
+ShipmentRequest "1" --> "1" HazardousMaterial : specifiesMaterial
+TransportOrder "1" --> "1" TransportVessel : assignedVessel
+TransportOrder "1" --> "*" HazardousMaterial : containsMaterials
+TransportOrder "1" --> "1" CargoInventory : tracksStock
+HazardousMaterial "1" --> "*" SafetyInstrument : requiresInstrument
+TransportOrder "1" --> "*" SafetyInstrument : requiresInstrument
+TransportOrder "1" --> "1" TransportVehicle : assignedVehicle
+TransportOrder "1" *-- "*" ShipmentRecord : containsRecords
+HazardousMaterial "1" --> "*" ComplianceAudit : compliesWith
+HazardousMaterial "1" --> "*" CargoInventory : storedStock
+ComplianceAudit "1" --> "*" SafetyInstrument : verifiedInst
+ComplianceAudit "1" --> "*" TransportationVessel : inspectedVessels
+SafetyInstrument "1" --> "*" RiskAlert : triggersAlerts
+TransportVessel "1" --> "*" TransportVehicleGroup : participatesInGroup
+dispatchCenterManager "1" *-- "1" DispatchCenter : operatesDispatchCenter
+transportVehicleGroup "1" --> "*" TransportationVessel : managedVessels
+TransportVessel "1" --> "*" TransportationVesselGroup : operatesGroup
+ DispatchCenterManager "1" --> "*" ComplianceStandards : managesStandards
+CargoInventory "1" --> "*" MaterialBatch : managedBatches
+TransportOrder "1" --> "*" ShipmentRecord : containsRecords
+TransportOrder "1" --> "*" ShipmentRecord : generatesRecords
+CargoInventory "1" --> "*" MaterialBatch : tracksStock
+TransportOrder "1" --> "*" CargoManifest : generatesManifest
+TransportOrder "1" --> "*" InspectionReport : generatesReports
+CargoInventory "1" --> "*" CargoManifest : ownsManifest
+CargoInventory "1" --> "*" ComplianceAudit : auditsStock
+CargoInventory "1" --> "*" TransportVehicleGroup : tracksGroup
+RiskAlert "1" --> "*" ShipmentRequest : alertsForRequest
+RiskAlert "1" --> "*" TransportOrder : alertsForOrder
+TransportVehicle "1" --> "*" TransportOrder : fulfilledOrders
+RiskAlert "1" --> "*" ComplianceAudit : relatedAudits
+@enduml

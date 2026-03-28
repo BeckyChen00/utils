@@ -1,0 +1,71 @@
+@startuml
+enum FilmGenre {
+  Thriller
+  Action
+  Horror
+  Comedy
+}
+enum EmploymentStatus {
+  Active
+  Inactive
+}
+enum RoleType {
+  Director
+  Actor
+  Technician
+}
+class Employee {
+  name: String
+  socialSecurityNumber: String
+  employmentStatus: EmploymentStatus
+  +getWorkHistory(): List<Film>
+  +assignToFilm(film: Film): void
+}
+class CreativeEmployee {
+  +isOscared(): boolean
+  +getPortfolio(): List<Film>
+}
+class Technician {
+  fieldOfActivity: String
+  +performMaintenance(): void
+}
+class Film {
+  title: String
+  releaseYear: int
+  genre: FilmGenre
+  +getCast(): List<Employee>
+  +getDirector(): Employee
+}
+class FilmSet {
+  location: String
+  +scheduleFilming(film: Film): void
+  +getFilmsShotHere(): List<Film>
+}
+class Screenplay {
+  title: String
+  version: String
+  writingDate: Date
+  sceneCount: int
+  plotSummary: String
+  +getBasedOn(): Object
+  +getAuthor(): Screenwriter
+}
+class Screenwriter {
+  name: String
+  mostSuccessfulFilm: Film
+  +writeScreenplay(film: Film): Screenplay
+  +getPublishedWorks(): List<Screenplay>
+}
+class Novel {
+  title: String
+  author: String
+}
+CreativeEmployee --|> Employee
+Employee *-- "*" Film : participationHistory
+Film *-- "1" FilmSet : productionVenue
+Film *-- "1" Screenplay : screenplay
+Screenplay *-- "1" Screenwriter : author
+Screenplay *-- "1" Novel : sourceMaterial
+Screenwriter *-- "*" Screenplay : authoredScreenplays
+Technician -- Employee
+@enduml

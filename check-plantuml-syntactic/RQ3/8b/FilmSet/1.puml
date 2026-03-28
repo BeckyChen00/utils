@@ -1,0 +1,86 @@
+
+@startuml
+
+' Employees
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+' Creative Employees
+class CreativeEmployee <|-- Employee
+
+' Directors
+class Director {
+  - hasOscar: Boolean
+  - assistantName: String
+}
+
+' Actors
+class Actor {
+  - education: String
+  - hasOscar: Boolean
+}
+
+' Technicians
+class Technician {
+  - fieldOfActivity: String
+}
+
+' Film Set
+class FilmSet {
+  - location: String
+  - films: List<Film>
+}
+
+' Film
+class Film {
+  - title: String
+  - yearOfRelease: int
+  - genre: String
+  - filmSets: List<FilmSet>
+  - screenplay: Screenplay
+}
+
+' Screenwriter
+class Screenwriter {
+  - name: String
+  - mostSuccessfulFilm: String
+}
+
+' Screenplay
+class Screenplay {
+  - title: String
+  - version: int
+  - date: Date
+  - numberOfScenes: int
+  - plot: String
+  - basis: String
+  - novel: Novel
+}
+
+' Novel
+class Novel {
+  - title: String
+  - author: String
+}
+
+' Relationships
+CreativeEmployee <|-- Director
+CreativeEmployee <|-- Actor
+Employee <|-- Technician
+
+Film "1" -- "0..*" FilmSet : uses
+Film "1" -- "1" Screenplay : based on
+Screenplay "1" -- "1" Novel : based on (optional)
+Screenwriter "1" -- "1" Screenplay : writes
+
+@enduml
+
+### Notes:
+- The `CreativeEmployee` is a subclass of `Employee`, which includes both `Director` and `Actor`.
+- `Technician` is also an `Employee`, but with different attributes.
+- A `Film` can be associated with multiple `FilmSet`s and one `Screenplay`.
+- A `Screenplay` is written by exactly one `Screenwriter` and may be based on a `Novel`.
+- The `FilmSet` can be used for multiple `Films`.
+

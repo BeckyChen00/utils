@@ -1,0 +1,10 @@
+@startuml
+class Diagram {
+    class SystemRequirement {
+        # of Users
+        # of Services
+        # of Resources
+        # of Goals
+    }
+}
+@enduml

@@ -1,0 +1,70 @@
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class User {
+  +id: String (unique)
+  +name: String
+  +email: String
+  +dateOfBirth: Date
+  -account: Account
+}
+
+class Account {
+  +accountNumber: String (unique)
+  +type: String ("personal" | "business")
+  -user: User
+}
+
+class BusinessAccount {
+  +companyName: String
+  +monthlyFee: Double
+  -- extends Account
+}
+
+class PersonalAccount {
+  -- extends Account
+}
+
+class Page {
+  +name: String (unique per account)
+  +visitCount: Integer
+  -account: Account
+}
+
+class AdvertisementPage {
+  +bounceRate: Double
+  +clickThroughRate: Double
+  +conversionRate: Double
+  -- extends Page
+}
+
+class FriendRequest {
+  +fromUser: User
+  +toUser: User
+  +status: String ("pending" | "accepted" | "rejected")
+}
+
+' Relationships
+
+User --> Account
+Account <|-- BusinessAccount
+Account <|-- PersonalAccount
+Account --> Page
+PersonalAccount --> Page
+Page <|-- AdvertisementPage
+PersonalAccount --> FriendRequest
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **User**: Represents a user who wants to join Facepage. They have personal information and are linked to exactly one `Account`.
+- **Account**: An abstract class representing both types of accounts (`BusinessAccount` and `PersonalAccount`). Each account has a unique `accountNumber` and is associated with one `User`.
+- **BusinessAccount**: A subclass of `Account`. It requires a company name and monthly fee.
+- **PersonalAccount**: A subclass of `Account`. It can send/receive friend requests and grant privileges to other pages.
+- **Page**: A page created by an account. Each page has a unique name within the account.
+- **AdvertisementPage**: A subclass of `Page`, specifically for business accounts. It stores metrics like bounce rate, click-through rate, and conversion rate.
+- **FriendRequest**: A request sent from one user to another. Only personal accounts can send or receive these.
+
+Let me know if you'd like this rendered as an image or need further modifications!

@@ -1,0 +1,54 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement { 
+        name: "System Requirement" 
+        description: "System Requirements for the application"
+    }
+
+    class Module1 { 
+        name: "Module1"
+        description: "This is a module for handling user input"
+    }
+
+    class Module2 { 
+        name: "Module2"
+        description: "This is a module for handling data storage"
+    }
+
+    class Module3 { 
+        name: "Module3"
+        description: "This is a module for handling output processing"
+    }
+
+    class UserInput {
+        name: "User Input"
+        description: "Handles user interactions with the system"
+    }
+
+    class DataStorage {
+        name: "Data Storage"
+        description: "Stores and manages application data"
+    }
+
+    class OutputProcessing {
+        name: "Output Processing"
+        description: "Processes output from other modules"
+    }
+
+    class Application {
+        name: "Application"
+        description: "The main application that uses all the modules"
+    }
+
+    class DependencyGraph {
+        node1: Module1
+        node2: Module2
+        node3: Module3
+        node4: UserInput
+        node5: DataStorage
+        node6: OutputProcessing
+        node7: Application
+    }
+
+@enduml

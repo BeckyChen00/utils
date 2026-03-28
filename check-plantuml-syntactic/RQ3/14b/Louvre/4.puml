@@ -1,0 +1,90 @@
+
+@startuml
+skinparam backgroundColor White
+skinparam classAttributeIconColor Blue
+
+class Museum {
+  -name: String
+  -locations: List<Location>
+}
+
+class Location {
+  -name: String
+  -exhibitions: List<Exhibition>
+}
+
+class Exhibition {
+  -title: String
+  -startDate: Date
+  -endDate: Date
+  -coordinator: Employee
+  -items: List<ExhibitionItem>
+}
+
+class Employee {
+  -name: String
+  -role: String
+  -coach: Employee
+}
+
+class ExhibitionItem {
+  -description: String
+  -piecesRequested: List<PieceRequest>
+}
+
+class PieceRequest {
+  -piece: Piece
+  -collector: Collector
+  -status: String
+}
+
+class Collector {
+  -name: String
+  -pieces: List<Piece>
+}
+
+class Piece {
+  -title: String
+  -artist: String
+  -type: String
+  -availability: Boolean
+}
+
+class CoachingRelationship {
+  -junior: Employee
+  -senior: Employee
+}
+
+' Associations
+Museum "1" --> "n" Location
+Location "1" --> "n" Exhibition
+Exhibition "1" --> "1" Employee : coordinator
+Employee "1" --> "0..1" Employee : coach
+Exhibition "1" --> "n" ExhibitionItem
+ExhibitionItem "1" --> "n" PieceRequest
+PieceRequest "1" --> "1" Piece
+PieceRequest "1" --> "1" Collector
+Collector "1" --> "n" Piece
+
+' Note: Coaching relationship is modeled as a separate class and association
+Employee "1" --> "n" CoachingRelationship
+Employee "1" --> "n" CoachingRelationship
+@enduml
+
+---
+
+### Explanation of Key Elements in the Diagram:
+
+- **Museum**: Contains multiple **Locations**.
+- **Location**: Can host multiple **Exhibitions**.
+- **Exhibition**: Has a **Coordinator (Employee)**, and a list of **ExhibitionItems**.
+- **Employee**: May have a **Coach** (another employee), and may be assigned to one or more **Exhibitions**.
+- **ExhibitionItem**: Represents an item that should be part of an exhibition. For each such item, several **PieceRequests** can be made.
+- **PieceRequest**: Tracks which **Piece** is requested from which **Collector**.
+- **Collector**: Holds a collection of **Pieces**.
+- **Piece**: A specific artwork with title, artist, type, and availability status.
+
+---
+
+
+Let me know if you want to add further details like methods, associations with multiplicity, or inheritance!

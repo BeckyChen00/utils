@@ -1,0 +1,68 @@
+
+---
+
+
+@startuml
+
+' Entities
+class University {
+}
+
+class Department {
+}
+
+class ResearchGroup {
+    - name: String
+    - department: Department
+}
+
+class Researcher {
+    - name: String
+    - researchGroup: ResearchGroup
+}
+
+class Project {
+    - title: String
+}
+
+class WorkPackage {
+    - title: String
+    - project: Project
+    - leader: ResearchGroup
+}
+
+class WPAssignment {
+    - researcher: Researcher
+    - workPackage: WorkPackage
+    - startDate: Date
+    - endDate: Date (optional)
+}
+
+' Associations
+
+University "1" -- "many" Department
+Department "1" -- "many" ResearchGroup
+ResearchGroup "1" -- "many" Researcher
+Researcher "1" -- "many" WPAssignment
+WorkPackage "1" -- "many" WPAssignment
+Project "1" -- "many" WorkPackage
+WorkPackage "1" -- "1" ResearchGroup : isLedBy
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Concepts:
+
+- **University → Department**: A university has multiple departments.
+- **Department → ResearchGroup**: Each department hosts multiple research groups.
+- **ResearchGroup → Researcher**: Researchers belong to exactly one research group.
+- **Project → WorkPackage**: Projects are composed of multiple work packages.
+- **WorkPackage → ResearchGroup**: Every work package is led by one research group.
+- **Researcher ↔ WPAssignment ↔ WorkPackage**: Researchers can be assigned to any work package, regardless of leadership group.
+- **WPAssignment**: This class tracks when a researcher was assigned to a work package, with optional end date to reflect termination or change due to group reassignment.
+
+---
+
+
+Let me know if you'd like to include attributes, operations, or more detailed constraints!

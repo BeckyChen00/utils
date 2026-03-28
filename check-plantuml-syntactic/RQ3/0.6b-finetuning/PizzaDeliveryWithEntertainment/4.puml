@@ -1,0 +1,58 @@
+@startuml
+enum TreeType {
+  Oak
+  Maple
+  Birch
+  Pine
+  Hawthorn
+  MapleBunch
+  Beech
+}
+enum WeatherCondition {
+  Sun
+  Rain
+  Snow
+  Wind
+}
+class Park {
+  parkName: String
+  locationCode: String
+  +getActiveTrees(): List<ForestTree>
+  +searchTree(treeName: String): ForestTree
+}
+class ForestTree {
+  treePhytype: TreeType
+  diameterAtThinning: int
+  currentCondition: WeatherCondition
+  +isTreeAlive(): boolean
+  +getGrowthRate(): int
+  +updateDiameter(mm: int): void
+}
+class MonitoringStation {
+  stationName: String
+  +collectData(tree: ForestTree): TreeObservation
+}
+class TreeObservation {
+  samplingDate: Date
+  recordedConditions: WeatherCondition
+  averageGrowthRate: int
+  +getClimateSummary(): String
+}
+class ClimateReport {
+  reportDate: Date
+  overallConditions: WeatherCondition
+  +generateSummary(): String
+}
+class WeatherData {
+  humidity: double
+  temperature: double
+  snowCover: int
+  windSpeed: int
+}
+Park *-- "*" ForestTree : forestTrees
+ForestTree *-- "*" TreeObservation : historicalObservations
+ForestTree *-- "1" ClimateReport : climateReport
+ForestTree --> "*" WeatherData : weatherRecords
+MonitoringStation --> "*" ForestTree : monitoredTrees
+MonitoringStation --> "1" ForestTree : mainTarget
+@enduml

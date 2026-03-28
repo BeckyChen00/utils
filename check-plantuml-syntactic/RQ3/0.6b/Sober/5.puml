@@ -1,0 +1,11 @@
+@startuml
+classDiagram
+    user --> request
+    request --> service1
+    service1 --> response1
+    response1 --> user
+
+    componentDiagram
+        systemRequirement --> component
+        component --> systemRequirement
+@enduml

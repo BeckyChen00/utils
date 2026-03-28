@@ -1,0 +1,85 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Person {
+  +firstName: String
+  +familyName: String
+  +birthDate: Date
+  -id: UUID (derived from unique key)
+}
+
+class Trainer {
+  +diploma: String
+}
+
+class Member {
+  +isProspect: Boolean
+}
+
+class FitnessCenter {
+  +name: String
+  +address: String
+}
+
+class Room {
+  +number: Integer
+  +maxCapacity: Integer
+}
+
+class Session {
+  +date: Date
+  +startTime: Time
+}
+
+class GroupSession {
+  +type: String
+}
+
+class IndividualSession {
+  ' No additional attributes needed
+}
+
+' Inheritance relationships
+Person <|-- Trainer
+Person <|-- Member
+
+FitnessCenter "1" *-- "many" Room : has
+Room "1" *-- "many" Session : hosts
+
+Session <|-- GroupSession
+Session <|-- IndividualSession
+
+' Associations
+Member "0..*" --> "1" Session : participates in
+Trainer "0..*" --> "1" GroupSession : supervises
+
+GroupSession "1" --> "1" Room : held in
+IndividualSession "1" --> "1" Room : held in
+
+' Constraints:
+' - Each session is associated with one room of a specific center.
+' - At most one session per room at a given time.
+' - A person can be both trainer and member.
+' - Prospects and interns are modeled via flags.
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **`Person`**: Abstract base class containing common attributes (first name, last name, birth date).
+- **`Trainer` and `Member`** inherit from `Person`. A person can be both a trainer and a member.
+- **`FitnessCenter`** has many **`Room`s**, each with a number and max capacity.
+- **`Session`** is an abstract base class with two subtypes:
+  - **`GroupSession`** requires a trainer and a type.
+  - **`IndividualSession`** has no trainer.
+- A **`Room`** can host multiple **`Sessions`**, but only one per start time and date.
+- **`Member`** can participate in any session. The `isProspect` flag marks people not yet registered for sessions.
+- **`Trainer`** may supervise group sessions; the `diploma` field distinguishes trainers even if they haven't supervised any session yet.
+
+---
+
+Let me know if you'd like to generate this as a PNG or include it in a documentation tool!

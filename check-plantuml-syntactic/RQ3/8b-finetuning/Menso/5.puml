@@ -1,0 +1,94 @@
+@startuml
+enum ApprovalStatus {
+  Pending
+  Approved
+  Refused
+  Suspended
+  Cancelled
+}
+enum TravelPattern {
+  Commute
+  Leisure
+  Shopping
+  Religious
+  Medical
+  Emergency
+}
+class BusLine {
+  lineNumber: String
+  isMensotEnabled: boolean
+  category: String
+  +assignTrajectory(trajectory: Trajectory): void
+}
+class Trajectory {
+  description: String
+  approvalStatus: ApprovalStatus
+  +getStartDate(): Date
+}
+class StationStop {
+  stationName: String
+  isTransferPoint: boolean
+  +getLocation(): Location
+}
+class Bus {
+  busNumber: String
+  capacity: int
+  +isAvailable(): boolean
+}
+class Trip {
+  departureTime: Date
+  arrivalTime: Date
+  lineCategory: String
+  +isValid(): boolean
+  +recordTransaction(card: Card): void
+}
+class PaymentPlan {
+  planName: String
+  monthlyFee: double
+  discountRate: double
+  +calculateMonthlyFee(trips: List<Trip>): double
+  +applyDiscount(amount: double): double
+}
+class SeasonTicket {
+  isActive: boolean
+  membershipNumber: String
+  subscriptionDate: Date
+  +verifyValidity(date: Date): boolean
+  +suspend(): void
+}
+class CustomerProfile {
+  firstName: String
+  lastName: String
+  emailAddress: String
+  homeAddress: String
+  officeAddress: String
+  workHours: String
+  +updateContactInfo(email: String): void
+  +getDailyPatterns(): List<TravelPattern>
+}
+class Card {
+  cardNumber: String
+  isBlocked: boolean
+  +validate(): boolean
+  +block(): void
+}
+class Invoice {
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  status: String
+  +calculateTotal(): double
+  +markPaid(): void
+}
+BusLine *-- "0..*" Trajectory : definedTrajectories
+Trajectory *-- "1..*" StationStop : routeStops
+BusLine --> "0..*" Bus : allocatedBuses
+BusLine --> "1" PaymentPlan : activePlan
+CustomerProfile *-- "0..*" SeasonTicket : ownedTickets
+CustomerProfile --> "1" Card : primaryCard
+CustomerProfile --> "0..*" Invoice : generatedInvoices
+Trip --> "1" BusLine : followedLine
+Trip --> "1" Card : usedCard
+Trip --> "1" StationStop : originStation
+SeasonTicket --> "1" PaymentPlan : subscribedPlan
+@enduml

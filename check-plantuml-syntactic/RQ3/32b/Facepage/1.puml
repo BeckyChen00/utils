@@ -1,0 +1,97 @@
+
+---
+
+
+@startuml
+
+' Define classes and their attributes and relationships
+
+class User {
+    - id: String (unique)
+    - name: String
+    - email: String
+    - dateOfBirth: Date
+}
+
+class Account {
+    - accountNumber: String (auto-generated, unique)
+    - type: String (either "Personal" or "Business")
+    - user: User (1-to-1)
+}
+
+class PersonalAccount {
+    + createFriendRequest()
+    + receiveFriendRequest()
+}
+
+class BusinessAccount {
+    - companyName: String
+    - monthlyFee: Double
+}
+
+class Page {
+    - pageName: String (unique per account)
+    - visits: Integer
+    - administrator: Account (1-to-many)
+}
+
+class AdvertisementPage extends Page {
+    - bounceRate: Double
+    - clickThroughRate: Double
+    - conversionRate: Double
+}
+
+class FriendRequest {
+    - sender: PersonalAccount
+    - receiver: PersonalAccount
+    - status: String (e.g., "Pending", "Accepted", "Rejected")
+}
+
+' Inheritance
+Account <|-- PersonalAccount
+Account <|-- BusinessAccount
+
+' Associations
+User "1" -- "1" Account : owns
+Account "1" -- "0..*" Page : creates
+Page "1" -- "1" Account : administered by
+PersonalAccount "0..*" -- "0..*" Page : has privilege to
+PersonalAccount "0..*" -- "0..*" FriendRequest : sends
+PersonalAccount "0..*" -- "0..*" FriendRequest : receives
+
+' Constraints
+note right of User
+  A user can only have one account.
+  Multiple accounts are against ToU.
+end note
+
+note right of Account
+  Each account must be either personal or business.
+  No overlapping account types for a user.
+end note
+
+note right of AdvertisementPage
+  Special type of page only for business accounts.
+  Tracks marketing metrics.
+end note
+
+@enduml
+
+---
+
+### 🧾 Explanation of Key Relationships
+
+| Element | Description |
+|--------|-------------|
+| `User` | Central entity with basic info. One user → one account. |
+| `Account` | Base class; users can have only one account (either personal or business). |
+| `PersonalAccount` | Extends Account. Can send/receive friend requests. |
+| `BusinessAccount` | Extends Account. Must specify company name and pays monthly fee. |
+| `Page` | Created by an account. Each page has one admin. Name must be unique per account. |
+| `AdvertisementPage` | Subtype of Page, specific to Business Accounts. Records marketing metrics. |
+| `FriendRequest` | Only between PersonalAccounts. |
+
+---
+
+
+Let me know if you'd like to add methods or further details!

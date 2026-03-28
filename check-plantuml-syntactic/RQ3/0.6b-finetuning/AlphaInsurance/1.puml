@@ -1,0 +1,28 @@
+@startuml
+enum EquipmentType {
+  Tire
+  Camera
+  Antenna
+  Balloon
+  Rudder
+  Compressor
+}
+enum FlightStatus {
+  Preparatory
+  InFlight
+  Landing
+  PostLanding
+  MaintenanceRequired
+  Emergency
+}
+class FlightPlan {
+  targetLocation: String
+  currentControlStatus: FlightStatus
+  +validateRoute(): boolean
+}
+class FlightTask {
+  targetLocation: String
+  status: FlightStatus
+}
+FlightPlan *-- "*" FlightTask : flightTasks
+@enduml

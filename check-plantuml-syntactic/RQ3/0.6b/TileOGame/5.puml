@@ -1,0 +1,20 @@
+@startuml
+
+class Diagram {
+}
+
+# System Requirement
+
+class SystemRequirement {
+  name: String;
+  description: String;
+  requirements: [String];
+}
+
+# Output
+
+Diagram --> SystemRequirement
+SystemRequirement --> requirements
+requirements --> ... (additional links, relationships)
+
+@enduml

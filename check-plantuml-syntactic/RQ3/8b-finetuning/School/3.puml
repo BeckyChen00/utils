@@ -1,0 +1,53 @@
+@startuml
+enum RoomType {
+  Classroom
+  Gym
+  Lab
+  Library
+  Auditorium
+  StaffRoom
+  Playground
+}
+enum PersonCategory {
+  Student
+  Teacher
+}
+class Person {
+  firstName: String
+  lastName: String
+}
+class Teacher {
+  email: String
+  category: PersonCategory
+  +isPrincipal(): boolean
+}
+class Student {
+  category: PersonCategory
+}
+class School {
+  name: String
+  +getPrincipal(): Teacher
+}
+class Room {
+  name: String
+  size: double
+  type: RoomType
+}
+class ClassGroup {
+  classname: String
+}
+class TeachingRelationship {
+  hoursPerWeek: int
+  startDate: Date
+  endDate: Date
+  +getDuration(): int
+}
+School *-- "1" Teacher : principal
+School *-- "*" Room : rooms
+School *-- "*" ClassGroup : classGroups
+ClassGroup --> "1" Room : assignedTo
+ClassGroup --> "*" Student : members
+Student --> "1" School : enrolledSchool 'opposite: students
+Student -- Teacher
+Teacher -- TeachingRelationship
+@enduml

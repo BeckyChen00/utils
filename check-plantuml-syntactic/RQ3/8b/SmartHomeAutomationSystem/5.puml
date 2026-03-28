@@ -1,0 +1,106 @@
+
+---
+
+
+@startuml
+
+' Define classes
+
+class SmartHome {
+  +id: String
+  +address: String
+  +rooms: List<Room>
+  +activityLog: ActivityLog
+  +rules: List<AutomationRule>
+}
+
+class Room {
+  +id: String
+  +name: String
+  +smartHome: SmartHome
+  +sensors: List<Sensor>
+  +actuators: List<Actuator>
+}
+
+class Sensor {
+  +id: String
+  +type: String
+  +room: Room
+  +sensorReadings: List<SensorReading>
+}
+
+class Actuator {
+  +id: String
+  +type: String
+  +room: Room
+  +controlCommands: List<ControlCommand>
+}
+
+class SensorReading {
+  +timestamp: DateTime
+  +value: Double
+  +sensor: Sensor
+}
+
+class ControlCommand {
+  +timestamp: DateTime
+  +status: String
+  +actuator: Actuator
+}
+
+class ActivityLog {
+  +logEntries: List<LogEntry>
+}
+
+class LogEntry {
+  +type: String (SENSOR_READING or CONTROL_COMMAND)
+  +data: Object
+  +timestamp: DateTime
+}
+
+class AutomationRule {
+  +id: String
+  +precondition: String
+  +action: String
+  +status: String (ACTIVE, DEACTIVATED)
+  +dependencies: List<AutomationRule>
+  +conflictsWith: List<AutomationRule>
+  +triggeredAt: List<DateTime>
+}
+
+' Relationships
+
+SmartHome "1" -- "0..*" Room : contains
+Room "1" -- "0..*" Sensor : has
+Room "1" -- "0..*" Actuator : has
+Sensor "1" -- "0..*" SensorReading : generates
+Actuator "1" -- "0..*" ControlCommand : receives
+SmartHome "1" -- "0..*" ActivityLog : maintains
+ActivityLog "1" -- "0..*" LogEntry : contains
+SmartHome "1" -- "0..*" AutomationRule : manages
+AutomationRule "1" -- "0..*" AutomationRule : dependsOn
+AutomationRule "1" -- "0..*" AutomationRule : conflictsWith
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **SmartHome**: Represents the physical smart home with an address and rooms.
+- **Room**: Contains sensors and actuators; part of a SmartHome.
+- **Sensor** and **Actuator**: Represent devices in a room with unique IDs.
+- **SensorReading** and **ControlCommand**: Capture data from sensors and commands sent to actuators.
+- **ActivityLog**: Stores logs of sensor readings and control commands.
+- **AutomationRule**: Defines rules with conditions and actions. Rules can be active or inactive, and they can have dependencies and conflicts.
+- **LogEntry**: A generic log entry for storing both sensor readings and control commands.
+
+---
+
+### ✅ Notes:
+- The `precondition` and `action` fields in `AutomationRule` are modeled as strings to allow flexibility in representing Boolean expressions and command sequences.
+- Relationships like `dependsOn` and `conflictsWith` are represented using associations between `AutomationRule` instances.
+- The `triggeredAt` field in `AutomationRule` stores timestamps when the rule was triggered by SHAS.
+
+---
+

@@ -1,0 +1,94 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class Game {
+  -id: String
+  -players: List<Player>
+  -deck: Deck
+  -scoringTable: ScoringTable
+}
+
+class Player {
+  -id: String
+  -name: String
+}
+
+class Deck {
+  -id: String
+  -cards: List<Card>
+}
+
+class Card {
+  -id: String
+  -suit: Suit
+  -rank: Integer
+  +compare(other: Card): Comparison
+}
+
+enum Suit {
+  DIAMONDS
+  HEARTS
+  SPADES
+  CLUBS
+}
+
+enum Comparison {
+  LOWER
+  EQUAL
+  HIGHER
+}
+
+class ScoringTable {
+  -id: String
+  -rounds: List<Round>
+}
+
+abstract class Round {
+  -id: String
+  -winningPlayers: List<Player>
+  -points: Integer
+}
+
+class JackRound extends Round {
+  // Specific to jack rounds
+}
+
+class SoloRound extends Round {
+  -soloType: SoloType
+  -soloPlayer: Player
+}
+
+class MandatorySoloRound extends SoloRound {
+  // Special case of solo round
+}
+
+enum SoloType {
+  TRUMP
+  JACK
+  QUEEN
+}
+
+Game "1" *-- "4" Player
+Game "1" *-- "1" Deck
+Game "1" *-- "1" ScoringTable
+Deck "1" *-- "48" Card
+ScoringTable "1" *-- "0..*" Round
+Round <|-- JackRound
+Round <|-- SoloRound
+SoloRound <|-- MandatorySoloRound
+@enduml
+
+---
+
+### Explanation:
+- **Game** contains 4 **Players**, a **Deck**, and a **ScoringTable**.
+- Each **Player** has a unique ID and name.
+- A **Deck** holds up to 48 **Cards**.
+- **Card** has a suit, rank, and a `compare()` method that returns one of three **Comparison** values (LOWER, EQUAL, HIGHER).
+- **ScoringTable** keeps a list of **Rounds**.
+- **Round** is an abstract class with two concrete types: **JackRound** and **SoloRound**.
+- **SoloRound** has a **SoloType** (TRUMP, JACK, QUEEN) and exactly one **SoloPlayer**.
+- **MandatorySoloRound** is a special kind of **SoloRound**.
+
+Let me know if you'd like to add methods or relationships for specific game logic!

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedTheatres" eType="#//Theatre" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Theatre">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedPerformances" eType="#//Performance" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Performance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performedMovie" eType="#//Movie" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedCopy" eType="#//Copy" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedSeats" eType="#//Seat" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedReservations" eType="#//Reservation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="soldTickets" eType="#//Ticket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Movie"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Copy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Seat"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeReservations" eType="#//Reservation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="purchasedTickets" eType="#//Ticket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reservation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket"/>
+</ecore:EPackage>

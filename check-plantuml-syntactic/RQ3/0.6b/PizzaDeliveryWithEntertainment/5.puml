@@ -1,0 +1,11 @@
+@startuml
+
+class Diagram {SystemRequirement}
+    class SystemRequirement {
+        #system requirement
+        #include "SystemRequirement"
+        #define SYSTEM_REQUIREMENT_NAME "System Requirement"
+        #define SYSTEM_REQUIREMENT_VERSION "1.0"
+    }
+
+@enduml

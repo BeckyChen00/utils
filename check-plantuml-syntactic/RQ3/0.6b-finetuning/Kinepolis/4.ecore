@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentStep" eType="#//SimulationStep" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executionQueue" eType="#//JobQueue" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taskContext" eType="#//TaskContext" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActivitySession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="durationWindow" eType="#//TimeWindow" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedResources" eType="#//ResourceAllocation" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeWindow"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceAllocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskScheduler">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSession" eType="#//ActivitySession" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledSteps" eType="#//SimulationStep" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedResources" eType="#//ResourceAllocation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedTasks" eType="#//SimulationStep" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JobQueue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskContext"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemMonitor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredSteps" eType="#//SimulationStep" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredSessions" eType="#//ActivitySession" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackedMetrics" eType="#//PerformanceMetric" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedLogs" eType="#//LogEvent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PerformanceMetric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LogEvent"/>
+</ecore:EPackage>

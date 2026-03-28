@@ -1,0 +1,11 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement {
+        component name "System Requirement"
+    }
+
+        super Diagram
+    }
+}
+@enduml

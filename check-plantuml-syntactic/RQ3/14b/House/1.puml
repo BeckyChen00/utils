@@ -1,0 +1,76 @@
+
+@startuml
+' Class Diagram for House System
+
+class House {
+  -address: String
+  -buildingMaterial: String (wood, brick, concrete)
+  -hasBasement: Boolean
+  -basement: Basement
+}
+
+class Basement {
+  -name: String
+  -size: Double
+}
+
+class EarthBasement <|-- Basement
+class ConcreteBasement <|-- Basement
+
+EarthBasement {
+  -humidityLevel: Double
+}
+
+ConcreteBasement {
+}
+
+class SemiDetachedHouse <|-- House
+SemiDetachedHouse {
+  -hasGarden: Boolean
+  -numWindows: Integer
+  -parking: Parking
+}
+
+abstract class Parking {
+  -type: String
+}
+
+class Carport <|-- Parking
+class Garage <|-- Parking
+
+Carport {
+  -isDouble: Boolean
+  -hasFlatRoof: Boolean
+}
+
+Garage {
+  -hasAutomaticDoor: Boolean
+}
+
+class Company {
+  -name: String
+  -address: String
+}
+
+class JobLog {
+  -company: Company
+  -house: House
+  -hours: Integer
+  -agreedPrice: Double
+}
+
+' Associations
+House "1" *-- "0..*" Company : serviced by
+House "1" *-- "0..1" Basement : has
+SemiDetachedHouse "1" -- "1" Parking : has
+Company "1" *-- "0..*" JobLog : performs job in
+@enduml
+
+### Explanation of the Diagram:
+- **`House`** is the base class with attributes like `address`, `buildingMaterial`, and possibly a `Basement`.
+- **`Basement`** is an abstract class with two subclasses: **`EarthBasement`** (with humidity) and **`ConcreteBasement`**.
+- **`SemiDetachedHouse`** is a subclass of `House` with additional attributes like `hasGarden`, `numWindows`, and a `Parking` object.
+- **`Parking`** is an abstract class with two subclasses: **`Carport`** (double, flat roof) and **`Garage`** (automatic door).
+- **`Company`** stores name and address.
+- **`JobLog`** links a company to a house and records hours and price.
+

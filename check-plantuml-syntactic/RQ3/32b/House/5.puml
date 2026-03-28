@@ -1,0 +1,74 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class House {
+    - address: String
+    - buildingMaterial: BuildingMaterial (wood, brick, concrete)
+    + hasBasement(): boolean
+}
+
+class Basement {
+    - name: String
+    - size: int
+}
+
+class EarthBasement {
+    - humidityLevel: float
+}
+
+class ConcreteBasement {
+    ' No additional attributes for now
+}
+
+class SemiDetachedHouse {
+    - hasGarden: boolean
+    - windowCount: int
+    - carportsOrGarage: Carport[] | Garage
+}
+
+class Carport {
+    - isDouble: boolean
+    - hasFlatRoof: boolean
+}
+
+class Garage {
+    - hasAutomaticDoor: boolean
+}
+
+class Company {
+    - name: String
+    - address: String
+}
+
+class JobLog {
+    - hoursWorked: int
+    - agreedPrice: float
+}
+
+' Inheritance relationships
+
+House <|-- SemiDetachedHouse
+Basement <|-- EarthBasement
+Basement <|-- ConcreteBasement
+
+' Composition / Aggregation
+
+SemiDetachedHouse "1" *-- "0..*" Carport : hasCarports
+SemiDetachedHouse "1" *-- "0..1" Garage : hasGarage
+House "1" *-- "0..*" Company : servicedBy
+House "1" *-- "0..*" JobLog : jobLogs
+Company "1" *-- "0..*" JobLog : performsJobs
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **`House`** is the base class with common attributes.
+- **`SemiDetachedHouse`** inherits from `House` and adds specific properties.
+- **`Basement`** is an abstract concept, with two subtypes: `EarthBasement` and `ConcreteBasement`.
+- **`Carport` and `Garage`** are alternatives in a semi-detached house; they are mutually exclusive.
+- **`Company` and `JobLog`** represent the relationship between service providers and houses.
+

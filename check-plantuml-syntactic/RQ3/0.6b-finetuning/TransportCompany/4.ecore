@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="placedOrders" eType="#//Order" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="items" eType="#//OrderItem" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentStockStatus" eType="#//StockStatus" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedRecipes" eType="#//Recipe" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrderItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfilledBatch" eType="#//Batch" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Batch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredIngredients" eType="#//Ingredient" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StockStatus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ingredient"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Recipe">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ingredients" eType="#//Ingredient" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="favoriteRecipes" eType="#//Recipe" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

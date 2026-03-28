@@ -1,0 +1,126 @@
+
+@startuml
+
+' Define classes
+class Traveller {
+  - travellerID: String
+  - name: String
+  - billingInfo: BillingInformation
+  - travelPreferences: List<TravelPreference>
+  - reliabilityRating: Double
+}
+
+class BillingInformation {
+  - companyName: String
+  - address: String
+  - creditCardDetails: String
+}
+
+class TravelPreference {
+  - preferenceType: String
+  - value: String
+}
+
+class Hotel {
+  - hotelID: String
+  - name: String
+  - address: String
+  - city: String
+  - rating: Integer
+  - chain: HotelChain
+}
+
+class HotelChain {
+  - chainID: String
+  - name: String
+}
+
+class RoomType {
+  - roomTypeID: String
+  - typeName: String
+  - description: String
+}
+
+class Booking {
+  - bookingID: String
+  - travellerID: String
+  - hotelID: String
+  - checkInDate: Date
+  - checkOutDate: Date
+  - numberOfRooms: Integer
+  - roomType: RoomType
+  - totalPrice: Double
+  - paymentMethod: PaymentMethod
+  - status: BookingStatus
+  - confirmationTime: Date
+  - cancellationDeadline: Date
+  - isConfirmed: Boolean
+}
+
+class PreliminaryBooking extends Booking {
+  - competitionDeadline: Date
+}
+
+class FinalizedBooking extends Booking {
+  - paymentStatus: PaymentStatus
+}
+
+class SpecialOffer {
+  - offerID: String
+  - hotelID: String
+  - price: Double
+  - roomType: RoomType
+  - additionalBenefits: List<String>
+  - validityPeriod: DateRange
+}
+
+class PaymentMethod {
+  - methodType: String
+  - cardNumber: String
+  - expirationDate: Date
+}
+
+class BookingStatus {
+  - statusName: String
+}
+
+class PaymentStatus {
+  - statusName: String
+}
+
+class DateRange {
+  - startDate: Date
+  - endDate: Date
+}
+
+' Define relationships
+Traveller "1" --> "0..*" BillingInformation : has
+Traveller "1" --> "0..*" TravelPreference : has
+Traveller "1" --> "0..*" Booking : has
+Traveller "1" --> "0..*" SpecialOffer : receives
+
+Hotel "1" --> "0..*" RoomType : offers
+Hotel "1" --> "0..*" Booking : handles
+Hotel "1" --> "0..*" SpecialOffer : provides
+
+HotelChain "1" --> "0..*" Hotel : owns
+
+Booking "1" --> "1" PaymentMethod : requires
+Booking "1" --> "1" BookingStatus : has
+FinalizedBooking "1" --> "1" PaymentStatus : has
+
+PreliminaryBooking "1" --> "1" Booking : extends
+FinalizedBooking "1" --> "1" Booking : extends
+
+SpecialOffer "1" --> "1" DateRange : valid until
+@enduml
+
+---
+
+### 📌 Notes:
+- This class diagram models the main entities and their relationships.
+- Inheritance is used between `Booking`, `PreliminaryBooking`, and `FinalizedBooking`.
+- Associations are defined using standard UML notation with multiplicity where appropriate.
+- The diagram assumes that a `Traveller` can have multiple `Booking`s, and each `Booking` is associated with one `Hotel`, `RoomType`, and `PaymentMethod`.
+
+Let me know if you'd like this visualized as an image or need any refinements!

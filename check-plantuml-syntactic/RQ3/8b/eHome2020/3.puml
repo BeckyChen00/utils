@@ -1,0 +1,103 @@
+
+---
+
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class Sensor {
+    +vendorId: String
+    +description: String
+    +unit: Unit
+    +room: Room
+    +threshold: Threshold
+    +getValues(): List<Value>
+    +getLastValue(): Value
+    +setThreshold(threshold: Threshold): void
+}
+
+class TemperatureSensor extends Sensor {
+    +minValue: double
+    +maxValue: double
+}
+
+class PowerSensor extends Sensor {
+    +totalPowerConsumption: double
+}
+
+class Room {
+    +description: String
+    +sensors: List<Sensor>
+}
+
+class Apartment {
+    +address: String
+    +rooms: List<Room>
+    +inhabitants: List<Inhabitant>
+    +emailAddress: String
+}
+
+class Inhabitant {
+    +username: String
+    +password: String
+    +isAdmin: boolean
+    +querySensorValues(sensor: Sensor): List<Value>
+    +setThreshold(sensor: Sensor, threshold: Threshold): void
+    +configureSensor(sensor: Sensor, description: String, room: Room): void
+}
+
+class Threshold {
+    +value: double
+    +unit: Unit
+}
+
+class Value {
+    +timestamp: Date
+    +value: double
+}
+
+class EMonitor {
+    +checkThresholds(apartment: Apartment): void
+    +sendAlertMessage(apartment: Apartment, message: String): void
+}
+
+' Associations
+Sensor "1" -- "1" Room: assigned to
+Sensor "1" -- "1" Threshold: has
+Sensor "1" -- "1" Value: stores
+Apartment "1" -- "1" Inhabitant: has
+Apartment "1" -- "1" EMonitor: monitored by
+Room "1" -- "*" Sensor: contains
+Inhabitant "1" -- "*" Value: queries
+Threshold "1" -- "1" Sensor: belongs to
+Value "1" -- "1" Sensor: belongs to
+EMonitor "1" -- "1" Apartment: monitors
+
+@enduml
+
+---
+
+### 🔍 **Explanation of Key Elements**
+
+- **Sensor**: Base class with common properties like `vendorId`, `description`, `unit`, etc.
+- **TemperatureSensor** and **PowerSensor**: Subclasses of `Sensor` with additional properties specific to each type.
+- **Room**: Contains a list of sensors.
+- **Apartment**: Has multiple rooms and inhabitants; also has an email address for alerts.
+- **Inhabitant**: Can log in, query sensor values, set thresholds, and configure sensors if admin.
+- **Threshold**: Represents the value and unit for a sensor's threshold.
+- **Value**: Stores a timestamp and the measured value of a sensor.
+- **EMonitor**: External system that checks thresholds and sends alerts.
+
+---
+
+### 📌 **Notes**
+- The diagram uses inheritance (`<<extends>>`) where appropriate.
+- Associations are shown using multiplicity notation.
+- The `Unit` enum is assumed to be defined elsewhere (e.g., `CELSIUS`, `WATT`).
+
+---
+
+### 💡 **How to Render**
+2. Click "Render" to generate the class diagram.
+
+Let me know if you'd like a version with more details or specific stereotypes!

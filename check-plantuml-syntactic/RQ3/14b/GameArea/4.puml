@@ -1,0 +1,94 @@
+
+---
+
+
+@startuml
+class GameArea {
+  -name: String
+  +getGameElement(): GameElement
+  +getGamePieces(): List<GamePiece>
+}
+
+class GameElement {
+  x: long
+  y: long
+  +getPosition(): Point
+}
+
+class Shape {
+  +connectTo(shape: Shape): void
+}
+
+class Object {
+}
+
+class Opponent {
+  lives: int
+  +kill(): void
+}
+
+class GamePiece {
+}
+
+class Point {
+  x: long
+  y: long
+}
+
+GameArea "1" *-- "1..*" GameElement : contains
+GameArea "1" *-- "1..2" GamePiece : contains
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+Shape "0..*" -- "0..*" Shape : connectedTo
+GameArea "1" --> "1" Opponent : boss
+@enduml
+
+---
+
+### 📜 **Textual Description in DEX Syntax (Ignoring Visibilities):**
+
+- **Class: GameArea**
+  - Attributes:
+    - name: String
+  - Associations:
+    - contains: GameElement (multiplicity: 1..*)
+    - contains: GamePiece (multiplicity: 1..2)
+    - boss: Opponent (multiplicity: 1)
+
+- **Class: GameElement**
+  - Attributes:
+    - x: long
+    - y: long
+  - Methods:
+    - getPosition(): Point
+  - Subclasses:
+    - Shape
+    - Object
+    - Opponent
+
+- **Class: Shape**
+  - Methods:
+    - connectTo(shape: Shape): void
+  - Associations:
+    - connectedTo: Shape (multiplicity: 0..*)
+
+- **Class: Object**
+  - No specific attributes or methods defined.
+
+- **Class: Opponent**
+  - Attributes:
+    - lives: int
+  - Methods:
+    - kill(): void
+
+- **Class: GamePiece**
+  - No specific attributes or methods defined.
+
+- **Class: Point**
+  - Attributes:
+    - x: long
+    - y: long
+
+---
+

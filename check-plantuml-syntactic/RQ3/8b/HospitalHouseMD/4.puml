@@ -1,0 +1,92 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteAlign center
+
+class Patient {
+  - String id
+  - String name
+  - List<Doctor> assignedDoctors
+  - List<Treatment> treatments
+  - boolean consentGiven
+}
+
+class Doctor {
+  - String id
+  - String name
+  - List<Patient> patients
+  + diagnose(Patient patient, Illness illness)
+}
+
+class HeadDoctor {
+  - String id
+  - String name
+  + approveDiagnosis(Doctor doctor, Diagnosis diagnosis)
+}
+
+class Illness {
+  - String id
+  - String name
+  - int priorityScore (1: low, 2: high)
+  + updatePriorityScore(int newScore)
+}
+
+class Diagnosis {
+  - String id
+  - Patient patient
+  - Illness illness
+  - Doctor doctor
+  - Date diagnosisDate
+}
+
+class Treatment {
+  - String id
+  - Diagnosis diagnosis
+  - Illness illness
+  - Stage stage
+  - List<Nurse> responsibleNurses
+  + upgradeStage(Stage newStage)
+  + downgradeStage(Stage newStage)
+}
+
+enum Stage {
+  STAGE_1, STAGE_2, STAGE_3
+}
+
+class Nurse {
+  - String id
+  - String name
+  - List<Treatment> monitoredTreatments
+  + monitorTreatment(Treatment treatment)
+}
+
+Patient "1" -- "0..*" Doctor : assigned to
+Doctor "1" -- "1" Diagnosis : makes
+Diagnosis "1" -- "1" Illness : related to
+Diagnosis "1" -- "1" Treatment : has
+Illness "1" -- "1..*" Treatment : associated with
+Treatment "1" -- "0..*" Nurse : monitored by
+HeadDoctor "1" -- "0..*" Diagnosis : approves
+@enduml
+
+---
+
+### ✅ Explanation of the Diagram
+
+- **Patient**: Represents a patient with rare symptoms. They can be assigned one or more doctors and have treatments.
+- **Doctor**: Diagnoses patients and assigns illnesses. They are also responsible for upgrading/downgrading treatments.
+- **HeadDoctor**: Approves diagnoses made by other doctors before any treatment can begin.
+- **Illness**: Has a priority score (high or low). When priority is high, all treatments are automatically upgraded to stage 3.
+- **Diagnosis**: A specific diagnosis made by a doctor for a patient with a certain illness.
+- **Treatment**: Each treatment has a stage and is linked to a diagnosis. It may involve multiple nurses for monitoring.
+- **Stage**: An enum representing the three stages of treatment.
+
+---
+
+### 📌 Notes:
+- The `consentGiven` flag in `Patient` indicates whether the patient has given consent to upgrade their treatment to higher stages.
+- If an illness gets a **high** priority, all its current treatments are immediately moved to **Stage 3**, without needing patient consent.
+- Nurses are responsible for monitoring patients in **Stage 3** due to the higher follow-up requirement.
+- Doctors are responsible for **downgrading** treatments when it’s no longer necessary.
+
+Let me know if you'd like this rendered as an image or want to add more associations!

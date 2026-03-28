@@ -1,0 +1,80 @@
+@startuml
+enum ComplianceStatus {
+  Updated
+  NonCompliant
+  PendingReview
+  VerifiedSignature
+}
+enum AssetCategory {
+  PhysicalAsset
+  DigitalAsset
+  NonFinancialAsset
+}
+enum FairnessAuditStatus {
+  Pass
+  Fail
+}
+class Participant {
+  participationDate: Date
+  riskLevelScore: int
+  +submitEvidence(): AuditEvidence
+  +getRiskLevel(): int
+}
+class ComplianceRecord {
+  generationTime: Date
+  status: ComplianceStatus
+  isVerified: boolean
+  +submitEvidence(): AuditEvidence
+  +compileReport(): ComplianceReport
+  +generateAuditTrail(): AuditTrail
+}
+class AuditRule {
+  ruleName: String
+  description: String
+  eligibilityCriteria: String
+  +evaluate(asset: FinancialAsset, participant: Participant): ComplianceStatus
+}
+class AuditEvidence {
+  submissionDate: Date
+  contentDescription: String
+  +validateSignature(): boolean
+  +retrieveContent(): String
+}
+class AuditTrail {
+  generationTime: Date
+  +generateReport(): ComplianceReport
+  +recordEvent(eventDescription: String, timestamp: Date): void
+}
+class ComplianceReport {
+  summary: String
+  finalStatus: ComplianceStatus
+  +checkFairness(): FairnessAuditStatus
+  +getSummary(): String
+}
+class FinancialAsset {
+  purchaseDate: Date
+  category: AssetCategory
+  +calculateValue(): double
+  +getHistoricalTransactions(): List<Transaction>
+}
+class Transaction {
+  timestamp: Date
+  amount: double
+  category: AssetCategory
+  +recordInflow(): void
+  +recordOutflow(): void
+}
+Participant *-- "0..*" AuditEvidence : submittedEvidence
+ComplianceRecord --> "1..*" Transaction : basisTransactions
+ComplianceRecord --> "1" AuditEvidence : supportingEvidence
+ComplianceRule --> "0..*" AuditEvidence : evaluatedEvidence
+AuditRule --> "0..*" ComplianceRecord : affectedRecords
+AuditRule --> "0..*" Transaction : definedTransactions
+AuditEvidence --> "0..*" FinancialAsset : attributedAssets
+AuditTrail --> "1" AuditEvidence : trailEvidence
+AuditReport --> "0..*" AuditEvidence : includedEvidence
+AuditReport --> "0..*" AuditTrail : includedTrail
+ComplianceReport --> "1" ComplianceRule : basedRule
+ComplianceRule --> "0..*" AuditRule : relatedRules
+Participant --> "0..*" AuditRule : followedRules
+@enduml

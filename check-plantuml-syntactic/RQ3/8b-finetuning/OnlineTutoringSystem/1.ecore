@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//subjectName" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="subjectName"/>
+  <eClassifiers xsi:type="ecore:EClass" name="preferredDate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Time" eType="#//preferredTime"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="preferredTime"/>
+  <eClassifiers xsi:type="ecore:EClass" name="status"/>
+  <eClassifiers xsi:type="ecore:EClass" name="scheduledDate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Date" eType="#//status"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="startTime">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Time" eType="#//endTime"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="endTime"/>
+  <eClassifiers xsi:type="ecore:EClass" name="actualDuration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolean" eType="#//isCompleted"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="isCompleted"/>
+  <eClassifiers xsi:type="ecore:EClass" name="attendanceConfirmed">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//transactionId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="transactionId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="amount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//paymentMethod" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="paymentMethod"/>
+  <eClassifiers xsi:type="ecore:EClass" name="timestamp">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolean" eType="#//isRefunded"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="isRefunded"/>
+  <eClassifiers xsi:type="ecore:EClass" name="process"/>
+  <eClassifiers xsi:type="ecore:EClass" name="messageContent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//process"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="sentDate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolean" eType="#//isRead"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="isRead"/>
+  <eClassifiers xsi:type="ecore:EClass" name="send"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedPayments" eType="#//send"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Student">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeRequests" eType="#//Request" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedNotifications" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Request">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetTutor" eType="#//Tutor" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultsInSession" eType="#//Session"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tutor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sentNotifications" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Session">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedPayment" eType="#//Payment" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+</ecore:EPackage>

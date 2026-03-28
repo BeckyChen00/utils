@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="FuelPurchase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="purchaseId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="purchaseDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="quantityLiters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourcePump" eType="#//FuelPump" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedPrice" eType="#//DailyPrice" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="purchasedFuel" eType="#//Fuel" lowerBound="1"/>
+    <eOperations xsi:type="ecore:EOperation" name="getFuelType" eType="#//Fuel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DailyPrice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pricePerLiter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priceDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eOperations xsi:type="ecore:EOperation" name="isActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters xsi:type="ecore:EParameter" name="priceDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SaleRecord">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transactionDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedPurchase" eType="#//FuelPurchase" lowerBound="1"/>
+    <eOperations xsi:type="ecore:EOperation" name="validate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//pumpId" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="pumpId"/>
+  <eClassifiers xsi:type="ecore:EClass" name="isSelfService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;String&gt;" eType="#//supportedFuels" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="supportedFuels"/>
+  <eClassifiers xsi:type="ecore:EClass" name="dispenseFuel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//fuelName" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="fuelName"/>
+  <eClassifiers xsi:type="ecore:EClass" name="octaneRating">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="FuelCategory" eType="#//category" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="category"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Fuel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GasStation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedPumps" eType="#//FuelPump" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FuelPump">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dispensedFuel" eType="#//Fuel" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pricingHistory" eType="#//DailyPrice" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

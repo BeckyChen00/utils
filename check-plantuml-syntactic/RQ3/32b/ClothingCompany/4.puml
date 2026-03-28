@@ -1,0 +1,87 @@
+
+@startuml
+
+' Set skinparam for better readability
+skinparam classAttributeFontName Arial
+skinparam classAttributeFontSize 12
+skinparam class {Backgroundcolor #F5F5F5}
+
+class Product {
+    +String name
+    +String description
+    +double netPrice
+    +Company manufacturer
+    +Country countryOfManufacture
+}
+
+class Company {
+    +String name
+}
+
+class Country {
+    +String name
+    +double vatRate
+    +Currency currency
+    +double exchangeRateToEuro
+}
+
+class Currency {
+    +String code (e.g., USD, EUR)
+    +String symbol (e.g., $, €)
+}
+
+class Representative {
+    +String firstName
+    +String lastName
+    +String ssn
+    +String telephone
+    +String email
+    +Country responsibleCountry
+}
+
+class Customer {
+    +String name
+    +String address
+    +String telephone
+    +String email
+    +List<Country> countriesOfResale
+}
+
+class Order {
+    +String orderId
+    +Product product
+    +Customer customer
+    +Representative representative
+    +int quantity
+    +Date orderDate
+    +Date deliveryDate
+}
+
+' Relationships
+Product "1" -- "1" : has --> Company
+Product "1" -- "1" : manufactured in --> Country
+
+Country "1" -- "1" : uses --> Currency
+
+Representative "1" -- "1" : is responsible for --> Country
+
+Customer "1" -- "*" : resells in --> Country
+
+Order "1" -- "1" : includes --> Product
+Order "1" -- "1" : placed by --> Customer
+Order "1" -- "1" : handled by --> Representative
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Product**: Core entity with name, description, price, and links to manufacturer and country.
+- **Company**: Represents the manufacturer of the product.
+- **Country**: Holds VAT rate, currency, and exchange rate. Also determines where products are sold.
+- **Currency**: Used to represent the local currency and its relation to euro.
+- **Representative**: Sales representative assigned to one country; stores personal information.
+- **Customer**: Stores contact info and the list of countries they resell in.
+- **Order**: Links a customer, a product, and a representative, including quantities and dates.
+

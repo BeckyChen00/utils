@@ -1,0 +1,62 @@
+@startuml
+enum PositionType {
+  GK
+  LB
+  RB
+  CB
+  CB
+  LW
+  RW
+  ST
+  DM
+  RM
+  LM
+  AM
+  FW
+}
+enum RecommendationStatus {
+  KeyPlayer
+  FirstTeamPlayer
+  ReserveTeamPlayer
+  ProspectivePlayer
+  NotAGoodSigning
+  PendingReview
+}
+class PlayerProfile {
+  playerName: String
+  currentPosition: PositionType
+  currentStatus: RecommendationStatus
+  +addScoutingResult(report: ScoutingReport): void
+  +calculateOverallScore(): int
+}
+class ScoutingReport {
+  reportDate: Date
+  pros: String[]
+  cons: String[]
+  recommendation: RecommendationStatus
+  +finalizeRecommendation(recommendation: RecommendationStatus): void
+}
+class ScoutingAssignment {
+  assignmentDate: Date
+  priorityLevel: int
+  isCompleted: boolean
+  +generateReport(pros: String[], cons: String[]): ScoutingReport
+  +cancelAssignment(): void
+}
+class ScoutingTeam {
+  teamName: String
+  +assignMember(employee: Employee, role: String): void
+  +getMembers(): Employee[]
+}
+class Employee {
+  employeeName: String
+  role: String
+  +manageProfiles(): void
+  +submitReport(report: ScoutingReport): void
+}
+PlayerProfile *-- "0..*" ScoutingReport : scoutingResults
+ScoutingAssignment --> "0..1" ScoutingReport : generatedReport
+ScoutingTeam --> "1..*" Employee : members
+Employee --> "0..*" PlayerProfile : managedProfiles
+ScoutingTeam --> "0..*" ScoutingAssignment : assignedTasks
+@enduml

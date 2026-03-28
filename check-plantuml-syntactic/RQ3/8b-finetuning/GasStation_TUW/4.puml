@@ -1,0 +1,40 @@
+@startuml
+enum PumpType {
+  SELF_SERVICE
+  NON_SELF_SERVICE
+}
+class GasStation {
+  address: String
+  +registerPump(pumpNumber: int, pumpType: PumpType, availableFuels: List<Fuel>): FuelPump
+  +getStationFuelPumps(): List<FuelPump>
+}
+class FuelPump {
+  number: int
+  pumpType: PumpType
+  availableFuels: List<Fuel>
+}
+class Fuel {
+  name: String
+  octaneRating: int
+  +getFuelName(): String
+}
+class DailyFuelPrice {
+  pricePerLiter: int
+  date: Date
+  fuel: Fuel
+  gasStation: GasStation
+}
+class FuelPurchase {
+  purchaseId: String
+  litersDispensed: int
+  purchaseDate: Date
+  +calculateTotalCost(): int
+  +getPurchaseDetails(): String
+}
+GasStation *-- "*" FuelPump : ownedPumps
+FuelPump --> "*" Fuel : offeredFuels
+GasStation *-- "*" DailyFuelPrice : recordedPrices
+FuelPurchase --> "1" FuelPump : dispensedAt
+FuelPurchase --> "1" DailyFuelPrice : appliedPrice
+DailyFuelPrice --> "1" Fuel : pricedFuel
+@enduml

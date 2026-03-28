@@ -1,0 +1,65 @@
+@startuml
+enum JobStatus {
+  Submitted
+  Running
+  Completed
+  Failed
+  Cancelled
+}
+enum JobPriority {
+  Low
+  Medium
+  High
+  Critical
+}
+enum TaskType {
+  Compilation
+  Execution
+  Testing
+  Deployment
+  Debugging
+  Documentation
+}
+class CompetitionJob {
+  currentStatus: JobStatus
+  priority: JobPriority
+  +submit()
+  +updateStatus(newStatus: JobStatus)
+  +cancel()
+}
+class CompileTask {
+  sourceCodePath: String
+  targetArchitecture: String
+  flags: String[]
+  +compile(sourcePath: String, targetPath: String, includesHeaders: boolean)
+  +getCompileRule(): String
+}
+class ExecutionTask {
+  targetArchitecture: String
+  environmentVariables: String[]
+  +spawnJob(difficultyLevel: int): CompetitionJob
+  +execute()
+}
+class DeploymentTask {
+  targetStage: String
+  +deploy(sourceCode: String, targetDirectory: String): boolean
+  +configureEnvironment()
+}
+class Script {
+  scriptContent: String
+  +compileAndRun()
+  +fetchOutput()
+}
+class Toolchain {
+  version: String
+  vendorName: String
+  supportedArchitectures: String[]
+  +getSupportedArchitectures(): String[]
+  +isCompatible(targetArch: String): boolean
+}
+CompetitionJob *-- "0..*" CompileTask : submittedTasks
+CompileTask --> "1" Toolchain : targetToolchain
+ExecutionTask *-- "1" CompetitionJob : managedJob
+DeploymentTask --> "1" Script : targetScript
+DeploymentTask -- CompilingTask
+@enduml

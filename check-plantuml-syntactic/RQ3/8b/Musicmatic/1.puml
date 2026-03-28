@@ -1,0 +1,81 @@
+
+@startuml
+skinparam classAttributeStyle rectangle
+
+class Song {
+  -title: String
+  -year: int
+  -length: int
+  -genre: String
+  -artist: Artist
+}
+
+class Artist {
+  -name: String
+  -dateOfBirth: Date
+  -websiteURL: String
+  +getArtistName(): String
+}
+
+class User {
+  -id: int
+  -name: String
+  -address: String
+  +getId(): int
+  +getName(): String
+  +getAddress(): String
+}
+
+class RegularUser {
+  -id: int
+  -name: String
+  -address: String
+  +buySingle(Song): void
+  +createAlbum(Hit[]): Album
+}
+
+class BusinessUser {
+  -id: int
+  -name: String
+  -address: String
+  -vatNumber: String
+  +uploadSong(Song): void
+}
+
+class Hit {
+  -song: Song
+  -trackNumber: int
+  -album: Album
+}
+
+class Album {
+  -hits: Hit[]
+  -suggestedTo: RegularUser[]
+}
+
+' Relationships
+
+User <|-- RegularUser
+User <|-- BusinessUser
+
+Song "1" -- "1" Artist : belongs to
+RegularUser "1" -- "1" Album : creates
+BusinessUser "1" -- "1" Song : uploads
+Song "1" -- "1" Hit : is a single
+Hit "1" -- "1" Album : is part of
+Album "1" -- "1" RegularUser : suggested to
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Relationships:
+
+- **Song** has a **one-to-one** relationship with **Artist** (a song belongs to exactly one artist).
+- **User** is an abstract class from which **RegularUser** and **BusinessUser** inherit.
+- **RegularUser** can **buy singles** and **create albums**.
+- **BusinessUser** can **upload songs**.
+- **Hit** is a type of **Song** (single), and it is part of an **Album**.
+- An **Album** can be **suggested to** multiple **RegularUsers**.
+
+Let me know if you'd like to visualize this in a rendered format or export it as an image.

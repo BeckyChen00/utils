@@ -1,0 +1,51 @@
+@startuml
+enum ArticleType {
+  PeerReviewed
+  TechnicalReport
+}
+enum ReviewStatus {
+  Pending
+  UnderReview
+  Accepted
+  Rejected
+  Archived
+}
+class Researcher {
+  personId: String
+  fullName: String
+  phoneNumber: String
+  researchKeywords: String[]
+  fieldOfStudy: String
+  isTenured: boolean
+  +getResearcherCountByTenureStatus(isTenured: boolean): int
+}
+class ResearchInstitution {
+  institutionCode: String
+  institutionName: String
+  +publishArticle(article: Article, type: ArticleType): void
+}
+class Article {
+  doi: String
+  title: String
+  publicationDate: Date
+  articleType: ArticleType
+  citationCount: int
+  +updateStatus(status: ReviewStatus): void
+  +getAbstractSummary(): String
+}
+class Journal {
+  journalName: String
+  impactFactor: double
+}
+class Publisher {
+  publisherName: String
+  +addJournal(journal: Journal): void
+}
+Researcher --> "0..*" Article : authoredArticles
+Researcher --> "0..*" ReviewStatus : reviewRoles
+Article *-- "1..*" ReviewStatus : reviewRecords
+ResearchInstitution *-- "0..*" Article : ownedArticles
+Article *-- "1" Journal : publicationJournal
+Publisher *-- "1..*" Journal : publishedJournals
+ResearchInstitution --> "1" Publisher : subscribingPublisher
+@enduml

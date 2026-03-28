@@ -1,0 +1,59 @@
+@startuml
+enum SensorType {
+  Barometer
+  GroundTemperature
+  WindSpeed
+  WindDirection
+  Humidity
+  Pressure
+}
+enum FlightStatus {
+  Idle
+  InFlight
+  Landing
+  Maintenance
+  Disassembled
+}
+class StarHub {
+  hubName: String
+  latitude: double
+  longitude: double
+  +getCoordinates(): String
+  +assignBattery(battery: BatteryUnit): void
+}
+class FlightZone {
+  boundaryLat: double
+  boundaryLon: double
+  +checkAvailability(): boolean
+}
+class BatteryUnit {
+  capacity: int
+  chargeLevel: int
+  +charge(amount: int): void
+  +deplete(amount: int): void
+}
+class FlightSchedule {
+  scheduledFlightTimes: Date[]
+  isConfirmed: boolean
+  +reschedule(newTime: Date): void
+  +getNextAvailable(): FlightSchedule
+}
+class SensorStation {
+  currentStatus: FlightStatus
+  sensorType: SensorType
+  locationTags: String[]
+  +readData(): Object
+  +updateStatus(newStatus: FlightStatus): void
+}
+class MissionController {
+  controllerName: String
+  +requestActivation(station: SensorStation): void
+  +generateFlightReport(date: Date): String
+}
+StarHub *-- "0..*" FlightZone : containedZones
+StarHub *-- "0..*" BatteryUnit : installedBatteries
+StarHub --> "0..*" SensorStation : connectedStations
+StarHub --> "0..*" FlightSchedule : activeSchedules
+FlightSchedule *-- "1..*" SensorStation : targetStations
+FlightSchedule --> "1" MissionController : orchestratorController
+@enduml

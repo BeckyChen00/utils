@@ -1,0 +1,74 @@
+@startuml
+enum AttendanceStatus {
+  Confirmed
+  AttendingMaybe
+  NotAttending
+}
+enum TaskStatus {
+  Pending
+  Completed
+}
+class Organizer {
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  password: String
+  +editInfo(): void
+  +manageEvent(event: Event): void
+  +viewInvitations(): void
+}
+class Event {
+  title: String
+  occurrenceDate: Date
+  startTime: Time
+  endTime: Time
+  locationName: String
+  streetAddress: String
+  +getVenue(): String
+  +setDetails(title: String, date: Date, time: Time): void
+  +inviteAttendee(name: String, email: String): void
+}
+class Attendee {
+  firstName: String
+  lastName: String
+  email: String
+  isConfirmed: boolean
+  attendanceStatus: AttendanceStatus
+  +attend(): void
+  +decline(): void
+  +updateStatus(newStatus: AttendanceStatus): void
+}
+class Task {
+  description: String
+  taskType: String
+  currentStatus: TaskStatus
+  +markComplete(): void
+  +markIncomplete(): void
+}
+class Invitation {
+  sentDate: Date
+  isRead: boolean
+  +viewDetails(): void
+}
+class GuestList {
+  guestCount: int
+  +addGuest(name: String, email: String): void
+  +removeGuest(guest: Attendee): void
+}
+class EventChecklist {
+  listName: String
+  +addTask(description: String): Task
+  +removeTask(task: Task): void
+  +getTasks(): List<Task>
+}
+Organizer "1" --> "*" Event : managedEvents
+Event "1" *-- "1" GuestList : guestList
+Event "1" *-- "1" EventChecklist : checklist
+Event "1" *-- "*" Invitation : invitations
+Attendee "1" --> "*" Event : attendedEvents
+Attendee "1" --> "*" Task : assignedTasks
+Invitation "1" --> "1" Attendee : recipient
+Invitation "1" --> "1" Event : relatedEvent
+Task -- Organizer
+@enduml

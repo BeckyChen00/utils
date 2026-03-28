@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Artist">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateOfBirth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creates" eType="#//Song" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegularUser" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buys" eType="#//Single" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buys" eType="#//Album" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receives" eType="#//Suggestion" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BusinessUser" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="vatNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uploads" eType="#//Song" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Single" eSuperTypes="#//Song"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Hit" eSuperTypes="#//Song">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="part_of" eType="#//Album" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Album">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trackNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Hit" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="suggested_as" eType="#//Suggestion" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Suggestion"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//title" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="title"/>
+  <eClassifiers xsi:type="ecore:EClass" name="year">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//genre"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="genre"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Song">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongs_to" eType="#//Artist" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uploaded_by" eType="#//BusinessUser" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,50 @@
+
+@startuml
+class Diagram {
+  class SystemRequirement {
+    string name,
+    string description,
+    string required_features,
+    string constraints,
+    string author,
+    string version
+  }
+
+  class Requirement {
+    string id,
+    string name,
+    string description,
+    string category,
+    string priority,
+    string status
+  }
+
+  class Feature {
+    string name,
+    string description,
+    string type,
+    string domain
+  }
+
+  class Constraint {
+    string name,
+    string reference,
+    string constraint_type,
+    string value
+  }
+
+  class Dependency {
+    string source,
+    string target,
+    string dependency_type,
+    string frequency
+  }
+
+  class SystemRequirement has {
+    system_requirement as {
+      requirement -> feature,
+      feature -> constraint,
+      constraint -> dependency
+    }
+  }
+@enduml

@@ -1,0 +1,68 @@
+@startuml
+enum RegistrationStatus {
+  Pending
+  Completed
+  Cancelled
+}
+enum ContactPreference {
+  Telephone
+  Email
+  SocialMedia
+  TextMessage
+}
+enum PaymentMethod {
+  CreditCard
+  DebitCard
+  Cash
+  DigitalWallet
+}
+class Registration {
+  registrationDate: Date
+  status: RegistrationStatus
+  preference: ContactPreference
+  paymentMethod: PaymentMethod
+  +updateDetails(newStatus: RegistrationStatus, newPreference: ContactPreference): void
+  +addMember(member: ContactProfile): void
+  +getMemberList(): ContactProfile[]
+}
+class ContactProfile {
+  phoneNumber: String
+  emailAddress: String
+  socialMediaHandle: String
+  isActive: boolean
+  +generateContactList(): ContactProfile[]
+}
+class DiscountRule {
+  ruleName: String
+  discountPercentage: double
+  applicationConditions: String
+  +calculateDiscount(amount: double): double
+}
+class LoyaltyPointBalance {
+  totalPoints: int
+  +updatePoints(additionalPoints: int): void
+  +getTotalPoints(): int
+}
+class Member {
+  fullName: String
+  registrationDate: Date
+  loyaltyPoints: int
+  isActive: boolean
+  +applyDiscount(rule: DiscountRule): void
+  +renewAccount(): void
+  +claimPoints(amount: int): void
+}
+class Notification {
+  sentDate: Date
+  messageContent: String
+  recipientName: String
+  +send(): void
+}
+Registration *-- "1" ContactProfile : registeredProfile
+Registration *-- "1" LoyaltyPointBalance : loyaltyPointsBalance
+Registration *-- "1" ContactProfile : contactProfile
+Member --> "*" ContactProfile : contactProfiles 'opposite: member
+Member --> "*" DiscountRule : appliedRules 'opposite: recipient
+Notification --> "1" Member : sentTo
+Notification --> "1" ContactProfile : recipientProfile
+@enduml

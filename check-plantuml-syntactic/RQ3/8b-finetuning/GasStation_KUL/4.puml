@@ -1,0 +1,74 @@
+@startuml
+enum PaymentMethod {
+  Cash
+  CreditCard
+  RefuelCard
+}
+enum PumpStatus {
+  Idle
+  InUse
+  Blocked
+}
+class FuelCard {
+  cardNumber: String
+  ownerName: String
+  +activate(): boolean
+  +suspend(): boolean
+}
+class Customer {
+  name: String
+  contactInfo: String
+  loyaltyPoints: int
+  +registerCard(card: FuelCard): boolean
+  +suspendAccount(): boolean
+  +reactivateAccount(): boolean
+}
+class GasStation {
+  stationName: String
+  location: String
+  +managePump(pump: RefuelingPump): boolean
+}
+class RefuelingPump {
+  pumpIdentifier: String
+  fuelType: String
+  currentStatus: PumpStatus
+  fuelLevel: double
+  criticalLowThreshold: double
+  blockedUntil: Date
+  +startRefueling(customer: Customer): RefuelingTurn
+  +stopRefueling(turn: RefuelingTurn): void
+  +isAvailable(): boolean
+  +generateDailyReport(): DailyReport
+}
+class RefuelingTurn {
+  startTime: Date
+  endTime: Date
+  fuelAmountLiters: double
+  paymentMethod: PaymentMethod
+  +calculateCost(): double
+}
+class Invoice {
+  invoiceDate: Date
+  dueDate: Date
+  totalAmount: double
+  discountRate: double
+  status: String
+  +calculateAmount(): double
+  +applyDiscount(percentage: double): double
+  +sendToCustomer(): boolean
+}
+class DailyReport {
+  reportDate: Date
+  gasStation: GasStation
+  +addPumpEntry(pump: RefuelingPump, level: double): void
+  +getSummary(): String
+}
+Customer "1" *-- "0..*" FuelCard : ownedCards
+GasStation "1" *-- "1..*" RefuelingPump : hostedPumps
+RefuelingPump "1" --> "*" RefuelingTurn : executedTurns
+RefuelingTurn "*" --> "1" Customer : initiatedBy
+RefuelingTurn "1..*" --> "0..1" Invoice : includedIn
+Invoice "1" --> "1" Customer : addressedTo
+GasStation "1" --> "*" DailyReport : generatedReports 'opposite: sourceStation
+RefuelingPump "1" --> "*" DailyReport : includedIn 'opposite: reportedPumps
+@enduml

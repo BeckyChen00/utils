@@ -1,0 +1,44 @@
+@startuml
+class WeatherStation {
+  location: String
+  isActive: boolean
+}
+class ForecastingEngine {
+  +generateTrend(): Trend
+  +detectDisaster(): Disaster
+}
+class RegionalFirm {
+  companyName: String
+  +getActiveUnits(): int
+}
+class DataProcessor {
+  +processSignal(sensorId: int): Signal
+  +validateSignature(signature: String): boolean
+}
+class Signal {
+  value: double
+  timestamp: Date
+  unit: String
+}
+class Trend {
+  startDate: Date
+  endDate: Date
+  maxValue: double
+  isIncreasing: boolean
+  isDecreasing: boolean
+  isStationary: boolean
+  +calculateMovingAverage(period: int): double
+}
+class Disaster {
+  rank: int
+  description: String
+  isConfirmed: boolean
+  +determineSeverityLevel(): String
+}
+RegionalFirm *-- "1" ForecastingEngine : engine
+RegionalFirm *-- "1..*" WeatherStation : stations
+RegionalFirm --> "1..*" Signal : processedSignals
+RegionalFirm --> "1..*" DataProcessor : processors
+Signal --> "1" Trend : trend
+Trend --> "1" Disasters : reports
+@enduml

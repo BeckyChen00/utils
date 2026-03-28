@@ -1,0 +1,24 @@
+@startuml
+class diagram
+
+# System Requirement
+
+User class
+    user (user)
+    user (admin)
+    user (guest)
+
+System class
+    system (system)
+    system (database)
+    system (server)
+
+Relationships:
+
+user --> system database
+user --> system server
+
+user --> admin
+user --> guest
+
+@enduml

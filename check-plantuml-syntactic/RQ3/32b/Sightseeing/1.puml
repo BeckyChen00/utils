@@ -1,0 +1,60 @@
+
+@startuml
+
+' Define classes
+class City {
+  +String name
+  +int inhabitants
+}
+
+class Attraction {
+  +String name
+  +String address
+}
+
+class GuidedTour {
+  +int duration // in minutes or hours
+  +int tourNumber
+  +maxParticipants = 20
+}
+
+class Discount {
+  +double amount
+}
+
+class Person {
+  +String name
+}
+
+class Guide {
+  +Person person
+}
+
+class Visitor {
+  +Person person
+}
+
+class TourRegistration {
+  +Visitor visitor
+  +GuidedTour guidedTour
+  +Discount discount (optional)
+}
+
+' Relationships
+City "1" -- "0..*" Attraction : has
+Attraction "1" -- "0..*" GuidedTour : offers
+GuidedTour "1" -- "1" Guide : requires
+GuidedTour "1" -- "0..20" TourRegistration : includes
+TourRegistration "1" -- "1" Visitor : involves
+TourRegistration "1" -- "0..1" Discount : applies
+
+@enduml
+
+### Explanation of Classes and Relationships:
+- **City**: A city has a name and population. It can have multiple attractions.
+- **Attraction**: Each attraction has a name and an address. A city may offer several guided tours for each attraction.
+- **GuidedTour**: Each tour has a duration, a unique number, and a maximum of 20 participants. It must be led by one guide.
+- **Guide & Visitor**: Both are modeled as roles of a `Person` with a name.
+- **Discount**: Represents a possible discount for a specific guided tour.
+- **TourRegistration**: Links a visitor to a guided tour, and optionally to a discount.
+

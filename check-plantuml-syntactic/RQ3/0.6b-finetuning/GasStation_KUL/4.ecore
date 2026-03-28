@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="traveler" eType="#//Traveler" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Traveler"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guest" eType="#//Guest" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stayContract" eType="#//StayContract" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="payment" eType="#//Payment" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedRoom" eType="#//Room" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookingDate" eType="#//DateRange"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestedServices" eType="#//Service" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Guest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StayContract">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedServices" eType="#//Service" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookedAccommodation" eType="#//Accommodation" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Room"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DateRange"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Service"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Accommodation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equippedEquipment" eType="#//Equipment" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedDateRange" eType="#//DateRange"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="availableRooms" eType="#//Room" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Equipment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Reservation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requester" eType="#//Traveler" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guest" eType="#//Guest" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Calendar">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displayedRanges" eType="#//DateRange" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

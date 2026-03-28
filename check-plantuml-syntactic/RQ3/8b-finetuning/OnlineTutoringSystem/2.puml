@@ -1,0 +1,68 @@
+@startuml
+enum SessionStatus {
+  Completed
+  Cancelled
+  OnHold
+  Scheduled
+}
+enum PaymentMethod {
+  CreditCard
+  WireTransfer
+}
+class UserAccount {
+  fullName: String
+  emailAddress: String
+  bankAccountNumber: String
+  +registerUser(): void
+  +updateBankAccount(number: String): void
+}
+class Tutor {
+  expertiseSubjects: String[]
+  hourlyRates: double[]
+  weeklyAvailabilityList: String[]
+  +registerAsTutor(): void
+  +updateAvailability(availability: String[]): void
+  +updateSpecialization(subjects: String[]): void
+}
+class Student {
+  +browseTutors(subject: String): List<Tutor>
+  +makeRequest(tutor: Tutor, subject: String, level: String, date: Date): TutoringSession
+}
+class TutoringSession {
+  subject: String
+  level: String
+  scheduledTime: Date
+  isConfirmed: boolean
+  status: SessionStatus
+  +confirmSession(): void
+  +cancelSession(): void
+  +scheduleFollowUp(session: TutoringSession): void
+}
+class PaymentTransaction {
+  amount: double
+  paymentMethod: PaymentMethod
+  transactionDate: Date
+  +processPayment(): boolean
+  +refund(): boolean
+  +generateReceipt(): String
+}
+class Notification {
+  messageContent: String
+  sentTime: Date
+  +deliver(): void
+}
+class MonthlyAward {
+  awardMonth: int
+  subject: String
+  winnerId: String
+  +determineWinner(): void
+}
+Tutor --|> UserAccount
+Student --|> UserAccount
+Tutor *-- "*" PaymentTransaction : paymentHistory
+Student *-- "*" PaymentTransaction : paymentHistory
+Student --> "*" TutoringSession : scheduledSessions 'opposite: student
+Tutor --> "*" TutoringSession : conductedSessions 'opposite: tutor
+TutoringSession *-- "*" Notification : sessionAlerts
+MonthlyAward --> "*" Tutor : awardees
+@enduml

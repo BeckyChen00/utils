@@ -1,0 +1,28 @@
+@startuml
+
+class SystemRequirement {
+  class User { name: string; id: integer; }
+  class Module { name: string; id: integer; }
+  class Requirement { name: string; id: integer; }
+
+  relationship userToModule {
+    user(id:1) --> module(name:"User Module", id:2)
+  }
+
+  relationship requirementToUser {
+    requirement(name:"Sample Requirement") --> user(id:3)
+  }
+
+  relationship requirementToModule {
+    requirement(name:"Sample Requirement") --> module(name:"Sample Module", id:4)
+  }
+
+  relationship moduleToRequirement {
+    module(id:4) --> requirement(name:"Sample Requirement")
+  }
+
+  relationship userToRequirement {
+    user(id:3) --> requirement(name:"Sample Requirement")
+  }
+
+@enduml

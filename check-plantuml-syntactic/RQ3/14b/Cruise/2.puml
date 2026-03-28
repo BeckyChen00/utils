@@ -1,0 +1,121 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Provider {
+  - name: String
+  - location: String
+}
+
+class Cruise {
+  - cruiseNumber: String
+  - cruiseName: String
+  - startDate: Date
+  - endDate: Date
+  + addEmployee(employee: Employee): void
+  + addGuest(guest: Guest): void
+  + addShow(show: Show): void
+  + addTicket(ticket: Ticket): void
+}
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class Guest {
+  - name: String
+  - isVIP: Boolean
+}
+
+class Ship {
+  - shipName: String
+  - numberOfDecks: Integer
+  - length: Double
+  - passengerCapacity: Integer
+}
+
+class TravelAgency {
+  - name: String
+  - address: String
+}
+
+class Booking {
+  - bookingNumber: String
+  - bookingDate: Date
+}
+
+class DestinationArea {
+  - areaName: String
+  - seaName: String
+}
+
+class Show {
+  - title: String
+  - duration: Integer
+}
+
+class Ticket {
+  - ticketId: String
+  - guest: Guest
+  - cruise: Cruise
+}
+
+class CruiseShipAssociation {
+  - cruise: Cruise
+  - ship: Ship
+}
+
+class CruiseDestination {
+  - cruise: Cruise
+  - destinationArea: DestinationArea
+}
+
+class GuestCruiseAssociation {
+  - guest: Guest
+  - cruise: Cruise
+}
+
+class CruiseBookingAssociation {
+  - cruise: Cruise
+  - booking: Booking
+}
+
+class GuestTicketAssociation {
+  - guest: Guest
+  - ticket: Ticket
+}
+
+class CruiseShowAssociation {
+  - cruise: Cruise
+  - show: Show
+}
+
+Provider "1" --> "0..*" Cruise
+Cruise "1" --> "1" Ship : via CruiseShipAssociation
+Cruise "1" --> "1" DestinationArea : via CruiseDestination
+Cruise "1" --> "0..*" Employee
+Cruise "1" --> "0..*" Show : via CruiseShowAssociation
+Cruise "1" --> "0..*" Ticket
+Cruise "1" --> "0..*" Booking : via CruiseBookingAssociation
+Guest "0..*" --> "0..*" Cruise : via GuestCruiseAssociation
+Guest "1" --> "0..*" Ticket : via GuestTicketAssociation
+Ticket "1" --> "1" Cruise
+Booking "1" --> "1" Cruise
+TravelAgency "1" --> "0..*" Booking
+@enduml
+
+### Explanation of Associations:
+- A **Provider** organizes many **Cruises**.
+- A **Cruise** uses exactly one **Ship** (via association class `CruiseShipAssociation`).
+- A **Cruise** has a single **DestinationArea** (via `CruiseDestination`).
+- A **Cruise** requires multiple **Employees**.
+- A **Cruise** offers multiple **Shows** (via `CruiseShowAssociation`).
+- A **Cruise** has multiple **Tickets**.
+- A **Cruise** is booked through multiple **Bookings** (via `CruiseBookingAssociation`).
+- A **Guest** can be part of multiple **Cruises** (via `GuestCruiseAssociation`).
+- A **Guest** can have multiple **Tickets**, but only one per **Cruise** (via `GuestTicketAssociation`).
+- A **Booking** is associated with a **TravelAgency**.
+- A **Booking** is associated with a **Cruise**.
+
+Let me know if you want to generate this as an image or further refine it!

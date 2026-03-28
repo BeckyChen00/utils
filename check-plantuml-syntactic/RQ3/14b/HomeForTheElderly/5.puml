@@ -1,0 +1,110 @@
+
+@startuml
+skinparam classAttributeIconColor #FFB700
+
+class Department {
+  -id: int
+  -name: String
+  -rooms: Set<Room>
+}
+
+class Room {
+  -id: int
+  -roomNumber: String
+  -beds: Set<Bed>
+}
+
+class Bed {
+  -id: int
+  -bedNumber: String
+  -category: Category
+}
+
+class Category {
+  -id: int
+  -type: String (RH, RNH, SF)
+  -pricePerMonth: double
+}
+
+class Inhabitant {
+  -id: int
+  -fullName: String
+  -dateOfBirth: Date
+  -registrationDate: Date
+  -waitingListEntries: Set<WaitingListEntry>
+  -currentStays: Set<Stay>
+}
+
+class WaitingListEntry {
+  -id: int
+  -inhabitant: Inhabitant
+  -stayType: Category
+  -registrationDate: Date
+  -proposalStatus: String (pending, accepted, rejected)
+  -proposalDate: Date
+  -acceptedDate: Date
+  -rejectedDate: Date
+}
+
+class Stay {
+  -id: int
+  -startDate: Date
+  -endDate: Date
+  -status: String (active, suspended, ended)
+  -category: Category
+  -inhabitant: Inhabitant
+  -invoice: Invoice
+}
+
+class Invoice {
+  -id: int
+  -issueDate: Date
+  -dueDate: Date
+  -totalAmount: double
+  -paidAmount: double
+  -status: String (unpaid, paid, partially_paid)
+  -stay: Stay
+  -paymentEvents: Set<PaymentEvent>
+}
+
+class PaymentEvent {
+  -id: int
+  -paymentDate: Date
+  -amount: double
+  -invoice: Invoice
+  -creditNote: CreditNote
+}
+
+class CreditNote {
+  -id: int
+  -issueDate: Date
+  -amount: double
+  -paymentEvent: PaymentEvent
+}
+
+class Assessment {
+  -id: int
+  -date: Date
+  -results: Map<String, Boolean> // e.g., "eating": true, "dressing": false
+  -inhabitant: Inhabitant
+  -category: Category
+}
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **Department → Rooms → Beds**: Hierarchical structure representing physical layout.
+- **Category**: Defines the type of stay and its associated price.
+- **Inhabitant**: Can have multiple **Stays**, be on the **Waiting List**, and go through an **Assessment**.
+- **Stay**: Represents a period of residence in a specific **Category**. It has an associated **Invoice**.
+- **Invoice**: Contains total amount, paid amount, and status. Payments are tracked via **PaymentEvent**.
+- **WaitingListEntry**: Manages the waiting list logic for each category, with proposal tracking.
+- **Assessment**: Used to determine the appropriate **Category** for an **Inhabitant**.
+- **CreditNote**: Handles overpayments by generating a refund.
+
+---
+
+Let me know if you'd like this converted into a UML image or need additional details such as associations, multiplicity, or inheritance!

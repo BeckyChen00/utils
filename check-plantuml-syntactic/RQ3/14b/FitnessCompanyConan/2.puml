@@ -1,0 +1,97 @@
+
+@startuml
+' Class Diagram for Conan Fitness System
+
+class Person {
+  +firstName: String
+  +familyName: String
+  +birthDate: Date
+}
+
+class Trainer {
+  +diploma: String
+}
+
+class Member {
+  +isMember: Boolean
+}
+
+class Center {
+  +name: String
+  +address: String
+}
+
+class Room {
+  +roomNumber: Integer
+  +maxCapacity: Integer
+}
+
+class Session {
+  +date: Date
+  +startTime: Time
+  +type: String
+}
+
+class GroupSession {
+  +trainer: Trainer
+}
+
+class IndividualSession {
+}
+
+class Participant {
+  +person: Person
+  +session: Session
+}
+
+class Supervisor {
+  +trainer: Trainer
+  +session: Session
+}
+
+class Prospect {
+  +isProspect: Boolean
+}
+
+class InternTrainer {
+  +isIntern: Boolean
+}
+
+' Inheritance and associations
+Person <|-- Trainer
+Person <|-- Member
+Person <|-- Prospect
+Trainer <|-- InternTrainer
+
+Center "1" *-- "0..*" Room
+Room --> Center
+
+Session <|-- GroupSession
+Session <|-- IndividualSession
+
+GroupSession "1" --> "1" Trainer
+IndividualSession --> "0..1" Trainer
+
+Person "0..*" -- "0..*" Participant
+Participant "1" -- "1" Session
+
+Trainer "0..*" -- "0..*" Supervisor
+Supervisor "1" -- "1" Session
+
+Center "0..*" -- "0..*" Session
+Room "0..*" -- "0..*" Session
+@enduml
+
+### Explanation of Key Relationships:
+- `Person` is a base class for `Trainer`, `Member`, `Prospect`, and `InternTrainer`.
+- A `Center` contains multiple `Room`s.
+- Each `Room` belongs to exactly one `Center`.
+- A `Session` can be either `GroupSession` or `IndividualSession`.
+- `GroupSession` must have one `Trainer`.
+- `IndividualSession` may not require a `Trainer`.
+- `Participant` links a `Person` with a `Session` (a person can participate in multiple sessions).
+- `Supervisor` links a `Trainer` with a `GroupSession` (a trainer can supervise multiple group sessions).
+- A `Session` can only occur once per room at a given time.
+- `Prospect` represents people who are not yet members or participants.
+- `InternTrainer` is a subclass of `Trainer` for those not yet supervising sessions.
+

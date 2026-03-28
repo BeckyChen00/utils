@@ -1,0 +1,75 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor lightyellow
+
+class House {
+  - String address
+  - String buildingMaterial
+  - Basement basement
+  - List<Company> companies
+  - List<JobLog> jobLogs
+}
+
+class Basement {
+  - String name
+  - int size
+  - String type
+  -- "earth" or "concrete"
+  - int humidityLevel : only if type is "earth"
+}
+
+class SemiDetachedHouse {
+  + boolean hasOwnGarden
+  + int numberOfWindows
+  - Carport carport
+  - Garage garage
+}
+
+class Carport {
+  - boolean isDoubleCarport
+  - boolean hasFlatRoof
+}
+
+class Garage {
+  - boolean hasAutomaticDoor
+}
+
+class Company {
+  - String name
+  - String address
+}
+
+class JobLog {
+  - int hours
+  - double price
+}
+
+' Association between House and Company
+House --> "0..*" Company : serviced by
+House --> "0..*" JobLog : has
+
+' Inheritance relationships
+SemiDetachedHouse <|-- House
+
+' Composition relationships
+House --> "1" Basement : has
+House --> "1" Carport : has (if applicable)
+House --> "1" Garage : has (if applicable)
+
+' Specialization of Basement
+Basement <|-- EarthBasement
+Basement <|-- ConcreteBasement
+
+' Optional associations for Carport and Garage
+SemiDetachedHouse --> "1" Carport : has
+SemiDetachedHouse --> "1" Garage : has
+
+@enduml
+
+### Notes:
+- The `House` class is the base class, with `SemiDetachedHouse` as a derived class.
+- The `Basement` class is abstract, with two concrete subclasses: `EarthBasement` and `ConcreteBasement`.
+- `SemiDetachedHouse` can have either a `Carport` or a `Garage`, but not both. This is modeled using composition with optional associations.
+- The `JobLog` and `Company` classes are associated with `House` to represent servicing and job records.
+

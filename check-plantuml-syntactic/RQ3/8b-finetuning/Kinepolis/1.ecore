@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="movie" eType="#//Film" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Film"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Show">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="venue" eType="#//Theatre" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="premise" eType="#//Cinema" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tickets" eType="#//Ticket" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Theatre"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Cinema"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OnLineReservation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reservedShow" eType="#//Show" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attendedShows" eType="#//Show" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reservations" eType="#//OnLineReservation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedTickets" eType="#//Ticket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MovieCopy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" eType="#//Film" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedIn" eType="#//Cinema" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReservationSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedCinemas" eType="#//Cinema" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="catalogedFilms" eType="#//Film" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

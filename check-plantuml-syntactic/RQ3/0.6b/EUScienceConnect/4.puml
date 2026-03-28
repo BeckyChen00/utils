@@ -1,0 +1,16 @@
+@startuml
+class Diagram {Diagram}
+    class SystemRequirement {
+        name: "System Requirement"
+        description: "System requirement for the application"
+        components: [Component1, Component2]
+    }
+    component Component1 {
+        label: "Component 1"
+        properties: [property1, property2]
+    }
+    component Component2 {
+        label: "Component 2"
+        properties: [property3, property4]
+    }
+@enduml

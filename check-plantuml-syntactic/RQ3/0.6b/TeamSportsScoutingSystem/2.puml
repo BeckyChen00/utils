@@ -1,0 +1,19 @@
+@startuml
+
+class SystemRequirement {
+  requires {User has access to system} 
+}
+
+class User {
+  has access to system
+}
+
+class System {
+  has users
+}
+
+class AccessControl {
+  requires user has access to system and system has users
+}
+
+@enduml

@@ -1,0 +1,69 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Location {
+    +String address
+}
+
+class Driver {
+    +String firstName
+    +String lastName
+}
+
+abstract class Vehicle {
+    +String vehicleNumber
+}
+
+class Truck {
+    +double weight
+}
+
+class Car {
+    +int numberOfSeats
+}
+
+class Van {
+    +String typeDetails  // Optional, can be removed or replaced with specific properties if needed
+}
+
+class Order {
+    +Location origin
+    +Location destination
+    +Date executionDate
+}
+
+' Inheritance relationships
+Vehicle <|-- Truck
+Vehicle <|-- Car
+Vehicle <|-- Van
+
+' Associations and multiplicities
+
+' A Location has many Drivers and Vehicles
+Location "1" -- "0..*" Driver : contains
+Location "1" -- "0..*" Vehicle : contains
+
+' A Driver can drive at most one Vehicle (1:0..1)
+Driver "1" -- "0..1" Vehicle : drives
+
+' A Driver can carry out a maximum of one Order (1:0..1)
+Driver "1" -- "0..1" Order : carries out
+
+' An Order must have at least one assigned Driver (1:1..*)
+Order "1" -- "1..*" Driver : has assigned
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **Inheritance**: `Truck`, `Car`, and `Van` inherit from the abstract class `Vehicle`.
+- **Associations**:
+  - Each `Location` contains multiple `Driver`s and `Vehicle`s.
+  - Each `Driver` can drive **at most one** `Vehicle`.
+  - A `Driver` can be assigned to **at most one** `Order` at a time.
+  - An `Order` must have **at least one** `Driver` assigned.
+- **Multiplicity** is used to model constraints like "a driver can only do one order at a time."
+

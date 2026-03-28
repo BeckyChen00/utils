@@ -1,0 +1,27 @@
+@startuml
+class LaboratoryStaff {
+  name: String
+  department: String
+  licenseNumber: String
+  +isAvailable(timeSlot: TimeSlot): boolean
+  +conductExperiment(experiment: ChemicalExperiment): void
+}
+class ChemicalExperiment {
+  experimentalName: String
+  isCompleted: boolean
+  +recordResult(success: boolean): void
+}
+class TimeSlot {
+  startTime: Date
+  endTime: Date
+  +isValid(): boolean
+}
+class Equipment {
+  name: String
+  isOperational: boolean
+  +checkAvailability(): boolean
+}
+LabStaff "1" --> "*" ChemicalExperiment : conducted experiments
+ChemicalExperiment "1" *-- "1" TimeSlot : scheduled slot
+ChemicalExperiment "1" --> "0..1" Equipment : used equipment
+@enduml

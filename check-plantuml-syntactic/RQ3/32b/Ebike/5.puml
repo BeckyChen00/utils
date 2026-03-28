@@ -1,0 +1,75 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class EBike {
+}
+
+class Frame {
+    -material: String = "steel"
+}
+
+class DriveSystem {
+}
+
+class Controller {
+    -state: State = Off
+    +controlBattery()
+    +commandDriveSystem()
+}
+
+abstract class State {
+}
+
+class On {
+}
+
+class Off {
+}
+
+class Charging {
+}
+
+class Battery {
+    -energyStored: float (Wh)
+}
+
+class Motor {
+}
+
+class BasicController extends Controller {
+}
+
+class AdvancedController extends Controller {
+    +estimateNextMaintenanceDate(): Date
+}
+
+' Relationships
+
+EBike "1" -- "1" Frame : has
+EBike "1" -- "2" Wheel : has
+EBike "1" -- "1" DriveSystem : has
+EBike "1" -- "0..1" Battery : connected to
+
+DriveSystem "1" -- "1" Motor : contains
+
+Controller "1" -- "1..*" State : has (state)
+
+Battery "1" -- "1" Controller : controlled by
+
+Wheel {
+    +size: int
+}
+
+@enduml
+
+### Explanation of the Diagram:
+- **EBike** is composed of one **Frame**, two **Wheels**, one **DriveSystem**, and optionally one **Battery**.
+- The **Frame** is always made of steel.
+- The **DriveSystem** includes a **Motor**.
+- The **Controller** can be in three **States**: `On`, `Off`, or `Charging`.
+- The **Controller** controls the **Battery** and the **DriveSystem**.
+- There are two types of **Controller**: `BasicController` and `AdvancedController`. The latter supports estimating maintenance dates.
+- The **Battery** stores energy in Watt-hours (Wh).
+

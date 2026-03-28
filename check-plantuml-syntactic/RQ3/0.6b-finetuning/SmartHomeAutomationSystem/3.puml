@@ -1,0 +1,242 @@
+@startuml
+enum DamageCategory {
+  Structural
+  Material
+  Mechanical
+  Electrical
+}
+enum HazardType {
+  Fire
+  Chemical
+  Biological
+  Electromagnetic
+}
+class StructuralDamager {
+  identifier: String
+  +determineSeverity(category: DamageCategory): int
+  +getNextAttack(): Damager
+}
+class DamagedPart {
+  identifier: String
+  isBroken: boolean
+  currentHazardLevel: HazardType
+  +recordDamageEffect(effect: DamageEffect): void
+}
+class DamageEffect {
+  severityMetric: double
+  description: String
+}
+class SensorNode {
+  location: String
+  +readValue(): double
+  +calibrate(): boolean
+}
+class SafetyZone {
+  zoneName: String
+  isActive: boolean
+  +enforceStandard(): void
+}
+class AlertManager {
+  thresholdLevel: int
+  +getAlertThreshold(): int
+  +triggerAlert(part: DamagedPart): void
+}
+class MaintenanceLog {
+  logDate: Date
+  technicianName: String
+  +addEntry(entry: LogEntry): void
+}
+class LogEntry {
+  timestamp: Date
+  technicianNotes: String
+  +format(): String
+}
+struct DamagerNode {
+  currentDamageLevel: int
+  +getCurrentSeverity(): int
+  +sleep(): void
+}
+struct SafetyZoneNode {
+  zoneDescription: String
+  lastMaintenanceDate: Date
+  +assessRisk(): int
+}
+struct SensorNode {
+  isCalibrated: boolean
+  +selfTest(): boolean
+  +readValue(): double
+}
+struct ShipPart {
+  partNumber: String
+  isOperational: boolean
+  +performSelfTest(): boolean
+}
+class DamageReport {
+  generationTime: Date
+  summaryText: String
+  +generateReport(completed: boolean): void
+}
+class DamageSchedule {
+  nextRepairDate: Date
+  +getNextScheduledDate(): Date
+  +isDue(): boolean
+}
+class ProjectTeam {
+  name: String
+  +assignTeam(member: TeamMember): void
+}
+class TeamMember {
+  name: String
+  +getName(): String
+}
+class RepairTask {
+  priorityLevel: int
+  estimatedDuration: int
+  +estimateDuration(): int
+  +executeTask(): void
+}
+class InspectionReport {
+  inspectionDate: Date
+  diagnosisDetails: String
+  +validateData(): boolean
+}
+class DamagerAlert {
+  triggerTime: Date
+  severityRank: int
+  +notify(sender: String): void
+  +escalate(): void
+}
+class DamageDefinition {
+  category: DamageCategory
+  description: String
+  +matches(currentCategory: DamageCategory): boolean
+}
+class DamageEffects {
+  specificity: String
+  +match(currentEffect: DamageEffect): boolean
+}
+class HazardAssessment {
+  criticality: int
+  isConfirmed: boolean
+  +analyzeImpact(part: DamagedPart): void
+}
+class Regulations {
+  regulationCode: String
+  requiresCertification: boolean
+  +checkCompliance(manufacturer: Manufacturer): boolean
+  +getRequiredCodes(): List<String>
+}
+struct DamagerDefinition {
+  contactEmail: String
+  +getContactInfo(): String
+  +definePattern(pattern: String): void
+}
+struct SensorChain {
+  +connect(sensor: SensorNode): void
+  +disconnect(sensor: SensorNode): void
+}
+class MonitoringWindow {
+  isContinuous: boolean
+  startTime: Date
+  endTime: Date
+  +extendWindow(duration: int): void
+}
+class AlertWindow {
+  isActive: boolean
+  +activateWindow(): void
+  +reactivate(): void
+}
+class PathologicalDeterioration {
+  isOnline: boolean
+  +determineCriticality(): int
+}
+class RepairQueue {
+  queueStatus: String
+  +addTaskTask(task: RepairTask): void
+  +getAvailableCount(): int
+}
+class Schedule {
+  startDate: Date
+  endDate: Date
+  +generateSchedule(): DamageSchedule
+}
+class ComplianceChecker {
+  +checkCompliance(zone: SafetyZone, product: ShipPart): boolean
+  +getViolationCount(): int
+}
+class Component {
+  partNumber: String
+  componentName: String
+  +validateIdentifier(): boolean
+}
+class QualityMetric {
+  metricName: String
+  thresholdValue: double
+  +checkCompliance(log: LogEntry): boolean
+}
+class RegulatoryBody {
+  bodyName: String
+  jurisdiction: String
+  +authorize(regarding: ShipPart): boolean
+  +getRuleCode(): String
+}
+class RiskAssessor {
+  +assessRisk(area: SafetyZone, status: String): int
+  +computeProbability(hazard: HazardType): double
+}
+class AuditLog {
+  auditDate: Date
+  +logEvent(event: String): void
+}
+class EnergyDistributor {
+  currentPowerUsage: double
+  +supplyPower(powerFactor: double): void
+  +distributePower(volume: double): void
+}
+class DestructiveTrigger {
+  triggerType: String
+  isActive: boolean
+  +executeTrigger(): void
+  +resetState(): void
+}
+class DamageAlert {
+  currentSeverity: int
+  isActive: boolean
+  +updateSeverity(newLevel: int): void
+  +sendNotification(recipient: String): void
+}
+ShipPart --|> DamagedPart
+SensorNode --|> DamagerNode
+SensorNode *-- "1" DamagerDefinition : definedDamager
+SensorNode *-- "1" DamagerAlert : activeAlert
+SensorNode --> "1" SafetyZone : attachedZone
+DamagerAlert --> "1" DamagerDefinition : triggeredDefinition
+DamagerDefinition -- SensorChain
+SensorChain *-- "1" DamagerDefinition : linkedDefinition
+DestructiveTrigger -- DamagerDefinition
+DamagerDefinition -- AlertManager
+DamagerDefinition -- ComplianceChecker
+DamagerDefinition -- SafetyZone
+Damager -- System
+Damager -- CoordinateSystem
+Damager -- ProjectTeam
+Damager -- RepairQueue
+Damager -- Schedule
+Damager -- AuditLog
+Damager -- QualityMetric
+Damager -- ComplianceChecker
+Damager -- Regulations
+Damager -- AlertWindow
+Damager -- SensorChain
+Damager -- RegulateSystem
+DestructiveTrigger -- EnergyDistributor
+Damager -- EnergyDistributor
+Damager -- Metrics
+Damager -- ComplianceChecker
+Damager -- AlertWindow
+Damager -- MaintenanceLog
+Damager -- LoggingConfig
+Damager -- SensorNode
+Damager -- RestraintSystem
+Damager -- AlertWindow
+@enduml

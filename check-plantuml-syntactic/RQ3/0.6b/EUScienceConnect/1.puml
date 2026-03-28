@@ -1,0 +1,90 @@
+@startuml
+
+class SystemRequirement { name: "System Requirement" }
+
+class Requirement {
+    name: "Requirement"
+    description: "Description of the requirement"
+}
+
+class Component {
+    name: "Component"
+    description: "Description of the component"
+}
+
+class Module {
+    name: "Module"
+    description: "Description of the module"
+}
+
+class Task {
+    name: "Task"
+    description: "Description of the task"
+}
+
+class Test {
+    name: "Test"
+    description: "Description of the test"
+}
+
+class TestScenario {
+    name: "Test Scenario"
+    description: "Description of the test scenario"
+}
+
+class TestEnvironment {
+    name: "Test Environment"
+    description: "Description of the test environment"
+}
+
+class TestExecution {
+    name: "Test Execution"
+    description: "Description of the test execution"
+}
+
+class TestResult {
+    name: "Test Result"
+    description: "Description of the test result"
+}
+
+class TestSetup {
+    name: "Test Setup"
+    description: "Description of the test setup"
+}
+
+class TestData {
+    name: "TestData"
+    description: "Description of the test data"
+}
+
+class TestStep {
+    name: "Test Step"
+    description: "Description of the test step"
+}
+
+class TestStepCondition {
+    name: "Test Step Condition"
+    description: "Description of the test step condition"
+}
+
+class TestStepAction {
+    name: "Test Step Action"
+    description: "Description of the test step action"
+}
+
+class TestStepStatus {
+    name: "Test Step Status"
+    description: "Description of the test step status"
+}
+
+class TestStepFailure {
+    name: "Test Step Failure"
+    description: "Description of the test step failure"
+}
+
+class TestStepSuccess {
+    name: "Test Step Success"
+    description: "Description of the test step success"
+}
+
+@enduml

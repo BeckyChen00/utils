@@ -1,0 +1,76 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Country {
+  -countryCode: String
+  -countryName: String
+  -vatRate: Double
+  -currency: String
+  -euroConversionRate: Double
+}
+
+class Manufacturer {
+  -manufacturerId: Integer
+  -name: String
+  -address: String
+  -country: Country
+}
+
+class Product {
+  -productId: Integer
+  -productName: String
+  -description: String
+  -netPrice: Double
+  -manufacturer: Manufacturer
+  -availableInCountries: Set<Country>
+}
+
+class Representative {
+  -representativeId: Integer
+  -firstName: String
+  -lastName: String
+  -socialSecurityNumber: String
+  -telephone: String
+  -email: String
+  -country: Country
+}
+
+class Customer {
+  -customerId: Integer
+  -name: String
+  -address: String
+  -telephone: String
+  -email: String
+  -resellingCountries: Set<Country>
+}
+
+class Order {
+  -orderId: Integer
+  -quantity: Integer
+  -orderDate: Date
+  -desiredDeliveryDate: Date
+  -product: Product
+  -representative: Representative
+  -customer: Customer
+}
+
+Country "1" *-- "0..*" Product : availableIn
+Manufacturer "1" *-- "0..*" Product : manufacturer
+Country "1" *-- "1" Representative : country
+Country "1" *-- "0..*" Customer : resellingCountries
+Product "1" *-- "0..*" Order : product
+Representative "1" *-- "0..*" Order : representative
+Customer "1" *-- "0..*" Order : customer
+@enduml
+
+### Explanation of Key Elements:
+
+- **Country**: Stores VAT rate, currency, conversion to euro, and is associated with products, representatives, and customers.
+- **Manufacturer**: Provides details about who produces the product and which country they are located in.
+- **Product**: Has name, description, net price, manufacturer, and availability by country.
+- **Representative**: Handles orders for specific countries and has personal information.
+- **Customer**: Contains contact and address info, along with the countries where they resell.
+- **Order**: Links a customer, product, and representative with order date, delivery date, and quantity.
+
+This class diagram captures the core business logic and data model required for managing the clothing sales application. Let me know if you'd like this visualized as an image or extended with additional features!

@@ -1,0 +1,85 @@
+
+@startuml
+class EBike {
+  -frame: Frame
+  -driveSystem: DriveSystem
+  -controller: Controller
+}
+
+class Frame {
+  -material: String
+  +insertWheel(wheel: Wheel)
+}
+
+class Wheel {
+  -diameter: Double
+  -tireType: String
+}
+
+class DriveSystem {
+  -motor: Motor
+  +powerOn()
+  +powerOff()
+}
+
+class Motor {
+  -horsePower: Integer
+  -voltage: Double
+}
+
+class Controller {
+  -state: State
+  -battery: Battery
+  +turnOn()
+  +turnOff()
+  +chargeBattery()
+  +commandDriveSystem()
+}
+
+enum State {
+  On
+  Off
+  Charging
+}
+
+class Battery {
+  -capacity: Double // in Wh
+  -currentCharge: Double // in Wh
+  +charge(chargeAmount: Double)
+  +discharge(chargeAmount: Double)
+}
+
+class BasicController {
+  +turnOn()
+  +turnOff()
+  +chargeBattery()
+  +commandDriveSystem()
+}
+
+class AdvancedController {
+  +estimateNextInspectionDate(): Date
+  +turnOn()
+  +turnOff()
+  +chargeBattery()
+  +commandDriveSystem()
+}
+
+EBike "1" *-- "1" Frame
+EBike "1" *-- "1" DriveSystem
+EBike "1" *-- "1" Controller
+Frame "1" *-- "2" Wheel
+DriveSystem "1" *-- "1" Motor
+Controller "1" *-- "0..1" Battery
+Controller <|-- BasicController
+Controller <|-- AdvancedController
+@enduml
+
+### Explanation:
+- `EBike` contains a single `Frame`, `DriveSystem`, and `Controller`.
+- The `Frame` holds two `Wheel` objects.
+- The `DriveSystem` has one `Motor`.
+- The `Controller` can be either `BasicController` or `AdvancedController`.
+- `AdvancedController` has an additional method to estimate the next inspection date.
+- The `Controller` may have a connected `Battery` (optional).
+- `Battery` has attributes for capacity and current charge, with methods to charge and discharge.
+

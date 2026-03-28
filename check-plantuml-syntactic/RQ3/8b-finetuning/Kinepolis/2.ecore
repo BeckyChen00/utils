@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedTheatres" eType="#//Theatre" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Theatre">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equippedWith" eType="#//Screen" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledShows" eType="#//Show" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cinema">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedCopies" eType="#//MovieCopy" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MovieCopy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Screen">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displaysInfo" eType="#//Reservation" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Show">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedBy" eType="#//Cinema" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiresCopy" eType="#//MovieCopy" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reservation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="forShow" eType="#//Show" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeBy" eType="#//Customer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatesTicket" eType="#//Ticket"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownsTickets" eType="#//Ticket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CinemaManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manages" eType="#//Cinema" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

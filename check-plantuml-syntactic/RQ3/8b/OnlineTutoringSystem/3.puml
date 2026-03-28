@@ -1,0 +1,97 @@
+
+@startuml
+
+' Define classes and their attributes and methods
+class Student {
+  - name: String
+  - email: String
+  + browseTutoringOffers(subject: String): List<TutoringOffer>
+  + makeRequest(tutor: Tutor, subject: String, level: String, date: Date, time: Time): Request
+  + payForSession(session: Session, paymentMethod: String): Boolean
+}
+
+class Tutor {
+  - name: String
+  - email: String
+  - bankAccount: String
+  + offerTutoring(subject: String, level: String, hourlyPrice: Double, availability: List<Availability>)
+  + confirmRequest(request: Request): Boolean
+  + cancelSession(session: Session): Boolean
+  + offerDiscountToStudent(student: Student, discountPercentage: Double): Boolean
+}
+
+class TutoringOffer {
+  - subject: String
+  - level: String
+  - hourlyPrice: Double
+  - tutor: Tutor
+  + getDetails(): String
+}
+
+class Request {
+  - student: Student
+  - tutor: Tutor
+  - subject: String
+  - level: String
+  - requestedDate: Date
+  - requestedTime: Time
+  - status: String
+  + updateStatus(status: String): Boolean
+}
+
+class Session {
+  - id: String
+  - student: Student
+  - tutor: Tutor
+  - subject: String
+  - level: String
+  - date: Date
+  - time: Time
+  - price: Double
+  - status: String
+  + scheduleFollowUp(): FollowUp
+  + cancel(): Boolean
+}
+
+class Availability {
+  - day: String
+  - startTime: Time
+  - endTime: Time
+  + isAvailable(date: Date, time: Time): Boolean
+}
+
+class FollowUp {
+  - session: Session
+  - date: Date
+  - time: Time
+  + schedule(): Boolean
+}
+
+class Award {
+  - subject: String
+  - tutor: Tutor
+  - month: String
+  + calculateBestTutor(): Award
+}
+
+' Relationships between classes
+Student "1" -- "many" Request : makes
+Student "1" -- "many" Session : participates in
+Tutor "1" -- "many" Request : receives
+Tutor "1" -- "many" Session : conducts
+Tutor "1" -- "many" TutoringOffer : offers
+TutoringOffer "1" -- "1" Tutor : offered by
+Request "1" -- "1" Session : leads to
+Session "1" -- "1" FollowUp : may have
+Tutor "1" -- "many" Award : wins
+Award "1" -- "1" Tutor : awarded to
+
+@enduml
+
+---
+
+### ✅ Notes:
+- This diagram models the core entities and their relationships.
+- It includes **attributes** and **methods** that reflect the system's functionality as described in the requirements.
+- The `Award` class represents the monthly award system for tutors.
+

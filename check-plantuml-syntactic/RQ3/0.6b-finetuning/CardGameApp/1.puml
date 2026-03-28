@@ -1,0 +1,88 @@
+@startuml
+enum RefereeType {
+  Senior
+  Junior
+  Missing
+  Injured
+  Absent
+}
+enum CourtType {
+  Closed
+  OpenForSettlement
+  OpenForDaycare
+}
+enum StatusStatus {
+  Draft
+  Active
+  Completed
+}
+enum ShiftMode {
+  Morning
+  Afternoon
+  Night
+}
+class HumanReferee {
+  fullName: String
+  specialty: String
+  +isValidForCourtType(courtType: CourtType): boolean
+}
+class Court {
+  courtName: String
+  courtNumber: int
+  courtType: CourtType
+  +allocateShift(referee: HumanReferee): Shift
+}
+class Shift {
+  startTime: Date
+  endTime: Date
+  shiftMode: ShiftMode
+  +createSchedule(team: Team): boolean
+}
+class Team {
+  teamName: String
+  teamSize: int
+  +assignReferee(referee: HumanReferee, court: Court): void
+}
+class Player {
+  playerName: String
+  age: int
+  isMvp: boolean
+  +getAvailability(): DateRange
+}
+class TeamMember {
+  role: String
+  +getTeam(): Team
+}
+class Match {
+  matchNumber: int
+  scheduledDate: Date
+  status: StatusStatus
+  +submitScore(score: int): void
+  +updateStatus(status: StatusStatus): void
+  +getParticipants(): Team
+}
+class MatchResult {
+  finalScore: int
+  outcome: String
+  +validate(): boolean
+}
+class Game {
+  gameNumber: int
+  gameDate: Date
+  currentStatus: StatusStatus
+  +startGame(): void
+  +addScore(player: Player, score: int): void
+  +endGame(): MatchResult
+}
+HumanReferee "1" --> "*" Court : assignedCourts
+HumanReferee "1" --> "*" Team : supervisedTeams
+Court "1" *-- "*" Shift : assignedShifts
+Team "1" *-- "*" TeamMember : consistingOf
+TeamMember "1" --> "*" Player : rosterMembers
+Team "1" --> "*" Match : participatedIn
+Match "1" *-- "*" Game : containedGames
+Match "1" --> "*" Team : involvedTeams
+Match "1" --> "1" MatchResult : generatedResult
+MatchResult "1" --> "*" Player : scoredPlayers
+Game "1" --> "*" Player : scoredPlayers
+@enduml

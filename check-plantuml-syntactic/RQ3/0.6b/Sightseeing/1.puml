@@ -1,0 +1,15 @@
+@startuml
+    classDiagram
+        $systemRequirement$ as SystemRequirement {
+            # of elements: 1
+            element "System Requirement" { label="System Requirement", color="red" }
+        }
+
+        systemRequirement --> [Element1] Element1
+        Element1 --> [Element2] Element2
+        Element2 --> [Element3] Element3
+
+        $systemRequirement$ hasElement1 Element1
+        Element1 hasElement2 Element2
+        Element2 hasElement3 Element3
+@enduml

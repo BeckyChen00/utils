@@ -1,0 +1,13 @@
+@startuml
+    classDiagram
+        [System Requirement]
+        user --> request
+
+        request --> system
+        system --> database
+        database --> query
+        query --> result
+        result --> output
+
+        user --> output
+@enduml

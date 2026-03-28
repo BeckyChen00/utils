@@ -1,0 +1,53 @@
+@startuml
+enum ElementType {
+  Shape
+  Object
+  Opponent
+}
+enum AllowedShapes {
+  Circle
+  Square
+  Triangle
+  Rectangle
+  Polygon
+}
+enum LifeStatus {
+  Alive
+  Dead
+  Invincible
+}
+class GameElement {
+  elementType: ElementType
+  x: long
+  y: long
+  +updatePosition()
+}
+class Shape {
+  shapeType: AllowedShapes
+  isStatic: boolean
+  +calculateArea(): double
+  +render()
+}
+class Object {
+  description: String
+  +interact()
+}
+class Opponent {
+  lives: int
+  currentStatus: LifeStatus
+  isBoss: boolean
+  +takeDamage(amount: int)
+  +heal(amount: int)
+}
+class GameArea {
+  areaName: String
+  +addElement(element: GameElement)
+  +removeElement(element: GameElement)
+  +getBossOpponent(): Opponent
+}
+GameArea *-- "1" GameElement : rootElement
+GameElement --> "1" Shape : geometry
+Shape --> "0..*" GameElement : connectedElements
+GameArea --> "0..*" Opponent : containedOpponents
+Opponent --> "0..*" Shape : attackingShapes
+@enduml

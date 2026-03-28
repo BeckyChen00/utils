@@ -1,0 +1,16 @@
+graph TD
+    A[System Requirement]
+    B[Input Data Source]
+    C[Output Result]
+    D[Processing Logic]
+    E[Data Flow]
+    F[Output Destination]
+
+    B --> E
+    E --> D
+    D --> C
+    D --> F
+    E --> D
+    D --> F
+
+Let me know if you need a more detailed diagram with specific relationships or components.

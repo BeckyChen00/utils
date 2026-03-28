@@ -1,0 +1,124 @@
+@startuml
+enum SessionStatus {
+  Active
+  Pending
+  Completed
+  Failed
+  Cancelled
+}
+enum BookingStatus {
+  Reserved
+  Confirmed
+  Paid
+  Cancelled
+}
+enum AudienceSegmentType {
+  Educational
+  Financial
+  Professional
+  Health
+  Social
+  Interactive
+  Documentary
+}
+enum EventType {
+  Seminar
+  Workshop
+  Conference
+  TrainingCourse
+  LiveStream
+  VirtualEvent
+}
+class Event {
+  name: String
+  type: EventType
+  durationMinutes: int
+  description: String
+  +updateDetails(newDescription: String): void
+}
+class Session {
+  title: String
+  description: String
+  status: SessionStatus
+  +assignSpeaker(speaker: Instructor): void
+  +confirmBooking(booking: Booking): void
+}
+class Instructor {
+  name: String
+  specialization: String
+  +getAvailableSlots(): List<Session>
+}
+class Booking {
+  startTime: Date
+  endTime: Date
+  status: BookingStatus
+  +confirm(): void
+  +cancel(): void
+}
+class AudienceSegment {
+  type: AudienceSegmentType
+  segmentName: String
+  {hasExtraRequirements: boolean}
+}
+class Location {
+  name: String
+  address: String
+  coordinates: String
+}
+class Platform {
+  platformName: String
+  currentStatus: SessionStatus
+  +getAvailableRooms(): List<Room>
+}
+class Room {
+  number: int
+  capacity: int
+  isAvailable: boolean
+}
+class Ticket {
+  issueDate: Date
+  status: BookingStatus
+  price: double
+  +issue(): void
+  +cancel(): void
+}
+class MediaAsset {
+  mimeType: String
+  contentUrl: String
+  uploadDate: Date
+}
+class Schedule {
+  startDate: Date
+  endDate: Date
+  +addSession(session: Session): void
+  +getSessions(): List<Session>
+}
+class User {
+  name: String
+  email: String
+  +register(): void
+  +logIn(): void
+}
+class Notification {
+  message: String
+  sentDate: Date
+  +send(): void
+}
+Event "1" *-- "1" Schedule : schedule
+Schedule "1" *-- "*" Session : sessions
+Session "1" *-- "*" Booking : bookings
+Session "1" --> "1" Instructor : speaker
+Booking "1" --> "1" Ticket : ticket
+Ticket "1" --> "*" AudienceSegment : audienceSegments
+Ticket "1" --> "*" MediaAsset : mediaAssets
+Ticket "1" --> "1" Location : venue
+Booking "1" --> "1" Location : venue
+Location "1" --> "*" Room : locations
+Platform "1" *-- "*" Room : managedRooms
+Platform "1" *-- "*" Schedule : activeSchedules
+Platform "1" --> "*" Event : hostedEvents
+Instructor "1" --> "*" Booking : managedBookings
+Instructor "1" --> "*" Notification : sentNotifications
+Booking --> "*" Notification : notificationChairs
+Schedule -- User
+@enduml

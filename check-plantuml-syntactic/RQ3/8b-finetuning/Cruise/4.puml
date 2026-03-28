@@ -1,0 +1,62 @@
+@startuml
+class CruiseProvider {
+  name: String
+  location: String
+}
+class Cruise {
+  cruiseNumber: int
+  name: String
+  startDate: Date
+  endDate: Date
+  +getDuration(): int
+}
+class Ship {
+  shipName: String
+  decks: int
+  length: int
+  capacity: int
+}
+class Guest {
+  name: String
+  isVip: boolean
+  +isEligibleForDiscount(): boolean
+}
+class Booking {
+  bookingNumber: int
+  bookingDate: Date
+  totalPrice: double
+  +confirmBooking(): boolean
+  +cancelBooking(): boolean
+}
+class TravelAgency {
+  name: String
+  address: String
+}
+class DestinationArea {
+  areaName: String
+  seaName: String
+}
+class Show {
+  title: String
+  durationMinutes: int
+  +getDescription(): String
+}
+class Ticket {
+  ticketId: String
+  issueDate: Date
+  price: double
+  +isValid(): boolean
+  +calculateTotalPrice(): double
+}
+CruiseProvider "1" *-- "0..*" Cruise : offeredCruises
+Cruise "1" *-- "1" Ship : assignedShip
+Cruise "1" *-- "1" TravelAgency : organizingAgency
+Cruise "1" *-- "1..*" DestinationArea : plannedDestinations
+Cruise "1" *-- "0..*" Show : includedShows
+Cruise "1" *-- "0..*" Guest : onboardGuests
+Guest "1" *-- "0..*" Booking : madeBookings
+Booking "1" *-- "1..*" Ticket : generatedTickets
+Ticket "0..*" --> "1" Cruise : bookedCruise
+Ticket "0..*" --> "1" Guest : ticketHolder
+CruiseProvider -- Guest
+@enduml

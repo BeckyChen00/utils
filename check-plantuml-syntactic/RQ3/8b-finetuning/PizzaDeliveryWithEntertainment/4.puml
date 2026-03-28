@@ -1,0 +1,87 @@
+@startuml
+enum OrderStatus {
+  Pending
+  InProgress
+  Completed
+  Cancelled
+}
+enum CrustType {
+  Classic
+  DeepDish
+  Cheese
+  ThinCrust
+  GlutenFree
+}
+enum EntertainmentCategory {
+  Singing
+  Jokes
+  Magic
+  Comedy
+  CardTrick
+  StringArt
+  FireDance
+  PhotoSession
+}
+class User {
+  name: String
+  email: String
+  address: String
+  birthday: Date
+  +login(): boolean
+  +createAccount(): void
+}
+class BusinessOwner {
+  linkedInAccount: String
+  +registerRestaurant(restaurant: PizzaRestaurant): void
+  +manageRestaurants(): List<PizzaRestaurant>
+}
+class PizzaRestaurant {
+  name: String
+  zipCode: String
+  address: String
+  phone: String
+  website: String
+  openingHours: String
+  +getAvailablePizzas(): List<Pizza>
+  +getMenu(): List<Pizza>
+}
+class Pizza {
+  name: String
+  crustType: CrustType
+  price: double
+  description: String
+  +calculateCost(quantity: int): double
+}
+class Order {
+  orderDate: Date
+  latestDeliveryTime: Date
+  deliveryAddress: String
+  numberOfPeople: int
+  status: OrderStatus
+  +placeOrder(): void
+  +cancelOrder(): void
+  +calculateTotalPrice(): double
+  +updateStatus(newStatus: OrderStatus): void
+}
+class EntertainmentOrder {
+  requestedCategories: List<EntertainmentCategory>
+  requestedDurationMinutes: int
+  +selectEntertainer(entertainer: Entertainer): void
+  +confirmEntertainmentServices(): void
+}
+class Entertainer {
+  stageName: String
+  pricePerThirtyMinutes: double
+  bio: String
+  +performAt(restaurant: PizzaRestaurant, date: Date): void
+  +getAvailability(restaurant: PizzaRestaurant): boolean
+}
+PizzaRestaurant --|> User
+Order --|> User
+EntertainmentOrder --|> Order
+BusinessOwner -- User
+User -- Entertainer
+PizzaRestaurant -- Pizza
+Order -- Pizza
+EntertainmentOrder -- Entertainer
+@enduml

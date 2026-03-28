@@ -1,0 +1,12 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement {
+        # system requirement
+    }
+
+        classDiagram
+            user -> SystemRequirement { system requirement }
+    }
+
+@enduml

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedAccount" eType="#//UserAccount" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logSources" eType="#//LoggingSystem" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="logHistory" eType="#//FinancialEvent" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loggedEvents" eType="#//FinancialEvent" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loggedData" eType="#//DataEvent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TradingStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlSystem" eType="#//MarketController" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="riskEvaluator" eType="#//RiskAnalyzer" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MarketController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adaptationStrategy" eType="#//MarketIterator" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loggingSystem" eType="#//LoggingSystem" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskAnalyzer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluatedFactors" eType="#//RiskFactorType" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedInstruments" eType="#//TradingInstrument" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MarketState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedInstruments" eType="#//TradingInstrument" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="marketStateInstrument" eType="#//Instrument" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TradingInstrument">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="underlyingAsset" eType="#//SecurityProfile" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceDatabase" eType="#//AssetDatabase" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="underlyingMarket" eType="#//MarketState" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assetProperties" eType="#//PropertyModel" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Instrument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainInstrument" eType="#//TradingInstrument" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceMarket" eType="#//MarketState" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceDatabase" eType="#//AssetDatabase" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssetDatabase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedProfiles" eType="#//SecurityProfile" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MarketIterator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="iteratedStates" eType="#//MarketState" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LoggingSystem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PortfolioManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentBalance" eType="#//PortfolioBalance" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tradedInstruments" eType="#//TradingInstrument" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortfolioBalance"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InvestmentProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentMarketState" eType="#//MarketState" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredEvent" eType="#//FinancialEvent" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FinancialEvent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LogSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedEvents" eType="#//FinancialEvent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskFactorType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TradingSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="purchasedInstruments" eType="#//TradingInstrument" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedOrders" eType="#//TradingOrder" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TradingOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetedInstruments" eType="#//TradingInstrument" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedEvents" eType="#//FinancialEvent" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

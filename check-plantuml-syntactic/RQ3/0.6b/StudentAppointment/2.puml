@@ -1,0 +1,19 @@
+@startuml
+class diagram
+
+User: User1, User2, User3
+role User1 role as "User"
+role User2 role as "User"
+role User3 role as "User"
+
+Data: Data1, Data2, Data3
+role Data1 role as "Data"
+role Data2 role as "Data"
+role Data3 role as "Data"
+
+Relationships:
+User --> Data1
+User --> Data2
+User --> Data3
+
+@enduml

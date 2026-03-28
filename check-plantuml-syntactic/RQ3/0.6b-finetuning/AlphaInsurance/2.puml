@@ -1,0 +1,66 @@
+@startuml
+class User {
+  name: String
+  email: String
+  isPremiumMember: boolean
+  +lockAccount(): void
+  +unlockAccount(): void
+}
+class Account {
+  isActive: boolean
+  +resetLock(): void
+  +lockAccount(): void
+}
+class Membership {
+  startDate: Date
+  durationDays: int
+  +validateMembership(): boolean
+  +calculateCost(): double
+}
+class SubscriptionPlan {
+  planName: String
+  price: double
+  +isActive(): boolean
+}
+class ContentPackage {
+  title: String
+  description: String
+  price: double
+  +isAvailable(): boolean
+  +updatePrice(newPrice: double): void
+}
+class Episode {
+  title: String
+  content: String
+  durationMinutes: int
+  releaseDate: Date
+  +getDuration(): int
+}
+class LiveBroadcastVideo {
+  title: String
+  durationMinutes: int
+  formatType: String
+  +getDuration(): int
+}
+class Streamer {
+  streamerName: String
+  streamUrl: String
+  +joinStream(): void
+}
+class Channel {
+  channelName: String
+  creationDate: Date
+}
+class Tag {
+  tagName: String
+}
+User *-- "1" Account : account
+Account *-- "1" Membership : membership
+Channel *-- "*" Episode : episodes
+Episode *-- "*" LiveBroadcastVideo : liveBroadcasts
+Streamer *-- "1" Account : account
+Account --> "*" ContentPackage : ownedPackages
+User --> "*" ContentPackage : purchasedPackages
+User --> "*" Tag : subscribedTags
+Channel --> "*" Tag : channelTags
+@enduml

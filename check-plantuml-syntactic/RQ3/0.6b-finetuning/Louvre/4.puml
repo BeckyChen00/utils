@@ -1,0 +1,36 @@
+@startuml
+enum InspectionStatus {
+  pending
+  completed
+  rejected
+}
+enum EquipmentType {
+  scanner
+  camera
+  printer
+}
+class RepairFacility {
+  locationName: String
+  capacity: int
+  +getAvailableSlots(): int
+  +generateMonthlyReport(format: String): String
+}
+class RepairJob {
+  description: String
+  scheduledDate: Date
+  currentStatus: InspectionStatus
+  +schedule(date: Date, type: EquipmentType): void
+  +complete(): void
+}
+class RepairOrder {
+  orderNumber: String
+  priorityLevel: int
+  +addJob(job: RepairJob): void
+  +addItem(item: RepairItem): void
+  +estimateCost(): float
+}
+RepairFacility *-- "0..*" RepairJob : managedJobs
+RepairOrder *-- "1..*" RepairJob : includedJobs
+RepairJob --> "1" RepairFacility : hostFacility
+RepairJob --> "0..1" RepairItem : requiredMaterial
+@enduml

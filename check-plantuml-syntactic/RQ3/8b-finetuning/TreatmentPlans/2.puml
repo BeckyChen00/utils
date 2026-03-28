@@ -1,0 +1,75 @@
+@startuml
+class Patient {
+  name: String
+  birthDate: Date
+  contactInfo: String
+  +registerVisit(doctor: Doctor, visitDate: Date): ExaminationVisit
+}
+class Doctor {
+  name: String
+  specialization: String
+  yearsOfExperience: int
+  +diagnose(patient: Patient, problem: String): Diagnosis
+  +publishTreatmentPlan(problem: String, plan: TreatmentPlan): void
+}
+class Diagnosis {
+  description: String
+  severityLevel: String
+  diagnosisDate: Date
+  +addExamination(visit: ExaminationVisit): void
+}
+class ExaminationVisit {
+  visitDate: Date
+  status: String
+  +recordExamination(type: ExaminationType): Examination
+  +assignDoctor(doctor: Doctor): void
+}
+class Examination {
+  executionDate: Date
+  result: String
+  location: String
+  +isCompleted(): boolean
+}
+class ExaminationType {
+  typeName: String
+  allowedHospitals: List<Hospital>
+  +requiresPermission(hospital: Hospital): boolean
+}
+class Hospital {
+  hospitalName: String
+  licenseNumber: String
+  +requestPermission(type: ExaminationType): void
+  +hasPermission(type: ExaminationType): boolean
+}
+class TreatmentPlan {
+  planName: String
+  description: String
+  +addExaminationType(type: ExaminationType): void
+  +getRequiredExaminations(): List<ExaminationType>
+}
+class MedicalEvent {
+  occurrenceDate: Date
+  description: String
+  +registerDetails(details: String, performedBy: Doctor): void
+}
+class Metric {
+  metricName: String
+  value: double
+  unit: String
+  +recordValue(value: double, timestamp: Date): void
+}
+Patient "1" *-- "*" ExaminationVisit : visits
+Doctor "1" --> "*" ExaminationVisit : assignedVisits
+Patient "1" --> "*" Diagnosis : diagnoses
+ExaminationVisit "1" *-- "*" Examination : conductedExaminations
+Examination "1" --> "1" ExaminationType : type
+ExaminationType "1" --> "*" Hospital : allowedHospitals
+Hospital "1" --> "*" Examination : scheduledExaminations
+Diagnosis "1" --> "1" TreatmentPlan : basedOnPlan
+Examination "1" -- Doctor
+Examination "1" -- Hospital
+Doctor -- Hospital
+Doctor -- ExaminationType
+ExaminationVisit -- Hospital
+ExaminationVisit -- Doctor
+@enduml

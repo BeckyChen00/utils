@@ -1,0 +1,125 @@
+
+---
+
+
+@startuml
+
+' Classes
+class Game {
+    - currentPlayer: Player
+    - players: List<Player>
+    - board: Board
+    - deck: ActionCardDeck
+    - status: String
+    + startGame()
+    + endGame()
+    + nextTurn()
+}
+
+class Player {
+    - name: String
+    - piece: PlayingPiece
+    - hasExtraTurn: boolean
+    + rollDie()
+    + move(steps: int)
+    + drawActionCard(deck: ActionCardDeck)
+}
+
+class PlayingPiece {
+    - color: String
+    - position: Tile
+    + setPosition(tile: Tile)
+}
+
+class Board {
+    - tiles: Map<Coordinate, Tile>
+    - connections: Map<Tile, List<Connection>>
+    - hiddenTile: Tile
+    - startingPositions: Map<Player, Tile>
+    + connectTiles(tile1: Tile, tile2: Tile, direction: Direction)
+    + getConnectedTiles(tile: Tile): List<Tile>
+}
+
+class Tile {
+    - id: String
+    - visited: boolean
+    - isActionTile: boolean
+    - actionDuration: int
+    - lastVisitedTurn: int
+    + markAsVisited()
+    + isAvailableForMove(): boolean
+}
+
+class Connection {
+    - tile1: Tile
+    - tile2: Tile
+    - direction: Direction
+}
+
+enum Direction {
+    UP
+    DOWN
+    LEFT
+    RIGHT
+}
+
+class ActionCardDeck {
+    - cards: List<ActionCard>
+    - spareConnections: List<Connection>
+    + shuffle()
+    + drawCard()
+    + addSpareConnection(connection: Connection)
+}
+
+abstract class ActionCard {
+    + execute(player: Player, game: Game)
+}
+
+class ExtraTurnCard {
+    + execute(player: Player, game: Game)
+}
+
+class ConnectTilesCard {
+    + execute(player: Player, game: Game)
+}
+
+class RemoveConnectionCard {
+    + execute(player: Player, game: Game)
+}
+
+class MoveToAnyTileCard {
+    + execute(player: Player, game: Game)
+}
+
+class SkipNextTurnCard {
+    + execute(player: Player, game: Game)
+}
+
+' Relationships
+Player --> "1" PlayingPiece : owns
+Game --> "1" Board : uses
+Game --> "1..4" Player : manages
+Game --> "1" ActionCardDeck : uses
+Board --> "many" Tile : contains
+Tile --> "0..*" Connection : connected via
+Connection --> "2" Tile : connects
+ActionCardDeck <|-- ActionCard : contains
+ActionCard <|-- ExtraTurnCard
+ActionCard <|-- ConnectTilesCard
+ActionCard <|-- RemoveConnectionCard
+ActionCard <|-- MoveToAnyTileCard
+ActionCard <|-- SkipNextTurnCard
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The `Direction` enum helps define how tiles are connected.
+- `ActionCardDeck` holds all 32 predefined action cards and spare connection pieces.
+- Each `ActionCard` type implements the `execute()` method differently.
+- `Tile` tracks whether it's an action tile and for how many turns it remains active.
+- `Game` manages the flow of turns and ends when a player lands on the hidden tile.
+
+---
+

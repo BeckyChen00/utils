@@ -1,0 +1,118 @@
+
+---
+
+
+@startuml
+
+' Users
+class User {
+  +id: int
+  +name: string
+  +address: string
+  +birthday: date
+  +type: enum("business_owner", "hungry_customer", "entertainer")
+}
+
+' Business Owner
+class BusinessOwner {
+  +linkedinAccount: string
+  -User user
+  +owns: PizzaRestaurant*
+}
+
+' Pizza Restaurant
+class PizzaRestaurant {
+  +id: int
+  +name: string
+  +zipCode: string
+  +address: string
+  +phone: string
+  +website: string
+  +openingHours: string
+  -BusinessOwner owner
+  +serves: Pizza*
+}
+
+' Pizza
+class Pizza {
+  +id: int
+  +name: string
+  +crustType: string
+  +price: float
+  -PizzaRestaurant restaurant
+}
+
+' Order
+class Order {
+  +id: int
+  +placedAt: datetime
+  +deliveryTime: datetime
+  +numberOfPeople: int
+  +pizzaItems: Pizza*
+  -HungryCustomer customer
+  +isEntertainmentOrder: boolean
+}
+
+' EntertainmentOrder
+class EntertainmentOrder {
+  +id: int
+  +entertainmentType: string
+  +durationMinutes: int
+  -Order order
+  +assignedTo: Entertainer
+}
+
+' HungryCustomer
+class HungryCustomer {
+  +deliveryAddress: string
+  -User user
+  +places: Order*
+}
+
+' Entertainer
+class Entertainer {
+  +stageName: string
+  +bio: string
+  +pricePer30Minutes: float
+  +worksAt: PizzaRestaurant*
+  +availableOn: DayOfWeek*
+}
+
+' DayOfWeek
+enum DayOfWeek {
+  Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+}
+
+' Relationships
+
+User --|> BusinessOwner : has
+User --|> HungryCustomer : has
+User --|> Entertainer : has
+
+BusinessOwner -- PizzaRestaurant : owns
+PizzaRestaurant -- Pizza : serves
+
+HungryCustomer -- Order : places
+Order -- Pizza : contains
+Order -- EntertainmentOrder : is a type of
+EntertainmentOrder -- Entertainer : assigned to
+Entertainer -- PizzaRestaurant : works at
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- The `User` class acts as a base class that is extended by `BusinessOwner`, `HungryCustomer`, and `Entertainer`.
+- `DayOfWeek` is an enumeration used to describe the availability of entertainers.
+- The `Pizza` class includes a reference to its associated `PizzaRestaurant` to ensure uniqueness even if two pizzas have the same name and price but are from different restaurants.
+- `Order` is a general class that can be either a regular order or an `EntertainmentOrder`.
+- `EntertainmentOrder` extends `Order` and adds specific fields like `entertainmentType` and `durationMinutes`.
+- `Entertainer` has a many-to-many relationship with `PizzaRestaurant` through `worksAt`.
+
+---
+
+### 💡 To Render:
+
+Let me know if you'd like the diagram exported as SVG, PNG, or in another format!

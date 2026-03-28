@@ -1,0 +1,51 @@
+@startuml
+enum ClaimStatus {
+  Pending
+  UnderAssessment
+  Approved
+  Rejected
+  InPayment
+}
+class Customer {
+  customerName: String
+  contactInfo: String
+}
+class Broker {
+  brokerName: String
+  +assignCustomer(customer: Customer): void
+}
+class InsurancePolicy {
+  policyType: String
+  coverageDetails: String
+  +issueOffer(customer: Customer): Claim
+}
+class Claim {
+  incidentDate: Date
+  description: String
+  status: ClaimStatus
+  +addDocument(document: Document): void
+  +submitForAssessment(): void
+}
+class Document {
+  documentType: String
+  uploadDate: Date
+  +getSummary(): String
+}
+class Estimator {
+  estimatorName: String
+  specialization: String
+  +assessClaim(claim: Claim): AssessmentReport
+}
+class AssessmentReport {
+  evaluationDate: Date
+  damageDescription: String
+  totalEstimatedCost: double
+  +isEligible(): boolean
+}
+Customer "1" --> "1" Broker : assignedBroker
+Customer "1" *-- "0..*" InsurancePolicy : ownedPolicies
+Claim "1" *-- "0..*" Document : attachedDocuments
+Claim "1" --> "0..*" AssessmentReport : generatedReports
+Estimator "1" --> "0..*" Claim : assessedClaims
+Broker "1" --> "0..*" Claim : handledClaims
+@enduml

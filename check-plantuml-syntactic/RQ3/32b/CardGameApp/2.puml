@@ -1,0 +1,104 @@
+
+@startuml
+
+' Define classes and their attributes
+class Game {
+    - id: UUID
+    - players: List<Player>
+    - deck: Deck
+    - scoringTable: ScoringTable
+}
+
+class Player {
+    - id: UUID
+    + name: String
+}
+
+class Deck {
+    - id: UUID
+    - cards: List<Card>
+}
+
+class Card {
+    - id: UUID
+    + suit: Suit
+    + rank: String
+    + compare(other: Card): ComparisonResult
+}
+
+enum Suit {
+    DIAMONDS, HEARTS, SPADES, CLUBS
+}
+
+enum ComparisonResult {
+    LOWER, EQUAL, HIGHER
+}
+
+class ScoringTable {
+    - id: UUID
+    - rounds: List<Round>
+}
+
+abstract class Round {
+    - id: UUID
+    + points: Integer
+    + winningPlayers: List<Player>
+}
+
+class JackRound {
+    - id: UUID
+    + points: Integer
+    + winningPlayers: List<Player>
+}
+
+class SoloRound {
+    - id: UUID
+    + points: Integer
+    + winningPlayers: List<Player>
+    + soloType: SoloType
+    + soloPlayer: Player
+}
+
+class MandatorySoloRound {
+    - id: UUID
+    + points: Integer
+    + winningPlayers: List<Player>
+    + soloType: SoloType
+    + soloPlayer: Player
+}
+
+enum SoloType {
+    TRUMP, JACK, QUEEN
+}
+
+' Inheritance relationships
+Round <|-- JackRound
+Round <|-- SoloRound
+SoloRound <|-- MandatorySoloRound
+
+' Association between Game and other entities
+Game "1" *-- "4" Player
+Game "1" *-- "1" Deck
+Game "1" *-- "1" ScoringTable
+
+Deck "1" *-- "48" Card
+
+ScoringTable "1" *-- "many" Round
+
+' End of diagram
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Game**: Central entity that includes 4 `Player`s, one `Deck`, and one `ScoringTable`.
+- **Player**: Has a unique ID and a name.
+- **Deck**: Contains up to 48 `Card`s.
+- **Card**: Has a `Suit` (enum), a `rank`, and a method `compare()` which returns a `ComparisonResult`.
+- **ScoringTable**: Keeps track of all `Round`s.
+- **Round**: Abstract base class for different types of rounds.
+- **JackRound**, **SoloRound**, **MandatorySoloRound**: Specific types of rounds with additional properties like `soloType` and `soloPlayer`.
+- **SoloType**: An enum representing the type of solo in a solo round.
+
+This structure supports extensibility and clarity, making it suitable for implementing a German-style card game with various rule variations.

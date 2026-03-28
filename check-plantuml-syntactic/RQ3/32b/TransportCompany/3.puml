@@ -1,0 +1,111 @@
+
+---
+
+
+@startuml
+
+' Define classes based on the requirements
+
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+}
+
+class Planner extends Employee {
+    + username: String
+    + password: String
+}
+
+class AdministrativeStaff extends Employee {
+    + fieldOfActivity: String
+    + username: String
+    + password: String
+}
+
+class Customer {
+    - name: String
+    - billingAddress: String
+}
+
+class PartnerCompany {
+    - name: String
+    - address: String
+}
+
+class Vehicle {
+    - licensePlateNumber: String
+    - mileage: Integer
+    - type: String
+}
+
+enum VehicleType {
+    RefrigeratedTruck
+    SmallVan
+    LoadingPlatform
+    BoxTruck
+}
+
+class RepairShop {
+    - name: String
+    - address: String
+}
+
+class Repair {
+    - duration: String
+    - cost: Double
+    - employeeResponsible: Employee
+    - repairShop: RepairShop
+}
+
+class Order {
+    - pickupAddress: String
+    - deliveryAddress: String
+    - comment: String
+    - startDate: DateTime
+    - endDate: DateTime
+    - customer: Customer
+    - assignedBy: Planner
+    - driver: Driver
+    - vehicle: Vehicle
+    - partnerCompany?: PartnerCompany
+}
+
+class Driver extends Employee {}
+
+' Relationships
+
+Employee <|-- Planner
+Employee <|-- AdministrativeStaff
+Employee <|-- Driver
+
+Vehicle "0..*" -- "1" Repair : hasRepair
+Vehicle "1" -- "0..*" Repair : repairedAt
+
+Order "1" -- "1" Customer : belongsTo
+Order "1" -- "1" Planner : assignedBy
+Order "1" -- "1" Driver : assignedTo
+Order "1" -- "1" Vehicle : uses
+Order "0..1" -- "1" PartnerCompany : placedBy
+
+Customer "0..*" -- "1.." Order : hasOrders
+Driver "0..*" -- "1.." Order : completesOrders
+Planner "0..*" -- "1.." Order : assignsOrders
+Vehicle "0..*" -- "1.." Order : usedInOrders
+
+PartnerCompany "0..*" -- "1.." Order : placesOrders
+
+Vehicle "type" --> VehicleType
+
+@enduml
+
+---
+
+### 📝 Notes:
+- **Inheritance**: `Planner`, `AdministrativeStaff`, and `Driver` inherit from `Employee`.
+- **Optional relationships**: Some associations are optional (e.g., an order can be placed by a partner company or not).
+- **Enumerations**: `VehicleType` is modeled as an enum for clarity.
+- **Attributes** like passwords and usernames are only available to planners and administrative staff.
+- The system supports tracking of orders, including who created them, which driver and vehicle were used, and when it was completed.
+
+---
+

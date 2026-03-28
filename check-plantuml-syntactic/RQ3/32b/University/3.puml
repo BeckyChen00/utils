@@ -1,0 +1,79 @@
+
+@startuml
+
+' Define classes based on system requirements
+
+class University {
+}
+
+class Faculty {
+    - name: String
+}
+
+class Institute {
+    - name: String
+    - address: String
+}
+
+class Employee {
+    - socialSecurityNumber: String
+    - name: String
+    - email: String
+}
+
+class ResearchAssistant {
+    - fieldOfResearch: String
+}
+
+class AdministrativeStaff {
+}
+
+class Project {
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - hours: Integer
+}
+
+class Lecturer {
+}
+
+class Course {
+    - id: String
+    - name: String
+    - weeklyDuration: Integer
+}
+
+' Relationships
+
+University "1" -- "0..*" Faculty : consists of
+Faculty "1" -- "0..*" Institute : made up of
+Faculty "1" -- "1" Dean : headed by
+Employee "1" -- "1" Dean : is a dean
+
+Employee "1" -- "0..*" ResearchAssistant : is a RA
+Employee "1" -- "0..*" AdministrativeStaff : is an administrative staff
+
+ResearchAssistant "1" -- "1..*" Institute : assigned to
+Institute "1" -- "0..*" ResearchAssistant : has RAs
+
+ResearchAssistant "1" -- "0..*" Project : involved in
+Project "1" -- "1" ResearchAssistant : belongs to
+
+ResearchAssistant "1" -- "0..1" Lecturer : can be a lecturer
+Lecturer "1" -- "1" ResearchAssistant : is an RA
+Lecturer "1" -- "0..*" Course : teaches
+
+@enduml
+
+---
+
+### Notes:
+- `University` contains multiple `Faculty`.
+- Each `Faculty` contains multiple `Institute` and is led by one `Dean`, who is also an `Employee`.
+- `Employee` can be either a `ResearchAssistant` or `AdministrativeStaff`.
+- `ResearchAssistant` must be assigned to at least one `Institute`.
+- `ResearchAssistant` can participate in multiple `Project`s.
+- If a `ResearchAssistant` teaches courses, they are marked as a `Lecturer`.
+- A `Lecturer` may teach multiple `Course`s.
+

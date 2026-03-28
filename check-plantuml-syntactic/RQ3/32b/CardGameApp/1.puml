@@ -1,0 +1,107 @@
+
+@startuml
+
+' Define the classes and their attributes
+
+class Game {
+  - id: String
+  + players: List<Player>
+  + deck: Deck
+  + scoringTable: ScoringTable
+}
+
+class Player {
+  - id: String
+  + name: String
+}
+
+class Deck {
+  - id: String
+  + cards: List<Card>
+  + MAX_CARDS = 48
+}
+
+abstract class Card {
+  - id: String
+  + suit: Suit
+  + rank: Rank
+  + compare(otherCard): ComparisonResult
+}
+
+enum Suit {
+  DIAMONDS
+  HEARTS
+  SPADES
+  CLUBS
+}
+
+enum Rank {
+  SEVEN
+  EIGHT
+  NINE
+  TEN
+  JACK
+  QUEEN
+  KING
+  ACE
+}
+
+enum ComparisonResult {
+  LOWER
+  EQUAL
+  HIGHER
+}
+
+class ScoringTable {
+  - id: String
+  + rounds: List<Round>
+}
+
+abstract class Round {
+  - id: String
+  + winningPlayers: List<Player>
+  + points: Int
+}
+
+class JackRound extends Round {}
+
+class SoloRound extends Round {
+  + soloType: SoloType
+  + soloPlayer: Player
+}
+
+class MandatorySoloRound extends SoloRound {}
+
+enum SoloType {
+  TRUMP_SOLO
+  JACK_SOLO
+  QUEEN_SOLO
+}
+
+' Relationships
+
+Game "1" -- "4" Player : has
+Deck "1" -- "*" Card : contains
+ScoringTable "1" -- "*" Round : has
+Round "0..*" -- "1" JackRound : can be
+Round "0..*" -- "1" SoloRound : can be
+SoloRound "1" -- "1" Player : has solo player
+SoloRound "1" -- "1" SoloType : has type
+MandatorySoloRound "1" -- "1" SoloRound : is a special case of
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Game`** holds all components of the system (players, deck, scoring table).
+- **`Deck`** contains a list of `Card`s, limited to 48.
+- **`Card`** is abstract with attributes like suit and rank; it has a method for comparison.
+- **`Suit` and `Rank`** are enums that define the properties of a card.
+- **`ScoringTable`** tracks all rounds.
+- **`Round`** is an abstract base class. It has two concrete types:
+  - **`JackRound`**: A specific kind of round.
+  - **`SoloRound`**: Can have subtypes like **`MandatorySoloRound`**, and includes a solo type and solo player.
+- Each object has a unique ID attribute (`id`) as required.
+

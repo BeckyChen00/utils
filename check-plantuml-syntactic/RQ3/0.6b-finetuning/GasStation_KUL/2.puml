@@ -1,0 +1,32 @@
+@startuml
+class Customer {
+  customerName: String
+  isVipMember: boolean
+  +getVipDiscount(): double
+}
+class PaymentTransaction {
+  transactionDate: Date
+  amount: double
+  isRefunded: boolean
+  +calculateFee(): double
+  +refund(): boolean
+}
+class PaymentGateway {
+  gatewayName: String
+  +processPayment(amount: double, customerInfo: Customer): PaymentTransaction
+}
+class BankAccount {
+  accountNumber: String
+  bankName: String
+  +verifySignature(signature: String): boolean
+}
+class PaymentProcessor {
+  protocolType: String
+  +authorizeProcessing(amount: double): boolean
+  +executePayment(amount: double): PaymentTransaction
+}
+Customer "1" --> "*" PaymentTransaction : madeTransactions
+PaymentTransaction "*" --> "1" PaymentGateway : processingGateway 'opposite: initiatedTransactions
+PaymentTransaction "*" --> "1" BankAccount : sourceAccount
+PaymentTransaction "*" --> "1" PaymentProcessor : processingEngine 'opposite: processedTransactions
+@enduml

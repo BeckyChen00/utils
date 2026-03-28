@@ -1,0 +1,122 @@
+
+---
+
+
+@startuml
+' Entities and classes for LabTracker system
+
+class Doctor {
+    - name: String
+    - address: String
+    - phoneNumber: String
+    - practitionerNumber: String
+    - signatureImage: Image
+}
+
+class Patient {
+    - healthNumber: String
+    - name: String
+    - dateOfBirth: Date
+    - address: String
+    - phoneNumber: String
+}
+
+class Requisition {
+    - validityDate: Date
+    - tests: List<Test>
+    - repetitionCount: Integer
+    - repetitionInterval: IntervalEnum
+    - doctor: Doctor
+    - patient: Patient
+}
+
+enum IntervalEnum {
+    Weekly
+    Monthly
+    HalfYearly
+    Yearly
+}
+
+class Test {
+    - testName: String
+    - testGroup: TestGroup
+    - duration: Duration
+    - isAppointmentRequired: Boolean
+    - isSampleBased: Boolean
+    - requisition: Requisition
+}
+
+enum TestGroup {
+    BloodTest
+    Ultrasound
+    XRay
+    UrineTest
+    StoolTest
+}
+
+class Lab {
+    - labName: String
+    - address: String
+    - registrationNumber: String
+    - businessHours: BusinessHours
+    - cancellationFee: Double
+}
+
+class BusinessHours {
+    - startTime: Time
+    - endTime: Time
+}
+
+class Appointment {
+    - confirmationNumber: String
+    - appointmentDate: Date
+    - startTime: Time
+    - endTime: Time
+    - lab: Lab
+    - test: Test
+    - patient: Patient
+}
+
+class Result {
+    - resultType: ResultType
+    - report: String
+    - test: Test
+}
+
+enum ResultType {
+    Positive
+    Negative
+}
+
+' Relationships
+
+Doctor "1" -- "0..*" Requisition : creates
+Requisition "1" -- "1" Doctor : belongsTo
+Requisition "1" -- "1" Patient : belongsTo
+Patient "1" -- "0..*" Requisition : has
+Requisition "1" -- "1..*" Test : includes
+Test "1" -- "1" TestGroup : belongsTo
+Test "1" -- "0..1" Appointment : scheduledAt
+Test "1" -- "1" Result : has
+Lab "1" -- "0..*" Appointment : offers
+Lab "1" -- "1" BusinessHours : has
+Appointment "1" -- "1" Lab : at
+Patient "1" -- "0..*" Appointment : makes
+
+@enduml
+
+---
+
+### 📝 Notes:
+
+- **Doctor** can create multiple **Requisitions** for **Patients**, but not for themselves.
+- A **Requisition** contains one or more **Tests** from the same **TestGroup**.
+- Each **Test** may require an **Appointment** depending on the type.
+- **Labs** have fixed **BusinessHours** and can be selected by **Patients** for appointments.
+- **Results** are linked back to a specific **Test**.
+- The **IntervalEnum** supports weekly, monthly, half-yearly, and yearly repetition patterns.
+- **TestGroup** ensures that only compatible tests can be grouped together in a requisition.
+
+---
+
+Let me know if you'd like a version with **stereotypes**, **interfaces**, or a **sequence diagram** for interactions!

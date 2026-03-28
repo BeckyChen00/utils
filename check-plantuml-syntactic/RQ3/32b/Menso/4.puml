@@ -1,0 +1,123 @@
+
+---
+
+
+@startuml
+
+' Define classes with attributes and associations
+class Company {
+  +name: String
+}
+
+class BusLine {
+  +lineNumber: Integer
+  +category: String
+}
+
+class Trajectory {
+  +id: String
+  +approvalStatus: ApprovalStatus
+  +startDate: Date
+  +endDate: Date (nullable)
+}
+
+enum ApprovalStatus {
+  Pending
+  Approved
+  Rejected
+  Revised
+}
+
+class Bus {
+  +busId: String
+  +assignedTrajectory: Trajectory
+}
+
+class MENSO {
+  +customerId: String
+  +personalData: Map<String, String>
+  +trips: List<Trip>
+  +invoiceHistory: List<Invoice>
+}
+
+class Trip {
+  +tripId: String
+  +date: Date
+  +time: Time
+  +line: BusLine
+}
+
+class Invoice {
+  +invoiceId: String
+  +month: MonthYear
+  +amount: Decimal
+  +discount: Decimal
+  +paid: Boolean
+}
+
+class Payment {
+  +paymentId: String
+  +invoice: Invoice
+  +amountPaid: Decimal
+  +paymentDate: Date
+}
+
+class MonthYear {
+  +year: Integer
+  +month: Integer
+}
+
+class Customer {
+  +customerId: String
+  +menso: MENSO
+  +homeAddress: String
+  +officeAddress: String
+  +workingHours: List<TimeRange>
+}
+
+class TimeRange {
+  +startTime: Time
+  +endTime: Time
+}
+
+' Associations and Relationships
+Company "1" -- "many" BusLine : owns
+Company "1" -- "many" Trajectory : manages
+Company "1" -- "many" Bus : owns
+BusLine "1" *-- "many" Trajectory : contains
+Trajectory "0..*" -- "1" Bus : assigned to
+Trajectory "1" -- "many" Trip : includes
+MENSO "1" -- "many" Trip : records
+Customer "1" -- "1" MENSO : subscribes to
+Trip "1" -- "1" BusLine : belongs to
+Invoice "1" -- "1" MENSO : generated for
+Payment "1" -- "1" Invoice : pays for
+MENSO "1" -- "many" Invoice : has
+MENSO "1" -- "many" Payment : receives
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Elements:
+
+- **Company**: Central entity that owns buses, manages trajectories, and operates bus lines.
+- **BusLine**: A route identified by a line number. May consist of multiple overlapping or variant trajectories.
+- **Trajectory**: A specific path that must be approved by town authorities before it can be operational.
+- **ApprovalStatus**: Enum representing the status of trajectory approval.
+- **Bus**: Each bus can be assigned to one trajectory at a time.
+- **MENSO**: User subscription system; tracks trips, invoices, discounts, and customer data.
+- **Trip**: Records each ride made with a MENSO card, including date, time, and line.
+- **Invoice & Payment**: Handles billing logic—invoices may come in any order relative to payments.
+- **Customer**: Stores personal information used for behavioral analysis.
+- **MonthYear**: Utility class for grouping trips into monthly billing cycles.
+- **TimeRange**: Used to represent working hours for behavioral insights.
+
+---
+
+### 📌 Notes:
+- This model supports the iterative approval process for trajectories.
+- It allows for flexible assignment of buses to trajectories once they are approved.
+- The `MENSO` class encapsulates all trip data needed for invoicing and discount calculation.
+- The system supports delayed payment scenarios as per the requirement.
+

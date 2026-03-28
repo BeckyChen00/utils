@@ -1,0 +1,20 @@
+@startuml
+
+class SystemRequirement {
+    id: "System Requirement"
+    name: "System Requirement"
+    description: "Define the requirements for a system"
+
+    node1 class SystemRequirement
+    node2 class Component
+    node3 class Feature
+    node4 class Requirement
+
+    node1 -> node2
+    node2 -> node3
+    node3 -> node4
+
+    node4 -> node5
+    node5 is component of node4
+
+@enduml

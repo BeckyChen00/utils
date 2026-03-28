@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basements" eType="#//Basement" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Basement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="House">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="carport" eType="#//Carport" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="garage" eType="#//Garage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serviceJobs" eType="#//ServiceJob" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Carport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Garage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceJob">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serviceProvider" eType="#//Company" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SemiDetachedHouse" eSuperTypes="#//House"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Company"/>
+</ecore:EPackage>

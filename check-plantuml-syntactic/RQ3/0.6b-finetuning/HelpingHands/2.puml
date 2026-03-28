@@ -1,0 +1,82 @@
+@startuml
+enum EquipmentState {
+  InUse
+  MaintenanceRequired
+  Damaged
+  Deleted
+}
+enum AppointmentStatus {
+  Scheduled
+  Completed
+  Cancelled
+  Delivered
+  Pending
+}
+class DeliveryAgent {
+  name: String
+  certificationLevel: String
+  +updateProfile：void
+  +schedulePenaltyRequest(latency: double, hours: int, status: AppointmentStatus): String
+}
+class Customer {
+  name: String
+  contactNumber: String
+  +requestPayment(amount: double): PaymentTransaction
+  +getProfileStatus(): String
+}
+class Vehicle {
+  vin: String
+  licensePlate: String
+  currentLocation: String
+  isAvailable: boolean
+  +updateLocation(location: String): void
+  +checkAvailability(startHour: int, endHour: int): boolean
+}
+class DeliverySchedule {
+  startDate: Date
+  endDate: Date
+  +addAssignment(customer: Customer, vehicle: Vehicle): void
+  +validateDurationMinutes(): int
+}
+class Route {
+  startLocation: String
+  destinationLocation: String
+  estimatedDuration: int
+  +calculateDistance(): double
+  +getRouteSummary(): String
+}
+class PickupLocation {
+  coordinate: String
+  alternativeLocation: String
+  +getDistance(): double
+}
+class Order {
+  orderDate: Date
+  priorityLevel: int
+  +updateStatus(newStatus: AppointmentStatus): void
+  +calculateTotalCost(): double
+}
+class OrderItem {
+  quantity: int
+  specialInstructions: String
+  unitPrice: double
+  +getSubtotal(): double
+}
+class PaymentTransaction {
+  amount: double
+  transactionDate: Date
+  status: String
+  +processPayment(): boolean
+  +refund(): boolean
+}
+DeliveryAgent "1" *-- "0..*" DeliverySchedule : managedSchedules
+DeliveryAgent "1" --> "1" PaymentTransaction : handlesTransactions
+Customer "1" --> "0..*" Order : placedOrders
+Order "1" *-- "1..*" OrderItem : consistsOf
+Order "1" --> "1" DeliverySchedule : definesSchedule
+DeliverySchedule "1" *-- "1" Route : definesRoute
+DeliverySchedule "1" --> "1" Vehicle : assignedVehicle
+DeliverySchedule "1" --> "1" PickupLocation : determinesPickupPoint
+Order "1" --> "1" Customer : belongsToCustomer
+Order "1" --> "1" PaymentTransaction : executedWith
+@enduml

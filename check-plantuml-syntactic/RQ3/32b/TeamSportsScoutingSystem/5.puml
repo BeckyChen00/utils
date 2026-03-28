@@ -1,0 +1,95 @@
+
+@startuml
+
+' Define classes and their attributes/operations
+
+class Player {
+  +String name
+  +int age
+  +String position
+  +Map<String, String> attributes
+}
+
+class DesignatedTargetProfile {
+  +String targetPosition
+  +Map<String, String> requiredAttributes
+  +List<Player> longList
+  +List<Player> shortList
+}
+
+class Scout {
+  +String name
+  +submitScoutingReport(Player, ScoutingReport)
+  +assignScoutingAssignment(ScoutingAssignment)
+}
+
+class HeadCoach {
+  +identifyDesignatedTargetProfile(DesignatedTargetProfile)
+  +reviewScoutingResults()
+  +decideShortList()
+}
+
+class HeadScout {
+  +evaluateLongList()
+  +setupScoutingAssignments()
+  +reviewScoutingReports()
+  +recommendPlayerForSigning(Player)
+}
+
+class Director {
+  +makeOfficialOffer(Player)
+}
+
+class ScoutingAssignment {
+  +Player player
+  +Scout assignedScout
+  +Date dateAssigned
+  +Date dateCompleted
+}
+
+class ScoutingReport {
+  +String pros
+  +String cons
+  +String recommendation
+  +Scout scout
+  +Player player
+}
+
+class RecommendationType {
+  <<enumeration>>
+  KEY_PLAYER
+  FIRST_TEAM_PLAYER
+  RESERVE_TEAM_PLAYER
+  PROSPECTIVE_PLAYER
+  NOT_A_GOOD_SIGNING
+}
+
+' Relationships
+
+HeadCoach --> "1" DesignatedTargetProfile : identifies
+DesignatedTargetProfile --> "many" Player : includes in long list
+Scout --> "1" ScoutingAssignment : assigns
+Scout --> "1" ScoutingReport : submits
+ScoutingAssignment --> "1" Player : targets
+ScoutingAssignment --> "1" Scout : assigned to
+ScoutingReport --> "1" Player : about
+ScoutingReport --> "1" Scout : by
+ScoutingReport --> "1" RecommendationType : has
+
+HeadScout --> "1" DesignatedTargetProfile : evaluates
+HeadScout --> "1" ScoutingAssignment : may perform
+HeadScout --> "1" Player : recommends for signing
+Director --> "1" Player : makes offer
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **Player** has attributes like position and a map of custom attributes (e.g., speed: high).
+- **DesignatedTargetProfile** represents a scouting goal defined by the **HeadCoach**, including positions and desired attributes.
+- **Scouts** submit **ScoutingReports**, which include a **Recommendation** from an enum type.
+- The **HeadScout** evaluates reports and decides who moves to the **short list**.
+- The **Director** only becomes involved once a player is recommended for signing.
+

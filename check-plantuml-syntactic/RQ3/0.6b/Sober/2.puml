@@ -1,0 +1,57 @@
+@startuml
+    class Diagram {
+        class "System Requirement" { 
+            name: "System Requirement"
+            description: "This is the system requirement."
+        }
+
+        class "Requirement" {
+            name: "Requirement"
+            description: "A specific requirement for the system."
+        }
+
+        class "Constraint" {
+            name: "Constraint"
+            description: "A condition that must be met by the system."
+        }
+
+        class "System" {
+            name: "System"
+            description: "The system in question."
+        }
+
+        class "Component" {
+            name: "Component"
+            description: "A part of the system."
+        }
+
+        class "Module" {
+            name: "Module"
+            description: "A group of related components."
+        }
+
+        class "Function" {
+            name: "Function"
+            description: "A logical operation performed by a component."
+        }
+
+        class "Input" {
+            name: "Input"
+            description: "A resource or data provided to a function."
+        }
+
+        class "Output" {
+            name: "Output"
+            description: "The result of a function."
+        }
+
+        class "Dependency" {
+            name: "Dependency"
+            description: "A relationship between two components."
+        }
+
+        class "Relationship" {
+            name: "Relationship"
+            description: "A connection between two components."
+        }
+@enduml

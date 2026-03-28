@@ -1,0 +1,113 @@
+
+---
+
+
+@startuml
+
+' Entities involved in the system
+
+class Bus {
+  -id: String
+  -lineNumber: Integer
+}
+
+class Line {
+  -id: String
+  -name: String
+  -category: String
+  -trajectories: List<Trajectory>
+}
+
+class Trajectory {
+  -id: String
+  -description: String
+  -status: String (e.g., approved, pending, suspended, cancelled)
+  -approvedDate: Date
+  -cancellationDate: Date
+  -submissionHistory: List<ApprovalRequest>
+}
+
+class ApprovalRequest {
+  -requestDate: Date
+  -townAuthorityFeedback: String
+  -isApproved: Boolean
+  -trajectory: Trajectory
+}
+
+class TownAuthority {
+  -name: String
+  -contact: String
+}
+
+class MENSO {
+  -cardId: String
+  -validFrom: Date
+  -validUntil: Date
+  -customer: Customer
+  -trips: List<Trip>
+}
+
+class Trip {
+  -tripId: String
+  -date: Date
+  -time: Time
+  -line: Line
+  -mensoCardUsed: Boolean
+}
+
+class Customer {
+  -id: String
+  -name: String
+  -homeAddress: String
+  -officeAddress: String
+  -workingHours: String
+  -mensoCards: List<MENSO>
+  -invoices: List<Invoice>
+}
+
+class Invoice {
+  -invoiceId: String
+  -issueDate: Date
+  -dueDate: Date
+  -totalAmount: Float
+  -discountApplied: Float
+  -paidStatus: Boolean
+  -customer: Customer
+}
+
+class MENSOSystem {
+  -processTrip(): void
+  -generateInvoice(): void
+  -analyzeTravelPatterns(): void
+}
+
+' Associations
+
+Bus --> Line : assigned to
+Line --> Trajectory : includes
+Trajectory --> ApprovalRequest : has submission history
+Trajectory --> TownAuthority : requested by
+MENSO --> Customer : belongs to
+MENSO --> Trip : contains
+Trip --> Line : taken on
+Customer --> MENSO : owns
+Customer --> Invoice : receives
+Invoice --> Customer : issued to
+MENSOSystem --> Trip : processes
+MENSOSystem --> Invoice : generates
+MENSOSystem --> Customer : analyzes
+
+@enduml
+
+---
+
+### 🧩 Notes:
+- The `Trajectory` can go through multiple approval requests (`ApprovalRequest`) until it is finally approved.
+- A `Line` may include several `Trajectory` objects to support varying routes at different times.
+- The `MENSO` system tracks all trips and uses that data for invoicing and analysis.
+- Invoices are generated per customer, and they may receive multiple invoices before previous ones are paid.
+- Personal information of customers is collected to analyze travel patterns.
+
+---
+
+If you want a visual version of this class diagram or need an ERD version as well, let me know!

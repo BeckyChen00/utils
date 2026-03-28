@@ -1,0 +1,20 @@
+@startuml
+    class Diagram { System Requirement }
+    #include "System Requirement" 
+    #include "System Requirement"
+
+    # Define the entities and attributes
+    entity SystemRequirement {
+        name: "System Requirement"
+        description: "This is a system requirement."
+        attributes:
+            - id: integer
+            - name: string
+            - description: text
+    }
+
+    # Define relationships
+    relationship SystemRequirement to SystemRequirement
+
+    # Output the diagram
+@enduml

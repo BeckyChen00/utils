@@ -1,0 +1,86 @@
+
+@startuml
+skinparam linetype=orthogonal
+
+class Patient {
+  -patientId: String
+  -name: String
+  -consentGiven: Boolean
+}
+
+class Doctor {
+  -doctorId: String
+  -name: String
+  -specialization: String
+}
+
+class HeadDoctor {
+  -headDoctorId: String
+  -name: String
+}
+
+class Diagnosis {
+  -diagnosisId: String
+  -description: String
+  -doctorId: String
+  -approvedByHeadDoctor: Boolean
+}
+
+class Treatment {
+  -treatmentId: String
+  -stage: Integer (1, 2, or 3)
+  -appliedOn: Date
+  -illnessId: String
+}
+
+class Illness {
+  -illnessId: String
+  -name: String
+  -priorityScore: String ("high" or "low")
+}
+
+class Nurse {
+  -nurseId: String
+  -name: String
+}
+
+class FollowUp {
+  -followUpId: String
+  -patientId: String
+  -date: Date
+  -notes: String
+}
+
+class ConsentForm {
+  -formId: String
+  -patientId: String
+  -signedDate: Date
+  -validUntil: Date
+}
+
+Patient "1" -- "0..*" Doctor : treated by
+Doctor "1" -- "1" HeadDoctor : reports to
+Doctor "1" -- "1" Diagnosis : makes
+Diagnosis "1" -- "1" HeadDoctor : must be approved by
+Diagnosis "1" -- "1" Illness : relates to
+Illness "1" -- "0..*" Treatment : has treatments for
+Treatment "1" -- "1" FollowUp : requires
+Patient "1" -- "0..*" ConsentForm : signs
+ConsentForm "1" -- "0..*" Treatment : allows upgrade of
+Nurse "1" -- "0..*" FollowUp : provides
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **Patient**: Has one or more doctors assigned. Can sign a consent form that allows treatment stage upgrades.
+- **Doctor**: Makes diagnoses and applies treatments. May be a head doctor.
+- **HeadDoctor**: Must approve any diagnosis before treatment can proceed.
+- **Diagnosis**: Must be approved by the head doctor before treatment is applied.
+- **Treatment**: Goes through stages (1, 2, 3). Stage changes may require patient consent or be enforced by illness priority.
+- **Illness**: Has a priority score (`high` or `low`). If high, all related treatments are immediately placed in stage 3.
+- **FollowUp**: Required for stage 3 treatments, provided by nurses.
+- **ConsentForm**: Signed by the patient, allowing automatic stage upgrades after initial consent.
+
+---
+

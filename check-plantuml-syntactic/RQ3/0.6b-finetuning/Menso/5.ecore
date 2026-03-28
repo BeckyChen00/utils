@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedTasks" eType="#//MaintenanceTask" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceTask"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkOrder">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTask" eType="#//MaintenanceTask" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReport" eType="#//InspectionReport" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fulfilledTask" eType="#//MaintenanceTask" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InspectionReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SafetyProtocol">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedOnProtocol" eType="#//InspectionReport" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Inspector">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTasks" eType="#//MaintenanceTask" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="followedProtocol" eType="#//SafetyProtocol" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScheduleManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedReports" eType="#//InspectionReport" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledSchedule" eType="#//MaintenanceSchedule" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceSchedule"/>
+</ecore:EPackage>

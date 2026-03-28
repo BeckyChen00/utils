@@ -1,0 +1,52 @@
+
+@startuml
+
+' Define classes and their attributes
+class GasStation {
+  +id: String
+  +address: String
+  -fuelPumps: List<FuelPump>
+}
+
+class FuelPump {
+  +number: int
+  +isSelfService: boolean
+  -fuels: List<Fuel>
+}
+
+class Fuel {
+  +name: String
+  +octaneRating: double
+}
+
+class DailyFuelPrice {
+  +date: Date
+  +fuel: Fuel
+  +gasStation: GasStation
+  +pricePerLiter: double
+}
+
+class FuelPurchase {
+  +id: String
+  +fuelPump: FuelPump
+  +fuel: Fuel
+  +dailyFuelPrice: DailyFuelPrice
+  +litersDispensed: double
+}
+
+' Associations
+GasStation "1" -- "0..*" FuelPump : has
+FuelPump "1" -- "0..*" Fuel : offers
+GasStation "1" -- "0..*" DailyFuelPrice : archives
+Fuel "1" -- "0..*" DailyFuelPrice : applies to
+FuelPump "1" -- "0..*" FuelPurchase : used for
+DailyFuelPrice "1" -- "0..*" FuelPurchase : associated with
+
+@enduml
+
+### Explanation of Relationships:
+- A **GasStation** has **FuelPumps**.
+- Each **FuelPump** offers a list of **Fuels**.
+- A **GasStation** archives **DailyFuelPrices**, which are tied to specific **Fuels**.
+- A **FuelPurchase** is made at a **FuelPump**, using a specific **Fuel** and a **DailyFuelPrice**.
+

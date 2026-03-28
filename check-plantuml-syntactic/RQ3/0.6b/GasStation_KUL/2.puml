@@ -1,0 +1,78 @@
+@startuml
+class Diagram {Diagram}
+class SystemRequirement {
+    name: "System Requirement"
+    description: "The system requirement is a set of requirements that define the functionality and performance of the application."
+}
+
+class Application {
+    name: "Application"
+    description: "The application that meets the system requirements."
+}
+
+class Requirement {
+    name: "Requirement"
+    description: "A specific requirement defined in the system requirement."
+}
+
+class FunctionalRequirement {
+    name: "Functional Requirement"
+    description: "A requirement related to a specific function or feature."
+}
+
+class PerformanceRequirement {
+    name: "Performance Requirement"
+    description: "A requirement related to performance metrics."
+}
+
+class ResourceRequirement {
+    name: "Resource Requirement"
+    description: "A requirement related to resource availability and usage."
+}
+
+class TechnicalRequirement {
+    name: "Technical Requirement"
+    description: "A requirement related to technical specifications and standards."
+}
+
+class TestRequirement {
+    name: "Test Requirement"
+    description: "A requirement related to testing and validation."
+}
+
+class ValidationRequirement {
+    name: "Validation Requirement"
+    description: "A requirement related to ensuring correctness and completeness."
+}
+
+class IntegrationRequirement {
+    name: "Integration Requirement"
+    description: "A requirement related to integration between different systems or components."
+}
+
+class DeploymentRequirement {
+    name: "Deployment Requirement"
+    description: "A requirement related to deployment and scalability."
+}
+
+class ArchitectureRequirement {
+    name: "Architecture Requirement"
+    description: "A requirement related to the architecture design and implementation."
+}
+
+class SecurityRequirement {
+    name: "Security Requirement"
+    description: "A requirement related to security measures and compliance."
+}
+
+class CostRequirement {
+    name: "Cost Requirement"
+    description: "A requirement related to cost-effectiveness and budget constraints."
+}
+
+class MaintenanceRequirement {
+    name: "Maintenance Requirement"
+    description: "A requirement related to maintenance and support services."
+}
+
+@enduml

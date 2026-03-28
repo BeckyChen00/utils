@@ -1,0 +1,157 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class User {
+    +String name
+    +String email
+}
+
+class Student {
+    +enroll()
+    +makeRequest()
+    +payForSession()
+}
+
+class Tutor {
+    +String bankAccount
+    +offerTutoring(subject: String, level: String, price: float)
+    +setAvailability(availability: Availability)
+    +confirmSession()
+    +cancelSession()
+    +scheduleFollowUp()
+}
+
+class Person {
+    +register()
+}
+
+class Registration {
+    +submitDetails(name: String, email: String)
+}
+
+class Subject {
+    -String name
+}
+
+class Level {
+    -String description  // e.g., primary, high school, university
+}
+
+class Availability {
+    -Day day
+    -TimeRange time
+}
+
+class Day {
+    -String name  // e.g., Monday, Tuesday
+}
+
+class TimeRange {
+    -Time startTime
+    -Time endTime
+}
+
+class Time {
+    -int hour
+    -int minute
+}
+
+class TutoringOffer {
+    +Subject subject
+    +Level level
+    +float hourlyPrice
+    +Availability availability
+}
+
+class TutoringRequest {
+    +Student student
+    +Tutor tutor
+    +Subject subject
+    +Level level
+    +DateTime proposedDateTime
+}
+
+class Session {
+    +TutoringRequest request
+    +DateTime confirmedDateTime
+    +boolean cancelled
+    +CancellationPolicy policy
+    +followUpScheduled
+}
+
+class CancellationPolicy {
+    +handleStudentCancellation(dateTime: DateTime)
+    +handleTutorCancellation(dateTime: DateTime)
+}
+
+class Payment {
+    +Student student
+    +Tutor tutor
+    +float amount
+    +PaymentMethod method
+}
+
+enum PaymentMethod {
+    CreditCard
+    WireTransfer
+}
+
+class Award {
+    +Month month
+    +Subject subject
+    +Tutor winner
+}
+
+class Month {
+    -int number
+}
+
+' Inheritance and interfaces
+User <|-- Student
+User <|-- Tutor
+Person <|-- Student
+Person <|-- Tutor
+
+TutoringOffer "1" *-- "many" Tutor
+TutoringOffer "1" *-- "1" Subject
+TutoringOffer "1" *-- "1" Level
+
+TutoringRequest "1" *-- "1" TutoringOffer
+TutoringRequest "1" *-- "1" Student
+TutoringRequest "1" *-- "1" Tutor
+
+Session "1" *-- "1" TutoringRequest
+Session "1" *-- "1" CancellationPolicy
+
+Payment "1" *-- "1" Session
+Payment "1" *-- "1" Student
+Payment "1" *-- "1" Tutor
+
+Award "1" *-- "1" Tutor
+Award "1" *-- "1" Subject
+Award "1" *-- "1" Month
+
+Tutor "1" *-- "many" Availability
+Availability "1" *-- "1" Day
+Availability "1" *-- "1" TimeRange
+TimeRange "1" *-- "2" Time
+
+@enduml
+
+---
+
+### 📌 Notes:
+- **Inheritance**: `Student` and `Tutor` both inherit from `User` and `Person`, since a user can be either a student or a tutor.
+- **Aggregation/Composition**: 
+  - A `Tutor` offers many `TutoringOffer`s.
+  - A `TutoringRequest` refers to one `TutoringOffer`.
+  - A `Session` is created from a `TutoringRequest`.
+- **Association**:
+  - A `TutoringOffer` has a `Subject`, `Level`, and `Hourly Price`.
+  - `CancellationPolicy` is used by `Session` to enforce rules.
+- **Enums and Value Objects**:
+  - `PaymentMethod` is an enum.
+  - `Time`, `TimeRange`, `Day`, etc., are value objects representing temporal data.
+

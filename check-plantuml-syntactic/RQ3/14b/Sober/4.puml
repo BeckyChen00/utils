@@ -1,0 +1,103 @@
+
+@startuml
+skinparam classAttributeIconName false
+
+class Car {
+  -carId: String
+  -make: String
+  -model: String
+  -year: Integer
+  -isSelfDriving: Boolean
+  -ownerId: String
+}
+
+class Owner {
+  -ownerId: String
+  -name: String
+  -contactInfo: String
+  -registeredCars: List<Car>
+}
+
+class Customer {
+  -customerId: String
+  -name: String
+  -email: String
+  -phone: String
+  -rideShareCount: Integer
+}
+
+class RideHailing {
+  -rideId: String
+  -pickupTime: DateTime
+  -dropoffTime: DateTime
+  -pickupLocation: String
+  -dropoffLocation: String
+  -duration: Integer
+  -distance: Double
+  -numPassengers: Integer
+  -fee: Double
+  -requestType: String (APP or HAND_WAVE)
+  -leadCustomer: Customer
+}
+
+class RideSharing {
+  -rideId: String
+  -pickupTime: DateTime
+  -dropoffTime: DateTime
+  -pickupLocation: String
+  -dropoffLocation: String
+  -duration: Integer
+  -distance: Double
+  -customers: List<Customer>
+  -negotiatedFee: Double
+}
+
+class Accident {
+  -accidentId: String
+  -date: DateTime
+  -location: String
+  -damageAmount: Double
+  -carId: String
+}
+
+class SoberApp {
+  -appId: String
+  -version: String
+  -registeredUsers: List<Customer>
+  -processRideRequest(rideType: String): Ride
+}
+
+class ImageRecognitionSystem {
+  -systemId: String
+  -detectWaveGesture(): Boolean
+}
+
+Car "1" -- "0..*" RideHailing : provides
+Car "1" -- "0..*" RideSharing : provides
+Car "1" -- "0..1" Accident : hasAccident
+Owner "1" -- "0..*" Car : owns
+Customer "1" -- "0..*" RideHailing : participatesIn
+Customer "1" -- "0..*" RideSharing : participatesIn
+RideSharing "1" -- "1" Customer : leadCustomer
+RideHailing "1" -- "1" Customer : leadCustomer
+SoberApp "1" -- "0..*" RideHailing : manages
+SoberApp "1" -- "0..*" RideSharing : manages
+ImageRecognitionSystem "1" -- "0..*" RideHailing : detectsRequest
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **`Car`**: Represents both fleet cars and user-registered cars.
+- **`Owner`**: Manages registered cars, possibly by users who register their own vehicles.
+- **`Customer`**: Can be either a rider in `RideHailing` or `RideSharing`, and tracks how many ride-shares they've completed for the tree-planting incentive.
+- **`RideHailing`**: On-demand service with fixed limits (max 6 passengers), includes fee and request method.
+- **`RideSharing`**: Planned carpooling, with negotiated fees and up to 10 passengers.
+- **`Accident`**: Tracks accident details per vehicle.
+- **`SoberApp`**: Handles user requests, manages rides, and connects with image recognition.
+- **`ImageRecognitionSystem`**: Detects hand-waving as a request gesture.
+
+---
+
+Let me know if you'd like this rendered into an actual diagram or want to extend it further with operations or associations!

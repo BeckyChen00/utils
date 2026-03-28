@@ -1,0 +1,44 @@
+@startuml
+enum VehicleType {
+  Truck
+  Car
+  Van
+}
+enum OrderState {
+  Pending
+  Active
+  Completed
+  Cancelled
+}
+class Location {
+  address: String
+  +getName(): String
+  +getDescription(): String
+}
+class Driver {
+  firstName: String
+  lastName: String
+  +fullName(): String
+}
+class Vehicle {
+  licensePlate: String
+  type: VehicleType
+  weightCapacity: int
+  seatCount: int
+  +getCapacity(): int
+  +isSuitableFor(order: Order): boolean
+}
+class Order {
+  orderDate: Date
+  state: OrderState
+  +calculateDistance(): double
+  +cancel(): void
+}
+Location "1" *-- "0..*" Driver : assignedDriver
+Order "1" --> "1" Driver : assignedDriver
+Order "1" --> "1" Vehicle : assignedVehicle
+Order "1" --> "1" Location : origin
+Order "1" --> "1" Location : destination
+Driver "1" --> "0..*" Vehicle : operatedVehicles
+Vehicle "1" --> "1" Location : homeLocation
+@enduml

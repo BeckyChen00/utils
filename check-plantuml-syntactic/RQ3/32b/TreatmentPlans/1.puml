@@ -1,0 +1,109 @@
+
+@startuml
+
+' Define classes and their attributes
+class Hospital {
+  - id: String
+  - name: String
+}
+
+class Doctor {
+  - id: String
+  - name: String
+}
+
+class Patient {
+  - id: String
+  - name: String
+}
+
+class ProblemType {
+  - code: String
+  - description: String
+}
+
+class ExaminationType {
+  - code: String
+  - name: String
+  - description: String
+}
+
+class Permission {
+  - hospital_id: String
+  - exam_type_code: String
+}
+
+class TreatmentPlan {
+  - problem_type_code: String
+  - version: Integer
+  - description: String
+}
+
+class AdvisedExamination {
+  - treatment_plan_id: Integer
+  - exam_type_code: String
+  - sequence_number: Integer
+}
+
+class Diagnosis {
+  - patient_id: String
+  - doctor_id: String
+  - problem_type_code: String
+  - date: Date
+}
+
+class ActualTreatment {
+  - diagnosis_id: Integer
+  - treatment_plan_version: Integer
+  - date: Date
+}
+
+class ChosenExamination {
+  - actual_treatment_id: Integer
+  - exam_type_code: String
+  - hospital_id: String
+  - date: Date
+}
+
+class MedicalAction {
+  - actual_treatment_id: Integer
+  - action_description: String
+  - date: Date
+}
+
+' Associations and relations
+
+Hospital "1" *-- "many" Permission : has permission for
+Hospital "1" *-- "many" Doctor : employs
+Doctor "1" *-- "many" Diagnosis : makes
+Patient "1" *-- "many" Diagnosis : is diagnosed with
+ProblemType "1" *-- "many" TreatmentPlan : has
+TreatmentPlan "1" *-- "many" AdvisedExamination : includes
+Diagnosis "1" *-- "1" ActualTreatment : leads to
+ActualTreatment "1" *-- "many" ChosenExamination : includes
+ActualTreatment "1" *-- "many" MedicalAction : includes
+ExaminationType "1" *-- "many" AdvisedExamination : is advised in
+ExaminationType "1" *-- "many" ChosenExamination : is chosen in
+Permission "1" -- "1" ExaminationType : grants access to
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Hospital**: Owns doctors and has permissions for certain examination types.
+- **Doctor**: Makes diagnoses and assigns treatments.
+- **Patient**: Is diagnosed and receives treatments.
+- **ProblemType**: Represents medical problems (e.g., heart disease).
+- **ExaminationType**: A specific type of test (e.g., NMR scan).
+- **Permission**: Grants a hospital the right to perform a certain examination type.
+- **TreatmentPlan**: A standard set of advised examinations for a given problem type.
+- **AdvisedExamination**: An examination type included in a treatment plan.
+- **Diagnosis**: A doctor identifies a patient’s problem type.
+- **ActualTreatment**: The real treatment applied to a patient, which may include:
+  - **ChosenExamination**: Examinations selected by the doctor (possibly at another hospital).
+  - **MedicalAction**: Other actions taken outside of planned exams.
+
+---
+

@@ -1,0 +1,64 @@
+
+@startuml
+
+' Define classes
+class Student {
+  +String studentID
+  +String name
+  +List<Course> coursesRegistered
+  +requestAppointment(Course, TeachingAssistant): Appointment
+}
+
+class TeachingAssistant {
+  +String taID
+  +String name
+  +List<Course> coursesTaught
+  +scheduleAppointment(Student, Course): Appointment
+}
+
+class Course {
+  +String courseId
+  +String title
+  +List<Student> studentsEnrolled
+  +List<TeachingAssistant> tasAssigned
+}
+
+class Appointment {
+  +String appointmentId
+  +DateTime timeSlot
+  +Student student
+  +TeachingAssistant teachingAssistant
+  +Course course
+}
+
+' Relationships
+Student "1" -- "0..*" Course : registered for
+Student "1" -- "0..1" Appointment : has
+
+TeachingAssistant "1" -- "0..*" Course : teaches
+TeachingAssistant "1" -- "0..*" Appointment : provides
+
+Course "1" -- "0..*" Appointment : has appointments for
+Course "1" -- "0..*" Student : has enrolled students
+Course "1" -- "0..*" TeachingAssistant : has TAs
+
+Appointment "1" -- "1" Student : involves
+Appointment "1" -- "1" TeachingAssistant : involves
+Appointment "1" -- "1" Course : related to
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **Student**: Can register for multiple courses and request appointments.
+- **TeachingAssistant (TA)**: Teaches one or more courses and schedules appointments with students.
+- **Course**: Has enrolled students and assigned TAs. Appointments are made per course.
+- **Appointment**: A scheduled meeting between a student and a TA for a specific course.
+
+The constraints from the requirement are reflected in the relationships:
+- A student can only request an appointment for a course they're enrolled in.
+- A TA can only schedule appointments for courses they teach.
+- Each appointment is for one course, one TA, and one student.
+

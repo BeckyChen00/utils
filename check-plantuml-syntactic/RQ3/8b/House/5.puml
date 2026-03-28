@@ -1,0 +1,75 @@
+
+@startuml
+
+class House {
+  - address: string
+  - buildingMaterial: string
+  - hasBasement: boolean
+  - basement: Basement
+}
+
+class Basement {
+  - type: string
+  - name: string
+  - size: string
+  - humidityLevel: integer (only for EarthBasement)
+}
+
+abstract class EarthBasement extends Basement {
+  - humidityLevel: integer
+}
+
+abstract class ConcreteBasement extends Basement {
+  - // No specific fields
+}
+
+class SemiDetachedHouse extends House {
+  - hasOwnGarden: boolean
+  - numberOfWindows: integer
+  - hasCarportsOrGarage: boolean
+  - carports: Carport
+  - garage: Garage
+}
+
+class Carport {
+  - isDoubleCarport: boolean
+  - hasFlatRoof: boolean
+}
+
+class Garage {
+  - hasAutomaticDoor: boolean
+}
+
+class Company {
+  - name: string
+  - address: string
+}
+
+class JobLog {
+  - house: House
+  - company: Company
+  - hours: integer
+  - price: double
+}
+
+House --|> Basement : hasBasement
+Basement <|-- EarthBasement
+Basement <|-- ConcreteBasement
+House <|-- SemiDetachedHouse
+SemiDetachedHouse "1" -- "*" Carport : has
+SemiDetachedHouse "1" -- "*" Garage : has
+House -- "*" Company : servicedBy
+House -- "*" JobLog : hasJobLog
+Company -- "*" JobLog : performsJob
+
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+
+- **`House`** can have a **`Basement`**, which is an abstract class with two concrete subclasses: **`EarthBasement`** and **`ConcreteBasement`**.
+- **`SemiDetachedHouse`** is a special type of `House`, with additional properties like `hasOwnGarden`, `numberOfWindows`, and either a `Carport` or a `Garage`.
+- Each `House` is serviced by multiple `Company`s.
+- A `JobLog` records a job performed by a `Company` on a `House`.
+

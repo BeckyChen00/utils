@@ -1,0 +1,41 @@
+@startuml
+enum StorageLocation {
+  warehouse
+  storageBin
+  dryShelf
+  refrigeratedCooling
+}
+enum QualityStatus {
+  pristine
+  minimallyOiled
+  moderatelyOiled
+  heavilyOiled
+}
+class ProductionBatch {
+  batchCode: String
+  creationDate: Date
+  +calculateProteinContent(): int
+  +generateReport(): String
+}
+class ProductItem {
+  itemCode: String
+  productName: String
+  estimatedYield: int
+  +verifyCondition(): boolean
+}
+class QualityTestRecord {
+  timestamp: Date
+  testResult: QualityStatus
+  notes: String
+  +isValid(): boolean
+}
+class StorageUnit {
+  locationType: StorageLocation
+  capacityLiters: int
+  +lockUnit(): void
+  +unlockUnit(): void
+}
+ProductionBatch *-- "1..*" ProductItem : composedItems
+ProductItem *-- "0..*" QualityTestRecord : testResults
+ProductionBatch --> "1..*" StorageUnit : allocatedLocations
+@enduml

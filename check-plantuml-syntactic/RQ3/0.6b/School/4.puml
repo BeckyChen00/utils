@@ -1,0 +1,21 @@
+@startuml
+class Diagram {System Requirement}
+participant User1 {User1} with {Name: User1, Email: user1@example.com}
+participant User2 {User2} with {Name: User2, Email: user2@example.com}
+participant System {System} with {Description: System Description}
+
+# Relationships
+user1 <--- system
+
+system --> user1
+system --> user2
+
+# Class Diagram
+Diagram classDiagram
+    System Requested by User1 [User1]
+    System Requested by User2 [User2]
+
+    System Diagram
+        System Requested By User1
+        System Requested By User2
+@enduml

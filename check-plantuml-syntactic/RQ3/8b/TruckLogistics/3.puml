@@ -1,0 +1,61 @@
+
+@startuml
+
+class Location {
+  -address: string
+  -drivers: List<Driver>
+  -vehicles: List<Vehicle>
+}
+
+class Driver {
+  -firstName: string
+  -lastName: string
+  -assignedOrder: Order (0..1)
+  -assignedVehicle: Vehicle (0..1)
+}
+
+class Vehicle {
+  -vehicleNumber: string
+  -type: string
+  -driver: Driver (0..1)
+}
+
+class Truck extends Vehicle {
+  -weight: int
+}
+
+class Car extends Vehicle {
+  -seats: int
+}
+
+class Van extends Vehicle {
+  -capacity: int
+}
+
+class Order {
+  -origin: Location
+  -destination: Location
+  -date: Date
+  -drivers: List<Driver> (1..*)
+}
+
+Location "1" -- "0..*" Driver : has
+Driver "1" -- "0..1" Order : carries
+Driver "1" -- "0..1" Vehicle : drives
+Vehicle "1" -- "0..1" Driver : driven by
+Order "1" -- "1..*" Location : origin
+Order "1" -- "1..*" Location : destination
+Order "1" -- "1..*" Driver : assigned to
+Truck --> Vehicle
+Car --> Vehicle
+Van --> Vehicle
+
+@enduml
+
+### Explanation of Relationships:
+- **Location** contains a list of **Drivers** and **Vehicles**.
+- A **Driver** can be assigned to at most one **Order** and can drive at most one **Vehicle**.
+- **Vehicles** are categorized into **Truck**, **Car**, and **Van**, each with specific attributes.
+- An **Order** must have at least one **Driver** and is associated with an **Origin** and **Destination** location.
+- Each **Vehicle** may be assigned to one **Driver**, and each **Driver** may be assigned to one **Vehicle**.
+

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedRooms" eType="#//Room" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="housedDevices" eType="#//SmartDevice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SmartDevice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRoom" eType="#//Room" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SmartHome">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSensors" eType="#//SensorDevice" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedActuators" eType="#//ActuatorDevice" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemLog" eType="#//ActivityLog" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorDevice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReadings" eType="#//SensorReading" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActuatorDevice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executedCommands" eType="#//ControlCommand" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActivityLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetRoom" eType="#//Room" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredSensors" eType="#//SensorDevice" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredActions" eType="#//ControlCommand" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedActions" eType="#//ControlCommand" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlCommand"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorReading">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetActuator" eType="#//ActuatorDevice" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

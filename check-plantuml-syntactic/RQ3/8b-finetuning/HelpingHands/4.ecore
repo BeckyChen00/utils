@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedItems" eType="#//Item" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Item">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedUnit" eType="#//InventoryUnit" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resident">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requests" eType="#//PickupRequest" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSchedule" eType="#//PickupSchedule" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedRoute" eType="#//RoutePlan"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requesterAccount" eType="#//UserAccount" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="confirmationMessage" eType="#//NotificationMessage" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupSchedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RoutePlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affiliatedCenters" eType="#//DistributionCenter" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSchedule" eType="#//PickupSchedule"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StatisticalReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedRequests" eType="#//PickupRequest" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedResidents" eType="#//Resident" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedVehicles" eType="#//Vehicle" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedRequests" eType="#//PickupRequest" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportBatch">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedItems" eType="#//Item" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityCheck" eType="#//QualityCheck" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="destinationCenter" eType="#//DistributionCenter" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityCheck"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionCenter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedDrivers" eType="#//VolunteerDriver" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedItems" eType="#//Item" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VolunteerDriver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedAccounts" eType="#//UserAccount" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScheduledPickup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transportedBatch" eType="#//TransportBatch" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedVehicle" eType="#//Vehicle" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalQualityCheck" eType="#//QualityCheck" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationMessage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InventoryUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedCategory" eType="#//ArticleCategory" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="embeddedTag" eType="#//RFIDTag" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArticleCategory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RFIDTag"/>
+</ecore:EPackage>

@@ -1,0 +1,95 @@
+
+@startuml
+
+' Classes involved in E-Home-2020 system
+class Sensor {
+  +vendorId: String
+  +description: String
+  +unit: Unit
+  +roomId: String
+  +getLatestValue(): Value
+  +getValues(): List<Value>
+}
+
+class TemperatureSensor {
+  +minValue: float
+  +maxValue: float
+}
+
+class PowerSensor {
+  +totalConsumption: float
+}
+
+class Room {
+  +roomId: String
+  +description: String
+}
+
+class Apartment {
+  +address: String
+  +rooms: List<Room>
+  +inhabitants: List<Inhabitant>
+  +getEmail(): String
+}
+
+class Inhabitant {
+  +username: String
+  +password: String
+  +isAdmin: boolean
+  +login(username: String, password: String): boolean
+  +setThreshold(sensorId: String, threshold: float): void
+  +configureSensor(sensorId: String, newRoomId: String, newDescription: String): void
+}
+
+class Value {
+  +timestamp: DateTime
+  +value: float
+}
+
+class SensorController {
+  +sensors: Map<String, Sensor>
+  +apartments: Map<String, Apartment>
+  +addSensor(sensor: Sensor): void
+  +registerApartment(apartment: Apartment): void
+  +authenticateUser(username: String, password: String): Inhabitant
+  +getSensorValue(sensorId: String): Value
+}
+
+class EMonitor {
+  +checkThresholds(sensorId: String, currentValue: float): boolean
+  +sendAlert(email: String, message: String): void
+}
+
+' Associations and inheritance
+Sensor <|-- TemperatureSensor
+Sensor <|-- PowerSensor
+Apartment "1" *-- "n" Room
+Apartment "1" *-- "n" Inhabitant
+SensorController "1" *-- "n" Sensor
+SensorController "1" *-- "n" Apartment
+Sensor "1" *-- "n" Value
+Inhabitant "1" *-- "n" Sensor
+
+' Interfaces (optional)
+interface Authenticatable {
+  +login(username: String, password: String): boolean
+}
+
+Inhabitant --> Authenticatable
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+- **Sensor** is the base class with common attributes like `vendorId`, `description`, `unit`, and `roomId`.
+- **TemperatureSensor** and **PowerSensor** are derived from **Sensor**, each with their own specific attributes.
+- **Room** holds a description and is part of an **Apartment**.
+- **Apartment** contains multiple **Rooms** and **Inhabitants**, and has an address.
+- **Inhabitant** can log in, set thresholds, and configure sensors if they have admin rights.
+- **Value** stores timestamped sensor readings.
+- **SensorController** manages all sensors and apartments and handles user authentication.
+- **EMonitor** checks thresholds and sends alerts via email if needed.
+
+---
+

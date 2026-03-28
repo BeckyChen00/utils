@@ -1,0 +1,134 @@
+
+---
+
+
+@startuml
+
+' Entities
+class Cinema {
+  - id: int
+  - name: String
+  - town: String
+}
+
+class Theatre {
+  - id: int
+  - name: String
+  - capacity: int
+  - cinema: Cinema
+}
+
+class Movie {
+  - id: int
+  - title: String
+  - duration: int (minutes)
+}
+
+class Copy {
+  - id: int
+  - movie: Movie
+  - cinema: Cinema
+}
+
+class Show {
+  - id: int
+  - date: Date
+  - startTime: Time
+  - endTime: Time
+  - theatre: Theatre
+  - copy: Copy
+  - status: String (e.g., "published", "cancelled")
+}
+
+class Reservation {
+  - id: int
+  - customerEmail: String
+  - show: Show
+  - seatsReserved: List<Seat>
+  - reservationTime: DateTime
+  - paymentProcessed: boolean
+  - status: String ("confirmed", "cancelled", "expired")
+}
+
+class Seat {
+  - id: int
+  - row: int
+  - number: int
+  - theatre: Theatre
+}
+
+class Ticket {
+  - id: int
+  - show: Show
+  - seat: Seat
+  - isOnline: boolean
+  - issuedAt: DateTime
+}
+
+class Customer {
+  - email: String
+  - firstName: String
+  - lastName: String
+}
+
+class Offer {
+  - id: int
+  - reservation: Reservation
+  - newShow: Show
+  - newSeats: List<Seat>
+  - expirationTime: DateTime
+  - status: String ("pending", "accepted", "declined", "expired")
+}
+
+class FreeTicket {
+  - id: int
+  - customerEmail: String
+  - reason: String
+  - sentDate: Date
+}
+
+class AvailabilityDisplay {
+  - theatre: Theatre
+  - show: Show
+  - availableSeats: int
+}
+
+' Relationships
+
+Cinema "1" -- "many" Theatre : contains
+Theatre "1" -- "many" Show : hosts
+Theatre "1" -- "many" Seat : has
+Theatre "1" -- "1" AvailabilityDisplay : displayed in
+
+Movie "1" -- "many" Copy : stored in
+Copy "1" -- "many" Show : used in
+
+Show "1" -- "many" Reservation : reserved for
+Show "1" -- "many" Ticket : tickets for
+
+Reservation "1" -- "many" Offer : offers for
+Offer "1" -- "1" Reservation : relates to
+Offer "1" -- "1" Show : new show in
+Offer "1" -- "many" Seat : new seats for
+
+Reservation "1" -- "many" Seat : reserves
+Ticket "1" -- "1" Seat : assigned to
+
+Customer "1" -- "many" Reservation : made by
+Customer "1" -- "many" FreeTicket : receives
+
+' Additional associations
+FreeTicket "1" -- "1" Show : related to
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The `status` fields are examples and can be expanded as needed.
+- All associations reflect business rules from the requirements.
+- Anonymous ticketing at the entrance is modeled with the `Ticket` class having an `isOnline` flag and no link to `Customer`.
+- The `AvailabilityDisplay` is a conceptual class representing the real-time display of available seats.
+
+---
+

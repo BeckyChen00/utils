@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedLocation" eType="#//Location" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Location"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BattlefieldUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedHub" eType="#//LogisticsHub" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commandLogs" eType="#//CommandLog" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="patrolInventory" eType="#//InventoryReport" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deployedTerrains" eType="#//TerrainItem" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equippedSensors" eType="#//SensorDevice" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shiftBase" eType="#//Location" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="centralHub" eType="#//LogisticsHub" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="capturedPackets" eType="#//DataPacket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LogisticsHub"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommandLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedUnits" eType="#//BattlefieldUnit" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commandSource" eType="#//BattlefieldUnit" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedLocation" eType="#//Location" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedPackets" eType="#//DataPacket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InventoryReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TerrainItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorDevice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommandCenter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedUnits" eType="#//BattlefieldUnit" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedHub" eType="#//LogisticsHub" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainBase" eType="#//Location" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBase" eType="#//Location" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DataPacket"/>
+</ecore:EPackage>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedRequests" eType="#//PickupRequest" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestedItems" eType="#//SecondHandItem"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="designatedStop" eType="#//PickupStop"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecondHandItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupStop">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collectedItem" eType="#//SecondHandItem" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedDriver" eType="#//VolunteerDriver"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupVehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedRoute" eType="#//Route" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Route">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stops" eType="#//PickupStop" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VolunteerDriver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="drivenVehicle" eType="#//PickupVehicle" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionCenter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedItems" eType="#//TaggedItem" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recipientBank" eType="#//FoodBank" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaggedItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FoodBank"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Client">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedItems" eType="#//TaggedItem" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

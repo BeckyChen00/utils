@@ -1,0 +1,71 @@
+@startuml
+class Frame {
+  -material: String
+  +insertWheel(wheel: Wheel): void
+}
+
+class Wheel {
+  +rotate(): void
+}
+
+class DriveSystem {
+  -motor: Motor
+  +drive(): void
+}
+
+class Motor {
+  +spin(): void
+}
+
+class Controller {
+  -state: State
+  +setState(state: State): void
+  +getBattery(): Battery
+  +commandDriveSystem(): void
+  +isConnected(): boolean
+}
+
+enum State {
+  On, Off, Charging
+}
+
+class Battery {
+  -storedEnergy: double (Wh)
+  +charge(): void
+  +discharge(): void
+}
+
+class EBike {
+  -frame: Frame
+  -driveSystem: DriveSystem
+  -controller: Controller
+  -battery: Battery
+  +connectBattery(battery: Battery): void
+  +disconnectBattery(): void
+}
+
+class BasicController <|-- Controller
+class AdvancedController <|-- Controller
+
+BasicController --|> Controller
+AdvancedController --|> Controller
+
+AdvancedController "0..1" -- "1" Battery : estimates inspection date
+
+EBike "1" -- "1" Frame
+EBike "1" -- "1" DriveSystem
+EBike "1" -- "1" Controller
+EBike "0..1" -- "1" Battery
+
+@enduml
+
+### Explanation:
+- **Frame** is made of steel and has a method to insert wheels.
+- **Wheel** can rotate.
+- **DriveSystem** contains a **Motor**, which spins to drive the bike.
+- **Controller** manages the state (On, Off, Charging), controls the battery (if connected), and commands the drive system.
+- **Battery** stores energy in Wh and can be charged or discharged.
+- **EBike** includes a frame, drive system, controller, and optionally a battery.
+- **BasicController** and **AdvancedController** are subtypes of **Controller**.
+- **AdvancedController** has an additional feature to estimate the next maintenance inspection date.
+- The relationships show composition and association as per the system requirements.

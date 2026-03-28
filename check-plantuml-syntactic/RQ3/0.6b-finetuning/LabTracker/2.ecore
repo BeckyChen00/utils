@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedPresentations" eType="#//PromotionPresentation" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionPresentation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eligibleRedeemings" eType="#//LoyaltyRedemption" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionCampaign">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="database" eType="#//PromotionCampaignDatabase" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledEvents" eType="#//PromotionEvent" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetMembers" eType="#//MemberProfile" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedEvents" eType="#//PromotionEvent" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="plannedPlan" eType="#//PromotionEventPlan" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledEpisodes" eType="#//PromotionEpisode" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionCampaignDatabase"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedPlans" eType="#//PromotionEventPlan" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedEpisode" eType="#//PromotionEpisode" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedOn" eType="#//PromotionDay" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionEventPlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActivityRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedEvent" eType="#//PromotionEvent" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionEpisode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LoyaltyRedemption">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coveredCampaign" eType="#//PromotionCampaign" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="userAccount" eType="#//UserAccount" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eligiblePresentations" eType="#//PromotionPresentation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedTiers" eType="#//MembershipTier" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eligibleTier" eType="#//MembershipTier" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MemberProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="redeemedRedeemings" eType="#//LoyaltyRedemption" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserAccount">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedRedemption" eType="#//LoyaltyRedemption" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedProfiles" eType="#//MemberProfile" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PromoRedemptionRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requester" eType="#//UserAccount" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CampaignManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedCampaigns" eType="#//PromotionCampaign" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedEvents" eType="#//PromotionEvent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionEventManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedEvents" eType="#//PromotionEvent" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionDay"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MembershipTier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PromotionRewards">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedTier" eType="#//MembershipTier" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

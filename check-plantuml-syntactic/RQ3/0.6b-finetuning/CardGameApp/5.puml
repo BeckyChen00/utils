@@ -1,0 +1,38 @@
+@startuml
+enum ActivationStatus {
+  Pending
+  InProgress
+  Completed
+  Aborted
+  Failed
+  Resolved
+}
+enum PriorityLevel {
+  Low
+  Medium
+  High
+  Critical
+}
+class CustomerServiceDesk {
+  +createCase(issueDescription: String, priority: PriorityLevel): Case
+  +resolveCase(caseId: String, resolutionSteps: String[]): boolean
+}
+class Case {
+  caseDescription: String
+  creationDate: Date
+  priorityLevel: PriorityLevel
+  status: ActivationStatus
+  resolutionSteps: String
+  +assignToTechnician(technicianId: String): void
+  +updateStatus(newStatus: ActivationStatus): void
+  +generateSummary(): String
+}
+class Technician {
+  employeeId: String
+  name: String
+  specialization: String
+  +performTask(case: Case, steps: String): void
+}
+CustomerServiceDesk *-- "*" Case : managedCases
+Case *-- "*" Technician : assignedTechnicians
+@enduml

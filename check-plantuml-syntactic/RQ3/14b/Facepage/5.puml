@@ -1,0 +1,95 @@
+
+@startuml
+' Facepage Class Diagram
+
+class User {
+  -id: String
+  -name: String
+  -email: String
+  -dateOfBirth: Date
+}
+
+class Account {
+  -accountNumber: String
+  -type: Enum (Personal, Business)
+  +createPage(): Page
+}
+
+class PersonalAccount {
+  +sendFriendRequest(user: User): void
+  +acceptFriendRequest(user: User): void
+}
+
+class BusinessAccount {
+  -monthlyFee: Double
+  +createAdPage(): AdPage
+}
+
+class Page {
+  -name: String
+  -visits: Integer
+  +grantPrivileges(account: Account): void
+}
+
+class AdPage extends Page {
+  -bounceRate: Double
+  -clickThroughRate: Double
+  -conversionRate: Double
+}
+
+class FriendRequest {
+  -fromUser: User
+  -toUser: User
+  -status: Enum (Pending, Accepted, Rejected)
+}
+
+' Associations and Relationships
+
+User "1" -- "1" Account : owns
+Account "1" -- "0..*" Page : creates
+Account "1" -- "0..*" FriendRequest : sends
+Page "1" -- "1" Account : administeredBy
+Page "1" -- "0..*" AdPage : extends?
+
+' Inheritance
+
+Account <|-- PersonalAccount
+Account <|-- BusinessAccount
+Page <|-- AdPage
+
+' Constraints and Notes
+
+note right of User
+  Each user has exactly one account.
+  A user cannot have more than one account.
+end note
+
+note right of Account
+  An account is uniquely identified by account number.
+end note
+
+note right of Page
+  No two pages under the same account can have the same name.
+end note
+
+note right of AdPage
+  Only business accounts can create ad pages.
+end note
+
+note right of FriendRequest
+  Only personal accounts can send or receive friend requests.
+end note
+
+@enduml
+
+### Explanation of Key Elements:
+
+- **User**: Represents a person joining Facepage. Each user has a unique ID.
+- **Account**: Base class for both `PersonalAccount` and `BusinessAccount`. Identified by an automatically generated account number.
+- **PersonalAccount**: Extends `Account`. Can send/receive friend requests.
+- **BusinessAccount**: Extends `Account`. Has a monthly fee and can create advertisement pages.
+- **Page**: General page created by any account. Each account can create multiple pages with unique names.
+- **AdPage**: Subclass of `Page`, used for advertising. Tracks bounce rate, click-through rate, and conversion rate.
+- **FriendRequest**: Represents a request to add someone as a friend. Only applicable to personal accounts.
+
+Let me know if you'd like this rendered into a visual image or further extended!

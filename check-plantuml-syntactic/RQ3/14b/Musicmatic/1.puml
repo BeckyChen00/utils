@@ -1,0 +1,88 @@
+
+@startuml
+
+class Song {
+  -title: String
+  -year: Integer
+  -length: Integer
+  -genre: String
+  -trackNumber: Integer
+  +getDetails(): String
+}
+
+class Artist {
+  -name: String
+  -dateOfBirth: Date
+  -url: String
+  +getName(): String
+}
+
+class User {
+  -id: Integer
+  -name: String
+  -address: String
+  +getId(): Integer
+  +getName(): String
+  +getAddress(): String
+}
+
+class RegularUser <|-- User {
+  +buySong(song: Song): void
+  +buyAlbum(album: Album): void
+}
+
+class BusinessUser <|-- User {
+  -vatNumber: String
+  +uploadSong(song: Song): void
+}
+
+class Album {
+  -title: String
+  -releaseYear: Integer
+  +getTitle(): String
+  +getReleaseYear(): Integer
+}
+
+class Hit <|-- Song {
+  -album: Album
+  +addToAlbum(album: Album, trackNumber: Integer): void
+}
+
+class Single <|-- Song {
+  +getTrackNumber(): Integer
+}
+
+class Suggestion {
+  -user: User
+  -recommendedAlbums: List<Album>
+  +generateSuggestions(user: User): void
+}
+
+Song "1" -- "1" Artist : belongs to
+Hit "1" --> "1" Album : part of
+Single "0..*" --> "1" Album : part of (optional)
+BusinessUser "1" --> "0..*" Single : uploads
+RegularUser "1" --> "0..*" Single : buys
+RegularUser "1" --> "0..*" Album : buys
+User "1" --> "0..*" Suggestion : receives
+
+@enduml
+
+---
+
+### 🔍 Explanation of Key Relationships and Features:
+
+- **Song** is a base class with attributes like `title`, `year`, `length`, and `genre`.
+- **Artist** has unique name and associated metadata.
+- **User** is the base class for both **RegularUser** and **BusinessUser**.
+- **BusinessUser** has an additional `vatNumber` attribute and can upload songs.
+- **RegularUser** can buy singles or albums.
+- **Songs** are classified into two types:
+  - **Single**: Can be bought directly by regular users.
+  - **Hit**: Part of an **Album**, which consists of multiple hits. The position of each hit in the album is stored as `trackNumber`.
+- **Albums** can be used to suggest similar content to other users.
+- A **Suggestion** class represents recommendations generated based on user behavior.
+
+---
+
+Let me know if you'd like this converted to a PNG image or need further refinements!

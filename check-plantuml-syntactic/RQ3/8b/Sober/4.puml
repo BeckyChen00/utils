@@ -1,0 +1,83 @@
+
+@startuml
+skinparam classAttributeStyle rectangle
+
+class Customer {
+  +String name
+  +String contactInfo
+  +List<Car> registeredCars
+}
+
+class Car {
+  +String licensePlate
+  +String make
+  +String model
+  +String year
+  +boolean isSelfDriving
+  +Customer owner
+  +List<Ride> rides
+  +List<Accident> accidents
+}
+
+class Ride {
+  +Date date
+  +Location pickupLocation
+  +Location dropoffLocation
+  +Time pickupTime
+  +Time dropoffTime
+  +Duration duration
+  +Distance distance
+  +int numberOfPassengers
+  +double fee
+  +String typeOfRequest
+  +Customer leadCustomer
+  +List<Customer> sharedCustomers
+  +Car car
+}
+
+class Accident {
+  +Date date
+  +Location location
+  +double damageAmount
+  +Car car
+}
+
+class Location {
+  +String address
+  +double latitude
+  +double longitude
+}
+
+class RideHail extends Ride {
+  +int maxPassengers (6)
+}
+
+class RideShare extends Ride {
+  +int maxPassengers (10)
+  +double negotiatedFee
+}
+
+' Relationships
+Customer "1" -- "0..*" Car : owns
+Car "1" -- "1..*" Ride : has
+Ride "1" -- "1" Customer : leadCustomer
+Ride "1" -- "0..*" Customer : sharedCustomers
+Car "1" -- "0..*" Accident : has
+RideHail "--|> Ride"
+RideShare "--|> Ride"
+
+@enduml
+
+---
+
+### ✅ Summary of Classes and Relationships:
+
+- **Customer**: Represents users who can either be drivers or passengers. They may own cars and have ride history.
+- **Car**: Represents both self-driving and user-owned vehicles. Each car belongs to a customer and may have ride and accident records.
+- **Ride**: Abstract class representing all types of rides (ride-hail and ride-share). Contains common attributes like time, location, etc.
+- **RideHail**: Subclass of `Ride` for on-demand hailing services with specific constraints.
+- **RideShare**: Subclass of `Ride` for carpooling services with flexible pricing and more passengers allowed.
+- **Accident**: Stores information about incidents involving a car.
+- **Location**: A simple class to represent geographical coordinates and addresses.
+
+Let me know if you'd like this rendered as an image or want to include more details!

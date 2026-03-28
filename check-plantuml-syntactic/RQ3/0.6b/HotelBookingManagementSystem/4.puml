@@ -1,0 +1,43 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement { 
+        class SystemRequirement { 
+            string name; 
+            string description; 
+            string version; 
+            string release; 
+            string author; 
+            string date; 
+            string priority;
+        }
+    }
+
+    class SystemRequirementList { 
+        list<SystemRequirement> items;
+    }
+
+    class UserInput { 
+        input string user_input;
+    }
+
+    class InputProcessor { 
+        process user_input;
+    }
+
+    class OutputGenerator { 
+        generate output from input_processor;
+    }
+
+    class Result {
+        system_requirement system_req;
+        result status;
+        result message;
+    }
+
+    class TestScenario {
+        test_scenario_name;
+        scenario_data;
+    }
+
+@enduml

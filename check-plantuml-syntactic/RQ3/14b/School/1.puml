@@ -1,0 +1,62 @@
+
+@startuml
+' Define classes and their attributes
+
+class School {
+  -name: String
+}
+
+class Teacher {
+  -firstName: String
+  -lastName: String
+  -email: String
+}
+
+class Student {
+  -firstName: String
+  -lastName: String
+}
+
+class Principal {
+  -firstName: String
+  -lastName: String
+  -email: String
+}
+
+class Room {
+  -name: String
+}
+
+class Classroom extends Room {
+  -capacity: Integer
+}
+
+class Gym extends Room {
+  -size: Integer
+}
+
+class ClassGroup {
+  -name: String
+}
+
+' Define relationships
+
+School "1" -- "1" Principal : has principal
+School "1" -- "0..*" Teacher : employs
+School "1" -- "0..*" Student : has students
+Teacher "0..3" -- "1" School : teaches at
+Student "1" -- "1" School : attends
+Student "1" -- "1" ClassGroup : belongs to
+ClassGroup "1" -- "1" Classroom : assigned to
+ClassGroup "1" -- "0..*" Student : contains
+Classroom "1" -- "1" Room : is a
+Gym "1" -- "1" Room : is a
+@enduml
+
+### Explanation of Relationships:
+- **School** has **exactly one Principal**, who is a **Teacher**.
+- A **Teacher** can be employed by **one school** (though they may teach at up to three schools).
+- A **Student** is enrolled in **exactly one School** and **exactly one ClassGroup**.
+- A **ClassGroup** has between **10 and 31 Students** and is assigned to **exactly one Classroom**.
+- **Classroom** and **Gym** are both types of **Room**.
+

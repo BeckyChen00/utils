@@ -1,0 +1,51 @@
+@startuml
+enum OrderStatus {
+  Pending
+  Shipped
+  Delivered
+  Cancelled
+}
+class Customer {
+  customerName: String
+  address: String
+  telephone: String
+  email: String
+  countriesServiced: String[]
+  +getContactInfo(): String
+}
+class Representative {
+  fullName: String
+  ssn: String
+  phoneNumber: String
+  emailAddress: String
+  +assignCountry(countryCode: String): void
+}
+class Product {
+  productName: String
+  description: String
+  netPrice: double
+  manufacturer: String
+  countryOfOrigin: String
+}
+class CountryVatRate {
+  isoCode: String
+  vatRate: double
+  currencyCode: String
+  exchangeRateToEuro: double
+  +calculateGrossPrice(netAmount: double): double
+}
+class Order {
+  orderDate: Date
+  deliveryDate: Date
+  status: OrderStatus
+  quantity: int
+  +confirmOrder(): void
+  +cancelOrder(): void
+}
+Customer *-- "0..*" Representative : assignedRepresentatives
+Representative --> "1" CountryVatRate : homeCountryRate
+Product --> "1" CountryVatRate : baseCountryRate
+Order --> "1" Customer : placedBy
+Order --> "1" Representative : placedByRepresentative
+Order --> "1" Product : orderedProduct
+@enduml

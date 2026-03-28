@@ -1,0 +1,243 @@
+@startuml
+enum PriorityLevel {
+  Low
+  Medium
+  High
+  Critical
+}
+enum AlertStatus {
+  NotSet
+  PendingCheck
+  Approved
+  Rejected
+  Expired
+}
+class Vulnerability {
+  description: String
+  severity: int
+  priority: PriorityLevel
+  +getFixStatus(isImplemented: boolean): String
+  +updateSeverity(newSeverity: int, isApproved: boolean): void
+  +generateReport(): String
+}
+class SystemPolicy {
+  policyName: String
+  isActive: boolean
+  +validateConfiguration(): boolean
+}
+class SecurityAlert {
+  status: AlertStatus
+  triggeredAt: Date
+  isResolved: boolean
+  +resolve(): void
+  +escalate(): void
+}
+class VulnerabilityScan {
+  scanDate: Date
+  successCount: int
+  failureCount: int
+  +execute(): int
+}
+class AuditLog {
+  timestamp: Date
+  actionDescription: String
+  +recordAction(action: String): void
+}
+class MeasurementResult {
+  metricKey: String
+  value: double
+  unit: String
+  +isValid(): boolean
+}
+class RiskLevel {
+  levelName: String
+  thresholdValue: double
+  +calculateRiskScore(): double
+}
+class ComplianceAudit {
+  auditDate: Date
+  findings: String
+  +execute(): void
+}
+class DefenseStrategy {
+  strategyType: String
+  +applyToAudit(audit: ComplianceAudit): void
+}
+class MitigationPlan {
+  planName: String
+  implementationSteps: String
+  dueDate: Date
+  +generatePlan(): String
+}
+class MitigationQueue {
+  priority: PriorityLevel
+  +addTask(task: String): void
+  +processTask(): void
+}
+class AlertRule {
+  ruleDescription: String
+  isEnabled: boolean
+  +evaluateCondition(result: MeasurementResult): boolean
+}
+class RootCause {
+  causeDescription: String
+  severityLevel: int
+  +identifyRoot(): String
+}
+class TrendAnalyser {
+  alertThreshold: int
+  +generateReport(): String
+  +detectTrends(): void
+}
+class AlertsController {
+  +configureRules(rules: AlertRule[]): void
+  +fetchActiveAlerts(): List<SecurityAlert>
+  +escalateAlert(alert: SecurityAlert): void
+  +generateReport(): String
+}
+class UserSession {
+  username: String
+  +logout(): void
+}
+class AccessControl {
+  roleName: String
+  +authorizeAccess(user: UserSession): boolean
+}
+class EscalationPolicy {
+  mandatoryActions: String
+  allowedRoles: String[]
+  +escalateAlert(alert: SecurityAlert): void
+}
+class GradingSystem {
+  systemName: String
+  currentLevel: RiskLevel
+  +assignGrade(vulnerability: Vulnerability): int
+  +computeScore(vulnerability: Vulnerability): int
+}
+class AlertMessage {
+  messageContent: String
+  status: AlertStatus
+  +send(): void
+}
+class ReportGenerator {
+  +generateSummary(criteria: String): String
+  +formatReport(formatType: String): String
+  +exportToPDF(): String
+}
+class NotificationService {
+  +sendAlert(alert: SecurityAlert): void
+  +sendReport(message: AlertMessage): void
+}
+class NotificationTemplate {
+  templateContent: String
+  priority: AlertStatus
+  +renderData(data: Map<String, Object>): String
+}
+class JobScheduler {
+  +scheduleTask(task: MitigationPlan): void
+  +estimateDuration(task: MitigationPlan): int
+}
+class EventLog {
+  eventTimestamp: Date
+  eventType: String
+  eventMessage: String
+  +logEvent(event: String): void
+}
+class AlertList {
+  +addAlert(alert: SecurityAlert): void
+  +listAlerts(): List<SecurityAlert>
+  +excludeAlert(alert: SecurityAlert): void
+}
+class ReportingService {
+  +generateAnnualReport(): String
+  +exportResults(format: String): String
+  +exportMetrics(metrics: List<MeasurementResult>): String
+}
+class ReportGeneratorFactory {
+  +createReport(source: String): Report
+}
+class Report {
+  title: String
+  content: String
+  date: Date
+}
+class LogMessage {
+  messageText: String
+  timestamp: Date
+  +formatContent(): String
+}
+class PeriodicSchedule {
+  scheduleDescription: String
+  +generatePlan(): MitigationPlan
+  +getNextSchedule(): PeriodicSchedule
+}
+class PolicyEngine {
+  +calculateRiskScore(policy: SystemPolicy): RiskLevel
+  +getRuleDetails(rule: AlertRule): String
+}
+class AutomatedMigration {
+  sourceSystem: String
+  destinationSystem: String
+  migrationDate: Date
+  +performMigration(): void
+  +validateIntegrity(): boolean
+}
+class UserProfile {
+  username: String
+  isActive: boolean
+  +updateSettings(settings: Map<String, Object>): void
+}
+class SecurityProvider {
+  providerName: String
+  +verifyAuthorization(user: UserSession): boolean
+  +authenticate(): boolean
+}
+class UserAgent {
+  userAgentName: String
+  version: String
+  +getCertificate(): String
+}
+SecurityAlert *-- "1" AlertMessage : message
+SecurityAlert *-- "0..*" AlertRule : triggeredRules
+SecurityAlert --> "1" Vulnerability : sourceVulnerability
+SecurityAlert --> "1" UserSession : userExecutor
+SecurityAlert --> "1" ThreatReport : generatedReport
+SystemPolicy --> "1" SecurityProvider : verifiedProvider
+SystemPolicy --> "0..*" MitigationPlan : definedPlans
+SystemPolicy --> "0..*" RootCause : identifiedRoots
+SystemPolicy --> "0..*" Rule : applicableRules
+VulnerabilityScan --> "1" SystemPolicy : targetPolicy
+VulnerabilityScan --> "0..*" Reader : collectors
+VulnerabilityScan --> "0..*" RiskLevel : determinedLevels
+VulnerabilityScan --> "0..*" MeasurementResult : capturedMetrics
+RiskLevel --> "0..*" MitigationPlan : recommendedPlans
+MitigationPlan *-- "0..*" MitigationAction : steps
+MitigationAction --> "0..*" AlertMessage : relatedAlerts
+EscalationPolicy --> "1" AlertRule : governedBy
+UserSession *-- "1" UserAgent : assignedUserAgent
+UserSession *-- "1" PolicyEngine : activePolicyEngine
+UserSession *-- "0..*" UserProfile : savedProfiles
+SystemPolicy *-- "1" GradingSystem : poweredBy
+SystemPolicy *-- "1" AlertsController : controlsAlerts
+ReportGenerator *-- "1" Report : createsReport
+ReportGenerator *-- "1" ReportingService : managedReports
+ReportingService *-- "1" ReportGeneratorFactory : controlledFactories
+ReportingService --> "0..*" AlertMessage : deliversReports
+SystemPolicy --> "0..*" MitigationPlan : offersPlans
+SecurityProvider --> "1..*" UserSession : providesServices
+UserAgent --> "0..*" UserSession : actsOn
+UserAgent --> "0..*" Logger : managedLoggers
+PeriodicSchedule --> "1" AutomatedMigration : scheduledMigration
+EscalationPolicy --> "1" AlertMessage : definesEscalation
+AlertList *-- "1" SecurityAlert : containsAlerts
+AlertList --> "1" UserSession : targetExecutor
+AlertList --> "1" GradingSystem : levelSystem
+AlertList --> "0..*" AlertMessage : generatesAlerts
+AlertList --> "1" ReportingService : providesReports
+AlertList --> "1" AlertRule : definesRules
+ReportGeneratorFactory --> "1" Report : generatesReports
+ReportGeneratorFactory --> "1" AlertMessage : createsMessage
+ReportingService --> "0..*" Report : retrievesReports
+SystemPolicy --> "1" Report : generatesSummary
+SystemPolicy --> "1" UserAgent : specifiesProtocol
+@enduml

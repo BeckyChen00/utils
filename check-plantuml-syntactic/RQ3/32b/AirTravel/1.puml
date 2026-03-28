@@ -1,0 +1,112 @@
+
+@startuml
+
+' Aircraft and related classes
+class Aircraft {
+  - name: String
+  - type: String
+  - yearOfManufacture: int
+  - nextInspectionDate: Date
+}
+
+class PassengerAircraft {
+  - numberOfSeats: int
+}
+
+class SeatCategory {
+  - designation: String
+  - hasEntertainment: boolean
+  - numberOfSeats: int
+}
+
+class Flight {
+  - flightNumber: String
+  - date: Date
+  - departureAirport: Airport
+  - destinationAirport: Airport
+}
+
+class Ticket {
+  - ticketNumber: String
+  - price: double
+  - upgradeDesired: boolean
+}
+
+class Passenger {
+  - name: String
+  - passportNumber: String
+}
+
+class Airline {
+  - name: String
+}
+
+class FlightAttendant {
+  - name: String
+  - employmentDate: Date
+  - isChiefSteward: boolean
+}
+
+class Pilot {
+  - name: String
+  - employmentDate: Date
+  - license: String
+}
+
+class Airport {
+  - name: String
+  - address: String
+  - numberOfRunways: int
+}
+
+' Inheritance
+PassengerAircraft --|> Aircraft
+
+' Associations
+Aircraft "1" --> "0..*" Flight : performs
+Flight "1" --> "1" Aircraft : performed by
+Flight "1" --> "1" DepartureAirport : departs from
+Flight "1" --> "1" DestinationAirport : arrives at
+DepartureAirport <|-- Airport
+DestinationAirport <|-- Airport
+
+Flight "1" --> "0..*" Ticket : has
+Ticket "1" --> "1" Passenger : belongs to
+Ticket "1" --> "1" SeatCategory : for category
+SeatCategory "1" --> "1" PassengerAircraft : belongs to
+
+PassengerAircraft "1" --> "0..*" SeatCategory : has
+PassengerAircraft "1" --> "1" Aircraft : is a
+
+Aircraft "0..1" --> "1" Airline : belongs to
+Airline "1" --> "0..*" Aircraft : owns
+
+Airline "1" --> "0..*" FlightAttendant : employs
+Airline "1" --> "0..*" Pilot : employs
+
+Flight "1" --> "1..*" FlightAttendant : crew members
+Flight "1" --> "1" Captain : pilot
+Flight "1" --> "0..2" CoPilot : co-pilots
+Captain <|-- Pilot
+CoPilot <|-- Pilot
+
+' Notes for roles
+note right of FlightAttendant
+  Includes Chief Steward or Stewardess
+end note
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Relationships:
+- **Inheritance**: `PassengerAircraft` inherits from `Aircraft`.
+- **Associations**:
+  - An `Aircraft` can perform multiple `Flights`.
+  - A `Flight` has one `Aircraft`, one `DepartureAirport`, and one `DestinationAirport`.
+  - Each `Flight` has many `Tickets`.
+  - Each `Ticket` is associated with a `Passenger` and a `SeatCategory`.
+  - A `PassengerAircraft` has multiple `SeatCategory` types.
+  - An `Airline` may own multiple `Aircraft` and employ multiple `Pilots` and `FlightAttendants`.
+  - A `Flight` is staffed by one `Captain` (a `Pilot`) and optionally up to two `CoPilots`.
+

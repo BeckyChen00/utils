@@ -1,0 +1,98 @@
+
+@startuml
+
+class Organizer {
+  - firstName: String
+  - lastName: String
+  - email: String
+  - postalAddress: String
+  - phoneNumber: String
+  - password: String
+  - isAttending: Boolean
+}
+
+class Attendee {
+  - firstName: String
+  - lastName: String
+  - email: String
+  - password: String
+  - status: String // "attending", "maybe", "not attending"
+}
+
+class Event {
+  - name: String
+  - startDate: DateTime
+  - endDate: DateTime
+  - occasion: String
+  - location: Location
+  - eventKind: EventKind
+  - organizers: List<Organizer>
+}
+
+class Location {
+  - name: String
+  - address: String
+}
+
+class EventKind {
+  - name: String
+}
+
+class Checklist {
+  - tasks: List<Task>
+}
+
+class Task {
+  - description: String
+  - status: String // "needs to be done", "done", "not applicable"
+  - assignedToAttendee: Boolean
+}
+
+class Invitation {
+  - sender: Organizer
+  - recipient: Attendee
+  - event: Event
+  - status: String // "pending", "confirmed", "declined"
+}
+
+class System {
+  +createAccount(email: String, password: String): void
+  +sendInvitation(attendee: Attendee, event: Event): void
+  +updateStatus(attendee: Attendee, status: String): void
+  +addTask(task: Task, event: Event): void
+  +markTaskAsDone(task: Task, organizer: Organizer): void
+  +viewChecklist(event: Event): Checklist
+  +viewAttendees(event: Event): List<Attendee>
+}
+
+Organizer --> "1" Event : organizes
+Event --> "1" Location : has
+Event --> "1" EventKind : type
+Event --> "1" Checklist : has
+Checklist --> "*" Task : contains
+Event --> "*" Organizer : has organizers
+Event --> "*" Invitation : sends
+Invitation --> "1" Attendee : sent to
+Invitation --> "1" Organizer : sent by
+Attendee --> "0..*" Invitation : receives
+Organizer --> "0..*" Task : creates
+Task --> "0..1" Attendee : assigned to
+System --> "*" Organizer : manages
+System --> "*" Attendee : manages
+System --> "*" Event : manages
+System --> "*" Task : manages
+System --> "*" Invitation : manages
+
+@enduml
+
+---
+
+### 📌 Notes:
+- `Organizer` can be both an attendee and a manager of events.
+- `Attendee` may or may not be an organizer.
+- `Event` can have multiple organizers and multiple attendees.
+- `Location` and `EventKind` are reusable entities that can be selected or created.
+- `Task` can be assigned to an attendee or left unassigned.
+- The `System` class encapsulates all the core operations like creating accounts, sending invitations, managing checklists, etc.
+
+Let me know if you want a UML image generated from this code or need additional refinements!

@@ -1,0 +1,148 @@
+@startuml
+enum ResourceCategory {
+  DigitalResource
+  PhysicalResource
+  SharedLibrary
+  ExternalDatabase
+  OpenAccessBook
+}
+enum PublicationType {
+  Monograph
+  JournalArticle
+  ConferencePaper
+  BookPublication
+  PaperPresentation
+  GuestEditorial
+  ShortTermProject
+}
+enum StudyMethod {
+  QuantitativeAnalysis
+  QualitativeSensing
+  ExperimentalDesign
+  CaseStudyTyping
+  Surveys
+  GameSimulatorSimulation
+}
+enum PublicationStatus {
+  Draft
+  Published
+  Archived
+  Withdrawn
+  ArchivedOnHold
+}
+class StudyProject {
+  projectName: String
+  startDate: Date
+  endDate: Date
+  *-- "1" StudyMethod : studyMethod
+  --> "0..*" PublicationType : publications
+}
+class PublishedResource {
+  resourceTitle: String
+  resourceCategory: ResourceCategory
+  availableAccess: boolean
+  +getDescription(): String
+}
+class SourceReference {
+  sourceName: String
+  identifier: String
+  version: int
+  +isValid(): boolean
+}
+class Citation {
+  citationDate: Date
+  authorNames: String[]
+  +createLink(target: String): String
+}
+class EditorChamber {
+  chamberName: String
+  chairName: String
+  +submitProposal(project: StudyProject): void
+  +approveProposal(): boolean
+}
+class DisseminationPlan {
+  targetAudience: String
+  disseminationStrategy: String
+  +generateOutline(): String
+  +estimateCost(): double
+  +validateIntegrity(): boolean
+}
+class FundingStatement {
+  grantNumber: String
+  depositAmount: double
+  grantType: String
+  +verifyFunding(): boolean
+  +getGrantDetails(): String
+}
+class Reviewer {
+  reviewerName: String
+  experienceYears: int
+  isVerified: boolean
+  +markDecision(project: StudyProject, status: PublicationStatus): void
+  +assessQuality(resource: PublishedResource): double
+}
+class ReviewPanel {
+  panelSize: int
+  +evaluateProject(project: StudyProject, reviewer: Reviewer): void
+  +generateSummary(): String
+  +isPanelApproved(): boolean
+}
+class PublicationRecord {
+  publicationType: PublicationType
+  status: PublicationStatus
+  keywords: String[]
+  +updateStatus(newStatus: PublicationStatus): void
+  +addKeyword(keyword: String): void
+}
+class JournalOrBook {
+  journalName: String
+  volume: int
+  issueNumber: int
+  +getPublicationDate(): Date
+}
+class Archive {
+  archiveName: String
+  licenseType: String
+  +archiveResource(resource: PublishedResource): void
+  +retrieveResource(id: String): PublishedResource
+}
+class ArchiveSystem {
+  storageCapacity: double
+  +generateArchiveKey(resource: PublishedResource): String
+  +archiveResource(resource: PublishedResource): void
+}
+class Repository {
+  repositoryName: String
+  description: String
+  +createArchive(keySystem: ArchiveSystem): Archive
+  +importArchive(system: ArchiveSystem): void
+}
+class AcademicDepartment {
+  departmentCode: String
+  departmentName: String
+  +assignResources(resource: PublishedResource): void
+}
+class InstitutionalAuthority {
+  authorityName: String
+  jurisdiction: String
+  +authorizeAccess(resource: PublishedResource): boolean
+}
+StudyProject *-- "0..*" PublishedResource : publications
+PublishedResource *-- "1" SourceReference : sourceReference
+PublishedResource *-- "1" Citation : citation
+EditorChamber --> "0..*" StudyProject : managedProjects
+EditorChamber --> "0..*" PublicationRecord : createdRecords
+EditorChamber --> "1" InstitutionalAuthority : linkedAuthority
+EditorChamber --> "0..*" AcademicDepartment : affiliatedDepartments
+EditorChamber --> "0..*" Reviewer : composedReviewers
+EditorChamber --> "1" Archive : managedArchive
+EditorChamber --> "1" Repository : hostedRepository
+EditorChamber --> "1" ArchiveSystem : usedArchiveSystem
+Archive *-- "1..*" PublishedResource : storedResources
+Archive *-- "1" Citation : appliedCitation
+JournalOrBook --> "1" PublicationRecord : associatedRecord
+JournalOrBook --> "0..*" PublishedResource : includedResources
+JournalOrBook --> "1" InstitutionalAuthority : publishedByAuthority
+Archive --> "1..*" Repository : supportedRepositories
+ArchiveSystem *-- "1..*" Repository : managedRepositories
+@enduml

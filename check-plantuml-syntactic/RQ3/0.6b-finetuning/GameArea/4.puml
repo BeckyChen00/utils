@@ -1,0 +1,150 @@
+@startuml
+enum TransactionType {
+  Deposit
+  Withdrawal
+  Transfer
+  CardInterchange
+  LinenReceipt
+}
+enum PaymentStatus {
+  Pending
+  Completed
+  Failed
+  Refunded
+}
+enum TransactionStatus {
+  Created
+  InProgress
+  Completed
+  Failed
+  Cancelled
+}
+class Customer {
+  name: String
+  address: String
+  +getContactInfo(): String
+}
+class Transaction {
+  amount: double
+  transactionDate: Date
+  status: TransactionStatus
+  +validateAmount(): boolean
+  +finalizeTransaction(): Transaction
+}
+class Payment {
+  status: PaymentStatus
+  amount: double
+  expiryDate: Date
+  +processPayment(): boolean
+}
+class Wallet {
+  balance: double
+  +deposit(amount: double): boolean
+  +withdraw(amount: double): boolean
+  +checkBalance(): double
+}
+class Account {
+  currentBalance: double
+  associatedWallet: Wallet
+  +chargeFee(amount: double): boolean
+  +recharge(amount: double): boolean
+}
+class CreditCard {
+  cardNumber: String
+  expirationDate: Date
+  cvv: int
+  +isExpedited(): boolean
+}
+class TransactionHistory {
+  historyDate: Date
+  +getRecentRecord(): Transaction
+  +createEvent(transaction: Transaction, description: String): void
+}
+class TransactionSummary {
+  totalAmount: double
+  category: TransactionType
+  +showDetails(): String
+}
+class ImpressionLog {
+  timestamp: Date
+  referralSource: String
+  +recordImpression(amount: double, transaction: Transaction): void
+}
+class PaymentProcessor {
+  +validateMerchantId(): boolean
+  +authorizeProcessor(): boolean
+  +processPayment(transaction: Transaction, signature: String): Payment
+}
+class RefundPolicy {
+  policyName: String
+  supportedTypes: TransactionType[]
+  +applyRefund(amount: double): boolean
+}
+class AuditLog {
+  eventTimestamp: Date
+  actionDescription: String
+  +createEvent(action: String): void
+}
+class AlertRule {
+  ruleName: String
+  thresholdAmount: double
+  isActive: boolean
+  +triggerAlert(limit: double): boolean
+}
+class InvoiceGenerator {
+  +generateInvoice(transaction: Transaction, currency: String): String
+  +formatDocument(): void
+}
+class ReminderService {
+  +sendReminder(email: String, message: String): boolean
+  +isReminderSent(customerId: String): boolean
+}
+class CreditLimit {
+  limitValue: double
+  status: String
+  policyName: String
+  +isOverdue(trans: Transaction): boolean
+}
+class PaymentGateway {
+  gatewayUrl: String
+  currencyCode: String
+  +sendPayment(amount: double, card: CreditCard): Payment
+}
+class WalletManager {
+  +getWalletBalance(): double
+  +transfer(amount: double, origin: Wallet, dest: Wallet): boolean
+}
+class ContactList {
+  listId: String
+  +addContact(customer: Customer): void
+  +removeContact(customer: Customer): void
+}
+class TransactionAudit {
+  timestamp: Date
+  actionType: String
+  details: String
+  +logEvent(): void
+}
+CreditCard -- Account
+Account -- Wallet
+Account -- ImpressionLog
+Queue -- TransactionHistory
+Transaction "1" *-- "1" Wallet : associatedWallet
+CreditCard -- InvoiceGenerator
+InvoiceGenerator "1" --> "1" Transaction : processedTransaction
+PaymentProcessor "1" --> "*" Transaction : handledTransactions
+ImpressionLog "1" *-- "1" Payment : recordedTransaction
+Payment -- TransactionSummary
+Account -- RefundPolicy
+RefundPolicy "1" --> "*" CreditCard : encompassesCards
+WalletManager "1" *-- "*" Account : managedAccounts
+Customer "1" *-- "1" ContactList : primaryContact
+RefundPolicy "1" --> "*" AlertRule : definedRules
+PaymentGateway "1" --> "*" CreditCard : processesCards
+TransactionAudit "1" *-- "*" Transaction : auditedTransactions
+AlertRule "1" --> "*" CreditCard : monitoredCards
+ReminderService "1" --> "*" Invoice : generatedInvoices
+ReminderService "1" --> "*" Account : targets
+Account -- TransactionHistory
+Transaction -- Account
+@enduml

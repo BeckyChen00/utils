@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//Article"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Article">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leadAuthor" eType="#//Person" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishedIn" eType="#//Journal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TechnicalReport" eSuperTypes="#//Article"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResearchInstitution">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affiliatedResearchers" eType="#//Person" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryReviewer" eType="#//Reviewer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reviewer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reviewedArticles" eType="#//Article" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Journal"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Publisher">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishedJournals" eType="#//Journal" upperBound="-1" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

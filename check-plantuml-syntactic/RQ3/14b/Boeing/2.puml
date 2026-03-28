@@ -1,0 +1,64 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Contract {
+  -contractId: String
+  -startDate: Date
+  -endDate: Date
+  -globalTerms: String
+  +addAcquisition(acquisition: Acquisition): void
+  +removeAcquisition(acquisition: Acquisition): void
+  +assignSalesperson(salesperson: Salesperson): void
+}
+
+class Acquisition {
+  -acquisitionId: String
+  -model: String
+  -price: Double
+  -deliveryDate: Date
+  -options: List<String>
+  -customizations: List<String>
+  +getContract(): Contract
+}
+
+class Salesperson {
+  -employeeId: String
+  -name: String
+  -email: String
+  +manageContract(contract: Contract): void
+}
+
+class Airline {
+  -airlineId: String
+  -name: String
+  -type: String
+  +hasDaughter(airline: Airline): boolean
+  +getParent(): Airline
+}
+
+class MotherDaughterRelationship {
+  -parentId: String
+  -childId: String
+  -relationshipType: String
+  +getParent(): Airline
+  +getChild(): Airline
+}
+
+Contract "1" *-- "0..*" Acquisition : contains
+Contract "1" -- "1" Salesperson : managedBy
+Airline "0..1" -- "0..*" Airline : parentOf
+Airline "1" -- "0..1" MotherDaughterRelationship : has
+Airline "1" -- "0..1" MotherDaughterRelationship : isChildOf
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+- **Contract** has many **Acquisitions** (a contract may consist of multiple airplane acquisitions).
+- Each **Acquisition** belongs to exactly one **Contract**.
+- A **Contract** is managed by one **Salesperson**, but a **Salesperson** can manage multiple **Contracts**.
+- **Airline** companies can have **Mother-Daughter** relationships, where one **Airline** is the parent of another.
+- The **MotherDaughterRelationship** class represents this relationship and links two **Airline** instances.
+
+Let me know if you'd like to add more details or refine the diagram further!

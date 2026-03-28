@@ -1,0 +1,9 @@
+@startuml
+classDiagram
+
+SystemRequirement --> class Diagram
+    SystemRequirement: Requirement
+        + Name : String
+        + Description : String
+        + RequiredComponents : List[Component]
+@enduml

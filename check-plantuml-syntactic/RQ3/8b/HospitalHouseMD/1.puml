@@ -1,0 +1,76 @@
+
+@startuml
+
+class Patient {
+  - name: String
+  - id: String
+  - consentGiven: boolean
+  - treatments: List<Treatment>
+}
+
+class Doctor {
+  - name: String
+  - id: String
+  - diagnoses: List<Diagnosis>
+}
+
+class HeadDoctor {
+  - name: String
+  - id: String
+  + approveDiagnosis(diagnosis: Diagnosis): boolean
+}
+
+class Illness {
+  - name: String
+  - priority: Priority
+  - treatments: List<Treatment>
+}
+
+class Diagnosis {
+  - patient: Patient
+  - doctor: Doctor
+  - illness: Illness
+  - date: Date
+}
+
+class Treatment {
+  - name: String
+  - stage: Stage
+  - illness: Illness
+  - patient: Patient
+  - requiresConsent: boolean
+  - isApprovedByHeadDoctor: boolean
+}
+
+enum Priority {
+  HIGH, LOW
+}
+
+enum Stage {
+  STAGE_1, STAGE_2, STAGE_3
+}
+
+Patient "0..*" -- "1" Doctor : assigned to
+Doctor "1" --> Diagnosis : makes
+HeadDoctor "1" --> Diagnosis : approves
+Illness "1" -- "0..*" Treatment : has
+Illness "1" -- "0..*" Diagnosis : has
+Treatment "1" -- "1" Patient : applied to
+Treatment "1" -- "1" Illness : treats
+
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+
+- **Patient** can be assigned to **one or more Doctors**.
+- A **Doctor** can make multiple **Diagnoses**.
+- The **HeadDoctor** must **approve** each **Diagnosis** before any treatment can proceed.
+- An **Illness** may have multiple **Treatments** and may be diagnosed by multiple **Patients**.
+- A **Treatment** is associated with a specific **Illness** and **Patient**, and has a current **Stage**.
+- Each **Treatment** can be in one of three **Stages**: `STAGE_1`, `STAGE_2`, or `STAGE_3`.
+- The **Priority** of an **Illness** (either `HIGH` or `LOW`) affects how treatments are escalated.
+- Patients can give **consent** to move their treatments to higher stages.
+
+Let me know if you'd like this rendered as an image or want to add more details!

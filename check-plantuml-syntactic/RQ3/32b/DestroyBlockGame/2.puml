@@ -1,0 +1,145 @@
+
+@startuml
+
+' Define classes for the DestroyBlock application
+
+class User {
+    - username: String (unique)
+    - password: String
+}
+
+class Player {
+    + playGame(game: Game): void
+    + pauseGame(): void
+    + resumeGame(): void
+    + viewHallOfFame(hallOfFame: HallOfFame): void
+}
+
+class Admin {
+    + createGame(game: Game): void
+    + defineBlocks(blocks: List<Block>): void
+    + configureLevelSettings(levelSettings: LevelSettings): void
+    + publishGame(game: Game): void
+}
+
+class Game {
+    - name: String (unique)
+    - admin: Admin (1..1)
+    - players: List<Player>
+    - hallOfFame: HallOfFame
+    - levels: List<Level>
+    - levelSettings: LevelSettings
+}
+
+class Block {
+    - color: Color
+    - points: int (1..1000)
+}
+
+class Level {
+    - number: int (1..99)
+    - blockArrangement: Grid<Block>
+    - isRandom: boolean
+    - blocksToShow: int
+}
+
+class Grid<Block> {
+    - rows: int
+    - columns: int
+    - gridCells: Map<String, Block>  ' e.g., "1/1" -> Block
+}
+
+class LevelSettings {
+    - minSpeed: float
+    - speedIncreaseFactor: float
+    - maxPaddleLength: int
+    - minPaddleLength: int
+}
+
+class HallOfFame {
+    - scores: List<ScoreEntry>
+}
+
+class ScoreEntry {
+    - player: Player
+    - score: int
+    - date: Date
+}
+
+class Paddle {
+    - length: int
+    - positionX: int
+}
+
+class Ball {
+    - speed: float
+    - direction: Direction
+    - positionX: int
+    - positionY: int
+}
+
+class Direction {
+    - angle: float
+}
+
+' Inheritance
+User <|-- Player
+User <|-- Admin
+
+' Associations
+Admin --> Game : creates
+Player --> Game : plays
+Game --> Level : has
+Game --> HallOfFame : maintains
+Game --> LevelSettings : uses
+Level --> Block : contains
+Level --> Grid<Block> : has
+Grid<Block> o-- Block : contains
+Game --> ScoreEntry : records in Hall of Fame
+Player --> ScoreEntry : owns
+Ball --> Direction : moves in
+Ball --> Paddle : bounces from
+Ball --> Block : hits
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **User**: Base class with `username` and `password`. Can be either a `Player` or an `Admin`.
+- **Admin**:
+  - Creates games.
+  - Defines blocks and level settings.
+  - Publishes the game.
+- **Player**:
+  - Plays the game.
+  - Pauses/resumes it.
+  - Views the hall of fame.
+- **Game**:
+  - Has a unique name.
+  - Is managed by one admin.
+  - Has levels and a hall of fame.
+- **Block**:
+  - Defined by admin.
+  - Each has a color and point value.
+- **Level**:
+  - Numbered from 1 to 99.
+  - May be random or fixed.
+  - Has a starting arrangement of blocks.
+- **Grid**:
+  - Represents the block layout using coordinates like `1/1`, `2/1`, etc.
+- **HallOfFame**:
+  - Maintains high scores.
+  - Each entry links to a player and their score.
+- **Ball & Paddle**:
+  - Represent in-game physics objects.
+  - Interact during gameplay.
+
+---
+
+### 📌 Notes:
+- Only one admin per game.
+- A user can't be both admin and player for the same game.
+- Games are not played in parallel.
+

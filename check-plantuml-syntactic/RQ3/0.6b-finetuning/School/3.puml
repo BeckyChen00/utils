@@ -1,0 +1,168 @@
+@startuml
+enum ClarityLevel {
+  VeryClear
+  Clear
+  Normal
+  PartiallyVisible
+  VeryDiffuse
+}
+enum QualityCategory {
+  VerySharp
+  Sharp
+  Good
+  GoodEnough
+  Acceptable
+  Poor
+  VeryPoor
+  Eliminated
+}
+enum TestResultType {
+  Passed
+  Failed
+}
+class CryptoDevice {
+  serialNumber: String
+  supportedCipherTypes: String[]
+  +getDeviceName(): String
+  +getServiceType(): String
+}
+class SecurityCertification {
+  certificationCode: String
+  effectiveDate: Date
+  expiryDate: Date
+  +isValid(): boolean
+  +calculateScore(): int
+}
+class EncryptionAlgorithm {
+  algorithmName: String
+  complexityLevel: int
+  +getDescription(): String
+}
+class AnalysisReport {
+  generationDate: Date
+  summaryText: String
+  +getSummary(): String
+  +generateSummary(): String
+}
+class TestCase {
+  testName: String
+  expectedResult: TestResultType
+  testDescription: String
+  +executeTest(): AnalysisReport
+  +getTestScore(): int
+}
+class TestResult {
+  resultType: TestResultType
+  clarityLevel: ClarityLevel
+  qualityScore: int
+  failureReason: String
+  +isPassed(): boolean
+  +getQualityDescription(): String
+}
+class QualityMetric {
+  metricName: String
+  category: QualityCategory
+  thresholdValue: int
+  +evaluate(result: TestResult): boolean
+}
+class ComplianceChecklist {
+  checklistName: String
+  scopeDescription: String
+  +getChecklistItems(): String[]
+}
+class ComplianceStandard {
+  standardName: String
+  version: String
+  +isCompliant(device: CryptoDevice): boolean
+}
+class SensorReading {
+  readingValue: double
+  unitOfMeasure: String
+  timestamp: Date
+  +isValid(): boolean
+}
+class SensorDataStream {
+  integrationStatus: String
+  +filterData(filterCriteria: String): SensorReading[]
+  +calculateAverage(): double
+}
+class AssessmentService {
+  +executeReport(report: AnalysisReport): String
+  +generateRiskAssessment(report: AnalysisReport): String
+}
+class SecurityAuditLog {
+  auditDate: Date
+  isCompleted: boolean
+  findingsSummary: String
+  +finalizeLog(): String
+}
+class PerformanceMetric {
+  metricName: String
+  metricValue: double
+  averageValue: double
+  +compareTo(other: PerformanceMetric): double
+}
+class EvaluationEngine {
+  +evaluate(device: CryptoDevice, standard: ComplianceStandard): AnalysisReport
+  +processSensor(stream: SensorDataStream): SensorReading
+}
+class RiskManager {
+  +assignRiskAssessment(report: AnalysisReport, device: CryptoDevice): String
+  +generateComplianceReport(complianceStandard: ComplianceStandard): String
+}
+class QualityChecker {
+  +checkDevice(device: CryptoDevice): AnalysisReport
+  +checkStandard(standard: ComplianceStandard): AnalysisReport
+}
+class Owner {
+  ownerName: String
+  contactEmail: String
+  +verifyIdentity(): boolean
+}
+class RegulatoryBody {
+  bodyName: String
+  jurisdiction: String
+  +issueComplianceReport(device: CryptoDevice): String
+}
+class UsageRecord {
+  usageDate: Date
+  durationMinutes: int
+  +getUsageDate(): Date
+}
+class VulnerabilityAnalysis {
+  findings: String[]
+  +findVulnerabilities(): String[]
+  +detectLeaks(): String[]
+}
+class TestSuite {
+  suiteName: String
+  testOrder: int
+  +findCriticalFailures(): String[]
+  +getSuiteDescription(): String
+}
+CryptoDevice *-- "1" SecurityCertification : certificate
+CryptoDevice *-- "1" EncryptionAlgorithm : encryptionAlgorithm
+SecurityCertification *-- "0..*" ComplianceStandard : applicableStandards
+EncryptionAlgorithm *-- "*" QualityMetric : qualityMetrics
+AnalysisReport *-- "*" TestCase : testCases
+AnalysisReport *-- "*" TestResult : testResults
+CryptoDevice *-- "0..*" SensorReading : sensorReadings
+SensorReading --> "1" PerformanceMetric : associatedMetric
+CryptoDevice --> "0..1" ComplianceStandard : complianceVersion
+EncryptionAlgorithm --> "1" ComplianceStandard : supportedStandard
+QualityChecker --> "*" CryptoDevice : checkedDevices
+PerformanceMetric --> "1" ComplianceStandard : governedByStandard
+VulnerabilityAnalysis --> "*" TestCase : analyzedTests
+RiskManager --> "1" ComplianceStandard : managedStandard
+RiskManager --> "1" AssessmentService : managedService
+RegulatoryBody --> "*" ComplianceStandard : governedStandards
+EvaluationEngine --> "*" ComplianceStandard : evaluatedStandards
+AssessmentService --> "*" AnalysisReport : generatedReports
+Owner --> "*" SecurityCertification : ownedCertifications
+TestSuite --> "*" TestCase : includedTests
+TestCase --> "1" ComplianceStandard : requiredStandard
+TestCase --> "1" SecurityCertification : requiredCertificate
+SecurityAuditLog *-- "*" ComplianceReport : includedReports
+Owner --> "*" ComplianceReport : ownsReports
+User --> "*" ComplianceReport : viewsReports
+@enduml

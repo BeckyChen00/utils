@@ -1,0 +1,55 @@
+@startuml
+enum LanguageType {
+  English
+  Spanish
+  French
+  German
+  Russian
+  Mandarin
+  Japanese
+  Korean
+  Swahili
+}
+class EducationMaterials {
+  title: String
+  content: String
+  language: LanguageType
+  +getDescription(): String
+}
+class VideoContent {
+  title: String
+  description: String
+  duration: int
+  +getDuration(): int
+}
+class CourseBundle {
+  name: String
+  version: String
+  +getVersion(): String
+  +addSection(section: LearningSection): void
+}
+class LearningSection {
+  title: String
+  description: String
+  targetLanguage: LanguageType
+  createDate: Date
+  +getSectionDescription(): String
+}
+class AccessPolicy {
+  isPublic: boolean
+  isPrivate: boolean
+  expirationDate: Date
+  +isAllowed(user: UserAccount): boolean
+}
+class UserAccount {
+  username: String
+  role: String
+  +login(): boolean
+  +logout(): void
+}
+CourseBundle *-- "*" LearningSection : containedSections
+LearningSection *-- "*" VideoContent : includedContent
+LearningSection --> "1" EducationMaterials : sourceResource
+VideoContent --> "1" UserAccount : authorizedUser
+UserAccount --> "*" AccessPolicy : activePolicies
+@enduml

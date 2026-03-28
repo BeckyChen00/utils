@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedActivities" eType="#//Activity" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Activity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParkingSpot">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="occupiedByActivities" eType="#//Activity" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reservation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="beneficiary" eType="#//Customer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reservedSpot" eType="#//ParkingSpot" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reservedTimeSlot" eType="#//TimeSlot" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedFeePolicy" eType="#//FeePolicy" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedPayment" eType="#//Payment" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedTicket" eType="#//Ticket" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedTicket" eType="#//Ticket" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredMember" eType="#//MemberProfile" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactionDetails" eType="#//Payment" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedFairground" eType="#//Fairground" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedFeedbacks" eType="#//Feedback" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedInvoice" eType="#//Invoice" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedAllocationPolicy" eType="#//AllocationPolicy" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingReservation" eType="#//ReservationResult" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loggedMember" eType="#//MemberProfile" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredBySensor" eType="#//SecuritySensor" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeSlot"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FeePolicy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MemberProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Fairground"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Feedback"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AllocationPolicy"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReservationResult"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledSlots" eType="#//TimeSlot" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scheduledFairground" eType="#//Fairground" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedFairgrounds" eType="#//Fairground" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSpots" eType="#//ParkingSpot" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookedCustomers" eType="#//Customer" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookableReservations" eType="#//Reservation" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedTickets" eType="#//Ticket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecuritySensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HealthSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="securityLogs" eType="#//AuditLog" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScheduleManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSchedule" eType="#//Schedule" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedFairgrounds" eType="#//Fairground" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedActivities" eType="#//Activity" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governingPolicies" eType="#//AllocationPolicy" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookedReservations" eType="#//Reservation" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuthenticationSystem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GuestProfile"/>
+</ecore:EPackage>

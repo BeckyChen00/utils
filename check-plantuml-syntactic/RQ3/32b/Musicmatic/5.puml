@@ -1,0 +1,102 @@
+
+@startuml
+
+' Set skinparam for better visualization
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+}
+
+' Define classes and their attributes
+
+class Song {
+  -title: String
+  -year: int
+  -length: float
+  -genre: String
+  +getInfo(): String
+}
+
+class Artist {
+  -name: String (unique)
+  -dateOfBirth: Date
+  -url: String
+  +getBio(): String
+}
+
+class User {
+  -id: String (unique)
+  -name: String
+  -address: String
+  +register(): void
+}
+
+class RegularUser {
+  +buySingle(Single): void
+  +buyAlbum(Album): void
+  +recommendAlbum(Album, RegularUser): void
+}
+
+class BusinessUser {
+  -vatNumber: String
+  +uploadSong(Song): void
+}
+
+class Single {
+  -song: Song (1)
+}
+
+class Hit {
+  -song: Song (1)
+}
+
+class Album {
+  -hits: List<Hit>
+  -trackNumbers: Map<Hit, int>
+  +addHit(Hit, int): void
+}
+
+class Upload {
+  -businessUser: BusinessUser (1)
+  -song: Song (1)
+  -type: String ("Single" or "Hit")
+}
+
+' Inheritance relationships
+User <|-- RegularUser
+User <|-- BusinessUser
+
+' Association relationships
+Artist "1" --> "many" Song : creates
+Song "1" --> "1" Artist : belongsTo
+
+BusinessUser "1" --> "many" Upload : uploads
+Upload "1" --> "1" Song : contains
+Upload "1" --> "1" BusinessUser : by
+
+Song "1" --> "0..1" Single : isSingle
+Song "1" --> "0..1" Hit : isHit
+
+Album "1" --> "many" Hit : includes
+Hit "1" --> "1" Album : partOf
+
+RegularUser "many" --> "many" Single : buys
+RegularUser "many" --> "many" Album : buys
+RegularUser "many" --> "many" Album : recommends
+
+' Note: A user can be both a regular and business user (no inheritance, just dual roles)
+
+@enduml
+
+---
+
+### ✅ Summary of Key Design Decisions:
+- **Artist** and **Song** are linked via a one-to-many relationship.
+- **User** is an abstract base class with two subtypes: `RegularUser` and `BusinessUser`.
+- **Songs** can only be uploaded as either a `Single` or a `Hit`, not both.
+- **Albums** contain multiple `Hits` with specific track numbers.
+- **Regular Users** can buy Singles and Albums, and recommend Albums to other users.
+- **Business Users** upload Songs and have a VAT number.
+
+---
+

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongs_to" eType="#//Line" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Line">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Trajectory"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trajectory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Approval"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has_status" eType="#//Status"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Approval"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Status"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owns" eType="#//MensoCard"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receives" eType="#//Invoice"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MensoCard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="records" eType="#//Trip"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trip">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongs_to" eType="#//Line"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relates_to" eType="#//Category"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Category"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includes" eType="#//Trip"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="may_have" eType="#//Payment"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment"/>
+</ecore:EPackage>

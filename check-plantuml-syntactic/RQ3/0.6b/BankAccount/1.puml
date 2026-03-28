@@ -1,0 +1,31 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement {
+        id: "System Requirement"
+        description: "System Requirements for the project"
+    }
+
+    class SystemRequirements {
+        id: "System Requirements"
+        description: "List of system requirements for the application"
+        relationships {
+            to: SystemRequirement
+        }
+    }
+
+    class Application {
+        id: "Application"
+        description: "Application component that fulfills system requirements"
+        relationships {
+            to: SystemRequirements
+            to: SystemRequirement
+        }
+    }
+
+    class Component {
+        id: "Component"
+        description: "A functional block or unit that supports system requirements"
+    }
+
+@enduml

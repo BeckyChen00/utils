@@ -1,0 +1,35 @@
+@startuml
+class Diagram {System Requirement}
+part diagram1 {System Requirement}
+
+class Component1 {
+    name: "User Interface"
+    attributes: [title, description]
+}
+part diagram2 {Component1}
+
+class Component2 {
+    name: "Database"
+    attributes: [name, type, connection]
+}
+part diagram3 {Component2}
+
+class Relationship1 {
+    component1 -> component2
+    with : attribute1
+}
+part diagram4 {Relationship1}
+
+class Relationship2 {
+    component2 -> component1
+    with : attribute2
+}
+part diagram5 {Relationship2}
+
+class Diagram {
+    component1
+    component2
+    relationship1
+    relationship2
+}
+@enduml

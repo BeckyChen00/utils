@@ -1,0 +1,70 @@
+@startuml
+class Traveler {
+  emailAddress: String
+  name: String
+  reliabilityRating: int
+  +register(): void
+  +viewPastBookings(): List<Booking>
+}
+class BookingRequest {
+  arrivalDate: Date
+  departureDate: Date
+  roomCount: int
+  roomTypes: List<String>
+  minRating: int
+  budgetLimit: double
+  requiredPreferences: List<String>
+  +searchHotels(): List<HotelOffer>
+}
+class HotelOffer {
+  hotelName: String
+  address: String
+  isChainOwned: boolean
+  pricePerNight: double
+  includedServices: List<String>
+  +evaluateQualification(): boolean
+}
+class BookingConfirmation {
+  confirmationCode: String
+  isConfirmed: boolean
+  confirmationDate: Date
+  +generateConfirmationCode(): String
+}
+class Booking {
+  bookingReference: String
+  isPrepaid: boolean
+  isConfirmed: boolean
+  +finalizePayment(creditCardData: PaymentInfo): void
+  +cancel(isPrepaid: boolean): void
+}
+class PaymentInfo {
+  cardNumber: String
+  expiryDate: String
+  cvv: String
+}
+class CancellationPolicy {
+  deadlineHours: int
+  isRefundable: boolean
+  +calculateRefundAmount(bookingDate: Date): double
+}
+class HotelChain {
+  chainName: String
+  +getMemberHotels(): List<Hotel>
+}
+class Hotel {
+  name: String
+  address: String
+  ratingStars: int
+  +announceAvailability(roomType: String, periodStart: Date): void
+  +checkAvailability(roomType: String, periodStart: Date): boolean
+}
+Traveler *-- "0..1" BookingRequest : activeRequest
+BookingRequest *-- "0..*" HotelOffer : searchResults
+Traveler *-- "0..*" Booking : pastBookings
+Booking *-- "1" HotelOffer : selectedOffer
+Booking *-- "1" BookingConfirmation : confirmationRecord
+Booking *-- "1" PaymentInfo : paymentDetails
+Booking *-- "1" CancellationPolicy : appliedPolicy
+Booking --> "1" Hotel : hostedHotel 'opposite: hostedBookings
+Hotel --> "0..1" HotelChain : parentChain
+@enduml

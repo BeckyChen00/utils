@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rooms" eType="#//Room" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="beds" eType="#//Bed" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Bed">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentOccupant" eType="#//Inhabitant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Inhabitant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registrationRecord" eType="#//RegistrationRecord" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessment" eType="#//Assessment" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegistrationRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inhabitant" eType="#//Inhabitant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assessment" eType="#//Assessment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assessment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultingAgreement" eType="#//ServiceAgreement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaitingList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entries" eType="#//WaitingListEntry" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WaitingListEntry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="record" eType="#//RegistrationRecord" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceAgreement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedBeds" eType="#//Bed" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedInvoices" eType="#//Invoice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="debtor" eType="#//Inhabitant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creditNote" eType="#//CreditNote"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreditNote"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Proposal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetInhabitant" eType="#//Inhabitant" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedEntry" eType="#//WaitingListEntry" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="baseAssessment" eType="#//Assessment" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

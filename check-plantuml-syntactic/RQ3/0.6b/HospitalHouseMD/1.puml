@@ -1,0 +1,94 @@
+@startuml
+
+class Diagram {
+  class SystemRequirement {
+    string name
+    string description
+  }
+
+  class Requirement {
+    string requirementType
+    string identifier
+    string status
+    string priority
+  }
+
+  class Constraint {
+    string constraintType
+    string constraintName
+    string constraintValue
+  }
+
+  class Rule {
+    string ruleName
+    string ruleDescription
+    string ruleCondition
+    string ruleAction
+  }
+
+  class Process {
+    string processId
+    string processName
+    string startTime
+    string endTime
+    string resource
+    string constraints
+    string rules
+  }
+
+  class Resource {
+    string resourceId
+    string resourceName
+    string resourceType
+    string usage
+  }
+
+  class Task {
+    string taskIdentifier
+    string taskName
+    string taskDescription
+    string taskDependencies
+    string taskStatus
+    string taskPriority
+  }
+
+  class Deployment {
+    string deploymentId
+    string deploymentName
+    string deploymentDescription
+    string deploymentStatus
+    string deploymentTime
+    string deploymentResources
+    string deploymentConstraints
+  }
+
+  class Schedule {
+    string scheduleId
+    string scheduleName
+    string scheduleDescription
+    string scheduleConstraints
+  }
+
+  class System {
+    string systemId
+    string systemDescription
+    string systemRequirements
+    string systemConstraints
+    string systemRules
+    string systemProcesses
+    string systemDeployment
+    string systemSchedule
+  }
+
+  # Relationships
+  node {System} --> {SystemRequirement}
+  node {System} --> {Requirement}
+  node {System} --> {Constraint}
+  node {System} --> {Rule}
+  node {System} --> {Process}
+  node {System} --> {Resource}
+  node {System} --> {Task}
+  node {System} --> {Deployment}
+  node {System} --> {Schedule}
+
+@enduml

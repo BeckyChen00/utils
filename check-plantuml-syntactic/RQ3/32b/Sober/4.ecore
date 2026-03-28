@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Customer" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="leadCustomer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rideCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participates_in" eType="#//Ride" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CarOwner" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="licensePlate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="carModel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SelfDrivingCar">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="licensePlate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//User"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accidents" eType="#//Accident" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Accident" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Accident">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="damageAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affectedCar" eType="#//SelfDrivingCar"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ride">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pickupLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dropoffLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="duration" eType="#//TimeSpan"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="distance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fee" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfPassengers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="requestType" eType="#//RequestType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customers" eType="#//Customer" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leadCustomer" eType="#//Customer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="car" eType="#//SelfDrivingCar"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//LeadCustomer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//SelfDrivingCar" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RideHail" eSuperTypes="#//Ride">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="6" eType="#//maxPassengers"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_a_type_of" eType="#//Ride" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RideShare" eSuperTypes="#//Ride">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="10" eType="#//maxPassengers"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negotiatedFeePerCustomer" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_a_type_of" eType="#//Ride" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SoberSystem">
+    <eOperations xsi:type="ecore:EOperation" name="manageRideRequests"/>
+    <eOperations xsi:type="ecore:EOperation" name="trackUserActivity"/>
+    <eOperations xsi:type="ecore:EOperation" name="handleAccidents"/>
+    <eOperations xsi:type="ecore:EOperation" name="plantTreeForLoyalUsers"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RequestType">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="APP"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="HAND_WAVE" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id"/>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="string" eType="#//contactInfo"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="contactInfo"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participates_in" eType="#//Ride" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeSpan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="maxPassengers"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LeadCustomer"/>
+</ecore:EPackage>

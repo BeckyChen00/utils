@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//FeedbackChannel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FeedbackChannel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SignalAnalyzer" eSuperTypes="#//DigitalSignalAnalyzer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredControllers" eType="#//PedalController" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedSensors" eType="#//AnalogSensor" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DigitalSignalAnalyzer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResampleProcessor" eSuperTypes="#//SamplingDevice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SamplingDevice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PedalController" eSuperTypes="#//SamplingDevice #//PowerMeter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedSensors" eType="#//AnalogSensor" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedChannels" eType="#//FeedbackChannel" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="poweredByMeter" eType="#//PowerMeter" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogSensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerMeter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="poweredChannels" eType="#//FeedbackChannel" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calibratedLogs" eType="#//CalibrationLog" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CycleScheduler">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedChannels" eType="#//FeedbackChannel" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SynchronizationEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSchedulers" eType="#//CycleScheduler" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CalibrationLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MonitoringStation" eSuperTypes="#//PedalController #//FeedbackChannel"/>
+</ecore:EPackage>

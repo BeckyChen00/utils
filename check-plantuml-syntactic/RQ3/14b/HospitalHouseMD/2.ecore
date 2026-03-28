@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//giveConsent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//submitForApproval"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//description"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolean" eType="#//consentGiven"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="PriorityScore" eType="#//priorityScore"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="consentGiven"/>
+  <eClassifiers xsi:type="ecore:EClass" name="giveConsent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="doctorId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//patientId"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="patientId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//frequency"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="illness">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TreatmentStage" eType="#//stage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="stage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="submitForApproval"/>
+  <eClassifiers xsi:type="ecore:EClass" name="priorityScore"/>
+  <eClassifiers xsi:type="ecore:EClass" name="updatePriorityScore">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="diagnosisId">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="TreatmentStage" eType="#//stage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="description"/>
+  <eClassifiers xsi:type="ecore:EClass" name="frequency"/>
+  <eClassifiers xsi:type="ecore:EClass" name="required">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="treatedBy" eType="#//Doctor" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Doctor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="madeDiagnosis" eType="#//Diagnosis" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Diagnosis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedTo" eType="#//Illness" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentStage" eType="#//TreatmentStage" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiresFollowUp" eType="#//FollowUp" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeadDoctor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="approvedDiagnosis" eType="#//Diagnosis" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Illness">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasTreatments" eType="#//Treatment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasPriority" eType="#//PriorityScore" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Treatment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongsTo" eType="#//Diagnosis" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentStage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FollowUp"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Nurse">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitors" eType="#//Patient" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasFollowUp" eType="#//FollowUp"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PriorityScore"/>
+</ecore:EPackage>

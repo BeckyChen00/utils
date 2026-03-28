@@ -1,0 +1,16 @@
+@startuml
+
+class Diagram {System Requirement}
+
+class Component1 {Component1}
+class Component2 {Component2}
+
+extends Component1 {
+  class Component3 {Component3}
+}
+
+class Component4 extends Component2 {
+  class Component5 {Component5}
+}
+
+@enduml

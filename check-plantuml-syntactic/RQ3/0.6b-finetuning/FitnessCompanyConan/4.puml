@@ -1,0 +1,76 @@
+@startuml
+enum PollutionType {
+  Noise
+  AirQuality
+  VehicleEmissions
+}
+enum BuildingCategory {
+  LowDensityOffice
+  MultiUnitCommercial
+  HighDensityCondo
+  MixedUseComplex
+}
+enum MeterType {
+  GasMeter
+  WaterMeter
+  SolarMeter
+  SmartMeter
+}
+class PollutionEvent {
+  description: String
+  occurrenceTime: Date
+  type: PollutionType
+  +recordData(dra: DataRecord, isVerified: boolean, sourceCode: String): void
+  +getCalibrationHistory(): CalibrationRecord[]
+}
+class DataRecord {
+  timestamp: Date
+  value: Double
+  source: MeterType
+  +verifyIntegrity(): boolean
+}
+class CalibrationRecord {
+  calibrationDate: Date
+  measurementDate: Date
+  coefficient: Double
+  status: String
+  +validate(): boolean
+}
+class MeterSet {
+  setIdentifier: String
+  installationDate: Date
+  installationLocation: String
+  +getConfiguration(): MeterType[]
+}
+class MonitoringStation {
+  stationIdentifier: String
+  activePollutionTypes: PollutionType[]
+  +getLocationDescription(): String
+  +assessSafety(): String
+}
+class SensorNode {
+  sensorType: MeterType
+  lastReadingDate: Date
+  +readValue(): double
+  +closeNode(): void
+}
+class PollutionIndex {
+  indexValue: double
+  timestamp: Date
+  +calculateScore(): double
+  +isOverThreshold(limit: double): boolean
+}
+class AnalysisEngine {
+  +runAnalysis(station: MonitoringStation, targetThreshold: double): PollutionIndex[]
+  +generateReport(indexSet: PollutionIndex[]): String
+}
+MonitoringStation *-- "*" SensorNode : installedSensors
+MonitoringStation *-- "*" PollutionIndex : currentPollutants
+SensorNode --> "1" MeterSet : definedMeterSet
+SensorNode --> "1" DataRecord : latestReading
+AnalysisEngine --> "*" MonitoringStation : monitoredStations
+AnalysisEngine --> "*" PollutionEvent : processedEvents
+PollutionEvent --> "*" DataRecord : generatedRecords
+PollutionEvent --> "*" CalibrationRecord : referenceRecords
+PollutionIndex --> "1" PollutionEvent : sourceEvent
+@enduml

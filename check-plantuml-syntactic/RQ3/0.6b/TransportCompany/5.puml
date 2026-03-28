@@ -1,0 +1,15 @@
+@startuml
+
+class Diagram {SystemRequirement}
+
+class SystemRequirement {
+  component systemRequirement
+    component "System Requirement"
+    component "Output"
+    component "Input"
+    component "Processing Steps"
+    component "Testing"
+    component "Results"
+}
+
+@enduml

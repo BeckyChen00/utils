@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPatients" eType="#//Patient" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="medicalHistory" eType="#//Diagnosis" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Diagnosis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="treatmentPlan" eType="#//TreatmentPlan" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Illness">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedDiagnoses" eType="#//Diagnosis" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicableTreatments" eType="#//MedicalTreatment" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedConsents" eType="#//ConsentForm" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentPlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="followUpSchedule" eType="#//FollowUpSchedule" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stages" eType="#//TreatmentStage" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MedicalTreatment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConsentForm"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FollowUpSchedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentStage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeTreatment" eType="#//MedicalTreatment" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stageHistory" eType="#//AuditTrail" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuditTrail">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performedBy" eType="#//Doctor" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Doctor"/>
+</ecore:EPackage>

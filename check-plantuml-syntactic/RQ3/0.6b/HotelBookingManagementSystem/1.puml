@@ -1,0 +1,22 @@
+@startuml
+    class Diagram {
+        [System Requirement]
+        - [User] [Client]
+        - [Server] [Server]
+        - [Database] [Database]
+        - [Application] [Application]
+        - [API] [API]
+        - [Data Flow] [Data Flow]
+    }
+
+    # Data Flow
+    start -> data_flow
+
+    data_flow -> user
+
+    user -> server
+    server -> database
+    database -> application
+    application -> api
+    api -> data_flow
+@enduml

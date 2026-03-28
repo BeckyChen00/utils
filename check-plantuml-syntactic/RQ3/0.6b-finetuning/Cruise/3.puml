@@ -1,0 +1,53 @@
+@startuml
+enum SystemStatus {
+  Active
+  Offline
+  Maintenance
+  Error
+}
+class AirQualitySensor {
+  locationCode: String
+  calibrationDate: Date
+  +readReading(): double
+  +calibrate(): boolean
+}
+class PollutantLayer {
+  layerName: String
+  description: String
+  thresholdLevel: double
+  +validateMeasurements(): boolean
+  +calculateConcentration(pointIndex: int): double
+}
+class ConcentrationData {
+  timestamp: Date
+  value: double
+  unit: String
+  +isWithinThreshold(requiredLevel: double): boolean
+}
+class SensorReading {
+  timestamp: Date
+  value: double
+  unit: String
+}
+class AlarmRule {
+  ruleDefinition: String
+  conditionType: String
+  severityLevel: SystemStatus
+  +isActive(): boolean
+  +trigger(): void
+}
+class MonitoringStation {
+  stationName: String
+  currentStatus: SystemStatus
+  +generateAlertSummary(limitCount: int): String
+  +getActiveRules(): AlarmRule[]
+}
+MonitoringStation *-- "1..*" AirQualitySensor : managedSensors
+MonitoringStation *-- "1..*" PollutantLayer : installedLayers
+MonitoringStation --> "0..*" ConcentrationData : collectedData
+MonitoringStation --> "0..*" SensorReading : generatedReadings
+MonitoringStation --> "0..*" AlarmRule : configuredRules
+MonitoringStation --> "0..1" ConcentrationData : latestReading
+MonitoringStation --> "0..*" PollutantLayer : monitoredLayers
+MonitoringStation --> "0..*" ConcentrationData : historicalReadings
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+
+class SystemRequirement {name: "System Requirement", description: ""}
+
+class User {name: "User", description: ""}
+
+class Module {name: "Module", description: ""}
+
+class Component {name: "Component", description: ""}
+
+class Service {name: "Service", description: ""}
+
+class BusinessProcess {name: "Business Process", description: ""}
+
+class Resource {name: "Resource", description: ""}
+
+class Dependency {name: "Dependency", description: ""}
+
+class Relationship {name: "Relationship", description: ""}
+
+class Flow {name: "Flow", description: ""}
+
+class Workflow {name: "Workflow", description: ""}
+
+class Task {name: "Task", description: ""}
+
+class Activity {name: "Activity", description: ""}
+
+class TaskExecution {name: "Task Execution", description: ""}
+
+class TaskCompletion {name: "Task Completion", description: ""}
+
+class TaskStatus {name: "Task Status", description: ""}
+
+class TaskError {name: "Task Error", description: ""}
+
+class TaskDefinition {name: "Task Definition", description: ""}
+
+class TaskGroup {name: "Task Group", description: ""}
+
+class TaskSequence {name: "Task Sequence", description: ""}
+
+class TaskNode {name: "Task Node", description: ""}
+
+class TaskGraph {name: "Task Graph", description: ""}
+
+class TaskDiagram {name: "Task Diagram", description: ""}
+
+class Diagram {name: "Diagram", description: ""}
+
+class DiagramElement {name: "Diagram Element", description: ""}
+
+class DiagramSection {name: "Diagram Section", description: ""}
+
+class DiagramView {name: "Diagram View", description: ""}
+
+@enduml

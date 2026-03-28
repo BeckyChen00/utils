@@ -1,0 +1,77 @@
+
+@startuml
+
+' Define the classes
+class Player {
+  +id: String
+  +name: String
+  +... (other attributes)
+}
+
+class Card {
+  +id: String
+  +suit: Suit
+  +rank: Integer
+  +compareHeight(other: Card): ComparisonResult
+}
+
+enum Suit {
+  DIAMONDS, HEARTS, SPADES, CLUBS
+}
+
+enum ComparisonResult {
+  LOWER, EQUAL, HIGHER
+}
+
+class Deck {
+  +id: String
+  +cards: List<Card>
+  +maxCards: Integer = 48
+}
+
+class Round {
+  +id: String
+  +winningPlayers: List<Player>
+  +points: Integer
+  +isJackRound: Boolean
+  +isSoloRound: Boolean
+}
+
+class SoloRound extends Round {
+  +soloType: SoloType
+  +soloPlayer: Player
+}
+
+enum SoloType {
+  TRUMP_SOLO, JACK_SOLO, QUEEN_SOLO
+}
+
+class ScoringTable {
+  +id: String
+  +rounds: List<Round>
+}
+
+' Relationships
+Player "1" -- "0..*" Deck : plays
+Card "1" -- "1" Deck : belongs to
+Player "1" -- "0..*" Round : participates in
+ScoringTable "1" -- "0..*" Round : contains
+Round "1" -- "0..1" SoloRound : is a type of
+SoloRound "1" -- "1" Player : has solo player
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **Player**: Represents a player in the game with a unique ID.
+- **Card**: Represents a playing card with suit, rank, and comparison method. It has a unique ID.
+- **Suit**: An enum representing the four suits in the game.
+- **ComparisonResult**: An enum for comparing card heights (lower, equal, higher).
+- **Deck**: A collection of up to 48 cards with a unique ID.
+- **Round**: A round in the scoring table that may have winning players and points.
+- **SoloRound**: A special type of round where one player acts as the solo player. It has a type (trump, jack, queen) and a solo player.
+- **ScoringTable**: Contains multiple rounds and has a unique ID.
+
+This structure allows you to model the card game app for German clubs effectively. Let me know if you want to add more details or behavior!

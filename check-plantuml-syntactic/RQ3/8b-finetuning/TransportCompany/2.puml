@@ -1,0 +1,113 @@
+@startuml
+enum VehicleStatus {
+  Available
+  InUse
+  UnderMaintenance
+  Blocked
+}
+enum OrderStatus {
+  Pending
+  Confirmed
+  InProgress
+  Completed
+  Cancelled
+}
+enum VehicleType {
+  RefrigeratedTruck
+  SmallVan
+  LoadingPlatform
+  BoxTruck
+}
+class Driver {
+  firstName: String
+  lastName: String
+  isCertified: boolean
+  +isAvailable(): boolean
+}
+class Employee {
+  username: String
+  passwordHash: String
+  roleDescription: String
+  +authenticate(credentials: Map): boolean
+}
+class Planner {
+  specialization: String
+  +assignOrder(order: TransportOrder, vehicle: Vehicle): void
+  +calculateRoute(start: Address, end: Address): RoutePlan
+}
+class AdministrativeStaff {
+  departmentName: String
+  +approveOrder(order: TransportOrder): boolean
+  +manageCustomer(customer: Customer): void
+}
+class Customer {
+  customerName: String
+  billingAddress: String
+  contactInfo: String
+}
+class Vehicle {
+  licensePlate: String
+  vehicleType: VehicleType
+  currentMileage: int
+  status: VehicleStatus
+  maxLoadCapacity: double
+  +updateStatus(newStatus: VehicleStatus): void
+  +registerRepair(shop: RepairShop, cost: double, duration: int): void
+}
+class RepairShop {
+  shopName: String
+  shopAddress: String
+  phoneNumber: String
+}
+class TransportOrder {
+  orderDate: Date
+  pickupAddress: Address
+  deliveryAddress: Address
+  totalWeight: double
+  status: OrderStatus
+  comment: String
+  +calculateDistance(): double
+  +closeOrder(finishTime: Date): void
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  totalAmount: double
+  dueDate: Date
+  +generateInvoiceLine(order: TransportOrder): InvoiceLine
+  +calculateTotal(): double
+}
+class InvoiceLine {
+  quantity: int
+  pricePerUnit: double
+  description: String
+  +calculateSubtotal(): double
+}
+class Address {
+  street: String
+  city: String
+  postalCode: String
+  country: String
+  +getFormattedAddress(): String
+}
+class RoutePlan {
+  estimatedDuration: double
+  +addStop(address: Address): void
+  +optimizeRoute(): void
+}
+Employee --|> Driver
+Planner --|> Employee
+AdministrativeStaff --|> Employee
+Customer "1" *-- "0..*" TransportOrder : placedOrders
+Customer "1" --> "0..*" Invoice : issuedInvoices
+TransportOrder "0..*" --> "1" Driver : assignedDriver
+TransportOrder "0..*" --> "1" Vehicle : assignedVehicle
+TransportOrder "0..*" --> "0..1" RoutePlan : routePlan
+TransportOrder "0..*" --> "1" Address : pickupAddress
+TransportOrder "0..*" --> "1" Address : deliveryAddress
+Invoice "1" *-- "1..*" InvoiceLine : invoiceLines
+InvoiceLine -- Address
+RepairShop -- Vehicle
+Planner -- Customer
+AdministrativeStaff -- Customer
+@enduml

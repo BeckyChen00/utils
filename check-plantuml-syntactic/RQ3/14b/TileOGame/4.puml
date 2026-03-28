@@ -1,0 +1,106 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Game {
+  -gameBoard: GameBoard
+  -players: List<Player>
+  -currentPlayerIndex: int
+  -actionDeck: ActionDeck
+  -hiddenTile: Tile
+  -spareConnections: List<ConnectionPiece>
+  -isGameOver: boolean
+  +startGame()
+  +endGame()
+  +getCurrentPlayer(): Player
+  +nextPlayer()
+}
+
+class GameBoard {
+  -tiles: List<Tile>
+  -connections: List<ConnectionPiece>
+  +getTileAt(x: int, y: int): Tile
+  +getConnectedTiles(tile: Tile): List<Tile>
+}
+
+class Tile {
+  -x: int
+  -y: int
+  -color: Color
+  -isHidden: boolean
+  -isActionTile: boolean
+  -actionDuration: int
+  -connectedTiles: List<Tile>
+  +isConnectedTo(tile: Tile): boolean
+  +connectTo(tile: Tile)
+  +disconnectFrom(tile: Tile)
+  +markAsVisited()
+  +toggleActionStatus()
+}
+
+class ConnectionPiece {
+  -fromTile: Tile
+  -toTile: Tile
+  -direction: Direction
+  +connectTiles()
+  +disconnectTiles()
+}
+
+enum Direction {
+  LEFT, RIGHT, UP, DOWN
+}
+
+class Player {
+  -name: String
+  -color: Color
+  -position: Tile
+  -hasExtraTurn: boolean
+  +moveTo(tile: Tile)
+  +rollDie(): int
+  +takeActionCard(action: ActionCard)
+}
+
+class ActionCard {
+  -actionType: ActionType
+  +execute(player: Player, game: Game)
+}
+
+enum ActionType {
+  EXTRA_TURN, CONNECT_TILES, DISCONNECT_TILES, MOVE_ARBITRARY, LOSE_TURN
+}
+
+class ActionDeck {
+  -cards: List<ActionCard>
+  +drawCard(): ActionCard
+  +shuffle()
+}
+
+class Designer {
+  -game: Game
+  +designGame()
+  +defineBoardLayout()
+  +placeTiles()
+  +connectTiles()
+  +setHiddenTile(tile: Tile)
+  +setPlayerStartPositions(players: List<Player>)
+  +defineActionCards()
+}
+@enduml
+
+---
+
+### Explanation of Classes and Relationships:
+
+- **`Game`**: Central class that manages the flow of the game, players, turns, and action cards.
+- **`GameBoard`**: Represents the board layout with tiles and connections.
+- **`Tile`**: A single tile on the board. It has coordinates, color, connection status, and can be an action tile or hidden tile.
+- **`ConnectionPiece`**: Represents a physical or logical link between two adjacent tiles.
+- **`Direction` (enum)**: Used to represent directions in which tiles can be connected.
+- **`Player`**: Represents each player with a name, color, current position, and turn status.
+- **`ActionCard`**: Represents a card with an effect defined by its `ActionType`.
+- **`ActionType` (enum)**: Defines the types of actions available in the game.
+- **`ActionDeck`**: Manages the deck of action cards and provides functionality like drawing and shuffling.
+- **`Designer`**: Represents the game designer who sets up the initial game configuration.
+
+---
+

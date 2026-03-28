@@ -1,0 +1,19 @@
+@startuml
+enum EmissionType {
+  LowCarbon
+  ModerateEmission
+  HighEmission
+  CleanAir
+  DirtyAir
+}
+class CarbonEmissionCalculator {
+  +generateReport(): String
+}
+class EmissionProfile {
+  emissionTypes: EmissionType[]
+  isCalibrated: boolean
+  +calculateContribution(gain: double): double
+  +addEmission(gain: double, type: EmissionType): void
+}
+EmissionProfile *-- "0..1" CarbonEmissionCalculator : calculator
+@enduml

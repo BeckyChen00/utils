@@ -1,0 +1,62 @@
+@startuml
+enum SeatStatus {
+  Available
+  Reserved
+  Occupied
+  SoldOut
+  Disabled
+}
+class Cinema {
+  name: String
+  town: String
+  +getTheatres(): List<Theatre>
+}
+class Theatre {
+  name: String
+  totalCapacity: int
+  +getCurrentStatus(): SeatStatus
+}
+class Screening {
+  showTitle: String
+  startTime: DateTime
+  status: SeatStatus
+  +isAvailable(): boolean
+  +publish()
+  +cancel()
+}
+class ShowProgram {
+  startDate: DateTime
+  endDate: DateTime
+  +getScreenings(): List<Screening>
+  +publish()
+}
+class MovieVersion {
+  title: String
+  duration: int
+  +getSupportedResolutions(): List<Resolution>
+}
+class Ticket {
+  reservationCode: String
+  seatNumber: int
+  isPaid: boolean
+  +confirmReservation()
+  +cancel()
+}
+class Customer {
+  name: String
+  email: String
+  +makeReservation(screening: Screening, seat: int)
+  +buyTicket(screening: Screening): Ticket
+}
+class ReservationSystem {
+  +findAvailableScreenings(movie: MovieVersion, date: Date): List<Screening>
+  +countAvailableTickets(screening: Screening): int
+}
+Customer "1" *-- "0..*" Ticket : purchasedTickets
+ShowProgram "1" *-- "0..*" Screening : scheduledScreenings
+Screening "1" --> "1" Theatre : assignedTheatre
+Screening "1" --> "1" MovieVersion : shownMovie
+Screening "1" *-- "0..*" Ticket : soldTickets
+ReservationSystem "1" --> "0..*" Screening : managedScreenings
+ReservationSystem "1" --> "0..*" Customer : registeredCustomers
+@enduml

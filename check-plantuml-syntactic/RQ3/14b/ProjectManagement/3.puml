@@ -1,0 +1,88 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Researcher {
+  -id: int
+  -name: String
+  -researchGroupId: int
+}
+
+class ResearchGroup {
+  -id: int
+  -name: String
+  -departmentId: int
+}
+
+class Department {
+  -id: int
+  -name: String
+}
+
+class Project {
+  -id: int
+  -title: String
+  -startDate: Date
+  -endDate: Date
+}
+
+class WorkPackage {
+  -id: int
+  -title: String
+  -projectId: int
+  -researchGroupId: int
+}
+
+class Assignment {
+  -id: int
+  -researcherId: int
+  -workPackageId: int
+  -startDate: Date
+  -endDate: Date
+}
+
+Researcher "1" --> "0..*" Assignment : assigned to
+Assignment "1" --> "1" Researcher : researcher
+Assignment "1" --> "1" WorkPackage : work package
+WorkPackage "1" --> "0..*" Assignment : has team members
+WorkPackage "1" --> "1" ResearchGroup : led by
+ResearchGroup "1" --> "0..*" WorkPackage : leads
+ResearchGroup "1" --> "1" Department : belongs to
+Researcher "1" --> "1" ResearchGroup : belongs to
+Project "1" --> "0..*" WorkPackage : contains
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **Researcher**:
+  - Belongs to exactly one **ResearchGroup**.
+  - Can be assigned to multiple **WorkPackages** via **Assignments**.
+
+- **ResearchGroup**:
+  - Belongs to exactly one **Department**.
+  - Leads one or more **WorkPackages**.
+  - Has zero or more **Researchers** (directly or through assignments).
+
+- **WorkPackage**:
+  - Belongs to exactly one **Project**.
+  - Is led by exactly one **ResearchGroup**.
+  - Has zero or more **Researchers** as team members through **Assignments**.
+
+- **Assignment**:
+  - Represents the assignment of a **Researcher** to a **WorkPackage**.
+  - Captures the period during which the researcher was assigned.
+  - Used to track **service delivery** across groups.
+
+- **Department**:
+  - Contains **ResearchGroups**.
+
+---
+
+### Notes:
+
+- When a **Researcher** changes **ResearchGroup**, all current **Assignments** are terminated, and new ones are created to reflect the correct service delivery.
+- If **WP leadership** is reassigned, existing **Assignments** may be updated or replaced accordingly to ensure accurate traceability.
+
+Let me know if you'd like this extended with additional features like associations for historical tracking or timestamps!

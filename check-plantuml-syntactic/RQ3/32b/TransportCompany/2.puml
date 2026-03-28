@@ -1,0 +1,107 @@
+
+---
+
+
+@startuml
+
+' Entities and classes
+
+class Employee {
+  +String name
+  +String socialSecurityNumber
+}
+
+class Planner {
+  +String username
+  +String password
+}
+
+class AdministrativeStaff {
+  +String fieldOfActivity
+  +String username
+  +String password
+}
+
+class Customer {
+  +String name
+  +String billingAddress
+}
+
+class PartnerCompany {
+  +String name
+  +String address
+}
+
+class Vehicle {
+  +String licensePlate
+  +int mileage
+  +String type // e.g., refrigerated truck, van, etc.
+}
+
+class RepairShop {
+  +String name
+  +String address
+}
+
+class Repair {
+  +Date date
+  +Duration duration
+  +double cost
+}
+
+class Order {
+  +String comment
+  +DateTime startTime
+  +DateTime endTime
+  +String pickupAddress
+  +String deliveryAddress
+}
+
+' Relationships
+
+Employee <|-- Planner
+Employee <|-- AdministrativeStaff
+
+Employee "1" --> "0..*" Order : assigns
+Planner --> Order : assigns
+AdministrativeStaff "1" --> "0..*" Order : receivesFromCustomerOrPartner
+
+Customer "1" --> "1..*" Order
+PartnerCompany "1" --> "1..*" Order
+
+Vehicle "1" --> "0..*" Order : assignedTo
+Order --> Vehicle : uses
+
+RepairShop "1" --> "0..*" Repair
+Employee "1" --> "0..*" Repair : sentBy
+Vehicle "1" --> "0..*" Repair : repaired
+
+Order "1" --> "1" Driver : completedBy
+Driver "1" --> "0..*" Order : completes
+
+' Additional links
+Driver <|-- Employee
+Driver --> Order : drives
+
+@enduml
+
+---
+
+### 📌 Notes on the Diagram:
+
+- **Inheritance**:  
+  - `Planner` and `AdministrativeStaff` inherit from `Employee`.  
+  - `Driver` also inherits from `Employee`.
+
+- **Associations**:
+  - An `Employee` can assign multiple `Orders`.
+  - A `Planner` is specifically responsible for assigning orders.
+  - An `Order` has one customer or partner company, and is associated with one vehicle and one driver.
+  - A `Vehicle` can be repaired at a `RepairShop` by an `Employee`.
+
+- **Multiplicity**:
+  - Multiplicity is added to clarify how many instances of each class are involved in a relationship (e.g., one employee can have zero or more repairs).
+
+---
+
+Let me know if you want this exported to an image or need additional details like methods or interfaces!

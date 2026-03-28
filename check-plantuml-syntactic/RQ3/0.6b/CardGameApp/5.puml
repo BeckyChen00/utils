@@ -1,0 +1,8 @@
+@startuml
+class Diagram {
+  class SystemRequirement {
+    string name;
+    string description;
+  }
+}
+@enduml

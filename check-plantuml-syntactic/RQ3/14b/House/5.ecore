@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="ConcreteBasement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Parking"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Carport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Garage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Company"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JobLog"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//address" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="address"/>
+  <eClassifiers xsi:type="ecore:EClass" name="buildingMaterial">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Boolean" eType="#//hasBasement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="hasBasement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="basement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="size"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Basement"/>
+</ecore:EPackage>

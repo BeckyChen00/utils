@@ -1,0 +1,57 @@
+
+@startuml
+
+class Driver {
+  - id: int
+  - name: string
+  - on_sick_leave: boolean
+}
+
+class Bus {
+  - licence_plate: string
+  - in_repair_shop: boolean
+}
+
+class Route {
+  - route_number: int
+  - max_route_number: 9999
+}
+
+class Shift {
+  - shift_type: string
+  - day: date
+  - route: Route
+}
+
+class Assignment {
+  - driver: Driver
+  - bus: Bus
+  - shift: Shift
+  - is_assigned: boolean
+}
+
+Driver "1" -- "0..*" Assignment : assigned_to
+Bus "1" -- "0..*" Assignment : assigned_to
+Route "1" -- "0..*" Shift : has
+Shift "1" -- "0..*" Assignment : includes
+Assignment -- Driver : has
+Assignment -- Bus : has
+Assignment -- Shift : has
+
+@enduml
+
+### Explanation of the Diagram:
+
+- **Driver**: Holds the driver's unique ID and name. Also tracks whether the driver is on sick leave.
+- **Bus**: Stores the license plate number and indicates if the bus is in the repair shop.
+- **Route**: Identified by a unique number (up to 9999).
+- **Shift**: Defines the type (morning, afternoon, night), the day, and which route it belongs to.
+- **Assignment**: Links a driver to a bus for a specific shift. It also indicates whether the assignment is active or not.
+
+This model supports the requirements:
+- Tracking drivers and buses with unique identifiers.
+- Assigning buses to routes per day, with shifts.
+- Handling sick leave and repair status to prevent scheduling.
+- Showing an overview of assignments, including highlighting problematic entries.
+
+Let me know if you want this rendered as an image or need further customization!

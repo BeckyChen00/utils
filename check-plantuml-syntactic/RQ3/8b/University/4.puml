@@ -1,0 +1,71 @@
+
+@startuml
+
+' Define classes
+class Faculty {
+    - name: String
+    - numberOfInstitutes: int
+    - dean: Employee
+}
+
+class Institute {
+    - name: String
+    - address: String
+    - faculty: Faculty
+}
+
+class Employee {
+    - socialSecurityNumber: String
+    - name: String
+    - email: String
+    - type: String
+}
+
+class ResearchAssistant {
+    + fieldOfResearch: String
+    - projects: List<Project>
+    - courses: List<Course>
+    -- extends Employee
+}
+
+class Lecturer {
+    -- extends ResearchAssistant
+}
+
+class Project {
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - hours: int
+    - researchAssistant: ResearchAssistant
+}
+
+class Course {
+    - courseID: String
+    - name: String
+    - weeklyDuration: int
+    - lecturer: Lecturer
+}
+
+' Relationships
+Faculty "1" -- "1" Faculty : has
+Faculty "1" -- "*" Institute : has
+Institute "1" -- "1" Faculty : belongs to
+Employee "1" -- "1" Faculty : is dean
+Employee "1" -- "*" ResearchAssistant : is a
+ResearchAssistant "1" -- "*" Project : is assigned to
+ResearchAssistant "1" -- "*" Course : teaches
+Course "1" -- "1" Lecturer : has
+
+@enduml
+
+### Explanation of Key Relationships:
+- A **Faculty** has one **Dean**, who is an **Employee**.
+- A **Faculty** contains multiple **Institutes**.
+- An **Institute** belongs to exactly one **Faculty**.
+- An **Employee** can be a **ResearchAssistant** (which is a specialization).
+- A **ResearchAssistant** can be a **Lecturer** (another specialization, implying that some RAs also teach).
+- A **ResearchAssistant** can be involved in multiple **Projects**.
+- A **ResearchAssistant** can teach multiple **Courses**.
+- Each **Course** is taught by one **Lecturer**.
+

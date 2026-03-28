@@ -1,0 +1,64 @@
+@startuml
+enum UserState {
+  Active
+  Inactive
+  Suspended
+  Terminated
+}
+enum PortCategory {
+  ControlRoom
+  MainControl
+  ProcessControl
+  SensorHub
+  GasValve
+  HydraulicValve
+}
+class Warehouse {
+  locationZone: String
+  +getCapacity(): int
+}
+class StorageBin {
+  binCode: String
+  capacity: int
+  stockCount: int
+  +isFull(): boolean
+}
+class AnomalyReport {
+  description: String
+  detectedTime: Date
+  severityLevel: int
+  +generateSummary(): String
+}
+class SafetyEvent {
+  eventDate: Date
+  locationDescription: String
+  isEscalated: boolean
+  +escalate(): void
+  +getCriticalStatus(): String
+}
+class DiagnosticsEngine {
+  isRunning: boolean
+  +runAnalysis(): AnomalyReport
+  +retrieveFaultPattern(): List<String>
+}
+class SensorReading {
+  timestamp: Date
+  value: double
+  unit: String
+  isCalibrated: boolean
+  +isValid(): boolean
+}
+class MonitoringStation {
+  stationCode: String
+  isOnline: boolean
+  +fetchReading(): SensorReading
+}
+Warehouse *-- "1" StorageBin : primaryStorage
+Warehouse *-- "*" MonitoringStation : monitoredStations
+StorageBin *-- "*" SensorReading : recordedReadings
+DiagnosticsEngine --> "1" Warehouse : monitoredWarehouse
+MonitoringStation --> "*" SensorReading : collectedReadings
+MonitoringStation *-- "*" AnomalyReport : generatedReports
+AnomalyReport --> "1" SafetyEvent : triggeredEvent
+SafetyEvent --> "1" DiagnosticsEngine : sourceEngine
+@enduml

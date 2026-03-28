@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReport" eType="#//CreditScoreReport" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreditScoreReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedStatements" eType="#//FinancialStatement" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coveredEntries" eType="#//LedgerEntry" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedLogs" eType="#//PaymentLog" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreditApplication">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReport" eType="#//CreditReport" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreditReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primaryReport" eType="#//CreditScoreReport" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FinancialStatement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LedgerEntry"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentLog"/>
+</ecore:EPackage>

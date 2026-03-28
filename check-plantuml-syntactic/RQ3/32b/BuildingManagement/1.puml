@@ -1,0 +1,136 @@
+
+---
+
+
+@startuml
+
+' Define classes and their attributes
+
+class WebPortal {
+    - version: String
+    - url: String
+}
+
+class Building {
+    - id: String
+    - name: String
+    - energyClass: String (A/B/C/D)
+    - address: String
+    - yearOfConstruction: int
+    - profilePhoto: Image
+    + addEntry(entry: Entry): void
+    + addImage(image: Image): void
+}
+
+class User {
+    - username: String
+    - email: String
+    - password: String
+    - activated: boolean
+    + createBuilding(): Building
+    + manageEntries(building: Building): void
+    + commentOnBuilding(building: Building): Comment
+}
+
+class Administrator {
+    - idCardNumber: String
+}
+
+Administrator "1" --|> "1" User
+
+class Entry {
+    - name: String
+    - releasedPublicly: boolean
+}
+
+class TextualEntry {
+    - content: String
+}
+
+TextualEntry "1" --|> "1" Entry
+
+class NumericEntry {
+    - value: float
+    - unit: String
+}
+
+NumericEntry "1" --|> "1" Entry
+
+class Image {
+    - fileName: String
+}
+
+class Comment {
+    - text: String
+    - author: User
+    - building: Building
+}
+
+class RegistrationSystem {
+    + registerUser(user: User): boolean
+    + sendEmailVerification(user: User): void
+}
+
+' Relationships between classes
+
+WebPortal "1" --> "many" Building : contains
+Building "1" --> "many" Entry : has
+Building "1" --> "many" Image : has
+User "1" --> "many" Building : owns
+User "1" --> "many" Comment : authored
+Comment "1" --> "1" Building : comments on
+Comment "1" --> "1" User : author
+Administrator "1" --> "many" User : manages
+Administrator "1" --> "many" Comment : deletes
+
+@enduml
+
+---
+
+### 🧩 Use Cases & Actors
+
+Below are 10 meaningful **use cases**, assigned to appropriate **actors**, including **generalization** where applicable:
+
+@startuml
+
+actor Visitor
+actor RegisteredUser as User
+actor Owner as User
+actor Admin as Administrator
+
+usecase UC1_RegisterUser <<create>> as RegisterUser
+usecase UC2_SearchBuildings <<search>> as SearchBuildings
+usecase UC3_CreateBuilding <<create>> as CreateBuilding
+usecase UC4_ManageEntries <<update>> as ManageEntries
+usecase UC5_ReleaseEntryPublicly <<modify>> as ReleaseEntryPublicly
+usecase UC6_AddComment <<create>> as AddComment
+usecase UC7_DeleteComment <<delete>> as DeleteComment
+usecase UC8_SetupUserAccount <<administrate>> as SetupUserAccount
+usecase UC9_SendEmailVerification <<notify>> as SendEmailVerification
+usecase UC10_AddImage <<upload>> as AddImage
+
+' Inheritance for generalization
+UC1_RegisterUser <|-- UC9_SendEmailVerification
+UC4_ManageEntries <|-- UC5_ReleaseEntryPublicly
+
+' Actor associations
+Visitor --> UC2_SearchBuildings
+RegisteredUser --> UC1_RegisterUser
+RegisteredUser --> UC6_AddComment
+Owner --> UC3_CreateBuilding
+Owner --> UC4_ManageEntries
+Owner --> UC10_AddImage
+Admin --> UC7_DeleteComment
+Admin --> UC8_SetupUserAccount
+Admin --> UC1_RegisterUser
+
+@enduml
+
+---
+
+### 📌 Summary
+
+- The **class diagram** models key domain objects like `Building`, `User`, `Entry`, `Image`, and their relationships.
+- **Use case diagram** captures interactions from different perspectives (`Visitor`, `User`, `Admin`), using **generalization** to avoid redundancy.
+
+Let me know if you want the **sequence diagrams** or **activity diagrams** too!

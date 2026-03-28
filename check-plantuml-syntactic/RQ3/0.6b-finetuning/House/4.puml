@@ -1,0 +1,32 @@
+@startuml
+class Seat {
+  seatId: String
+  status: String
+  +isAvailable(): boolean
+  +updateStatus(newStatus: String): void
+}
+class Reservation {
+  startTime: Date
+  endTime: Date
+  status: String
+  isConfirmed: boolean
+  +isConfirmed(): boolean
+  +addSeat(seat: Seat): void
+  +confirmReservation(): boolean
+  +cancelReservation(): void
+}
+class Customer {
+  name: String
+  contactInfo: String
+  +makeReservation(seats: List<Seat>, startTime: Date, endTime: Date): Reservation
+  +viewHistory(): List<Reservation>
+}
+class BookingSystem {
+  +estimateCost(booking: Reservation): int
+  +processBooking(booking: Reservation): boolean
+  +generateReceipt(booking: Reservation, customer: Customer): String
+}
+Customer "1" --> "*" Reservation : madeReservations
+Reservation "1" *-- "*" Seat : reservedSeats
+BookingSystem "0..*" --> "*" Reservation : processedReservations
+@enduml

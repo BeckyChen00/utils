@@ -1,0 +1,97 @@
+
+@startuml
+
+' Define classes for the transport company system
+
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+}
+
+class Planner extends Employee {
+    + username: String
+    + password: String
+}
+
+class AdministrativeStaff extends Employee {
+    + username: String
+    + password: String
+    + fieldOfActivity: String
+}
+
+class Customer {
+    + name: String
+    + billingAddress: String
+}
+
+class PartnerCompany {
+    + name: String
+    + address: String
+}
+
+class Vehicle {
+    + licensePlate: String
+    + mileage: Integer
+}
+
+enum VehicleType {
+    RefrigeratedTruck
+    SmallVan
+    LoadingPlatform
+    BoxTruck
+}
+
+Vehicle "1" -- "1" VehicleType : has type
+
+class Repair {
+    + duration: Duration
+    + cost: Double
+    + comment: String
+}
+
+Repair "1" --> "1" Employee : performed by
+Repair "1" --> "1" Vehicle : applied to
+class RepairShop {
+    + name: String
+    + address: String
+}
+
+Repair "1" --> "1" RepairShop : at
+
+class Order {
+    + pickupAddress: String
+    + deliveryAddress: String
+    + comment: String
+    + startDate: DateTime
+    + endDate: DateTime
+}
+
+Order "1" --> "1" Customer : belongs to
+Order "1" --> "1" Driver : assigned to
+Order "1" --> "1" Planner : assigned by
+Order "1" --> "1" Vehicle : uses
+Order "0..1" --> "1" PartnerCompany : placed by
+Order "0..1" --> "1" AdministrativeStaff : placed by
+
+Driver "1" --> "1" Employee : is
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Employee** is the base class with common fields like name and social security number.
+- **Planner** and **AdministrativeStaff** inherit from `Employee` and have login credentials.
+- **Customer**, **PartnerCompany**, **Vehicle**, and **RepairShop** are separate entities with specific data fields.
+- **Vehicle** is associated with a `VehicleType` (an enum) and can be repaired or inspected.
+- **Order** is central to the system and links:
+  - A **Customer**
+  - A **Driver**
+  - A **Planner** who assigns it
+  - A **Vehicle** used
+  - Optionally a **PartnerCompany** or **AdministrativeStaff** who placed the order
+- **Repair** contains details about repairs and is linked to an employee and vehicle.
+
+---
+

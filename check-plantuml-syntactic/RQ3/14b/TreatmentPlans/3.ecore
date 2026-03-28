@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Doctor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExaminationType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Examination"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Problem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentPlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActualTreatment"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="-_`Hospital`" eType="#//This" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="This"/>
+</ecore:EPackage>

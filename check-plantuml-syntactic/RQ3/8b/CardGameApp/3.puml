@@ -1,0 +1,80 @@
+
+@startuml
+' Define the classes
+
+class Player {
+  +id: String
+  +name: String
+  +games: Set<Game>
+}
+
+class Game {
+  +id: String
+  +players: Set<Player> (4)
+  +deck: Deck
+  +scoringTable: ScoringTable
+}
+
+class Deck {
+  +id: String
+  +cards: Set<Card> (up to 48)
+}
+
+class Card {
+  +id: String
+  +suit: Suit
+  +rank: Rank
+  +compareHeight(other: Card): ComparisonResult
+}
+
+enum Suit {
+  DIAMONDS, HEARTS, SPADES, CLUBS
+}
+
+enum Rank {
+  ACE, TWO, THREE, ..., KING
+}
+
+enum ComparisonResult {
+  LOWER, EQUAL, HIGHER
+}
+
+class ScoringTable {
+  +id: String
+  +rounds: Set<Round>
+}
+
+class Round {
+  +id: String
+  +winningPlayers: Set<Player>
+  +points: Integer
+  +isJackRound: Boolean
+  +isSoloRound: Boolean
+  +isMandatorySolo: Boolean
+  +soloType: SoloType
+  +soloPlayer: Player
+}
+
+enum SoloType {
+  TRUMP_SOLO, JACK_SOLO, QUEEN_SOLO
+}
+
+' Relationships
+
+Game "1" -- "4" Player : has
+Game "1" -- "1" Deck : has
+Game "1" -- "1" ScoringTable : has
+ScoringTable "1" -- "0..*" Round : contains
+Round "1" -- "0..*" Player : winningPlayers
+Round "1" -- "1" Player : soloPlayer
+
+@enduml
+
+### Notes:
+- All classes have an `id` attribute for uniqueness.
+- The `Card` class includes a method `compareHeight` that returns an enum of comparison results (`LOWER`, `EQUAL`, `HIGHER`).
+- `Suit` and `Rank` are defined as enums with appropriate values.
+- `ComparisonResult` is also an enum used by the `Card` class.
+- `Round` can be both a `jack round` and a `solo round`, and can be a `mandatory solo round`.
+- `SoloType` defines the possible types of solo rounds: `TRUMP_SOLO`, `JACK_SOLO`, and `QUEEN_SOLO`.
+

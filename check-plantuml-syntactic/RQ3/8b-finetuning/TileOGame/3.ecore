@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="designedBoard" eType="#//GameBoard" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameBoard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="composedTiles" eType="#//Tile" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="availableTiles" eType="#//Location" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gameDie" eType="#//Dice" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameDesigner">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuredSettings" eType="#//GameParameters" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameParameters"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Tile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TileLayout">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedConnections" eType="#//ConnectionDefinition" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedLayout" eType="#//GameBoard" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectionDefinition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Player">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeBoard" eType="#//GameBoard" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedDie" eType="#//Dice" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="visitedTiles" eType="#//Location" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledBy" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Location"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionCard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actedUpon" eType="#//Player" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

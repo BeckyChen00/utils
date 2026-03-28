@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hostedSessions" eType="#//ChatSession" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChatSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conversationLog" eType="#//Message" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedArchive" eType="#//WhisperArchive" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Message"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WhisperArchive"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArchiveManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSessions" eType="#//ChatSession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedMessages" eType="#//Message" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

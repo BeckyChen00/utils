@@ -1,0 +1,74 @@
+
+@startuml
+
+' Define the classes and their attributes and relationships
+
+class Person {
+  +personID: String
+  +phone: String
+  +keywords: List<String>
+  +institutionCode: String
+}
+
+class Institution {
+  +institutionCode: String
+  +name: String
+}
+
+class Article {
+  +doi: String
+  +title: String
+  +authors: List<Person>
+  +authorPositions: List<Integer>
+}
+
+class PeerReviewedArticle extends Article {
+  +citationCount: Integer
+  +reviewers: List<Person>
+}
+
+class TechnicalReport extends Article {
+  +publisher: String
+}
+
+class Publisher {
+  +name: String
+  +journals: List<Journal>
+}
+
+class Journal {
+  +name: String
+  +impactFactor: Double
+  +publisher: Publisher
+}
+
+' Relationships
+
+Person "1" --o"0..*" Article : worksOn
+Institution "1" --o"0..*" Person : has
+Publisher "1" --o"0..*" Journal : publishes
+Journal "1" --o"0..*" PeerReviewedArticle : contains
+Publisher "1" --o"0..*" TechnicalReport : publishes
+
+@enduml
+
+---
+
+### ✅ Explanation of the Diagram:
+
+- **`Person`**: Represents a researcher. Attributes include `personID`, `phone`, `keywords`, and `institutionCode`.
+- **`Institution`**: Represents a research institution. Has an `institutionCode` and a `name`.
+- **`Article`**: Base class for all articles. Contains `doi`, `title`, `authors`, and `authorPositions`.
+- **`PeerReviewedArticle`**: Subclass of `Article`. Adds `citationCount` and `reviewers`.
+- **`TechnicalReport`**: Subclass of `Article`. Stores the `publisher` (as a string, since it's only associated with an institution).
+- **`Publisher`**: Stores the name and list of journals.
+- **`Journal`**: Contains a name, impact factor, and references its publisher.
+- **Relationships**:
+  - A `Person` can be associated with multiple `Articles` (e.g., as author or reviewer).
+  - An `Institution` can have many `Persons`.
+  - A `Publisher` can publish many `Journals`.
+  - A `Journal` can contain many `PeerReviewedArticles`.
+  - A `Publisher` can also publish `TechnicalReports`.
+
+---
+

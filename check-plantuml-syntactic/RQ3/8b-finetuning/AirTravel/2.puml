@@ -1,0 +1,75 @@
+@startuml
+class Airline {
+  name: String
+  +addAircraft(aircraft: Aircraft)
+  +manageFlights()
+}
+class Aircraft {
+  registrationNumber: String
+  model: String
+  yearOfManufacture: int
+  nextInspectionDate: Date
+  homeAirport: Airport
+  +performMaintenance()
+  +getAvailableSeats(category: SeatCategory): int
+}
+class PassengerAircraft {
+  totalSeats: int
+  +assignCrew(flight: Flight)
+}
+class Flight {
+  flightNumber: String
+  departureDate: Date
+  arrivalDate: Date
+  status: String
+  +conductFlight()
+}
+class FlightAttendant {
+  name: String
+  hireDate: Date
+  isChiefSteward: boolean
+  +workOnFlight(flight: Flight)
+}
+class Pilot {
+  name: String
+  hireDate: Date
+  licenseNumber: String
+  +flyAircraft(aircraft: Aircraft)
+}
+class Airport {
+  name: String
+  address: String
+  numberOfRunways: int
+}
+class SeatCategory {
+  categoryDesignation: String
+  entertainmentProgramAvailable: boolean
+  seatCount: int
+  +getSeatCount(): int
+}
+class Passenger {
+  name: String
+  passportNumber: String
+  +purchaseTicket(flight: Flight, category: SeatCategory, upgrade: boolean)
+}
+class Ticket {
+  ticketNumber: String
+  issueDate: Date
+  price: double
+  upgradeRequested: boolean
+  +validate(): boolean
+}
+PassengerAircraft --|> Aircraft
+Aircraft *-- "*" Flight : operatedFlights
+PassengerAircraft *-- "*" SeatCategory : seatCategories
+Flight *-- "*" Passenger : passengers
+Ticket --> "1" Flight : flight
+Passenger --> "1" Ticket : ticket
+Aircraft --> "1" Airport : homeAirport
+Flight *-- "*" FlightAttendant : crewMembers
+Flight *-- "*" Pilot : flightCrew
+Flight --> "1" Airport : departureAirport
+Flight --> "1" Airport : destinationAirport
+Airline --> "*" Aircraft : ownedAircraft
+Airline --> "*" Passenger : members
+@enduml

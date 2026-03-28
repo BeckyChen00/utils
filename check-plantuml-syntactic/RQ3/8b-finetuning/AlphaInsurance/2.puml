@@ -1,0 +1,127 @@
+@startuml
+enum ClaimStatus {
+  Pending
+  Approved
+  Rejected
+  UnderReview
+  Settled
+  Paid
+  Denied
+  Expired
+}
+enum ClaimType {
+  MaterialDamage
+  PersonalInjury
+  Theft
+  FireDamage
+  NaturalDisaster
+}
+class Customer {
+  contactInfo: String
+  +register()
+}
+class InsuredPerson {
+  isPrimaryPolicyHolder: boolean
+  +updateProfile()
+}
+class Policy {
+  policyNumber: String
+  coverageType: String
+  +validateCoverage(): boolean
+}
+class InsuranceProduct {
+  productName: String
+  description: String
+  price: double
+  coverageList: ClaimType[]
+  +calculatePremium(): double
+}
+class Contract {
+  contractDate: Date
+  renewalDate: Date
+  +sign()
+  +renew()
+}
+class Premium {
+  amount: double
+  dueDate: Date
+  +generateInvoice()
+}
+class Claim {
+  submissionDate: Date
+  description: String
+  status: ClaimStatus
+  +submit()
+  +updateStatus(newStatus: ClaimStatus)
+}
+class DamageEvent {
+  eventDate: Date
+  location: String
+  severity: String
+  +assessSeverity(): String
+}
+class ClaimCase {
+  caseNumber: String
+  estimatedValue: double
+  +create()
+  +close()
+}
+class ClaimCaseReport {
+  generatedDate: Date
+  totalCosts: double
+  isVerified: boolean
+  +draftReport()
+  +finalize()
+}
+class Assessment {
+  assessmentScore: int
+  criteriaCode: String
+  +evaluate(report: ClaimCaseReport): boolean
+}
+class Estimator {
+  specialization: ClaimType
+  certificationLevel: String
+  +estimate(event: DamageEvent): double
+}
+class PaymentTransaction {
+  paymentDate: Date
+  amount: double
+  method: String
+  +execute()
+  +refund()
+}
+class BankAccount {
+  accountNumber: String
+  +verifyFunds(requiredAmount: double): boolean
+  +transfer(amount: double)
+}
+class InsuranceBroker {
+  licenseNumber: String
+  +assignCustomer(customer: Customer)
+  +sendOffer(product: InsuranceProduct, customer: Customer)
+}
+class PremiumCalculator {
+  +calculatePremium(product: InsuranceProduct, customer: Customer): double
+}
+class ClaimProcessor {
+  +processClaimSubmission(customer: Customer, description: String): Claim
+  +processAssessment(claimCase: ClaimCase, estimator: Estimator): ClaimCaseReport
+  +approveClaimCase(report: ClaimCaseReport): boolean
+}
+InsuranceBroker "1" --> "0..*" Customer : managingCustomer
+Customer "1" *-- "0..*" InsuredPerson : insuredPersons
+Customer "1" *-- "0..*" Policy : policies
+Policy "1" --> "1" InsuranceProduct : basedOn
+Policy "1" *-- "0..*" Contract : activeContracts
+Contract "1" *-- "1..*" Premium : premiums
+Customer "1" --> "0..*" Claim : filedClaims 'opposite: claimant
+Claim "1" *-- "1" DamageEvent : details
+Claim "0..*" --> "1" ClaimCase : mainCase
+ClaimCase "1" *-- "0..*" ClaimCaseReport : reports
+ClaimCaseReport "1" *-- "1" Assessment : result
+Assessment "1" --> "1" Estimator : performedBy
+Estimator -- PaymentTransaction
+PaymentTransaction -- BankAccount
+InsuranceBroker -- PremiumCalculator
+InsuranceBroker -- ClaimProcessor
+@enduml

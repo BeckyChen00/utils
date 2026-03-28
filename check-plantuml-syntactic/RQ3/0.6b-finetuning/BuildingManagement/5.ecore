@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBy" eType="#//DecisionMaker" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecisionMaker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedReports" eType="#//RiskAnalysisReport" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedDecisions" eType="#//RiskDecision" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskAnalysisReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskDecision"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RisksAnalysisReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedAlerts" eType="#//AlertEvent" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedDecisions" eType="#//RiskDecision" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedVisual:_visualRepresentation" eType="#//Visualization" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertEvent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Visualization"/>
+</ecore:EPackage>

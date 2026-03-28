@@ -1,0 +1,103 @@
+@startuml
+enum StayCategory {
+  RestHome
+  RestNursingHome
+  ServiceFlat
+}
+enum PaymentStatus {
+  Unpaid
+  PartiallyPaid
+  FullyPaid
+  Overpaid
+  Cancelled
+  Suspended
+  Processing
+  Completed
+}
+class Inhabitant {
+  identificationData: String
+  isVulnerable: boolean
+  +performRegistration(data: String): void
+  +getWaitingListPosition(): int
+}
+class Bed {
+  capacity: int
+  category: StayCategory
+  isAvailable: boolean
+  +assignTo(inhabitant: Inhabitant): void
+  +release(): void
+}
+class Department {
+  name: String
+  +containsRoom(room: Room): boolean
+}
+class Room {
+  numberOfBeds: int
+  floorNumber: int
+  +getOccupancyStatus(): int
+}
+class StayProposal {
+  proposedDate: Date
+  proposalType: StayCategory
+  isAccepted: boolean
+  +generateProposal(inhabitant: Inhabitant): void
+  +accept(): void
+  +reject(): void
+}
+class BedCategory {
+  categoryName: StayCategory
+  unitPrice: double
+}
+class WaitingList {
+  +calculatePriority(inhabitant: Inhabitant): int
+  +getTopCandidates(category: StayCategory): List<Inhabitant>
+}
+class Invoice {
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  status: PaymentStatus
+  +generateLines(stay: Stay): void
+  +processPayment(amount: double): void
+  +invalidate(): void
+}
+class PaymentRecord {
+  transactionDate: Date
+  amount: double
+  method: String
+  +applyTo(invoice: Invoice): void
+}
+class ReassessmentReport {
+  assessmentDate: Date
+  requiredCategory: StayCategory
+  isApproved: boolean
+  notes: String
+  +validateStay(): boolean
+}
+class Complaint {
+  description: String
+  submissionDate: Date
+  isResolved: boolean
+  +submit(): void
+  +resolve(): void
+}
+Inhabitant *-- "1" Bed : assignedBed
+Inhabitant --> "0..*" StayProposal : receivedProposals
+Inhabitant --> "0..1" WaitingList : waitingListPosition
+Inhabitant --> "0..*" Complaint : lodgedComplaints
+Inhabitant --> "0..*" ReassessmentReport : assessmentReports
+Department --> "0..*" Room : containedRooms
+Room --> "0..*" Bed : containedBeds
+Bed --> "1" BedCategory : definedCategory
+Bed --> "0..*" Invoice : invoicedStays
+WaitingList --> "0..*" Inhabitant : queuedCandidates
+StayProposal --> "1" BedCategory : proposedCategory
+StayProposal --> "1" Department : targetDepartment
+StayProposal --> "0..1" Invoice : resultingInvoice
+Invoice *-- "0..*" PaymentRecord : paymentHistory
+Invoice --> "1" Inhabitant : invoicedInhabitant
+Invoice --> "1" Department : issuedByDepartment
+ReassessmentReport --> "1" Inhabitant : assessedInhabitant
+ReassessmentReport --> "1" BedCategory : recommendedCategory
+Complaint --> "1" Invoice : relatedInvoice
+@enduml

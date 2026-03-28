@@ -1,0 +1,19 @@
+graph TD
+    A[System Requirement]
+    B[Database Table Design]
+    C[User Interface]
+    D[Data Flow]
+    
+    A --> B
+    B --> C
+    C --> D
+    D --> A
+
+This is a simple class diagram representing the system requirement with three main components: `System Requirement`, `Database Table Design`, and `User Interface`. The relationships are defined as follows:
+
+- **A** (System Requirement) points to **B** (Database Table Design).
+- **B** points to **C** (User Interface).
+- **C** points to **D** (Data Flow).
+- **D** points back to **A** (forming a cycle).
+
+Let me know if you'd like to add more elements or clarify specific relationships!

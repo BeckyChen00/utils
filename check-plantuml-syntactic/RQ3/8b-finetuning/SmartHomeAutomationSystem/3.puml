@@ -1,0 +1,80 @@
+@startuml
+enum DeviceType {
+  temperatureSensor
+  motionSensor
+  lightController
+  lockController
+}
+class SmartHome {
+  locationAddress: String
+  rooms: Room[]
+  +addDevice(device: Device): void
+  +removeDevice(device: Device): void
+}
+class Room {
+  roomName: String
+  +getOccupancyStatus(): boolean
+  +getDeviceCount(): int
+}
+class Device {
+  deviceId: String
+  deviceType: DeviceType
+  isActive: boolean
+  +activate(): void
+  +deactivate(): void
+  +getStatus(): String
+}
+class Sensor {
+  supportedMetric: String
+  +captureReading(): SensorReading
+}
+class Actuator {
+  supportedAction: String
+  +executeCommand(command: String): ControlCommand
+}
+class SensorReading {
+  metricValue: double
+  timestamp: Date
+  +isValid(): boolean
+}
+class ControlCommand {
+  actionType: String
+  status: String
+  timestamp: Date
+  +execute(): boolean
+  +cancel(): void
+}
+class ActivityLog {
+  logDate: Date
+  entries: String[]
+  +addEntry(entry: String): void
+  +calculateActivityScore(): int
+}
+class AutomationRule {
+  isActivated: boolean
+  ruleExpression: String
+  +createRule(precondition: String, action: CommandSequence): void
+  +evaluateTrigger(currentData: Map): boolean
+  +executeAction(): void
+  +updateStatus(newStatus: String): void
+}
+class RuleCondition {
+  operatorType: String
+  comparison: String
+  threshold: double
+  +evaluate(context: Map): boolean
+}
+class CommandSequence {
+  steps: ControlCommand[]
+  +addStep(command: ControlCommand): void
+}
+SmartHome *-- "1..*" Room : containedRooms
+Room *-- "0..*" Device : installedDevices
+Device --> "0..1" SensorReading : latestReading
+Device --> "0..1" ControlCommand : currentCommand
+SmartHome *-- "1" ActivityLog : activityHistory
+SmartHome *-- "0..*" AutomationRule : definedRules
+AutomationRule *-- "1" CommandSequence : executionPlan
+AutomationRule *-- "1" RuleCondition : triggerCondition
+RuleCondition --> "0..*" Device : monitoredDevices
+@enduml

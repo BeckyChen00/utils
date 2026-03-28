@@ -1,0 +1,94 @@
+@startuml
+enum ServiceType {
+  RideHail
+  RideShare
+}
+enum RequestType {
+  AppBased
+  GestureBased
+}
+class User {
+  contactInfo: String
+  +registerVehicle(vehicle: Vehicle): void
+}
+class Driver {
+  isCertified: boolean
+  +updateFleetStatus(): void
+}
+class Vehicle {
+  vin: String
+  licensePlate: String
+  +makeServiceRequest(type: RequestType): ServiceRequest
+  +handleAccident(details: Accident): void
+}
+class SelfDrivingCar {
+  aiModelVersion: String
+  sensorHealthStatus: String
+  +performAutoInspection(): boolean
+}
+class NormalCar {
+  fuelType: String
+  +checkMaintenanceSchedule(): boolean
+}
+class ServiceRequest {
+  serviceType: ServiceType
+  requestType: RequestType
+  pickupLocation: String
+  dropOffLocation: String
+  estimatedWaitTime: int
+  isCompleted: boolean
+  +calculateFee(distance: double, duration: int): double
+  +generateConfirmationCode(): String
+  +schedulePickup(): Date
+  +completeTrip(): void
+}
+class RideHail {
+  passengerCount: int
+  leadCustomerName: String
+  totalFare: double
+  +updateStatus(isPickupDone: boolean): void
+}
+class RideShare {
+  passengerCount: int
+  negotiatedFee: double
+  isFixedPrice: boolean
+  +calculateSharingFee(): double
+}
+class TripRecord {
+  pickupTime: Date
+  dropOffTime: Date
+  duration: int
+  distance: double
+  passengerIds: String[]
+  +calculateDistance(): double
+  +logFare(fare: double): void
+}
+class TripLog {
+  +addRecord(record: TripRecord): void
+  +getTripLogs(): List<TripRecord>
+}
+class Accident {
+  occurrenceDate: Date
+  location: String
+  damageAmount: double
+  description: String
+  +reportDetails(): void
+}
+class DriverAccount {
+  isActive: boolean
+  isVerified: boolean
+  +verifyIdentity(): boolean
+  +activateProfile(): void
+}
+class AuthenticationManager {
+  +authenticateUser(credentials: String): boolean
+}
+User "1" *-- "0..*" Vehicle : registeredVehicles
+NormalCar --* DriverAccount
+Vehicle --* TripLog
+TripLog "1" *-- "0..*" TripRecord : containedRecords
+TripRecord --* ServiceRequest
+ServiceRequest --* DriverAccount
+DriverAccount --* Vehicle
+Sober --* AuthManager
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+class Appointment {
+  confirmationNumber: String
+  startTime: Date
+  endTime: Date
+  status: String
+  +confirm(): void
+  +cancel(): void
+  +changeTime(newDate: Date): void
+}
+class Lab {
+  name: String
+  address: String
+  businessHours: String
+  registrationNumber: String
+  +isAvailable(date: Date): boolean
+}
+class TestCategory {
+  categoryName: String
+  isAppointmentRequired: boolean
+}
+class Test {
+  testCode: String
+  description: String
+  durationMinutes: int
+  +getDuration(): int
+}
+class MedicalRecord {
+  patientName: String
+  healthNumber: String
+  dateOfBirth: Date
+  address: String
+  phoneNumber: String
+}
+class Doctor {
+  practitionerNumber: int
+  fullName: String
+  signature: String
+  +verifySignature(): boolean
+}
+class Requisition {
+  isUrgent: boolean
+  requiredTests: List<Test>
+  allowedTestCategories: List<TestCategory>
+  +addTest(test: Test): void
+  +validate(): boolean
+}
+class TestResult {
+  resultValue: String
+  reportText: String
+  isPositive: boolean
+  +getValue(): String
+}
+Lab *-- "1" MedicalRecord : ownerRecord
+Lab --> "0..*" Appointment : hostedAppointments
+Requisition --> "1" Doctor : prescriber 'opposite: authoredRequisitions
+Requisition --> "1..*" Test : includedTests
+Appointment --> "0..*" TestResult : producedResults
+Appointment --> "1" Lab : assignedLab
+Doctor --> "0..*" MedicalRecord : viewedRecords
+@enduml

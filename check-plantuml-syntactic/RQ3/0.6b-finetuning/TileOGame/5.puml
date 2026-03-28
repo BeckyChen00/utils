@@ -1,0 +1,140 @@
+@startuml
+enum PriorityLevel {
+  Critical
+  High
+  Medium
+  Low
+  Negligible
+  Ignored
+}
+enum IsWaterAvailable {
+  Yes
+  No
+}
+enum Status {
+  Active
+  Rescued
+  Dormant
+  Retrained
+  Canceled
+  Archived
+}
+class Animal {
+  name: String
+  ageYears: int
+  weightKg: double
+  ++rescue() { }
+  ++relocate(newLocation: Location): void
+  ++redundant(): boolean
+}
+class Feed {
+  description: String
+  caloriesPerKg: int
+  +calculateCalories(weightKg: double): int
+}
+class Location {
+  address: String
+  coordinateX: double
+  coordinateY: double
+  isAccessible: boolean
+  +getCoordinates(): String
+}
+class RescueMission {
+  missionDescription: String
+  startDate: Date
+  endDate: Date
+  status: Status
+  +completeMission(): void
+  +updateStatus(newStatus: Status): void
+}
+class AnimalRecord {
+  recordingDate: Date
+  isAcknowledged: boolean
+  +verifyRecord(recordId: int): boolean
+}
+class CommunicationChannel {
+  channelType: String
+  isActive: boolean
+  +send(message: String): boolean
+  +acknowledge(recipient: Animal): boolean
+}
+class MediaAsset {
+  fileName: String
+  mimeType: String
+  isPublished: boolean
+  storagePath: String
+  +download(): boolean
+}
+class GeographicZone {
+  zoneName: String
+  latitude: double
+  longitude: double
+  +isWithinBoundary(rangeX: double, rangeY: double): boolean
+}
+class AnimalCarePlan {
+  planName: String
+  createDate: Date
+  +addOption(healthCheck: String, isBookingRequired: boolean): void
+  +finalizePlan(): void
+}
+class TreatmentReport {
+  treatmentNotes: String
+  completionDate: Date
+  severityLevel: PriorityLevel
+  +getSummary(): String
+}
+class MonitoringDevice {
+  deviceType: String
+  lastReading: double
+  isCalibrated: boolean
+  +collectData(): double
+  +calibrate(): boolean
+}
+class AlertSystem {
+  alertLevel: PriorityLevel
+  isAcknowledged: boolean
+  +generateAlertSection(status: Status): String
+  +processAlertEvent(): boolean
+}
+class RescueTeam {
+  teamName: String
+  currentCapacity: int
+  isResponseReady: boolean
+  +reportTeamStatus(): String
+}
+class VeterinaryCenter {
+  centerName: String
+  locationAddress: String
+  +assignTeam(team: RescueTeam): void
+}
+class MedicalRecord {
+  diagnosisHistory: String
+  isRecovered: boolean
+  +updateDiagnosis(note: String): void
+}
+class NotificationService {
+  +sendAlert(message: String, channel: CommunicationChannel): boolean
+  +broadcastAlerts(mission: RescueMission): void
+}
+RescueMission *-- "*" AnimalRecord : containedRecords
+RescueMission *-- "1" RescueTeam : assignedTeam
+RescueMission *-- "*" Location : assignedLocations
+RescueMission --> "1" Animal : targetAnimal
+RescueMission --> "1" NotificationService : triggeredBy
+RescueMission --> "1" AlertSystem : activatedAlertSystem
+Animal --> "1" AnimalCarePlan : carePlan
+Animal --> "*" TreatmentReport : treatmentHistory
+Animal --> "*" MedicalRecord : medicalHistory
+Animal -- Feed
+Animal -- RescueTeam
+Animal -- GeographicZone
+VeterinaryCenter -- AnimalCarePlan
+AnimalCarePlan -- Location
+AnimalCarePlan -- NotificationService
+AnimalCarePlan -- AlarmSystem
+AnimalCarePlan -- SafetyProtocol
+AnimalCarePlan -- AlertSystem
+RescueMission -- AlertSystem
+NotificationService -- RescueTeam
+RescueMission -- NotificationService
+@enduml

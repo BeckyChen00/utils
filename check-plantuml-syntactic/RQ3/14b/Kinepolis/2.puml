@@ -1,0 +1,125 @@
+
+@startuml
+' Class Diagram for Kinepolis Cinema System
+
+class Cinema {
+  -id: int
+  -name: String
+  -location: String
+  -theatres: List<Theatre>
+}
+
+class Theatre {
+  -id: int
+  -name: String
+  -capacity: int
+  -seats: List<Seat>
+  -shows: List<Show>
+}
+
+class Seat {
+  -id: int
+  -number: int
+  -row: int
+  -isAvailable: boolean
+}
+
+class Movie {
+  -id: int
+  -title: String
+  -duration: int
+  -copies: List<MovieCopy>
+}
+
+class MovieCopy {
+  -id: int
+  -locationCinema: Cinema
+  -movie: Movie
+  -available: boolean
+}
+
+class Show {
+  -id: int
+  -startTime: DateTime
+  -endTime: DateTime
+  -theatre: Theatre
+  -movieCopy: MovieCopy
+  -reservations: List<Reservation>
+  -published: boolean
+}
+
+class Reservation {
+  -id: int
+  -customer: Customer
+  -show: Show
+  -seat: Seat
+  -bookingTime: DateTime
+  -paymentStatus: String
+  -cancelled: boolean
+}
+
+class Customer {
+  -id: int
+  -name: String
+  -email: String
+  -creditCard: String
+  -reservations: List<Reservation>
+}
+
+class Ticket {
+  -id: int
+  -show: Show
+  -seat: Seat
+  -type: String ' "online" or "entrance"
+  -customer: Customer (optional)
+  -issuedAt: DateTime
+}
+
+class Offer {
+  -id: int
+  -originalShow: Show
+  -newShow: Show
+  -expiryTime: DateTime
+  -customer: Customer
+  -accepted: boolean
+}
+
+class System {
+  +publishShows(): void
+  +cancelShow(show: Show): void
+  +processPayment(reservation: Reservation): void
+  +sendFreeTicket(customer: Customer): void
+  +updateAvailability(show: Show): void
+}
+
+' Relationships
+Cinema "1" --> "0..*" Theatre
+Theatre "1" --> "0..*" Show
+Movie "1" --> "0..*" MovieCopy
+MovieCopy "1" --> "1" Cinema
+Show "1" --> "1" MovieCopy
+Show "1" --> "0..*" Reservation
+Reservation "1" --> "1" Customer
+Reservation "1" --> "1" Show
+Reservation "1" --> "1" Seat
+Customer "0..*" --> "0..*" Reservation
+Customer "0..*" --> "0..*" Ticket
+Show "1" --> "0..*" Ticket
+Offer "1" --> "1" Customer
+Offer "1" --> "1" Show (original)
+Offer "1" --> "1" Show (new)
+
+@enduml
+
+---
+
+### Notes:
+- **Cinema**: Manages theatres and has its own movie copies.
+- **Theatre**: Holds shows and seats.
+- **MovieCopy**: Represents a physical copy of a movie that can be moved between cinemas.
+- **Show**: A scheduled screening in a theatre with a specific movie copy.
+- **Reservation**: Online booking with payment and cancellation rules.
+- **Ticket**: Can be either online (linked to customer) or at-the-door (anonymous).
+- **Offer**: A replacement offer if a show is cancelled.
+- **System**: Handles publishing, payments, cancellations, and offers.
+

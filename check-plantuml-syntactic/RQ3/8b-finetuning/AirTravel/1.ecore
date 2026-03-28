@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EEnum" name="SeatCategoryType">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="EconomyClassic"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="EconomyDeluxe" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="BusinessStandard" value="2"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="BusinessPremium" value="3"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="FirstClass" value="4"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="SpecialNeeds" value="5"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="JuniorSuite" value="6"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="ExecutiveHatch" value="7"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EmploymentStatus">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Active"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="OnLeave" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Suspended" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AircraftType">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="PassengerAircraft"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="CargoAircraft" value="1"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="MilitaryAircraft" value="2"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="PrivateJet" value="3"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="TrainerPlane" value="4"/>
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="Helicopter" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Aircraft">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//AircraftType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="yearOfManufacture" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nextInspectionDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isOperational" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configurations" eType="#//AircraftConfiguration" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatedBy" eType="#//Airline" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceRecords" eType="#//MaintenanceLog" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="performMaintenance"/>
+    <eOperations xsi:type="ecore:EOperation" name="scheduleInspection"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CrewMember">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="employmentStatus" eType="#//EmploymentStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hireDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isChiefSteward" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations xsi:type="ecore:EOperation" name="assignToFlight"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Airline">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="headquartersAddress" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Flight">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="flightNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="departureDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrivalDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatedBy" eType="#//Aircraft" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="schedule" eType="#//FlightSchedule" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookings" eType="#//Booking" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="crew" eType="#//CrewMember" lowerBound="1" upperBound="-1" containment="true"/>
+    <eOperations xsi:type="ecore:EOperation" name="getDuration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations xsi:type="ecore:EOperation" name="updateStatus">
+      <eParameters xsi:type="ecore:EParameter" name="newStatus" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Airport">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="runwayCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basedAt" eType="#//Aircraft" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="getTerminals" eType="#//List"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Passenger">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="passportNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedTickets" eType="#//Ticket" upperBound="-1"/>
+    <eOperations xsi:type="ecore:EOperation" name="bookTicket"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlightSchedule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scheduledDepartureTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scheduledArrivalTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eOperations xsi:type="ecore:EOperation" name="checkAvailability"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bookingDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalAmount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tickets" eType="#//Ticket" lowerBound="1" upperBound="-1" containment="true"/>
+    <eOperations xsi:type="ecore:EOperation" name="confirmBooking"/>
+    <eOperations xsi:type="ecore:EOperation" name="cancelBooking"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ticketNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="seatCategory" eType="#//SeatCategoryType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isUpgradeRequested" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="flight" eType="#//Flight" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="passenger" eType="#//Passenger" lowerBound="1"/>
+    <eOperations xsi:type="ecore:EOperation" name="printTicket"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AircraftConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="homeAirport" eType="#//Airport"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="seatCategoryCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations xsi:type="ecore:EOperation" name="defineSeatingLayout">
+      <eParameters xsi:type="ecore:EParameter" name="categoryType" eType="#//SeatCategoryType"/>
+      <eParameters xsi:type="ecore:EParameter" name="seatCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters xsi:type="ecore:EParameter" name="hasEntertainment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceLog">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maintenanceDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="completionStatus" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations xsi:type="ecore:EOperation" name="recordEntry"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pilot">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="licenseNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedFlight" eType="#//Flight" lowerBound="1"/>
+    <eOperations xsi:type="ecore:EOperation" name="reviewFlightPlan"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlightAttendant">
+    <eOperations xsi:type="ecore:EOperation" name="greetPassenger"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedFlight" eType="#//Flight" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="List"/>
+</ecore:EPackage>

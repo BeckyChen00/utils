@@ -1,0 +1,90 @@
+
+@startuml
+skinparam linetype zigzag
+
+class Provider {
+  - name: String
+  - location: String
+}
+
+class Cruise {
+  - cruiseNumber: String
+  - name: String
+  - startDate: Date
+  - endDate: Date
+  + addEmployee(employee: Employee)
+  + addGuest(guest: Guest)
+  + addShow(show: Show)
+}
+
+class Employee {
+  - name: String
+  - ssn: String
+}
+
+class Guest {
+  - name: String
+  - isVIP: Boolean
+}
+
+class Ship {
+  - name: String
+  - numberOfDecks: Integer
+  - length: Double
+  - passengerCapacity: Integer
+}
+
+class Booking {
+  - bookingNumber: String
+  - bookingDate: Date
+}
+
+class TravelAgency {
+  - name: String
+  - address: String
+}
+
+class DestinationArea {
+  - name: String
+  - seaName: String
+}
+
+class Show {
+  - title: String
+  - duration: Integer
+}
+
+class Ticket {
+  - ticketNumber: String
+  - cruise: Cruise
+  - guest: Guest
+}
+
+class Itinerary {
+  - cruise: Cruise
+  - destinationArea: DestinationArea
+}
+
+Provider "1" *-- "0..*" Cruise : organizes
+Cruise "1" *-- "0..*" Employee : requires
+Cruise "1" *-- "0..*" Guest : has
+Cruise "1" *-- "0..*" Show : offers
+Cruise "1" *-- "1" Ship : uses
+Cruise "1" *-- "0..*" Booking : booked through
+Booking "1" *-- "1" TravelAgency : made by
+Cruise "1" *-- "1" Itinerary : heads for
+Itinerary "1" *-- "1" DestinationArea : to
+Cruise "1" *-- "0..*" Ticket : has tickets
+Ticket "1" *-- "1" Guest : belongs to
+Guest "0..*" --> "1" Ticket : has one per cruise
+@enduml
+
+### Explanation of Relationships:
+- `Provider` organizes many `Cruise`s.
+- A `Cruise` has many `Employee`s, `Guest`s, and `Show`s.
+- A `Cruise` is associated with exactly one `Ship`.
+- A `Cruise` can be booked via multiple `Booking`s from a `TravelAgency`.
+- A `Cruise` has an `Itinerary` that points to a `DestinationArea`.
+- A `Guest` can participate in multiple `Cruise`s but only has one `Ticket` per cruise.
+- Each `Ticket` is tied to exactly one `Cruise` and one `Guest`.
+

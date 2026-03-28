@@ -1,0 +1,39 @@
+@startuml
+enum FilterType {
+  Grayscale
+  BlackAndWhite
+  NoiseReduction
+  BrightnessAdjustment
+  ContrastEnhancement
+  HueRemoval
+  ColorPicker
+}
+enum AdjustmentStatus {
+  Pending
+  Applied
+}
+class ImageProcessorEngine {
+  processorName: String
+  +processImage(imagePath: String): ImageProcessingResult
+  +getEngineDescription(): String
+}
+class ImageProcessingResult {
+  generatedPath: String
+  status: AdjustmentStatus
+  +finalize(): void
+}
+class AdjustmentConfiguration {
+  filterType: FilterType
+  maxIterations: int
+  grayLevelThreshold: double
+  +calculateWeight(): double
+}
+class AdjustmentTask {
+  taskDescription: String
+  priorityLevel: int
+  +execute(weightFactor: double): ImageProcessingResult
+}
+ImageProcessorEngine *-- "*" AdjustmentTask : managedTasks
+ImageProcessingResult --> "1" AdjustmentConfiguration : appliedConfiguration
+AdjustmentTask --> "1" AdjustmentConfiguration : configuration
+@enduml

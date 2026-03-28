@@ -1,0 +1,396 @@
+@startuml
+enum ProductType {
+  Wine
+  Tea
+  Coffee
+  SoftDrink
+  Tea
+  Flower
+  Music
+}
+enum StorageCondition {
+  LowTemperature
+  ModerateTemperature
+  HighTemperature
+  Sterile
+}
+class Product {
+  productName: String
+  productType: ProductType
+  basePrice: double
+  currentCondition: StorageCondition
+  +validateInventory(): boolean
+  +getUnitPrice(): double
+  +requestRestock(): void
+}
+class Category {
+  categoryName: String
+  isVirtuallyReal: boolean
+  +getSubCategory(): Category
+}
+class StoreManager {
+  managerName: String
+  +assignStore(store: Store): void
+  +updateInventory(): void
+}
+class Viewport {
+  viewportName: String
+  isInteractive: boolean
+  selectedQuery: String
+  +toggleViewMode(): void
+  +generateShareableCode(): String
+}
+class ProductCatalog {
+  catalogName: String
+  +findProduct(name: String): Product
+  +getAllProducts(): List<Product>
+}
+class InventorySystem {
+  systemLevel: int
+  +updateStock(product: Product, quantity: int): void
+  +verifyStock(product: Product, unit: QuantityUnit): boolean
+  +calculateDiscountedPrice(product: Product): double
+}
+class QuantityUnit {
+  quantity: int
+  +convertToStock(): void
+}
+class Tag {
+  tagName: String
+  category: Category
+  +getDescription(): String
+}
+class Tagset {
+  tagNames: List<String>
+  +addTag(tag: Tag): void
+  +removeTag(tag: Tag): void
+}
+class DisplaySettings {
+  screenWidth: int
+  screenHeight: int
+  backgroundColor: String
+  +configureViewport(viewport: Viewport): void
+}
+class CartItem {
+  quantity: int
+  unit: QuantityUnit
+  +checkout(): void
+  +updateQuantity(n: int): void
+}
+class Basket {
+  basketName: String
+  +addItem(item: CartItem): void
+  +removeItem(item: CartItem): void
+  +getTotalAmount(): double
+}
+class CustomerProfile {
+  contactEmail: String
+  +addOrder(order: Order): void
+}
+class Order {
+  orderDate: Date
+  status: String
+  +placeOrder(items: List<CartItem>): void
+  +cancelOrder(reason: String): void
+}
+class OrderEntry {
+  entryDate: Date
+  isExpress: boolean
+  +calculateTotal(): double
+}
+class OrderInvoice {
+  invoiceNumber: String
+  currency: String
+  issueDate: Date
+  +generateInvoice(): void
+  +processPayment(amount: double): boolean
+}
+class PaymentTransaction {
+  amount: double
+  paymentMethod: String
+  +validate(): boolean
+  +processPayment(): boolean
+}
+class AuditLog {
+  timestamp: Date
+  actionDescription: String
+  performer: String
+  +recordAction(action: String, user: String): void
+}
+class SecurityCertificate {
+  expiresAt: Date
+  +issue(): void
+  +validate(): boolean
+}
+class LicensePlate {
+  licenseNumber: String
+  +getLicenseName(): String
+}
+class LicenseReview {
+  reviewDate: Date
+  +calculateCost(completed: boolean): double
+  +checkProgress(reviewer: String): boolean
+}
+class ShippingAddress {
+  cityName: String
+  postalCode: String
+  country: String
+  +formatAddress(): String
+}
+class ShippingAddress {
+  countryCode: String
+  city: String
+  postalCode: String
+}
+class Quote {
+  quoteNumber: String
+  issueDate: Date
+  totalAmount: double
+  +calculatePrice(): double
+  +isValid(): boolean
+}
+class OrderLine {
+  productCount: int
+  quantity: int
+  basePrice: double
+  +getSubtotal(): double
+}
+class ProductPrice {
+  applicableCondition: StorageCondition
+  regularPrice: double
+  +applyDiscount(condition: StorageCondition): double
+}
+class NotificationService {
+  emailEnabled: boolean
+  +sendAlert(message: String, isRead: boolean): void
+  +sendOrderStatus(order: Order): void
+}
+class SalesRecord {
+  saleDate: Date
+  transactionAmount: double
+  +generateReceipt(): String
+}
+class ComplaintReport {
+  issueDescription: String
+  reportedBy: String
+  responseDate: Date
+  +submit(): void
+}
+class SalesDataAggregator {
+  +aggregateSales(provenance: String, period: DateRange): Map<Store, Map<StorageCondition, double>>
+}
+class CatalogProcessor {
+  parserFormat: String
+  +processContent(text: String): List<Product>
+  +applyFilters(caseSensitive: boolean, threshold: int): List<Product>
+}
+class LanguageProvider {
+  languageCode: String
+  +translateText(text: String, targetLanguage: String): String
+  +translateDescription(product: Product): String
+}
+class PriceCalculator {
+  calculationAlgorithm: String
+  +computeDiscounted(price: double, discount: double): double
+  +computeFinalPrice(saleDate: Date, isExempt: boolean): double
+}
+StoreManager --> "*" Store : managesStores
+ProductCatalog *-- "*" Product : containsProducts
+Product --> "*" Category : belongsToCategories
+InventorySystem *-- "*" Product : managedProducts
+Product --> "1" QuantityUnit : quantityUnit
+DisplaySettings *-- "1" Viewport : definesViewport
+Product --> "*" Tag : hasTags
+ProductCatalog --> "*" Tag : definesTags
+Product *-- "*" Tagset : definesTags
+InventorySystem --> "1" QuantityUnit : tracksUnits
+QuantityUnit --> "1" Product : tracksUnitsFor
+QuantityUnit --> "1" PriceCalculator : calculatesPrice
+Product --> "1" SalesRecord : relatedSales
+Order *-- "*" CartItem : containsCartItem
+Order --> "1" CustomerProfile : representsCustomer
+Order *-- "1" OrderEntry : establishesOrderEntry
+OrderEntry --> "1" CustomerProfile : belongsToCustomer
+OrderEntry --> "1" SalesRecord : generatesSalesRecord
+SalesRecord --> "1" Order : matchedOrder
+Order --> "1" OrderInvoice : issuedInvoice
+OrderInvoice --> "1" PaymentTransaction : processedPayment
+OrderInvoice --> "1" SalesRecord : confirmsSales
+SalesRecord --> "1" Store : recordedInStore
+Product --> "*" PriceCalculator : usedForCalculations
+PriceCalculator --> "*" SalesRecord : calculatesForSales
+Product --> "*" ComplaintReport : filedComplaints
+ComplaintReport -- "1" SalesRecord
+StoreManager --> "*" InventorySystem : managesInventory
+Store *-- "1" DisplaySettings : definesDisplaySettings
+Viewport *-- "1" DisplaySettings : definesDisplaySettings
+Viewport --> "1" Product : displaysProduct
+DisplaySettings --> "1" Viewport : setsViewportSettings
+StoreManager --> "*" Viewport : controlsViewports
+InventorySystem --> "*" Product : tracksProducts
+SalesRecord --> "*" Product : sellsProducts
+PriceCalculator --> "*" Product : appliesPriceRules
+CartItem --> "1" PriceCalculator : determinesPrice
+Order --> "*" CartItem : containsCartItem
+PurchaseOrder --> "1" Order : representsPurchaseOrder
+Store --> "*" Order : managesOrders
+OrderInvoice --> "*" PaymentTransaction : processedPayments
+ComplaintReport --> "*" Product : mistakesInProduct
+PurchaseOrder --> "*" OrderEntry : doesOrderEntries
+NavigationService --> "*" Viewport : navigatesViewports
+PriceCalculator --> "*" ProductPrice : computesPriceRules
+Store --> "*" Tag : usesTags
+PriceCalculator --> "*" Tagset : appliesTagRules
+StoreManager --> "*" Tag : managesTags
+PriceCalculator --> "*" InventorySystem : checksStocks
+SalesRecord --> "*" Product : sellsProducts
+Order --> "*" Product : resellsProducts
+ComplaintReport --> "*" Store : reportsComplaints
+SalesDataAggregator --> "*" Order : aggregatesSalesData
+Supplier --> "*" Product : suppliesProducts
+CustomerProfile --> "*" Order : placesOrders
+ComplaintReport --> "*" Store : filesComplaints
+NavigationService --> "*" Viewport : leadsToViewports
+SalesRecord --> "*" Product : soldProducts
+Category --> "*" Tag : definesTags
+ProductCatalog --> "*" Tag : definesTags
+Tag --> "*" Category : belongsToCategories
+QuantityUnit --> "*" Tag : definesTags
+DisplaySettings --> "*" Viewport : controlsViewports
+BillingSystem --> "*" Order : processesBilling
+ComplaintReport --> "*" PriceCalculator : computesDisputes
+PriceCalculator --> "*" StorageCondition : appliesDisputes
+PriceCalculator --> "*" Product : adjustsPrices
+Viewport --> "*" Product : displaysProducts
+Product --> "*" Tag : identifiesTags
+StoreManager --> "*" QuantityUnit : tracksQuantity
+Tag --> "*" Product : definesProducts
+Store --> "*" QuantityUnit : managesUnits
+Product --> "*" Tagset : definesTags
+Store --> "*" Order : processesOrders
+Order --> "*" CartItem : containsItems
+Store --> "*" Viewport : controlsViewports
+Order --> "*" CartItem : includesItems
+Store --> "*" Tag : usesTags
+OrderEntry --> "*" Product : requiresProduct
+Product --> "*" Viewport : displaysProduct
+Viewport --> "*" Product : showsProduct
+Store --> "*" Tag : usesTags
+Tag --> "*" PriceCalculator : appliesRule
+PriceCalculator --> "*" StorageCondition : adjustsPrices
+Order --> "*" CreditCard : usesCreditCard
+Order --> "*" PaymentTransaction : processesPayment
+Store --> "*" SalesRecord : generatesSalesData
+Quote --> "*" Order : matchesOrders
+Order --> "*" SalesRecord : generatesSales
+SalesRecord --> "*" Invoice : generatesInvoice
+DisplaySettings --> "*" Viewport : controlsViewports
+Viewport --> "*" Product : displaysProducts
+Product --> "*" QuantityUnit : tracksQuantity
+PriceCalculator --> "*" QuantityUnit : convertsUnits
+PriceCalculator --> "*" Product : appliesDiscounts
+Store --> "*" QuantityUnit : managesUnits
+Note --> "*" PriceCalculator : enforcesRules
+CustomerProfile --> "*" PurchaseOrder : placesOrders
+StoreManager --> "*" Viewport : controlsViewports
+Viewport --> "*" Product : displaysProducts
+Product --> "*" Tagset : definesTags
+Store --> "*" Tag : usesTags
+Tag --> "*" Product : definesProducts
+Product --> "*" QuantityUnit : tracksUnits
+Store --> "*" QuantityUnit : managesUnits
+QuantityUnit --> "*" Tag : definesTags
+Store --> "*" PriceCalculator : processesPriceRules
+Tag --> "*" Order : appliesRules
+Order --> "*" CartItem : containsItems
+SalesRecord --> "*" Store : representedStore
+Order --> "*" PaymentTransaction : processesPayment
+Store --> "*" Invoice : generatesInvoices
+Order --> "*" Transaction : involvesTransactions
+Viewport --> "*" Product : displaysProducts
+PriceCalculator --> "*" StorageCondition : appliesDisputes
+Product --> "*" Tagset : definesTags
+NavigationService --> "*" Viewport : leadsToViewports
+Store --> "*" Tag : usesTags
+Viewport --> "*" Product : displaysProducts
+Store --> "*" QuantityUnit : managesUnits
+Order --> "*" PriceCalculator : calculatesPrices
+Store --> "*" Tag : usesTags
+Tag --> "*" Product : definesProducts
+Store --> "*" QuantityUnit : tracksUnits
+Product --> "*" Tagset : definesTags
+Store --> "*" Viewport : controlsViewports
+Viewport --> "*" Product : displaysProducts
+PriceCalculator --> "*" StorageCondition : adjustsPrices
+Store --> "*" Order : processesOrders
+Order --> "*" CartItem : includesItems
+Product --> "*" SaleRecord : soldProducts
+Viewport --> "*" Product : displaysProducts
+PriceCalculator --> "*" Order : calculatesForOrders
+Store --> "*" Invoice : generatesInvoices
+Store --> "*" Viewport : controlsViewports
+Product --> "*" Viewport : displaysProducts
+Store --> "*" Tag : usesTags
+Viewport --> "*" Product : displaysProducts
+Store --> "*" QuantityUnit : managesUnits
+Order --> "*" CartItem : containsItems
+Viewport --> "*" Product : displaysProducts
+Product --> "*" Tagset : definesTags
+Store --> "*" QuantityUnit : managesUnits
+PriceCalculator --> "*" Product : adjustsPrices
+Store --> "*" Tag : usesTags
+Viewport --> "*" Product : displaysProducts
+Store --> "*" QuantityUnit : tracksUnits
+Order --> "*" CartItem : includesItems
+Product --> "*" Tagset : definesTags
+Store --> "*" Tag : usesTags
+Tag --> "*" Product : definesProducts
+Store --> "*" Viewport : controlsViewports
+Viewport --> "*" Product : displaysProducts
+PriceCalculator --> "*" QuantityUnit : convertsUnits
+Viewport --> "*" Product : displaysProducts
+Product --> "*" QuantityUnit : tracksUnits
+Store --> "*" Invoice : generatesInvoices
+Store --> "*" Order : processesOrders
+Order --> "*" CartItem : containsItems
+Product --> "*" Tagset : definesTags
+Store --> "*" Tag : usesTags
+Viewport --> "*" Product : displaysProducts
+Store --> "*" QuantityUnit : managesUnits
+Order --> "*" PaymentTransaction : processesPayment
+PriceCalculator --> "*" Product : appliesDisputes
+Viewport --> "*" Product : displaysProducts
+Viewport --> "*" Product : displaysProduct
+Store --> "*" QuantityUnit : tracksUnits
+Tag --> "*" Product : definesProducts
+Viewport --> "*" Product : displaysProducts
+Store --> "*" Tag : usesTags
+Order --> "*" CartItem : includesItems
+Product --> "*" PriceCalculator : retrievesPrice
+Store --> "*" Tag : usesTags
+Viewport --> "*" Product : displaysProducts
+Store --> "*" QuantityUnit : managesUnits
+Tag --> "*" Product : definesProducts
+Viewport --> "*" Product : displaysProducts
+Store --> "*" Tag : usesTags
+Tag --> "*" Product : definesProducts
+Store --> "*" QuantityUnit : tracksUnits
+Order --> "*" Product : resellsProducts
+Viewport --> "*" Product : displaysProducts
+Store --> "*" QuantityUnit : managesUnits
+Order --> "*" CartItem : containsItems
+Product --> "*" Tagset : definesTags
+Store --> "*" Tag : usesTags
+Viewport --> "*" Product : displaysProducts
+Store --> "*" QuantityUnit : tracksUnits
+Viewport --> "*" Product : displaysProducts
+Store --> "*" Invoice : generatesInvoices
+Order --> "*" PaymentTransaction : processesPayment
+Viewport --> "*" Product : displaysProducts
+Store --> "*" Tag : usesTags
+Tag --> "*" Product : definesProducts
+Viewport --> "*" Product : displaysProducts
+Store --> "*" QuantityUnit : managesUnits
+Tag --> "*" Product : definesProducts
+Viewport --> "*" Product :
+@enduml

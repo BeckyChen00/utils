@@ -1,0 +1,96 @@
+
+---
+
+
+@startuml
+
+' Define the main classes
+
+class Customer {
+    +String name
+    +String contactInfo
+    +List<Car> registeredCars
+}
+
+class Car {
+    +String licensePlate
+    +String make
+    +String model
+    +String year
+    +boolean isSelfDriving
+    +Customer owner
+    +List<Ride> rides
+    +List<Accident> accidents
+}
+
+class Ride {
+    +Date startTime
+    +Date endTime
+    +Location pickupLocation
+    +Location dropoffLocation
+    +Duration duration
+    +double distance
+    +int numberOfPassengers
+    +double fee
+    +String requestType
+    +Customer leadCustomer
+    +List<Customer> sharedCustomers
+    +boolean isRideHail
+    +boolean isRideShare
+}
+
+class Accident {
+    +Date date
+    +Location location
+    +double damageAmount
+    +Car car
+}
+
+class Location {
+    +String address
+    +double latitude
+    +double longitude
+}
+
+class RequestType {
+    +String type
+    +List<Ride> rides
+}
+
+' Associations
+
+Customer "1" -- "0..*" Car : owns
+Car "1" -- "1..*" Ride : has
+Ride "1" -- "1" Customer : leadCustomer
+Ride "1" -- "0..*" Customer : sharedCustomers
+Car "1" -- "1..*" Accident : had
+Ride "1" -- "1" RequestType : requestType
+
+@enduml
+
+---
+
+### 📌 Explanation of the Classes:
+
+- **Customer**: Represents a user who can either be a regular customer or a car owner who registers their own car.
+- **Car**: Represents a vehicle in Sober’s fleet or a registered car by an owner. It can be self-driving or not.
+- **Ride**: Represents a single ride, whether it's a **ride-hail** or **ride-share** service. Contains details like time, location, passengers, cost, etc.
+- **Accident**: Stores information about any accident involving a car.
+- **Location**: A simple class to represent geographic coordinates (latitude, longitude) and address.
+- **RequestType**: Categorizes the type of request (e.g., via App, hand-waving).
+
+---
+
+### 🔍 Notes:
+
+- The `Ride` class uses a boolean (`isRideHail` / `isRideShare`) to differentiate between the two types of services.
+- The `sharedCustomers` list in `Ride` allows multiple users to share a ride in the case of **ride-sharing**.
+- The `leadCustomer` field in `Ride` indicates the person responsible for paying for the ride.
+- The `registeredCars` list in `Customer` keeps track of cars that are registered as Sober cabs.
+- `RequestType` is used to classify how a ride was requested (App vs. hand-waving), though it could also be modeled as an enum instead.
+
+---
+
+### 📝 To Render:
+
+Let me know if you'd like to refine this further or include more constraints!

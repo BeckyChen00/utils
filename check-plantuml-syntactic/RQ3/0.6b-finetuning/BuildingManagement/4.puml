@@ -1,0 +1,82 @@
+@startuml
+enum OrderStatus {
+  Pending
+  Processing
+  Shipped
+  Delivered
+  Cancelled
+}
+enum ProductCategory {
+  Beverages
+  Spirits
+  PremiumSweets
+  Custard
+  SnackBars
+}
+enum TransactionType {
+  CashPayment
+  CreditCardPayment
+  DigitalWallet
+}
+class Customer {
+  name: String
+  emailAddress: String
+  phoneNumber: String
+  loyaltyPoints: int
+  +updateProfile(newEmail: String, newPhone: String): void
+  +calculateLoyaltyPoints(pointsEarned: int): void
+}
+class Order {
+  orderDate: Date
+  totalAmount: double
+  currentStatus: OrderStatus
+  +placeOrder(): void
+  +cancelOrder(): void
+  +calculateTotalFee(): double
+  +markOrdered(): void
+}
+class OrderItem {
+  quantity: int
+  unitPrice: double
+  +calculateSubtotal(): double
+}
+class Product {
+  productName: String
+  category: ProductCategory
+  basePrice: double
+  +getProductName(): String
+}
+class DeliveryAddress {
+  streetAddress: String
+  city: String
+  postalCode: String
+  country: String
+  +formatFullAddress(): String
+}
+class Transaction {
+  transactionDate: Date
+  amount: double
+  type: TransactionType
+  paymentMethod: String
+  +executePayment(): boolean
+  +getTransactionSummary(): String
+}
+class PaymentGateway {
+  +validatePayment(amount: double, method: String): boolean
+  +processPayment(transaction: Transaction): boolean
+}
+class Shipment {
+  trackingNumber: String
+  trackingDate: Date
+  status: String
+  +updateStatus(newStatus: String): void
+}
+Customer "1" --> "0..*" Order : placedOrders
+Order "1" *-- "1..*" OrderItem : containsItems
+OrderItem "1" --> "1" Product : referencesProduct
+Order "1" --> "0..1" Shipment : shipsTo
+Shipment "1" --> "0..*" DeliveryAddress : addresses
+Order "1" --> "0..1" Transaction : completedBy
+Customer "1" --> "0..*" Transaction : madeTransactions
+Customer "1" --> "0..*" Shipment : placedShipments
+@enduml

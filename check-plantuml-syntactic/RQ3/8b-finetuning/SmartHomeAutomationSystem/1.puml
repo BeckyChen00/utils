@@ -1,0 +1,49 @@
+@startuml
+class User {
+  username: String
+  emailAddress: String
+  isActive: boolean
+}
+class SmartHome {
+  address: String
+  owner: User
+}
+class Room {
+  name: String
+  description: String
+}
+class SensorDevice {
+  deviceIdentifier: String
+  supportedTypes: String[]
+  isActive: boolean
+}
+class ActuatorDevice {
+  deviceIdentifier: String
+  supportedTypes: String[]
+  isActive: boolean
+}
+class SensorReading {
+  timestamp: Date
+  value: double
+  unit: String
+}
+class ControlCommand {
+  timestamp: Date
+  status: String
+  executedAt: Date
+}
+class AutomationRule {
+  ruleName: String
+  isActivated: boolean
+  conditionExpression: String
+  actionSequence: ControlCommand[]
+}
+SmartHome *-- "1..*" Room : containedRooms
+SmartHome --> "1" User : ownedBy
+Room --> "0..*" SensorDevice : hostedSensors
+Room --> "0..*" ActuatorDevice : hostedActuators
+SensorDevice *-- "0..*" SensorReading : generatedReadings
+ActuatorDevice --> "0..*" ControlCommand : executedCommands
+AutomationRule --> "1" SmartHome : appliesTo
+AutomationRule --> "0..*" Room : affectedRooms
+@enduml

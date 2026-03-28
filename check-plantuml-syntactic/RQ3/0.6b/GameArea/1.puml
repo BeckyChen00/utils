@@ -1,0 +1,57 @@
+@startuml
+    class diagram SystemRequirement {
+        class Requirement {
+            name: String;
+            description: String;
+        }
+
+        class System {
+            id: int;
+            name: String;
+            requirements: [Requirement]
+        }
+
+        class User {
+            id: int;
+            name: String;
+            preferences: String;
+        }
+
+        class Connection {
+            id: int;
+            from: User;
+            to: User;
+            type: String;
+        }
+
+        class Dependency {
+            id: int;
+            requirement: Reference;
+            dependencies: [Dependency]
+        }
+
+        class Graph {
+            start: System;
+            end: System;
+        }
+    }
+
+    # Relationships
+    $System->requirements += $Requirement.name
+    $System->dependencies += $Dependency.requirement
+    $Connection->from = $System->id
+    $Connection->to = $System->id
+
+    # Add connections
+    $Connection.connect($System, $User, "user1")
+    $Connection.connect($System, $User, "user2")
+
+    # Add dependencies
+    $Dependency.dependency($System, $Requirement)
+    $Dependency.dependency($System, $Requirement)
+
+    # Add graph
+    $Graph.start = $System
+    $Graph.end = $System
+
+@enduml

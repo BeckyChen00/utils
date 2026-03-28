@@ -1,0 +1,83 @@
+
+@startuml
+
+class Driver {
+  - String name
+  - String driverID
+  - boolean isOnSickLeave
+}
+
+class Bus {
+  - String licencePlate
+  - boolean isInRepairShop
+}
+
+class Route {
+  - int routeNumber
+  - String description
+}
+
+class Shift {
+  - String shiftType
+  - Date date
+}
+
+class Schedule {
+  - Route route
+  - Bus bus
+  - Driver driver
+  - Shift shift
+  - boolean isValid
+}
+
+class DayOverview {
+  - Map<Integer, List<Schedule>> routeToSchedules
+}
+
+Driver "1" -- "0..*" Schedule : assigns
+Bus "1" -- "0..*" Schedule : assigned to
+Route "1" -- "0..*" Schedule : has
+Shift "1" -- "0..*" Schedule : has
+Schedule -- DayOverview : part of
+
+@enduml
+
+---
+
+### Explanation of the Classes and Relationships:
+
+- **Driver**:  
+  - Attributes: `name`, `driverID` (unique), `isOnSickLeave` (boolean).  
+  - Drivers are assigned to shifts on specific days.
+
+- **Bus**:  
+  - Attributes: `licencePlate` (up to 10 characters), `isInRepairShop` (boolean).  
+  - Buses can be assigned to routes but cannot be used if in repair.
+
+- **Route**:  
+  - Attributes: `routeNumber` (up to 9999), `description`.  
+  - Each route has morning, afternoon, and night shifts.
+
+- **Shift**:  
+  - Attributes: `shiftType` (e.g., morning, afternoon, night), `date`.  
+  - A shift is associated with a route, day, and possibly multiple buses/drivers.
+
+- **Schedule**:  
+  - Represents an assignment of a driver to a bus on a specific shift for a route.  
+  - Contains references to `Driver`, `Bus`, `Route`, and `Shift`.  
+  - Includes a flag `isValid` to indicate whether the schedule is valid (i.e., no sick leave or repair).
+
+- **DayOverview**:  
+  - Aggregates all schedules for a given day.  
+  - Provides an overview of each route’s assigned buses, drivers, and shifts.  
+  - Highlights invalid entries (sick drivers or broken buses).
+
+---
+
+### Notes:
+- The system supports **adding and deleting** drivers and buses, but not updating them.
+- Sick leave and repair status are flags that affect scheduling validity.
+- A driver can be assigned to **multiple shifts per day**, even the same one.
+- A bus can be assigned to **multiple routes per day**, but only **one route at a time** per shift.
+
+Let me know if you'd like this rendered as an image or want to expand it further!

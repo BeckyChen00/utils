@@ -1,0 +1,164 @@
+@startuml
+enum TicketCategory {
+  AcademicLecture
+  PracticeClass
+  ResearchGroup
+  InternshipSession
+  GuestOffice
+  OfficeHours
+}
+enum SeatStatus {
+  Available
+  Reserved
+  Occupied
+  WaitingList
+}
+enum PaymentState {
+  Pending
+  Paid
+  Failed
+  Cancelled
+}
+class User {
+  userName: String
+  +register(): void
+  +login(): void
+}
+class Address {
+  street: String
+  city: String
+  zipCode: String
+  country: String
+  +validate(): boolean
+}
+class School {
+  schoolName: String
+  +registerTeacher(employee: Teacher): void
+  +getStudentList(): List<Student>
+}
+class Student {
+  firstName: String
+  lastName: String
+  contactEmail: String
+  +registerClass(classroom: ClassRoom): void
+  +updateProfileInfo(email: String): void
+}
+class ClassRoom {
+  roomNumber: int
+  capacity: int
+  +getAvailableSeats(): int
+}
+class Seat {
+  seatNumber: int
+  status: SeatStatus
+  +reserve(): void
+  +release(): void
+}
+class Payment {
+  state: PaymentState
+  amount: double
+  timestamp: Date
+  +process(): boolean
+  +refund(): boolean
+}
+class Ticket {
+  ticketNumber: String
+  category: TicketCategory
+  price: double
+  bookingDate: Date
+  +generate(): void
+  +cancel(): void
+}
+class Reservation {
+  reservationDate: Date
+  durationMinutes: int
+  +calculateDuration(): int
+  +confirm(): void
+}
+class Schedule {
+  dayOfWeek: String
+  startTime: Time
+  endTime: Time
+  +isValid(): boolean
+}
+class Event {
+  eventName: String
+  description: String
+  category: TicketCategory
+  +getDescription(): String
+}
+class ConferenceRoom {
+  roomType: String
+  +getAvailableConfigurations(): List<RoomConfiguration>
+}
+class RoomConfiguration {
+  type: String
+  maxCapacity: int
+  maxDurationMinutes: int
+  +configure(tabes: List<String>): void
+}
+class Announcement {
+  content: String
+  targetUsers: List<String>
+  +send(): boolean
+}
+class AnnouncementContext {
+  timestamp: Date
+  message: String
+  +format(): String
+}
+class NotificationService {
+  +send(notification: Announcement): boolean
+  +resetTracking(): void
+}
+class BookingSystem {
+  +calculateTotalCost(reservation: Reservation): double
+  +generateTicketIssue(details: TicketCategory, discount: double): Ticket
+  +processPayment(ticket: Ticket, state: PaymentState): Payment
+  +getPaymentHistory(): List<Payment>
+}
+class TicketingAuthority {
+  authorityName: String
+  +approveBooking(reservation: Reservation): boolean
+  +rejectBooking(reservation: Reservation): void
+}
+class BookingPortal {
+  portalName: String
+  +registerUser(user: User): void
+  +searchEvents(): List<Event>
+  +getActiveBookings(): List<Reservation>
+}
+class SecurityVault {
+  +storeTicket(ticket: Ticket): void
+  +retrieveTicket(ticketHash: String): Ticket
+}
+class TimingEngine {
+  +scheduleReservation(reservation: Reservation, classDate: Date): Schedule
+  +generateReceipt(reservation: Reservation): Payment
+}
+Student "1" --> "1" School : enrolledSchool
+ConferentialActionEvent "1" --> "1" ClassRoom : assignedClassroom
+ConferenceRoom "1" *-- "1" RoomConfiguration : currentConfiguration
+Ticket "1" --> "1" ClassRoom : allocatedRoom
+Ticket "1" --> "1" User : ticketOwner
+Ticket "1" --> "1" Reservation : sourceReservation
+Reservation "1" *-- "1" Schedule : scheduledTime
+Reservation "1" --> "1" BookingSystem : managedBy
+BookingSystem "1" *-- "1" NotificationService : notificationService
+BookingSystem "1" --> "1" SecurityVault : vaultStorage
+BookingSystem "1" --> "1" TimingEngine : timingEngine
+TicketingAuthority "1" --> "*" NotificationService : managedNotifications
+User "1" --> "*" Announcement : subscribedAnnouncements
+TicketingAuthority "1" --> "*" Payment : processedPayments
+BookingPortal "1" --> "1" BookingSystem : managedBookingSystem
+ConferentialActionEvent "1" --> "1" Announcement : eventDescription
+SafetyVault "1" --> "*" Ticket : storedTickets
+User -- Address
+School -- Student
+ClassRoom -- Seat
+Seat -- Reservation
+Ticket -- Payment
+Reservation -- Schedule
+ConferenceRoom -- TimingEngine
+SafetyVault -- NotificationService
+@enduml

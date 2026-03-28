@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedInvoices" eType="#//Invoice" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="billedTo" eType="#//Customer" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initiatedRefunds" eType="#//RefundRequest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookedAppointments" eType="#//Appointment" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="purchasedPlans" eType="#//ServicePlan" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RefundRequest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Appointment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coveredItem" eType="#//ServiceItem" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServicePlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coveredItem" eType="#//ServiceItem" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orderedItems" eType="#//ServiceItem" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedPayment" eType="#//Payment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedInvoice" eType="#//Invoice" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRequest">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicablePlans" eType="#//ServicePlan" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paidWith" eType="#//Payment" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

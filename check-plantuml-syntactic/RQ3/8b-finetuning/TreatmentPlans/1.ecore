@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configuredPermissions" eType="#//PermissionSet" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PermissionSet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Hospital">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employsDoctors" eType="#//Doctor" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Doctor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="makesDiagnoses" eType="#//DiagnosisRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performsTreatments" eType="#//ActualTreatment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagnosisRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="identifiesProblem" eType="#//ExaminationType" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencesPlan" eType="#//TreatmentPlan" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prescribesActions" eType="#//MedicalAction" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExaminationType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentPlan"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MedicalAction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActualTreatment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includesResults" eType="#//ExaminationResult" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includesActions" eType="#//MedicalAction" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExaminationResult">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resultsFromType" eType="#//ExaminationType" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExaminationSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="producesResult" eType="#//ExaminationResult" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usesKit" eType="#//ExaminationKit" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="treatsPatient" eType="#//Patient" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedBy" eType="#//Doctor" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="heldAt" eType="#//Hospital" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExaminationKit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Patient"/>
+</ecore:EPackage>

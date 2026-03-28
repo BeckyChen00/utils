@@ -1,0 +1,66 @@
+
+@startuml
+
+' Define the classes and their attributes
+class Faculty {
+    - name: String
+    - numberOfInstitutes: int
+    - dean: Employee
+}
+
+class Institute {
+    - name: String
+    - address: String
+}
+
+class Employee {
+    - socialSecurityNumber: String
+    - name: String
+    - email: String
+    + type: String (Research or Administrative)
+}
+
+class ResearchAssistant {
+    - fieldOfResearch: String
+    - projects: List<Project>
+    - coursesTaught: List<Course>
+    -- extends Employee
+}
+
+class Project {
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - hours: int
+}
+
+class Course {
+    - courseID: String
+    - name: String
+    - weeklyDuration: int
+}
+
+' Relationships
+
+Faculty "1" -- "0..*" Institute : consists of
+Institute "1" -- "1" Faculty : belongs to
+
+Employee "1" -- "1" Faculty : dean (optional)
+Employee "1" -- "0..*" Institute : works at
+Employee "1" -- "0..*" Project : involved in
+Employee "1" -- "0..*" Course : teaches
+
+ResearchAssistant --|> Employee : is a type of
+ResearchAssistant "1" -- "0..*" Project : involved in
+ResearchAssistant "1" -- "0..*" Course : teaches
+
+@enduml
+
+### Notes:
+- `Faculty` has a reference to its `dean`, who is an `Employee`.
+- `Institute` is part of a `Faculty`.
+- `Employee` is a base class for both `ResearchAssistant` and administrative staff.
+- `ResearchAssistant` can be involved in multiple `Projects` and may also teach `Courses`.
+- Each `Project` has a name, start date, end date, and number of hours.
+- Each `Course` has a unique ID, name, and weekly duration.
+

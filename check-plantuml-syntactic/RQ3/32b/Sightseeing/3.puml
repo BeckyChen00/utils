@@ -1,0 +1,51 @@
+
+@startuml
+
+' Define classes with their attributes and associations
+
+class City {
+  - name: String
+  - inhabitants: int
+}
+
+class Attraction {
+  - name: String
+  - address: String
+}
+
+class GuidedTour {
+  - duration: int
+  - tourNumber: int
+  - maxVisitors: int = 20
+}
+
+class Visitor {
+  - name: String
+}
+
+class Guide {
+  - name: String
+}
+
+class Discount {
+  - amount: float
+}
+
+' Relationships
+
+City "1" -- "many" Attraction : has
+Attraction "1" -- "many" GuidedTour : offers
+GuidedTour "1" -- "1" Guide : requires
+GuidedTour "1" -- "many" Visitor : includes
+GuidedTour "1" -- "many" Discount : may have
+Visitor "1" -- "many" Discount : receives
+
+@enduml
+
+### Explanation of Key Elements:
+
+- **City** has multiple **Attractions**.
+- Each **Attraction** can offer multiple **GuidedTours**.
+- A **GuidedTour** is led by one **Guide**, can include up to 20 **Visitors**, and may have several **Discounts**.
+- **Discount** links a **Visitor** to a specific **GuidedTour** with a discount amount.
+

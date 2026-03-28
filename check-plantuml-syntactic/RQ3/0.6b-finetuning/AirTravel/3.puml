@@ -1,0 +1,72 @@
+@startuml
+enum PriorityLevel {
+  Low
+  Medium
+  High
+  Urgent
+  Critical
+  Pending
+  Closed
+}
+enum TaskStatus {
+  Created
+  InProgress
+  Completed
+  Cancelled
+}
+class Customer {
+  customerName: String
+  contactEmail: String
+  +register(): void
+  +requestTask(task: WorkTask): void
+}
+class Team {
+  teamName: String
+  +addMember(member: User): void
+  +removeMember(member: User): void
+}
+class User {
+  username: String
+  role: String
+  +login(): boolean
+  +requestTask(task: WorkTask): void
+}
+class WorkTeam {
+  teamName: String
+  currentStatus: TaskStatus
+  +addMember(user: User): void
+  +requestTask(task: WorkTask): void
+}
+class WorkTask {
+  description: String
+  priority: PriorityLevel
+  startDate: Date
+  endDate: Date
+  status: TaskStatus
+  +assignToTeam(team: WorkTeam): void
+  +complete(): void
+}
+class Project {
+  projectName: String
+  startDate: Date
+  endDate: Date
+  +addTask(task: WorkTask): void
+  +removeTask(task: WorkTask): void
+}
+class ProjectManager {
+  managerName: String
+  +manageTeam(team: WorkTeam): void
+  +assignTask(task: WorkTask): void
+  +reviewReport(report: ProjectReport): void
+}
+CardinalProject "1" *-- "0..*" WorkTask : tasks
+Project "1" *-- "0..*" ProjectReport : reports
+Project "1" --> "0..1" WorkTeam : activeTeam
+WorkTeam "1" --> "0..*" User : teamMembers
+WorkTeam "1" --> "0..*" Project : managedProjects
+WorkTeam "1" --> "0..*" WorkTask : assignedTasks
+User "1" --> "0..*" WorkTask : tasks
+User "1" --> "0..*" ProjectReport : reports
+WorkTeam "1" --> "0..*" ProjectReport : reports
+WorkTeam "1" --> "0..1" ProjectManager : projectManager
+@enduml

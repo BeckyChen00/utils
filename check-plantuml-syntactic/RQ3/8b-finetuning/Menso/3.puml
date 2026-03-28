@@ -1,0 +1,74 @@
+@startuml
+class BusLine {
+  lineNumber: int
+}
+class Trajectory {
+  approvalStatus: String
+  isOperational: boolean
+}
+class Customer {
+  name: String
+}
+class MENSOCard {
+  cardNumber: String
+  isActive: boolean
+}
+class TripRecord {
+  timestamp: Date
+  lineCategory: String
+}
+class InvoicingService {
+  +generateInvoice(customer: Customer, month: int): Invoice
+}
+class Invoice {
+  invoiceNumber: String
+  totalAmount: double
+  discountRate: double
+  +calculateTotal(): double
+  +isPaid(): boolean
+}
+class PaymentMethod {
+  methodName: String
+  +processPayment(amount: double): boolean
+}
+class DataAggregationEngine {
+  +analyzeData(records: TripRecord[]): String
+  +extractPatterns(customer: Customer): String
+}
+class Address {
+  street: String
+  city: String
+  postalCode: String
+}
+class SubscriptionRequest {
+  requestedCategory: String
+  preferredPaymentMethod: String
+}
+class ApprovalAuthority {
+  authorityName: String
+  +evaluateTrajectory(trajectory: Trajectory): String
+  +grantApproval(trajectory: Trajectory): boolean
+}
+class Bus {
+  vehicleId: String
+  +isAvailable(): boolean
+}
+class Route {
+  routeName: String
+  +getLength(): double
+}
+BusLine *-- "0..*" Trajectory : containedTrajectories
+Trajectory *-- "1..*" Bus : assignedBuses
+SubscriptionRequest --> "1" Customer : requestingCustomer
+SubscriptionRequest --> "1" PaymentMethod : specifiedPaymentMethod
+Customer --> "1..*" Address : associatedAddresses
+Customer --> "0..*" MENSOCard : heldCards
+MENSOCard --> "0..*" TripRecord : usedForTrips
+Invoice --> "1" Customer : invoicedCustomer
+Invoice --> "0..*" TripRecord : coveredTrips
+Invoice --> "1" PaymentMethod : appliedPayment
+DataAggregationEngine --> "0..*" TripRecord : analyzedRecords
+ApprovalAuthority --> "0..*" Trajectory : evaluatedTrajectories
+TripRecord --> "1" BusLine : travelledLine
+InvoicingService --> "0..*" Invoice : generatedInvoices
+@enduml

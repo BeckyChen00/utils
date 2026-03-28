@@ -1,0 +1,46 @@
+@startuml
+class Patient {
+  patientName: String
+  age: int
+  +register()
+  +signConsent(form: ConsentForm)
+}
+class Doctor {
+  doctorName: String
+  specialization: String
+  +makeDiagnosis(patient: Patient): Illness
+  +approveDiagnosis(diagnosis: Illness): boolean
+  +administerTreatment(patient: Patient, treatment: Treatment, stage: int)
+}
+class Illness {
+  illnessName: String
+  priority: String
+  +updatePriority(newPriority: String)
+  +getAffectedTreatments(): List<Treatment>
+}
+class Treatment {
+  treatmentName: String
+  description: String
+  currentStage: int
+  +upgradeStage(targetStage: int, consent: boolean): boolean
+  +downgradeStage(targetStage: int): boolean
+  +getStageDescription(): String
+}
+class ConsentForm {
+  signingDate: Date
+  consentGiven: boolean
+  +isValid(): boolean
+}
+class HospitalHouseMD {
+  hospitalName: String
+  +acceptPatient(patient: Patient)
+  +getActivePatients(): List<Patient>
+}
+Treatment *-- "1..*" Doctor : administeringDoctors
+Patient --> "1" Doctor : primaryCareDoctor
+Patient --> "1" Illness : diagnosedIllness
+Illness --> "0..*" Treatment : applicableTreatments
+Doctor --> "1" Illness : treatsIllness
+Doctor --> "1" Patient : managesPatient
+Patient --> "1" ConsentForm : activeConsent
+@enduml

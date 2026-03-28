@@ -1,0 +1,92 @@
+@startuml
+class User {
+  username: String
+  email: String
+  isVerified: boolean
+  +signIn(): boolean
+  +updateProfile(): void
+}
+class Company {
+  companyName: String
+  address: String
+  +getHeadquarters(): Company
+}
+class Product {
+  productName: String
+  unitPrice: double
+  description: String
+  +getUnitPrice(): double
+}
+class Supplier {
+  supplierName: String
+  contactEmail: String
+  +placeOrder(customer: Customer): Order
+}
+class Order {
+  orderDate: Date
+  status: String
+  totalAmount: double
+  +calculateTotal(): double
+  +confirmOrder(): void
+  +cancelOrder(): void
+}
+class OrderLine {
+  quantity: int
+  unitPrice: double
+  +computeSubtotal(): double
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  status: String
+  +generatePdf(): void
+  +checkBalance(): boolean
+}
+class PaymentMethod {
+  methodType: String
+  isValid: boolean
+  +processPayment(amount: double): boolean
+  +captureReceipt(): boolean
+}
+class Warehouse {
+  warehouseCode: String
+  location: String
+  +placeDelivery(order: Order, customer: Customer): void
+  +checkStock(product: Product): int
+}
+class WarehouseLocation {
+  latitude: double
+  longitude: double
+  zoneName: String
+}
+class InventoryItem {
+  itemCode: String
+  trackingNumber: String
+  unit: String
+  quantity: int
+  +updateQuantity(amount: int): void
+}
+class OrderItem {
+  quantity: int
+  unitPrice: double
+  +calculateSubtotal(): double
+}
+class Customer {
+  customerName: String
+  contactEmail: String
+  +submitOrder(): Order
+}
+Supplier --|> User
+Company *-- "0..*" Product : companyProducts
+Order *-- "1..*" OrderLine : orderLines
+Order *-- "1" Invoice : generatedInvoice
+Order *-- "1" PaymentMethod : paymentMethod
+Order *-- "1" Warehouse : placedAtWarehouse
+Company --> "0..*" WarehouseLocation : hadLocations
+Order --> "1" Product : orderedProduct
+Warehouse --> "1..*" InventoryItem : storedItems
+InventoriesItem --> "1" Product : ownedProduct
+Order --> "1" Customer : placedByCustomer 'opposite: paidPackages
+@enduml

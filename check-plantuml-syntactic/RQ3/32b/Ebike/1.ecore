@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="DriveSystem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Motor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Battery"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Controller"/>
+  <eClassifiers xsi:type="ecore:EClass" name="State"/>
+  <eClassifiers xsi:type="ecore:EClass" name="On"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Off"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Charging"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicController"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AdvancedController"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Here"/>
+</ecore:EPackage>

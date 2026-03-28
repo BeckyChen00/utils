@@ -1,0 +1,59 @@
+@startuml
+
+class GameArea {
+  -name: String
+  -gameElements: List<GameElement>
+  -gamePieces: List<GamePiece>
+}
+
+class GameElement {
+  -x: long
+  -y: long
+}
+
+class Shape {
+  +connectsTo: List<Shape>
+}
+
+class Object {
+}
+
+class Opponent {
+  -lives: int
+  +isKilled(): boolean
+}
+
+class GamePiece {
+}
+
+GameArea "1" -- "1..*" GameElement : consists of
+GameArea "1" -- "1..2" GamePiece : consists of
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+Shape "1" -- "0..*" Shape : connectsTo
+
+@enduml
+
+### Explanation:
+
+- **GameArea** has:
+  - A `name` (String)
+  - A list of `GameElement`s
+  - A list of `GamePiece`s (at least one, up to two)
+
+- **GameElement** is an abstract class with:
+  - `x` (protected long)
+  - `y` (private long)
+
+- **GameElement** is extended by:
+  - **Shape**: which can connect to any number of other shapes.
+  - **Object**: no additional properties
+  - **Opponent**: has a `lives` field (protected int), and a method `isKilled()` that returns a boolean.
+
+- **GamePiece** is a separate class not directly related to `GameElement`.
+
+- **Relationships**:
+  - `GameArea` contains `GameElement`s and `GamePiece`s
+  - `Shape` can be connected to multiple other `Shape`s (self-referential association)
+  - At least one `Opponent` is known as the boss in the `GameArea` (this is implied but not explicitly modeled in the diagram; it could be represented via a constraint or a special role if needed)

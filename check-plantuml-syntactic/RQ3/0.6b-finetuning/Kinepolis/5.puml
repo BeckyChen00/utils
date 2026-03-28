@@ -1,0 +1,59 @@
+@startuml
+enum RequestPriority {
+  Low
+  Medium
+  High
+}
+enum DeviceStatus {
+  Idle
+  Online
+  Offline
+  Faulty
+  Maintenance
+}
+enum InspectionType {
+  PhysicalCheck
+  ChemicalTest
+  MagnetographicRead
+  RealTimeMonitoring
+}
+class ProductionLine {
+  name: String
+  currentStatus: DeviceStatus
+}
+class SafetyMonitor {
+  lastSystemCheckDate: Date
+  lastMaintenanceDate: Date
+  +getLastSystemCheck(): Date
+  +getLastMaintenanceDate(): Date
+}
+class MaintenanceRequest {
+  priority: RequestPriority
+  description: String
+  isUrgent: boolean
+  dueDate: Date
+  +getStatusDescription(): String
+}
+class InspectionLog {
+  timestamp: Date
+  type: InspectionType
+  findings: String
+  isCalibrationRequired: boolean
+  +recordFindings(findings: String): void
+}
+class ShiftLog {
+  shiftStart: Date
+  shiftEnd: Date
+  +getDurationHours(): int
+}
+class MaintenanceTask {
+  taskDescription: String
+  requiredSpecialTools: String[]
+  estimatedHours: int
+}
+MaintenanceRequest *-- "1" ShiftLog : productionLog
+ProductionLine --> "1" SafetyMonitor : safetyMonitor
+ShiftLog --> "1" ProductionLine : assignedLine
+ShiftLog --> "*" MaintenanceRequest : associatedRequests
+ProductionLine --> "*" MaintenanceTask : pendingTasks
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+class MagneticSensor {
+  calibrationFactor: float
+  +readData(): float
+  +computeSignal(): double
+}
+class MagneticFieldPattern {
+  patternCode: String
+  intensity: double
+  +calculateIntensity(): double
+}
+class LocalizationAlgorithm {
+  algorithmType: String
+  +estimatePosition(): Position
+  +computeDistance(sensor: MagneticSensor): double
+}
+class Position {
+  latitude: double
+  longitude: double
+  altitude: double
+}
+class SignalGenerator {
+  frequency: int
+  isEnvelopeOn: boolean
+  +generateSignal(): double
+  +adjustEnvelope(enableEnvelope: boolean): void
+}
+MagneticSensor *-- "1" MagneticFieldPattern : fieldPattern
+LocalizationAlgorithm --> "1" MagneticSensor : targetSensor
+LocalizationAlgorithm --> "1" SignalGenerator : signalSource
+LocalizationAlgorithm --> "1" Position : targetPosition
+@enduml

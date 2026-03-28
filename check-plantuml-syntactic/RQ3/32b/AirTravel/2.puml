@@ -1,0 +1,96 @@
+
+@startuml
+
+' Define main classes
+class Aircraft {
+    +name: String
+    +type: String
+    +yearOfManufacture: int
+    +nextInspectionDate: Date
+}
+
+class PassengerAircraft {
+    +numberOfSeats: int
+}
+
+class Flight {
+    +flightNumber: String
+    +date: Date
+}
+
+class Passenger {
+    +name: String
+    +passportNumber: String
+}
+
+class Ticket {
+    +ticketNumber: String
+    +price: float
+    +upgradeDesired: boolean
+}
+
+class SeatCategory {
+    +designation: String
+    +entertainmentAvailable: boolean
+    +numberOfSeats: int
+}
+
+class Airline {
+    +name: String
+}
+
+class CrewMember {
+    +name: String
+    +dateOfEmployment: Date
+}
+
+class Pilot extends CrewMember {
+    +license: String
+}
+
+class FlightAttendant extends CrewMember {
+    +isChiefSteward: boolean
+}
+
+class Airport {
+    +name: String
+    +address: String
+    +numberOfRunways: int
+}
+
+' Relationships
+Aircraft <|-- PassengerAircraft
+PassengerAircraft "1" *-- "many" SeatCategory : has
+Flight "1" *-- "many" Passenger : includes
+Flight "1" *-- "many" Ticket : has
+Ticket "1" *-- "1" SeatCategory : belongs to
+Passenger "1" *-- "many" Ticket : owns
+PassengerAircraft "0..1" --> "1" Aircraft : is a type of
+Aircraft "0..1" --> "1" Airline : belongs to
+Airline "1" *-- "many" Pilot : employs
+Airline "1" *-- "many" FlightAttendant : employs
+Flight "1" *-- "1" Pilot : has as captain
+Flight "1" *-- "2" Pilot : has as co-pilot (optional)
+Flight "1" *-- "many" FlightAttendant : has crew
+Flight "1" --> "1" Aircraft : operated by
+Flight "1" --> "1" Airport : departs from
+Flight "1" --> "1" Airport : arrives at
+Airport "0..1" --> "1" Aircraft : is home airport for
+
+@enduml
+
+---
+
+### Notes:
+- **Inheritance**: `PassengerAircraft` inherits from `Aircraft`.
+- **Multiplicity**:
+  - A flight can have multiple passengers and tickets.
+  - A ticket is linked to one seat category.
+  - An aircraft may or may not be part of an airline.
+  - A pilot may be the captain or a co-pilot in a flight.
+- **Roles**: Specific roles like chief steward are modeled with attributes.
+- **Associations**:
+  - Flights are associated with departure and destination airports.
+  - Pilots and flight attendants are employed by airlines.
+  - Each passenger aircraft has several seat categories.
+

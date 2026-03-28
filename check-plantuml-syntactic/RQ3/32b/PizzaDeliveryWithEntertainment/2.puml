@@ -1,0 +1,97 @@
+
+@startuml
+
+' Define classes with attributes and associations
+
+class User {
+    + String name
+    + Date birthday
+    + String address
+    + String userId
+}
+
+class BusinessOwner {
+    + String linkedIn
+}
+
+class Restaurant {
+    + String zipCode
+    + String address
+    + String phoneNumber
+    + String website
+    + String openingHours
+}
+
+class Pizza {
+    + String name
+    + String crustStructure
+    + float price
+}
+
+class HungryCustomer {
+    + String deliveryAddress
+}
+
+class Entertainer {
+    + String stageName
+    + String bio
+    + float pricePer30Minutes
+}
+
+class Order {
+    + String orderId
+    + DateTime orderDate
+    + DateTime latestDeliveryTime
+    + int numberOfPeople
+}
+
+class EntertainmentOrder {
+    + String entertainmentType
+    + int durationInMinutes
+}
+
+class Availability {
+    + Day day
+    + boolean isAvailable
+}
+
+' Inheritance for user roles
+User <|-- BusinessOwner
+User <|-- HungryCustomer
+User <|-- Entertainer
+
+' Associations
+BusinessOwner "1" -- "0..*" Restaurant : owns
+Restaurant "1" -- "1..*" Pizza : offers
+HungryCustomer "1" -- "0..*" Order : makes
+Order "1" -- "1" EntertainmentOrder : can be (optional)
+EntertainmentOrder "1" -- "1" Entertainer : fulfilled by
+Entertainer "1" -- "0..*" Restaurant : works at
+Entertainer "1" -- "0..*" Availability : has
+
+@enduml
+
+---
+
+### 🧾 Explanation of Key Elements:
+
+- **User** is the base class with core information (`name`, `birthday`, `address`, `userId`).
+- Three **subclasses** extend from `User`: 
+  - `BusinessOwner`: Can own one or more `Restaurant`s.
+  - `HungryCustomer`: Makes `Order`s and optionally selects an `EntertainmentOrder`.
+  - `Entertainer`: Provides entertainment; associated with a `Restaurant` and has availability per day.
+
+- **Restaurant** contains basic contact and location info and offers multiple **Pizza** types.
+
+- **Pizza** is uniquely identified by its combination of `name`, `restaurant`, and `price`.
+
+- **Order** is created by a `HungryCustomer`. It may or may not be an `EntertainmentOrder`.
+
+- **EntertainmentOrder** extends `Order` to include additional fields like type of entertainment and duration.
+
+- **Availability** is used to model when an entertainer is available per day.
+
+---
+
+
+Let me know if you want to add more features like payment systems, reviews, etc.!

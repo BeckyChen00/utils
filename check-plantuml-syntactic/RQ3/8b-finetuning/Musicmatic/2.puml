@@ -1,0 +1,40 @@
+@startuml
+class User {
+  name: String
+  address: String
+  +buySong(song: Song)
+  +uploadSong(song: Song)
+}
+class RegularUser {
+  +buyAlbum(album: Album)
+}
+class BusinessUser {
+  vatNumber: String
+  +uploadSong(song: Song)
+}
+class Song {
+  title: String
+  year: int
+  lengthMinutes: double
+  genre: String
+  isSingle: boolean
+}
+class Album {
+  title: String
+  description: String
+  releaseDate: int
+  +addTrack(track: Song, order: int)
+  +getTrack(order: int): Song
+}
+class Artist {
+  name: String
+  dateOfBirth: int
+  wikipediaUrl: String
+}
+RegularUser --|> User
+BusinessUser --|> User
+User "1" --> "*" Song : purchasedSongs
+Song "1" *-- "1" Artist : composer
+Song "0..*" --> "1" Album : containedIn
+Album "1" --> "1" Artist : createdBy
+@enduml

@@ -1,0 +1,147 @@
+
+---
+
+
+@startuml
+
+' Define classes with attributes and associations
+
+class Resident {
+    - name: String
+    - streetAddress: String
+    - phoneNumber: String
+    - emailAddress: String (optional)
+    + schedulePickup(): void
+}
+
+class PickupRequest {
+    - description: String
+    - pickupTime: Time (8:00-14:00)
+    - requestedDate: Date
+    - status: Status
+    + submitRequest(): void
+}
+
+class VolunteerDriver {
+    - name: String
+    - vehicleId: String
+    - availableDays: List<Day>
+    + registerAvailability(): void
+}
+
+class Vehicle {
+    - id: String
+    - maxStorageCapacity: Double
+    - currentLoad: Double
+    + assignPickupRoute(): void
+}
+
+class PickupRoute {
+    - date: Date
+    - startTime: Time
+    - endTime: Time
+    - pickups: List<PickupRequest>
+    + calculateOptimalRoute(): void
+}
+
+class DistributionCenter {
+    - location: String
+    - employee: Employee
+    + receiveItems(): void
+    + tagWithRFID(): void
+}
+
+class FoodBank {
+    - location: String
+    + receiveNonPerishableFood(): void
+}
+
+class Item {
+    - description: String
+    - category: Category
+    - quality: Quality
+    - RFIDTag: String (optional)
+    + correctDescription(): void
+}
+
+class Category {
+    - id: Integer
+    - name: String (e.g., "Baby Clothing", "Microwave")
+}
+
+class Employee {
+    - name: String
+    - role: Role
+    + examineQuality(): void
+    + assignCategory(): void
+    + notifyClients(): void
+    + arrangeDelivery(): void
+}
+
+class Client {
+    - name: String
+    - address: String
+    - preferredCategories: List<Category>
+    + requestNotification(): void
+    + requestDelivery(): void
+}
+
+class DeliveryService {
+    - driver: VolunteerDriver
+    - item: Item
+    - client: Client
+    + deliverItem(): void
+}
+
+class Day {
+    - name: String (e.g., Monday, Tuesday)
+}
+
+enum Status {
+    Scheduled, Completed, Cancelled
+}
+
+enum Quality {
+    Good, Fair, Poor
+}
+
+enum Role {
+    PickerUp, Distributor, Coordinator
+}
+
+' Associations
+
+Resident --> PickupRequest : places
+PickupRequest --> PickupRoute : assigned to
+PickupRoute --> Vehicle : assigned to
+Vehicle --> VolunteerDriver : driven by
+VolunteerDriver --> PickupRoute : drives
+PickupRequest --> Item : contains
+DistributionCenter --> Item : receives
+FoodBank --> Item : receives non-perishables
+Employee --> DistributionCenter : works at
+Employee --> Client : notifies
+Client --> DeliveryService : requests
+DeliveryService --> VolunteerDriver : uses
+DeliveryService --> Item : delivers
+Item --> Category : categorized as
+Employee --> Item : examines and tags
+
+@enduml
+
+---
+
+### 🧩 Explanation of Key Components:
+
+- **Resident**: Submits a pickup request.
+- **PickupRequest**: Represents items to be picked up, with time and date constraints.
+- **VolunteerDriver & Vehicle**: Drivers manage vehicles used for pickup routes.
+- **PickupRoute**: A daily route plan based on volunteer availability and item logistics.
+- **DistributionCenter & FoodBank**: Items are sorted and distributed here.
+- **Item & Category**: Items are tagged and categorized after inspection.
+- **Client & DeliveryService**: For clients who need delivery assistance; delivery is arranged via volunteers.
+
+---
+
+
+Let me know if you'd like to extend this model with additional features like scheduling logic or inventory tracking!

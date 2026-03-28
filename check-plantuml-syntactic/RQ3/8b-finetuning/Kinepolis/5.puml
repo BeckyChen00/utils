@@ -1,0 +1,64 @@
+@startuml
+class Cinema {
+  name: String
+  location: String
+  +addTheatre(theatre: Theatre): void
+  +getTheatres(): List<Theatre>
+}
+class Theatre {
+  name: String
+  capacity: int
+  +scheduleShow(movie: Movie, time: Date): Show
+}
+class Performance {
+  scheduledTime: Date
+  duration: int
+  status: String
+  +cancel(): void
+  +isPending(): boolean
+}
+class Movie {
+  title: String
+  duration: int
+  category: String
+  +getSynopsis(): String
+}
+class Copy {
+  acquisitionDate: Date
+  condition: String
+  +isAvailable(): boolean
+}
+class Ticket {
+  purchaseTime: Date
+  isDigital: boolean
+  isRefunded: boolean
+  +validate(): boolean
+}
+class Seat {
+  number: int
+  type: String
+  +markOccupied(): void
+  +markAvailable(): void
+}
+class Reservation {
+  startTime: Date
+  endTime: Date
+  +confirm(): Ticket
+  +cancel(): void
+}
+class Customer {
+  name: String
+  email: String
+  +makeReservation(show: Show, seats: List<Seat>): Reservation
+  +buyTicket(show: Show): Ticket
+}
+Cinema *-- "1..*" Theatre : ownedTheatres
+Theatre *-- "0..*" Performance : hostedPerformances
+Performance *-- "1" Movie : performedMovie
+Performance *-- "1" Copy : usedCopy
+Performance *-- "1..*" Seat : allocatedSeats
+Customer --> "0..*" Reservation : madeReservations 'opposite: bookedBy
+Customer --> "0..*" Ticket : purchasedTickets 'opposite: purchasedBy
+Performance --> "0..*" Reservation : containedReservations
+Performance --> "0..*" Ticket : soldTickets
+@enduml

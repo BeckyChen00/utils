@@ -1,0 +1,82 @@
+@startuml
+enum SensorType {
+  Thermal
+  Humidity
+  WindSpeed
+  Temperature
+  Pressure
+}
+enum StatusSeverity {
+  Critical
+  High
+  Medium
+  Low
+}
+class Sensor {
+  sensorType: SensorType
+  locationCode: String
+  +getCapacity(): int
+}
+class CoverageMap {
+  maxCoverageRadius: int
+  isOptimized: boolean
+  +checkOverlap(sensor: Sensor): boolean
+  +calculateCoverage(): double
+}
+class MonitoringZone {
+  zoneIdentifier: String
+  zoneName: String
+  +getZoneSummary(): String
+}
+class DataPacket {
+  timestamp: Date
+  rawData: String
+  hasCompression: boolean
+  +validateData(): boolean
+}
+class TelemetryFeed {
+  feedName: String
+  isActive: boolean
+  +generateFeedRaw(): DataPacket
+  +generateFeedMediated(): DataPacket
+}
+class TimeSeriesRecord {
+  timeSeriesLabel: String
+  protocolVersion: String
+  +getLastReadTime(): Date
+  +fetchLatestReading(): DataPacket
+  +filterTimeWindow(start: Date, end: Date): List<Date>
+}
+class DataAnalyzer {
+  filterThresholds: Map<String, String>
+  +analyzeDataSeries(series: TimeSeriesRecord): List<String>
+  +generateAlertSummary(data: List<DataPacket>): String
+}
+class AlertService {
+  alertThresholds: Map<String, StatusSeverity>
+  +triggerAlert(series: TimeSeriesRecord, severity: StatusSeverity): void
+  +scheduleBatchProcessing(batch: List<DataPacket>): Date
+}
+class AlertingEngine {
+  alertFrequency: int
+  +getAlertFrequency(): int
+  +processAlert(record: TimeSeriesRecord): boolean
+}
+class AlertMessage {
+  messageContent: String
+  priorityLevel: StatusSeverity
+  isAcknowledged: boolean
+  +acknowledge(): void
+}
+MonitoringZone *-- "1" CoverageMap : coverageMap
+MonitoringZone *-- "*" Sensor : containedSensors
+CoverageMap *-- "*" Sensor : mappedSensors
+TelemetryFeed *-- "*" DataPacket : generatedPackets
+TelemetryFeed --> "1" MonitoringZone : sourceZone
+MonitoringZone --> "1" TelemetryFeed : sourceFeed
+MonitoringZone -- TimeSeriesRecord
+TelemetryFeed -- DataAnalyzer
+TelemetryFeed -- AlertService
+DataAnalyzer -- AlertEngine
+AlertService -- AlertMessage
+@@enduml

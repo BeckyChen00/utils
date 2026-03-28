@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasFlights" eType="#//Flight" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Flight">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasPassengers" eType="#//Passenger" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCrew" eType="#//FlightAttendant" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCaptain" eType="#//Pilot" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCoPilots" eType="#//Pilot" upperBound="2"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="departsFrom" eType="#//Airport" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arrivesAt" eType="#//Airport" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Passenger">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasTicket" eType="#//Ticket" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongsTo" eType="#//SeatCategory" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlightAttendant"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Pilot"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PassengerAircraft">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasSeatCategory" eType="#//SeatCategory" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SeatCategory"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Aircraft">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasHomeAirport" eType="#//Airport"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Airport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Airline">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owns" eType="#//Aircraft" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employs" eType="#//FlightAttendant" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employs" eType="#//Pilot" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

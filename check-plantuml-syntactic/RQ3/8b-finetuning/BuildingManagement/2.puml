@@ -1,0 +1,61 @@
+@startuml
+enum VisibilityLevel {
+  Public
+  Private
+  Hidden
+}
+enum EnergyClass {
+  A
+  B
+  C
+  D
+  E
+  F
+  G
+}
+class Building {
+  buildingId: String
+  buildingName: String
+  energyClass: EnergyClass
+  constructionYear: int
+  ownerAccount: User
+  isVerified: boolean
+}
+class AdditionalEntry {
+  entryName: String
+  content: String
+  dataType: String
+  isReleased: boolean
+}
+class Image {
+  fileName: String
+  isProfile: boolean
+}
+class User {
+  userName: String
+  emailAddress: String
+  password: String
+  isVerified: boolean
+  isAdmin: boolean
+  +register(): void
+  +activate(): void
+}
+class Comment {
+  commentText: String
+  postedDate: Date
+  +edit(newContent: String): void
+}
+class WebPortal {
+  portalName: String
+  version: String
+  baseUrl: String
+  +getBuildings(): List<Building>
+  +searchBuildings(query: String): List<Building>
+}
+WebPortal "1" *-- "0..*" Building : managedBuildings
+Building "1" *-- "0..*" AdditionalEntry : entries
+Building "1" *-- "0..*" Image : images
+User "1" --> "0..*" Building : ownedBuildings
+User "1" --> "0..*" Comment : postedComments
+WebPortal "1" --> "1" User : administrator 'opposite: managedPortals
+@enduml

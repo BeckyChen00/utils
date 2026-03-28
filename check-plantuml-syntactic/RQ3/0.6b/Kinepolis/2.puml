@@ -1,0 +1,9 @@
+@startuml
+classDiagram
+
+User -> MessageBox {Message} with "Hello, world!" 
+
+MessageBox --> User {Yes}
+MessageBox --> Message {Hello, world!}
+
+@enduml

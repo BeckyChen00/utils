@@ -1,0 +1,96 @@
+@startuml
+enum LoanStatus {
+  Pending
+  Approved
+  Refunded
+  Discharged
+  Rejected
+}
+enum RiskLevel {
+  LowRisk
+  ModerateRisk
+  HighRisk
+  CriticalRisk
+  CatastrophicRisk
+  Defaulted
+}
+class DepositAccount {
+  balance: double
+  accountNumber: String
+  +deposit(amount: double): void
+  +withdraw(amount: double): boolean
+  +getBalance(): double
+}
+class LoanApplication {
+  applicantName: String
+  reasonForApplication: String
+  status: LoanStatus
+  +submit(): void
+  +approve(): void
+  +reject(reason: String): void
+  +getTotalAmount(): double
+}
+class CreditProfile {
+  riskLevel: RiskLevel
+  creditScore: int
+  +calculateRiskScore(): int
+  +verifyEligibility(some: int): boolean
+}
+class RiskAssessment {
+  assessmentDate: Date
+  riskLevel: RiskLevel
+  riskScore: int
+  +computeRiskScore(profile: CreditProfile): int
+  +generateWarning(): String
+}
+class FinancialInstitution {
+  name: String
+  +isCompliant(): boolean
+  +providePolicy(policyCode: String): String
+}
+class FinancialProduct {
+  productName: String
+  currency: String
+  termYears: int
+  interestRate: double
+  +calculatePrincipalBalance(duration: int): double
+  +isEligible(applicant: LoanApplication): boolean
+}
+class InstitutionalProduct {
+  productType: String
+  lendingLimits: double[]
+  +verifyEligibility(applicant: LoanApplication): boolean
+}
+class RiskMitigationPlan {
+  description: String
+  implementationStatus: String
+  +validatePlan(): boolean
+  +getPlanDescription(): String
+}
+class ComplianceAudit {
+  auditDate: Date
+  exemptionList: String[]
+  auditStatus: String
+  +generateAuditReport(): String
+  +checkExemptionRule(list: String): boolean
+}
+class TransactionRecord {
+  transactionDate: Date
+  amount: double
+  isVerified: boolean
+  +validateTransaction(): boolean
+}
+class TransactionProcessor {
+  isActive: boolean
+  +processTransaction(record: TransactionRecord): TransactionRecord
+  +computeRiskScore(profile: CreditProfile): int
+}
+DepositAccount *-- "0..*" LoanApplication : applicationHistory
+LoanApplication --> "1" CreditProfile : applicantProfile
+LoanApplication --> "1" RiskAssessment : riskAssessment
+LoanApplication --> "0..1" RiskMitigationPlan : proposedPlan
+LoanApplication --> "1" FinancialProduct : targetProduct
+FinancialProduct -- ComplianceAudit
+ComplianceAudit -- TransactionProcessor
+TransactionProcessor -- TransactionRecord
+@enduml

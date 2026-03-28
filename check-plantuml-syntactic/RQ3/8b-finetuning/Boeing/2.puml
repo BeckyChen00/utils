@@ -1,0 +1,56 @@
+@startuml
+enum ContractStatus {
+  Draft
+  Signed
+  Active
+  Completed
+  Cancelled
+}
+enum OptionType {
+  PremiumSeating
+  LoyaltyBonus
+  EarlyPaymentDiscount
+}
+class Airplane {
+  modelCode: String
+  serialNumber: String
+  isDemoUnit: boolean
+}
+class Contract {
+  contractNumber: String
+  effectiveDate: Date
+  status: ContractStatus
+  totalAmount: int
+  +updateDetails(detail: String): void
+  +calculateTotal(): int
+  +amendContract(newDetails: String): void
+}
+class Acquisition {
+  acquisitionNumber: String
+  acquisitionDate: Date
+  negotiatedPrice: int
+  +confirmOrder(): boolean
+  +generateInvoice(): String
+}
+class SalesPerson {
+  fullName: String
+  employeeId: String
+  +manageContract(contract: Contract): boolean
+  +transferManagement(newSalesPerson: SalesPerson): void
+}
+class Airline {
+  companyName: String
+  code: String
+  +getBranches(): List<Airline>
+}
+class AirlineGroup {
+  groupName: String
+  +getGroupMembers(): List<Airline>
+}
+Airline *-- "1" AirlineGroup : parentGroup
+Contract *-- "1..*" Acquisition : acquisitions
+Contract --> "1..*" Airline : buyerCompanies
+Acquisition --> "1" Airplane : orderedAirplane
+SalesPerson --> "0..*" Contract : managedContracts
+SalesPerson --> "0..*" Aircraft : responsibleFor
+@enduml

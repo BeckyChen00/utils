@@ -1,0 +1,104 @@
+@startuml
+class SimulationEngine {
+  +executeSimulation(): void
+  +stopSimulation(): void
+}
+class Agent {
+  positionCoordinates: int[]
+  isMoving: boolean
+  currentSpeed: int
+  +updatePosition(direction: int): void
+  +getVelocity(): int[]
+}
+class Environment {
+  maxDepth: int
+  +getEntitiesAtPosition(x: int, y: int, z: int): Agent[]
+  +isCollision(a: Agent, b: Agent): boolean
+}
+class SimulationEvent {
+  eventType: String
+  timestamp: Date
+}
+class SimulationContext {
+  activeAgents: Agent[]
+  +reset(): void
+  +addEvent(event: SimulationEvent): void
+}
+class SimulationLog {
+  +addEvent(event: SimulationEvent): void
+}
+class TrajectoryGenerator {
+  +createPathSnapshot():
+  void
+  +generateSteps(velocity: int[]): Agent[]
+}
+class ControlStrategy {
+  strategyName: String
+  +calculateResponse(currentState: Agent, velocity: int): int
+}
+class FeedbackController {
+  +calculateFeedback(currentState: Agent): int
+}
+class StateVector {
+  position: int[]
+  velocity: int[]
+}
+class DataExporter {
+  +exportStateContext(context: SimulationContext, filename: String): void
+}
+class AgentBehavior {
+  targetX: int
+  targetY: int
+  targetZ: int
+  +getTarget(): Agent
+}
+class NavigationModule {
+  +updateLocation(agent: Agent, velocity: int[]): void
+}
+class ConstraintValidator {
+  +validateConstraint(agent: Agent): boolean
+}
+class EnvironmentProvider {
+  +loadEnvironment(path: String): Environment
+}
+class SpatialEnvironment {
+  isObstacle: boolean
+  +getObstacles(): Agent[]
+  +triggerCollision(agent: Agent): boolean
+}
+class TimeStepManager {
+  +advanceTime(deltaTime: double): void
+}
+class StateRecorder {
+  +saveState(state: StateVector): void
+  +loadState(filename: String): int[]
+}
+class ExperimentConfig {
+  verbose: boolean
+  +applyParameters(config: ExperimentConfig): void
+  + getConfigName(): String
+}
+SimulationEngine *-- "1" SimulationContext : activeContext
+SimulationEngine *-- "1" SimulationLog : logEntries
+SimulationEngine *-- "*" TrajectoryGenerator : generatedGenerators
+SimulationEngine *-- "*" Agent : simulatedAgents
+SimulationEngine --> "*" EnvironmentProvider : environmentSources
+TrajectoryGenerator --> "1" StateVector : targetState
+SimulationContext *-- "1" SimulationLog : loggingLog
+SimulationContext *-- "*" Agent : activeAgents
+Environment *-- "1" SpatialEnvironment : spatialLayout
+Environment *-- "*" Agent : containedAgents
+Agent --> "1" AgentBehavior : currentBehavior
+Agent --> "1" AgentBehavior : defaultBehavior
+SimulationEngine *-- "*" ControlStrategy : supportedStrategies
+ControlStrategy --> "1" AgentBehavior : behaviorType
+SimulationEngine *-- "*" ControlStrategy : availableStrategies
+SimulationEngine --> "*" TrajectoryGenerator : generatedGenerators
+NavigationModule --> "*" Agent : managedAgents
+ConstraintValidator --> "*" Agent : monitoredAgents
+EnvironmentProvider --> "1" SpatialEnvironment : loadedEnvironment
+TrajectoryGenerator --> "1" StateVector : targetState
+SimulationContext --> "1" StateVector : storageState
+ExperimentConfig --> "*" Agent : controlledAgents
+DataExporter --> "*" SimulationContext : exportedContexts
+@enduml

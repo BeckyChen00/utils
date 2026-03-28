@@ -1,0 +1,50 @@
+@startuml
+class EmergencyResponseCommand {
+  isUrgent: boolean
+  commandUrl: String
+  +executeActivation(): void
+}
+class Alert {
+  severityLevel: int
+  isAcknowledged: boolean
+  statusDescription: String
+}
+class Passenger {
+  name: String
+  dateOfBirth: Date
+  passengerCount: int
+}
+class Statement {
+  contentSummary: String
+  generationDate: Date
+}
+class Seat {
+  seatNumber: String
+  seatType: String
+  isOccupied: boolean
+}
+class NotificationChannel {
+  channelType: String
+  isActive: boolean
+}
+class DispatchCenter {
+  centerName: String
+  centerType: String
+  +assignCenter(command: EmergencyResponseCommand): void
+  +generateAlert(seat: Seat): Alert
+}
+class EventLog {
+  occurredDate: Date
+  victimCount: int
+  responseTimeMinutes: double
+  +logEvent(message: String): void
+}
+EmergencyResponseCommand --> "1" DispatchCenter : assignedCenter
+EmergencyResponseCommand --> "0..*" Seat : assignedSeats
+EmergencyResponseCommand *-- "1" Alert : generatedAlert
+EmergencyResponseCommand *-- "0..1" Statement : generatedStatement
+EmergencyResponseCommand *-- "1" EventLog : generatedLog
+Alert --> "1" EmergencyResponseCommand : triggeringCommand
+Passenger --> "1" Seat : occupiedSeat
+NotificationChannel --> "1" Passenger : targetPassenger
+@enduml

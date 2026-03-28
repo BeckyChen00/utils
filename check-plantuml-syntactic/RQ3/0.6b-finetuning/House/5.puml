@@ -1,0 +1,139 @@
+@startuml
+class PlantSpecies {
+  scientificName: String
+  commonName: String
+  +getDescription(): String
+}
+class Seedling {
+  season = "Summer"
+  depth = 30
+  isBranchy = false
+  +getStemHeight(): int
+  +checkPotability(): boolean
+  +plantInPot(pot: Pot): boolean
+}
+class Pot {
+  hasFungusHealth: boolean
+  volumeLiters: int
+  +getVolumeLiters(): int
+  +checkFungusHealth(): boolean
+}
+class GardeningTechnician {
+  name: String
+  licenseNumber: String
+  +updatePertinentKnowledge(friendship: String): void
+  +diagnoseIssue(issueLabel: String): DiagnosticReport
+}
+class DiagnosisReport {
+  issueLabel: String
+  severityLevel: int
+  +getSummary(): String
+}
+class PlantingSchedule {
+  startDate: Date
+  endDate: Date
+  isCompleted: boolean
+  +validate(): boolean
+  +getProgress(): double
+}
+class WorkSession {
+  startTime: Date
+  endTime: Date
+  isCompleted: boolean
+  +completed(): void
+  +getElementCount(): int
+}
+class HarvestBatch {
+  harvestDate: Date
+  +getSeedsInBatch(): int
+  +finalizeBatch():
+}
+class SoilCondition {
+  pHLevel: double
+  moistureLevel: double
+  fertilityScore: int
+  +evaluate(): String
+}
+class PestControlPlan {
+  startDate: Date
+  endDate: Date
+  +generatePlan(): void
+  +updatePlan(): void
+}
+class RegionalAgent {
+  name: String
+  districtName: String
+  +contactUnit(msg: String): void
+  +notifyGardeners(): void
+}
+class GardenUser {
+  username: String
+  +createSchedule(startDate: Date, endDate: Date): PlantingSchedule
+  +approvePlan(plan: PestControlPlan): boolean
+  +viewCurrentTasks(): List
+}
+class SeedSelection {
+  varietyType: String
+  +selectStemWidth(width: int): String
+  +countSeeds(): int
+}
+class InventoryReport {
+  reportDate: Date
+  totalCapacity: int
+  +exportData(): String
+  +checkInventoryStability(): boolean
+}
+class OzoneSensor {
+  sensitivityLevel: double
+  +readMeasurement(): double
+  +adjustReading(target: double): void
+}
+class CropProfile {
+  cropName: String
+  yieldEstimate: double
+  lastRotationYear: int
+  +getFitFor(): String
+}
+class SurveillanceUnit {
+  isActive: boolean
+  +monitorGarden(garden: GardenUser): void
+  +alertOnIssue(issue: DiagnosticReport): void
+}
+class MaintenanceLog {
+  logDate: Date
+  description: String
+  cost: double
+  +recordEntry(description: String, cost: double): void
+}
+class FertilizerBatch {
+  fertilizerType: String
+  volumeLiters: int
+  +mixSolution(): void
+  +recordUsage(volume: int): void
+}
+class WeatherForecast {
+  forecastDate: Date
+  temperature: int
+  weatherType: String
+  +predictCondition(): String
+}
+GardenUser "1" --> "*" PlantingSchedule : schedules
+GardenUser "1" *-- "*" SeedSelection : selections
+PlantingSchedule "1" *-- "1" Seedling : seedlings
+PlantingSchedule "1" *-- "1" SoilCondition : soilCondition
+PlantingSchedule "1" *-- "1" OzoneSensor : sensor
+WorkSession "1" *-- "1" Seedling : plantedStock
+WorkSession "1" *-- "1" DiagnosticReport : report
+GardenUser "1" --> "*" WorkSession : sessions
+GardenUser "1" --> "*" RegionalAgent : contacts
+Seedling "1" --> "1" PlantSpecies : species
+GardenUser "1" --> "*" HarvestBatch : harvests 'opposite: harvesters
+WorkSession "1" --> "*" HarvestBatch : harvests
+PestControlPlan -- FertilizerBatch
+Seedling -- CropProfile
+InventoryReport -- OzoneSensor
+InventoryReport -- RegionalAgent
+WorkSession -- RegionalAgent
+GardenUser -- RegionalAgent
+InventoryReport -- GardeningTechnician
+@enduml

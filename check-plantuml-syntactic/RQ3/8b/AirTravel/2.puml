@@ -1,0 +1,102 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor yellow
+skinparam classAttributeIconSize 0
+
+class Aircraft {
+    - String name
+    - String type
+    - int yearOfManufacture
+    - Date nextInspectionDate
+    - Airline airline
+    - Airport homeAirport
+}
+
+class Flight {
+    - String flightNumber
+    - Date date
+    - Aircraft aircraft
+    - Airport departureAirport
+    - Airport destinationAirport
+    - List<Passenger> passengers
+}
+
+class Passenger {
+    - String name
+    - String passportNumber
+    - List<Flight> flights
+    - List<Ticket> tickets
+}
+
+class Ticket {
+    - String ticketNumber
+    - double price
+    - boolean upgradeDesired
+    - SeatCategory seatCategory
+}
+
+class SeatCategory {
+    - String designation
+    - boolean hasEntertainment
+    - int numberOfSeats
+    - Aircraft aircraft
+}
+
+class Airline {
+    - String name
+    - List<Flight> flights
+    - List<FlightAttendant> flightAttendants
+    - List<Pilot> pilots
+}
+
+class FlightAttendant {
+    - String name
+    - Date dateOfEmployment
+    - boolean isChiefStewardess
+    - List<Flight> flights
+}
+
+class Pilot {
+    - String name
+    - Date dateOfEmployment
+    - String license
+    - List<Flight> flights
+}
+
+class Airport {
+    - String name
+    - String address
+    - int numberOfRunways
+    - List<Aircraft> homeAircraft
+    - List<Flight> flights
+}
+
+Aircraft "1" -- "1" Airline : belongs to
+Aircraft "1" -- "0..1" Airport : home airport
+Flight "1" -- "1" Aircraft : uses
+Flight "1" -- "1" Airport : departure
+Flight "1" -- "1" Airport : destination
+Flight "1" -- "0..*" Passenger : includes
+Passenger "1" -- "0..*" Ticket : has
+Ticket "1" -- "1" SeatCategory : for
+SeatCategory "1" -- "1" Aircraft : part of
+Airline "1" -- "0..*" FlightAttendant : employs
+Airline "1" -- "0..*" Pilot : employs
+FlightAttendant "1" -- "1" Flight : works on
+Pilot "1" -- "1" Flight : flies
+Flight "1" -- "1" Airport : departure
+Flight "1" -- "1" Airport : destination
+Airport "1" -- "0..*" Aircraft : home
+Airport "1" -- "0..*" Flight : involves
+
+@enduml
+
+---
+
+### ✅ Notes:
+- This diagram captures all the relationships and attributes mentioned in the system requirement.
+- The associations are represented using `--` with cardinality (e.g., `1` to `*`, `0..1`, etc.).
+- The `SeatCategory` is linked to both `Aircraft` and `Ticket`.
+- All entities like `Passenger`, `Flight`, `Ticket`, `SeatCategory`, `Airline`, `FlightAttendant`, `Pilot`, and `Airport` are modeled accordingly.
+

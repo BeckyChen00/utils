@@ -1,0 +1,50 @@
+
+@startuml
+
+' Define classes
+class City {
+    - name: String
+    - inhabitants: int
+}
+
+class Attraction {
+    - name: String
+    - address: String
+}
+
+class GuidedTour {
+    - duration: int  // e.g., in hours
+    - tourNumber: int
+    - maxVisitors: int = 20
+}
+
+class Visitor {
+    - name: String
+}
+
+class Guide {
+    - name: String
+}
+
+class Discount {
+    - amount: float
+}
+
+' Relationships
+City "1" -- "many" Attraction : has
+Attraction "1" -- "many" GuidedTour : offers
+GuidedTour "1" -- "many" Visitor : includes (max 20)
+GuidedTour "1" -- "1" Guide : requires
+Visitor "1" -- "many" Discount : may have
+Guide "1" -- "many" Discount : may offer
+
+@enduml
+
+### Explanation of the Diagram:
+- **City** has multiple **Attractions**.
+- Each **Attraction** can have multiple **GuidedTours**.
+- A **GuidedTour** can include up to 20 **Visitors**.
+- Each **GuidedTour** must be led by a **Guide**.
+- A **Visitor** may have a **Discount** for a specific tour.
+- A **Guide** may also offer discounts.
+

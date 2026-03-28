@@ -1,0 +1,85 @@
+
+@startuml
+skinparam classAttributeIconColor Blue
+
+class Patient {
+  - patientID: String
+  - name: String
+  - consentGiven: Boolean
+}
+
+class Doctor {
+  - doctorID: String
+  - name: String
+  - specialty: String
+}
+
+class HeadDoctor {
+  - headDoctorID: String
+  - name: String
+}
+
+class Illness {
+  - illnessID: String
+  - name: String
+  - priorityScore: Priority (High | Low)
+}
+
+class Diagnosis {
+  - diagnosisID: String
+  - illnessID: String
+  - doctorID: String
+  - approvedByHeadDoctor: Boolean
+}
+
+class Treatment {
+  - treatmentID: String
+  - illnessID: String
+  - stage: Stage (Stage1 | Stage2 | Stage3)
+  - patientID: String
+}
+
+class ConsentForm {
+  - consentID: String
+  - patientID: String
+  - signedDate: Date
+}
+
+enum Stage {
+  Stage1
+  Stage2
+  Stage3
+}
+
+enum Priority {
+  High
+  Low
+}
+
+Patient "1" -- "0..*" Diagnosis : has
+Doctor "1" -- "0..*" Diagnosis : makes
+HeadDoctor "1" -- "0..*" Diagnosis : approves
+
+Illness "1" -- "0..*" Diagnosis : related to
+Illness "1" -- "0..*" Treatment : related to
+
+Diagnosis "1" -- "0..*" Treatment : applies to
+
+Treatment "1" -- "0..1" ConsentForm : requires consent
+
+Patient "1" -- "0..*" ConsentForm : signs
+@enduml
+
+---
+
+### Explanation of Key Relationships:
+
+- A `Patient` can have multiple `Diagnoses`, each made by a `Doctor`.
+- Each `Diagnosis` must be approved by a `HeadDoctor` before any `Treatment` can be applied.
+- An `Illness` is associated with one or more `Diagnoses` and `Treatments`.
+- A `Treatment` has a `Stage` (Stage1, Stage2, Stage3), and can be upgraded based on:
+  - Patient consent (once given, all treatments for that patient can be upgraded freely).
+  - Illness `PriorityScore` (if set to **High**, all treatments for that illness are automatically moved to Stage3).
+- A `ConsentForm` is used to allow a `Patient` to upgrade treatments from Stage1 to higher stages.
+
+Let me know if you'd like to generate this into an image or add additional constraints or behaviors!

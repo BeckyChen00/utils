@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Route">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="routeNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assignment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shiftType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bus" eType="#//Bus"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="driver" eType="#//Driver"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="route" eType="#//Route"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignments" eType="#//Assignment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteAssignment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="route" eType="#//Route"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buses" eType="#//Bus" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BTMS">
+    <eOperations xsi:type="ecore:EOperation" name="addDriver">
+      <eParameters xsi:type="ecore:EParameter" name="driver" eType="#//Driver"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="deleteDriver">
+      <eParameters xsi:type="ecore:EParameter" name="driverID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="addBus">
+      <eParameters xsi:type="ecore:EParameter" name="bus" eType="#//Bus"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="deleteBus">
+      <eParameters xsi:type="ecore:EParameter" name="licensePlate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="assignBusToRoute">
+      <eParameters xsi:type="ecore:EParameter" name="route" eType="#//Route"/>
+      <eParameters xsi:type="ecore:EParameter" name="bus" eType="#//Bus"/>
+      <eParameters xsi:type="ecore:EParameter" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="assignDriverToShift">
+      <eParameters xsi:type="ecore:EParameter" name="shift" eType="#//Assignment"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="generateOverview" eType="#//Map_Route_RouteAssignment">
+      <eParameters xsi:type="ecore:EParameter" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="isOnSickLeave">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Boolean" eType="#//isInRepairShop" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="isInRepairShop"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Bus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Driver"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Map_Route_RouteAssignment"/>
+</ecore:EPackage>

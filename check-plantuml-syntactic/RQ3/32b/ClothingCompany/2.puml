@@ -1,0 +1,99 @@
+
+@startuml
+
+' Set skin parameters for better readability
+skinparam class {
+    BackgroundColor<<entity>> LightBlue
+    BackgroundColor<<value object>> LightGreen
+}
+
+' Define classes
+class Country <<entity>> {
+    - id: int
+    - name: String
+    - currency: String
+    - conversionRateToEuro: double
+}
+
+class VAT <<entity>> {
+    - rate: double
+    - countryId: int
+}
+
+class Product <<entity>> {
+    - id: int
+    - name: String
+    - description: String
+    - netPrice: double
+    - manufacturer: String
+    - availableInCountryId: int
+}
+
+class Representative <<entity>> {
+    - id: int
+    - firstName: String
+    - lastName: String
+    - ssn: String
+    - telephone: String
+    - email: String
+    - responsibleCountryId: int
+}
+
+class Customer <<entity>> {
+    - id: int
+    - name: String
+    - address: String
+    - telephone: String
+    - email: String
+    - resellingCountries: List<Country>
+}
+
+class Order <<entity>> {
+    - id: int
+    - customerId: int
+    - productId: int
+    - quantity: int
+    - orderDate: Date
+    - deliveryDate: Date
+    - representativeId: int
+}
+
+' Relationships
+
+' One Country has Many Products
+Country "1" --> "many" Product : contains\navailable in
+
+' One Country has One VAT
+Country "1" --> "1" VAT : has
+
+' One Country has Many Representatives
+Country "1" --> "many" Representative : has\nresponsible for
+
+' One Representative creates Many Orders
+Representative "1" --> "many" Order : creates
+
+' One Customer places Many Orders
+Customer "1" --> "many" Order : places
+
+' One Product appears in Many Orders
+Product "1" --> "many" Order : included in
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Entities**: Represented with a light blue background.
+- **Value Objects**: Represented with a light green background (e.g., `VAT` could be considered a value object if it's immutable and only carries data).
+- **Relationships**:
+  - A `Country` has one `VAT` and many `Products`.
+  - A `Country` can have many `Representatives`, each assigned to exactly one country.
+  - A `Representative` handles many `Orders`.
+  - A `Customer` can place multiple `Orders`.
+  - Each `Order` is for one `Product`.
+
+---
+
+
+Let me know if you want the same diagram as an image or need further refinements!

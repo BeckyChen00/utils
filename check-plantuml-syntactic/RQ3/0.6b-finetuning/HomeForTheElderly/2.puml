@@ -1,0 +1,36 @@
+@startuml
+enum ResolutionLevel {
+  Fullresolution
+  Highquality
+  Standard
+}
+enum ColorType {
+  Grayscale
+  RGB
+  Hsl
+}
+enum FileFormat {
+  PDF
+  JPG
+  PNG
+  Png
+  Docx
+  Xls
+}
+class Document {
+  fileName: String
+  creationDate: Date
+  +addParagraph(text: String): void
+  +removeParagraph(text: String): void
+  +exportFormat(format: FileFormat): File
+  +exportResolution(level: ResolutionLevel): File
+}
+class Image {
+  fileName: String
+  resolutionLevel: ResolutionLevel
+  colorMode: ColorType
+  +save(format: FileFormat): void
+  +restoreToOriginal(): void
+}
+Document *-- "1" Image : primaryImage
+@enduml

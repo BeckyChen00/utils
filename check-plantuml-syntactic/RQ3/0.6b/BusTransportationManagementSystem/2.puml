@@ -1,0 +1,17 @@
+@startuml
+    classDiagram
+        [System Requirement] SystemRequirement {
+            class Name: SystemRequirement
+        }
+
+        class Diagram {
+            name: "Class Diagram"
+            extends SystemRequirement
+        }
+
+        # Relationships
+        [Relationship 1]
+        Diagram -> SystemRequirement: Relationship1
+
+        # Additional relations omitted for brevity
+@enduml

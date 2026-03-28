@@ -1,0 +1,94 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Song {
+  +String title
+  +int year
+  +float length
+  +String genre
+}
+
+class Artist {
+  +String name (PK)
+  +Date dob
+  +String url
+}
+
+class User {
+  +String id (PK)
+  +String name
+  +String address
+}
+
+class BusinessUser {
+  +String vatNumber
+}
+
+class RegularUser {
+}
+
+class Album {
+  +String title
+  +int trackNumber
+}
+
+class Single {
+}
+
+class Hit {
+}
+
+' Inheritance relationships
+
+User <|-- BusinessUser
+User <|-- RegularUser
+
+Song <|-- Single
+Song <|-- Hit
+
+Album "1" --> "many" Hit : contains
+Hit "1" --> "1" Album : part of
+
+Artist "1" --> "many" Song : creates
+Song "1" --> "1" Artist : belongs to
+Song "1" --> "1" User : uploaded by
+BusinessUser "1" --> "many" Song : uploads
+
+RegularUser "1" --> "many" Single : buys
+RegularUser "1" --> "many" Album : owns
+
+' Associations with notes
+
+note right of Album
+  An album consists only of hits.
+  Each hit has a track number in the album.
+end note
+
+note right of Single
+  Singles can be directly purchased by regular users.
+end note
+
+note right of Hit
+  Hits can be part of an album.
+end note
+
+note right of RegularUser
+  Can be both a buyer (regular user) and a seller (business user).
+end note
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Points:
+
+- **Song** is a base class for `Single` and `Hit`.
+- **Artist** is uniquely identified by name and is associated with one or more songs.
+- **User** is a base class for `RegularUser` and `BusinessUser`, allowing a person to act in both roles.
+- **Album** contains multiple `Hit`s, each with a unique `trackNumber`.
+- **RegularUser** can purchase singles or albums.
+- **BusinessUser** uploads songs (`Single` or `Hit`) but not albums.
+
+This class diagram captures all the required entities and their relationships according to the system specification.

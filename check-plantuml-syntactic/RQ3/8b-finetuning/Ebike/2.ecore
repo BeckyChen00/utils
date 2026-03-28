@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="driveSystem" eType="#//DriveSystem" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DriveSystem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EBike">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controller" eType="#//EController" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="frame" eType="#//Frame" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="battery" eType="#//Battery" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintenanceSchedule" eType="#//MaintenanceSchedule" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serviceRecords" eType="#//ServiceRecord" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" eType="#//Component" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBattery" eType="#//Battery"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Frame">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wheels" eType="#//Wheel" lowerBound="2" upperBound="2" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="manufacturer" eType="#//Manufacturer" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Battery"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Wheel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Manufacturer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="suppliedComponents" eType="#//Component" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaintenanceSchedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servicedComponent" eType="#//Component" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Component"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WarrantyClaim">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="claimedComponent" eType="#//Component" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedBike" eType="#//EBike" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

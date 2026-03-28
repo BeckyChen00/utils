@@ -1,0 +1,47 @@
+@startuml
+enum StorySegmentType {
+  Introduction
+  Setup
+  Conflict
+  Climax
+  Resolution
+  Conclusion
+  Epilogue
+}
+enum StoryWavePhase {
+  Stage0
+  Stage1
+  Stage2
+  Stage3
+}
+class UserStory {
+  title: String
+  isPublished: boolean
+  +getSummary(): String
+}
+class StoryProgress {
+  isCompleted: boolean
+  currentWave: StoryWavePhase
+  progressPercentage: int
+  maxCapacity: int
+  +calculateProgress(): int
+  +incrementWave(): void
+}
+class StorySegment {
+  title: String
+  content: String
+  segmentType: StorySegmentType
+  durationMinutes: int
+  +getTextContent(): String
+}
+class StoryWave {
+  title: String
+  phase: StoryWavePhase
+  content: String
+  +getContent(): String
+}
+UserStory "1" --> "1" StoryProgress : storyProgress
+StoryProgress "1" *-- "1..*" StorySegment : containedSegments
+StoryProgress "1" --> "1..*" StoryWave : dictatedWaves
+StoryWave "1" *-- "1..*" StorySegment : subSegments
+@enduml

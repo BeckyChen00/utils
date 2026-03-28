@@ -1,0 +1,95 @@
+
+@startuml
+
+' Define classes and their attributes/relationships
+
+class User {
+    +String firstName
+    +String lastName
+    +String email (username)
+    +String password
+    +String postalAddress
+    +String phoneNumber
+}
+
+class Organizer {
+    -List<Event> eventsOrganized
+    -List<Attendee> attendeesInvited
+    -List<Task> tasksCreated
+}
+
+class Attendee {
+    -Event eventAttending
+    -List<Task> attendeeTasks
+    +ResponseStatus responseStatus
+}
+
+enum ResponseStatus {
+    Attending
+    Maybe
+    NotAttending
+}
+
+class Event {
+    -Date startTime
+    -Date endTime
+    +String occasion
+    +Location location
+    +String type
+    -List<Organizer> organizers
+    -List<Attendee> attendees
+    -Checklist checklist
+}
+
+class Location {
+    +String name
+    +String address
+}
+
+class Checklist {
+    -List<Task> tasks
+}
+
+class Task {
+    +String description
+    +TaskStatus status
+    +Boolean isForAttendees
+}
+
+enum TaskStatus {
+    NeedsToBeDone
+    Done
+    NotApplicable
+}
+
+' Inheritance relationships
+User <|-- Organizer
+User <|-- Attendee
+
+' Association and aggregation relationships
+Organizer "1" *-- "many" Event : organizes
+Event "1" *-- "many" Organizer : has organizer(s)
+Event "1" *-- "many" Attendee : invites
+Attendee "1" *-- "1" Event : attends
+Event "1" o-- "1" Checklist : has
+Checklist "1" *-- "many" Task : contains
+Organizer "1" *-- "many" Task : creates
+Attendee "1" *-- "many" Task : selects
+Event "1" *-- "1" Location : held at
+Location "many" --> "many" Event : used in
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **User** is an abstract base class for both `Organizer` and `Attendee`.
+- An **Organizer** can manage multiple **Events**.
+- Each **Event** has a **Checklist**, which consists of **Tasks**.
+- A **Task** can be assigned to **Attendees**; those who attend will see and select their assigned tasks.
+- The **Location** and **Event Type** are reusable, so they are modeled as separate classes with potential reuse across multiple events.
+- Enums (`ResponseStatus`, `TaskStatus`) are used to enforce valid statuses.
+
+---
+

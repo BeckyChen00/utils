@@ -1,0 +1,39 @@
+@startuml
+classDiagram
+    [System Requirements] system requirements
+
+    class User {
+        name String;
+        email String;
+        password String;
+    }
+
+    class Admin {
+        name String;
+        email String;
+        password String;
+    }
+
+    class Database {
+        connection String;
+        query String;
+    }
+
+    class Role {
+        role String;
+    }
+
+    class SystemRequirement {
+        user User;
+        admin Admin;
+        database Database;
+        role Role;
+    }
+
+    # relationships
+    user --> system requirement
+    admin --> system requirement
+    database --> system requirement
+    role --> system requirement
+
+    @enduml

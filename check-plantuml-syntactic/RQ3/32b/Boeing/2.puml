@@ -1,0 +1,65 @@
+
+@startuml
+
+' Define classes and their attributes/operations
+class Contract {
+    - id: String
+    - terms: String
+    - deliveryConditions: String
+    - legalAspects: String
+    - startDate: Date
+    - endDate: Date
+    + getAcquisitions(): List<Acquisition>
+    + getSalesperson(): Salesperson
+}
+
+class Acquisition {
+    - contractId: String
+    - aircraftModel: String
+    - negotiatedPrice: Double
+    - optionsCustomizations: String
+    - deliveryDate: Date
+    + getAircraft(): Aircraft
+}
+
+class Aircraft {
+    - model: String
+    - type: String
+    - serialNumber: String
+}
+
+class AirlineCompany {
+    - name: String
+    - country: String
+    - parentId: String (optional)
+    + getMotherCompany(): AirlineCompany (optional)
+    + getDaughterCompanies(): List<AirlineCompany>
+}
+
+class Salesperson {
+    - id: String
+    - name: String
+    - email: String
+    + manageContracts(): List<Contract>
+}
+
+' Relationships
+Contract "1" -- "0..*" Acquisition : contains
+Contract "1" -- "1" Salesperson : managed by
+Acquisition "1" -- "1" Aircraft : specifies
+AirlineCompany "1" -- "0..*" AirlineCompany : parent-child relationship (mother-daughter)
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Contract`**: A high-level agreement between Boeing and an airline company. It may include multiple acquisitions.
+- **`Acquisition`**: Represents a single airplane purchase within a contract, with specific details like price, model, and delivery date.
+- **`Aircraft`**: Describes the actual plane being sold, including its model and serial number.
+- **`AirlineCompany`**: Keeps track of airline companies and their hierarchical relationships (e.g., mother-daughter).
+- **`Salesperson`**: Manages one or more contracts. An employee can handle multiple contracts over time.
+
+The optional `parentId` in `AirlineCompany` allows for modeling relationships such as subsidiaries or affiliated airlines.
+

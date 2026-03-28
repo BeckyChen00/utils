@@ -1,0 +1,78 @@
+
+@startuml
+
+' Houses
+class House {
+  - address: String
+  - buildingMaterial: String (wood, brick, concrete)
+}
+
+' Basements
+abstract class Basement {
+  - size: int
+  - name: String
+}
+
+class EarthBasement extends Basement {
+  - humidityLevel: float
+}
+
+class ConcreteBasement extends Basement {
+}
+
+House "1" -- "0..1" Basement : has a basement
+
+' Semi-Detached House
+class SemiDetachedHouse {
+  - hasGarden: boolean
+  - numberOfWindows: int
+  - hasCarports: boolean
+  - hasGarage: boolean
+}
+
+SemiDetachedHouse --|> House
+
+' Carport and Garage
+abstract class ParkingStructure {
+}
+
+class Carport extends ParkingStructure {
+  - isDouble: boolean
+  - hasFlatRoof: boolean
+}
+
+class Garage extends ParkingStructure {
+  - hasAutomaticDoor: boolean
+}
+
+SemiDetachedHouse "1" -- "2" Carport : has two carports
+SemiDetachedHouse "1" -- "1" Garage : has one garage
+SemiDetachedHouse ..|> ParkingStructure : either carports or garage
+
+' Companies and Jobs
+class Company {
+  - name: String
+  - address: String
+}
+
+class JobLog {
+  - hoursWorked: float
+  - agreedPrice: float
+}
+
+Company "1" --> "*" JobLog : performs jobs
+House "1" --> "*" JobLog : jobs at house
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **`House`**: Base class with basic attributes.
+- **`Basement`**: Abstract base class for two types: `EarthBasement` and `ConcreteBasement`.
+- **`SemiDetachedHouse`**: Specialized type of house with extra properties like garden, number of windows, and parking structures.
+- **`Carport` and `Garage`**: Represent the two possible parking options. A semi-detached house can have **either** two carports **or** one garage.
+- **`Company` and `JobLog`**: Records all maintenance or service jobs done by companies on houses.
+
+---
+

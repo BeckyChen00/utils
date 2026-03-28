@@ -1,0 +1,39 @@
+@startuml
+enum AccountType {
+  Personal
+  Business
+  Advertiser
+  Admin
+}
+class User {
+  id: String
+  name: String
+  emailAddress: String
+  dateOfBirth: Date
+  +registerAccount(type: AccountType): Account
+}
+class Account {
+  accountNumber: int
+  accountType: AccountType
+  company: String
+  isVerified: boolean
+  +verifyAccount(): boolean
+  +createPage(pageName: String): Page
+}
+class Page {
+  pageName: String
+  visitCount: int
+  +updateVisitCount(increment: int): void
+  +getStatistics(): String
+}
+class AdminAccount {
+  adminLevel: int
+  +manageOtherAccounts(): void
+  +configureSystemSettings(): void
+}
+AdminAccount --|> Account
+User "1" *-- "0..*" Account : ownedAccounts
+Account "1" *-- "0..*" Page : managedPages
+Page "0..*" --> "0..*" User : followers
+AdminAccount "1" --> "0..*" Account : managedAccounts
+@enduml

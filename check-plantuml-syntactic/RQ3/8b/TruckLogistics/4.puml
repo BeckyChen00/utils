@@ -1,0 +1,61 @@
+@startuml
+class Location {
+  - String address
+  - List<Driver> drivers
+  - List<Vehicle> vehicles
+}
+
+class Driver {
+  - String firstName
+  - String lastName
+  - List<Order> orders
+  - List<Vehicle> vehicles
+}
+
+class Vehicle {
+  - String vehicleNumber
+  - String type (Truck, Car, Van)
+  - Truck truckDetails --> "has" --|> Truck
+  - Car carDetails --> "has" --|> Car
+  - Van vanDetails --> "has" --|> Van
+}
+
+class Truck {
+  - int weight
+}
+
+class Car {
+  - int numberOfSeats
+}
+
+class Van {
+  - int capacity
+}
+
+class Order {
+  - Location origin
+  - Location destination
+  - List<Driver> drivers
+  - Date executionDate
+}
+
+Location "1" -- "*" Driver : has
+Location "1" -- "*" Vehicle : has
+Driver "1" -- "*" Order : carries
+Driver "1" -- "*" Vehicle : drives
+Vehicle "1" -- "*" Truck : is a
+Vehicle "1" -- "*" Car : is a
+Vehicle "1" -- "*" Van : is a
+Order "1" -- "*" Driver : assigned to
+@enduml
+
+### Notes:
+- **Inheritance**: The `Vehicle` class is the base class for `Truck`, `Car`, and `Van`. This allows for polymorphic relationships.
+- **Associations**:
+  - A `Location` can have multiple `Drivers` and `Vehicles`.
+  - A `Driver` can be associated with one or more `Orders` and can drive one or more `Vehicles`.
+  - An `Order` must have at least one `Driver` and two `Locations` (origin and destination).
+- **Multiplicity**:
+  - A `Driver` can carry **at most one** `Order` at a time.
+  - A `Vehicle` can be driven by **at most one** `Driver`.
+

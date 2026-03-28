@@ -1,0 +1,126 @@
+@startuml
+enum MoistureLevel {
+  VeryDry
+  Dry
+  Moderate
+  Wet
+  Overwatered
+}
+enum HerbType {
+  Mint
+  Basil
+  Rosemary
+  Thyme
+  Sage
+  Oregano
+  Lemmon
+  Pannen
+}
+class SoilSample {
+  pHLevel: double
+  moistureLevel: MoistureLevel
+  soilType: String
+  +analyze(): AnalysisResult
+  +calibrate(): boolean
+}
+class AnalysisResult {
+  moistureData: MoistureLevel[]
+  +getSummaryReport(): String
+  +getThermalOutput(): int
+}
+class HarvestOrder {
+  orderDate: Date
+  targetStage: String
+  +submitOrder(): HarvestRecord
+  +cancelOrder(): boolean
+}
+class CropCharacteristics {
+  growthStage: String
+  isWild: boolean
+  +calculateYield(): double
+}
+class HarvestRecord {
+  harvestDate: Date
+  +recordHarvest(plantSpec: PlantProfile, date: Date): HarvestOrder
+  +generateReport(): AnalysisResult
+}
+class PlantProfile {
+  speciesName: String
+  soilComposition: String[]
+  speciesCode: String
+  +adjustForTemperature(level: double): void
+}
+class MedicinalHerb {
+  herbName: String
+  potencyLevel: int
+  herbType: HerbType
+  +isPotent(): boolean
+}
+class LotusPlant {
+  height: double
+  width: double
+  +updateHeight(newHeight: double): void
+}
+class ClimaxPhase {
+  growthState: String
+  +recordPhaseDate(date: Date): void
+}
+class WeatherEvent {
+  eventType: String
+  eventNotes: String
+  +detectVineyardState(): boolean
+}
+class LeafCollector {
+  +collectLeaf(sample: SoilSample): Leaf
+  +recordCollectorName(): String
+}
+class Leaf {
+  leafIndex: int
+  microstructureType: String
+  +extractLeaf(): void
+}
+class MoistureSensor {
+  sensorStatus: MoistureLevel
+  +readSensorValue(): MoistureLevel
+  +calibrate(): boolean
+}
+class DataLogger {
+  +logTemperature(level: MoistureLevel, sensorId: String): void
+  +archiveLogs(): boolean
+}
+class PestAlert {
+  alertMessage: String
+  currentLevel: MoistureLevel
+  isAlertDropped: boolean
+  +acknowledgeAlert(): void
+}
+class PestCycle {
+  cycleDuration: int
+  pestDescription: String
+  +detectCycleCurrent(level: MoistureLevel): boolean
+  +generateCycleReport(): String
+}
+class FieldTrial {
+  trialName: String
+  startDate: Date
+  endDate: Date
+  +startTrial(): HarvestOrder
+  +endTrial(): CropCharacteristics
+}
+LotusPlant --|> PlantProfile
+PlantProfile --> "0..1" LeafCollector : assignedCollector
+DataLogger -- MoistureSensor
+WeatherEvent -- Meteorologist
+HumiditySensor -- MoistureSensor
+MoistureSensor -- Leaf
+Leaf -- LeafCollector
+LotusPlant -- PestAlert
+FieldTrial -- HarvestOrder
+HarvestOrder -- MedicinalHerb
+HarvestOrder -- Leaf
+Leaf -- CropCharacteristics
+PlantProfile -- CropCharacteristics
+MoistureSensor -- WeatherEvent
+FieldTrial -- PestAlert
+PestCycle -- WeatherEvent
+@enduml

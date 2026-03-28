@@ -1,0 +1,64 @@
+
+@startuml
+
+' Define classes and their attributes
+class Faculty {
+  - name: String
+  - numberOfInstitutes: int
+  - dean: Employee
+}
+
+class Institute {
+  - name: String
+  - address: String
+  - faculty: Faculty
+}
+
+class Employee {
+  - socialSecurityNumber: String
+  - name: String
+  - email: String
+  - type: String
+}
+
+class ResearchAssistant {
+  + fieldOfResearch: String
+  - projects: List<Project>
+  - courses: List<Course>
+}
+
+class Lecturer {
+  - courses: List<Course>
+}
+
+class Project {
+  - name: String
+  - startDate: Date
+  - endDate: Date
+  - hours: int
+}
+
+class Course {
+  - courseId: String
+  - name: String
+  - weeklyDuration: int
+}
+
+' Associations
+Faculty "1" -- "0..*" Institute : consists of
+Institute "1" -- "1" Faculty : belongs to
+Faculty "1" -- "1" Employee : has dean
+Employee "1" -- "0..*" ResearchAssistant : is a
+ResearchAssistant "1" -- "0..*" Project : is involved in
+ResearchAssistant "1" -- "0..*" Course : teaches
+Course "1" -- "1" Lecturer : taught by
+
+@enduml
+
+### Notes:
+- `ResearchAssistant` inherits from `Employee`.
+- `Lecturer` is a specialization of `ResearchAssistant`, which implies a **generalization** relationship.
+- `Project` is associated with `ResearchAssistant` (a RA can be involved in multiple projects).
+- `Course` is associated with `Lecturer` (a lecturer teaches one or more courses).
+- The relationships reflect the composition and aggregation as per the domain model.
+

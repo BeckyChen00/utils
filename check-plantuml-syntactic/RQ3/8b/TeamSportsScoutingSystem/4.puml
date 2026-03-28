@@ -1,0 +1,96 @@
+
+@startuml
+
+' Define classes and their attributes
+class PlayerProfile {
+    +String id
+    +String name
+    +List<String> targetPositions
+    +Map<String, String> attributes
+}
+
+class Player {
+    +String id
+    +String name
+    +String position
+    +String nationality
+    +String club
+    +Date birthDate
+}
+
+class Scout {
+    +String id
+    +String name
+    +String role
+}
+
+class HeadCoach {
+    +String id
+    +String name
+    +String role
+}
+
+class Director {
+    +String id
+    +String name
+    +String role
+}
+
+class ScoutingAssignment {
+    +String id
+    +Date assignmentDate
+    +Player player
+    +Scout assignedScout
+    +PlayerProfile targetProfile
+}
+
+class ScoutingReport {
+    +String id
+    +Date reportDate
+    +Player player
+    +Scout scout
+    +List<String> pros
+    +List<String> cons
+    +String recommendation
+}
+
+class LongList {
+    +String id
+    +Date createdDate
+    +List<Player> players
+}
+
+class ShortList {
+    +String id
+    +Date createdDate
+    +List<Player> players
+}
+
+' Associations between classes
+PlayerProfile "1" -- "0..*" Player: hasTargetProfile
+Player "1" -- "0..*" ScoutingAssignment: isScoutedBy
+Player "1" -- "0..*" ScoutingReport: isReportedOn
+Scout "1" -- "0..*" ScoutingAssignment: assigns
+Scout "1" -- "0..*" ScoutingReport: creates
+HeadCoach "1" -- "0..*" PlayerProfile: defines
+HeadCoach "1" -- "0..*" ShortList: manages
+Director "1" -- "0..*" Player: offersToSign
+LongList "1" -- "0..*" Player: contains
+ShortList "1" -- "0..*" Player: contains
+ScoutingAssignment "1" -- "0..*" ScoutingReport: resultsIn
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **PlayerProfile**: Represents the desired profile for a player (e.g., position, attributes).
+- **Player**: A real player in the system with personal details.
+- **Scout**, **HeadCoach**, **Director**: Roles within the club.
+- **ScoutingAssignment**: A task given to a scout to evaluate a specific player against a profile.
+- **ScoutingReport**: The result of a scouting assignment, including pros, cons, and recommendation.
+- **LongList**: A list of potential players that match a profile, periodically reviewed by the head scout.
+- **ShortList**: A refined list of players selected after initial evaluations.
+- Relationships reflect how entities interact in the system.
+

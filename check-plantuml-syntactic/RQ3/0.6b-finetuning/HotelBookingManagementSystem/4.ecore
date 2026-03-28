@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publishedTopics" eType="#//NewsTopic" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NewsTopic"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NewsContent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headlineAnalyzer" eType="#//TopicAnalyzer" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currentReadingData" eType="#//TimeSeriesData" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="categoryTarget" eType="#//AudienceSegment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TopicAnalyzer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeSeriesData">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creator" eType="#//PlatformUser" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlatformUser"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AudienceSegment"/>
+</ecore:EPackage>

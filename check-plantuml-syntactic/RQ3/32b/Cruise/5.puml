@@ -1,0 +1,83 @@
+
+@startuml
+
+' Define classes and their attributes
+
+class Provider {
+    - name: String
+    - location: String
+}
+
+class Cruise {
+    - cruiseNumber: Integer
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    + organize(): void
+}
+
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+}
+
+class Guest {
+    - name: String
+    - isVIP: Boolean
+}
+
+class Ship {
+    - name: String
+    - numberOfDecks: Integer
+    - length: Double
+    - passengerCapacity: Integer
+}
+
+class TravelAgency {
+    - name: String
+    - address: String
+}
+
+class Booking {
+    - bookingNumber: String
+    - bookingDate: Date
+}
+
+class DestinationArea {
+    - name: String
+    - seaName: String
+}
+
+class Show {
+    - title: String
+    - duration: Integer  // in minutes
+}
+
+class Ticket {
+    - ticketId: Integer
+}
+
+' Relationships
+
+Provider "1" -- "many" Cruise : organizes
+Cruise "1" -- "many" Employee : requires
+Cruise "1" -- "many" Guest : has participants
+Cruise "1" -- "1" Ship : uses
+Cruise "1" -- "1" DestinationArea : heads to
+Cruise "1" -- "many" Show : offers
+Cruise "1" -- "many" Ticket : issues
+TravelAgency "1" -- "many" Booking : handles
+Booking "1" -- "1" Cruise : for
+Booking "1" -- "1" Guest : by
+Ticket "1" -- "1" Cruise : belongs to
+Ticket "1" -- "1" Guest : purchased by
+
+@enduml
+
+---
+
+### Notes:
+- All associations are labeled with appropriate cardinalities.
+- Methods like `organize()` are added as examples; you can expand or remove them as needed.
+- The `Guest` class participates in multiple `Cruise`s, which is captured through the `Ticket` class to ensure a one-to-one relationship between `Ticket` and `Cruise`.
+

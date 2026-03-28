@@ -1,0 +1,26 @@
+@startuml
+enum SwitchStatus {
+  DEACTIVATED
+  ACTIVATED
+}
+class SwitchProfile {
+  isActive: boolean
+  +activate(): void
+  +deactivate(): void
+  +setSwitches(switches: Set<Switch>): void
+}
+class Switch {
+  isLocked: boolean
+  currentStatus: SwitchStatus
+  +lock(): void
+  +unlock(): void
+}
+class NetworkSwitch {
+  ipAddress: String
+  supportedModes: String[]
+  +configure(mode: String, settings: Object): boolean
+  +getDefaultProfile(): SwitchProfile
+}
+SwitchProfile --> "1" NetworkSwitch : definedOn
+Switch -- NetworkSwitch
+@enduml

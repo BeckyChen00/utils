@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="PickupRequest">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pickupDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pickupTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resident" eType="#//Resident"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vehicle" eType="#//PickupVehicle"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PickupVehicle">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="vehicleID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="storageCapacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currentLoad" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="driver" eType="#//VolunteerDriver"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VolunteerDriver">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="driverID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="availableDays" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedRoute" eType="#//Route"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Route">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="routeID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pickupRequests" eType="#//PickupRequest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vehicle" eType="#//PickupVehicle"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecondHandArticle">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="articleID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="category" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rfidTagId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualityStatus" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DistributionCenter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="centerID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="employee" eType="#//Employee"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="articlesReceived" eType="#//SecondHandArticle" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="employeeID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="role" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedCenter" eType="#//DistributionCenter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FoodBank">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="foodBankID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeliveryRequest">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deliveryID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="client" eType="#//Client"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="article" eType="#//SecondHandArticle"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deliveryDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deliveryTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="driver" eType="#//VolunteerDriver"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Client">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clientId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preferredCategories" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationService">
+    <eOperations xsi:type="ecore:EOperation" name="sendNotification">
+      <eParameters xsi:type="ecore:EParameter" name="client" eType="#//Client"/>
+      <eParameters xsi:type="ecore:EParameter" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InventorySystem">
+    <eOperations xsi:type="ecore:EOperation" name="addArticle">
+      <eParameters xsi:type="ecore:EParameter" name="article" eType="#//SecondHandArticle"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="updateArticle">
+      <eParameters xsi:type="ecore:EParameter" name="article" eType="#//SecondHandArticle"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RoutePlanner">
+    <eOperations xsi:type="ecore:EOperation" name="planRoute" eType="#//Route">
+      <eParameters xsi:type="ecore:EParameter" name="vehicle" eType="#//PickupVehicle"/>
+      <eParameters xsi:type="ecore:EParameter" name="requests" eType="#//PickupRequest" upperBound="-1"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="streetAddress">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//phoneNumber"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="phoneNumber"/>
+  <eClassifiers xsi:type="ecore:EClass" name="email">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//itemsDescription" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="itemsDescription"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Resident"/>
+</ecore:EPackage>

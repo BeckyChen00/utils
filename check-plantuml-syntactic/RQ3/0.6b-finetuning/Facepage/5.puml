@@ -1,0 +1,43 @@
+@startuml
+class LabStaff {
+  staffName: String
+  +generateTrainingRecord(): TrainingRecord
+  +conductSafetyCheck(): SafetyCheck
+}
+class RadiationSource {
+  isCertifiedReady: boolean
+  sourceType: String
+  calibrationStatus: String
+  +getCalibrationStatus(): String
+  +verifyProperity(): boolean
+}
+class Filler {
+  fillerKind: String
+  isHazardous: boolean
+  +assessHazardousness(): boolean
+}
+class SafetyCheck {
+  checkDate: Date
+  result: String
+  status: String
+  +recordResult(): boolean
+}
+class EnvironmentalStandard {
+  standardCode: String
+  description: String
+  +isCompliant(): boolean
+}
+class TrainingRecord {
+  courseCode: String
+  completionDate: Date
+  score: double
+  +calculateOverallScore(): double
+}
+LabStaff *-- "1" TrainingRecord : generatedRecord
+LabStaff --> "0..*" SafetyCheck : performedChecks
+LabStaff --> "1..*" RadiationSource : managedSources
+LabStaff --> "0..*" TrainingRecord : learnerRecords
+RadiationSource *-- "1" EnvironmentalStandard : adheringStandard
+RadiationSource --> "0..*" Filler : compatibleFillers
+SafetyCheck --> "1" RadiationSource : checkedSource
+@enduml

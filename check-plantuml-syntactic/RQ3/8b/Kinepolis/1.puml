@@ -1,0 +1,115 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Cinema {
+  +id: int
+  +name: string
+  +theatres: List<Theatre>
+}
+
+class Theatre {
+  +id: int
+  +name: string
+  +seats: int
+  +copies: List<MovieCopy>
+}
+
+class MovieCopy {
+  +id: int
+  +movie: Movie
+  +cinema: Cinema
+  +location: Cinema
+}
+
+class Movie {
+  +id: int
+  +title: string
+  +duration: int
+}
+
+class Show {
+  +id: int
+  +movie: Movie
+  +theatre: Theatre
+  +startTime: DateTime
+  +endTime: DateTime
+  +published: boolean
+}
+
+class ShowProgram {
+  +id: int
+  +shows: List<Show>
+  +weekStart: DateTime
+}
+
+class Customer {
+  +id: int
+  +name: string
+  +email: string
+}
+
+class Reservation {
+  +id: int
+  +customer: Customer
+  +show: Show
+  +seatNumber: int
+  +status: Status
+}
+
+enum Status {
+  PENDING, CONFIRMED, CANCELLED, EXPIRED
+}
+
+class Offer {
+  +id: int
+  +reservation: Reservation
+  +newShow: Show
+  +newSeatNumber: int
+  +expirationTime: DateTime
+}
+
+class Ticket {
+  +id: int
+  +show: Show
+  +seatNumber: int
+  +customer: Customer
+  +isReserved: boolean
+}
+
+' Relationships
+Cinema "1" -- "0..*" Theatre : has
+Theatre "1" -- "1" MovieCopy : contains
+MovieCopy "1" -- "1" Movie : copies
+Movie "1" -- "0..*" Show : used in
+Show "1" -- "1" Theatre : occurs in
+Show "1" -- "1" ShowProgram : part of
+Customer "1" -- "0..*" Reservation : made by
+Reservation "1" -- "1" Show : for
+Reservation "1" -- "0..1" Offer : associated with
+Offer "1" -- "1" Show : offers seat in
+Offer "1" -- "1" Reservation : related to
+Customer "1" -- "0..*" Ticket : purchased by
+Ticket "1" -- "1" Show : for
+Ticket "1" -- "1" Seat : assigned to
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **Cinema** owns several **Theatres**, which contain **MovieCopies**.
+- Each **MovieCopy** belongs to a specific **Cinema** and can be moved between Cinemas.
+- A **Show** is scheduled in a specific **Theatre** and uses a **Movie**.
+- A **ShowProgram** represents a weekly schedule (from Wednesday to Tuesday).
+- **Reservations** are made by **Customers** for **Shows**.
+- **Offers** are created when a reservation is cancelled or if a show is removed.
+- **Tickets** are issued at the entrance for shows without reservations.
+- The **Status** enum tracks the state of a reservation (e.g., pending, confirmed, etc.).
+
+---
+

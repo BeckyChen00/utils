@@ -1,0 +1,59 @@
+
+@startuml
+
+' Define classes
+
+class Center {
+    +name: String
+    +address: String
+    +rooms: Set<Room>
+}
+
+class Room {
+    +number: int
+    +maxCapacity: int
+    -center: Center
+}
+
+class Person {
+    +firstName: String
+    +familyName: String
+    +birthDate: Date
+    -id: String  ' derived from firstName, familyName, birthDate
+}
+
+class Trainer extends Person {
+    +diploma: String
+}
+
+class Session {
+    +date: Date
+    +startTime: Time
+    +type: String (optional)
+    -room: Room
+    -participants: Set<Person>
+    -supervisor: Trainer (optional)
+}
+
+' Relationships
+
+Center "1" -- "0..*" Room : has
+Room "1" -- "1" Center : belongs to
+Person "1" -- "0..*" Session : participates in
+Trainer "1" -- "0..*" Session : supervises (only for group sessions)
+
+@enduml
+
+### Explanation of the Diagram:
+- **Center**: Represents a fitness center with a unique name, address, and rooms.
+- **Room**: Each room has a unique number and maximum capacity, and belongs to one center.
+- **Person**: Base class for all people, including members and prospects. Has unique attributes: first name, family name, and birth date.
+- **Trainer**: A subclass of `Person` that also has a diploma. Trainers can supervise group sessions.
+- **Session**: Contains details like date, start time, and type (for group sessions). It may have participants (members) and a supervisor (trainer).
+
+### Notes:
+- A session can be either individual or group.
+- Group sessions require exactly one trainer.
+- Sessions are uniquely identified by room, date, and start time.
+- Prospects (people who haven't participated yet) and interns (trainers who haven't supervised any session) are represented as `Person` objects without being linked to any `Session`.
+

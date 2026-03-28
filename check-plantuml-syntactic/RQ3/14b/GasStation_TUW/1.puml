@@ -1,0 +1,78 @@
+
+@startuml
+' Gas Station Chain Class Diagram
+
+class GasStation {
+  -id: String
+  -address: String
+  -fuelPumps: List<FuelPump>
+  +addFuelPump(pump: FuelPump): void
+  +getFuelPumpById(id: Integer): FuelPump
+}
+
+class FuelPump {
+  -id: Integer
+  -isSelfService: Boolean
+  -fuels: List<Fuel>
+  +addFuel(fuel: Fuel): void
+  +getFuels(): List<Fuel>
+}
+
+class Fuel {
+  -name: String
+  -octaneRating: Integer
+}
+
+class DailyPrice {
+  -date: Date
+  -fuel: Fuel
+  -gasStation: GasStation
+  -pricePerLiter: Double
+}
+
+class FuelPurchase {
+  -id: String
+  -fuelPump: FuelPump
+  -dailyPrice: DailyPrice
+  -liters: Double
+}
+
+' Associations
+
+GasStation "1" *-- "0..12" FuelPump : has
+FuelPump "1" *-- "0..*" Fuel : offers
+GasStation "1" *-- "0..*" DailyPrice : archives
+FuelPurchase "1" --> "1" FuelPump : at
+FuelPurchase "1" --> "1" DailyPrice : of
+FuelPurchase "1" --> "1" Fuel : fuel (via DailyPrice)
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **GasStation**:
+  - Has a unique `id` and `address`.
+  - Contains up to 12 `FuelPump`s.
+  - Archives `DailyPrice` entries.
+
+- **FuelPump**:
+  - Identified by an `id`.
+  - Can be self-service or not.
+  - Offers multiple types of `Fuel`.
+
+- **Fuel**:
+  - Identified by name.
+  - Has an octane rating.
+
+- **DailyPrice**:
+  - Identified by date, fuel, and gas station.
+  - Stores the price per liter on that day.
+
+- **FuelPurchase**:
+  - Identified by a unique ID.
+  - Records the fuel pump, the daily price used, and the number of liters purchased.
+
+---
+

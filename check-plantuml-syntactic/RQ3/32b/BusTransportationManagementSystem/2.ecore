@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Route">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="routeNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assignment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bus" eType="#//Bus"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="route" eType="#//Route"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Shift">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shiftType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="driver" eType="#//Driver"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bus" eType="#//Bus"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="route" eType="#//Route"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Staff">
+    <eOperations xsi:type="ecore:EOperation" name="assignBusesToRoutes"/>
+    <eOperations xsi:type="ecore:EOperation" name="scheduleDrivers"/>
+    <eOperations xsi:type="ecore:EOperation" name="updateDriverStatus"/>
+    <eOperations xsi:type="ecore:EOperation" name="updateBusStatus"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="```plantuml" eType="#//The" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="The"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="isOnSickLeave">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolean" eType="#//isInRepairShop" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="isInRepairShop"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Bus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Driver"/>
+</ecore:EPackage>

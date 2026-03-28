@@ -1,0 +1,160 @@
+
+@startuml
+
+' Define classes and their attributes and relationships
+
+class Traveller {
+  - name: String
+  - billingInformation: BillingInfo
+  - travelPreferences: List<TravelPreference>
+  + register(): void
+  + searchAccommodation(): List<Offer>
+  + createPreliminaryBooking(): PreliminaryBooking
+  + completeBooking(): FinalizedBooking
+  + getReliabilityRating(): Double
+}
+
+class BillingInfo {
+  - companyName: String
+  - companyAddress: String
+  - creditCardInfo: String
+}
+
+class TravelPreference {
+  - preferenceType: String (e.g., breakfast, wifi, front desk)
+}
+
+class Offer {
+  - city: String
+  - dateOfArrival: Date
+  - dateOfDeparture: Date
+  - roomType: String
+  - hotelRating: Integer
+  - maxCostPerNight: Double
+  - price: Double
+  - preferencesMatched: List<TravelPreference>
+}
+
+class Hotel {
+  - name: String
+  - address: String
+  - city: String
+  - rating: Integer
+  - hotelChain: HotelChain (optional)
+  + announceRoomAvailability(): void
+  + sendSpecialOffer(bookingId: String): SpecialOffer
+  + confirmBooking(bookingId: String): void
+  + cancelBooking(bookingId: String): void
+}
+
+class HotelChain {
+  - name: String
+  - hotels: List<Hotel>
+}
+
+class RoomAvailability {
+  - roomType: String
+  - startDate: Date
+  - endDate: Date
+  - numberOfRooms: Integer
+  - isFullyBooked: Boolean
+}
+
+class Booking {
+  - bookingId: String
+  - traveller: Traveller
+  - hotel: Hotel
+  - dateOfArrival: Date
+  - dateOfDeparture: Date
+  - roomType: String
+  - numberOfRooms: Integer
+  - totalPrice: Double
+  - paymentType: PaymentType (pre-paid or paid at hotel)
+  - cancellationDeadline: Date
+  - status: BookingStatus
+  + finalize(): FinalizedBooking
+}
+
+abstract class AbstractBooking {}
+
+class PreliminaryBooking extends AbstractBooking {
+  - submissionDate: Date
+  - deadlineForOffers: Date
+  + forwardToCompetitors(): void
+}
+
+class FinalizedBooking extends AbstractBooking {
+  - confirmationDate: Date
+  - confirmedByHotel: Boolean
+  - paymentProcessed: Boolean
+  + confirm(): void
+  + cancel(): void
+}
+
+class SpecialOffer {
+  - offerId: String
+  - preliminaryBookingId: String
+  - hotel: Hotel
+  - price: Double
+  - additionalBenefits: List<String>
+}
+
+class HBMS {
+  + processSearch(city: String, arrival: Date, departure: Date, ...): List<Offer>
+  + handlePreliminaryBooking(booking: PreliminaryBooking): void
+  + evaluateSpecialOffers(bookingId: String): List<SpecialOffer>
+  + storeBooking(booking: FinalizedBooking): void
+  + calculateReliability(traveller: Traveller): Double
+  + manageCancellations(bookingId: String): void
+  + reimburseTraveller(bookingId: String): void
+}
+
+enum PaymentType {
+  PrePaid,
+  PaidAtHotel
+}
+
+enum BookingStatus {
+  Pending,
+  Confirmed,
+  Cancelled,
+  Expired
+}
+
+' Relationships
+Traveller "1" -- "1" : has >> BillingInfo
+Traveller "1" -- "0..*" : has >> TravelPreference
+Traveller "1" -- "0..*" : has >> Booking
+Traveller "1" -- "1" : has >> ReliabilityRating
+
+Offer "1" -- "1" : belongs to >> Hotel
+Offer "1" -- "0..*" : includes >> TravelPreference
+
+Hotel "1" -- "0..*" : managed by >> HotelChain (optional)
+Hotel "1" -- "0..*" : has >> RoomAvailability
+Hotel "1" -- "0..*" : receives >> PreliminaryBooking
+Hotel "1" -- "0..*" : sends >> SpecialOffer
+
+Booking "1" -- "1" : belongs to >> Traveller
+Booking "1" -- "1" : belongs to >> Hotel
+
+HBMS "1" -- "0..*" : processes >> Booking
+HBMS "1" -- "0..*" : handles >> Offer
+HBMS "1" -- "0..*" : evaluates >> SpecialOffer
+HBMS "1" -- "1" : calculates >> ReliabilityRating
+
+@enduml
+
+---
+
+### ✅ Summary of Key Elements in the Diagram:
+
+- **Traveller** manages bookings and preferences.
+- **Hotel** and **HotelChain** represent accommodation providers.
+- **HBMS** is the central system that coordinates searches, bookings, and offers.
+- **Booking**, **PreliminaryBooking**, and **FinalizedBooking** represent the booking lifecycle.
+- **SpecialOffer** is used during the competitive offer phase.
+- Enums like `PaymentType` and `BookingStatus` help model fixed states.
+
+---
+

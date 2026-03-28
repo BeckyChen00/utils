@@ -1,0 +1,87 @@
+
+@startuml
+
+' Define classes and their relationships
+
+class Customer {
+    - name: String
+    - id: String
+    + getRideHistory(): List<Ride>
+}
+
+class CarOwner {
+    - name: String
+    - id: String
+    - car: Car (1)
+    + registerCar(car: Car): void
+}
+
+class Car {
+    - licensePlate: String
+    - isSelfDriving: boolean
+    - owner: CarOwner (0..1)
+    - accidentHistory: List<Accident>
+    + addAccident(accident: Accident): void
+}
+
+class Accident {
+    - date: Date
+    - location: String
+    - damageAmount: Double
+}
+
+abstract class Ride {
+    - pickupTime: DateTime
+    - dropoffTime: DateTime
+    - pickupLocation: String
+    - dropoffLocation: String
+    - duration: Duration
+    - distance: Double
+    - fee: Double
+    + getCustomers(): List<Customer>
+    + getTotalFee(): Double
+}
+
+class RideHailing extends Ride {
+    - requestType: RequestType (enum)
+    - leadCustomer: Customer
+    - numberOfPassengers: Integer (max 6)
+}
+
+class RideSharing extends Ride {
+    - negotiatedFeePerCustomer: Double
+    - totalCustomers: Integer (max 10)
+    - rideCountForTreeIncentive: Integer
+    + plantTreeIfEligible(): Boolean
+}
+
+class RequestType {
+    <<enumeration>>
+    APP
+    HAND_WAVE
+}
+
+' Relationships
+Customer "0.." -- "0..*" Ride : participates in
+Customer "1" -- "1" RideHailing : is lead customer of
+Customer "1.."10" -- "1" RideSharing : participants in
+CarOwner "0..*" -- "0..1" Car : owns
+Car "1" -- "0..*" Accident : has
+RideHailing "1" -- "1" RequestType : type of request
+
+@enduml
+
+---
+
+### ✅ Summary of Key Features Included:
+
+- **Two types of rides**: `RideHailing` and `RideSharing`, both inheriting from an abstract base class `Ride`.
+- **Request types**: Hand-waving or App-based, modeled as an enum.
+- **Customers** can be part of multiple rides, with one being the **lead customer** in hailing.
+- **Car owners** can register their cars to be used by Sober.
+- **Cars** have accident history.
+- **Ride-sharing** includes flexible pricing and tree-planting incentives.
+- **Constraints** like max passengers are explicitly modeled in the class descriptions.
+
+---
+

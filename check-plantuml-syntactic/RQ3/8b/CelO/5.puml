@@ -1,0 +1,64 @@
+
+@startuml
+
+' Define classes
+class Organizer {
+  - firstName: String
+  - lastName: String
+  - email: String (username)
+  - postalAddress: String
+  - phoneNumber: String
+  - password: String
+  + eventKind: String
+  + startDate: DateTime
+  + endDate: DateTime
+  + occasion: String
+  + location: String
+  + inviteAttendee(firstName: String, lastName: String, email: String)
+  + viewInvitationStatus()
+  + manageChecklist()
+  + addTaskToChecklist(task: String)
+  + designateAttendeeTask(task: String)
+}
+
+class Attendee {
+  - email: String (username)
+  - password: String
+  + confirmAttendance(status: String)  // "Attending", "Maybe", "Not Attending"
+  + selectTask(task: String)
+  + viewEventDetails(event: Event)
+}
+
+class Event {
+  - kind: String
+  - startDate: DateTime
+  - endDate: DateTime
+  - occasion: String
+  - location: String
+  + attendees: List<Attendee>
+  + checklist: List<Task>
+}
+
+class Task {
+  - description: String
+  - isForAttendee: Boolean
+  + status: String  // "Pending", "Done", "Not Applicable"
+}
+
+' Associations
+Organizer --> "1" Event : manages
+Event --> "0..*" Attendee : has
+Event --> "0..*" Task : has
+Attendee --> "0..*" Task : selects
+
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **Organizer**: Manages events, invites attendees, maintains checklists, and tracks attendance.
+- **Attendee**: Can create an account via invitation, confirm their attendance, and select tasks to bring.
+- **Event**: Contains details like kind, date, time, occasion, and location. It also has a list of attendees and a checklist of tasks.
+- **Task**: Represents a task in the checklist. Tasks can be designated for attendees or not. Each task has a status.
+

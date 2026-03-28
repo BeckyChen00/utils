@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="department">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="researchGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//title" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="title"/>
+  <eClassifiers xsi:type="ecore:EClass" name="description">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//title" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Date" eType="#//startDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="startDate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="endDate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Department" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Department">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//ResearchGroup" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResearchGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Researcher" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leads" eType="#//WorkPackage" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Researcher">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participates_in" eType="#//Assignment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkPackage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Assignment" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Project">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decomposes_into" eType="#//WorkPackage" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assignment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_to" eType="#//WorkPackage" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performed_by" eType="#//Researcher" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

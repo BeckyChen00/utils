@@ -1,0 +1,86 @@
+
+@startuml
+
+' Define classes
+class User {
+  -username: String
+  -password: String
+}
+
+class Player {
+  +playGame(game: Game): void
+  +pauseGame(): void
+  +resumeGame(): void
+  +getScore(): Integer
+}
+
+class Admin {
+  +createGame(name: String): Game
+  +designBlocks(blocks: List<Block>): void
+  +defineLevels(levels: List<Level>): void
+  +publishGame(game: Game): void
+}
+
+class Game {
+  -name: String
+  -hallOfFame: HallOfFame
+  -blocks: List<Block>
+  -levels: List<Level>
+  -minSpeed: Double
+  -speedIncreaseFactor: Double
+  -maxPaddleLength: Integer
+  -minPaddleLength: Integer
+  -published: Boolean
+}
+
+class Block {
+  -color: String
+  -points: Integer (1-1000)
+}
+
+class Level {
+  -levelNumber: Integer
+  -blockArrangement: List<GridPosition>
+  -isRandom: Boolean
+  -numInitialBlocks: Integer
+}
+
+class GridPosition {
+  -row: Integer
+  -column: Integer
+}
+
+class HallOfFame {
+  -highScores: List<HighScore>
+}
+
+class HighScore {
+  -player: Player
+  -score: Integer
+  -game: Game
+  -date: Date
+}
+
+' Relationships
+User "1" -- "1..*" Player : "is"
+User "1" -- "0..1" Admin : "is"
+Admin "1" -- "1" Game : "creates"
+Game "1" -- "1" HallOfFame : "has"
+Game "1" -- "1..*" Block : "uses"
+Game "1" -- "1..*" Level : "has"
+Level "1" -- "1..*" GridPosition : "contains"
+Level "1" -- "1" Block : "uses"
+Player "1" -- "1" Game : "plays"
+Game "1" -- "1..*" HighScore : "has"
+
+@enduml
+
+---
+
+### 📌 Notes:
+- The `User` can be both a `Player` and an `Admin`, but not for the same `Game`.
+- Each `Game` has its own unique set of `Blocks`, `Levels`, and `HallOfFame`.
+- A `Level` may have a random block arrangement or be fixed.
+- `GridPosition` represents the position of a block in a grid layout.
+- `HighScore` records the best scores per player in each game.
+

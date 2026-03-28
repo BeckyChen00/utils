@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedZones" eType="#//FlightZone" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlightZone"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StarHub">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="installedBatteries" eType="#//BatteryUnit" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedStations" eType="#//SensorStation" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeSchedules" eType="#//FlightSchedule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BatteryUnit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorStation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FlightSchedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetStations" eType="#//SensorStation" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orchestratorController" eType="#//MissionController" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MissionController"/>
+</ecore:EPackage>

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affiliation" eType="#//AffiliationProfile" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AffiliationProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servedGroups" eType="#//AgeGroup" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="categorizedUsers" eType="#//UserData" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserData">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="residence" eType="#//Location" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventHistory" eType="#//ObservationRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Location"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ObservationRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceLocation" eType="#//Location" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implicatedBullets" eType="#//BullyBullet" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subjectUser" eType="#//UserData" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BullyBullet">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="severityLevel" eType="#//Amount" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackedModules" eType="#//SensorModule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="blamedUsers" eType="#//UserData" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Amount"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataProcessingEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSnapshots" eType="#//DatabaseSnapshot" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="performedAnalysis" eType="#//BehavioralAnalysis" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedModel" eType="#//StatisticalModel" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredRules" eType="#//AlertRule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="handledGroups" eType="#//AgeGroup" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DatabaseSnapshot"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BehavioralAnalysis"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StatisticalModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AlertRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredSensor" eType="#//SensorModule" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntelligenceProvider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedUsers" eType="#//UserData" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SentimentAnalysis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedUsers" eType="#//UserData" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PredictionModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedRecords" eType="#//ObservationRecord" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AgeGroup"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IncidentLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="affectedUsers" eType="#//UserData" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedBullets" eType="#//BullyBullet" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involvedDevices" eType="#//MobileDevice" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reliedOnModels" eType="#//PredictionModel" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reportedCoordinates" eType="#//MapMarker" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredRules" eType="#//AlertRule" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedUsers" eType="#//UserData" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedLocations" eType="#//Location" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedMembers" eType="#//TeamMember" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedManifests" eType="#//SurveillanceManifest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedPredictions" eType="#//PredictionModel" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="viewedProfiles" eType="#//UserProfile" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MobileDevice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedRecords" eType="#//ObservationRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="integratedModels" eType="#//PredictionModel" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TemporalFilter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="examinedWindows" eType="#//TimeWindow" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filteredUsers" eType="#//UserData" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeWindow"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WarningRule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedRules" eType="#//AlertRule" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MapMarker"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EventLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="documentedUsers" eType="#//UserData" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TeamMember"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SurveillanceManifest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PredictModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedUsers" eType="#//UserData" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consultedModels" eType="#//PredictionModel" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="storedDocuments" eType="#//FirestoreDocument" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedRecords" eType="#//ObservationRecord" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filedLogs" eType="#//IncidentLog" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedBullets" eType="#//BullyBullet" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FirestoreDocument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserProfile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="System"/>
+</ecore:EPackage>

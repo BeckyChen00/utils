@@ -1,0 +1,122 @@
+
+---
+
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class User {
+    +String id
+    +String name
+    +String phone
+    +String email
+    +boolean isCarOwner
+    +List<Car> ownedCars
+    +List<Ride> rides
+}
+
+class Car {
+    +String id
+    +String licensePlate
+    +String model
+    +String color
+    +String ownerID
+    +boolean isSelfDriving
+    +List<Ride> rides
+    +List<Accident> accidents
+}
+
+class Ride {
+    +String id
+    +LocalDateTime startTime
+    +LocalDateTime endTime
+    +Location pickupLocation
+    +Location dropoffLocation
+    +Duration duration
+    +double distance
+    +int numberOfPassengers
+    +double fee
+    +String rideType
+    +String requestMethod
+    +User leadCustomer
+    +List<User> passengers
+    +List<Car> carsUsed
+}
+
+class Accident {
+    +String id
+    +LocalDateTime date
+    +Location location
+    +double damageAmount
+    +Car car
+}
+
+class Location {
+    +String address
+    +double latitude
+    +double longitude
+}
+
+class RideHail extends Ride {
+    +String requestMethod
+    +User leadCustomer
+    +int maxPassengers
+}
+
+class RideShare extends Ride {
+    +List<User> allCustomers
+    +double negotiatedFee
+    +int maxPassengers
+    +int treePlantedCount
+}
+
+' Relationships
+User "1" -- "0..*" User : owns
+User "1" -- "0..*" Ride : has
+Car "1" -- "0..*" Ride : usedIn
+Car "1" -- "0..*" Accident : has
+Ride "1" -- "0..*" Location : pickup
+Ride "1" -- "0..*" Location : dropoff
+Ride "1" -- "0..*" User : passenger
+Ride "1" -- "0..*" User : leadCustomer
+RideHail --|> Ride
+RideShare --|> Ride
+
+@enduml
+
+---
+
+### 📌 Explanation of Classes and Relationships
+
+- **User**: Represents users who can be customers or car owners.
+  - Attributes: ID, name, contact info, etc.
+  - Can own cars and have multiple rides.
+
+- **Car**: Represents vehicles in the fleet (both self-driving and user-owned).
+  - Attributes: ID, license plate, model, etc.
+  - Tracks rides and accidents associated with it.
+
+- **Ride**: Base class for both ride types.
+  - Stores common attributes like start/end time, location, duration, etc.
+  - Has associations to `User` (passengers and lead customer), and `Car`.
+
+- **RideHail**: Subclass of `Ride` for on-demand hailing.
+  - Includes method of request (App or hand-wave).
+  - Maximum of 6 passengers.
+
+- **RideShare**: Subclass of `Ride` for shared rides.
+  - Includes negotiated fee and tracking of trees planted.
+  - Maximum of 10 passengers.
+
+- **Accident**: Records any incidents involving a car.
+  - Links back to the affected car.
+
+- **Location**: Simple class to store geographic coordinates and address.
+
+---
+
+### 🧾 Notes:
+- The diagram uses inheritance (`--|>` for generalization) and associations (`--` for one-to-many).
+- All required data fields are included as attributes.
+
+Let me know if you'd like an image version or further refinements!

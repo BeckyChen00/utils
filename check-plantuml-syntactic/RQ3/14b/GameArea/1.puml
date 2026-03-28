@@ -1,0 +1,70 @@
+
+@startuml
+' Class Diagram for Game Area System
+
+class GameArea {
+  +name: String
+}
+
+class GameElement {
+  x: long
+  y: long
+}
+
+class Shape {
+}
+
+class Object {
+}
+
+class Opponent {
+  lives: int
+  +kill(): void
+}
+
+class Boss {
+}
+
+GameArea "1" -- "1..*" GameElement : contains
+GameArea "1" -- "1" Opponent : has boss
+GameElement <|-- Shape
+GameElement <|-- Object
+GameElement <|-- Opponent
+Shape "0..*" -- "0..*" Shape : connectedTo
+Opponent <|-- Boss
+@enduml
+
+---
+
+### Textual Description of Classes and Relationships (as per DEX tool syntax)
+
+- **Class: GameArea**
+  - Attribute: `name: String`
+  - Associations:
+    - `"contains"` → `GameElement` (multiplicity: `1..*`)
+    - `"has boss"` → `Opponent` (multiplicity: `1`)
+
+- **Class: GameElement**
+  - Attributes: `x: long`, `y: long`
+  - Generalizations:
+    - `Shape`
+    - `Object`
+    - `Opponent`
+
+- **Class: Shape**
+  - No specific attributes
+  - Association:
+    - `"connectedTo"` ↔ `Shape` (multiplicity: `0..*` on both sides)
+
+- **Class: Object**
+  - No specific attributes
+
+- **Class: Opponent**
+  - Attribute: `lives: int`
+  - Method: `kill()`
+  - Generalization:
+    - `Boss` (specialization)
+
+---
+
+Let me know if you'd like to see this in UML notation or a visual format!

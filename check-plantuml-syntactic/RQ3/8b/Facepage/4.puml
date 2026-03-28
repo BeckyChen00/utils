@@ -1,0 +1,59 @@
+
+---
+
+@startuml
+
+class User {
+  +id: String
+  +name: String
+  +email: String
+  +dateOfBirth: Date
+}
+
+class Account {
+  +accountNumber: String
+  +type: String (Personal/Business)
+  -user: User
+}
+
+class PersonalAccount extends Account {
+  +isVerified: Boolean
+}
+
+class BusinessAccount extends Account {
+  +companyName: String
+  +monthlyFee: Double
+}
+
+class Page {
+  +name: String
+  +visitCount: Integer
+  -account: Account
+}
+
+class AdvertisementPage extends Page {
+  +bounceRate: Double
+  +clickThroughRate: Double
+  +conversionRate: Double
+}
+
+User "1" -- "1" Account : creates
+Account "1" -- "0..*" Page : manages
+PersonalAccount "1" -- "0..*" Page : can be granted privileges to
+BusinessAccount "1" -- "1" AdvertisementPage : can create
+Page "1" -- "1" Account : managed by
+
+@enduml
+
+---
+
+### Explanation of Relationships:
+
+- **User → Account**: A user can create one account.
+- **Account → Page**: An account can manage multiple pages.
+- **PersonalAccount → Page**: A personal account can be granted privileges to other personal account's pages.
+- **BusinessAccount → AdvertisementPage**: A business account can create advertisement pages.
+- **Page → Account**: Each page is managed by exactly one account.
+- **User → PersonalAccount / BusinessAccount**: A user can have either a personal or business account, but not both.
+
+Let me know if you want this rendered as an image or in another format!

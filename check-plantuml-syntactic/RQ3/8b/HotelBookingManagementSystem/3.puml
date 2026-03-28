@@ -1,0 +1,127 @@
+
+---
+
+
+@startuml
+
+' Main Classes
+class Traveler {
+    +name: String
+    +billingInfo: BillingInfo
+    +travelPreferences: List<TravelPreference>
+}
+
+class BillingInfo {
+    +companyName: String
+    +address: String
+    +creditCardDetails: String
+}
+
+class TravelPreference {
+    +type: String
+    +value: String
+}
+
+class Hotel {
+    +name: String
+    +address: String
+    +city: String
+    +hotelChain: HotelChain
+    +rating: int
+}
+
+class HotelChain {
+    +name: String
+}
+
+class AccommodationOffer {
+    +id: String
+    +hotel: Hotel
+    +roomType: String
+    +pricePerNight: double
+    +startDate: Date
+    +endDate: Date
+    +preferencesMatched: boolean
+    +reliabilityRating: int
+}
+
+class PreliminaryBooking {
+    +bookingId: String
+    +traveler: Traveler
+    +offers: List<AccommodationOffer>
+    +deadline: Date
+    +finalized: boolean
+}
+
+class Booking {
+    +bookingId: String
+    +traveler: Traveler
+    +hotel: Hotel
+    +roomType: String
+    +startDate: Date
+    +endDate: Date
+    +totalCost: double
+    +paymentType: PaymentType
+    +confirmationStatus: ConfirmationStatus
+    +cancellationDeadline: Date
+    +isConfirmed: boolean
+    +isCancelled: boolean
+}
+
+enum PaymentType {
+    PREPAID
+    PAY_AT_HOTEL
+}
+
+enum ConfirmationStatus {
+    PENDING
+    CONFIRMED
+    CANCELLED
+}
+
+' Relationships
+Traveler --> "1" BillingInfo : has
+Traveler --> "0..*" TravelPreference : has
+Traveler --> "0..*" PreliminaryBooking : creates
+Traveler --> "0..*" Booking : makes
+
+Hotel --> HotelChain : belongs to
+Hotel --> "0..*" AccommodationOffer : offers
+Hotel --> "0..*" Booking : associated with
+
+PreliminaryBooking --> "0..*" AccommodationOffer : includes
+PreliminaryBooking --> Traveler : created by
+PreliminaryBooking --> "0..1" Booking : may lead to
+
+Booking --> Traveler : made by
+Booking --> Hotel : booked at
+Booking --> PaymentType : has
+Booking --> ConfirmationStatus : has
+Booking --> "0..1" PreliminaryBooking : derived from
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Traveler**: Represents a business traveler who uses HBMS.
+  - Has billing info, travel preferences, and can make bookings.
+- **BillingInfo**: Contains company name, address, and credit card details.
+- **TravelPreference**: Optional preferences like breakfast, wifi, etc.
+- **Hotel**: Has location, chain, rating, and offers rooms.
+- **HotelChain**: Represents hotel chains (e.g., Marriott, Hilton).
+- **AccommodationOffer**: A room offer from a hotel during a specific period.
+- **PreliminaryBooking**: Temporary booking that invites other hotels to compete.
+- **Booking**: Finalized booking with payment type, confirmation status, and cancellation rules.
+- **Enums**: `PaymentType` and `ConfirmationStatus` define possible values.
+
+---
+
+### 🧾 How to Use
+
+To render this diagram in your environment:
+
+2. Click **"Render"** or **"Export"** to get the visual class diagram.
+
+Let me know if you'd like the diagram exported as an image or want it formatted differently!

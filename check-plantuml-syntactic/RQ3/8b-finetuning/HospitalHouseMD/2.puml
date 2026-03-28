@@ -1,0 +1,85 @@
+@startuml
+enum SeverityLevel {
+  Normal
+  Critical
+  Severe
+  LifeThreatening
+  Unknown
+  Experimental
+  Contained
+  Outbreak
+}
+enum ConsensusType {
+  SingleVote
+  MajorityVote
+  ConsensusReached
+}
+enum PriorityLevel {
+  Low
+  High
+}
+class Illness {
+  name: String
+  symptoms: String[]
+  priority: PriorityLevel
+  +updatePriority(newPriority: PriorityLevel): void
+}
+class Patient {
+  name: String
+  contactInfo: String
+  +consentToUpgrade(): ConsensusType
+}
+class Doctor {
+  name: String
+  specialty: String
+  +diagnose(patient: Patient, illness: Illness): Diagnosis
+  +approveDiagnosis(diagnosis: Diagnosis): boolean
+}
+class Diagnosis {
+  severity: SeverityLevel
+  estimatedDurationDays: int
+  isConfirmed: boolean
+  addedReason: String
+  +confirmDiagnosis(): void
+  +isConfirmed(): boolean
+}
+class TreatmentPlan {
+  description: String
+  currentStage: int
+  +moveToStage(targetStage: int, consent: ConsensusType): void
+  +generateReport(): String
+}
+class SideEffect {
+  description: String
+  severity: SeverityLevel
+  occurrenceRate: double
+  +calculateRisk(): double
+}
+class Medication {
+  name: String
+  dosage: String
+  isStimulant: boolean
+}
+class Nurse {
+  name: String
+  department: String
+  +performCheckup(patient: Patient): void
+  +recordObservation(data: String): void
+}
+class TreatmentRegistry {
+  +getCountByLevel(level: SeverityLevel): int
+  +queryRegistry(nurse: Nurse): String
+}
+Illness *-- "*" Diagnosis : associatedDiagnoses
+Doctor *-- "*" Diagnosis : madeDiagnoses
+Patient --> "*" Diagnosis : patientDiagnoses
+Diagnosis --> "1" Illness : classifiedIllness
+Patient --> "*" TreatmentPlan : activePlans
+Doctor --> "*" TreatmentPlan : assignedPlans
+TreatmentPlan *-- "*" Medication : includedMedications
+TreatmentPlan *-- "*" SideEffect : knownSideEffects
+Nurse --> "*" Patient : assignedPatients
+Doctor --> "1" Diagnosis : approvedDiagnosis
+TreatmentRegistry --> "*" TreatmentPlan : registeredPlans
+Patient --> "*" Illness : diagnosedIllnesses
+@enduml

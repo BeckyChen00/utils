@@ -1,0 +1,72 @@
+@startuml
+enum RiskLevel {
+  Low
+  Medium
+  High
+  Critical
+}
+enum CrimeClassType {
+  Fraudulent
+  FinancialMishap
+  FraudulentLoanAttack
+  IdentityAssetRecovery
+  Theft
+}
+enum EventCategory {
+  Theft
+  Fraud
+  TheftOfKeys
+  CardForfeit
+}
+class SecurityEvent {
+  timestamp: Date
+  description: String
+  severityLevel: RiskLevel
+  +getDescription(): String
+}
+class CrimeEvent {
+  description: String
+  isMitigated: boolean
+  riskLevel: RiskLevel
+  isResolved: boolean
+  +resolveEvent(): void
+  +calculateMitigationRate(): double
+}
+class AlertNotification {
+  subject: String
+  content: String
+  +acknowledge(): void
+}
+class InsuranceEvent {
+  claimAmount: double
+  isClaimed: boolean
+  status: String
+  +claim(): void
+  +updateStatus(newStatus: String): void
+}
+class RiskAssessmentReport {
+  riskLevel: RiskLevel
+  categorization: EventCategory
+  mitigation notes: String
+  isVerified: boolean
+  +generateInsight(): String
+}
+class CrimeSuspect {
+  isRedacted: boolean
+  initials: String
+  +notifyTarget(target: CrimeSuspect): void
+}
+class Enterprise {
+  name: String
+  region: String
+  +getExcessionalIncidentCount(): int
+}
+CrimeEvent --|> SecurityEvent
+CrimeEvent *-- "0..*" AlertNotification : generatedAlerts
+SecurityEvent *-- "0..1" CrimeSuspect : investigatedBySuspect
+CrimeEvent --> "0..*" CrimeUtis : targetedTargets
+InsuranceEvent --> "1" CrimeEvent : triggeredByEvent
+CrimeEvent --> "1" Enterprise : responsibleEnterprise
+RiskAssessmentReport -- CrimeEvent
+RiskAssessmentReport --> "1" Enterprise : assessedByEnterprise
+@enduml

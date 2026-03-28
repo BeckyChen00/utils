@@ -1,0 +1,134 @@
+
+@startuml
+
+' Define classes and their attributes and associations
+
+class Home {
+}
+
+class Department {
+    - name: String
+}
+
+class Room {
+    - number: int
+}
+
+class Bed {
+    - bedNumber: int
+    + category: Category
+}
+
+class Category {
+    - typeName: String (e.g., RH, RNH, SF)
+    - price: float
+}
+
+class Inhabitant {
+    - id: int
+    - firstName: String
+    - lastName: String
+    - registrationDate: Date
+    + currentStays: List<Stay>
+}
+
+class Stay {
+    - startDate: Date
+    - endDate: Date (optional)
+    - status: String (active, suspended, ended)
+    + type: Category
+    + bed: Bed
+    + inhabitant: Inhabitant
+}
+
+class Registration {
+    - registrationDate: Date
+    + inhabitant: Inhabitant
+}
+
+class Assessment {
+    - needsHelpEating: Boolean
+    - needsHelpDressing: Boolean
+    - needsHelpPersonalCare: Boolean
+    + recommendedCategory: Category
+    + inhabitant: Inhabitant
+}
+
+class WaitingList {
+    + position: int
+    + inhabitant: Inhabitant
+    + requestedCategory: Category
+}
+
+class Proposal {
+    - proposalDate: Date
+    - responseDeadline: Date
+    - accepted: Boolean
+    + waitingListEntry: WaitingList
+    + bed: Bed
+}
+
+class Invoice {
+    - issueDate: Date
+    - dueDate: Date
+    - totalAmount: float
+    - outstandingAmount: float
+    - status: String (open, paid)
+    + stay: Stay
+}
+
+class Payment {
+    - paymentDate: Date
+    - amount: float
+    + invoice: Invoice
+}
+
+class CreditNote {
+    - issueDate: Date
+    - amount: float
+    + overpaymentInvoice: Invoice
+}
+
+class Complaint {
+    - description: String
+    - resolutionDate: Date
+    + invoice: Invoice
+}
+
+' Associations and relations
+
+Home "1" --> "many" Department
+Department "1" --> "many" Room
+Room "1" --> "many" Bed
+Bed "1" --> "1" Category
+Inhabitant "1" --> "many" Stay
+Inhabitant "1" --> "1" Registration
+Inhabitant "1" --> "1" Assessment
+Assessment "1" --> "1" WaitingList
+WaitingList "1" --> "many" Proposal
+Proposal "1" --> "1" Bed
+Stay "1" --> "1" Bed
+Stay "1" --> "1" Category
+Stay "1" --> "many" Invoice
+Invoice "1" --> "many" Payment
+Invoice "0..*" --> "1" CreditNote
+Invoice "0..*" --> "1" Complaint
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **Home**: Central entity that owns **Departments**.
+- **Department → Room → Bed → Category**: Hierarchical structure to manage physical resources.
+- **Inhabitant**: Central to all processes. Each has **Registration**, **Assessment**, and multiple **Stays**.
+- **WaitingList**: Based on assessment and registration date.
+- **Proposal**: Sent when a bed becomes available.
+- **Stay**: Can be active, suspended, or ended. Each stay is linked to one **Bed** and one **Category**.
+- **Invoice/Payment/CreditNote/Complaint**: Handles billing and financial interactions.
+- **Assessment**: Determines which category an inhabitant is eligible for and starts the waiting list process.
+
+---
+
+Let me know if you want this as a PNG image, or need further refinements like methods or inheritance.

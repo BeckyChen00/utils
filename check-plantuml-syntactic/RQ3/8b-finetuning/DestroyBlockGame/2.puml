@@ -1,0 +1,66 @@
+@startuml
+class Game {
+  gameName: String
+  maxLevelCount: int
+  minSpeed: double
+  speedIncreaseFactor: double
+  maxPaddleLength: double
+  minPaddleLength: double
+  +createLevel(levelNumber: int, isRandomBlock: boolean): Level
+  +deleteLevel(levelNumber: int): boolean
+  +publishGame(): boolean
+}
+class Level {
+  levelNumber: int
+  blockSet: Block[]
+  isRandomBlock: boolean
+  +generateStartingGrid(): Grid
+}
+class Block {
+  color: String
+  points: int
+}
+class Grid {
+  rows: int
+  columns: int
+  layout: String[][]
+}
+class Player {
+  username: String
+  password: String
+  +playGame(game: Game): GameSession
+  +pauseGame(session: GameSession): boolean
+  +resumeGame(session: GameSession): boolean
+}
+class Admin {
+  +designGame(gameName: String): Game
+  +configureLevelSettings(level: Level, isRandom: boolean): void
+}
+class GameSession {
+  startTime: Date
+  currentProgress: int
+  isPaused: boolean
+  +updateState(blockHit: Block, isLevelComplete: boolean): void
+  +endSession(): int
+  +getStats(): String
+}
+class HallOfFame {
+  entries: String[]
+  +addEntry(playerName: String, totalScore: int): boolean
+  +getTopEntries(count: int): String[]
+}
+class GameEngine {
+  +initializeBallAndPaddle(): void
+  +moveBall(deltaX: int, deltaY: int): void
+  +updateCollisionDetection(): boolean
+}
+Game *-- "1" HallOfFame : hallOfFame
+Game *-- "*" Level : levels
+Level *-- "1" Block : blocks
+Level *-- "1" Grid : grid
+GameSession *-- "1" Grid : currentGrid
+GameSession --> "*" Block : destroyedBlocks
+Player --> "0..1" GameSession : activeSession
+Player -- Admin
+Game -- GameEngine
+@enduml

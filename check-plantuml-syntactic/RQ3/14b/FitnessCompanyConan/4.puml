@@ -1,0 +1,89 @@
+
+@startuml
+' Class Diagram for Conan Fitness System
+
+class Person {
+  +firstName: String
+  +familyName: String
+  +birthDate: Date
+}
+
+class Trainer {
+  +diploma: String
+}
+
+class Member {
+  +memberId: Integer
+}
+
+class Center {
+  +name: String
+  +address: String
+  +rooms: List<Room>
+}
+
+class Room {
+  +roomNumber: Integer
+  +maxCapacity: Integer
+}
+
+class Session {
+  +date: Date
+  +startTime: Time
+  +type: String
+  +center: Center
+  +room: Room
+  +trainer: Trainer
+}
+
+class GroupSession {
+  +session: Session
+}
+
+class IndividualSession {
+  +session: Session
+}
+
+class Participant {
+  +person: Person
+  +session: Session
+}
+
+class SupervisedSession {
+  +trainer: Trainer
+  +session: Session
+}
+
+' Associations and Inheritance
+
+Person <|-- Trainer
+Person <|-- Member
+Center "1" *-- "0..*" Room
+Session <|-- GroupSession
+Session <|-- IndividualSession
+Person "0..*" *-- "0..*" Participant
+Participant "0..*" *-- "1" Session
+Trainer "0..*" *-- "0..*" SupervisedSession
+SupervisedSession "0..*" *-- "1" Session
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Person`**: Base class with `firstName`, `familyName`, and `birthDate`. This represents all people, including members, trainers, and prospects.
+- **`Trainer`** and **`Member`**: Subclasses of `Person`. A `Trainer` has a `diploma`, while `Member` could have an ID or other attributes if needed (you can extend this).
+- **`Center`**: Represents each fitness center. Has a name, address, and list of rooms.
+- **`Room`**: Belongs to a center and has a room number and maximum capacity.
+- **`Session`**: Abstract class representing either a group or individual session. Stores date, time, center, and room.
+- **`GroupSession`** and **`IndividualSession`**: Subclasses of `Session`. Group sessions require a trainer.
+- **`Participant`**: Links a person to a session. Used to record which people participated in which sessions.
+- **`SupervisedSession`**: Links a trainer to a session (only for group sessions).
+
+This model allows:
+- Recording of participation for members (including those who haven't joined any session yet).
+- Tracking of trainers and their supervision of group sessions (including those who haven’t supervised any session yet).
+- Managing centers, rooms, and session scheduling according to the constraints.
+
+Let me know if you'd like to generate the actual image or add more details!

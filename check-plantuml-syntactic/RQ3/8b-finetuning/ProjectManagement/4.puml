@@ -1,0 +1,36 @@
+@startuml
+class ResearchGroup {
+  name: String
+  department: String
+  +addMember(researcher: Researcher): void
+  +removeMember(researcher: Researcher): void
+  +getMembers(): List<Researcher>
+}
+class Researcher {
+  name: String
+  email: String
+  currentGroup: ResearchGroup
+  +changeGroup(newGroup: ResearchGroup): void
+  +assignToWP(wp: WorkPackage): void
+  +removeFromWP(wp: WorkPackage): void
+}
+class Project {
+  title: String
+  startDate: Date
+  endDate: Date
+  +addWorkPackage(wp: WorkPackage): void
+  +removeWorkPackage(wp: WorkPackage): void
+  +getWorkPackages(): List<WorkPackage>
+}
+class WorkPackage {
+  title: String
+  budget: double
+  duration: int
+  +assignLeader(group: ResearchGroup): void
+  +getTeamMembers(): List<Researcher>
+}
+Project *-- "1..*" WorkPackage : containedWorkPackages
+WorkPackage --> "1" ResearchGroup : leaderGroup
+Researcher --> "1" ResearchGroup : assignedGroup 'opposite: groupMembers
+Researcher --> "0..*" WorkPackage : teamMemberRoles
+@enduml

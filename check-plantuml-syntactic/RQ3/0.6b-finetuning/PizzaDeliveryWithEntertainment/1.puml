@@ -1,0 +1,60 @@
+@startuml
+enum FolderStatus {
+  Active
+  Closed
+  Archived
+  Recovered
+}
+enum NotificationType {
+  Email
+  SMS
+}
+class User {
+  username: String
+  email: String
+  +authenticate(credentials: String): boolean
+}
+class UserAccount {
+  accessLevel: String
+}
+class SystemAccount {
+  accountName: String
+  defaultNotificationChannel: NotificationType
+  +setDefaultChannel(channel: NotificationType): void
+}
+class Folder {
+  name: String
+  status: FolderStatus
+  +addItem(item: FileItem): void
+  +getItemCount(): int
+}
+class FileItem {
+  fileName: String
+  fileSize: int
+  uploadDate: Date
+}
+class Workflow {
+  name: String
+  priorityLevel: int
+  +execute(): boolean
+}
+class Task {
+  description: String
+  isMerged: boolean
+  +createTask(item: FileItem): void
+}
+class PriorityLevel {
+  levelName: String
+  associatedWorkflow: Workflow
+}
+User "1" *-- "1" UserAccount : primaryAccount
+User "1" --> "0..*" SystemAccount : ownedAccounts
+Folder "1" *-- "0..*" FileItem : items
+Folder "1" --> "0..*" Workflow : dependencies
+Workflow "1" *-- "0..*" Task : tasks
+Task "1" --> "0..1" FileItem : targetItem
+Task "1" --> "*" PriorityLevel : assignedLevels
+Task "1" --> "*" SystemAccount : approvers
+SystemAccount "1" --> "*" Folder : managedFolders
+SystemAccount "1" --> "*" User : subscribers
+@enduml

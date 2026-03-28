@@ -1,0 +1,99 @@
+
+@startuml
+
+' Define classes
+
+class Hospital {
+    - id: int
+    - name: string
+}
+
+class ExaminationType {
+    - id: int
+    - name: string
+    + canBePermitted(): boolean
+}
+
+class Permission {
+    - hospital_id: int
+    - examination_type_id: int
+    + requestPermission(): boolean
+}
+
+class Problem {
+    - id: int
+    - description: string
+}
+
+class TreatmentPlan {
+    - problem_id: int
+    - advised_examination_type_ids: List<int>
+    + getAdvisedExaminations(): List<ExaminationType>
+}
+
+class Doctor {
+    - id: int
+    - name: string
+    - affiliated_hospital_id: int
+}
+
+class Patient {
+    - id: int
+    - name: string
+}
+
+class Diagnosis {
+    - patient_id: int
+    - doctor_id: int
+    - problem_id: int
+    - date: Date
+}
+
+class Treatment {
+    - diagnosis_id: int
+    - actual_examination_type_ids: List<int>
+    - other_medical_actions: string
+}
+
+class ActualExamination {
+    - treatment_id: int
+    - examination_type_id: int
+    - performed_at_hospital_id: int
+    - result: string
+}
+
+' Associations
+
+Hospital "1" -- "0..*" Permission : has
+Hospital "1" -- "0..*" Doctor : employs
+Doctor "1" -- "0..*" Diagnosis : makes
+Diagnosis "1" -- "1" Problem : diagnoses
+Diagnosis "1" -- "1" Patient : for
+Diagnosis "1" -- "1" Treatment : leads to
+Treatment "1" -- "0..*" ActualExamination : includes
+Treatment "1" -- "1" TreatmentPlan : follows
+ActualExamination "1" -- "1" ExaminationType : of type
+ActualExamination "1" -- "1" Hospital : performed at
+Permission "1" -- "1" ExaminationType : allows
+TreatmentPlan "1" -- "0..*" ExaminationType : advises
+
+@enduml
+
+---
+
+### Explanation of Key Concepts:
+
+- **Hospital**: Can have permissions to perform certain types of examinations.
+- **ExaminationType**: Represents a medical test (e.g., NMR, echography). Each exam is of one type only.
+- **Permission**: Grants a hospital the right to perform a specific examination type.
+- **Problem**: A medical issue that patients may come in with.
+- **TreatmentPlan**: A predefined set of recommended exams for a specific problem.
+- **Doctor**: Works at a hospital and makes diagnoses and treatments.
+- **Patient**: Visits the hospital and receives a diagnosis and treatment.
+- **Diagnosis**: Made by a doctor for a patient with a specific problem.
+- **Treatment**: Based on a treatment plan but can include additional actions or different hospitals.
+- **ActualExamination**: Records the actual exams performed (may be at another hospital).
+- **OtherMedicalActions**: Free text field for any non-standard medical actions taken.
+
+---
+

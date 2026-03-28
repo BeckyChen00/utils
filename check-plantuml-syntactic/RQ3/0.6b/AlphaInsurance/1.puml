@@ -1,0 +1,19 @@
+@startuml
+    classDiagram
+
+    # System Requirement
+    class SystemRequirement {
+        requires: [A, B]
+    }
+
+    class A {
+        has: [B]
+    }
+
+    class B {
+        has: [A]
+    }
+
+    # Dependency between A and B
+    link A->B
+@enduml

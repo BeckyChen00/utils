@@ -1,0 +1,146 @@
+@startuml
+class User {
+  +name: String
+}
+class Admin {
+  +role: String
+  +addMember(user: User): void
+  +removeMember(user: User): void
+}
+class Fairground {
+  name: String
+  location: String
+}
+class Activity {
+  activityName: String
+  durationHours: double
+  maxCapacity: int
+  +isAvailable(date: Date): boolean
+  +activate(): void
+  +deactivate(): void
+}
+class ParkingSpot {
+  spotNumber: int
+  isOccupied: boolean
+  areaCode: String
+  +isOccupied(): boolean
+}
+class Customer {
+  +name: String
+}
+class Reservation {
+  issueDate: Date
+  +getStatus(): String
+}
+class Payment {
+  transactionId: String
+  amount: double
+  paymentMethod: String
+  +validateTransaction(): boolean
+  +processPayment(): void
+}
+class CardToken {
+  cardNumber: String
+  expiryDate: Date
+  +isValid(): boolean
+}
+class Ticket {
+  ticketCode: String
+  issueDate: Date
+  +isValid(): boolean
+}
+class BookingSystem {
+  systemName: String
+  +getSystemStatus(): String
+  +processReservation(customer: Customer, spot: ParkingSpot): Reservation
+  +generateInvoice(booking: Reservation): Invoice
+}
+class Invoice {
+  invoiceNumber: String
+  issueDate: Date
+  totalAmount: double
+  +calculateTotal(): double
+}
+class FeePolicy {
+  discountRate: double
+  isFreeOnTrip: boolean
+  +applyDiscount(booking: Reservation): double
+}
+class MemberProfile {
+  memberLevel: int
+  +getPoints(): int
+  +earnPoints(activity: Activity): int
+}
+class AllocationPolicy {
+  queueDepth: int
+  +reserveSpot(activity: Activity, spot: ParkingSpot): boolean
+  +releaseSpot(activity: Activity): void
+}
+class ReservationResult {
+  reservationStatus: String
+  confirmationCode: String
+  +confirmReservation(): void
+  +cancelReservation(): void
+}
+class TimeSlot {
+  startTime: Date
+  endTime: Date
+  durationMinutes: int
+}
+class ScheduleManager {
+  +generateSchedule(fairground: Fairground, days: DayOfWeek[]): Schedule
+  +getActiveSlots(): List<TimeSlot>
+}
+class Schedule {
+  weeks: List<TimeSlot>
+  dailySlots: List<TimeSlot>
+}
+class Feedback {
+  commentText: String
+  ratingScore: double
+  feedbackDate: Date
+  +submitFeedback(): void
+  +getRating(): double
+}
+class AuditLog {
+  logDate: Date
+  actionDescription: String
+  +recordEvent(action: String, user: User): void
+}
+class SecuritySensor {
+  +detectTampering(): boolean
+}
+Fairground *-- "*" Activity : managedActivities
+ParkingSpot *-- "*" Activity : occupiedByActivities
+Reservation --> "1" Customer : beneficiary
+Reservation --> "1" ParkingSpot : reservedSpot
+Reservation --> "1" TimeSlot : reservedTimeSlot
+Reservation --> "1" FeePolicy : appliedFeePolicy
+Reservation --> "1" Payment : associatedPayment
+Reservation --> "1" Ticket : generatedTicket
+Reservation --> "1" Ticket : associatedTicket
+Reservation --> "1" MemberProfile : registeredMember
+Reservation *-- "1" Payment : transactionDetails
+Reservation --> "1" Fairground : hostedFairground
+Reservation *-- "*" Feedback : receivedFeedbacks
+Reservation *-- "1" Invoice : generatedInvoice
+Reservation *-- "1" AllocationPolicy : definedAllocationPolicy
+Reservation *-- "1" ReservationResult : resultingReservation
+Schedule *-- "*" TimeSlot : scheduledSlots
+Schedule *-- "1" Fairground : scheduledFairground
+Schedule --> "*" Fairground : managedFairgrounds
+Schedule *-- "*" ParkingSpot : assignedSpots
+Schedule *-- "*" Customer : bookedCustomers
+Schedule *-- "*" Reservation : bookableReservations
+Reservation --> "1" MemberProfile : loggedMember
+Reservation --> "1" SecuritySensor : monitoredBySensor
+HealthSystem *-- "*" AuditLog : securityLogs
+ScheduleManager --> "1" Schedule : managedSchedule
+ScheduleManager --> "*" Fairground : managedFairgrounds
+ScheduleManager --> "*" Activity : managedActivities
+ScheduleManager --> "*" AllocationPolicy : governingPolicies
+ScheduleManager --> "*" Reservation : bookedReservations
+Schedule --> "*" Ticket : issuedTickets
+AuthenticationSystem -- GuestProfile
+AuthenticationSystem -- ReservedTicket
+@enduml

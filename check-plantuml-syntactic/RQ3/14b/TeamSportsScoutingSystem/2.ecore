@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="ShortList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="players" eType="#//Player" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="id">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//requiredAttributes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//cons"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//position"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="position"/>
+  <eClassifiers xsi:type="ecore:EClass" name="attributes"/>
+  <eClassifiers xsi:type="ecore:EClass" name="targetPosition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//attributes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="requiredAttributes"/>
+  <eClassifiers xsi:type="ecore:EClass" name="player">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Scout" eType="#//scout"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;String&gt;" eType="#//pros"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//club"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="scout"/>
+  <eClassifiers xsi:type="ecore:EClass" name="status">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//id" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="pros"/>
+  <eClassifiers xsi:type="ecore:EClass" name="cons"/>
+  <eClassifiers xsi:type="ecore:EClass" name="club"/>
+  <eClassifiers xsi:type="ecore:EClass" name="terms">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Player&gt;" eType="#//players" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="players"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Player"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HeadCoach" eSuperTypes="#//Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Director" eSuperTypes="#//Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Scout" eSuperTypes="#//Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PlayerProfile"/>
+</ecore:EPackage>

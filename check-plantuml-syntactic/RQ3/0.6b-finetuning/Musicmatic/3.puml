@@ -1,0 +1,81 @@
+@startuml
+enum DeviceType {
+  SmartLock
+  SecurityCamera
+  SmartThermometer
+  SmokeDetector
+  SurveillanceCamera
+  WirelessSystem
+}
+enum Status {
+  Active
+  OffLine
+  InMaintenance
+  Faulty
+  TestingMode
+  Calibrating
+}
+enum AlarmSeverity {
+  Low
+  Medium
+  High
+  Critical
+}
+class BuildingZone {
+  zoneName: String
+  +getTotalCapacity(): int
+}
+class SmartDevice {
+  deviceName: String
+  status: Status
+  +checkHealth(): boolean
+  +triggerAlarm(severity: AlarmSeverity): boolean
+}
+class MonitoringStation {
+  stationId: String
+  +collectData(): DataStream
+  +analyzeLastHour(): AlertReport
+}
+class SecurityDevice {
+  deviceType: DeviceType
+  maintenanceRequired: boolean
+  +performSelfTest(): boolean
+  +activate(): boolean
+}
+class AlarmSystem {
+  +generateAlertMessage(severity: AlarmSeverity, deviceId: String): String
+  +clearAlerts(): boolean
+}
+class DataStream {
+  timestamp: Date
+  dataContent: String
+  +readData(): String
+}
+class AlertReport {
+  expirationDate: Date
+  +generateSummary(): String
+}
+class ServiceRecord {
+  serviceDate: Date
+  technicianName: String
+  serviceDuration: int
+  isCompleted: boolean
+  +updateDetails(description: String): boolean
+  +closeService(): boolean
+}
+class SystemConfig {
+  protocolVersion: String
+  sysId: String
+  +loadConfiguration(): boolean
+  +applySettings(): boolean
+}
+MonitoringStation *-- "1" AlarmSystem : alarmController
+MonitoringStation *-- "1" SystemConfig : systemParameters
+MonitoringStation *-- "*" SmartDevice : monitoredDevices
+SecurityDevice --> "1" SystemConfig : deviceSettings
+AlarmSystem --> "*" AlarmSeverity : detectedAlarms
+AlarmSystem --> "*" AlertReport : generatedReports
+SystemConfig --> "*" ServiceRecord : loggedServiceRecords
+MonitoringStation --> "*" DataStream : capturedData
+SmartDevice --> "*" ServiceRecord : maintenanceHistory
+@enduml

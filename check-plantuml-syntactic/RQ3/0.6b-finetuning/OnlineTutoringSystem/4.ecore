@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="systemController" eType="#//ClimateController" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClimateController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeModel" eType="#//ThermalModel" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredPatterns" eType="#//TemporalPattern" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeLighting" eType="#//LightSourceConfiguration" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThermalModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modeledPatterns" eType="#//TemporalPattern" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SolarHVACSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="temperatureSensor" eType="#//TemperatureSensor" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activePattern" eType="#//TemporalPattern" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TemperatureSensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TemporalPattern"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LightSourceConfiguration"/>
+</ecore:EPackage>

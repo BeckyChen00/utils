@@ -1,0 +1,65 @@
+@startuml
+class SocialMediaProfile {
+  username: String
+  bio: String
+  +updateProfile(newBio: String, statusUpdate: String): void
+}
+class UserAccount {
+  +login(): boolean
+  +logout(): void
+}
+class MessageHistory {
+  messages: String[]
+  +addMessage(sender: String, recipient: String, content: String): void
+  +archiveMessage(id: int): void
+}
+class Conversation {
+  conversationId: String
+  status: String
+  +startConversation(): void
+  +getParticipants(): List<UserAccount>
+}
+class FriendRequest {
+  status: String
+  +accept(): void
+  +reject(): void
+}
+class Group {
+  name: String
+  description: String
+  +addMember(user: UserAccount): void
+  +removeMember(user: UserAccount): void
+  +getMemberCount(): int
+}
+class Notification {
+  messageContent: String
+  timestamp: Date
+  +send(): void
+  +read(): void
+}
+class SocialMediaPlatform {
+  platformType: String
+  +registerUser(username: String, bio: String): UserAccount
+  +managePlatform(): void
+}
+class AnalyticsReport {
+  generationDate: Date
+  +exportReport(format: String): File
+  +generateTrend(): void
+}
+class Device {
+  deviceType: String
+  lastConnectedDate: Date
+  +updateStatus(newState: String): void
+}
+UserAccount "1" *-- "1" SocialMediaProfile : profile
+UserAccount *-- "0..*" MessageHistory : messageHistory
+UserAccount "1" *-- "0..*" FriendRequest : pendingRequests
+UserAccount "1" *-- "0..*" Notification : notifications
+Conversation "1" *-- "0..*" MessageHistory : history
+Conversation "1" *-- "0..*" FriendRequest : pendingRequests
+Group "1" *-- "0..*" UserAccount : members
+Group "1" *-- "0..*" Notification : notifications
+Group "1" *-- "0..*" Device : devices
+AnalyticsReport "1" --> "0..*" Device : charts
+@enduml

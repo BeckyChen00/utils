@@ -1,0 +1,111 @@
+
+---
+
+
+@startuml
+
+' Users
+class User {
+  +id: String (unique)
+  +name: String
+  +address: String
+  +birthday: Date
+}
+
+' Business Owner
+class BusinessOwner {
+  +linkedinAccount: String
+  -User user
+  *+owns: PizzaRestaurant
+}
+
+' Pizza Restaurant
+class PizzaRestaurant {
+  +zipCode: String
+  +address: String
+  +phone: String
+  +website: String
+  +openingHours: String
+  *+offers: Pizza
+  *+employs: Entertainer
+}
+
+' Pizza
+class Pizza {
+  +name: String
+  +crustType: String
+  +price: Decimal
+  *+isOfferedBy: PizzaRestaurant
+}
+
+' Order
+class Order {
+  +id: String (unique)
+  +placedAt: DateTime
+  +latestDeliveryTime: DateTime
+  +numberOfPeople: Integer
+  *+belongsTo: HungryCustomer
+  *+contains: Pizza
+  *+isEntertainmentOrder: EntertainmentOrder
+}
+
+' EntertainmentOrder
+class EntertainmentOrder {
+  +entertainmentType: String
+  +durationMinutes: Integer
+  *+requires: Entertainer
+}
+
+' Entertainer
+class Entertainer {
+  +stageName: String
+  +bio: String
+  +pricePer30Minutes: Decimal
+  *+worksAt: PizzaRestaurant
+  *+fulfills: EntertainmentOrder
+}
+
+' Availability
+class Availability {
+  +dayOfWeek: String
+  +startTime: Time
+  +endTime: Time
+  *+forEntertainer: Entertainer
+  *+atRestaurant: PizzaRestaurant
+}
+
+' HungryCustomer
+class HungryCustomer {
+  -User user
+  *+places: Order
+}
+
+' Relationships
+User "1" -- "1" BusinessOwner : has
+BusinessOwner "1" -- "0..*" PizzaRestaurant : owns
+PizzaRestaurant "1" -- "0..*" Pizza : offers
+HungryCustomer "1" -- "0..*" Order : places
+Order "1" -- "0..*" Pizza : contains
+Order "1" -- "0..1" EntertainmentOrder : isEntertainmentOrder
+EntertainmentOrder "1" -- "1" Entertainer : requires
+Entertainer "1" -- "0..*" PizzaRestaurant : worksAt
+Entertainer "1" -- "0..*" Availability : has
+PizzaRestaurant "1" -- "0..*" Availability : has
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **Unique Identifiers**: All entities have a unique identifier (`id`) to ensure distinguishability.
+- **Associations**:
+  - A `Pizza` is unique per `PizzaRestaurant`, even if the name and price are the same.
+  - An `EntertainmentOrder` is a special type of `Order`.
+  - An `Entertainer` can work at multiple `PizzaRestaurants` and has availability schedules.
+- **Aggregation & Composition**:
+  - `Pizza` is associated with `PizzaRestaurant` (aggregation).
+  - `Availability` is associated with both `Entertainer` and `PizzaRestaurant`.
+
+---
+

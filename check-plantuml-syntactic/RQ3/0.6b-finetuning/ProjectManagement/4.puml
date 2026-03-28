@@ -1,0 +1,87 @@
+@startuml
+enum PreferenceType {
+  Professional
+  Amateur
+  SeniorVeteran
+  Veteran
+}
+class MemberProfile {
+  fullName: String
+  email: String
+  preferenceType: PreferenceType
+  +updatePreferences(newType: PreferenceType): void
+}
+class Equipment {
+  name: String
+  manufactureYear: int
+  +getSerialNumber(): String
+}
+class EquipmentLibrary {
+  +listEquipment(): List<Equipment>
+}
+class UserAccount {
+  username: String
+  isActive: boolean
+  +register(): void
+  +login(): boolean
+}
+class SellingPlatform {
+  platformName: String
+  +viewAvailableProducts(): List<Equipment>
+  +placeOrder(item: Equipment, quantity: int): OrderItem
+  +calculateDiscountPrice(item: Equipment, discountCode: String): int
+}
+class PurchaseOrder {
+  orderNumber: String
+  startDate: Date
+  endDate: Date
+  status: String
+  +generateReceipt(): Receipt
+  +confirm(): void
+}
+class OrderItem {
+  quantity: int
+  unitPrice: int
+  +calculateTotal(): int
+}
+class Receipt {
+  issueDate: Date
+  totalAmount: int
+  +printReceipt(): void
+}
+class TransactionLog {
+  timestamp: Date
+  isVerified: boolean
+  +getDetails(): String
+  +verifyStatus(): boolean
+}
+class StockInventory {
+  +checkAvailability(item: Equipment): boolean
+  +reserveItem(item: Equipment, quantity: int): boolean
+  +releaseItem(item: Equipment, quantity: int): void
+}
+class ReceiptService {
+  +formatReceipt(order: PurchaseOrder): String
+  +generateReceiptItem(order: PurchaseOrder): Receipt
+}
+class ServiceTicket {
+  description: String
+  referenceNumber: String
+  +markAsResolved(): void
+  +escalate(): void
+}
+SellingPlatform --> "1" MemberProfile : loggedUsers
+UserAccount --> "*" MemberProfile : contacts
+TransactionLog *-- "*" Receipt : receipts
+PurchaseOrder *-- "1" OrderItem : orderItems
+PurchaseOrder *-- "1" Receipt : generatedReceipt
+PurchaseOrder --> "1" Equipment : purchasedItem
+SellingPlatform *-- "*" Equipment : listedStock
+SellingPlatform *-- "*" TransactionLog : transactionHistory
+StockInventory --> "*" Equipment : maintainedStock
+StockInventory --> "*" Equipment : activeStock
+ReceiptService --> "*" PurchaseOrder : processedOrders
+ServiceTicket --> "*" PurchaseOrder : relatedOrders
+UserAccount --> "*" ServiceTicket : serviceRequests
+UserAccount --> "*" Equipment : ownedItems
+@enduml

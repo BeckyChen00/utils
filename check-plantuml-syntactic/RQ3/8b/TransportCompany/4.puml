@@ -1,0 +1,82 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Employee {
+    - name: String
+    - socialSecurityNumber: String
+    + login(username: String, password: String): Boolean
+}
+
+class Planner extends Employee {
+    - fieldOfActivity: String
+}
+
+class AdministrativeStaff extends Employee {
+    + login(username: String, password: String): Boolean
+}
+
+class Customer {
+    - name: String
+    - billingAddress: String
+}
+
+class Vehicle {
+    - licensePlateNumber: String
+    - mileage: Integer
+    - type: String
+}
+
+class Repair {
+    - repairShopName: String
+    - repairShopAddress: String
+    - employee: Employee
+    - duration: Integer
+    - cost: Double
+}
+
+class Order {
+    - customer: Customer
+    - pickupAddress: String
+    - deliveryAddress: String
+    - comment: String
+    - startTime: DateTime
+    - endTime: DateTime
+    - driver: Driver
+    - vehicle: Vehicle
+    - planner: Planner
+}
+
+class Driver extends Employee {
+    - assignedOrders: List<Order>
+}
+
+class PartnerCompany {
+    - name: String
+    - address: String
+}
+
+' Relationships
+Employee <|-- Planner
+Employee <|-- AdministrativeStaff
+Employee <|-- Driver
+
+Customer "1" -- "0..*" Order : has
+Vehicle "1" -- "0..*" Order : usedIn
+Order "1" -- "1" Driver : assignedTo
+Order "1" -- "1" Planner : plannedBy
+Order "1" -- "1" Repair : has (optional)
+PartnerCompany "1" -- "0..*" Order : from (optional)
+
+@enduml
+
+### Explanation:
+
+- **Employee** is a base class for all employees. It includes `name` and `socialSecurityNumber`. It also includes a method `login()` that is implemented differently in its subclasses.
+- **Planner** and **AdministrativeStaff** inherit from **Employee** and have additional attributes or methods specific to their roles.
+- **Driver** is another subclass of **Employee**, with a list of orders they are assigned to.
+- **Customer** holds the customer's name and billing address.
+- **Vehicle** stores the license plate number, mileage, and type.
+- **Repair** records information about repairs, including the shop details, responsible employee, duration, and cost.
+- **Order** is the central entity that links customers, drivers, vehicles, planners, and repairs. It contains pick-up and delivery addresses, timestamps, comments, and other metadata.
+- **PartnerCompany** is optional and may be involved in placing an order.
+

@@ -1,0 +1,49 @@
+@startuml
+enum OrderStatus {
+  PendingPayment
+  Paid
+  InTransit
+  Delivered
+  Cancelled
+}
+class Customer {
+  name: String
+  address: String
+  vatNumber: String
+}
+class Product {
+  sku: String
+  name: String
+  description: String
+  basePrice: double
+  isExclusiveProduct: boolean
+  stockLevel: int
+}
+class Order {
+  orderDate: Date
+  paymentDate: Date
+  deliveryDate: Date
+  totalAmount: double
+  status: OrderStatus
+  +calculateTotal(): double
+  +generateInvoice(): Invoice
+}
+class OrderLine {
+  quantity: int
+  requestedDeliveryDate: Date
+  currentStatus: OrderStatus
+  +updateStatus(newStatus: OrderStatus): void
+}
+class Shipment {
+  shipmentDate: Date
+  trackingNumber: String
+  deliveryStatus: OrderStatus
+  +recordDelivery(): void
+  +updateTrackingStatus(status: OrderStatus): void
+}
+Order *-- "*" OrderLine : orderLines
+Order "1" --> "1" Customer : placedBy
+Order "1" --> "*" Product : orderedProducts
+Order "1" *-- "*" Shipment : shipments
+Shipment *-- "*" OrderLine : shippedLines
+@enduml

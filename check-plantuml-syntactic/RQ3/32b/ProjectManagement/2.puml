@@ -1,0 +1,72 @@
+
+---
+
+
+@startuml
+
+' Define classes and their attributes
+class University {
+}
+
+class Department {
+}
+
+class ResearchGroup {
+    - name: String
+    - department: Department
+}
+
+class Researcher {
+    - name: String
+    - researchGroup: ResearchGroup
+}
+
+class Project {
+    - title: String
+}
+
+class WorkPackage {
+    - name: String
+    - project: Project
+    - leader: ResearchGroup
+}
+
+class TeamAssignment {
+    - startDate: Date
+    - endDate: Date
+    - researcher: Researcher
+    - workPackage: WorkPackage
+}
+
+' Relationships
+University "1" o-- "many" Department
+Department "1" *-- "many" ResearchGroup
+ResearchGroup "1" *-- "many" Researcher
+Project "1" *-- "many" WorkPackage
+WorkPackage "1" --> "1" ResearchGroup : hasLeader
+WorkPackage "1" *-- "many" TeamAssignment
+TeamAssignment "1" --> "1" Researcher
+TeamAssignment "1" --> "1" WorkPackage
+
+@enduml
+
+---
+
+### 🧩 Explanation of Key Elements:
+
+- **University**: Top-level container for departments.
+- **Department**: Contains multiple `ResearchGroups`.
+- **ResearchGroup**: A group of researchers. Each researcher belongs to exactly one group.
+- **Researcher**: Assigned to WPs regardless of which RG leads them. Must be linked via `TeamAssignment`.
+- **Project**: Composed of multiple `WorkPackages`.
+- **WorkPackage (WP)**: Belongs to a project and is led by a `ResearchGroup`. Can have multiple team members from any group.
+- **TeamAssignment**: Captures the assignment of a researcher to a WP, including start and end dates for traceability.
+
+---
+
+### 🔄 Notes on Service Delivery Tracking:
+- The `TeamAssignment` class ensures that all assignments are time-bound and traceable.
+- If a researcher changes groups or a WP leadership changes, old `TeamAssignments` are closed (end date set), and new ones are created with updated links.
+
+---
+

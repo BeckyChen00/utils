@@ -1,0 +1,108 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Customer {
+  +String id
+  +String name
+  +String contactInfo
+  +boolean isActive
+  +List<RefuelTurn> refuelTurns
+  +List<Invoice> invoices
+}
+
+class RefuelCard {
+  +String cardId
+  +Customer customer
+  +boolean isActive
+}
+
+class Invoice {
+  +int invoiceId
+  +Date month
+  +Customer customer
+  +List<RefuelTurn> refuelTurns
+  +double totalAmount
+  +double discount
+  +boolean isPaid
+  +Date sentDate
+  +Date dueDate
+}
+
+class RefuelTurn {
+  +int turnId
+  +Customer customer
+  +Pump pump
+  +DateTime refuelTime
+  +double amount
+  +FuelType fuelType
+  +boolean isPaid
+}
+
+class Pump {
+  +String pumpId
+  +String location
+  +FuelType fuelType
+  +double currentLevel
+  +double reorderLevel
+  +double criticalLevel
+  +boolean isBlocked
+  +List<RefuelTurn> refuelTurns
+}
+
+class FuelType {
+  +String type
+  +double pricePerLiter
+}
+
+class GasStation {
+  +String stationId
+  +String name
+  +String location
+  +List<Pump> pumps
+}
+
+class DailyReport {
+  +Date date
+  +List<Pump> pumpsToRefill
+  +List<Pump> blockedPumps
+}
+
+' Associations
+
+Customer "1" -- "0..*" RefuelTurn : has
+Customer "1" -- "0..*" Invoice : has
+Customer "1" -- "1" RefuelCard : holds
+RefuelTurn "1" -- "1" Pump : uses
+RefuelTurn "1" -- "1" Invoice : appears on
+Invoice "1" -- "1" Customer : belongs to
+Pump "1" -- "1" GasStation : located at
+Pump "1" -- "1" FuelType : contains
+GasStation "1" -- "0..*" DailyReport : generates
+DailyReport "1" -- "0..*" Pump : reports on
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Entities:
+
+- **Customer**: Represents a customer with personal information, payment status, and associated refuel turns and invoices.
+- **RefuelCard**: A card that allows customers to refuel without paying immediately. It may be suspended if unpaid invoices accumulate.
+- **Invoice**: Generated monthly for all refuel turns made using a refuel card. Includes discounts and payment status.
+- **RefuelTurn**: Represents a single refueling event (amount, time, fuel type).
+- **Pump**: A physical pump at a gas station. It has a fuel type, level, reordering logic, and can be blocked.
+- **FuelType**: Defines the type of gasoline (e.g., regular, premium) and its price per liter.
+- **GasStation**: Contains multiple pumps and generates daily reports.
+- **DailyReport**: Provides information about which pumps need refilling or are blocked.
+
+---
+
+### 💡 Notes:
+- The diagram shows associations like `has`, `uses`, `appears on`, etc.
+- Relationships are modeled with multiplicity (`1` to `*`, `1` to `1`, etc.).
+
+Let me know if you'd like a UML diagram in SVG or PNG format!

@@ -1,0 +1,42 @@
+@startuml
+enum PropulsionSystemType {
+  Chemical
+  Nuclear
+  Solar
+}
+enum CaseStatus {
+  Pending
+  Active
+  Completed
+}
+class Spacecraft {
+  missionTarget: String
+  flightDate: Date
+  +getFlightStatus(): CaseStatus
+  +calculateDuration(): int
+}
+class LaunchEvent {
+  targetSystem: PropulsionSystemType
+  occurrenceDate: Date
+  fuelVolume: double
+  +generateReport(): String
+  +executeLaunch(): LaunchEvent
+}
+class LaunchMission {
+  missionIdentifier: String
+  safetyFlags: boolean[]
+  launchWindowStart: Date
+  launchWindowEnd: Date
+  +scheduleLaunch(targetSystem: PropulsionSystemType, window: Date): boolean
+  +getActiveCases(): CaseStatus[]
+}
+class Case {
+  status: CaseStatus
+  creationDate: Date
+  +updateStatus(newStatus: CaseStatus): void
+}
+Spacecraft *-- "0..*" Case : ownedCases
+LaunchEvent --> "1" Spacecraft : hostSpacecraft
+LaunchEvent --> "1" LaunchMission : parentMission
+LaunchMission *-- "0..*" Case : executedCases
+@enduml

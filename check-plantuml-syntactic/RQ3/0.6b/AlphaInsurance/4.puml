@@ -1,0 +1,20 @@
+@startuml
+
+class SystemRequirement {
+  title: "System Requirement"
+
+  # Define the system requirement's structure
+  component "System Requirements" {
+    label: "System Requirements",
+    description: "The set of requirements for a system"
+  }
+
+  class "Requirement" {
+    label: "Requirement",
+    description: "A specific requirement of the system"
+  }
+
+  # Define the relationship between SystemRequirements and Requirements
+  relation SystemRequirement => Requirement {name: "Requirement", type: "system requirement"} 
+
+@enduml

@@ -1,0 +1,83 @@
+@startuml
+enum ControllerState {
+  On
+  Off
+  Charging
+  LowPower
+  Error
+}
+class EController {
+  currentState: ControllerState
+  firmwareVersion: String
+  +switchState(newState: ControllerState): void
+  +estimateNextInspectionDate(): Date
+}
+class Battery {
+  capacityWh: int
+  currentChargeWh: int
+  isRemovable: boolean
+  +charge(amountWh: int): void
+  +discharge(amountWh: int): void
+}
+class DriveSystem {
+  motorPower: int
+  +applyThrottle(throttleLevel: int): void
+}
+class Wheel {
+  diameter: double
+  +rotate(): void
+}
+class EBike {
+  modelNumber: String
+  productionDate: Date
+  +assembleParts(frame: Frame, battery: Battery): void
+  +connectController(controller: EController): void
+}
+class Frame {
+  material: String
+  +attachWheel(wheel: Wheel): void
+}
+class ServiceRecord {
+  serviceDate: Date
+  description: String
+  isComplete: boolean
+  technicianNotes: String
+  +generateSummary(): String
+}
+class Component {
+  partNumber: String
+  serialNumber: String
+  manufactureDate: Date
+}
+class Manufacturer {
+  companyName: String
+  countryCode: String
+  +supplyComponent(part: Component): void
+}
+class WarrantyClaim {
+  claimDate: Date
+  defectDescription: String
+  isApproved: boolean
+  +assessClaim(): boolean
+  +submitClaim(): void
+}
+class MaintenanceSchedule {
+  nextDueDate: Date
+  intervalDays: int
+  +calculateDueDate(): Date
+}
+EBike *-- "1" DriveSystem : driveSystem
+EBike *-- "1" EController : controller
+EBike *-- "1" Frame : frame
+EBike *-- "1" Battery : battery
+Frame *-- "2" Wheel : wheels
+Frame *-- "1" Manufacturer : manufacturer
+EBike *-- "0..1" MaintenanceSchedule : maintenanceSchedule
+EBike *-- "0..*" ServiceRecord : serviceRecords
+EBike *-- "0..*" Component : components
+EController --> "0..1" Battery : managedBattery
+ServiceRecord --> "1" Component : servicedComponent
+WarrantyClaim --> "1" Component : claimedComponent
+WarrantyClaim --> "1" EBike : relatedBike
+Manufacturer --> "0..*" Component : suppliedComponents
+@enduml

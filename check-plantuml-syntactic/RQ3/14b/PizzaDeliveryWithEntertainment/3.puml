@@ -1,0 +1,97 @@
+
+@startuml
+
+' Classes
+class User {
+  +id: String
+  +name: String
+  +birthday: Date
+  +address: String
+}
+
+class BusinessOwner <|-- User {
+  +linkedin: String
+}
+
+class PizzaRestaurant {
+  +id: String
+  +name: String
+  +zipCode: String
+  +address: String
+  +phoneNumber: String
+  +website: String
+  +openingHours: String
+}
+
+class Pizza {
+  +id: String
+  +name: String
+  +crustStructure: String
+  +price: Double
+  +restaurantId: String
+}
+
+class HungryCustomer <|-- User {
+  +deliveryAddress: String
+}
+
+class Order {
+  +orderId: String
+  +userId: String
+  +orderTime: DateTime
+  +latestDeliveryTime: DateTime
+  +numberOfPeople: Integer
+  +isEntertainmentOrder: Boolean
+}
+
+class EntertainmentOrder <|-- Order {
+  +entertainmentType: String
+  +durationMinutes: Integer
+}
+
+class Entertainer <|-- User {
+  +stageName: String
+  +bio: String
+  +pricePer30Min: Double
+}
+
+class RestaurantEntertainerAssociation {
+  +entertainerId: String
+  +restaurantId: String
+  +availabilityDays: List<String>
+}
+
+' Relationships
+User "1" -- "0..*" BusinessOwner
+User "1" -- "0..*" HungryCustomer
+User "1" -- "0..*" Entertainer
+
+BusinessOwner "1" -- "0..*" PizzaRestaurant
+PizzaRestaurant "1" -- "0..*" Pizza
+Pizza "1" --> "1" PizzaRestaurant
+
+HungryCustomer "1" -- "0..*" Order
+Order "1" --> "0..1" EntertainmentOrder
+
+Entertainer "1" -- "0..*" RestaurantEntertainerAssociation
+RestaurantEntertainerAssociation "1" --> "1" PizzaRestaurant
+RestaurantEntertainerAssociation "1" --> "1" Entertainer
+
+@enduml
+
+---
+
+### Explanation of Key Design Elements:
+
+- **User**: Base class for all types of users (BusinessOwner, HungryCustomer, Entertainer).
+- **BusinessOwner**: Extends `User` and has a LinkedIn profile.
+- **PizzaRestaurant**: Belongs to a `BusinessOwner`, and can offer multiple `Pizza`s.
+- **Pizza**: Must be uniquely identifiable even if it has the same name and price, hence an `id` field is used along with the restaurant ID.
+- **HungryCustomer**: Extends `User` and has a delivery address.
+- **Order**: Contains basic order information; can be an entertainment order or not.
+- **EntertainmentOrder**: Extends `Order` and adds fields for entertainment type and duration.
+- **Entertainer**: Extends `User` and has a stage name, bio, and rate.
+- **RestaurantEntertainerAssociation**: A junction table/association class to link entertainers to restaurants and define availability by day.
+
+---
+

@@ -1,0 +1,88 @@
+@startuml
+
+' E-Home-2020 System Class Diagram
+
+class SensorController {
+  + String address
+  + Room[] rooms
+  + Map<String, Sensor> sensors
+  + List<User> users
+  + addSensor(sensor: Sensor)
+  + removeSensor(sensorId: String)
+  + updateSensorDescription(sensorId: String, newDescription: String)
+  + assignSensorToRoom(sensorId: String, roomId: String)
+  + getSensorValues(sensorId: String): List<Value>
+  + getLastValue(sensorId: String): Value
+  + setThreshold(sensorId: String, threshold: Double)
+  + getThreshold(sensorId: String): Double
+  + login(username: String, password: String): User
+  + registerUser(username: String, password: String, isAdmin: Boolean): Boolean
+}
+
+class User {
+  + String username
+  + String password
+  + boolean isAdmin
+  + String email
+  + String apartmentAddress
+  + List<Room> rooms
+  + List<Sensor> sensors
+  + querySensorValues(sensorId: String): List<Value>
+  + getLastValue(sensorId: String): Value
+  + setThreshold(sensorId: String, threshold: Double)
+  + setEmail(email: String)
+  + getThreshold(sensorId: String): Double
+}
+
+class EMonitor {
+  + checkThresholds()
+  + sendAlertMessage(apartmentAddress: String, message: String)
+}
+
+class Sensor {
+  + String vendorId
+  + String description
+  + String unit
+  + Room room
+  + List<Value> values
+  + getValues(): List<Value>
+  + getLastValue(): Value
+  + getVendorId(): String
+  + getDescription(): String
+  + getUnit(): String
+  + getRoom(): Room
+}
+
+class Value {
+  + Date timestamp
+  + double value
+  + getValue(): double
+  + getTimestamp(): Date
+}
+
+class Room {
+  + String description
+  + List<Sensor> sensors
+  + getRoomDescription(): String
+  + getSensors(): List<Sensor>
+}
+
+' Associations
+SensorController "1" -- "many" Sensor : manages
+SensorController "1" -- "many" User : manages
+SensorController "1" -- "many" Room : contains
+User "1" -- "1" Apartment : belongs to
+Sensor "1" -- "many" Value : has
+Room "1" -- "many" Sensor : contains
+EMonitor "1" -- "1" SensorController : checks thresholds for
+EMonitor "1" -- "1" SensorController : sends alerts through
+
+@enduml
+
+### Notes:
+- This diagram captures the core entities and their relationships based on the system requirements.
+- `SensorController` is the central component managing sensors, users, rooms, and thresholds.
+- `EMonitor` interacts with `SensorController` to check thresholds and send alerts.
+- `User` can be either a regular user or an administrator, with different capabilities.
+- Each `Sensor` has associated `Value` objects for historical data.
+

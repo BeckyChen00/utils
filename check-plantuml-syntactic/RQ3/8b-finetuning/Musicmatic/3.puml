@@ -1,0 +1,51 @@
+@startuml
+class User {
+  id: String
+  name: String
+  address: String
+  +login(): boolean
+  +logout(): void
+}
+class BusinessUser {
+  vatNumber: String
+  +uploadSong(song: Song): boolean
+  +manageAlbum(album: Album): void
+}
+class RegularUser {
+  +buySong(song: Song): Purchase
+  +purchaseAlbum(album: Album): Purchase
+}
+class Song {
+  title: String
+  year: int
+  length: int
+  genre: String
+  +getArtist(): Artist
+}
+class Artist {
+  name: String
+  dob: Date
+  websiteUrl: String
+  +getSongs(): List<Song>
+  +getBiography(): String
+}
+class Album {
+  albumName: String
+  releaseDate: Date
+  +addTrack(track: Song, order: int): void
+  +getTracks(): List<Song>
+}
+class Purchase {
+  purchaseDate: Date
+  isDigital: boolean
+  +getItemDetails(): String
+  +refund(): void
+}
+RegularUser --|> User
+BusinessUser --|> User
+Song "1" --> "1" Artist : composedBy
+Album "0..*" *-- "*" Song : tracks
+User "*" --> "*" Song : purchasedSongs 'opposite: buyers
+Purchase "1" --> "1" User : buyer 'opposite: history
+BusinessUser "1" --> "*" Song : uploadedSongs
+@enduml

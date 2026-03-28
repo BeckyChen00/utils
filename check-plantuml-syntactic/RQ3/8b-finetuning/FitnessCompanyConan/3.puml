@@ -1,0 +1,59 @@
+@startuml
+enum SessionType {
+  Aerobics
+  Bodystyling
+  Massage
+  Yoga
+  Swimming
+  Cycling
+}
+enum ParticipantRole {
+  Member
+  Trainer
+}
+class Address {
+  streetName: String
+  city: String
+  postalCode: String
+  country: String
+  +getFullAddress(): String
+}
+class Center {
+  name: String
+  location: Address
+  +getAvailableRooms(): List<Room>
+}
+class Room {
+  number: String
+  capacity: int
+  +isAvailable(date: Date, time: Time): boolean
+}
+class Person {
+  firstName: String
+  lastName: String
+  birthDate: Date
+  +getFullName(): String
+}
+class Trainer {
+  diploma: String
+  +hasQualification(type: String): boolean
+}
+class Session {
+  sessionDate: Date
+  startTime: Time
+  sessionType: SessionType
+  maxParticipants: int
+  +isFull(): boolean
+}
+class Participant {
+  role: ParticipantRole
+  isAttended: boolean
+  +updateAttendance(status: boolean): void
+}
+Center *-- "1" Address : location
+Center *-- "*" Room : rooms
+Room *-- "*" Session : scheduledSessions
+Person --> "*" Participant : participationRecords
+Trainer --> "*" Participant : supervisionRecords
+Participant -- Session
+@enduml

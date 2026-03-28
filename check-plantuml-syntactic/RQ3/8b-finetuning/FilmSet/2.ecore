@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//Employee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participationHistory" eType="#//Film" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Film">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="productionVenue" eType="#//FilmSet" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="screenplay" eType="#//Screenplay" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FilmSet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Screenplay">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="author" eType="#//Screenwriter" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceMaterial" eType="#//Novel" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Screenwriter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authoredScreenplays" eType="#//Screenplay" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Novel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Technician"/>
+</ecore:EPackage>

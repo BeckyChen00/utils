@@ -1,0 +1,86 @@
+
+@startuml
+
+' Define classes and their attributes
+class Provider {
+  - name: String
+  - location: String
+}
+
+class Cruise {
+  - cruiseNumber: Integer
+  - cruiseName: String
+  - startDate: Date
+  - endDate: Date
+}
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class Guest {
+  - name: String
+  - isVIP: Boolean
+}
+
+class Ship {
+  - shipName: String
+  - numberOfDecks: Integer
+  - length: Double
+  - passengerCapacity: Integer
+}
+
+class Booking {
+  - bookingNumber: Integer
+  - bookingDate: Date
+}
+
+class TravelAgency {
+  - name: String
+  - address: String
+}
+
+class DestinationArea {
+  - areaName: String
+  - seaName: String
+}
+
+class Show {
+  - title: String
+  - duration: Integer
+}
+
+class Ticket {
+  - ticketId: Integer
+}
+
+' Define relationships
+Provider "1" -- "0..*" Cruise : organizes
+Cruise "1" -- "0..*" Employee : requires
+Cruise "1" -- "0..*" Guest : has
+Cruise "1" -- "1" Ship : uses
+Cruise "1" -- "0..*" Booking : booked through
+Booking "1" -- "1" TravelAgency : made by
+Cruise "1" -- "0..*" DestinationArea : heads for
+Cruise "1" -- "0..*" Show : offers
+Guest "1" -- "0..*" Ticket : has
+Ticket "1" -- "1" Cruise : belongs to
+
+@enduml
+
+---
+
+### Explanation of Relationships:
+- **Provider** organizes many **Cruises**.
+- Each **Cruise** is managed by one **Provider**.
+- A **Cruise** requires many **Employees**.
+- A **Cruise** has many **Guests**, and a **Guest** can participate in multiple **Cruises**.
+- A **Cruise** is associated with exactly one **Ship**.
+- A **Cruise** is booked via one **TravelAgency** (each **Booking** is linked to a **TravelAgency**).
+- A **Cruise** has a specific **DestinationArea**.
+- A **Cruise** offers multiple **Shows**.
+- A **Guest** can have multiple **Tickets**, but only one per **Cruise**.
+- A **Ticket** belongs to exactly one **Cruise**.
+
+Let me know if you want to generate this as an image or need further refinements!

@@ -1,0 +1,49 @@
+@startuml
+class Student {
+  name: String
+  email: String
+  +makeRequest(subject: String, tutor: Tutor, date: Date, time: Time): Request
+  +browseTutors(subject: String): List<Tutor>
+}
+class Tutor {
+  name: String
+  email: String
+  bankAccount: String
+  +register(): void
+  +offerSession(subject: String, level: String, price: double): SubjectOffer
+  +acceptRequest(request: Request, confirmationDate: Date, time: Time): Confirmation
+}
+class SubjectOffer {
+  subject: String
+  expertiseLevel: String
+  hourlyPrice: double
+  +isAvailable(date: Date): boolean
+}
+class Request {
+  subject: String
+  level: String
+  suggestedDate: Date
+  suggestedTime: Time
+  +validate(): boolean
+}
+class Confirmation {
+  scheduledDate: Date
+  scheduledTime: Time
+  status: String
+  +confirm(): void
+  +cancel(): void
+}
+class MonthlyAward {
+  awardName: String
+  month: Date
+  +determineWinner(subject: String): Tutor
+}
+Student "1" --> "0..*" SubjectOffer : browseOffers
+Student "1" --> "0..*" Request : submittedRequests
+Student "0..*" --> "0..*" Confirmation : participatesIn
+Tutor "1" --> "0..*" SubjectOffer : providesOffers
+Tutor "1" --> "0..*" Confirmation : leadsSessions
+Tutor "0..*" --> "0..*" Request : respondsTo
+Tutor "0..*" --> "0..*" MonthlyAward : receivesAward
+Student "0..*" --> "0..*" MonthlyAward : participatesInAward
+@enduml

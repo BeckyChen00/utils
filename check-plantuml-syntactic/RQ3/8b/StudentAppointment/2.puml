@@ -1,0 +1,51 @@
+
+@startuml
+
+class Student {
+  + String studentID
+  + String name
+  + List<Course> coursesRegistered
+  + requestAppointment(course: Course, date: Date, time: Time)
+}
+
+class TeachingAssistant {
+  + String taID
+  + String name
+  + List<Course> coursesTaught
+  + acceptAppointment(appointment: Appointment)
+}
+
+class Course {
+  + String courseId
+  + String courseName
+  + List<Student> studentsRegistered
+  + List<TeachingAssistant> teachingAssistants
+}
+
+class Appointment {
+  + String appointmentID
+  + Date date
+  + Time time
+  + Course course
+  + TeachingAssistant assistant
+  + Student student
+  + boolean isConfirmed
+}
+
+Student "1" -- "0..*" Course : registeredFor
+Course "1" -- "1..*" TeachingAssistant : hasTA
+TeachingAssistant "1" -- "0..*" Appointment : handles
+Student "1" -- "1" Appointment : requests
+Course "1" -- "1" Appointment : relatesTo
+TeachingAssistant "1" -- "1" Appointment : provides
+
+@enduml
+
+### Explanation of Associations:
+- **Student** can be registered for multiple **Courses**.
+- A **Course** has one or more **Teaching Assistants** who are assigned to teach it.
+- A **Teaching Assistant** can handle multiple **Appointments**.
+- A **Student** can request an **Appointment** for a specific **Course**.
+- An **Appointment** is linked to exactly one **Course**, one **Teaching Assistant**, and one **Student**.
+- Constraints are implied by the associations (e.g., only registered students can request appointments for their registered courses, TAs can only assist in courses they are assigned to).
+

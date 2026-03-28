@@ -1,0 +1,64 @@
+@startuml
+enum GenreType {
+  Rock
+  Pop
+  HipHop
+  Electronic
+}
+enum UserStatus {
+  Active
+  Suspended
+  Pending
+}
+class User {
+  id: int
+  name: String
+  address: String
+  status: UserStatus
+  phoneNumber: String
+  +updateAddress(newAddress: String): void
+  +calculateScore(): int
+}
+class BusinessUser {
+  vatNumber: String
+}
+class Album {
+  title: String
+  trackCount: int
+  +addTrack(track: Hit): void
+  +getAverageLength(): double
+}
+class Hit {
+  title: String
+  year: int
+  length: int
+  genre: GenreType
+  trackNumber: int
+  +getFullTitle(): String
+}
+class Artist {
+  name: String
+  dateOfBirth: Date
+  biographyUrl: String
+  +getActiveYears(): String
+}
+class Song {
+  title: String
+  year: int
+  length: int
+  genre: GenreType
+  +isValidFormat(): boolean
+}
+class Playlist {
+  title: String
+  description: String
+  +addSong(song: Song): void
+  +removeSong(song: Song): void
+}
+BusinessUser --|> User
+User *-- "0..*" Playlist : ownedPlaylists
+User --> "0..*" Song : purchasedSongs
+Playlist *-- "1..*" Song : playlistEntries
+Artists --> "0..*" Song : authoredSongs
+Playlist --> "0..*" Artist : suggestedArtists
+@enduml

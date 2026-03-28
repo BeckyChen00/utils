@@ -1,0 +1,97 @@
+
+---
+
+
+@startuml
+
+package "Louvre Museum System" {
+    [Location] as L
+    [Exhibition] as E
+    [ExhibitionItem] as EI
+    [Piece] as P
+    [Collector] as C
+    [Employee] as Em
+    [Coaching] as Co
+}
+
+L --|> E : contains
+E "1" --o"0..*" EI : has
+EI -- P : requires
+EI -- C : sourced from
+P -- C : belongs to
+Em "1" --o"0..*" Co : has coach
+Em -- EI : is coordinator of
+Co -- Em : coach of
+Co -- Em : coached by
+
+note right of L
+  - ID
+  - Name
+  - Description
+  - Capacity
+end note
+
+note right of E
+  - ID
+  - Title
+  - Start Date
+  - End Date
+  - Coordinator (Employee)
+end note
+
+note right of EI
+  - ID
+  - Title
+  - Description
+  - Required Quantity
+  - Status
+end note
+
+note right of P
+  - ID
+  - Title
+  - Artist
+  - Description
+  - Availability
+end note
+
+note right of C
+  - ID
+  - Name
+  - Contact Info
+  - Location
+end note
+
+note right of Em
+  - ID
+  - Name
+  - Position
+  - Email
+  - Coach (Employee)
+end note
+
+note right of Co
+  - Coach (Employee)
+  - Coachee (Employee)
+end note
+
+@enduml
+
+---
+
+### 📌 Explanation of Relationships
+
+- **Location** contains multiple **Exhibitions**.
+- Each **Exhibition** has one or more **ExhibitionItems**.
+- Each **ExhibitionItem** requires a **Piece** and may be sourced from a **Collector**.
+- A **Collector** can supply multiple **Pieces**.
+- An **Employee** can be the **Coordinator** of an **Exhibition**.
+- An **Employee** can have a **Coach** (another **Employee**) via a **Coaching** relationship.
+- The **Coaching** relationship links a **Coach** to a **Coachee**.
+
+---
+
+
+If you want, I can also provide the **SVG** or **PNG** version if you're using a tool like **Draw.io**, **Visual Paradigm**, or **IntelliJ IDEA**.
+
+Let me know if you'd like to add more details or refine the model further!

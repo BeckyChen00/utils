@@ -1,0 +1,39 @@
+@startuml
+
+class Diagram {
+  class SystemRequirement {
+    name: "System Requirement"
+    description: "The system requirement specifies the necessary conditions for the application to function properly."
+  }
+
+  class Requirements {
+    name: "Requirements"
+    description: "A list of requirements that must be satisfied by the application."
+  }
+
+  class Application {
+    name: "Application"
+    description: "The application itself."
+  }
+
+  class Constraint {
+    name: "Constraint"
+    description: "A condition that must be met for the application to work correctly."
+  }
+
+  class Condition {
+    name: "Condition"
+    description: "A condition that must be checked during execution."
+  }
+
+  class Validation {
+    name: "Validation"
+    description: "A process to ensure that the application meets its requirements."
+  }
+
+  # Relationships between classes
+  addRelationship(Requirements, Constraint)
+  addRelationship(Constraints, Condition)
+  addRelationship(Validation, Requirements)
+
+@enduml

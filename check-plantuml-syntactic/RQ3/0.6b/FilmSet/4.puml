@@ -1,0 +1,21 @@
+@startuml
+
+class SystemRequirement {
+  class Requirement {
+    int id;
+    string name;
+    string description;
+  }
+
+  class SystemRequirement {
+    int id;
+    string name;
+    string description;
+  }
+
+  node Node1 {SystemRequirement}
+  node Node2 {Requirement}
+
+  link Node1 -> Node2;
+
+@enduml

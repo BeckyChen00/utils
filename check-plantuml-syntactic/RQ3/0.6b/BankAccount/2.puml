@@ -1,0 +1,92 @@
+@startuml
+    classDiagram
+        A {System Requirements}
+        
+        A --> B : System Requirement
+        
+        B --> C {Class Diagram}
+        C --> D {Component}
+        D --> E {Data}
+        E --> F {Relationship}
+        
+        B --> G {Interface}
+        G --> H {Implementation}
+        H --> I {Service}
+        I --> J {Method}
+        
+        B --> K {Documentation}
+        K --> L {Notes}
+        
+        B --> M {Test Case}
+        M --> N {Testing}
+        
+        B --> O {Deployment Plan}
+        O --> P {Environment}
+        P --> Q {Configuration}
+        
+        B --> R {Integration Plan}
+        R --> S {API Integration}
+        S --> T {Database Integration}
+        
+        B --> U {User Interface}
+        U --> V {UI Components}
+        V --> W {User Interface Features}
+        W --> X {User Interface UI}
+        
+        B --> Y {Application Architecture}
+        Y --> Z {Main App}
+        Z --> A
+    
+    classDiagram
+        class Diagram {
+            component1: Component
+            component2: Component
+            component3: Component
+            
+            component1 -> component2
+            component2 -> component3
+            
+            component3 -> component1
+            component3 -> component2
+        }
+    
+    classDiagram
+        interface Diagram {
+            interface1: Interface
+            interface2: Interface
+            interface3: Interface
+            
+            interface1 -> interface2
+            interface2 -> interface3
+            
+            interface3 -> interface1
+            interface3 -> interface2
+        }
+    
+    classDiagram
+        implementation Diagram {
+            implementation1: Implementation
+            implementation2: Implementation
+            
+            implementation1 -> implementation2
+            implementation2 -> implementation1
+        }
+    
+    classDiagram
+        data Diagram {
+            data1: Data
+            data2: Data
+            
+            data1 -> data2
+            data2 -> data1
+        }
+    
+    classDiagram
+        relationship Diagram {
+            relation1: Relationship
+            relation2: Relationship
+            
+            relation1 -> relation2
+            relation2 -> relation1
+        }
+@enduml

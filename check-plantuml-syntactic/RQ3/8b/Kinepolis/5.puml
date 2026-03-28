@@ -1,0 +1,95 @@
+
+@startuml
+
+' Define classes
+class Cinema {
+    +name: String
+    +theatres: List<Theatre>
+    +copies: List<MovieCopy>
+}
+
+class Theatre {
+    +id: int
+    +name: String
+    +seats: int
+    +shows: List<Show>
+}
+
+class Movie {
+    +title: String
+    +duration: int
+}
+
+class MovieCopy {
+    +id: int
+    +movie: Movie
+    +cinema: Cinema
+}
+
+class Show {
+    +id: int
+    +movieCopy: MovieCopy
+    +startTime: DateTime
+    +endTime: DateTime
+    +published: boolean
+    +status: String
+    +seatsAvailable: int
+}
+
+class Reservation {
+    +id: int
+    +show: Show
+    +customer: Customer
+    +seatNumber: int
+    +reservedAt: DateTime
+    +cancelledAt: DateTime?
+    +paymentStatus: String
+}
+
+class Offer {
+    +id: int
+    +reservation: Reservation
+    +newShow: Show
+    +validUntil: DateTime
+    +accepted: boolean
+}
+
+class Customer {
+    +id: int
+    +name: String
+    +email: String
+    +creditCard: String
+}
+
+class Ticket {
+    +id: int
+    +show: Show
+    +customer: Customer
+    +seatNumber: int
+    +issuedAt: DateTime
+    +anonymous: boolean
+}
+
+' Relationships
+Cinema "1" -- "0..*" Theatre: has
+Cinema "1" -- "0..*" MovieCopy: owns
+Movie "1" -- "0..*" MovieCopy: has
+MovieCopy "1" -- "1" Show: provides
+Show "1" -- "0..*" Reservation: has
+Show "1" -- "0..*" Offer: offers
+Customer "1" -- "0..*" Reservation: made by
+Customer "1" -- "0..*" Ticket: buys
+Show "1" -- "0..*" Ticket: has
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **`+`** denotes public access.
+- **`?`** indicates that a field is optional.
+- **`*`** indicates a collection (list).
+- **`DateTime`** is used to represent time-based values like show times, reservation dates, etc.
+- **`String`** and **`int`** are primitive types used for simplicity.
+

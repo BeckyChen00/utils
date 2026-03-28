@@ -1,0 +1,520 @@
+@startuml
+enum DeviceStatus {
+  Online
+  OffLine
+  Maintenance
+  Offline
+  Unknown
+  Offline
+}
+enum OperationMode {
+  Operational
+  Deactived
+  Reset
+}
+enum SimulationType {
+  Restart
+  LoadShift
+  StressTest
+  WarmUp
+  Rollback
+}
+class SensorArray {
+  +getCalibrationDate(): Date
+  +getStatus(): DeviceStatus
+  +calibrate(): boolean
+}
+class FaultSensor {
+  +generateWarningLevel(): int
+  +isAlert(): boolean
+}
+class MonitoringStation {
+  +getLocation(): String
+  +getActiveSensors(): List<FaultSensor>
+  +adjustSettings(newMode: OperationMode): boolean
+}
+class MachineUnit {
+  +getOperationalMode(): OperationMode
+  +restart(): boolean
+  +activateMaintenance(): boolean
+}
+class PowerSource {
+  +isConnected(): boolean
+  +getVoltage(): double
+  +getFrequency(): double
+}
+class MaintenanceLog {
+  +logEvent(description: String, timestamp: Date, isResolved: boolean): void
+}
+class DataFlowHandler {
+  +handleEventData(eventData: String, processingStatus: boolean): boolean
+  +distributeResults(targets: List<String>): void
+}
+class SimulationEngine {
+  +runSimulation(type: SimulationType, targetMode: OperationMode): SimulationRun
+  +validateResults(run: SimulationRun): boolean
+}
+class SimulationRun {
+  +startTime: Date
+  +endTime: Date
+  +getDuration(): int
+  +getStatus(): OperationMode
+}
+class ControlCenter {
+  +generateAlertReport(mode: OperationMode, duration: int): AlertReport
+}
+class AlertReport {
+  +containsCriticalFaults(): boolean
+  +containsWarningMessages(): boolean
+}
+class SystemManager {
+  +startSimulationSimulation(type: SimulationType, unit: MachineUnit): SimulationRun
+  +systemHealthCheck(): boolean
+}
+class EventLogger {
+  +logEvent(description: String, level: int, timestamp: Date): void
+}
+class AlertService {
+  +sendAlert(counter: int, mode: OperationMode): boolean
+}
+class TeamLeader {
+  +assignMember(member: Person, task: Task): boolean
+}
+class MaintenancePerson {
+  +updateEquipmentStatus(unit: MachineUnit, status: DeviceStatus): void
+}
+class PowerGrid {
+  +getTotalCapacity(): double
+  +getStatus(): DeviceStatus
+}
+class DataHub {
+  +fetchSensorData(sensor: FaultSensor): Readings
+}
+class HelperService {
+  +checkSystemRange(center: ControlCenter): boolean
+}
+class TaskScheduler {
+  +scheduleTask(unit: MachineUnit, priority: int): boolean
+}
+class SystemNode {
+  +getNodeName(): String
+  +getHealthStatus(): DeviceStatus
+}
+class NetworkInterface {
+  +connectToHub(): boolean
+  +disconnect(): boolean
+}
+class PowerBus {
+  +transferPower(powerAmount: double): boolean
+  +generateStatusReport(): DeviceStatus
+}
+class RealTimeDataAggregator {
+  +aggregateMetrics(source: PowerSource): int
+}
+class TerrainModel {
+  +simulateTerrainChange(): boolean
+}
+class AnalyticsEngine {
+  +generateAnalysisReport(unit: MachineUnit, periodDays: int): String
+  +detectAnomalies(data: RealTimeDataAggregator): boolean
+}
+class SecurityPolicy {
+  +verifyConnection(source: NetworkInterface): boolean
+  +enforceDataAccess(source: NetworkInterface, role: String): boolean
+}
+class PasswordValidator {
+  +validateCredentials(user: Person): boolean
+}
+class Administrator {
+  +manageSystemPermissions(): boolean
+}
+class SecuritySystem {
+  +implementAccessControl(rules: List<String>): boolean
+}
+class AuditTrail {
+  +recordAction(action: String, owner: String, timestamp: Date): void
+}
+class Administrator {
+  +manageSystemNavigation(): boolean
+}
+class ComplianceChecker {
+  +verifyCompliance(criteria: String): boolean
+}
+class UserAccount {
+  +refreshCredentials(): boolean
+}
+class Group {
+  +getMembers(): List<UserAccount>
+}
+class Task {
+  +execute(): boolean
+  +getDescription(): String
+}
+class RiskAssessment {
+  +calculateRiskScore(machine: MachineUnit, timeFrame: int): double
+}
+class SystemAdmin {
+  +manageAccess(user: Person): boolean
+}
+class AlertConfig {
+  +setThreshold(level: int, message: String): boolean
+}
+class AlarmConfiguration {
+  +configureAlarm(message: String, level: int): boolean
+}
+class MonitoringWindow {
+  +checkIntegrity(timeRange: int): boolean
+  +getLastCheckDate(): Date
+}
+class MonitoringWindow {
+  +fetchStats(): RealTimeDataAggregator
+}
+class ScheduleManager {
+  +generateSchedule(start: Date, end: Date, type: SimulationType): SimulationRun
+}
+class NotificationService {
+  +sendNotification(messageTemplate: String, contactList: List<String>): boolean
+}
+class InspectionReport {
+  +generateReport(unit: MachineUnit, durationMinutes: int): boolean
+}
+class DataExportService {
+  +exportData(type: SimulationType, targetFormat: String): boolean
+}
+class EntityManager {
+  +persistEntity(newEntity: Object): boolean
+  +retrieveAll(): List<Object>
+}
+class TaskQueue {
+  +enqueueTask(task: Task): boolean
+  +dequeueTask(): Task
+}
+class ScheduleGenerator {
+  +generateDailySchedule(location: String): SimulationRun
+}
+class SimulationController {
+  +startSimulation(unit: MachineUnit, mode: OperationMode): SimulationRun
+  +terminateSimulation(run: SimulationRun): boolean
+}
+class SimulationAgent {
+  +executeSimulation(simulationType: SimulationType, unit: MachineUnit): void
+}
+class SimulationResult {
+  +getSummary(): String
+  +getWarnings(): List<int>
+}
+class TimingContext {
+  +getCurrentTime(): Date
+  +getTimezone(): String
+}
+class SystemIdentifier {
+  +getSystemName(): String
+}
+class TestSuite {
+  +runTest(unit: MachineUnit): boolean
+}
+class LoggingManager {
+  +logEvent(time: Date, level: int, message: String): boolean
+}
+class ErrorReporter {
+  +reportError(errorCode: int, message: String): boolean
+}
+class InfrastructureBuilder {
+  +buildInfrastructure(): boolean
+}
+class ResourcePool {
+  +allocateResources(): boolean
+  +releaseResources(): boolean
+}
+class UserInterface {
+  +renderDashboard(): boolean
+}
+class MaintenanceTeam {
+  +updateTeamMember(newMember: Person, role: String): boolean
+}
+class AlertSystem {
+  +initiateAlert(recipient: String, message: String): boolean
+}
+class PowerGridController {
+  +manageGridCapacity(powerUnit: MachineUnit): void
+}
+class SimulationEngine {
+  +executeSimulation(type: SimulationType, unit: MachineUnit): SimulationRun
+}
+class ConfigStorage {
+  +storeSystemState(): boolean
+  +retrieveConfiguration(): String
+}
+class UserSession {
+  +getSessionId(): String
+  +refreshToken(): boolean
+}
+class PerformanceAnalyzer {
+  +analyseData(dataset: RealTimeDataAggregator): AnalysisReport
+}
+class ApplicationServer {
+  +loadApplication(port: int): boolean
+}
+class NetworkAdapter {
+  +connectToHub(): boolean
+  +disconnect(): boolean
+}
+class PowerEngine {
+  +generateAmpereCoefficients(): double[]
+}
+class PowerUnit {
+  +checkOperationalStatus(): DeviceStatus
+}
+class SystemConfiguration {
+  +configureAutoTest(enable: boolean): boolean
+  +configureMonitoring(enable: boolean): boolean
+}
+class EventLog {
+  +generateArchive(logDate: Date): String
+}
+class ApplicationModule {
+  +executeModuleTask(unit: MachineUnit): boolean
+}
+class AlertPolicy {
+  +definePolicy(rules: List<String>): boolean
+}
+class NotificationChannel {
+  +sendAlert(message: String): boolean
+}
+class ContextProvider {
+  +getContextScope(): String
+}
+class ConfigurationStore {
+  +persistSettings(configPath: String): boolean
+  +loadSettings(): boolean
+}
+class DataMapper {
+  +mapSensorData(sensor: FaultSensor, mappingRules: Map<String, int>): int
+}
+class PowerSupply {
+  +getStatus(): DeviceStatus
+  +startSelfTest(): boolean
+}
+class MaintenanceRecord {
+  +createEntry(description: String, status: DeviceStatus): boolean
+}
+class OperatorController {
+  +togglePowerOn(powerSource: PowerSource): boolean
+  +togglePowerOff(powerSource: PowerSource): boolean
+}
+class LocationManager {
+  +getTerrainMap(location: PowerGrid): TerrainModel
+}
+class SimulationEngine {
+  +runSimulation(type: SimulationType, unit: MachineUnit): SimulationRun
+  +terminateEngine(): boolean
+}
+class ComplianceAudit {
+  +checkCompliance(target: SimulationRun): boolean
+}
+class SecurityKey {
+  +verifyKeys(candidateList: List<String>): boolean
+}
+class SystemReport {
+  +generateSummary(): String
+}
+class AuditLog {
+  +recordEntry(action: String, user: String, timestamp: Date): void
+}
+class LocalizationService {
+  +translateMessage(message: String): String
+}
+class SystemValidator {
+  +validateEcosystem(spec: String): boolean
+}
+class LoggingService {
+  +generateTrail(source: SystemNode): String
+}
+class ThresholdManager {
+  +setThreshold(level: int, maxError: double): boolean
+}
+class PolicyEngine {
+  +generatePolicyRule(type: OperationMode, config: AlertConfig): AlertRule
+}
+class AlertRule {
+  +matchesCondition(data: RealTimeDataAggregator): boolean
+}
+class SimulationEngine {
+  +runSimulation(type: SimulationType, unit: MachineUnit): SimulationRun
+}
+class SimulationRun {
+  +startTime: Date
+  +endTime: Date
+  +execute(): void
+}
+class UserSession {
+  +isLoggedIn(): boolean
+  +refreshSession(): boolean
+}
+class UserAccount {
+  +refreshCredentials(): boolean
+}
+class TeamScheduler {
+  +assignTask(task: Task, member: Person): boolean
+}
+class TeamLeader {
+  +assignMember(member: Person): boolean
+}
+class PowerGridPollinizer {
+  +pollinizeGrid(grid: PowerGrid): boolean
+}
+class PowerGridUnit {
+  +generatePollinationReport(): String
+}
+class PowerGridMonitor {
+  +checkHealth(): boolean
+}
+class ClimateController {
+  +manageClimateSettings(): boolean
+}
+class LocationMapper {
+  +mapCoordinates(loc: String): String
+}
+class WeatherConfig {
+  +configureWeather(environment: String): boolean
+}
+class PowerPower {
+  +getPowerStatus(): DeviceStatus
+}
+class TimeStaggerer {
+  +staggerTime(staggerHours: int): boolean
+}
+class SimulationEngine {
+  +runSimulation(type: SimulationType, unit: MachineUnit): SimulationRun
+  +terminateEngine(runId: String): boolean
+}
+class SystemProfile {
+  +applyProfile(settings: Map<String, Object>): boolean
+}
+class SimulationProvider {
+  +getSupportedTypes(): List<SimulationType>
+}
+class SimulationTask {
+  +executeTask(): void
+}
+class TaskQueue {
+  +enqueueTask(task: SimulationTask): boolean
+  +dequeueTask(): SimulationTask
+}
+class TaskScheduler {
+  +scheduleTask(task: SimulationTask, priority: int): boolean
+}
+class TaskManager {
+  +executeTasks(): boolean
+}
+class AlertService {
+  +sendAlert(recipient: String, message: String): boolean
+}
+class AlertEngine {
+  +alertUser(message: String, target: String): boolean
+}
+class SystemInstance {
+  +startInstance(): boolean
+  +stopInstance(): boolean
+}
+class SystemEvent {
+  +triggerEvent(): boolean
+}
+class SimulationController {
+  +generateControllerReport(time: Date): String
+}
+class VirtualMachine {
+  +runVirtualMachine(): boolean
+}
+class PolicyDatabase {
+  +storePolicy(policy: AlertRule): boolean
+  +retrievePolicy(type: OperationMode): AlertRule
+}
+class DataProcessor {
+  +processData(data: RealTimeDataAggregator): int
+}
+class PowerSourcePool {
+  +allocatePower(powerAmount: double): double
+  +releasePower(powerAmount: double): double
+}
+class SimulationRepository {
+  +storeSimulation(run: SimulationRun): boolean
+  +retrieveSimulationType(): SimulationType
+}
+class UsageHistory {
+  +calculateUsagePeriod(start: Date, end: Date): int
+}
+class ResourcePool {
+  +allocateResources(): boolean
+}
+class MaintenanceLogEntry {
+  +addEntry(description: String, status: DeviceStatus): boolean
+}
+class DeviceRegistry {
+  +registerDevice(unit: PowerUnit): boolean
+  +lookupDevice(unitId: String): PowerUnit
+}
+class SystemConfiguration {
+  +applyConfiguration(config: String): boolean
+}
+class SimulationController {
+  +runSimulation(unit: MachineUnit, type: SimulationType): SimulationRun
+}
+class SimulationEngine {
+  +runSimulation(unit: MachineUnit, type: SimulationType): SimulationRun
+}
+class SystemController {
+  +activateMonitoring(): boolean
+}
+class NetworkRouter {
+  +connectToHub(): boolean
+  +disconnectFromHub(): boolean
+}
+class ContactList {
+  +addContact(contact: String): boolean
+  +getContacts(): List<String>
+}
+class UserInterface {
+  +renderDashboard(): boolean
+}
+class SecurityGuardian {
+  +checkAccess(user: Person): boolean
+}
+class PowerGridNode {
+  +monitorHealth(): DeviceStatus
+}
+class SystemReportGenerator {
+  +generateReport(unit: MachineUnit, durationDays: int): String
+}
+class SystemStatusReporter {
+  +getCurrentStatus(): DeviceStatus
+}
+class CloudStorage {
+  +storeData(data: String): boolean
+}
+class ComplianceManager {
+  +checkCompliance(): boolean
+}
+class SecurityOfficer {
+  +enforceSecurityRule(rule: AlertRule): boolean
+}
+class AuditDatabase {
+  +saveAuditLog(log: LogEntry): boolean
+  +retrieveLogs(): List<LogEntry>
+}
+class SystemMonitor {
+  +getStatus(): DeviceStatus
+}
+class SimulationData {
+  +exportData(run: SimulationRun): String
+  +getDataStructure(): String
+}
+class SimulationRunner {
+  +runSimulation(type: SimulationType, unit: MachineUnit): SimulationRun
+}
+class SimulationFramework {
+  +initializeCore(): boolean
+}
+class PerformanceOptimizer {
+  +
+@enduml

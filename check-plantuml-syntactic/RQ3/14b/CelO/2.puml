@@ -1,0 +1,90 @@
+
+@startuml
+skinparam backgroundColor White
+skinparam classAttributeIconColor Blue
+
+class Organizer {
+  - firstName: String
+  - lastName: String
+  - email: String
+  - postalAddress: String
+  - phoneNumber: String
+  - password: String
+  - isAttending: Boolean
+}
+
+class Attendee {
+  - firstName: String
+  - lastName: String
+  - email: String
+  - password: String
+  - status: String // "Attending", "Maybe", "Not Attending"
+}
+
+class Event {
+  - name: String
+  - startDate: DateTime
+  - endDate: DateTime
+  - occasion: String
+  - location: Location
+  - organizers: List<Organizer>
+  - attendees: List<Attendee>
+  - checklist: Checklist
+}
+
+class Location {
+  - name: String
+  - address: String
+}
+
+class Checklist {
+  - tasks: List<Task>
+}
+
+class Task {
+  - description: String
+  - status: String // "To Do", "Done", "Not Applicable"
+  - assignedToAttendee: Boolean
+}
+
+class EventType {
+  - name: String
+}
+
+class EventTemplate {
+  - type: EventType
+  - defaultChecklist: Checklist
+}
+
+' Associations
+Organizer "1" *-- "0..*" Event : organizes
+Event "1" -- "1" Location : has
+Event "1" -- "1" Checklist : has
+Checklist "1" -- "0..*" Task : contains
+Task "1" -- "0..1" Attendee : assignedTo
+Attendee "1" -- "0..*" Event : attends
+Event "1" -- "0..1" EventType : ofType
+EventType "1" -- "0..*" EventTemplate : hasTemplate
+EventTemplate "1" -- "1" Checklist : providesDefaultChecklist
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+- **Organizer**: Manages events, can attend or not, and creates accounts.
+- **Attendee**: Can receive invitations, create accounts, and respond to event invitations.
+- **Event**: Has start/end times, occasion, location, organizers, attendees, and a checklist.
+- **Location**: Holds the name and address of the event's venue.
+- **Checklist**: Contains multiple tasks.
+- **Task**: Each task has a description, status, and can be assigned to an attendee.
+- **EventType**: Represents types like "Birthday Party", "Graduation Party", etc.
+- **EventTemplate**: Provides a default checklist for specific event types.
+
+---
+
+### ✅ Notes:
+- The system allows for **multiple organizers** per event.
+- Tasks can be **assigned to attendees**, who then mark them as completed.
+- **EventTemplates** help reuse checklists across similar events.
+
+Let me know if you'd like this rendered visually or need a UML file export!

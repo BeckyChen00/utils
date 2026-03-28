@@ -1,0 +1,22 @@
+@startuml
+enum WeatherType {
+  Sunny
+  Rainy
+  Thunderous
+}
+class WeatherForecastEvent {
+  eventTime: Date
+  weatherDescription: WeatherType
+  severityLevel: int
+  categoryCode: String
+  +calculateSeverityScore(): double
+  +getSummary(): String
+  +isWithinWindow(windowStart: Date, windowEnd: Date): boolean
+}
+class ForecastingEngine {
+  isOfflineMode: boolean
+  +generateEvent(timeWindowStart: Date, timeWindowEnd: Date): WeatherForecastEvent
+  +validateInputs(): boolean
+}
+ForecastingEngine *-- "*" WeatherForecastEvent : generatedEvents
+@enduml

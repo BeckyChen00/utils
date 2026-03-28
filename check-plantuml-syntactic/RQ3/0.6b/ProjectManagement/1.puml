@@ -1,0 +1,136 @@
+@startuml
+
+class Diagram {
+  class SystemRequirement {
+    string name;
+    string description;
+  }
+
+  class Requirement {
+    string requirement_id;
+    string requirement_name;
+    string status;
+    string priority;
+    string type;
+  }
+
+  class Task {
+    string task_id;
+    string task_name;
+    string task_duration;
+    string task_owner;
+    string task_status;
+  }
+
+  class Resource {
+    string resource_id;
+    string resource_name;
+    string resource_type;
+    string resource_capacity;
+    string resource_usage;
+  }
+
+  class Schedule {
+    string schedule_id;
+    string schedule_time;
+    string schedule_type;
+    string schedule_frequency;
+    string schedule_start;
+    string schedule_end;
+  }
+
+  class Allocation {
+    string allocation_id;
+    string allocation_type;
+    string allocation_resource_id;
+    string allocation_schedule_id;
+    string allocation_time;
+  }
+
+  class Process {
+    string process_id;
+    string process_name;
+    string process_status;
+    string process_duration;
+  }
+
+  class Machine {
+    string machine_id;
+    string machine_name;
+    string machine_type;
+    string machine_capacity;
+    string machine_status;
+  }
+
+  class Operation {
+    string operation_id;
+    string operation_name;
+    string operation_type;
+    string operation_parameters;
+    string operation_result;
+  }
+
+  class TaskExecution {
+    string task_execution_id;
+    string task_execution_name;
+    string task_execution_duration;
+    string task_execution_time;
+    string task_execution_status;
+  }
+
+  class Connection {
+    string connection_id;
+    string connection_type;
+    string connection_resource_id;
+    string connection_schedule_id;
+    string connection_time;
+  }
+
+  class Request {
+    string request_id;
+    string request_name;
+    string request_description;
+    string request_status;
+  }
+
+  class Result {
+    string result_id;
+    string result_name;
+    string result_status;
+  }
+
+  class Dependency {
+    string dependency_id;
+    string dependency_name;
+    string dependency_type;
+    string dependency_source;
+    string dependency_target;
+  }
+
+  class Constraint {
+    string constraint_id;
+    string constraint_name;
+    string constraint_value;
+  }
+
+  class Relationship {
+    string relationship_id;
+    string relationship_type;
+    string relationship_source;
+    string relationship_target;
+  }
+
+  # Relationships between classes
+  relationship {SystemRequirement} {Task}
+  relationship {SystemRequirement} {Resource}
+  relationship {SystemRequirement} {Schedule}
+  relationship {SystemRequirement} {Allocation}
+  relationship {SystemRequirement} {Process}
+  relationship {SystemRequirement} {Machine}
+  relationship {SystemRequirement} {Operation}
+  relationship {SystemRequirement} {TaskExecution}
+  relationship {SystemRequirement} {Request}
+  relationship {SystemRequirement} {Result}
+  relationship {SystemRequirement} {Dependency}
+
+@enduml

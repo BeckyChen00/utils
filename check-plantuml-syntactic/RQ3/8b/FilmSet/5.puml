@@ -1,0 +1,97 @@
+
+@startuml
+
+' Define the main classes and their attributes and relationships
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class CreativeEmployee {
+  + isOscarWinner: Boolean
+}
+
+class Director {
+  - assistantName: String
+  -- extends CreativeEmployee
+}
+
+class Actor {
+  - education: String
+  -- extends CreativeEmployee
+}
+
+class Technician {
+  - fieldOfActivity: String
+}
+
+' Inheritance hierarchy for CreativeEmployee
+CreativeEmployee <|-- Director
+CreativeEmployee <|-- Actor
+
+class FilmSet {
+  - location: String
+  - films: List<Film>
+}
+
+class Film {
+  - title: String
+  - yearOfRelease: Integer
+  - genre: String
+  - filmSets: List<FilmSet>
+  - screenplay: Screenplay
+}
+
+class Screenwriter {
+  - name: String
+  - mostSuccessfulFilm: String
+  - screenplays: List<Screenplay>
+}
+
+class Screenplay {
+  - title: String
+  - version: String
+  - date: Date
+  - numberOfScenes: Integer
+  - plot: String
+  - basis: String (novel or concept)
+  - film: Film
+}
+
+class Novel {
+  - title: String
+  - author: String
+}
+
+' Relationships
+
+' Employees are part of a film set
+FilmSet "1" -- "many" Employee : has
+
+' Films are associated with multiple film sets
+Film "1" -- "many" FilmSet : is shot at
+
+' A film has one screenplay
+Film "1" -- "1" Screenplay : is based on
+
+' A screenplay is written by one screenwriter
+Screenplay "1" -- "1" Screenwriter : is written by
+
+' A screenplay may be based on a novel
+Screenplay "1" -- "0..1" Novel : is based on
+
+' Actors are part of a film
+Film "1" -- "many" Actor : includes
+
+@enduml
+
+### Explanation:
+- **Employee** is the base class for all employees.
+- **Director** and **Actor** inherit from **CreativeEmployee**, which also includes Oscar status.
+- **Technician** is a separate type of employee with activity field.
+- **FilmSet** contains multiple **Films** and has a location.
+- **Film** has a title, release year, genre, and is linked to a **Screenplay**.
+- **Screenplay** is written by a **Screenwriter**, has metadata, and can be based on a **Novel**.
+- **Actors** are part of a **Film**.
+

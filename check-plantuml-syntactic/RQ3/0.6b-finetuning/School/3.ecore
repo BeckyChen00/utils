@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="certificate" eType="#//SecurityCertification" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityCertification">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="applicableStandards" eType="#//ComplianceStandard" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CryptoDevice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="encryptionAlgorithm" eType="#//EncryptionAlgorithm" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensorReadings" eType="#//SensorReading" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="complianceVersion" eType="#//ComplianceStandard"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EncryptionAlgorithm">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityMetrics" eType="#//QualityMetric" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedStandard" eType="#//ComplianceStandard" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceStandard"/>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityMetric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalysisReport">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testCases" eType="#//TestCase" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="testResults" eType="#//TestResult" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestCase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredStandard" eType="#//ComplianceStandard" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredCertificate" eType="#//SecurityCertification" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestResult"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorReading">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedMetric" eType="#//PerformanceMetric" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PerformanceMetric">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governedByStandard" eType="#//ComplianceStandard" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QualityChecker">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="checkedDevices" eType="#//CryptoDevice" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VulnerabilityAnalysis">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="analyzedTests" eType="#//TestCase" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RiskManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedStandard" eType="#//ComplianceStandard" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedService" eType="#//AssessmentService" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssessmentService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//AnalysisReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RegulatoryBody">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="governedStandards" eType="#//ComplianceStandard" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EvaluationEngine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluatedStandards" eType="#//ComplianceStandard" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Owner">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedCertifications" eType="#//SecurityCertification" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownsReports" eType="#//ComplianceReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestSuite">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedTests" eType="#//TestCase" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityAuditLog">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedReports" eType="#//ComplianceReport" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplianceReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="viewsReports" eType="#//ComplianceReport" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

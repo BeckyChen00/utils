@@ -1,0 +1,29 @@
+@startuml
+enum LightingStatus {
+  ON
+  OFF
+  NIGHT_MODE
+  DIMMITY
+}
+enum ProtocolType {
+  RFID
+  DS18B20
+  DATASHEET
+  XTOKENIZER
+}
+class LightControlSystem {
+  lights: String[]
+  protocolType: ProtocolType
+  +startSession(targetProtocol: ProtocolType): void
+  +stopSession(): void
+  +transferLight(routing: String, targetLocation: String): void
+}
+class LightingModule {
+  brightnessLevel: int
+  status: LightingStatus
+  +toggleOn(): void
+  +toggleOff(): void
+  +setBrightness(level: int): void
+}
+LightControlSystem *-- "*" LightingModule : managedModules
+@enduml

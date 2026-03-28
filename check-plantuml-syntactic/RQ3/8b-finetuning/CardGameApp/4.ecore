@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cards" eType="#//Card" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Card"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Game">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeDeck" eType="#//Deck" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scoringTable" eType="#//ScoringTable" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="playedRounds" eType="#//Round" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participants" eType="#//Player" lowerBound="1" upperBound="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Deck"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ScoringTable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Round"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Player"/>
+</ecore:EPackage>

@@ -1,0 +1,48 @@
+@startuml
+enum VehicleStatus {
+  Available
+  Busy
+  Reserved
+  Maintenance
+  Idle
+  OutOfService
+}
+enum ReservationStatus {
+  Pending
+  Confirmed
+  InProgress
+  Completed
+  Cancelled
+  Failed
+}
+class User {
+  username: String
+  emailAddress: String
+  isActive: boolean
+  +login(): boolean
+  +updateProfile(): void
+}
+class Department {
+  departmentName: String
+  locationCode: String
+  +getAvailableVehicles(): List<Vehicle>
+}
+class Vehicle {
+  vehicleType: String
+  licensePlate: String
+  currentStatus: VehicleStatus
+  +getStatus(): VehicleStatus
+  +updateStatus(newStatus: VehicleStatus): void
+}
+class Reservation {
+  status: ReservationStatus
+  startTime: Date
+  endTime: Date
+  +confirm(): void
+  +cancel(): void
+  +calculateDuration(): int
+}
+User --> "0..*" Reservation : userReservations
+Reservation *-- "1" Vehicle : reservedVehicle
+Reservation --> "1" Department : locationDepot 'opposite: ownedReservations
+@enduml

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Faculty" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Faculty">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Institute" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headed_by" eType="#//Dean" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Institute"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Dean"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee" eSuperTypes="#//Staff">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_a" eType="#//Dean" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_an" eType="#//ResearchAssistant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Staff"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResearchStaff" eSuperTypes="#//Staff"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AdministrativeStaff" eSuperTypes="#//Staff"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResearchAssistant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assigned_to" eType="#//Institute" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involved_in" eType="#//Project" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teaches_" eType="#//Course" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Project">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="involves" eType="#//ResearchAssistant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Course">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="is_taught_by_" eType="#//Lecturer" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Lecturer"/>
+</ecore:EPackage>

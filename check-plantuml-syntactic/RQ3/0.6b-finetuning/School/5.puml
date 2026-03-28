@@ -1,0 +1,59 @@
+@startuml
+enum SessionStatus {
+  Active
+  Completed
+  Paused
+  Failed
+}
+enum GameType {
+  ElectronicAdventure
+  Puzzle
+  ActionRogue
+  RolePlay
+  Strategy
+  Simulation
+}
+class User {
+  username: String
+  email: String
+  isActive: boolean
+  +login(): boolean
+}
+class Player {
+  username: String
+  rank: int
+  +startSession(): GameSession
+}
+class GameSession {
+  status: SessionStatus
+  isMatchmaking: boolean
+  durationMinutes: int
+  locationTags: String[]
+  +startMatch(): boolean
+  +endMatch(): void
+}
+class GameSessionManager {
+  maxPlayers: int
+  +scheduleSession(user: Player, type: GameType, duration: int): GameSession
+  +terminateSession(session: GameSession): void
+}
+class GameEngine {
+  engineVersion: String
+  +initiateSession(session: GameSession, type: GameType): boolean
+  +pauseEngine(): void
+}
+class GameSessionController {
+  +getSessionList(): List<GameSession>
+}
+class NotificationService {
+  +sendNotification(session: GameSession, message: String): void
+}
+GameSessionManager *-- "1..*" GameSession : managedSessions
+GameSessionController *-- "1..*" GameSession : controlledSessions
+GameEngine --> "0..1" GameSession : currentSession
+User --> "0..*" GameSession : playedSessions
+Player --> "0..*" GameSession : initiatedSessions
+GameSession --> "0..1" NotificationService : notificationService
+GameSessionController --> "1" GameEngine : engine
+GameSessionController --> "1" NotificationService : notificationService
+@enduml

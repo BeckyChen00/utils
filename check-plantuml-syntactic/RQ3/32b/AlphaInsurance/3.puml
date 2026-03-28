@@ -1,0 +1,125 @@
+
+@startuml
+' Define classes and their attributes
+
+class Customer {
+    - customerId: String
+    - name: String
+    - contactInfo: String
+    + requestInsurance(): void
+    + submitClaim(): void
+}
+
+class Broker {
+    - brokerId: String
+    - name: String
+    - assignedCustomer: Customer
+    + assessProfile(customer: Customer): boolean
+    + sendForAnalysis(customer: Customer): void
+    + makeOffer(customer: Customer, policyType: String): Offer
+}
+
+class PolicyType {
+    - policyTypeId: String
+    - name: String
+    - description: String
+    + getPrice(): double
+}
+
+class Contract {
+    - contractId: String
+    - customer: Customer
+    - policyType: PolicyType
+    - startDate: Date
+    - endDate: Date
+    - paymentFrequency: String (monthly/yearly)
+    + calculatePremium(): double
+    + invoiceCustomer(): void
+}
+
+class Offer {
+    - offerId: String
+    - customer: Customer
+    - policyType: PolicyType
+    - proposedTerms: Map<String, Object>
+    - status: String (pending/approved/rejected)
+    + sendByEmail(): void
+    + sendInPerson(): void
+}
+
+class Claim {
+    - claimId: String
+    - customer: Customer
+    - contract: Contract
+    - dateSubmitted: Date
+    - status: String (open/closed/paid)
+    + addCase(case: ClaimCase): void
+}
+
+class ClaimCase {
+    - caseId: String
+    - claim: Claim
+    - type: String (e.g., material damage, physical injury)
+    - status: String (open/under review/closed)
+    + assignEstimator(estimator: Estimator): void
+}
+
+class Estimator {
+    - estimatorId: String
+    - name: String
+    - expertiseArea: String
+    + generateReport(case: ClaimCase): Report
+}
+
+class Report {
+    - reportId: String
+    - case: ClaimCase
+    - estimator: Estimator
+    - content: String
+    - dateGenerated: Date
+    + approveClaim(): boolean
+    + calculateCompensation(): double
+}
+
+class Compensation {
+    - compensationId: String
+    - claimCase: ClaimCase
+    - amount: double
+    - paidDate: Date
+    + payToCustomer(): void
+}
+
+class HelpDesk {
+    + findBrokerByCustomer(customer: Customer): Broker
+}
+
+class HeadOffice {
+    + analyzeCustomerFile(customer: Customer): boolean
+}
+
+' Relationships
+Customer "1" -- "0..*" Contract : has
+Customer "1" -- "1" Broker : assigned to
+Broker "1" -- "0..*" Offer : makes
+Contract "1" -- "1" PolicyType : uses
+PolicyType "1" -- "0..*" Contract : available in
+Offer "1" -- "1" Contract : results in
+Customer "1" -- "0..*" Claim : submits
+Claim "1" -- "0..*" ClaimCase : contains
+ClaimCase "1" -- "1" Estimator : assigned to
+Estimator "1" -- "0..*" Report : generates
+Report "1" -- "1" ClaimCase : for
+ClaimCase "1" -- "0..1" Compensation : leads to
+
+@enduml
+
+---
+
+### Notes:
+- This class diagram models the main **entities**, **relationships**, and **functional behavior** of the Alpha Insurance system.
+- It includes:
+  - Core domain classes like `Customer`, `Broker`, `PolicyType`, `Contract`, etc.
+  - Business processes such as making an insurance offer, submitting a claim, assigning estimators, and approving claims.
+  - Associations and multiplicity between classes to reflect real-world interactions.
+
+Let me know if you'd like to include additional details like use cases, activity diagrams, or sequence diagrams!

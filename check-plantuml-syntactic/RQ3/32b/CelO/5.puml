@@ -1,0 +1,107 @@
+
+@startuml
+
+' Set title
+
+' Define classes with attributes and methods
+class User {
+    - id: int
+    - firstName: String
+    - lastName: String
+    - email: String
+    - password: String
+}
+
+class Organizer {
+    - postalAddress: String
+    - phoneNumber: String
+    + createEvent(): Event
+    + inviteAttendee(attendee: Attendee): void
+    + viewEventStatus(event: Event): void
+    + manageChecklist(checklist: Checklist): void
+}
+
+class Attendee {
+    - isAttending: boolean
+    - responseStatus: ResponseStatus
+    + selectTasks(tasks: List<Task>): void
+}
+
+enum ResponseStatus {
+    ATTENDING
+    MAYBE_ATTENDING
+    NOT_ATTENDING
+    NO_REPLY
+}
+
+class Event {
+    - name: String
+    - startDate: DateTime
+    - endDate: DateTime
+    - occasion: String
+    - location: Location
+    - checklist: Checklist
+    + getInvitationStatus(): Map<Attendee, ResponseStatus>
+}
+
+class Location {
+    - name: String
+    - address: String
+}
+
+class Checklist {
+    - tasks: List<Task>
+    + addTask(task: Task): void
+}
+
+class Task {
+    - description: String
+    - status: TaskStatus
+    - assignedToAttendee: boolean
+    + assignToAttendee(attendee: Attendee): void
+}
+
+enum TaskStatus {
+    TODO
+    DONE
+    NOT_APPLICABLE
+}
+
+' Inheritance
+User <|-- Organizer
+User <|-- Attendee
+
+' Associations
+Organizer "1" *-- "many" Event : organizes
+Event "1" -- "1" Location : has location
+Event "1" -- "1" Checklist : uses checklist
+Checklist "1" -- "many" Task : contains
+Event "1" *-- "many" Attendee : invites
+Attendee "1" -- "many" Task : selects
+Task "0..1" -- "1" Attendee : assigned to
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Elements:
+
+- **User**: Abstract base class for both `Organizer` and `Attendee`.
+- **Organizer**:
+  - Can create events.
+  - Invites attendees.
+  - Manages checklists and views event statuses.
+- **Attendee**:
+  - Has a response status (e.g., attending, maybe, not attending).
+  - Can select tasks if assigned.
+- **Event**:
+  - Has details like start/end time, occasion, and location.
+  - Is associated with one checklist and multiple attendees.
+- **Location**: Can be selected or created by an organizer.
+- **Checklist**: Contains a list of tasks.
+- **Task**:
+  - Can be marked as done, not applicable, or pending.
+  - May be assigned to an attendee.
+
+---
+

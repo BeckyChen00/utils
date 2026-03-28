@@ -1,0 +1,71 @@
+@startuml
+class Diagram {
+    [Start]
+    class SystemRequirement {
+        # of users: 10
+        # of devices: 5
+        # of functions: 3
+        # of constraints: 2
+    }
+
+    class User {
+        name: String
+        age: Integer
+        email: String
+    }
+
+    class Device {
+        name: String
+        model: String
+        type: String
+    }
+
+    class Function {
+        name: String
+        input: List[User]
+        output: List[Device]
+    }
+
+    class Constraint {
+        reference to Function
+    }
+
+    class Requirement {
+        reference to SystemRequirement
+        references to Constraint
+    }
+
+    class UserFunction {
+        reference to Function
+        references to User
+    }
+
+    class UserConstraint {
+        reference to Constraint
+        references to User
+    }
+
+    class DeviceFunction {
+        reference to Function
+        references to Device
+    }
+
+    class DeviceConstraint {
+        reference to Constraint
+        references to Device
+    }
+
+    class Relationship {
+        reference to UserFunction
+        reference to UserConstraint
+        reference to DeviceFunction
+        reference to DeviceConstraint
+    }
+
+    # Relationships between classes
+    relationship UserFunction -> Function
+    relationship UserConstraint -> Constraint
+    relationship DeviceFunction -> Function
+    relationship DeviceConstraint -> Constraint
+
+@enduml

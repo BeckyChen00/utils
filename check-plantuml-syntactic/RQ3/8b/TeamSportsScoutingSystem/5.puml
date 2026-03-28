@@ -1,0 +1,85 @@
+
+@startuml
+skinparam monochrome true
+skinparam noteBackgroundColor #f0f0f0
+skinparam classAttributeIconSize 0
+
+class Player {
+    +String name
+    +String position
+    +Map<String, String> attributes
+}
+
+class PlayerProfile {
+    +String id
+    +String targetPosition
+    +Map<String, String> requiredAttributes
+    +List<Player> shortList
+    +List<Player> longList
+}
+
+class Scout {
+    +String id
+    +String name
+    +List<ScoutingAssignment> assignments
+}
+
+class ScoutingAssignment {
+    +String id
+    +Player player
+    +Scout scout
+    +ScoutingReport report
+}
+
+class ScoutingReport {
+    +String id
+    +List<String> pros
+    +List<String> cons
+    +String recommendation
+}
+
+class HeadCoach {
+    +String id
+    +String name
+    +List<PlayerProfile> profiles
+    +List<Player> shortList
+}
+
+class HeadScout {
+    +String id
+    +String name
+    +List<ScoutingAssignment> assignments
+}
+
+class Director {
+    +String id
+    +String name
+    +List<ScoutingAssignment> assignments
+}
+
+' Relationships
+PlayerProfile "1" -- "0..*" Player: has
+PlayerProfile "1" -- "0..*" Scout: may be associated with (long list)
+PlayerProfile "1" -- "0..*" HeadCoach: created by
+Scout "1" -- "0..*" ScoutingAssignment: creates
+ScoutingAssignment "1" -- "1" ScoutingReport: has
+HeadCoach "1" -- "0..*" ScoutingAssignment: may assign
+HeadScout "1" -- "0..*" ScoutingAssignment: may assign
+Director "1" -- "0..*" ScoutingAssignment: may make offer for
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Classes and Relationships:
+
+- **Player**: Represents a player with name, position, and attributes.
+- **PlayerProfile**: A target profile defined by the head coach. It includes position and attributes, and tracks players in the long and short lists.
+- **Scout**: A user who can submit scouting reports.
+- **ScoutingAssignment**: An assignment given to a scout to evaluate a player.
+- **ScoutingReport**: Contains the evaluation results (pros, cons, recommendation) of a player.
+- **HeadCoach**: Defines player profiles and manages the short list.
+- **HeadScout**: Manages scouting assignments and evaluates players.
+- **Director**: Makes official offers to players recommended by the head scout.
+
+Let me know if you'd like this rendered as an image or need further clarification!

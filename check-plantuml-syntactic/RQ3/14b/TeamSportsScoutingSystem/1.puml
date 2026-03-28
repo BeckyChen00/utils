@@ -1,0 +1,95 @@
+
+@startuml
+' Team Sports Scouting System - Class Diagram
+
+class Employee {
+  +id: int
+  +name: String
+  +role: String
+}
+
+class HeadCoach << (C, #FFBBBB) >> {
+  +identifyPlayerProfiles(): PlayerProfile
+  +reviewScoutingReports(): void
+  +selectPlayersForShortList(): void
+}
+
+class Director << (C, #BBFFBB) >> {
+  +makeOfficialOffer(Player): void
+}
+
+class Scout << (C, #BBFFFF) >> {
+  +notePlayerOnLongList(Player): void
+  +submitScoutingReport(Player): ScoutingReport
+}
+
+class Player {
+  +id: int
+  +name: String
+  +position: String
+  +attributes: Map<String, Integer>
+}
+
+class PlayerProfile {
+  +targetPosition: String
+  +attributes: Map<String, Integer>
+}
+
+class ScoutingReport {
+  +player: Player
+  +pros: List<String>
+  +cons: List<String>
+  +recommendation: String
+}
+
+class LongList {
+  +players: List<Player>
+}
+
+class ShortList {
+  +players: List<Player>
+}
+
+class ScoutingAssignment {
+  +player: Player
+  +scout: Scout
+  +status: String
+  +report: ScoutingReport
+}
+
+' Relationships
+
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+
+HeadCoach "1" --> "0..*" PlayerProfile
+HeadCoach "1" --> "0..*" ShortList
+HeadCoach "1" --> "0..*" ScoutingReport
+
+Director "1" --> "0..*" Player
+
+Scout "1" --> "0..*" LongList
+Scout "1" --> "0..*" ScoutingAssignment
+Scout "1" --> "0..*" ScoutingReport
+
+PlayerProfile "1" --> "0..*" Player
+
+LongList "1" --> "0..*" Player
+ShortList "1" --> "0..*" Player
+
+ScoutingAssignment "1" --> "1" ScoutingReport
+ScoutingAssignment "1" --> "1" Player
+ScoutingAssignment "1" --> "1" Scout
+
+@enduml
+
+### Explanation of Key Elements:
+- **Employee**: Base class for all club personnel.
+- **HeadCoach**, **Director**, and **Scout**: Subclasses of `Employee` with specific roles.
+- **Player**: Represents players being scouted.
+- **PlayerProfile**: Defines target profiles that the head coach sets.
+- **ScoutingReport**: Contains evaluation details from scouts.
+- **LongList** and **ShortList**: Lists of players under consideration.
+- **ScoutingAssignment**: Represents a task assigned to a scout to investigate a player.
+

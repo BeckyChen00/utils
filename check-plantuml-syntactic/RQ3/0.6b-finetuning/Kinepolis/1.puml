@@ -1,0 +1,35 @@
+@startuml
+enum NodeStatus {
+  Online
+  Offline
+}
+class AccessNode {
+  ipAddress: String
+  macAddress: String
+  status: NodeStatus
+  priority: double
+}
+class NetworkSegment {
+  segmentName: String
+  capacityLimit: int
+}
+class TrafficAnalyzer {
+  +analyzeSegment(segment: NetworkSegment): TrafficData
+  +identifyCriticalNodes(segment: NetworkSegment): List<AccessNode>
+}
+class TrafficData {
+  timestamp: Date
+  averageThroughput: double
+  congestionLevel: double
+  +exportData(): String
+}
+class SystemMonitor {
+  +generateReport(startDate: Date, endDate: Date): String
+  +isOperational(): boolean
+}
+AccessNode *-- "1" NetworkSegment : connectedToSegment
+AccessNode *-- "*" TrafficData : recordedTransitions
+TrafficAnalyzer --> "*" NetworkSegment : analyzedSegments
+SystemMonitor --> "*" AccessNode : monitoredNodes
+TrafficAnalyzer --> "*" TrafficData : generatedData
+@enduml

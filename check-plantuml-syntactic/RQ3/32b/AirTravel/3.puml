@@ -1,0 +1,94 @@
+
+@startuml
+
+' Define Classes
+class Aircraft {
+  - name: String
+  - type: String
+  - yearOfManufacture: int
+  - nextInspectionDate: Date
+}
+
+class PassengerAircraft {
+  - numberOfSeats: int
+}
+
+class SeatCategory {
+  - designation: String
+  - hasEntertainment: boolean
+  - numberOfSeats: int
+}
+
+class Flight {
+  - flightNumber: String
+  - date: Date
+}
+
+class Ticket {
+  - ticketNumber: String
+  - price: double
+  - upgradeDesired: boolean
+}
+
+class Passenger {
+  - name: String
+  - passportNumber: String
+}
+
+class Airline {
+  - name: String
+}
+
+class FlightAttendant {
+  - name: String
+  - employmentDate: Date
+  - isChiefSteward: boolean
+}
+
+class Pilot {
+  - name: String
+  - employmentDate: Date
+  - license: String
+}
+
+class Airport {
+  - name: String
+  - address: String
+  - numberOfRunways: int
+}
+
+' Inheritance
+PassengerAircraft <|-- Aircraft
+
+' Associations
+Aircraft "1" *-- "many" Flight : performs
+Flight "1" *-- "many" Ticket : has
+Ticket "1" o-- "1" SeatCategory : for
+Flight "1" *-- "many" Passenger : has
+Passenger "1" *-- "many" Ticket : has
+PassengerAircraft "1" *-- "many" SeatCategory : has
+Aircraft "1" o-- "0..1" Airline : belongs to
+Airline "1" *-- "many" FlightAttendant : employs
+Airline "1" *-- "many" Pilot : employs
+Flight "1" *-- "many" FlightAttendant : has
+Flight "1" "1" -- "1" Pilot : has captain
+Flight "1" "0..2" -- "1" Pilot : has co-pilot
+Flight "1" -- "1" Airport : departs from
+Flight "1" -- "1" Airport : arrives at
+Aircraft "1" -- "1" Airport : home airport (optional)
+
+@enduml
+
+---
+
+### Notes:
+- **Inheritance**: `PassengerAircraft` inherits from `Aircraft`.
+- **Associations**:
+  - Each `Aircraft` can perform multiple `Flight`s.
+  - Each `Flight` can have many `Passenger`s and `Ticket`s.
+  - Each `Ticket` is associated with one `SeatCategory`.
+  - An `Airline` employs `Pilot`s and `FlightAttendant`s.
+  - A `Flight` has one `Captain` (Pilot) and 0–2 `Co-Pilots` (Pilots).
+  - A `Flight` has a `Departure Airport` and a `Destination Airport`.
+  - An `Aircraft` may have a `Home Airport`.
+

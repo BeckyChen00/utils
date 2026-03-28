@@ -1,0 +1,6 @@
+@startuml
+classDiagram
+    class SystemRequirement {
+        requires {User, Application} in [SomeConstraint]
+    }
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+classDiagram
+    class SystemRequirement {
+        member : String
+        system requirement : String
+    }
+
+    class Diagram {
+        diagram : "System Requirement Diagram"
+    }
+
+    class DiagramElement {
+        element : "Requirement"
+        description : "A requirement for the system."
+    }
+
+    class Element {
+        element : "System Requirement"
+        diagramElement : DiagramElement
+    }
+
+    class Relationship {
+        relationship : "Between SystemRequirement and DiagramElement"
+    }
+
+    class Connection {
+        connection : "From DiagramElement to SystemRequirement"
+    }
+
+@enduml

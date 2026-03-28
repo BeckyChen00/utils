@@ -1,0 +1,108 @@
+
+@startuml
+
+' Set skinparam for better visualization
+skinparam class {
+    BackgroundColor #EEEEEE
+    BorderColor #333333
+}
+
+' Define classes
+class Game {
+    - id: UUID
+    + players: List<Player>
+    + deck: Deck
+    + scoringTable: ScoringTable
+}
+
+class Player {
+    - id: UUID
+}
+
+class Deck {
+    - id: UUID
+    + cards: List<Card>
+    + size: int <= 48
+}
+
+abstract class Card {
+    - id: UUID
+    + suit: Suit (Diamonds, Hearts, Spades, Clubs)
+    + rank: String
+    + compare(card: Card): ComparisonResult
+}
+
+enum Suit {
+    Diamonds
+    Hearts
+    Spades
+    Clubs
+}
+
+enum ComparisonResult {
+    Lower
+    Equal
+    Higher
+}
+
+class ScoringTable {
+    - id: UUID
+    + rounds: List<Round>
+}
+
+abstract class Round {
+    - id: UUID
+    + winningPlayers: List<Player>
+    + points: int
+}
+
+class JackRound {
+    - id: UUID
+}
+
+class SoloRound {
+    - id: UUID
+    + soloType: SoloType
+    + soloPlayer: Player
+}
+
+enum SoloType {
+    TrumpSolo
+    JackSolo
+    QueenSolo
+}
+
+class MandatorySoloRound {
+    - id: UUID
+}
+
+' Inheritance and associations
+Game "1" *-- "4" Player
+Deck "1" o-- "0..48" Card : contains
+Card "0..*" -- "1" Suit : has
+ScoringTable "1" *-- "1.." Round : consists of
+JackRound --|> Round
+SoloRound --|> Round
+MandatorySoloRound --|> SoloRound
+SoloRound "1" --> "1" SoloType
+SoloRound "1" --> "1" Player : has solo player
+
+@enduml
+
+---
+
+### ✅ Key Elements in the Diagram:
+- **Game**: Contains 4 players, a deck, and a scoring table.
+- **Player**: Has a unique ID.
+- **Deck**: Holds up to 48 `Card` objects.
+- **Card**: Abstract class with a `suit`, `rank`, and `compare()` method.
+- **Suit**: Enum representing German suits.
+- **ComparisonResult**: Enum returned by the comparison method.
+- **ScoringTable**: Maintains a list of `Round`s.
+- **Round**: Abstract base class for different types of rounds.
+- **JackRound** and **SoloRound** extend `Round`.
+- **MandatorySoloRound** is a special type of `SoloRound`.
+- **SoloRound** has a `soloType` and a `soloPlayer`.
+
+---
+

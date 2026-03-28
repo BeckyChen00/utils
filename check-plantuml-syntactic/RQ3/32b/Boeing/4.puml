@@ -1,0 +1,73 @@
+
+@startuml
+
+' Define classes and their attributes
+class Contract {
+    +String id
+    +Date startDate
+    +Date endDate
+    +String deliveryConditions
+    +String legalTerms
+}
+
+class Acquisition {
+    +String id
+    +int quantity
+    +double negotiatedPrice
+    +Date deliveryDate
+    +String customizations
+    +String modelType
+}
+
+class Aircraft {
+    +String serialNumber
+    +String model
+    +String status (e.g., "in production", "delivered")
+}
+
+class Salesperson {
+    +String employeeId
+    +String name
+    +String role
+}
+
+class AirlineCompany {
+    +String companyId
+    +String name
+    +String country
+}
+
+' Relationships
+
+' A contract has multiple acquisitions
+Contract "1" --> "0..*" Acquisition : contains
+
+' Each acquisition is for an aircraft
+Acquisition "1" --> "1" Aircraft : produces
+
+' A contract is managed by one salesperson at a time
+Contract "1" --> "1" Salesperson : managedBy
+' A salesperson can manage many contracts
+Salesperson "1" <|-- "0..*" Contract
+
+' An airline company can be a customer in multiple contracts
+AirlineCompany "1" --> "0..*" Contract : customerOf
+
+' Mother-Daughter relationship between airlines
+AirlineCompany "0..*" --> "0..*" AirlineCompany : motherOf
+AirlineCompany "0..*" --> "0..*" AirlineCompany : daughterOf
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Elements:
+
+- **Contract**: Represents a high-level agreement between Boeing and an airline. May include multiple `Acquisition`s.
+- **Acquisition**: A specific order within a contract for one or more airplanes.
+- **Aircraft**: The actual airplane being produced and delivered. Each acquisition corresponds to building one aircraft.
+- **Salesperson**: Manages one or more contracts over time.
+- **AirlineCompany**: Can be a customer in multiple contracts and may have a parent/child relationship with another airline.
+
+---
+

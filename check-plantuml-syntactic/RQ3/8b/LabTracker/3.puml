@@ -1,0 +1,106 @@
+
+@startuml
+
+' Define classes
+class Doctor {
+    +practitionerNumber: String
+    +fullName: String
+    +address: String
+    +phoneNumber: String
+    +signature: Image
+    +requisitions: List<Requisition>
+}
+
+class Patient {
+    +healthNumber: String
+    +firstName: String
+    +lastName: String
+    +dateOfBirth: Date
+    +address: String
+    +phoneNumber: String
+    +appointments: List<Appointment>
+    +requisitions: List<Requisition>
+}
+
+class Requisition {
+    +validFrom: Date
+    +tests: List<Test>
+    +repetitionPattern: RepetitionPattern
+    +repetitions: int
+    +interval: Interval
+    +doctor: Doctor
+    +patient: Patient
+    +results: List<TestResult>
+}
+
+class Test {
+    +testType: String
+    +duration: int
+    +isWalkInOnly: boolean
+    +isRepeatable: boolean
+    +group: String
+    +requisitions: List<Requisition>
+}
+
+class TestResult {
+    +result: String
+    +report: String
+    +test: Test
+    +requisition: Requisition
+}
+
+class Appointment {
+    +confirmationNumber: String
+    +date: Date
+    +startTime: Time
+    +endTime: Time
+    +lab: Lab
+    +requisition: Requisition
+    +isCancelled: boolean
+    +changeFeeApplied: boolean
+}
+
+class Lab {
+    +registrationNumber: String
+    +name: String
+    +address: String
+    +businessHours: BusinessHours
+    +appointments: List<Appointment>
+}
+
+class RepetitionPattern {
+    +pattern: String
+}
+
+class Interval {
+    +intervalType: String
+}
+
+class BusinessHours {
+    +openTime: Time
+    +closeTime: Time
+}
+
+' Associations
+Doctor --> "1..*" Requisition : prescribes
+Patient --> "1..*" Requisition : receives
+Requisition --> "1..*" Test : includes
+Test --> "1..*" Requisition : part of
+Requisition --> "1..*" TestResult : has
+Test --> "1..*" TestResult : has
+Patient --> "1..*" Appointment : makes
+Requisition --> "0..1" Appointment : requires
+Appointment --> Lab : at
+Doctor --> "0..1" Doctor : can prescribe to (self)
+Doctor --> "0..1" Doctor : can be prescribed by (self)
+
+@enduml
+
+---
+
+### ✅ Notes:
+- This class diagram captures all the entities and relationships described in the system requirements.
+- It includes associations like `prescribes`, `receives`, `includes`, etc., as per the logic.
+- Some helper classes like `RepetitionPattern`, `Interval`, and `BusinessHours` are included to model complex attributes.
+- Relationships such as a doctor being able to prescribe to another doctor or themselves are modeled with self-associations.
+

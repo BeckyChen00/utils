@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedTickets" eType="#//Ticket" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BookingSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notificationService" eType="#//NotificationService" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processedBookings" eType="#//Booking" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="authorizedUsers" eType="#//User" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="revenueMonitor" eType="#//RevenueMonitor" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servedStations" eType="#//Station" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedRouts" eType="#//Route" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sentNotifications" eType="#//Notification" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TicketingSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="issuedTickets" eType="#//Ticket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Notification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Booking">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="createdReservation" eType="#//Reservation" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bookedPassangers" eType="#//Customer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TicketingSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedTicket" eType="#//Ticket" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedSeats" eType="#//Seat" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedRoute" eType="#//Route" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="createdPlan" eType="#//Plan" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="optimizedRoute" eType="#//Route" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Reservation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="claimedPassenger" eType="#//Passenger" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectedSlot" eType="#//TimeSlot" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedVehicle" eType="#//Vehicle" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Passenger"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TimeSlot">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servedBy" eType="#//Station" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vehicle">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operatesAt" eType="#//Station" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedSeats" eType="#//Seat" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Station">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedStations" eType="#//Station" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedStaff" eType="#//CrewMember" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="visitedPassengers" eType="#//PassengerProfile" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adjacentStations" eType="#//Station" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredUsers" eType="#//User" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CrewMember"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StationManager">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedStations" eType="#//Station" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemAdministrator">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedServices" eType="#//TransportationService" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedSystems" eType="#//TicketingSystem" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransportationService"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RevenueMonitor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedTransactions" eType="#//Ticket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Seat"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PassengerProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="purchasedTickets" eType="#//Ticket" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Travelers">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestedStation" eType="#//Station" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Route"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RoutePreparedStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedPlans" eType="#//Plan" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedRoutes" eType="#//Route" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Plan"/>
+</ecore:EPackage>

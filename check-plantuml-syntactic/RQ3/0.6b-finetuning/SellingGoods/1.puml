@@ -1,0 +1,54 @@
+@startuml
+class User {
+  username: String
+  isOrganizer: boolean
+  +register(): void
+  +updateProfile(info: Map): void
+}
+class ConferenceSession {
+  sessionName: String
+  startDate: Date
+  endTime: Date
+  isActive: boolean
+  +start(): void
+  +end(): void
+  +scheduleDate(date: Date): void
+}
+class Guest {
+  eventId: String
+  isResponsibleAttendee: boolean
+  +attend(): void
+}
+class Moderator {
+  frequency: int
+  +reviewSession(session: ConferenceSession): void
+  +submitRecount(count: int): void
+}
+class Registration {
+  registrationDate: Date
+  totalSeats: int
+  +generateReceipt(): String
+  +confirmBooking(): void
+}
+class MeetingRoom {
+  roomNumber: String
+  capacity: int
+  +getAvailableSeats(): int
+}
+class Room {
+  roomName: String
+  location: String
+  +printLicense(): String
+}
+ConferenceSession *-- "2..*" MeetingRoom : assignedRooms
+ConferenceSession *-- "1" Room : conferenceRoom
+ConferenceSession *-- "0..*" HostedEvent : hostedEvents
+Moderator --> "*" ConferenceSession : managedSessions
+Moderator --> "*" Registration : conductedRegistrations
+Registration --> "1" ConferenceSession : registeredSession
+ConferenceSession --> "*" Moderator : assignedModerators
+Moderator --> "*" Room : maintainedRooms
+Moderator --> "*" User : delegatingUsers
+User --> "*" ConferenceSession : participatedSessions
+Moderator --> "*" User : delegatingUsers
+@enduml

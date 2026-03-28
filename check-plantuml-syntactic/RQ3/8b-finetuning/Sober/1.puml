@@ -1,0 +1,445 @@
+@startuml
+enum ServiceType {
+  RideHailing
+  RideSharing
+  Maintenance
+}
+enum PaymentStatus {
+  Pending
+  Completed
+  Failed
+  Refunded
+  Timeout
+}
+class Car {
+  make: String
+  model: String
+  licensePlate: String
+  isSelfDrivingCapable: boolean
+  +registerForService(): void
+  +logMaintenanceRecord(description: String): MaintenanceRecord
+}
+class Passenger {
+  name: String
+  contactInfo: String
+  +provideFeedback(rating: int, comment: String): void
+}
+class SelfDrivingCar {
+  isOnline: boolean
+  currentLocation: String
+  +startAutonomousMode(): void
+  +stopAutonomousMode(): void
+  +handleEmergency(): void
+}
+class Driver {
+  fullName: String
+  yearsOfExperience: int
+  +assignToCar(car: Car): void
+}
+class RideSession {
+  startTime: Date
+  endTime: Date
+  duration: double
+  distance: double
+  serviceType: ServiceType
+  urgencyLevel: int
+  +calculateFee(isExpress: boolean, baseAmount: double): double
+  +confirmPickup(): boolean
+  +calculateTotalCost(): double
+  +finalizeSession(): void
+}
+class PaymentTransaction {
+  amount: double
+  paymentMethod: String
+  timestamp: Date
+  status: PaymentStatus
+  +processPayment(): boolean
+  +refund(): boolean
+}
+class ReservationSystem {
+  +createReservation(car: Car, passenger: Passenger, duration: double, type: ServiceType): RideSession
+  +findAvailableCars(location: String): List<Car>
+}
+class MaintenanceRecord {
+  date: Date
+  description: String
+  isCritical: boolean
+  cost: double
+  +logPartsReplaced(parts: String): void
+}
+class SafetyAudit {
+  auditDate: Date
+  safetyScore: int
+  passed: boolean
+  +generateReport(): String
+}
+class IncidentReport {
+  incidentDate: Date
+  location: String
+  description: String
+  severityLevel: int
+  damageAmount: double
+  +investigate(): String
+  +closeReport(): void
+}
+class TrackingSystem {
+  +updateLocation(car: Car, lat: double, long: double): void
+  +getHistory(car: Car): List<LocationLog>
+}
+class LocationLog {
+  timestamp: Date
+  latitude: double
+  longitude: double
+  locationName: String
+}
+class EnvironmentalImpact {
+  carbonOffsetAmount: double
+  treePlantingCount: int
+  +calculateOffset(miles: double): void
+  +verifyPlanting(): boolean
+}
+class CustomerAccount {
+  customerName: String
+  email: String
+  isPremiumMember: boolean
+  +viewTripHistory(): List<RideSession>
+  +subscribeToNewsletter(): NotificationService
+}
+class NotificationService {
+  +sendAlert(customer: CustomerAccount, message: String): boolean
+  +sendConfirmation(transaction: PaymentTransaction): boolean
+}
+class AnalyticsEngine {
+  +generateTrafficReport(): String
+  +analyzePerformance(car: Car): String
+  +generateSafetyReport(): String
+}
+class PermissionManager {
+  +grantAccess(user: UserAccount, resource: String): boolean
+  +revokeAccess(user: UserAccount, resource: String): void
+}
+class UserAccount {
+  username: String
+  +login(password: String): boolean
+  +updateProfile(newData: Map): void
+}
+class GreenInitiative {
+  initiativeName: String
+  targetTreeCount: int
+  +trackProgress(): double
+  +validateTrees(): boolean
+}
+class ReportGenerator {
+  +generateSystemReport(): String
+  +exportSessionDetails(session: RideSession): String
+}
+class CostCalculator {
+  +computeFee(distance: double, time: double, baseRate: double): double
+  +computeDiscounts(passengers: int): double
+}
+class ReservationRequest {
+  requestedTime: Date
+  baseCost: double
+  specialInstructions: String
+  +submit(): boolean
+  +cancel(): void
+}
+class TripPlanner {
+  +optimizeRoute(start: String, end: String, mode: ServiceType): List<LocationLog>
+  +estimateTime(startTime: Date): double
+}
+class VehicleConfiguration {
+  maxPassengers: int
+  seatingLayout: String
+  +configureSeats(seatCount: int): void
+}
+class ScheduleManager {
+  +bookSlot(car: Car, start: Date, end: Date): boolean
+  +cancelSlot(slotId: String): void
+}
+class DriverAssignment {
+  assignedDate: Date
+  shiftDuration: int
+  +assignDriver(driver: Driver, car: Car): void
+  +releaseDriver(): void
+}
+class FleetManager {
+  +checkAvailability(car: Car, time: Date): boolean
+  +assignDriver(car: Car, driver: Driver): DriverAssignment
+  +reallocateResources(): void
+}
+class DispatchCenter {
+  +dispatchCar(request: ReservationRequest): Car
+  +monitorFleetStatus(): String
+}
+class RideSharingService {
+  +createCarpoolSession(passengers: List<Passenger>, location: String): RideSession
+  +findMatches(passenger: Passenger, radius: double): List<Passenger>
+}
+class RideHailingService {
+  +hailCar(passenger: Passenger, location: String): RideSession
+  +estimateWaitTime(location: String): int
+}
+class BookingEngine {
+  +bookSession(service: RideSession): PaymentTransaction
+  +validateAvailability(service: RideSession): boolean
+}
+class SafetyComplianceChecker {
+  +verifySafety(car: Car): boolean
+  +checkRegulations(serviceType: ServiceType): boolean
+}
+class InvoiceGenerator {
+  +generateInvoice(fee: double, taxRate: double): String
+  +attachReceipt(transaction: PaymentTransaction): void
+}
+class FuelEfficiencyTracker {
+  +calculateMetric(distance: double, fuelUsed: double): double
+  +getOverallEfficiency(car: Car): double
+}
+class DataProcessor {
+  +processLogs(locationHistory: List<LocationLog>): void
+  +aggregateData(period: Date): String
+}
+class EventLog {
+  timestamp: Date
+  eventType: String
+  details: String
+  +addEvent(type: String, details: String): void
+}
+class AlertSystem {
+  +triggerAlert(severity: int, message: String): void
+  +acknowledgeAlert(alertId: String): void
+}
+class MaintenancePlanner {
+  +scheduleTask(car: Car, taskType: String, date: Date): MaintenanceRecord
+  +generateMaintenancePlan(car: Car): List<MaintenanceRecord>
+}
+class RouteOptimizer {
+  +findShortestRoute(start: String, end: String): List<LocationLog>
+  +considerTraffic(): void
+}
+class RouteSegment {
+  start: String
+  end: String
+  length: double
+  +getEstimatedTime(): double
+}
+class RouteBuilder {
+  +constructRoute(segments: List<RouteSegment>): List<LocationLog>
+}
+class SpotScanner {
+  +detectCar(licensePlate: String): Car
+  +detectGesture(frame: Image): boolean
+}
+class EmergencyResponder {
+  +dispatchHelp(location: String): void
+  +assessSeverity(incident: IncidentReport): int
+}
+class CommunicationChannel {
+  channelType: String
+  +send(message: String): boolean
+  +receive(): String
+}
+class VehicleStatusMonitor {
+  +isOperational(car: Car): boolean
+  +checkHealth(car: Car): String
+}
+class SafetyFeatureController {
+  +activateBraking(): void
+  +enableAutopilot(): void
+  +disableAutopilot(): void
+}
+class SoftwareUpdateManager {
+  +applyUpdate(car: Car, version: String): void
+  +rollbackUpdate(car: Car): void
+}
+class SystemHealthMonitor {
+  +checkSystemHealth(): boolean
+  +getHealthStatus(component: String): String
+}
+class DiagnosticTool {
+  +runSelfTest(car: Car): boolean
+  +getDiagnosticReport(car: Car): String
+}
+class PaymentGateway {
+  +initiateTransaction(amount: double, card: Card, service: ServiceType): PaymentTransaction
+  +getTransactionStatus(transactionId: String): PaymentStatus
+}
+class SchedulingService {
+  +createSchedule(car: Car, shiftStart: Date, shiftEnd: Date): DriverAssignment
+  +rescheduleShift(assignment: DriverAssignment, newTime: Date): boolean
+}
+class PerformanceMetrics {
+  averageResponseTime: double
+  customerSatisfactionScore: double
+  +logMetric(type: String, value: double): void
+  +generateReport(): String
+}
+class VehicleDataStore {
+  +storeHistory(car: Car, log: LocationLog): void
+  +retrieveHistory(car: Car): List<LocationLog>
+}
+class MaintenanceSchedule {
+  plannedDate: Date
+  taskDescription: String
+  +addTask(task: MaintenanceRecord): void
+  +getPendingTasks(car: Car): List<MaintenanceRecord>
+}
+class LocationResolver {
+  +resolveAddress(query: String): String
+  +reverseGeocode(lat: double, long: double): String
+}
+class RealTimeTrafficAnalyzer {
+  +detectCongestion(location: String): boolean
+  +estimateDelay(location: String): int
+}
+class RouteValidator {
+  +validateRouteSegments(segmentList: List<RouteSegment>): boolean
+  +checkIntersectionSafety(route: List<LocationLog>): boolean
+}
+class SafetySensor {
+  +readData(): boolean
+  +getProximity(): double
+  +emergencyStop(): void
+}
+class SignalDecoder {
+  +decodeSignal(input: String): String
+  +getStrength(): int
+}
+class TelemetryReader {
+  +readTelemetry(car: Car): Map<String, Object>
+  +sendData(car: Car, data: Map): void
+}
+class ControlSystem {
+  +getSafetyStatus(): String
+  +controlEmergencyBrake(): void
+}
+class FuelMonitor {
+  +getCurrentLevel(): double
+  +getLowFuelWarning(): boolean
+}
+class BatteryManager {
+  +getBatteryLevel(): int
+  +chargeBattery(state: String): void
+}
+class AnalyticsDashboard {
+  +displayMetrics(metrics: PerformanceMetrics): void
+  +filterData(period: Date): String
+}
+class UserInterface {
+  +renderHomeScreen(): void
+  +showTripDetails(session: RideSession): void
+  +displayNotifications(): List<String>
+}
+class ExpenseTracker {
+  +logExpense(car: Car, amount: double, category: String): void
+  +calculateTotalExpenses(period: Date): double
+}
+class CostEstimator {
+  +estimateTotalCost(serviceType: ServiceType, distance: double): double
+  +applyDiscounts(passengers: int): double
+}
+class FinancialRecord {
+  date: Date
+  amount: double
+  description: String
+  +recordTransaction(type: ServiceType, amount: double): void
+}
+class StatisticsCollector {
+  +collectData(trip: RideSession): void
+  +generateTrendReport(): String
+}
+class CampaignManager {
+  campaignName: String
+  startDate: Date
+  endDate: Date
+  +launchCampaign(type: ServiceType): void
+  +trackEngagement(): int
+}
+class RatingSystem {
+  +rateSession(session: RideSession, score: int): void
+  +getAverageRating(car: Car): double
+}
+class ErrorReporter {
+  +logError(errorType: String, message: String): void
+  +generateErrorReport(): String
+}
+class TaxiCab {
+  isAvailable: boolean
+  +assignDriver(driver: Driver): void
+  +releaseDriver(): void
+}
+class TripHistory {
+  trips: List<RideSession>
+  +addTrip(session: RideSession): void
+  +getTripsFor(car: Car): List<RideSession>
+}
+class FareCalculator {
+  +calculateFare(distance: double, time: double, passengers: int): double
+  +adjustForDiscounts(passengers: int): double
+}
+class ReportService {
+  +generateReport(type: ServiceType): String
+  +exportSessionReport(session: RideSession): String
+}
+class StatusFinder {
+  +findStatus(car: Car): String
+  +findStatus(session: RideSession): String
+}
+class DashboardModule {
+  +loadModule(type: String): void
+  +refreshView(): void
+}
+class MonitoringSystem {
+  +monitorCar(car: Car): boolean
+  +alertOperators(issue: String): void
+}
+class NotificationPreference {
+  preferredChannels: List<String>
+  notificationFrequency: String
+  +updatePreference(channel: String, freq: String): void
+}
+class AuditLog {
+  logs: List<EventLog>
+  +addLog(event: EventLog): void
+  +retrieveLogs(): List<EventLog>
+}
+class StatisticsService {
+  +computeAverageServiceTime(serviceType: ServiceType): double
+  +computePerformanceMetrics(car: Car): PerformanceMetrics
+}
+class CashRegister {
+  +processPayment(amount: double): PaymentTransaction
+  +voidTransaction(transactionId: String): void
+}
+class BalanceManager {
+  +getBalance(customer: CustomerAccount): double
+  +adjustBalance(transaction: PaymentTransaction): void
+}
+class PricingEngine {
+  +calculatePrice(serviceType: ServiceType, baseRate: double): double
+  +applyDynamicPricing(timeOfDay: String): double
+}
+class QueueSystem {
+  +addRequest(request: ReservationRequest): void
+  +processNextRequest(): ReservationRequest
+  +getQueueLength(): int
+}
+class NotificationEngine {
+  +sendSystemMessage(message: String): boolean
+  +sendUserNotification(user: UserAccount, message: String): boolean
+}
+class ScheduleGenerator {
+  +createEvent(startTime: Date, duration: int): EventLog
+  +addEventToCalendar(eventId: String, event: EventLog): void
+}
+class CalendarService {
+  +getAvailableSlots(car: Car, date: Date): List<Date>
+  +syncWithExternalCalendar(): void
+}
+class RoutePlanner {
+  +planRoute(start: String, end: String, type: ServiceType): List<RouteSegment>
+  +suggestAlternativeRoutes(): List<RouteSegment>
+}
+class Fuel
+@enduml

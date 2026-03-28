@@ -1,0 +1,98 @@
+
+@startuml
+
+' Entities
+class Bus {
+    +id: int
+    +lineNumber: int
+    +capacity: int
+}
+
+class Trajectory {
+    +id: int
+    +description: string
+    +status: enum {approved, pending, suspended, cancelled}
+    +startDate: date
+    +endDate: date
+}
+
+class Line {
+    +id: int
+    +name: string
+    +category: Category
+    +trajectories: set<Trajectory>
+}
+
+class Category {
+    +id: int
+    +name: string
+    +priceMultiplier: float
+}
+
+class Customer {
+    +id: int
+    +name: string
+    +homeAddress: string
+    +officeAddress: string
+    +workingHours: string
+    +mensoCard: MensoCard
+}
+
+class MensoCard {
+    +id: int
+    +customer: Customer
+    +active: boolean
+}
+
+class Trip {
+    +id: int
+    +date: date
+    +time: time
+    +line: Line
+    +customer: Customer
+}
+
+class Invoice {
+    +id: int
+    +month: string
+    +year: int
+    +customer: Customer
+    +totalAmount: float
+    +discountPercentage: float
+    +amountDue: float
+}
+
+' Relationships
+Customer --|> MensoCard
+MensoCard -- Trip
+Trip -- Line
+Line -- Trajectory
+Trajectory -- Bus
+Customer -- Invoice
+Line -- Category
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Classes and Relationships:
+
+- **Bus**: Represents each physical bus with an ID, line number, and capacity.
+- **Trajectory**: A planned route for a bus line, which may be approved, pending, suspended, or cancelled.
+- **Line**: A grouping of one or more overlapping trajectories (e.g., "Line 2 Campus" and "Line 2 Boskant").
+- **Category**: Defines pricing tiers for lines (e.g., Economy, Premium), with associated price multipliers.
+- **Customer**: Holds personal information and links to their MENSO card.
+- **MensoCard**: A digital card linked to a customer, used for trip registration.
+- **Trip**: Records each journey made by a customer using a MENSO card, including date, time, and line.
+- **Invoice**: Generated monthly based on trips, with total amount, discount, and amount due.
+
+---
+
+### 📌 Notes:
+- The `status` of a `Trajectory` is used to track its approval state.
+- `Line` contains multiple `Trajectory` objects.
+- `Trip` is tied to both a `Customer` and a `Line`.
+- Invoicing is handled separately from payment and can occur in any order.
+- Personal data is collected during subscription to enable behavior analysis.
+
+Let me know if you'd like this diagram rendered as an image or exported to another format!

@@ -1,0 +1,47 @@
+@startuml
+
+class Diagram {Diagram} as "System Requirement" 
+
+extends Diagram {
+  component system {
+    class System {
+      variable requirement1;
+      variable requirement2;
+    }
+  }
+
+  component user {
+    class User {
+      variable name;
+      variable email;
+    }
+  }
+
+  component database {
+    class Database {
+      variable table1;
+      variable table2;
+    }
+  }
+
+  component server {
+    class Server {
+      variable port;
+      variable database;
+    }
+  }
+
+  component client {
+    class Client {
+      variable ip;
+      variable username;
+    }
+  }
+
+  component communication {
+    class Communication {
+      variable connection;
+    }
+  }
+
+@enduml

@@ -1,0 +1,63 @@
+
+@startuml
+skinparam linetype zigzag
+
+class EBike {
+  -frame: Frame
+  -driveSystem: DriveSystem
+  -controller: Controller
+  -battery: Battery?
+}
+
+class Frame {
+  -material: String = "steel"
+}
+
+class DriveSystem {
+  -motor: Motor
+}
+
+class Motor {
+  // No specific attributes or methods mentioned
+}
+
+class Battery {
+  -storedEnergy: Double (Wh)
+}
+
+class Controller {
+  -state: String (On, Off, Charging)
+  +controlBattery()
+  +commandDriveSystem()
+}
+
+class BasicController {
+  // Inherits from Controller
+}
+
+class AdvancedController {
+  -nextInspectionDate: Date
+  +estimateNextInspectionDate(): Date
+}
+
+Controller <|-- BasicController
+Controller <|-- AdvancedController
+
+EBike "1" *-- "2" Frame
+EBike "1" *-- "1" DriveSystem
+EBike "1" *-- "1" Controller
+EBike "1" *-- "1" Battery
+
+DriveSystem "1" *-- "1" Motor
+@enduml
+
+### Explanation of Relationships:
+- `EBike` contains one `Frame`, one `DriveSystem`, one `Controller`, and optionally one `Battery`.
+- `Frame` has a material attribute set to `"steel"`.
+- `DriveSystem` consists of one `Motor`.
+- `Battery` stores energy in Watt-hours.
+- `Controller` has three possible states: `On`, `Off`, `Charging`.
+- `Controller` controls the battery and commands the drive system.
+- There are two types of controllers: `BasicController` and `AdvancedController`, both inheriting from `Controller`.
+- The `AdvancedController` has an additional attribute `nextInspectionDate` and a method `estimateNextInspectionDate()`.
+

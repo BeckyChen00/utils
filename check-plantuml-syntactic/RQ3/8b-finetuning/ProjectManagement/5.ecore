@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" eType="#//Researcher" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Researcher">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedReports" eType="#//WorkReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResearchProject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workPackages" eType="#//WorkPackage" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="principalInvestigators" eType="#//Researcher" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkPackage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceAllocations" eType="#//ResourceAllocation" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="teamMembers" eType="#//Researcher" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generatedReports" eType="#//WorkReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceAllocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResearchGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="submittedReports" eType="#//WorkReport" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

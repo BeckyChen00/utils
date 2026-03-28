@@ -1,0 +1,82 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class Provider {
+  - name: String
+  - location: String
+}
+
+class Cruise {
+  - cruiseNumber: String
+  - cruiseName: String
+  - startDate: Date
+  - endDate: Date
+}
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class Guest {
+  - name: String
+  - isVIP: Boolean
+}
+
+class Ship {
+  - shipName: String
+  - numberOfDecks: Integer
+  - length: Double
+  - passengerCapacity: Integer
+}
+
+class TravelAgency {
+  - name: String
+  - address: String
+}
+
+class Booking {
+  - bookingNumber: String
+  - bookingDate: Date
+}
+
+class DestinationArea {
+  - name: String
+  - seaName: String
+}
+
+class Show {
+  - title: String
+  - duration: Integer
+}
+
+class Ticket {
+  - ticketId: String
+  - cruise: Cruise "1"
+  - guest: Guest "1"
+}
+
+Provider "1" -- "0..*" Cruise : organizes
+Cruise "1" -- "0..*" Employee : requires
+Cruise "1" -- "0..*" Guest : has
+Cruise "1" -- "1" Ship : uses
+Cruise "1" -- "1" DestinationArea : heads to
+Cruise "1" -- "0..*" Show : offers
+Cruise "1" -- "0..*" Booking : booked via
+Booking "1" -- "1" TravelAgency : made by
+Guest "0..*" -- "0..*" Ticket : has
+Ticket "1" -- "1" Cruise : belongs to
+@enduml
+
+### Explanation of Relationships:
+- **Provider** organizes **Cruise**
+- **Cruise** requires many **Employees**
+- **Cruise** has many **Guests**, and a **Guest** can be in multiple **Cruises**
+- **Cruise** uses one **Ship**
+- **Cruise** heads to one **DestinationArea**
+- **Cruise** offers many **Shows**
+- **Cruise** is booked through **Booking**, which is made by a **TravelAgency**
+- A **Guest** has many **Tickets**, but only one per **Cruise**
+- Each **Ticket** belongs to exactly one **Cruise**
+

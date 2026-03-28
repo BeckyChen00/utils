@@ -1,0 +1,55 @@
+@startuml
+enum TourStatus {
+  draft
+  active
+  suspended
+}
+class TourGuide {
+  name: String
+  +assignSchedule(): void
+}
+class Tour {
+  name: String
+  description: String
+  maxCapacity: int
+  scheduledDurationMinutes: int
+  scheduledStatus: TourStatus
+  +checkAvailability(date: Date): boolean
+  +getRemainingCapacity(): int
+  +getDetails(): String
+}
+class Attraction {
+  name: String
+  address: String
+  +getInfo(): String
+}
+class City {
+  name: String
+  population: int
+  +getAttractions(): Collection<Attraction>
+}
+class Visitor {
+  name: String
+  +registerForTour(tour: Tour): boolean
+}
+class Reservation {
+  reservationDate: Date
+  groupSize: int
+  discountAmount: double
+  +calculateTotalCost(): double
+  +confirmReservation(): boolean
+}
+class Schedule {
+  startTime: Date
+  endTime: Date
+  location: String
+  +updateSlot(isAvailable: boolean): void
+}
+City *-- "0..*" Attraction : containedAttractions
+Attraction --> "0..*" Tour : offeredTours
+Tour *-- "1..*" Schedule : plannedSchedules
+Tour --> "1" TourGuide : assignedGuide
+Tour *-- "0..*" Reservation : bookedReservations
+Reservation --> "1" Visitor : registeredVisitor
+Reservation --> "1" Tour : confirmedTour
+@enduml

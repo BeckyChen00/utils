@@ -1,0 +1,87 @@
+@startuml
+
+class Diagram {
+    class SystemRequirement {
+        requires {
+            #1: "System Requirement"
+        }
+    }
+
+    class Requirements {
+        #2: "Requirements"
+        requires {
+            #3: "R1: A requirement for system to be operational"
+        }
+    }
+
+    class System {
+        #4: "System"
+        requires {
+            #5: "S1: The system must be able to process data"
+        }
+    }
+
+    class Components {
+        #6: "Components"
+        requires {
+            #7: "C1: Component A is needed for processing"
+        }
+    }
+
+    class DataFlow {
+        #8: "Data Flow"
+        requires {
+            #9: "D1: Data flows between components"
+        }
+    }
+
+    class SystemComponent {
+        #10: "System Component"
+        requires {
+            #11: "SC1: A component of the system"
+        }
+    }
+
+    class SystemFunctionalities {
+        #12: "System Functionalities"
+        requires {
+            #13: "SF1: Functionalities are required for the system"
+        }
+    }
+
+    class Users {
+        #14: "Users"
+        requires {
+            #15: "U1: Users can access the system"
+        }
+    }
+
+    class Environment {
+        #16: "Environment"
+        requires {
+            #17: "E1: The environment must support the system"
+        }
+    }
+
+    class Testing {
+        #18: "Testing"
+        requires {
+            #19: "T1: Testing is part of the system development"
+        }
+    }
+
+    class Documentation {
+        #20: "Documentation"
+        requires {
+            #21: "D1: Documentation provides information about the system"
+        }
+    }
+
+    class Maintenance {
+        #22: "Maintenance"
+        requires {
+            #23: "M1: Maintenance ensures the system remains functional"
+        }
+    }
+
+@enduml

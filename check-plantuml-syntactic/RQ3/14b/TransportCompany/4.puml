@@ -1,0 +1,83 @@
+
+@startuml
+' Class Diagram for Transport Company System
+
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class Planner extends Employee {
+  - username: String
+  - password: String
+}
+
+class AdministrativeStaff extends Employee {
+  - fieldOfActivity: String
+  - username: String
+  - password: String
+}
+
+class Driver extends Employee {
+  - assignedOrders: List<Order>
+}
+
+class Customer {
+  - name: String
+  - billingAddress: String
+}
+
+class PartnerCompany {
+  - name: String
+  - address: String
+}
+
+class Vehicle {
+  - licensePlate: String
+  - mileage: Integer
+  - type: String
+}
+
+class Repair {
+  - repairShopName: String
+  - repairShopAddress: String
+  - employeeAssigned: Employee
+  - duration: Integer
+  - cost: Double
+}
+
+class Order {
+  - customer: Customer
+  - partnerCompany: PartnerCompany
+  - pickupAddress: String
+  - deliveryAddress: String
+  - planner: Planner
+  - driver: Driver
+  - vehicle: Vehicle
+  - startDate: Date
+  - endDate: Date
+  - comment: String
+}
+
+' Relationships
+
+Employee "1" -- "0..*" Order : assigns
+Planner "1" -- "0..*" Order : assigns
+Driver "1" -- "0..*" Order : completes
+Vehicle "1" -- "0..*" Order : usedIn
+Vehicle "1" -- "0..1" Repair : requires
+Customer "1" -- "0..*" Order : places
+PartnerCompany "1" -- "0..*" Order : places
+
+@enduml
+
+### Explanation of Key Elements:
+
+- **Employee** is the base class for all personnel (planners, administrative staff, and drivers).
+- **Planner** and **AdministrativeStaff** are subtypes of `Employee` with login credentials.
+- **Driver** is also a subtype of `Employee` and has an association with `Order`.
+- **Customer** and **PartnerCompany** can be sources of orders.
+- **Vehicle** has a type (refrigerated truck, van, etc.) and can be associated with repairs.
+- **Repair** captures information about when and where a vehicle was repaired, who did it, and at what cost.
+- **Order** contains all necessary details including customer, planner, driver, vehicle, addresses, dates, and comments.
+

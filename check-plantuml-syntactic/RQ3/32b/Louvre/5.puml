@@ -1,0 +1,84 @@
+
+---
+
+
+@startuml
+
+' Define classes and their relationships
+
+class Location {
+  - id: int
+  - name: String
+  - capacity: int
+}
+
+class Exhibition {
+  - id: int
+  - title: String
+  - startDate: Date
+  - endDate: Date
+  - coordinator: Employee
+  - location: Location
+}
+
+class Employee {
+  - id: int
+  - name: String
+  - role: String
+}
+
+class ExhibitionItem {
+  - id: int
+  - description: String
+  - requirements: List<String>
+  - piecesRequested: List<PieceRequest>
+  - exhibition: Exhibition
+}
+
+class PieceRequest {
+  - id: int
+  - status: String
+  - collector: Collector
+  - exhibitionItem: ExhibitionItem
+}
+
+class Collector {
+  - id: int
+  - name: String
+  - contactInfo: String
+}
+
+class Coaching {
+  - senior: Employee
+  - junior: Employee
+}
+
+' Relationships
+
+Employee "1" -- "0..*" Exhibition : coordinates
+Location "1" -- "0..*" Exhibition : holds
+Exhibition "1" -- "0..*" ExhibitionItem : includes
+ExhibitionItem "1" -- "0..*" PieceRequest : has
+Collector "1" -- "0..*" PieceRequest : provides
+Employee "1" -- "1" Coaching : senior
+Coaching "1" -- "1" Employee : junior
+
+@enduml
+
+---
+
+### 📝 Explanation of Key Classes:
+
+- **Location**: Represents a physical area in the museum where exhibitions can be held.
+- **Exhibition**: An event with a start/end date, assigned to a location and coordinated by an employee.
+- **Employee**: A person working at the museum. Can be a coordinator or a coach.
+- **ExhibitionItem**: A specific item needed for an exhibition (e.g., a painting).
+- **PieceRequest**: Tracks which pieces are requested from which collectors for each item.
+- **Collector**: Holds information about individuals or institutions that own candidate pieces.
+- **Coaching**: Models the mentorship relationship between senior and junior employees.
+
+---
+
+### 🛠 How to Use:
+
+Let me know if you'd like to expand this with more details like methods, associations, or inheritance!

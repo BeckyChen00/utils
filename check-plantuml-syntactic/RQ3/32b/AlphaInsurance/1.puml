@@ -1,0 +1,119 @@
+
+@startuml
+' Class Diagram for Alpha Insurance System
+
+' Entities
+class Customer {
+    - customerId: int
+    - name: string
+    - contactInfo: string
+}
+
+class Broker {
+    - brokerId: int
+    - name: string
+    - contactInfo: string
+}
+
+class PolicyType {
+    - policyTypeId: int
+    - name: string
+    - description: string
+}
+
+class InsurancePolicy {
+    - policyId: int
+    - customer: Customer
+    - policyType: PolicyType
+    - startDate: date
+    - endDate: date
+    - premiumAmount: float
+    - billingFrequency: string (monthly/yearly)
+}
+
+class ContractOffer {
+    - offerId: int
+    - insurancePolicy: InsurancePolicy
+    - status: string (pending/approved/rejected)
+    - offerDate: date
+    - terms: string
+}
+
+class Claim {
+    - claimId: int
+    - customer: Customer
+    - insurancePolicy: InsurancePolicy
+    - claimDate: date
+    - description: string
+    - status: string (open/underReview/approved/rejected)
+}
+
+class ClaimCase {
+    - caseId: int
+    - claim: Claim
+    - type: string (e.g., material damage, physical injury)
+    - status: string (open/assessed/paid)
+}
+
+class Estimator {
+    - estimatorId: int
+    - name: string
+    - specialization: string
+    - contactInfo: string
+}
+
+class EstimatorReport {
+    - reportId: int
+    - claimCase: ClaimCase
+    - estimator: Estimator
+    - assessmentDate: date
+    - findings: string
+    - recommendation: string
+}
+
+class CompensationDecision {
+    - decisionId: int
+    - claimCase: ClaimCase
+    - amountApproved: float
+    - paymentDate: date
+    - eligibleCosts: string
+}
+
+class Invoice {
+    - invoiceId: int
+    - insurancePolicy: InsurancePolicy
+    - dueDate: date
+    - amount: float
+    - paymentStatus: string (paid/unpaid)
+}
+
+' Relationships
+
+Customer "1" -- "0..*" Broker : has assigned
+Customer "1" -- "0..*" InsurancePolicy : holds
+InsurancePolicy "1" -- "1" ContractOffer : has
+Broker "1" -- "0..*" InsurancePolicy : manages
+InsurancePolicy "1" -- "0..*" Invoice : generates
+Customer "1" -- "0..*" Claim : files
+Claim "1" -- "1..*" ClaimCase : includes
+ClaimCase "1" -- "1..*" EstimatorReport : has
+Estimator "1" -- "0..*" EstimatorReport : provides
+ClaimCase "1" -- "0..1" CompensationDecision : leads to
+
+@enduml
+
+---
+
+### ✅ Key Features Captured:
+
+- **Customer-Broker Relationship**: A customer is assigned a broker.
+- **Policy Management**: Customers can have multiple policies of various types.
+- **Contract Offers**: Generated after profile assessment.
+- **Claims & Cases**: A claim may involve multiple claim cases (e.g., material vs. physical).
+- **Estimator Involvement**: Each case is assessed by an estimator in a specialized area.
+- **Compensation Decision**: Based on estimator reports.
+- **Invoicing**: Monthly or yearly, as per policy settings.
+- **Legal Compliance**: Reports are stored for at least one year after compensation.
+
+---
+

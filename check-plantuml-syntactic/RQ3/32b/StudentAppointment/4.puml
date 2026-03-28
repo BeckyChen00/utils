@@ -1,0 +1,53 @@
+
+@startuml
+
+' Define classes and their attributes
+class Student {
+    +String studentID
+    +String name
+    +List<Course> registeredCourses
+}
+
+class TeachingAssistant {
+    +String taID
+    +String name
+    +List<Course> assignedCourses
+}
+
+class Course {
+    +String courseCode
+    +String title
+}
+
+class Appointment {
+    +DateTime appointmentTime
+    +String topic
+    +Course relatedCourse
+}
+
+' Relationships between classes
+
+Student "1" -- "0..*" Course : registers for
+TeachingAssistant "1" -- "0..*" Course : is TA for
+
+Student "1" -- "1" Appointment : requests
+TeachingAssistant "1" -- "1" Appointment : provides help for
+
+Appointment "1" -- "1" Course : is for
+
+' Constraints
+note right of Appointment
+  An appointment must be for a single course.
+  A student can only request an appointment 
+  if they are registered for that course.
+  A TA can only provide appointments for courses they are assigned to.
+end note
+
+@enduml
+
+### Explanation of Key Elements:
+- **Student**: Has an ID, name, and list of registered courses. Can make appointments only for courses they're registered in.
+- **TeachingAssistant**: Has an ID, name, and list of courses they are TAs for. Can only create appointments for these courses.
+- **Course**: Identified by code and title. Serves as a bridge between students and TAs.
+- **Appointment**: Links a student, a teaching assistant, and a specific course. It contains time and topic.
+

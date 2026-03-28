@@ -1,0 +1,36 @@
+@startuml
+    class Diagram {
+        [System Requirement]
+    }
+
+    class SystemRequirement {
+        #1. Input Data
+        "Input Data" << "Data Input"
+        "Data Output" << "Data Output"
+
+        #2. Processing Logic
+        "Processing Logic" << "Processing Logic"
+        "Processing Output" << "Processing Output"
+
+        #3. Control Flow
+        "Control Flow" << "Control Flow"
+        "Decision Logic" << "Decision Logic"
+    }
+
+        #1. Data Input
+        "Data Input" << "Data Input"
+        "Data Output" << "Data Output"
+
+        #2. Processing Logic
+        "Processing Logic" << "Processing Logic"
+        "Processing Output" << "Processing Output"
+
+        #3. Control Flow
+        "Control Flow" << "Control Flow"
+        "Decision Logic" << "Decision Logic"
+    }
+
+    stage start
+    stage end
+
+@enduml

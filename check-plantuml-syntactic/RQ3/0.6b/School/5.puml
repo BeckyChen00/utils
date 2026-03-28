@@ -1,0 +1,55 @@
+@startuml
+
+class SystemRequirement { name: "System Requirement", type: "system" }
+
+class Project { name: "Project Name" }
+
+class Module { name: "Module Name" }
+
+class Component { name: "Component Name" }
+
+class Service { name: "Service Name" }
+
+class Dependency { name: "Dependency Name" }
+
+class Interface { name: "Interface Name" }
+
+class Implementation { name: "Implementation Name" }
+
+class TestCase { name: "TestCase Name" }
+
+class Test { name: "Test Name" }
+
+class TestEnvironment { name: "Test Environment" }
+
+class TestResult { name: "Test Result" }
+
+class TestPlan { name: "Test Plan" }
+
+class TestStep { name: "Test Step" }
+
+class TestExecution { name: "Test Execution" }
+
+class TestConfiguration { name: "Test Configuration" }
+
+class TestLog { name: "Test Log" }
+
+class TestData { name: "TestData" }
+
+class TestDatabase { name: "Test Database" }
+
+class TestServer { name: "Test Server" }
+
+class TestClient { name: "Test Client" }
+
+class TestStatus { name: "Test Status" }
+
+class TestFailure { name: "Test Failure" }
+
+class TestSuccess { name: "Test Success" }
+
+class TestResultSummary { name: "Test Result Summary" }
+
+class TestReport { name: "Test Report" }
+
+@enduml

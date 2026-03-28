@@ -1,0 +1,49 @@
+@startuml
+class Person {
+  personId: String
+  fullName: String
+  keywords: String[]
+  +getFullName(): String
+}
+class ResearchInstitution {
+  institutionCode: String
+  name: String
+  address: String
+  +calculateAffiliationScore(): double
+}
+class Article {
+  doi: String
+  title: String
+  publicationYear: int
+  +getTitle(): String
+}
+class PeerReviewedArticle {
+  citationCount: int
+  +getCitationCount(): int
+}
+class TechnicalReport {
+}
+class Publisher {
+  publisherName: String
+  +publishJournal(journalName: String): void
+}
+class Journal {
+  journalName: String
+  impactFactor: double
+  publisher: Publisher
+  +getCurrentIssue(): Date
+}
+class Reviewer {
+  reviewerId: String
+  credentialsVerified: boolean
+  +verifyCredentials(): boolean
+}
+PeerReviewedArticle --|> Article
+TechnicalReport --|> Article
+ResearchInstitution *-- "0..*" Person : affiliatedResearchers
+Article --> "1" Person : leadAuthor
+Person --> "0..1" Reviewer : primaryReviewer
+Article --> "0..1" Journal : publishedIn
+Reviewer *-- "0..*" Article : reviewedArticles
+Publisher *-- "0..*" Journal : publishedJournals
+@enduml

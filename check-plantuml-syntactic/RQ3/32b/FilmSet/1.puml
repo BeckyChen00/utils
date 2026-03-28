@@ -1,0 +1,97 @@
+
+@startuml
+
+' Define classes and their attributes
+class Employee {
+  - name: String
+  - socialSecurityNumber: String
+}
+
+class CreativeEmployee {
+  + hasOscar: boolean
+}
+
+class Director extends CreativeEmployee {
+  + assistantName: String
+}
+
+class Actor extends CreativeEmployee {
+  + educationCompleted: String
+}
+
+class Technician extends Employee {
+  + fieldOfActivity: String
+}
+
+class FilmSet {
+  + location: String
+}
+
+class Film {
+  + title: String
+  + releaseYear: int
+  + genre: String (Thriller, Action, Horror, Comedy)
+}
+
+class Screenwriter {
+  + name: String
+  + mostSuccessfulFilm: String
+}
+
+class Screenplay {
+  + title: String
+  + version: String
+  + date: Date
+  + numberOfScenes: int
+  + plot: String
+  + sourceType: String (Novel, Concept)
+}
+
+class Novel {
+  + title: String
+  + author: String
+}
+
+' Define associations and relationships
+
+' Employee types
+Employee <|-- CreativeEmployee
+CreativeEmployee <|-- Director
+CreativeEmployee <|-- Actor
+Employee <|-- Technician
+
+' FilmSet and Film relationship (many-to-many)
+FilmSet "0..*" --> "0.." Film : usedIn
+Film "0.." --> "0..*" FilmSet : shotAt
+
+' Screenwriter writes screenplays (1 to many)
+Screenwriter "1" --> "0.." Screenplay : writes
+
+' Screenplay is based on either a novel or concept (generalization)
+Screenplay <|-- NovelBasedScreenplay
+Screenplay <|-- ConceptBasedScreenplay
+NovelBasedScreenplay --> "1" Novel : basedOn
+ConceptBasedScreenplay --> "1" Concept : basedOn
+
+' Film is based on a screenplay (1 to 1)
+Film "1" --> "1" Screenplay : basedOn
+
+' Actors read screenplays (many-to-many)
+Actor "0.." --> "0.." Screenplay : reads
+
+' Directors implement screenplays (many-to-one)
+Director "0.." --> "1" Screenplay : implements
+
+@enduml
+
+---
+
+### Notes:
+- The `Screenplay` class has two specializations: `NovelBasedScreenplay` and `ConceptBasedScreenplay`, which are not explicitly named in your text but are implied by the description.
+- A **film** is associated with exactly one **screenplay**, and each **screenplay** is written for exactly one **film**.
+- A **screenwriter** can write multiple screenplays.
+- **Actors** must **read** screenplays for their roles.
+- **Directors** implement the screenplay.
+- **FilmSet** and **Film** have a many-to-many relationship since a film set can be used for multiple films, and a film can be shot at multiple sets.
+
+Let me know if you'd like this rendered as an image or need additional constraints added!

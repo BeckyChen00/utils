@@ -1,0 +1,42 @@
+@startuml
+class FuelCard {
+  cardNumber: String
+  ownerName: String
+  status: String
+}
+class RefuelingTransaction {
+  timestamp: Date
+  amount: double
+  pumpStationId: String
+}
+class Pump {
+  pumpId: String
+  currentLevel: double
+  fuelType: String
+  isOperational: boolean
+  isBlocked: boolean
+}
+class Invoice {
+  invoiceDate: Date
+  dueDate: Date
+  totalAmount: double
+  discountPercentage: double
+  status: String
+  +generate(): void
+  +applyDiscount(): double
+}
+class Customer {
+  name: String
+  email: String
+  creditScore: double
+  status: String
+  +block(): void
+  +unblock(): void
+}
+Customer *-- "0..*" FuelCard : heldCards
+FuelCard *-- "0..*" RefuelingTransaction : associatedTransactions
+Invoice *-- "0..*" RefuelingTransaction : includedTransactions
+Invoice --> "1" Customer : recipient
+Pump --> "1" Customer : assignedStation 'opposite: managedPumps
+RefuelingTransaction --> "1" Customer : confirmedBy
+@enduml

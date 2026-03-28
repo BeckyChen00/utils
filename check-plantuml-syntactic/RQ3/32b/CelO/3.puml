@@ -1,0 +1,96 @@
+
+---
+
+
+@startuml
+' Define package if needed (optional)
+package "Celebrations Organization System" {
+    ' Core Entities
+    class User {
+        +String firstName
+        +String lastName
+        +String email (PK)
+        +String password
+        +String postalAddress
+        +String phoneNumber
+    }
+
+    class Organizer extends User {
+        +Event[] events
+        +void inviteAttendee(Attendee attendee)
+        +void createEvent(Event event)
+        +void manageChecklist(Task task)
+    }
+
+    class Attendee extends User {
+        +Event[] eventsAttending
+        +void respondToInvitation(String response)
+        +void selectTask(Task task)
+    }
+
+    class Event {
+        +String name
+        +DateTime startDate
+        +DateTime endDate
+        +String occasion
+        +Location location
+        +List<Organizer> organizers
+        +List<Attendee> attendees
+        +Checklist checklist
+        +int totalConfirmed
+        +int totalMaybe
+        +int totalDeclined
+        +int totalNoResponse
+    }
+
+    class Location {
+        +String name
+        +String address
+    }
+
+    class Checklist {
+        +List<Task> tasks
+        +void addTask(Task task)
+        +void markTaskStatus(Task task, String status)
+    }
+
+    class Task {
+        +String description
+        +String status  // e.g., To Do, Done, Not Applicable
+        +Boolean assignedToAttendee
+        +Attendee assignedAttendee
+    }
+
+    class EventType {
+        +String typeName
+    }
+}
+
+' Relationships
+User <|-- Organizer
+User <|-- Attendee
+
+Event "0..*" -- "1" EventType : has type
+Event "1" -- "1" Location : is located at
+Event "1" -- "*" Checklist : has
+Event "1" -- "*" Organizer : managed by
+Event "1" -- "*" Attendee : attended by
+
+Checklist "1" -- "*" Task : contains
+Task "1" -- "0..1" Attendee : assigned to
+
+@enduml
+
+---
+
+### 📌 Notes:
+
+- **User** is an abstract class extended by both `Organizer` and `Attendee`.
+- **Event** can have multiple organizers and attendees.
+- **Checklist** is part of each event and includes a list of **Tasks**.
+- **Task** may be assigned to an **Attendee**, which allows tracking what each attendee brings or does.
+- **EventType** is used to categorize events (e.g., birthday, graduation).
+- **Location** can be reused across events.
+
+---
+

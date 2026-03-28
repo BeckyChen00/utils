@@ -1,0 +1,50 @@
+@startuml
+enum ArticleType {
+  PeerReviewed
+  TechnicalReport
+}
+enum ReviewDecision {
+  Accepted
+  Rejected
+  UnderReview
+}
+class Person {
+  personId: int
+  fullName: String
+  phoneNumbers: String[]
+  expertiseKeywords: String[]
+  +getFullName(): String
+}
+class ResearchInstitution {
+  institutionCode: int
+  institutionName: String
+  +getInstitutionName(): String
+}
+class ScientificArticle {
+  doi: String
+  title: String
+  abstractContent: String
+  type: ArticleType
+  citationCount: int
+  +getAbstract(): String
+}
+class ScientificPublisher {
+  publisherName: String
+  +getPublishedJournals(): List<Journal>
+}
+class Journal {
+  journalName: String
+  impactFactor: double
+  +getJournalName(): String
+}
+class Reviewer {
+  +review(article: ScientificArticle, decision: ReviewDecision): void
+  +isAvailable(): boolean
+}
+ResearchInstitution "1" *-- "0..*" Person : members
+Person "0..*" *-- "0..*" Reviewer : reviewerRoles
+Person "0..*" *-- "0..*" ScientificArticle : authoredArticles
+ScientificPublisher "1" *-- "1..*" Journal : publishedJournals
+Journal "1" --> "0..*" ScientificArticle : publishedArticles
+ScientificArticle "0..*" --> "0..1" Reviewer : reviewer
+@enduml

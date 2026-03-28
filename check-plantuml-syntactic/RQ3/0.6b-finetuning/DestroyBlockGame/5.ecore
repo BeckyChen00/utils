@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enrollment" eType="#//Enrollment" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Enrollment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="courseOffer" eType="#//CourseOffer" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="schedule" eType="#//Schedule" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fee" eType="#//Fee" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fees" eType="#//FeeList" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fees" eType="#//Fee" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Student">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attendanceRecord" eType="#//AttendanceRecord" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fees" eType="#//FeeList" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transactionRecord" eType="#//TransactionRecord" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offeredCourses" eType="#//CourseOffer" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttendanceRecord"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CourseOffer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Schedule"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Fee"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FeeList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feeSchedule" eType="#//FeeSchedule" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feeList" eType="#//Record" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FeeSchedule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fee" eType="#//Fee" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="payment" eType="#//Payment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Payment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wallet" eType="#//Wallet" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransactionRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transaction" eType="#//Transaction" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feeSchedule" eType="#//FeeSchedule" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="payment" eType="#//Payment" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transaction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Wallet"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Expense">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expenseRecord" eType="#//Record" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Record"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invoice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feeList" eType="#//FeeList" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedExpenses" eType="#//Expense" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PaymentProcessor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="feeSchedule" eType="#//FeeSchedule" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,77 @@
+
+@startuml
+
+' Define classes and their attributes and methods
+
+class EBike {
+    - frame: Frame
+    - driveSystem: DriveSystem
+    - controller: Controller
+    - battery: Battery (optional)
+
+    + connectBattery(battery: Battery): void
+    + disconnectBattery(): Battery
+}
+
+class Frame {
+    - material: String = "steel"
+}
+
+class DriveSystem {
+    - motor: Motor
+}
+
+class Motor {
+}
+
+abstract class Controller {
+    - state: State
+    + setState(state: State): void
+    + controlBattery(): void
+    + commandDriveSystem(): void
+}
+
+enum State {
+    On
+    Off
+    Charging
+}
+
+class BasicController {
+    + controlBattery(): void
+    + commandDriveSystem(): void
+}
+
+class AdvancedController {
+    + controlBattery(): void
+    + commandDriveSystem(): void
+    + estimateNextMaintenanceDate(): Date
+}
+
+class Battery {
+    - storedEnergy: double  // in Wh
+}
+
+' Relationships
+
+EBike "1" -- "1" Frame
+EBike "1" -- "1" DriveSystem
+EBike "1" -- "0..1" Battery
+EBike "1" -- "1" Controller
+
+DriveSystem "1" -- "1" Motor
+
+Controller <|-- BasicController
+Controller <|-- AdvancedController
+
+@enduml
+
+---
+
+### Notes:
+- The `Controller` is an abstract class with two concrete implementations: `BasicController` and `AdvancedController`.
+- The `AdvancedController` includes an additional method for estimating the next maintenance date.
+- The `Battery` is optional, so it has a multiplicity of `0..1` in relation to the `EBike`.
+- The `Frame` has a fixed material set as steel via an attribute initialization.
+- The `State` is modeled as an enum since it only takes discrete values.
+

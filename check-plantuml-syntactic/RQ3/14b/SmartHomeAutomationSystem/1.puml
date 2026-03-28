@@ -1,0 +1,125 @@
+
+@startuml
+skinparam backgroundColor #ffffff
+skinparam classAttributeIconName false
+
+class SmartHome {
+  -physicalAddress: String
+  -rooms: Set<Room>
+  -infrastructureMap: Map<String, Device>
+}
+
+class Room {
+  -name: String
+  -sensors: Set<Sensor>
+  -actuators: Set<Actuator>
+}
+
+class Sensor {
+  -deviceId: String
+  -type: String
+  -readings: List<SensorReading>
+}
+
+class Actuator {
+  -deviceId: String
+  -type: String
+  -commands: List<ControlCommand>
+}
+
+class SensorReading {
+  -value: Double
+  -timestamp: DateTime
+}
+
+class ControlCommand {
+  -commandType: String
+  -status: String (requested, completed, failed)
+  -timestamp: DateTime
+}
+
+class AutomationRule {
+  -ruleId: String
+  -precondition: String
+  -action: List<ControlCommand>
+  -isActive: Boolean
+  -isEditable: Boolean
+  -triggeredEvents: List<TriggeredEvent>
+}
+
+class TriggeredEvent {
+  -timestamp: DateTime
+  -ruleId: String
+  -details: String
+}
+
+class Owner {
+  -userId: String
+  -rules: List<AutomationRule>
+}
+
+class ActivityLog {
+  -entries: List<Entry>
+}
+
+abstract class Entry {
+  -timestamp: DateTime
+}
+
+class SensorReadingEntry extends Entry {
+  -sensorId: String
+  -value: Double
+}
+
+class ControlCommandEventEntry extends Entry {
+  -actuatorId: String
+  -commandType: String
+  -status: String
+}
+
+class RuleTriggerEventEntry extends Entry {
+  -ruleId: String
+  -details: String
+}
+
+class SHAS {
+  -smartHomes: List<SmartHome>
+  -activityLog: ActivityLog
+  -rules: List<AutomationRule>
+}
+
+' Associations
+SmartHome "1" --> "0..*" Room
+Room "1" --> "0..*" Sensor
+Room "1" --> "0..*" Actuator
+Sensor "1" --> "0..*" SensorReading
+Actuator "1" --> "0..*" ControlCommand
+Owner "1" --> "0..*" AutomationRule
+AutomationRule "1" --> "0..*" TriggeredEvent
+ActivityLog "1" --> "0..*" Entry
+Entry <|-- SensorReadingEntry
+Entry <|-- ControlCommandEventEntry
+Entry <|-- RuleTriggerEventEntry
+SHAS "1" --> "0..*" SmartHome
+SHAS "1" --> "1" ActivityLog
+SHAS "1" --> "0..*" AutomationRule
+
+@enduml
+
+---
+
+### ✅ Explanation of Key Classes and Relationships:
+
+- **SmartHome**: Represents a smart home with a physical address and multiple rooms.
+- **Room**: Contains sensors and actuators.
+- **Sensor/Actuator**: Devices with unique IDs. Sensors generate readings; actuators receive commands.
+- **SensorReading / ControlCommand**: Data captured from sensors and commands sent to actuators.
+- **AutomationRule**: Has a **precondition** (a boolean expression) and an **action** (list of control commands). Rules can be activated/deactivated.
+- **TriggeredEvent**: Logs when a rule is triggered by the system.
+- **ActivityLog**: Central log for all events — sensor readings, control commands, and rule triggers.
+- **Entry**: Abstract base class for entries in the activity log.
+- **SHAS**: The main system that manages all homes, rules, and logs.
+- **Owner**: A user who creates and manages automation rules.
+
+---
+

@@ -1,0 +1,69 @@
+@startuml
+enum BuildingMaterial {
+  Wood
+  Brick
+  Concrete
+}
+enum BasementType {
+  EarthBasement
+  ConcreteBasement
+}
+enum RoofType {
+  FlatRoof
+  SlopedRoof
+}
+enum ServiceType {
+  Painting
+  ElectricalWork
+  Plastering
+  Maintenance
+}
+class Company {
+  companyName: String
+  companyAddress: String
+  +getName(): String
+}
+class House {
+  address: String
+  buildingMaterial: BuildingMaterial
+  foundedYear: int
+  +getFoundedYear(): int
+  +getServiceCount(serviceType: ServiceType): int
+}
+class SemiDetachedHouse {
+  hasOwnGarden: boolean
+  numberOfWindows: int
+  +getNumberOfWindows(): int
+}
+class Basement {
+  basementType: BasementType
+  humidityLevel: float
+  +getBasementType(): BasementType
+}
+class Carport {
+  roofType: RoofType
+  hasDoubleCarport: boolean
+  hasFlatRoof: boolean
+}
+class Garage {
+  hasAutomaticDoor: boolean
+}
+class JobLog {
+  jobDate: String
+  jobHours: int
+  jobPrice: float
+  serviceType: ServiceType
+  +getDetails(): String
+  +calculateTotalPrice(): float
+}
+class ServiceRecord {
+  recordDate: String
+  description: String
+}
+Company "1" --> "0..*" ServiceRecord : records
+ServiceRecord "1" --> "1" House : servicedHouse
+House "1" *-- "0..*" ServiceRecord : serviceRecords
+House "1" *-- "1" Basement : basement
+House "1" *-- "0..*" Carport : carports
+House "1" *-- "0..*" Garage : garages
+@enduml

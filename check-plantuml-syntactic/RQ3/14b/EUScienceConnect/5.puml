@@ -1,0 +1,80 @@
+
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam classAttributeIconColor #000000
+
+class Person {
+  -personID: String
+  -name: String
+  -phoneNumber: String
+  -keywords: List<String>
+  -institutionCode: String
+}
+
+class ResearchInstitution {
+  -institutionCode: String
+  -name: String
+  -address: String
+}
+
+class ScientificArticle {
+  -doi: String
+  -title: String
+  -authors: List<Person>
+  -authorPosition: Map<Person, Integer>
+}
+
+class PeerReviewedPaper extends ScientificArticle {
+  -citationCount: Integer
+  -reviewers: List<Person>
+}
+
+class TechnicalReport extends ScientificArticle {
+  -publishingInstitutionCode: String
+}
+
+class Publisher {
+  -name: String
+}
+
+class Journal {
+  -publisherName: String
+  -journalName: String
+  -impactFactor: Double
+  -subscribedBy: List<ResearchInstitution>
+}
+
+class Subscription {
+  -researchInstitutionCode: String
+  -journalName: String
+  -publisherName: String
+}
+
+' Relationships
+Person "1" *-- "0..*" ScientificArticle : author of
+Person "1" *-- "0..*" ScientificArticle : reviewer of
+
+ScientificArticle <|-- PeerReviewedPaper
+ScientificArticle <|-- TechnicalReport
+
+TechnicalReport o-- ResearchInstitution : published by
+
+PeerReviewedPaper "1" *-- "0..*" Person : reviewed by
+
+Publisher "1" *-- "0..*" Journal : publishes
+
+Journal "1" *-- "0..*" ResearchInstitution : subscribed by
+
+@enduml
+
+### Explanation of Key Elements:
+- **`Person`**: Represents a researcher with unique `personID`, works for an institution.
+- **`ResearchInstitution`**: Identified by `institutionCode`, can have multiple researchers and publish technical reports.
+- **`ScientificArticle`**: Base class for all articles, identified by `DOI`.
+- **`PeerReviewedPaper`**: Subclass of `ScientificArticle`, includes citation count and reviewers.
+- **`TechnicalReport`**: Subclass of `ScientificArticle`, always published by a single institution.
+- **`Publisher`**: Identified by name, can have multiple journals.
+- **`Journal`**: Has a name, impact factor, and is published by a publisher. Institutions can subscribe to it.
+- **`Subscription`**: Links a research institution to a journal via its publisher.
+
+Let me know if you'd like this in a different format (e.g., UML image, text description, or ERD).

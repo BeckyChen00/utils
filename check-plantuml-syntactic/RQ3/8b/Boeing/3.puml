@@ -1,0 +1,79 @@
+
+---
+
+
+@startuml
+
+' Define classes
+class Contract {
+  +contractID: String
+  +dateSigned: Date
+  +terms: String
+  +salesperson: Salesperson
+  +acquisitions: List<Acquisition>
+}
+
+class Acquisition {
+  +acquisitionID: String
+  +airplaneModel: String
+  +price: Double
+  +options: List<String>
+  +deliveryDate: Date
+  +contract: Contract
+}
+
+class Airplane {
+  +airplaneID: String
+  +model: String
+  +manufacturer: String
+  +yearBuilt: Integer
+  +status: String
+}
+
+class Salesperson {
+  +salespersonID: String
+  +name: String
+  +email: String
+  +contracts: List<Contract>
+}
+
+class AirlineCompany {
+  +companyID: String
+  +name: String
+  +parentCompany: AirlineCompany
+  +childCompanies: List<AirlineCompany>
+  +acquisitions: List<Acquisition>
+}
+
+' Relationships
+Contract "1" -- "0..*" Acquisition : has
+Acquisition "1" -- "1" Contract : belongs to
+Salesperson "1" -- "0..*" Contract : manages
+Contract "1" -- "1" Salesperson : managed by
+AirlineCompany "1" -- "0..*" AirlineCompany : parent of
+AirlineCompany "1" -- "0..*" AirlineCompany : child of
+AirlineCompany "1" -- "0..*" Acquisition : owns
+Acquisition "1" -- "1" AirlineCompany : belongs to
+
+@enduml
+
+---
+
+### 📌 Explanation of Key Entities
+
+- **Contract**: Represents a sales agreement between Boeing and an airline company. It contains common terms and is associated with multiple acquisitions.
+- **Acquisition**: A specific purchase of an airplane within a contract. Includes details like model, price, options, and delivery date.
+- **Airplane**: Represents the actual aircraft model and its attributes (e.g., model name, manufacturer, year built).
+- **Salesperson**: An employee who manages one or more contracts. They may change over time.
+- **AirlineCompany**: Represents an airline, with optional parent-child relationships to track ownership structures. Also tracks acquisitions made from Boeing.
+
+---
+
+### 🧾 Notes
+
+- The diagram assumes that each `Acquisition` is linked to exactly one `AirlineCompany`.
+- The relationship between `AirlineCompany` and itself is modeled using a self-reference for both parent and child companies.
+- The `Acquisition` entity links to both the `Contract` and the `AirlineCompany` it belongs to.
+
+---
+

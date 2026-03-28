@@ -1,0 +1,163 @@
+@startuml
+enum LoadStatus {
+  Idle
+  Running
+  Stopping
+  Standby
+}
+enum SensorType {
+  Temperature
+  Voltage
+  Current
+  Pressure
+  FlowRate
+  PressureLevel
+  FlowVolume
+  TemperatureAlert
+  PressureAlarm
+  CurrentError
+  FlowVolatility
+  PressureVolume
+}
+enum NotificationChannel {
+  Email
+  Sms
+  PushNotification
+  Doorbell
+  Portal
+  ZooApp
+}
+class ElectricVehicle {
+  model: String
+  year: int
+  batteryLevel: int
+  +getStatus(): LoadStatus
+}
+class Map {
+  mapName: String
+  latitude: double
+  longitude: double
+  regionCode: String
+  +updateCoordinates(newLat: double, newLon: double): void
+  +getRouteList(): Route
+}
+class Route {
+  waypoints: Point[]
+  pathLength: double
+  +getWaypoints(): Point[]
+  +addWaypoint(point: Point): void
+}
+class SensorNode {
+  sensorType: SensorType
+  location: String
+  +readData(): Value
+  +calibrate(): boolean
+}
+class Beacon {
+  location: String
+  frequency: String
+  +broadcastSignal(): void
+}
+class PowerSource {
+  sourceType: String
+  capacity: double
+  +getPowerStatus(): String
+}
+class ChargingStation {
+  stationCode: String
+  status: String
+  +acceptConnection(vehicle: ElectricVehicle): boolean
+  +releaseConnection(): void
+  +getStatus(): String
+}
+class LocationManager {
+  +isValidLocation(latitude: double, longitude: double): boolean
+  +getCurrentPosition(): Point
+  +calculateDistance(lat1: double, lon1: double, lat2: double, lon2: double): double
+}
+class UserSession {
+  sessionDuration: long
+  isActive: boolean
+  +startSession(): void
+  +endSession(): void
+}
+class NotificationService {
+  channel: NotificationChannel
+  +sendAlert(message: String, destination: String): boolean
+  +acknowledgeAlert(alertId: String): void
+}
+class VehicleBolt {
+  motorSpeed: double
+  currentStatus: LoadStatus
+  +activate(): void
+  +deactivate(): void
+  +getStatus(): LoadStatus
+}
+class ElectricalSystem {
+  systemVoltage: double
+  currentReading: double
+  +recordReading(readings: Map): void
+  +getStatus(): String
+}
+class mapHistory {
+  timestamp: Date
+  description: String
+  +getHistory(): String
+}
+class routeSegment {
+  startLat: double
+  startLon: double
+  endLat: double
+  endLon: double
+  totalDistance: double
+  +getDistance(): double
+}
+class SensorReading {
+  timestamp: Date
+  value: Value
+  unit: String
+  +isValid(): boolean
+}
+class PowerSupplyUnit {
+  sourceType: SensorType
+  capacity: double
+  +supplyPower(readings: Map): boolean
+}
+class AlertManager {
+  +dispatchAlert(message: String, target: UserSession): void
+  +acknowledgeAlert(): void
+}
+class SystemLog {
+  timestamp: Date
+  message: String
+  severity: String
+  +getEntries(): String[]
+}
+class ProductionQueue {
+  priorityLevel: int
+  +assignTask(vehicle: ElectricVehicle, task: String): void
+  +getTasks(): String[]
+}
+ElectricVehicle *-- "1" Map : assignedMap
+Map *-- "1" Route : definedRoute
+Map *-- "*" SensorNode : installedSensors
+ElectricVehicle --> "*" SensorNode : connectedSensors
+PowerSource --> "*" SensorReading : recordedReadings
+ChargingStation *-- "*" VehicleBolt : controlledBolts
+ChargingStation *-- "1" PowerSupplyUnit : connectedPowerUnit
+Map --> "*" Beacon : mappedBeacons
+Map --> "*" SensorNode : monitoredSensors
+LocationManager --> "*" Map : managedMaps
+SensorNode *-- "*" SensorReading : generatedReadings
+SensorNode --> "1" PowerSupplyUnit : poweredBy
+VehicleBolt --> "1" AlertManager : controlledAlerts
+AlertManager --> "*" UserSession : managedSessions
+AlertManager -- SystemLog
+AlertManager --> "*" NotificationService : registeredChannels
+SystemLog --> "*" SensorReading : recordedReadings
+SystemLog --> "*" PowerSupplyUnit : loggedSources
+PowerSupplyUnit --> "*" ProductionQueue : poweredByQueues
+ProductionQueue --> "*" ElectricVehicle : queuedBolts
+AlertManager --> "*" AlertService : managedAlerts
+AlertService --> "*" NotificationService : linkedChannels
+@enduml

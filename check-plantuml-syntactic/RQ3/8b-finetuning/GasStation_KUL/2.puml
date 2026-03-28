@@ -1,0 +1,81 @@
+@startuml
+enum PaymentMethod {
+  Cash
+  CreditCard
+  RefuelCard
+}
+enum PumpStatus {
+  Available
+  Busy
+  Blocked
+  Maintenance
+  LowFuel
+  CriticalLowFuel
+}
+enum InvoiceStatus {
+  Sent
+  Paid
+  Unpaid
+}
+enum CustomerType {
+  Regular
+  New
+  HighVolume
+  Suspended
+  Blocked
+}
+class RefuelingRecord {
+  recordDate: Date
+  fuelAmount: double
+  fuelType: String
+  paymentMethod: PaymentMethod
+  customer: Customer
+  pump: Pump
+  +isValid(): boolean
+}
+class Invoice {
+  issueDate: Date
+  dueDate: Date
+  totalAmount: double
+  discountFactor: double
+  status: InvoiceStatus
+  customer: Customer
+  +calculateTotal(): double
+  +applyDiscount(): double
+  +markAsSent(): void
+  +markAsPaid(): void
+}
+class Customer {
+  name: String
+  contactInfo: String
+  type: CustomerType
+  +addRecord(record: RefuelingRecord): void
+  +getActiveInvoices(): List<Invoice>
+}
+class Pump {
+  pumpNumber: int
+  fuelType: String
+  currentLevel: double
+  reorderLevel: double
+  criticalLevel: double
+  status: PumpStatus
+  +startRefueling(record: RefuelingRecord): void
+  +stopRefueling(): void
+  +checkAvailability(): boolean
+  +isBlocked(): boolean
+  +generateDailyReport(): String
+}
+class GasStation {
+  name: String
+  location: String
+  +getPumps(): List<Pump>
+  +getInvoices(): List<Invoice>
+}
+Customer *-- "0..*" RefuelingRecord : fuelRecords
+RefuelingRecord --> "0..1" Invoice : invoice
+Customer --> "0..*" Invoice : invoices
+Customer --> "1" GasStation : homeStation
+Invoice --> "1" GasStation : issuedFrom
+GasStation *-- "1..*" Pump : pumps
+RefuelingRecord --> "1" Pump : usedPump
+@enduml

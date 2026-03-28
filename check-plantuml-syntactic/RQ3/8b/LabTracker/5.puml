@@ -1,0 +1,136 @@
+
+@startuml
+
+class Doctor {
+  - practitionerNumber: int
+  - fullName: string
+  - address: string
+  - phoneNumber: string
+  - signature: image
+  + createRequisition(Patient, TestGroup, Date)
+}
+
+class Patient {
+  - healthNumber: string
+  - firstName: string
+  - lastName: string
+  - dateOfBirth: Date
+  - address: string
+  - phoneNumber: string
+  + bookAppointment(Requisition, Lab)
+  + viewTestResults(Test)
+}
+
+class Requisition {
+  - requisitionDate: Date
+  - validFrom: Date
+  - testGroup: TestGroup
+  - repetitionPattern: RepetitionPattern
+  - repetitionCount: int
+  - repetitionInterval: Interval
+  + addTest(Test)
+  + removeTest(Test)
+  + getTests(): List<Test>
+}
+
+class TestGroup {
+  - groupName: string
+  - tests: List<Test>
+  + addTest(Test)
+  + removeTest(Test)
+}
+
+class Test {
+  - testName: string
+  - duration: int (minutes)
+  - isWalkInOnly: boolean
+  - requiresAppointment: boolean
+  - isRepeatable: boolean
+  + getDuration(): int
+}
+
+class RepetitionPattern {
+  - patternType: string (e.g., "weekly", "monthly")
+  - count: int
+  - interval: Interval
+}
+
+class Interval {
+  - type: string (e.g., "week", "month", "halfYear", "year")
+}
+
+class Appointment {
+  - appointmentId: string
+  - date: Date
+  - startTime: Time
+  - endTime: Time
+  - lab: Lab
+  - confirmationNumber: string
+  + confirmAppointment()
+  + cancelAppointment()
+  + changeAppointment()
+}
+
+class Lab {
+  - labName: string
+  - address: string
+  - businessHours: BusinessHours
+  - registrationNumber: string
+  + scheduleAppointment(Appointment)
+  + getAvailableTimes(Date)
+}
+
+class BusinessHours {
+  - openDays: List<DayOfWeek>
+  - startTime: Time
+  - endTime: Time
+}
+
+class TestResult {
+  - test: Test
+  - result: string
+  - report: string
+  + viewResult()
+}
+
+Doctor --> Requisition
+Patient --> Requisition
+Doctor --> TestGroup
+TestGroup --> Test
+Requisition --> Test
+Requisition --> RepetitionPattern
+Requisition --> Appointment
+Patient --> Appointment
+Patient --> TestResult
+Test --> TestResult
+TestGroup --> Test
+Lab --> Appointment
+Lab --> BusinessHours
+Requisition --> TestGroup
+Doctor --> Doctor
+Patient --> Patient
+TestGroup --> TestGroup
+Test --> Test
+RepetitionPattern --> Interval
+Interval --> Interval
+Appointment --> Lab
+Appointment --> Patient
+TestResult --> Test
+TestResult --> Patient
+
+@enduml
+
+---
+
+### ✅ Notes:
+- **Associations**: Show how objects interact (e.g., `Doctor` creates a `Requisition`, `Patient` books an `Appointment`, etc.).
+- **Multiplicity**: Some relationships are not explicitly defined here due to complexity but can be added if needed.
+- **Attributes**: All required attributes from the system requirements are included.
+- **Behavioral Elements**: Only the core structure is shown; behavior (e.g., methods) are represented in comments or as pseudo-methods like `+ createRequisition(...)`.
+
+---
+
+### 📌 How to Use:
+1. Copy the above code into a `.puml` file.
+
+Let me know if you'd like to expand this with more details, such as inheritance or additional associations!

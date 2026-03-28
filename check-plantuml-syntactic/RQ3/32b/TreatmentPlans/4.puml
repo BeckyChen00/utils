@@ -1,0 +1,92 @@
+
+---
+
+
+@startuml
+
+' Define classes and their attributes and methods
+class Hospital {
+  - id: int
+  - name: string
+}
+
+class ExaminationType {
+  - code: string
+  - description: string
+}
+
+class Permission {
+  - hospital_id: int
+  - exam_type_code: string
+  - granted_date: date
+}
+
+class Patient {
+  - id: int
+  - name: string
+  - problem: string
+}
+
+class Doctor {
+  - id: int
+  - name: string
+  - affiliated_hospital_id: int
+}
+
+class TreatmentPlan {
+  - problem: string
+  - advised_examination_types: list<ExaminationType>
+}
+
+class ActualTreatment {
+  - patient_id: int
+  - doctor_id: int
+  - problem: string
+  - planned_plan_id: int?
+  - deviation_actions: list<string>
+}
+
+class ScheduledExamination {
+  - actual_treatment_id: int
+  - exam_type_code: string
+  - scheduled_hospital_id: int
+  - executed: boolean
+}
+
+' Associations and relationships
+Hospital "1" -- "0..*" Permission : has permission for
+Hospital "1" -- "0..*" Doctor : employs
+Hospital "1" -- "0..*" ScheduledExamination : schedules examination at
+
+Doctor "1" -- "0..*" ActualTreatment : prescribes
+
+Patient "1" -- "1" ActualTreatment : receives
+
+TreatmentPlan "1" -- "1" ActualTreatment : used as basis for
+
+ActualTreatment "1" -- "0..*" ScheduledExamination : includes
+ActualTreatment "1" -- "0..*" ExaminationType : may include advised exams
+ActualTreatment "1" -- "0..*" string : includes deviation actions
+
+ExaminationType "1" -- "0..*" TreatmentPlan : is part of
+ExaminationType "1" -- "0..*" ScheduledExamination : is type of
+
+@enduml
+
+---
+
+### 🧾 Explanation of Key Concepts
+
+- **Hospital**: Can have permissions to perform certain types of examinations.
+- **ExaminationType**: Represents different kinds of medical tests (e.g., NMR, radiology).
+- **Permission**: Grants a hospital the right to perform a specific `ExaminationType`.
+- **Doctor**: Affiliated with one hospital and can prescribe treatments or send patients elsewhere.
+- **Patient**: Has a problem diagnosed by a doctor.
+- **TreatmentPlan**: Defines recommended exams per problem.
+- **ActualTreatment**: May follow or deviate from a treatment plan.
+- **ScheduledExamination**: Links an exam to a specific hospital where it's performed.
+
+---
+
+
+Let me know if you'd like to add constraints, roles, or more detailed associations!

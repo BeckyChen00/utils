@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedSamples" eType="#//MedicalSample" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MedicalSample">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conductedTests" eType="#//LaboratoryTest" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="confirmedDiagnosis" eType="#//Diagnosis" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PatientRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedObservations" eType="#//ClinicalObservation" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedDiagnoses" eType="#//Diagnosis" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ClinicalObservation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Diagnosis"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LaboratoryTest"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommunicationChannel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkedNotificationService" eType="#//NotificationService" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotificationService"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EHRSystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedNotificationService" eType="#//NotificationService" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maintainedRecords" eType="#//PatientRecord" upperBound="-1"/>
+  </eClassifiers>
+</ecore:EPackage>

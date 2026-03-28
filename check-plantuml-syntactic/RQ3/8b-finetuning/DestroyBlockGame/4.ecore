@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml" eSuperTypes="#//User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="User"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Player" eSuperTypes="#//User">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="playedGames" eType="#//Game" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participatedSessions" eType="#//GameSession" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Game">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="levels" eType="#//Level" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="speedConfiguration" eType="#//SpeedConfig" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paddleConfiguration" eType="#//PaddleConfig" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedBlocks" eType="#//Block" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Level"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpeedConfig"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PaddleConfig"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Block"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GameSession">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ball" eType="#//Ball" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paddle" eType="#//Paddle" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="activeLevel" eType="#//Level" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="player" eType="#//Player" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gameInstance" eType="#//Game" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ball"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Paddle"/>
+</ecore:EPackage>

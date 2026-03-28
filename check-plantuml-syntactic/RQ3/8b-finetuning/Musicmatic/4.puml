@@ -1,0 +1,73 @@
+@startuml
+enum MusicGenre {
+  Pop
+  Rock
+  HipHop
+  Classical
+  Jazz
+  Electronic
+}
+enum ArtistStatus {
+  Active
+  Retired
+}
+class User {
+  id: int
+  name: String
+  address: String
+  +login(): boolean
+  +logout(): void
+}
+class BusinessUser {
+  vatNumber: String
+}
+class RegularUser {
+  subscriptionTier: String
+}
+class Artist {
+  stageName: String
+  birthDate: Date
+  websiteUrl: String
+  artistStatus: ArtistStatus
+  +getBio(): String
+  +updateStatus(newStatus: ArtistStatus): void
+}
+class Song {
+  title: String
+  releaseYear: int
+  lengthSeconds: double
+  genre: MusicGenre
+  +getTitleWithoutPrefix(): String
+  +getFullTitle(): String
+}
+class MusicFile {
+  filePath: String
+  fileSizeKB: double
+  checksum: String
+  +verifyIntegrity(): boolean
+  +getStreamUrl(): String
+}
+class Album {
+  albumTitle: String
+  releaseYear: int
+  totalTracks: int
+  +addTrack(song: Song, trackNumber: int): void
+  +removeTrack(trackNumber: int): void
+  +getTrackCount(): int
+}
+class SongCollection {
+  collectionName: String
+  description: String
+  +addSong(song: Song): void
+  +addAlbum(album: Album): void
+  +getTotalTracks(): int
+}
+RegularUser --|> User
+BusinessUser --|> User
+Song *-- "*" MusicFile : containedFiles
+Song --> "1" Artist : primaryArtist
+Album *-- "*" Song : containedSongs
+SongCollection *-- "*" Song : includedSongs
+RegularUser *-- "*" SongCollection : ownedCollections
+BusinessUser --> "1" Song : uploadedSong
+@enduml

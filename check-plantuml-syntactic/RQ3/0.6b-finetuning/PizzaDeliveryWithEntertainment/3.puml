@@ -1,0 +1,46 @@
+@startuml
+enum NotificationStatus {
+  Pending
+  Active
+  Archived
+  Expired
+  Cancelled
+}
+enum PriorityLevel {
+  Low
+  Medium
+  High
+  Critical
+}
+enum CaseStatus {
+  Open
+  Closed
+}
+class SecurityCase {
+  title: String
+  currentStatus: CaseStatus
+  requiredSkills: String[]
+  +createNotification(): Notification
+  +closeCase(): void
+}
+class SecurityAlert {
+  description: String
+  severityLevel: PriorityLevel
+  creationDate: Date
+  +escalate(): void
+}
+class Notification {
+  timestamp: Date
+  status: NotificationStatus
+  content: String
+  +acknowledge(): void
+}
+class PerspectiveAnalyzer {
+  isAnalyzingCurrentCase: boolean
+  +generateReport(): String
+  +optimizeFilters(): void
+}
+SecurityCase *-- "0..*" Notification : createdNotifications
+SecurityCase *-- "0..*" SecurityAlert : containedAlerts
+SecurityCase --> "1" PerspectiveAnalyzer : caseAnalyst
+@enduml

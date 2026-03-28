@@ -1,0 +1,91 @@
+
+@startuml
+
+' Define classes and their attributes/relationships
+
+class Employee {
+    +String name
+    +int employeeId
+}
+
+class HeadCoach extends Employee {
+    +List<PlayerProfile> designatedProfiles
+    +void createDesignatedPlayerProfile()
+}
+
+class Director extends Employee {
+    +void makeOfficialOffer(Player player)
+}
+
+class Scout extends Employee {
+    +List<ScoutingAssignment> assignments
+    +void submitScoutingReport(ScoutingReport report)
+}
+
+class PlayerProfile {
+    +String position
+    +Map<String, String> attributes
+}
+
+class Player {
+    +String name
+    +int age
+    +String currentClub
+    +List<ScoutingReport> scoutingReports
+    +PlayerProfile profile
+    +boolean isOnLongList
+    +boolean isOnShortList
+}
+
+class LongList {
+    +List<Player> players
+    +void addPlayerToLongList(Player player)
+}
+
+class ShortList {
+    +List<Player> players
+    +void moveToShortList(Player player)
+}
+
+class ScoutingAssignment {
+    +Player player
+    +Scout assignedScout
+    +Date assignmentDate
+    +ScoutingReport report
+}
+
+class ScoutingReport {
+    +Player player
+    +String pros
+    +String cons
+    +String recommendation
+    +Date submissionDate
+}
+
+' Relationships
+
+HeadCoach --> "1" PlayerProfile : creates
+Employee <|-- HeadCoach
+Employee <|-- Director
+Employee <|-- Scout
+
+PlayerProfile --> Player : defines
+Player --> "0..*" ScoutingReport : has
+ScoutingAssignment --> ScoutingReport : generates
+Scout --> ScoutingAssignment : manages
+ScoutingAssignment --> Player : assigned to
+ScoutingAssignment --> Scout : assigned to
+LongList --> Player : contains
+ShortList --> Player : contains
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+- **Employees**: `HeadCoach`, `Director`, and `Scout` all inherit from the `Employee` base class.
+- **PlayerProfile**: Defines target positions and attributes that the head coach sets.
+- **Player**: Represents a potential signing. Each player can be added to the long or short list.
+- **ScoutingAssignment & ScoutingReport**: Used by scouts to investigate and evaluate players.
+- **LongList & ShortList**: Represent lists of players under consideration at different stages.
+

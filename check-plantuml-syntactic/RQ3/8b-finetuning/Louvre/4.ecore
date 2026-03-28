@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedRooms" eType="#//Room" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExhibitionPlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="items" eType="#//ExhibitionItem" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coordinator" eType="#//Employee" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportingGrants" eType="#//FundingGrant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExhibitionItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedPiece" eType="#//MuseumItem"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MuseumItem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//Collector" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Collector"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Employee">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coach" eType="#//Employee"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FundingGrant"/>
+</ecore:EPackage>

@@ -1,0 +1,81 @@
+
+@startuml
+' Class Diagram for Science Connect Database
+
+class Person {
+  - personID: String (PK)
+  - name: String
+  - phoneNumber: String
+  - keywords: List<String>
+  - institutionCode: String (FK)
+}
+
+class ResearchInstitution {
+  - institutionCode: String (PK)
+  - name: String
+  - address: String
+}
+
+class ScientificArticle {
+  - doi: String (PK)
+  - title: String
+  - authors: List<Person> (with position)
+  - type: String ("peer-reviewed" or "technical report")
+}
+
+class PeerReviewedPaper <<interface>> {
+  + citationCount: Integer
+  + reviewers: List<Person>
+}
+
+class TechnicalReport <<interface>> {
+  + publisherInstitution: ResearchInstitution
+}
+
+class Journal {
+  - journalName: String
+  - publisherName: String (FK)
+  - impactFactor: Double
+}
+
+class Publisher {
+  - publisherName: String (PK)
+  - journals: List<Journal>
+}
+
+class Subscription {
+  - researchInstitution: ResearchInstitution (FK)
+  - journal: Journal (FK)
+}
+
+' Associations and Inheritance
+ScientificArticle <|-- PeerReviewedPaper
+ScientificArticle <|-- TechnicalReport
+
+Person "1" -- "0..*" ScientificArticle : author of
+Person "0..*" -- "0..*" ScientificArticle : reviewer of
+
+ResearchInstitution "1" -- "0..*" TechnicalReport : publishes
+ResearchInstitution "0..*" -- "0..*" Subscription : subscribes to
+
+Publisher "1" -- "0..*" Journal : publishes
+Journal "1" -- "0..*" Subscription : subscribed by
+
+Person "1" -- "0..1" ResearchInstitution : works for
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **`Person`**: Represents researchers. Each person is associated with one `ResearchInstitution`, and can be an author or reviewer of articles.
+- **`ResearchInstitution`**: Stores information about EU institutions. They can publish technical reports and subscribe to journals.
+- **`ScientificArticle`**: Base class for both `PeerReviewedPaper` and `TechnicalReport`. Each has a DOI, title, and list of authors with positions.
+- **`PeerReviewedPaper`**: An interface that extends `ScientificArticle`. It includes citation count and reviewers.
+- **`TechnicalReport`**: An interface that extends `ScientificArticle`. It includes the publisher institution.
+- **`Publisher`**: Represents organizations like Elsevier or IEEE. They manage journals.
+- **`Journal`**: A publication managed by a publisher. Journals have names and impact factors.
+- **`Subscription`**: A link between a `ResearchInstitution` and a `Journal`.
+
+---
+

@@ -1,0 +1,35 @@
+@startuml
+class AirplaneModel {
+  modelName: String
+  +getModelName(): String
+}
+class AirplaneAcquisition {
+  serialNumber: String
+  acquisitionDate: Date
+  unitPrice: double
+  +calculateTotalCost(): double
+}
+class AirlineCompany {
+  companyName: String
+  isLowCostCarrier: boolean
+  +hasSubsidiary(): boolean
+}
+class BoeingSalesContract {
+  contractName: String
+  effectiveDate: Date
+  terminationDate: Date
+  +findActiveAcquisitions(): List<AirplaneAcquisition>
+}
+class Salesperson {
+  employeeId: String
+  fullName: String
+  isActive: boolean
+  +assignToContract(contract: BoeingSalesContract): void
+  +getManagedContracts(): List<BoeingSalesContract>
+}
+BoeingSalesContract *-- "*" AirplaneAcquisition : acquisitions
+AirplaneAcquisition --> "1" AirplaneModel : model
+BoeingSalesContract --> "1" Salesperson : primarySalesperson
+AirplaneAcquisition --> "*" AirlineCompany : purchasedBy
+Salesperson --> "1" AirlineCompany : managedClient
+@enduml

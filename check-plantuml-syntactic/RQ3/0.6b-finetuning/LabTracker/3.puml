@@ -1,0 +1,49 @@
+@startuml
+enum ActivationState {
+  Active
+  Deactivated
+}
+class BrainwaveSensor {
+  +readSignal(): float
+}
+class DataPacket {
+  +compressData(): void
+  +decompressData(): void
+}
+class NeuralSignal {
+  amplitudeRange: float[]
+  +getAmplitude(): float
+  +isValid(): boolean
+}
+class NeuralNet {
+  layerCount: int
+  +trainModel(data: NeuralSignal[]): void
+  +classify(predictionThreshold: float): ActivationState
+}
+class ActivityMonitor {
+  +catchEvent(): BrainwaveSensor
+  +captureRecord(): NeuralSignal
+}
+class SessionLog {
+  startTime: Date
+  endTime: Date
+  +getDuration(): long
+  +addEvent(event: BrainwaveSensor): void
+}
+class Trainer {
+  +runTrainer(config: String, session: SessionLog): void
+  +getActiveNeuralNet(): NeuralNet
+}
+class SimulationEngine {
+  +startSimulation(): void
+  +updateSimulation(): void
+}
+BrainwaveSensor *-- "0..*" DataPacket : generatedPackets
+BrainwaveSensor --> "1" NeuralNet : activeNet
+ActivityMonitor *-- "0..*" NeuralSignal : capturedSignals
+NeuralSignal --> "1" NeuralNet : processedSignal
+NeuralNet -- Simulator
+Trainer --> "1..*" ActivityMonitor : configuredMonitors
+NeuralNet --> "1" TrainingSession : trainingSession
+SimulationEngine -- SessionLog
+@enduml

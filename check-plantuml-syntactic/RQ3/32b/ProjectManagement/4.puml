@@ -1,0 +1,84 @@
+
+@startuml
+
+' Define classes and their attributes and relationships
+
+class ResearchGroup {
+    +String name
+    +Department department
+    +List<Researcher> members
+    +List<WorkPackage> ledWPs
+}
+
+class Department {
+    +String name
+    +List<ResearchGroup> groups
+}
+
+class Researcher {
+    +String id
+    +String name
+    +ResearchGroup currentGroup
+    +List<Assignment> assignments
+}
+
+class WorkPackage {
+    +String id
+    +String title
+    +ResearchGroup leader
+    +Project project
+    +List<Assignment> teamMembers
+}
+
+class Assignment {
+    +Date startDate
+    +Date endDate (optional)
+    +Role role
+    +Researcher researcher
+    +WorkPackage workPackage
+}
+
+class Project {
+    +String id
+    +String title
+    +List<WorkPackage> workPackages
+}
+
+' Relationships
+
+Department "1" *-- "many" ResearchGroup : has
+ResearchGroup "1" *-- "many" Researcher : has
+ResearchGroup "1" *-- "many" WorkPackage : leads
+
+WorkPackage "1" *-- "many" Assignment : hasTeamMembers
+WorkPackage "1" 1-- "1" ResearchGroup : isLedBy
+
+Project "1" *-- "many" WorkPackage : has
+Researcher "1" *-- "many" Assignment : assignedTo
+Assignment "1" 1-- "1" Researcher : hasResearcher
+Assignment "1" 1-- "1" WorkPackage : hasWP
+
+enum Role {
+    LEADER
+    TEAM_MEMBER
+}
+
+@enduml
+
+---
+
+### Explanation of Key Elements:
+
+- **ResearchGroup**: Represents a group of researchers. Each belongs to one department.
+- **Department**: Contains multiple research groups.
+- **Researcher**: Belongs to exactly one `ResearchGroup` at any time. Has many assignments to WPs.
+- **WorkPackage (WP)**: A part of a project. Led by one `ResearchGroup`, can have team members from any group.
+- **Assignment**: Tracks when a researcher was assigned to a WP, with start/end dates and role (e.g., LEADER or TEAM_MEMBER).
+- **Project**: Composed of multiple WPs.
+- **Role**: An enum to differentiate between roles in an assignment.
+
+---
+
+This diagram ensures **traceability** of service delivery between research groups via the `Assignment` class, and handles the requirement that assignments are terminated/created when a researcher changes groups or a WP's leadership changes.
+
+Let me know if you want this rendered as an image or exported to another format!

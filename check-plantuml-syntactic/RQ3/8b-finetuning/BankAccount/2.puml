@@ -1,0 +1,45 @@
+@startuml
+class Bank {
+  name: String
+  +addBranch(branch: Branch): void
+  +getBranches(): List<Branch>
+}
+class Branch {
+  branchCode: String
+  location: String
+  +openAccount(customer: Customer, accountType: String, depositAmount: double): Account
+  +processTransaction(account: Account, amount: double): void
+}
+class Customer {
+  firstName: String
+  lastName: String
+  isVip: boolean
+  phoneNumber: String
+  +registerAccount(): Account
+  +updateProfile(isVip: boolean): void
+}
+class Account {
+  accountNumber: int
+  balance: double
+  overdraftLimit: double
+  +deposit(amount: double): void
+  +withdraw(amount: double): void
+  +transferAmount(targetAccount: Account, amount: double): void
+  +applyOverdraftLimit(newLimit: double): void
+}
+class CurrentAccount {
+  overdraftLimit: double
+  +checkOverdraftLimit(): boolean
+  +calculateOverdraftCharge(overdraftAmount: double): double
+}
+class SavingsAccount {
+  interestRate: double
+  +calculateInterest(days: int): double
+}
+CurrentAccount --|> Account
+SavingsAccount --|> Account
+Bank *-- "1..*" Branch : managedBranches
+Branch *-- "0..*" Account : accounts
+Customer *-- "1..5" Account : ownedAccounts
+Branch --> "0..*" Customer : registeredCustomers
+@enduml

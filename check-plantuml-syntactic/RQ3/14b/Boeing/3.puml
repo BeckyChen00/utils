@@ -1,0 +1,60 @@
+
+@startuml
+skinparam classAttributeIconName true
+
+class Contract {
+  -contractId: String
+  -startDate: Date
+  -endDate: Date
+  -globalTerms: String
+  +addAcquisition(acquisition: Acquisition): void
+  +removeAcquisition(acquisition: Acquisition): void
+}
+
+class Acquisition {
+  -acquisitionId: String
+  -model: String
+  -price: Double
+  -deliveryDate: Date
+  -options: List<String>
+  -customizations: List<String>
+  +getTotalCost(): Double
+}
+
+class Airline {
+  -airlineId: String
+  -name: String
+  -type: String
+  -parentAirline: Airline
+  +hasParent(): Boolean
+}
+
+class Salesperson {
+  -employeeId: String
+  -name: String
+  -email: String
+  +manageContract(contract: Contract): void
+}
+
+class Boeing {
+  +createContract(airline: Airline, salesperson: Salesperson): Contract
+  +assignSalespersonToContract(contract: Contract, salesperson: Salesperson): void
+}
+
+Contract "1" *-- "0..*" Acquisition : contains
+Contract "1" -- "1" Salesperson : managedBy
+Airline "0..1" -- "0..1" Airline : parent
+Boeing "1" -- "0..*" Contract : manages
+@enduml
+
+---
+
+### Explanation of the Diagram:
+
+- **`Contract`**: Represents a contract between Boeing and an airline. It includes general terms and can contain multiple `Acquisition`s.
+- **`Acquisition`**: Represents a specific airplane purchase under a contract. It includes details like model, price, delivery date, etc.
+- **`Airline`**: Represents an airline company. It may have a parent airline (e.g., a main airline and its low-cost subsidiary).
+- **`Salesperson`**: An employee who manages one or more contracts. A single salesperson can manage multiple contracts.
+- **`Boeing`**: The central entity that creates contracts, assigns salespeople, and manages the overall process.
+
+This diagram captures the key relationships and entities described in your system requirement. Let me know if you'd like to add more features or refine it further!

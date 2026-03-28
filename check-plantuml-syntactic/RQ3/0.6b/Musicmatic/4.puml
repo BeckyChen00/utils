@@ -1,0 +1,43 @@
+@startuml
+
+class SystemRequirement {name: SystemRequirement}
+
+class Requirement {
+  name: "System Requirement"
+  description: "Describes the requirements of the system"
+  type: "SystemRequirement"
+  attributes: [name, description]
+}
+
+class System {
+  name: "System"
+  description: "The system that meets the requirements"
+  constraints: [Requirement]
+  attributes: [name, description, constraints]
+}
+
+class User {
+  name: "User"
+  description: "A user of the system"
+  attributes: [name, email, password]
+}
+
+class Database {
+  name: "Database"
+  description: "The database used to store data"
+  attributes: [name, type, connection_string]
+}
+
+class Security {
+  name: "Security"
+  description: "Controls the security of the system"
+  attributes: [encryption, access_control]
+}
+
+class Interface {
+  name: "Interface"
+  description: "Defines the interface between the system and users"
+  attributes: [name, endpoints, protocols]
+}
+
+@enduml

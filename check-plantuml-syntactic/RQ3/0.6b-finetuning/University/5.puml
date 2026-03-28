@@ -1,0 +1,190 @@
+@startuml
+enum StructuralMaterial {
+  AluminumAlloy
+  SteelPlate
+  GlassCeramic
+  CompositeMatrix
+  SmartMaterial
+}
+enum MaintenanceState {
+  Idle
+  InMotion
+  Repairing
+  Testing
+  Degraded
+  MaintenanceRequired
+  Completed
+}
+class Vehicle {
+  licensePlate: String
+  departureLatitude: double
+  departureLongitude: double
+  currentAcceleration: double
+  currentDeceleration: double
+  +recordTrip(startLocation: Location, endLocation: Location): Trip
+  +getSafetyMetrics(): Map<String, Object>
+}
+class Trip {
+  startTime: Date
+  durationMinutes: double
+  totalDistance: double
+  +calculateTotalFuelConsumption(mileageRate: double): double
+}
+class Leg {
+  startTime: Date
+  duration: double
+  totalDistance: double
+  +generateLegReport(): String
+}
+class RepairStation {
+  stationCode: String
+  locationDescription: String
+  +updateStatus(newStatus: MaintenanceState): void
+  +isAvailable(): boolean
+}
+class MaintenanceTask {
+  description: String
+  scheduledDate: Date
+  currentState: MaintenanceState
+  +executeTask(): void
+  +completeTask(): void
+}
+class Part {
+  partNumber: String
+  partName: String
+  unitCost: double
+  +checkAvailability(): boolean
+}
+class Workshop {
+  workshopName: String
+  locationAddress: String
+  +assignWorkOrder(task: MaintenanceTask): void
+}
+class PartsCatalog {
+  catalogName: String
+  version: String
+  +getPartName(partNumber: String): String
+  +searchPart(keyword: String): List<String>
+}
+class SensorData {
+  timestamp: Date
+  value: double
+  sourceUnit: String
+  +getFormattedValue(): String
+}
+class Location {
+  latitude: double
+  longitude: double
+  addressString: String
+  +convertToMercator(): String
+}
+class RoutePlan {
+  plannedPath: String
+  +optimizeRoute(): Route
+}
+class Route {
+  startLocation: Location
+  finishLocation: Location
+  waypoints: List<Location>
+  +addWaypoint(location: Location): void
+  +getTotalDistance(): double
+}
+class TripManager {
+  +calculateTotalTripDistance(vehicle: Vehicle): double
+  +combineTrip(trip1: Trip, trip2: Trip): Trip
+}
+class CrewMember {
+  crewName: String
+  role: String
+  +assignTask(task: MaintenanceTask): void
+  +submitTask(): void
+}
+class SafetyNet {
+  isActive: boolean
+  +activate(): void
+  +deactivate(): void
+  +checkStatus(): String
+}
+class DiagnosticLog {
+  errorMessage: String
+  severityLevel: String
+  +recordFailure(): void
+  +getSummary(): String
+}
+class EmergencyStop {
+  triggerCondition: String
+  +reset(): void
+}
+class MaterialSpecification {
+  materialType: StructuralMaterial
+  requiredTensileStrength: double
+  materialGrade: String
+  +isCompatible(material: StructuralMaterial): boolean
+}
+class InventoryManager {
+  warehouseCode: String
+  +checkStock(part: Part): boolean
+  +reservePart(part: Part, quantity: int): boolean
+  +releasePart(part: Part, quantity: int): double
+}
+class FleetScheduler {
+  +scheduleWorkOrder(task: MaintenanceTask): Date
+  +generateShiftReport(startDate: Date, endDate: Date): String
+  +getNextAvailableStation(): RepairStation
+}
+class RouteOptimizer {
+  +optimizeRoute(origin: Location, target: Location): Route
+  +findOptimalPath(routeList: List<Route>): List<Route>
+}
+class MaintenanceScheduler {
+  +setNextMaintenanceDate(startTime: Date, station: RepairStation): Date
+  +getNextMaintenanceDate(startDate: Date): Date
+  +getCompletionDate(): Date
+}
+class UserAccount {
+  username: String
+  role: String
+  +authenticate(): boolean
+  +updateProfile(profile: UserProfile): void
+}
+class UserProfile {
+  fullName: String
+  emailAddress: String
+  phoneNumber: String
+  +getBio(): String
+}
+class AuditLog {
+  logType: MaintenanceState
+  ipAddress: String
+  timestamp: Date
+  actionDescription: String
+  +generateLogEntry(action: String, details: String): void
+}
+Vehicle *-- "0..*" Trip : ownedTrips
+Trip *-- "1" Leg : composedLegs
+Vehicle --> "1" RepairStation : hostStation
+RepairStation *-- "1" SafetyNet : installedSafetyNet
+Vehicle --> "1" Workshop : assignedWorkshop
+Workshop *-- "0..*" MaintenanceTask : plannedTasks
+Workshop *-- "1" PartsCatalog : maintainedCatalog
+Vehicle --> "0..*" CrewMember : assignedCrew
+Vehicle --> "0..*" ProductionLot : producedLockets
+Workshop *-- "1" RouteOptimizer : usedOptimizer
+Trip --> "1" RoutePlan : derivedRoute
+Trip --> "1" Route : trackedRoute
+CrewMember *-- "0..*" DiagnosticLog : generatedLogs
+Vehicle --> "0..*" DiagnosticLog : producedLogs
+Vehicle --> "0..*" SensorData : collectedSensors
+SensorData --> "0..*" MaintenanceTask : triggeredTasks
+Vehicle --> "0..*" MaintenanceTask : performedTasks
+Vehicle --> "0..*" EmergencyStop : deployedStops
+Vehicle --> "0..*" PartsCatalog : purchasedParts
+Vehicle --> "0..*" InventoryManager : managedStock
+Route --> "1..*" Leg : containedLegs
+Route --> "1" Location : startLocation
+Route --> "1" Location : finishLocation
+UserAccount --> "1" UserProfile : linkedProfile
+AuditLog --> "0..*" UserAccount : loggedBy
+UserAccount --> "0..*" Vehicle : ownsTrips
+RouteOptimizer --> "0..*" RepairStation : servedStations
+@enduml

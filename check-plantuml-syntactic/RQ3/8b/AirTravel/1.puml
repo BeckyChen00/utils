@@ -1,0 +1,106 @@
+
+@startuml
+' Aircraft
+class Aircraft {
+  -name: String
+  -type: String
+  -yearOfManufacture: int
+  -nextInspectionDate: Date
+  -homeAirport: Airport
+}
+
+' PassengerAircraft (specialization of Aircraft)
+class PassengerAircraft {
+  -numberOfSeats: int
+}
+
+' Flight
+class Flight {
+  -flightNumber: String
+  -date: Date
+  -departureAirport: Airport
+  -destinationAirport: Airport
+  -aircraft: Aircraft
+}
+
+' Passenger
+class Passenger {
+  -name: String
+  -passportNumber: String
+}
+
+' Ticket
+class Ticket {
+  -ticketNumber: String
+  -price: double
+  -upgradeDesired: boolean
+  -flight: Flight
+  -seatCategory: SeatCategory
+}
+
+' SeatCategory
+class SeatCategory {
+  -designation: String
+  -entertainmentProgram: boolean
+  -numberOfSeats: int
+  -passengerAircraft: PassengerAircraft
+}
+
+' Airline
+class Airline {
+  -name: String
+}
+
+' FlightAttendant
+class FlightAttendant {
+  -name: String
+  -dateOfEmployment: Date
+  -isChiefSteward: boolean
+}
+
+' Pilot
+class Pilot {
+  -name: String
+  -dateOfEmployment: Date
+  -license: String
+}
+
+' Airport
+class Airport {
+  -name: String
+  -address: String
+  -numberOfRunways: int
+}
+
+' Relationships
+
+' Aircraft can be part of an airline
+Aircraft --> "1" Airline : belongsTo
+Airline <|-- "0..*" Aircraft : has
+
+' Flight uses an aircraft
+Flight --> Aircraft : uses
+
+' Flight has passengers
+Flight "1" -- "0..*" Passenger : has
+
+' Passenger has tickets
+Passenger "1" -- "0..*" Ticket : has
+
+' Ticket is for a seat category
+Ticket --> SeatCategory : belongsTo
+
+' PassengerAircraft has seat categories
+PassengerAircraft "1" -- "0..*" SeatCategory : has
+
+' Flight has flight attendants
+Flight "1" -- "0..*" FlightAttendant : has
+
+' Flight has pilots
+Flight "1" -- "1" Pilot : captain
+Flight "1" -- "0..2" Pilot : co-pilot
+
+' Aircraft can have a home airport
+Aircraft --> Airport : hasHomeAirport
+
+@enduml

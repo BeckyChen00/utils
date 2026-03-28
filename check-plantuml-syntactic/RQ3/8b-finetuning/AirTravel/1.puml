@@ -1,0 +1,116 @@
+@startuml
+enum SeatCategoryType {
+  EconomyClassic
+  EconomyDeluxe
+  BusinessStandard
+  BusinessPremium
+  FirstClass
+  SpecialNeeds
+  JuniorSuite
+  ExecutiveHatch
+}
+enum EmploymentStatus {
+  Active
+  OnLeave
+  Suspended
+}
+enum AircraftType {
+  PassengerAircraft
+  CargoAircraft
+  MilitaryAircraft
+  PrivateJet
+  TrainerPlane
+  Helicopter
+}
+class Aircraft {
+  name: String
+  type: AircraftType
+  yearOfManufacture: int
+  nextInspectionDate: Date
+  isOperational: boolean
+  +performMaintenance()
+  +scheduleInspection()
+}
+class CrewMember {
+  name: String
+  employmentStatus: EmploymentStatus
+  hireDate: Date
+  isChiefSteward: boolean
+  +assignToFlight()
+}
+class Airline {
+  name: String
+  headquartersAddress: String
+}
+class Flight {
+  flightNumber: String
+  departureDate: Date
+  arrivalDate: Date
+  status: String
+  +getDuration(): int
+  +updateStatus(newStatus: String)
+}
+class Airport {
+  name: String
+  code: String
+  address: String
+  runwayCount: int
+  +getTerminals(): List
+}
+class Passenger {
+  name: String
+  passportNumber: String
+  +bookTicket()
+}
+class FlightSchedule {
+  scheduledDepartureTime: Time
+  scheduledArrivalTime: Time
+  +checkAvailability()
+}
+class Booking {
+  bookingDate: Date
+  totalAmount: double
+  +confirmBooking()
+  +cancelBooking()
+}
+class Ticket {
+  ticketNumber: String
+  price: double
+  seatCategory: SeatCategoryType
+  isUpgradeRequested: boolean
+  +printTicket()
+}
+class AircraftConfiguration {
+  homeAirport: Airport
+  seatCategoryCount: int
+  +defineSeatingLayout(categoryType: SeatCategoryType, seatCount: int, hasEntertainment: boolean)
+}
+class MaintenanceLog {
+  maintenanceDate: Date
+  description: String
+  completionStatus: String
+  +recordEntry()
+}
+class Pilot {
+  licenseNumber: String
+  +reviewFlightPlan()
+}
+class FlightAttendant {
+  +greetPassenger()
+}
+Passenger "1" --> "0..*" Ticket : issuedTickets
+Ticket "1" --> "1" Flight : flight
+Aircraft "1" *-- "0..*" AircraftConfiguration : configurations
+AircraftConfiguration "1" *-- "1..*" SeatCategoryType : seatCategoryDefinitions
+Aircraft "1" --> "1" Airline : operatedBy
+Flight "1" --> "1" Aircraft : operatedBy
+Flight "1" *-- "1" FlightSchedule : schedule
+Flight "1" *-- "0..*" Booking : bookings
+Booking "1" *-- "1..*" Ticket : tickets
+Ticket "1" --> "1" Passenger : passenger
+Flight "1" *-- "1..*" CrewMember : crew
+Pilot "1" --> "1" Flight : assignedFlight
+FlightAttendant "1" --> "1" Flight : assignedFlight
+Aircraft "1" --> "0..*" MaintenanceLog : maintenanceRecords
+Airport "1" --> "0..*" Aircraft : basedAt
+@enduml

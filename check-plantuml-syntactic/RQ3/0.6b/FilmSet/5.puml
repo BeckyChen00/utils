@@ -1,0 +1,19 @@
+@startuml
+class diagram: System Requirements
+
+User
+    [user] --> [Requirement1]
+    [Requirement1] --> [Requirement2]
+    [Requirement2] --> [Requirement3]
+    [Requirement3] --> [Requirement4]
+
+Package
+    [package] --> [Requirement1]
+    [Requirement1] --> [Requirement2]
+    [Requirement2] --> [Requirement3]
+    [Requirement3] --> [Requirement4]
+
+System
+    [system] --> [package]
+    [package] --> [User]
+@enduml

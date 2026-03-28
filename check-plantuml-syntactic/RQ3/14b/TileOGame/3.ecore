@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EEnum" name="ActionType">
+    <eLiterals xsi:type="ecore:EEnumLiteral" name="EXTRA_TURN"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionDeck">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cards" eType="#//ActionCard" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="drawPile" eType="#//ActionCard" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="discardPile" eType="#//ActionCard" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//ActionCard" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managed_by" eType="#//GameController" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectionPiece">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="used" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Die">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="faces" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eOperations xsi:type="ecore:EOperation" name="roll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameDesigner">
+    <eOperations xsi:type="ecore:EOperation" name="createGame">
+      <eParameters xsi:type="ecore:EParameter" name="game" eType="#//Game"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="setupBoard">
+      <eParameters xsi:type="ecore:EParameter" name="gameBoard" eType="#//GameBoard"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="defineHiddenTile">
+      <eParameters xsi:type="ecore:EParameter" name="tile" eType="#//Tile"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="defineStartingPositions">
+      <eParameters xsi:type="ecore:EParameter" name="players" eType="#//Player" upperBound="-1"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="defineActionTiles">
+      <eParameters xsi:type="ecore:EParameter" name="tiles" eType="#//Tile" upperBound="-1"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="defineActionDeck">
+      <eParameters xsi:type="ecore:EParameter" name="actionDeck" eType="#//ActionDeck"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="designs" eType="#//Game" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="configures" eType="#//GameBoard" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defines" eType="#//ActionDeck" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameController">
+    <eOperations xsi:type="ecore:EOperation" name="startGame">
+      <eParameters xsi:type="ecore:EParameter" name="game" eType="#//Game"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="takeTurn">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="processActionCard">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+      <eParameters xsi:type="ecore:EParameter" name="card" eType="#//ActionCard"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="checkWinCondition">
+      <eParameters xsi:type="ecore:EParameter" name="player" eType="#//Player"/>
+      <eParameters xsi:type="ecore:EParameter" name="tile" eType="#//Tile"/>
+    </eOperations>
+    <eOperations xsi:type="ecore:EOperation" name="updateTileStatus">
+      <eParameters xsi:type="ecore:EParameter" name="tile" eType="#//Tile"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//Die" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controls" eType="#//Game" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Here">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="```plantuml" eType="#//O" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="O"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Player" eType="#//currentPlayer" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="currentPlayer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="gameBoard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ActionDeck" eType="#//actionDeck" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="actionDeck"/>
+  <eClassifiers xsi:type="ecore:EClass" name="hiddenTile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Player&gt;" eType="#//players"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="players"/>
+  <eClassifiers xsi:type="ecore:EClass" name="isGameOver">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="List&lt;Tile&gt;" eType="#//tiles" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="tiles"/>
+  <eClassifiers xsi:type="ecore:EClass" name="connectionPieces"/>
+  <eClassifiers xsi:type="ecore:EClass" name="startingPositions">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Map&lt;Player,_Tile&gt;" eType="#//connectionPieces"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="actionTiles"/>
+  <eClassifiers xsi:type="ecore:EClass" name="id">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//actionTiles"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="color">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="boolean" eType="#//isVisited" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Tile" eType="#//position" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="isVisited"/>
+  <eClassifiers xsi:type="ecore:EClass" name="isActionTile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="int" eType="#//actionDuration" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="actionDuration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="connections"/>
+  <eClassifiers xsi:type="ecore:EClass" name="fromTile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Tile" eType="#//connections"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="toTile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="String" eType="#//name"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="name"/>
+  <eClassifiers xsi:type="ecore:EClass" name="position"/>
+  <eClassifiers xsi:type="ecore:EClass" name="hasExtraTurn">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ActionType" eType="#//type" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionCard"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Game">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//GameBoard" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" eType="#//ActionDeck" lowerBound="1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" eType="#//Player" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlled_by" eType="#//GameController" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GameBoard">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Tile" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//ConnectionPiece" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contains" eType="#//Connection" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connected_to" eType="#//Connection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connected_from" eType="#//Connection" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Player">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="current_position" eType="#//Tile" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participates_in" eType="#//Game" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection"/>
+</ecore:EPackage>

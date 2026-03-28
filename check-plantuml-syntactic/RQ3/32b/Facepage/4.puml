@@ -1,0 +1,133 @@
+
+---
+
+
+@startuml
+
+' Define classes and their attributes
+
+class User {
+  +String id : unique
+  +String name
+  +String email
+  +Date dob
+}
+
+class Account {
+  +String accountNumber : unique (auto-generated)
+  +AccountType type
+  +User user : 1
+}
+
+enum AccountType {
+  Personal
+  Business
+}
+
+class BusinessAccount {
+  +String companyName
+  +BigDecimal monthlyFee
+}
+
+class PersonalAccount {
+  +List<FriendRequest> sentRequests
+  +List<FriendRequest> receivedRequests
+}
+
+class FriendRequest {
+  +PersonalAccount requester
+  +PersonalAccount recipient
+  +RequestStatus status
+}
+
+enum RequestStatus {
+  Pending
+  Accepted
+  Rejected
+}
+
+class Page {
+  +String pageName : unique within an account
+  +int visits
+  +Account admin : 1
+  +List<Privilege> privileges
+}
+
+class Privilege {
+  +Page page
+  +User user
+  +PrivilegeLevel level
+}
+
+enum PrivilegeLevel {
+  WriteOnWall
+  AdjustInfo
+  ManageContent
+}
+
+class AdvertisementPage {
+  +double bounceRate
+  +double clickThroughRate
+  +double conversionRate
+}
+
+' Inheritance and associations
+
+User "1" -- "0..*" Account : owns
+Account "1" -- "0..*" Page : administers
+Account <|-- BusinessAccount
+Account <|-- PersonalAccount
+
+BusinessAccount "1" -- "0..*" AdvertisementPage : creates
+AdvertisementPage "1" -- "1" Page : extends
+
+PersonalAccount "1" -- "0..*" FriendRequest : sends
+PersonalAccount "1" -- "0..*" FriendRequest : receives
+
+User "1" -- "0..*" Privilege : has
+Page "1" -- "0..*" Privilege : grants
+
+' Constraints
+
+note right of User
+  A user can only have one account.
+end note
+
+note right of Account
+  Each account is uniquely identified by an account number.
+end note
+
+note right of BusinessAccount
+  Must specify company name and pays a monthly fee.
+end note
+
+note right of PersonalAccount
+  Can send/receive friend requests.
+end note
+
+note right of Page
+  Must be administered by exactly one account.
+  No two pages with same name under the same account.
+end note
+
+note right of AdvertisementPage
+  Only created by business accounts.
+  Tracks performance metrics.
+end note
+
+@enduml
+
+---
+
+### 📌 Notes on the Design:
+
+- **User → Account**: One-to-zero-or-one relationship due to ToU restrictions.
+- **Account** is abstract; **PersonalAccount** and **BusinessAccount** inherit from it.
+- **FriendRequest** is exclusive to **PersonalAccounts**.
+- **Page** is managed by one **Account**, and users can be granted **Privileges** to other pages.
+- **AdvertisementPage** extends **Page** and includes analytics fields specific to marketing.
+
+---
+
+
+Let me know if you want the **ERD version** or **sequence diagrams** next!

@@ -1,0 +1,252 @@
+@startuml
+enum PromotionStatus {
+  active
+  expired
+  truncated
+  paid
+}
+enum EventType {
+  enrollment
+  acceptance
+  confirmation
+  cancellations
+  refunds
+  claims
+  expiration
+  renewal
+}
+enum FeeType {
+  membership
+  tagina
+  liftcycle
+  something
+}
+enum PriorityLevel {
+  low
+  middle
+  high
+  highest
+}
+enum TermStatus {
+  entered
+  expired
+  paused
+  creditsUsed
+  remaining
+  refunded
+  canceled
+}
+enum DiscountType {
+  percentage
+  fixedAmount
+  volume
+  loyalty
+}
+class PromotionCampaign {
+  campaignCode: String
+  startDate: Date
+  endDate: Date
+  currentStatus: PromotionStatus
+  +createPromotion(presentation: PromotionPresentation): PromotionPresentation
+  +cancelCampaign(): void
+}
+class PromotionPresentation {
+  presentationTitle: String
+  isAvailable: boolean
+  currentStatus: PromotionStatus
+  +getEvaluationScore(): int
+  +activate(): void
+  +pause(): void
+  +terminate(): void
+}
+class PromotionEvent {
+  eventDate: Date
+  eventType: EventType
+  isConfirmed: boolean
+  +confirm(): void
+  +cancel(): void
+}
+class ActivityRecord {
+  actionDetails: String
+  durationMinutes: int
+  +getCurrentStatus(): PriorityLevel
+  +getCompletionPercentage(): double
+}
+class FeePlan {
+  feeType: FeeType
+  startDate: Date
+  endDate: Date
+  monthlyFeeAmount: double
+  +calculateTotalCredit(durationHours: int, isRefundable: boolean): double
+  +isExpired(currentDate: Date): boolean
+}
+class CampaignManager {
+  +createCampaign(name: String, startDate: Date, endDate: Date): PromotionCampaign
+  +getActiveCampaigns(): List<PromotionCampaign>
+}
+class MonitoringSystem {
+  +generateReport(): String
+  +checkPromotionActive(campaignCode: String): boolean
+}
+class UserAccount {
+  emailAddress: String
+  isVerified: boolean
+  +updateVerificationStatus(token: String): void
+}
+class LeagueManager {
+  +manageTeamProtocol(teamName: String, winnerName: String): void
+  +establishLeague(presentation: PromotionPresentation): LeagueTeam
+}
+class UserAccount {
+  walletBalance: double
+  +removeDeposit(amount: double): void
+  +withdrawCredits(amount: double): void
+}
+class MemberProfile {
+  loyaltyPoints: int
+  currentTermStatus: TermStatus
+  +updatePoints(amount: int): void
+  +getPlaceInLeague(): int
+}
+class LoyaltyRedemption {
+  redemptionCode: String
+  rewardAmount: double
+  +redeem(): boolean
+}
+class PromotionCampaign {
+  priority: PriorityLevel
+  +scheduleEvent(eventDate: Date, eventType: EventType): PromotionEvent
+  +addPromotion(presensi: PromotionPresentation): void
+}
+class PromotionCampaignDatabase {
+  +searchByCriteria(criteria: List): List<PromotionCampaign>
+}
+class PromotionEvent {
+  eventDate: Date
+  durationHours: int
+  +confirm(): void
+  +terminate(): void
+  +createActivity(record: ActivityRecord): void
+}
+class PromotionPresentation {
+  presentationTitle: String
+  isRestricted: boolean
+  creationDate: Date
+  +updateStatus(newStatus: PromotionStatus): void
+}
+class PromotionDay {
+  dayOfWeek: String
+  startTime: Time
+  endTime: Time
+  +scheduleEvent(): PromotionEvent
+  +endDay(): Date
+}
+class PromotionEventPlan {
+  durationMinutes: int
+  baseFee: double
+  +allocateCredits(): List<ActivityRecord>
+  +generateInvoice(details: String, defaultFee: double): String
+}
+class NotificationChannel {
+  channelType: String
+  +sendAlert(content: String): void
+}
+class CreditBalanceCalculator {
+  +computeCredit(): List<ActivityRecord>
+}
+class UserAccount {
+  referralCode: String
+  +registerLeague(teamName: String): LeagueTeam
+}
+class LeagueTeam {
+  teamName: String
+  membershipLevel: int
+  +applyPromotion(presentation: PromotionPresentation): void
+  +getMemberCount(): int
+}
+class MembershipTier {
+  tierName: String
+  baseBonus: double
+  +calculateBonus(points: int): double
+}
+class TrialSession {
+  startTime: Date
+  endTime: Date
+  +completeSession(): ActivityRecord
+  +getDuration(): int
+}
+class PromoRedemptionRequest {
+  requestDate: Date
+  reason: String
+  +confirmRedemption(amount: double): void
+}
+class PromotionEpisode {
+  episodeTitle: String
+  durationHours: int
+  +initiateEvent(): PromotionEvent
+}
+class LoyaltyPointsRewards {
+  pointCount: int
+  discountAmount: double
+  +applyDiscount(): double
+}
+class CampaignCalendar {
+  +checkAvailability(date: Date, type: EventType): boolean
+  +generateEventList(): List<PromoEvent>
+}
+class PromotionEventManager {
+  +assignBudget(event: PromotionEvent, budget: double): void
+  +allocateResources:event: PromotionEvent, budget: double
+}
+class UserAccount {
+  walletBalance: double
+  +withdrawRefund(amount: double): void
+}
+class DelayedTimeSlot {
+  startTime: Date
+  endTime: Date
+  +computeDuration(): int
+}
+class AuditLog {
+  timestamp: Date
+  actionDescription: String
+  +archiveLog(): void
+}
+PromotionCampaign *-- "*" PromotionPresentation : containedPresentations
+PromotionCampaign --> "1" PromotionCampaignDatabase : database
+PromotionCampaign --> "1" PromotionEvent : scheduledEvents
+PromotionEvent *-- "*" PromotionEventPlan : definedPlans
+ActivityRecord --> "1" PromotionEvent : associatedEvent
+PromotionEvent --> "1" PromotionEpisode : relatedEpisode
+LoyaltyRedemption --> "1" PromotionCampaign : coveredCampaign
+PromotionCampaign --> "1" MemberProfile : targetMembers
+LoyaltyRedemption --> "1" UserAccount : userAccount
+PromoRedemptionRequest --> "1" UserAccount : requester
+UserAccount --> "1" LoyaltyRedemption : linkedRedemption
+CampaignManager --> "*" PromotionCampaign : managedCampaigns
+PromotionCampaign --> "*" PromotionEvent : hostedEvents
+PromotionCampaign --> "1" PromotionEventPlan : plannedPlan
+PromotionCampaign --> "*" PromotionEpisode : scheduledEpisodes
+PromotionEventManager --> "*" PromotionEvent : managedEvents
+PromotionEvent --> "1" PromotionDay : hostedOn
+LoyaltyRedemption --> "*" PromotionPresentation : eligiblePresentations
+LoyaltyRedemption --> "*" MembershipTier : appliedTiers
+UserAccount --> "*" MemberProfile : ownedProfiles
+LoyaltyRedemption --> "1" MembershipTier : eligibleTier
+MemberProfile --> "*" LoyaltyRedemption : redeemedRedeemings
+PromotionRewards --> "1" MembershipTier : associatedTier
+PromotionPresentation --> "*" LoyaltyRedemption : eligibleRedeemings
+PromotionEventManager --> "*" PromotionEvent : managedEvents
+CampaignManager --> "*" PromotionEvent : managedEvents
+CampaignManager --> "*" PromotionCampaign : managedCampaigns
+PromotionEvent -- PromotionEventPlan
+CampaignManager -- CrewMember
+PromotionEvent -- UserAccount
+UserAccount -- LoyaltyRedemptionRequest
+LoyaltyRedemptionRequest -- UserAccount
+CampaignManager -- MemberProfile
+UserAccount -- PromotionCampaign
+PromotionCampaign -- AuditLog
+LoyaltyRedemption -- AuditLog
+PromotionEvent -- AuditLog
+@enduml

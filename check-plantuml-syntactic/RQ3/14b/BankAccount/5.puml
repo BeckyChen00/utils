@@ -1,0 +1,41 @@
+
+@startuml
+class Customer {
+  -firstName: String
+  -lastName: String
+  -accounts: List<Account>
+}
+
+class Branch {
+  -name: String
+  -address: String
+  -accounts: List<Account>
+}
+
+class Account {
+  -accountNumber: int
+  -balance: double
+  -owner: Customer
+}
+
+class CurrentAccount {
+  -overdraftLimit: double
+}
+
+class SavingsAccount {
+  // No additional attributes
+}
+
+Customer "1" *-- "1..5" Account : owns
+Account <|-- CurrentAccount
+Account <|-- SavingsAccount
+Branch "1" *-- "0..*" Account : contains
+@enduml
+
+### Explanation:
+- **Customer** has a first name, last name, and owns between 1 to 5 `Account`s.
+- **Branch** has a name, address, and contains multiple `Account`s.
+- **Account** is an abstract class with common attributes: `accountNumber`, `balance`, and `owner`.
+- **CurrentAccount** extends `Account` and adds an `overdraftLimit`.
+- **SavingsAccount** also extends `Account` but has no extra attributes.
+

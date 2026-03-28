@@ -1,0 +1,169 @@
+
+@startuml
+
+' Set title
+
+' Define classes and their attributes/operations
+class Traveller {
+  - id: String
+  - name: String
+  - billingInfo: BillingInformation
+  - travelPreferences: List<TravelPreference>
+  - reliabilityRating: Double
+  + register(): void
+  + searchAccommodation(): List<Offer>
+  + makeBooking(offer: Offer): Booking
+  + cancelBooking(booking: Booking): void
+}
+
+class BillingInformation {
+  - companyName: String
+  - address: String
+  - creditCardDetails: CreditCard
+}
+
+class CreditCard {
+  - number: String
+  - expiryDate: Date
+  - cvv: String
+}
+
+class TravelPreference {
+  - type: String
+  - value: String
+}
+
+class SearchRequest {
+  - city: String
+  - arrivalDate: Date
+  - departureDate: Date
+  - numberOfRooms: Int
+  - roomType: String
+  - minHotelRating: Int
+  - maxCostPerNight: Double
+  - preferences: List<TravelPreference>
+}
+
+class Hotel {
+  - id: String
+  - name: String
+  - address: Address
+  - rating: Int
+  - chain: HotelChain
+  + announceRoomAvailability(period: Period, roomType: RoomType): void
+  + confirmBooking(booking: Booking): void
+  + sendSpecialOffer(traveller: Traveller, request: SearchRequest): SpecialOffer
+}
+
+class Address {
+  - street: String
+  - city: String
+  - postalCode: String
+  - country: String
+}
+
+class HotelChain {
+  - name: String
+  - hotels: List<Hotel>
+}
+
+class RoomType {
+  - typeName: String
+  - description: String
+}
+
+class Period {
+  - startDate: Date
+  - endDate: Date
+}
+
+class Offer {
+  - id: String
+  - hotel: Hotel
+  - roomType: RoomType
+  - period: Period
+  - pricePerNight: Double
+  - includesBreakfast: Boolean
+  - hasFreeWifi: Boolean
+  - has247FrontDesk: Boolean
+  + getSummary(): String
+}
+
+class PreliminaryBooking {
+  - id: String
+  - traveller: Traveller
+  - offer: Offer
+  - deadline: Date
+  + forwardToCompetitors(): void
+}
+
+class SpecialOffer {
+  - id: String
+  - hotel: Hotel
+  - pricePerNight: Double
+  - additionalBenefits: List<String>
+  + compare(other: SpecialOffer): int
+}
+
+class Booking {
+  - id: String
+  - traveller: Traveller
+  - hotel: Hotel
+  - roomType: RoomType
+  - period: Period
+  - totalPrice: Double
+  - paymentMethod: PaymentMethod
+  - confirmed: Boolean
+  - cancellationDeadline: Date
+  - status: BookingStatus
+  + finalize(): void
+  + confirm(): void
+  + cancel(): void
+}
+
+enum PaymentMethod {
+  PrePaid
+  PaidAtHotel
+}
+
+enum BookingStatus {
+  Pending
+  Confirmed
+  Cancelled
+  Completed
+}
+
+' Relationships
+Traveller "1" -- "0..*" BillingInformation : has
+Traveller "1" -- "0..*" TravelPreference : has
+Traveller "1" -- "0..*" Booking : has
+Traveller "1" -- "0..*" PreliminaryBooking : has
+
+Hotel "1" -- "1" Address : located at
+Hotel "1" -- "0..1" HotelChain : belongs to
+Hotel "1" -- "0..*" RoomType : offers
+Hotel "1" -- "0..*" Offer : provides
+Hotel "1" -- "0..*" Booking : handles
+Hotel "1" -- "0..*" SpecialOffer : sends
+
+PreliminaryBooking "1" -- "1" Offer : based on
+PreliminaryBooking "1" -- "0..*" SpecialOffer : receives
+
+Booking "1" -- "1" PaymentMethod : uses
+Booking "1" -- "1" BookingStatus : has status
+
+SearchRequest "1" -- "0..*" TravelPreference : includes
+SearchRequest "1" -- "0..*" Offer : generates
+
+@enduml
+
+---
+
+### ✅ Key Features of the Diagram:
+- **Traveller** can have multiple bookings, travel preferences, and billing info.
+- **Hotel** has an address and may belong to a **HotelChain**.
+- **Offer** represents available stays with specific room types and dates.
+- **PreliminaryBooking** triggers a bidding process among hotels.
+- **Booking** can be either **pre-paid** or **paid at the hotel**, with different statuses and rules around cancellation.
+- **HBMS** logic is modeled through relationships between components.
+

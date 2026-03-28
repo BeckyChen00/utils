@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedInfra" eType="#//Infrastructure" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Infrastructure">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocations" eType="#//ResourceAllocation" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deployments" eType="#//Deployment" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedNodes" eType="#//Node" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceAllocation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Deployment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetInfrastructure" eType="#//Infrastructure" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Node"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedResources" eType="#//Resource" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

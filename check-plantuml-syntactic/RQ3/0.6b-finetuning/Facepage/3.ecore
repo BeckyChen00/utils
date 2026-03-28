@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="healthRecord" eType="#//HealthRecord" lowerBound="1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HealthRecord">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachedReports" eType="#//DiagnosticReport" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DiagnosticReport"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DiseaseProfile">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="proposedPlans" eType="#//TreatmentPlan" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentPlan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedTeam" eType="#//MedicalStaff" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreatmentStep">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assignedPlan" eType="#//TreatmentPlan" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MedicalStaff"/>
+</ecore:EPackage>

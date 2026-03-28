@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="generated" nsURI="http://www.example.org/generated" nsPrefix="generated" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="plantuml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containsRooms" eType="#//Room" lowerBound="1" upperBound="-1" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Room"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Apartment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="managedBy" eType="#//SensorController" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="residents" eType="#//Inhabitant" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorController">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registeredSensors" eType="#//Sensor" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recordedValues" eType="#//MeasurementValue" lowerBound="1" upperBound="-1" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlledBy" eType="#//Inhabitant" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monitoredBy" eType="#//EMonitor" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasThreshold" eType="#//Threshold" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MeasurementValue"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Inhabitant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receivedAlerts" eType="#//Alert" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Alert"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EMonitor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Threshold"/>
+</ecore:EPackage>

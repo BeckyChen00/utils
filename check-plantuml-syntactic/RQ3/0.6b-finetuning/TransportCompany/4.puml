@@ -1,0 +1,58 @@
+@startuml
+class User {
+  +username: String
+  +email: String
+  +login(): boolean
+  +register(): boolean
+}
+class Recipe {
+  title: String
+  instructions: String
+  author: String
+  +getDescription(): String
+  +updateTitle(newTitle: String): boolean
+}
+class Batch {
+  quantity: double
+  unitOfMeasure: String
+  status: String
+  +calculateTotal(): double
+  +validateMeasure(): boolean
+}
+class Ingredient {
+  name: String
+  allergenList: String[]
+  unitPrice: double
+}
+class Order {
+  orderDate: Date
+  status: String
+  totalAmount: double
+  +calculateTotal(): double
+  +confirmOrder(): boolean
+  +cancelOrder(): boolean
+}
+class OrderItem {
+  quantity: int
+  +getSubtotal(): double
+}
+class OrderLine {
+  lineIndex: int
+  order: Order
+  +calculateLineTotal(): double
+}
+class StockStatus {
+  quantityOnHand: int
+  availableStock: int
+  +updateInventory(amount: int): boolean
+}
+User "1" --> "*" Order : placedOrders
+Order "1" *-- "*" OrderItem : items
+OrderItem "*" --> "1" Batch : fulfilledBatch
+Order "1" --> "0..1" StockStatus : currentStockStatus
+Batch "*" --> "*" Ingredient : requiredIngredients
+Order "1" --> "1..*" Recipe : orderedRecipes
+Order "1" --> "1" StockStatus : currentStockStatus
+User "1" --> "*" Recipe : favoriteRecipes
+Recipe "1" *-- "*" Ingredient : ingredients
+@enduml

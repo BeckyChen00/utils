@@ -1,0 +1,28 @@
+@startuml
+enum AccountType {
+  CURRENT_ACCOUNT
+  SAVINGS_ACCOUNT
+}
+class Bank {
+  name: String
+  +createBranch(location: String): void
+}
+class Branch {
+  location: String
+}
+class Customer {
+  firstName: String
+  lastName: String
+}
+class Account {
+  accountNumber: int
+  balance: double
+  accountType: AccountType
+  +deposit(amount: double): void
+  +withdraw(amount: double): boolean
+  +transfer(targetAccount: Account, amount: double): void
+}
+Bank *-- "0..*" Branch : ownedBranches
+Branch *-- "0..*" Customer : servedCustomers 'opposite: homeBranch
+Customer "1..5" --> "0..*" Account : ownedAccounts
+@enduml

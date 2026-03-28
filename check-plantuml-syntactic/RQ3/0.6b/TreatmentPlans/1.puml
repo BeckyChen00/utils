@@ -1,0 +1,190 @@
+@startuml
+class Diagram {
+  class SystemRequirement {
+    string name;
+    string description;
+  }
+
+  class Requirement {
+    string requirementType;
+    string requirementCode;
+    string requiredResource;
+    string status;
+  }
+
+  class Resource {
+    string resourceName;
+    string resourceType;
+    string status;
+  }
+
+  class User {
+    string username;
+    string password;
+  }
+
+  class AccessControl {
+    string accessLevel;
+    string userId;
+    string resourceId;
+    string requiredResource;
+    string status;
+  }
+
+  class Authentication {
+    string username;
+    string password;
+  }
+
+  class Authorization {
+    string userAccess;
+    string resourceAccess;
+    string status;
+  }
+
+  class System {
+    string name;
+    string version;
+  }
+
+  class Module {
+    string moduleId;
+    string moduleName;
+    string moduleDescription;
+    string status;
+  }
+
+  class Database {
+    string dbName;
+    string dbHost;
+    string dbPort;
+    string dbUser;
+    string dbPassword;
+    string status;
+  }
+
+  class Connection {
+    string connectionId;
+    string connectionStatus;
+  }
+
+  class Table {
+    string tableName;
+    string columnNames;
+    string status;
+  }
+
+  class Row {
+    string rowId;
+    string values;
+    string status;
+  }
+
+  class Constraint {
+    string constraintName;
+    string constraintType;
+    string constraintValue;
+    string status;
+  }
+
+  class Query {
+    string query;
+    string status;
+  }
+
+  class Execution {
+    string executionId;
+    string executionStatus;
+    string executionTime;
+  }
+
+  class Result {
+    string resultId;
+    string resultStatus;
+    string resultData;
+  }
+
+  class Audit {
+    string auditId;
+    string auditAction;
+    string auditDate;
+    string auditUser;
+  }
+
+  # Relationships
+  node "SystemRequirement" {
+    has "SystemRequirement" -> "System"
+  }
+
+  node "Requirement" {
+    has "Requirement" -> "SystemRequirement"
+    has "Requirement" -> "Authentication"
+    has "Requirement" -> "Authorization"
+  }
+
+  node "Resource" {
+    has "Resource" -> "Database"
+    has "Resource" -> "Table"
+    has "Resource" -> "Row"
+  }
+
+  node "User" {
+    has "User" -> "Authentication"
+    has "User" -> "Authorization"
+  }
+
+  node "AccessControl" {
+    has "AccessControl" -> "Authorization"
+    has "AccessControl" -> "User"
+  }
+
+  node "System" {
+    has "System" -> "Module"
+    has "System" -> "Database"
+    has "System" -> "Connection"
+  }
+
+  node "Module" {
+    has "Module" -> "System"
+    has "Module" -> "Database"
+    has "Module" -> "Query"
+    has "Module" -> "Execution"
+    has "Module" -> "Result"
+    has "Module" -> "Audit"
+  }
+
+  node "Database" {
+    has "Database" -> "Connection"
+    has "Database" -> "Table"
+    has "Database" -> "Row"
+  }
+
+  node "Table" {
+    has "Table" -> "Database"
+  }
+
+  node "Row" {
+    has "Row" -> "Table"
+  }
+
+  node "Constraint" {
+    has "Constraint" -> "Query"
+  }
+
+  node "Query" {
+    has "Query" -> "Constraint"
+  }
+
+  node "Execution" {
+    has "Execution" -> "Query"
+  }
+
+  node "Result" {
+    has "Result" -> "Execution"
+  }
+
+  node "Audit" {
+    has "Audit" -> "Execution"
+  }
+
+@enduml

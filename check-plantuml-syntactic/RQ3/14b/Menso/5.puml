@@ -1,0 +1,110 @@
+
+@startuml
+
+' Classes related to the bus company and its operations
+class Bus {
+  -id: int
+  -lineNumber: String
+  -capacity: int
+  -status: String
+}
+
+class Line {
+  -id: int
+  -name: String
+  -category: String
+  -trajectories: Set<Trajectory>
+}
+
+class Trajectory {
+  -id: int
+  -name: String
+  -approvalStatus: String
+  -startDate: Date
+  -endDate: Date
+  -suspended: Boolean
+  -cancelled: Boolean
+}
+
+class ApprovalRequest {
+  -id: int
+  -trajectory: Trajectory
+  -submittedDate: Date
+  -approvalDate: Date
+  -approvalResult: String
+  -revisions: List<Revision>
+}
+
+class Revision {
+  -id: int
+  -approvalRequest: ApprovalRequest
+  -description: String
+  -date: Date
+}
+
+class MENSOUser {
+  -id: int
+  -name: String
+  -homeAddress: String
+  -officeAddress: String
+  -workingHours: String
+  -cards: Set<MENSOCard>
+}
+
+class MENSOCard {
+  -id: int
+  -userId: int
+  -cardNumber: String
+  -trips: List<Trip>
+}
+
+class Trip {
+  -id: int
+  -date: Date
+  -time: Time
+  -line: Line
+  -user: MENSOUser
+  -paymentMethod: String
+}
+
+class Invoice {
+  -id: int
+  -userId: int
+  -month: int
+  -year: int
+  -totalAmount: double
+  -discountPercentage: double
+  -paid: Boolean
+}
+
+' Relationships
+Bus "0..*" -- "1" Line : belongsTo
+Line "1" -- "0..*" Trajectory : includes
+Trajectory "1" -- "0..*" ApprovalRequest : requires
+ApprovalRequest "1" -- "0..*" Revision : has
+MENSOUser "1" -- "0..*" MENSOCard : owns
+MENSOCard "1" -- "0..*" Trip : records
+Trip "1" -- "1" Line : uses
+Trip "1" -- "1" MENSOUser : madeBy
+MENSOUser "1" -- "0..*" Invoice : receives
+Invoice "1" -- "1" MENSOUser : belongsTo
+
+@enduml
+
+---
+
+### Explanation of Key Classes:
+
+- **`Bus`**: Represents individual buses used for various lines.
+- **`Line`**: A collection of overlapping trajectories. Each line is assigned a category for pricing purposes.
+- **`Trajectory`**: A specific route that needs approval before becoming operational.
+- **`ApprovalRequest`**: The process of requesting approval for a trajectory, which may involve multiple revisions.
+- **`Revision`**: A proposed change to a trajectory in response to an approval request.
+- **`MENSOUser`**: Users of the MENSO card. They provide personal data for analysis.
+- **`MENSOCard`**: Used by users to record trips automatically.
+- **`Trip`**: Records each time a user travels using a MENSO card or alternative method.
+- **`Invoice`**: Generated monthly based on trips taken. Discounts can be applied.
+
+---
+
+Let me know if you'd like a UML diagram in image format or need further elaboration!

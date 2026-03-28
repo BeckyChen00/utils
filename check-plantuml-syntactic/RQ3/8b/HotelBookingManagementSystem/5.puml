@@ -1,0 +1,146 @@
+
+---
+
+
+@startuml
+
+' Define classes with attributes and methods
+class Traveler {
+    +name: String
+    +billingInfo: BillingInfo
+    +travelPreferences: List<TravelPreference>
+}
+
+class BillingInfo {
+    +companyName: String
+    +address: String
+    +creditCardDetails: CreditCardDetails
+}
+
+class CreditCardDetails {
+    +cardNumber: String
+    +expiryDate: Date
+    +cvv: String
+}
+
+class TravelPreference {
+    +preferenceType: String
+    +value: String
+}
+
+class Hotel {
+    +name: String
+    +city: City
+    +address: String
+    +hotelChain: HotelChain
+    +rating: int
+}
+
+class City {
+    +name: String
+}
+
+class HotelChain {
+    +name: String
+}
+
+class AccommodationOffer {
+    +id: String
+    +hotel: Hotel
+    +roomType: String
+    +pricePerNight: Double
+    +availability: Boolean
+    +preferencesMatched: Boolean
+}
+
+class PreliminaryBooking {
+    +bookingId: String
+    +traveler: Traveler
+    +offers: List<AccommodationOffer>
+    +deadline: DateTime
+    +preferences: List<TravelPreference>
+    +reliabilityRating: Double
+}
+
+class FinalizedBooking {
+    +bookingId: String
+    +traveler: Traveler
+    +hotel: Hotel
+    +roomType: String
+    +checkInDate: Date
+    +checkOutDate: Date
+    +totalCost: Double
+    +paymentType: PaymentType
+    +confirmationStatus: ConfirmationStatus
+    +cancellationDeadline: DateTime
+}
+
+enum PaymentType {
+    PREPAID
+    PAY_AT_HOTEL
+}
+
+enum ConfirmationStatus {
+    CONFIRMED
+    PENDING
+    CANCELLED
+}
+
+class BookingHistory {
+    +bookingId: String
+    +traveler: Traveler
+    +bookingStatus: BookingStatus
+    +bookingDate: Date
+    +reliabilityRating: Double
+}
+
+enum BookingStatus {
+    FINALIZED
+    CANCELLED
+    CONFIRMED
+    PENDING
+}
+
+' Relationships
+Traveler --> "1" BillingInfo : has
+Traveler --> "0..*" TravelPreference : has
+Hotel --> "1" City : located in
+Hotel --> "0..1" HotelChain : run by
+Hotel --> "0..*" AccommodationOffer : offers
+PreliminaryBooking --> "1" Traveler : created by
+PreliminaryBooking --> "0..*" AccommodationOffer : includes
+FinalizedBooking --> "1" Traveler : made by
+FinalizedBooking --> "1" Hotel : booked at
+FinalizedBooking --> "1" PaymentType : payment type
+FinalizedBooking --> "1" ConfirmationStatus : status
+BookingHistory --> "1" Traveler : belongs to
+BookingHistory --> "1" BookingStatus : status
+
+@enduml
+
+---
+
+### ✅ **Explanation of Key Elements**
+
+- **Traveler**: Represents a user who books accommodation.
+- **BillingInfo**: Stores billing details like company name and address.
+- **CreditCardDetails**: Holds credit card information used for payments.
+- **TravelPreference**: Preferences like breakfast, free Wi-Fi, etc.
+- **Hotel**: A hotel with location, chain, and rating.
+- **City**: A city where hotels are located.
+- **HotelChain**: A chain that operates multiple hotels.
+- **AccommodationOffer**: A room offer from a hotel during a specific period.
+- **PreliminaryBooking**: A booking request sent to competing hotels.
+- **FinalizedBooking**: A confirmed booking after payment and confirmation.
+- **PaymentType**: Enum for pre-paid or pay-at-hotel.
+- **ConfirmationStatus**: Enum for booking confirmation states.
+- **BookingHistory**: Stores past bookings and reliability ratings.
+- **BookingStatus**: Enum for tracking the status of a booking.
+
+---
+
+### 📝 **Usage Instructions**
+
+
+
+Let me know if you'd like the diagram rendered as an image or want to export it as SVG/PNG!

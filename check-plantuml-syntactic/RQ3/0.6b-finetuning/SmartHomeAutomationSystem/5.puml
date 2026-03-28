@@ -1,0 +1,79 @@
+@startuml
+enum ClaimType {
+  CoverageClaim
+  LostPropertyClaim
+  RentalAdjustmentClaim
+  TitleClaim
+}
+enum ClaimStatus {
+  PendingReview
+  Approved
+  Rejected
+  Adjusted
+  Paid
+  Closed
+}
+enum PaymentMode {
+  Cash
+  CreditCard
+  Check
+  PayPal
+}
+class ClaimSituation {
+  claimNumber: String
+  issueDate: Date
+  locationDescription: String
+  isVerified: boolean
+  +validateSubmission(details: String): boolean
+  +getStatus(): ClaimStatus
+}
+class ClaimFile {
+  uploadedAt: Date
+  fileType: String
+  contentUrl: String
+  +verifySignature(): boolean
+}
+class LiabilityReport {
+  summaryText: String
+  isCompliant: boolean
+  +generateSummary(): String
+}
+class InsurancePolicy {
+  policyNumber: String
+  coverageType: String
+  +calculatePremium(): double
+}
+class Department {
+  departmentName: String
+  regionCode: String
+}
+class ClaimProcessor {
+  +processClaim(claim: ClaimSituation): InsuredTax
+  +updateStatus(newStatus: ClaimStatus, reason: String): void
+}
+class InsuredTax {
+  taxAmount: double
+  paymentDate: Date
+  paymentMode: PaymentMode
+  +calculateTaxRate(): double
+  +processPayment(): boolean
+}
+class TaxCode {
+  codeValue: String
+  language: String
+}
+class TaxAuthority {
+  authorityId: String
+  name: String
+  jurisdiction: String
+}
+Department *-- "0..*" ClaimSituation : submittedClaims
+Department *-- "0..*" TaxAuthority : managedBy
+ClaimSituation *-- "1" TaxCode : policyCode
+ClaimSituation *-- "0..*" ClaimFile : attachedFiles
+InsuredTax --> "1" TaxAuthority : taxingAuthority
+TaxCode --> "1" InsurancePolicy : applicablePolicy
+ClaimProcessor --> "0..*" ClaimSituation : processedClaims
+ClaimProcessor --> "0..*" TaxCode : analyzedCodes
+ClaimProcessor --> "1" InsurancePolicy : reviewedPolicy
+@enduml

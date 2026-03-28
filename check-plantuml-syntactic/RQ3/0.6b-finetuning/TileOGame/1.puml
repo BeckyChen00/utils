@@ -1,0 +1,73 @@
+@startuml
+enum LogLevel {
+  INFO
+  WARNING
+  ERROR
+  DEBUG
+  TRACE
+  OFF
+}
+enum SignalState {
+  ACTIVE
+  DEPRECATED
+}
+class PiSensor {
+  sensorType: String
+  isCalibrated: boolean
+  +readValue(): double
+  +calibrate(): boolean
+}
+class DataAggregator {
+  +aggregateLogs(logStream: String): LogEntry
+  +exportSummary(logTimestamp: Date): TrendAnalysis
+}
+class AlertRule {
+  ruleId: String
+  thresholdValue: double
+  description: String
+  isActive: boolean
+  +validateThreshold(currentValue: double): boolean
+  +evaluate(context: String): boolean
+}
+class SensorReading {
+  timestamp: Date
+  readingValue: double
+  sensorType: String
+  +isValid(): boolean
+}
+class LogEntry {
+  timestamp: Date
+  level: LogLevel
+  message: String
+  +isCritical(): boolean
+}
+class TrendAnalysis {
+  analysisDate: Date
+  +calculateTrend(): double
+  +isVisible(): boolean
+}
+class TrendFilter {
+  filterType: SignalState
+  +applyFilter(entry: LogEntry): LogEntry
+  +getFilteredEntries(): List<LogEntry>
+}
+class AlertManager {
+  +triggerAlert(record: LogEntry): boolean
+  +getAlerts(): List<AlertRule>
+}
+class SystemState {
+  currentState: SignalState
+  +getStateDescription(): String
+  +toggleOn(): void
+}
+DataAggregator *-- "*" SensorReading : aggregatedReadings
+DataAggregator *-- "*" LogEntry : generatedLogs
+DataAggregator *-- "1" TrendAnalysis : trendReport
+DataAggregator --> "*" AlertRule : appliedRules
+AlertManager --> "*" AlertRule : managedRules
+AlertManager --> "*" LogEntry : monitoredLogs
+AlertManager --> "1" SystemState : currentState
+SystemState --> "*" SensorReading : collectedReadings
+TrendAnalysis --> "*" LogEntry : analyzedLogs
+AlertRule --> "*" LogEntry : evaluatedLogs
+@enduml
